@@ -14,7 +14,7 @@ Held in Uppsala November 12 - November 16, 2018.
 
 ## Maps & Travel Info
 [Map over Uppsala](https://www.google.se/maps/@59.8557755,17.6369985,13.5z)  
-[Map over Uppsala Biomedical Centre (BMC)](../ngsintro/common/images/bmc_map.jpg)  
+[Map over Uppsala Biomedical Centre (BMC)](http://www.bmc.uu.se/digitalAssets/135/c_135897-l_3-k_oversikt-bmc.jpg)  
 [Travel Info](travel)  
 
 ## Teachers
