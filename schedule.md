@@ -9,8 +9,8 @@ title:  'Schedule'
 Room: Trippelrummet, E10, ground floor  
 **09.00-09.15** Registration and Welcome, presentation of SciLifeLab  
 **09:15-10:00** [Lecture: Introduction to R programming](Lectures/Lecture_1_-_Introduction.pdf) (Marcin Kierczak)   
-**10:15-10:45** Lecture: Introduction to R environment (Marcin Kierczak)   
-**11:00-12:00** Exercise and video: Using R-studio (Marcin Kierczak)   
+**10:15-10:45** [Lecture: Introduction to R environment](Lectures/Lecture_2_-_REnvironment.pdf) (Marcin Kierczak)   
+**11:00-12:00** [Exercise and video: Using R-studio](https://www.dropbox.com/s/3sy4ou2o8jh5syf/RCourseVideo.mov?dl=0) (Marcin Kierczak)   
 **12:00-13:00** Lunch at BMC restaurant  
 **13:00-15:00** Lecture: Elements of R programming - variable types, operators (Sebastian DiLorenzo)   
 **15:00-17:00** Exercise: Data types in R (Roy Francis, Sebastian DiLorenzo, Per Unneberg)   
