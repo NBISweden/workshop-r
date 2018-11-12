@@ -27,10 +27,10 @@ title:  'Vectors in R'
 
 # Introduction<a id="orgheadline4"></a>
 
-There are several different data structured that are commonly used in
+There are several different data structures that are commonly used in
 R. The different data structures can be seen as different ways to
-organise data. In this exercise we will focus on vectors that are the
-base data structure in R and will also get on overview of the key data types
+organise data. In this exercise we will focus on vectors, which are the
+base data structure in R, and will also get an overview of the key data types
 (modes) that are found in R. At the end of this exercise you should
 know:
 
@@ -39,7 +39,7 @@ know:
 -   How to create vectors in an interactive R session.
 -   How one can use R functions to determine the structure and mode of an vector.
 -   What basic operators you can find in R
--   Howto subset vector using both indexes and operators.
+-   How to subset vector using both indexes and operators.
 -   Try some of the built-in functions in R.
 
 ## Data types<a id="orgheadline1"></a>
@@ -52,10 +52,10 @@ at what they are.
 
 -   Logical = TRUE or FALSE (or NA)
 -   Integer = Numbers that can be represented without fractional component
--   Numeric = Any number that is not a complex number.
+-   Numeric = Any number that is not a complex number
 -   Character = Text
 
-In many cases the mode of on entry is determined by the content so if
+In many cases the mode of an entry is determined by the content so if
 you save the value 5.1 as a variable in R, the variable will by R
 automatically be recognised as numeric. If you instead have a text
 string like "hello world" it will have the mode character. Below you
@@ -91,7 +91,7 @@ typing its name in an interactive session.
 
 The output generate on screen shows the entries in your vector and the
 1 in squared brackets indicates what position in the vector the entry
-to the right of it have. In this case 10 is the first entry of the vector.
+to the right of it has. In this case 10 is the first entry of the vector.
 
 If we for some reason only wanted to extract the value 10 from this
 vector we can use the fact that we know it is the first position to do
