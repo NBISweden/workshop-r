@@ -215,8 +215,8 @@ command will read in a file from a web server.
         $ V6: Factor w/ 3287 levels "0","0.0505672422660393",..: 3287 NA NA 2187 3047 2495 NA 2494 1143 944 ...
 	</pre>
 	</details>
-	
 <br>
+
 	Encode all NA values as "missing", at export.  
 	<details> 
 	<summary>:key: Click to see how</summary> 
