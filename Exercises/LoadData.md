@@ -49,7 +49,7 @@ your character vector named words available in R your session.
 
 ### Exercises
 
-Download the file book chapter from this [link](../files/book_chapter.txt) (<a href="../files/book_chapter.txt" download>Click to Download</a>). Read the manual for
+Download the file book chapter from this [link](../files/book_chapter.txt) (<a href="../files/book_chapter.txt, DATA" download>Click to Download</a>). Read the manual for
 scan and read the text file named book\_chapter.txt into R, first as
 vector and then as a list, with each word in the chapter saved as a
 entry in the vector or as a single vector in a list.
