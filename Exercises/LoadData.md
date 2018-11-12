@@ -85,33 +85,33 @@ have a sound word vector and list.
         sort(nchar(shelley.vec), decreasing = TRUE)
         which(nchar(shelley.vec) == max(nchar(shelley.vec)))
         shelley.vec[381]
-
-      [1] 690  12  11  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
-     [19]   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9
-     [37]   9   9   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8
-     [55]   8   8   8   8   8   8   8   8   8   8   7   7   7   7   7   7   7   7
-     [73]   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   6
-     [91]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
-    [109]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
-    [127]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-    [145]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-    [163]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-    [181]   5   5   5   5   5   4   4   4   4   4   4   4   4   4   4   4   4   4
-    [199]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
-    [217]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
-    [235]   4   4   4   4   4   4   4   3   3   3   3   3   3   3   3   3   3   3
-    [253]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-    [271]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-    [289]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-    [307]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-    [325]   3   3   3   3   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-    [343]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-    [361]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-    [379]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-    [397]   2   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
-    [415]   1   1   1   1   1   1
-    [1] 381
-    [1] "By the sacred earth on which I kneel, by the shades that wander near me, by the deep and eternal grief that I feel, I swear; and by thee, O Night, and the spirits that preside over thee, to pursue the daemon who caused this misery, until he or I shall perish in mortal conflict. For this purpose I will preserve my life; to execute this dear revenge will I again behold the sun and tread the green herbage of earth, which otherwise should vanish from my eyes forever. And I call on you, spirits of the dead, and on you, wandering ministers of vengeance, to aid and conduct me in my work. Let the cursed and hellish monster drink deep of agony; let him feel the despair that now torments me."
+	
+      	[1] 690  12  11  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
+     	[19]   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9
+     	[37]   9   9   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8
+     	[55]   8   8   8   8   8   8   8   8   8   8   7   7   7   7   7   7   7   7
+     	[73]   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   6
+     	[91]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
+    	[109]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
+    	[127]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+    	[145]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+    	[163]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+    	[181]   5   5   5   5   5   4   4   4   4   4   4   4   4   4   4   4   4   4
+    	[199]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
+    	[217]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
+    	[235]   4   4   4   4   4   4   4   3   3   3   3   3   3   3   3   3   3   3
+    	[253]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+    	[271]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+    	[289]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+    	[307]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+    	[325]   3   3   3   3   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+    	[343]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+    	[361]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+    	[379]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+    	[397]   2   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+    	[415]   1   1   1   1   1   1
+    	[1] 381
+    	[1] "By the sacred earth on which I kneel, by the shades that wander near me, by the deep and eternal grief that I feel, I swear; and by thee, O Night, and the spirits that preside over thee, to pursue the daemon who caused this misery, until he or I shall perish in mortal conflict. For this purpose I will preserve my life; to execute this dear revenge will I again behold the sun and tread the green herbage of earth, which otherwise should vanish from my eyes forever. And I call on you, spirits of the dead, and on you, wandering ministers of vengeance, to aid and conduct me in my work. Let the cursed and hellish monster drink deep of agony; let him feel the despair that now torments me."
 	</pre>
 	</details>
 <br>
