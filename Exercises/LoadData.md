@@ -215,17 +215,17 @@ command will read in a file from a web server.
         $ V6: Factor w/ 3287 levels "0","0.0505672422660393",..: 3287 NA NA 2187 3047 2495 NA 2494 1143 944 ...
 	</pre>
 	</details>
-<br>
 
+	<br>
 	Encode all NA values as "missing", at export.  
 	<details> 
 	<summary>:key: Click to see how</summary> 
 	<pre>
-    
- 	write.table(x = ed, na = "missing", file = "example_mis.data")
+  
+ 	write.table(x = ed, na = "missing", file = "example_mis.data")	
 	</pre>
 	</details>
-<br>
+	<br>
 
 2.  Read in the file you just created and double-check that you have the same data as earlier.
 	<details>
