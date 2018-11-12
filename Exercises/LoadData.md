@@ -115,6 +115,7 @@ have a sound word vector and list.
 	</pre>
 	</details>
 <br>
+
 2.  Go back and fix the way you read in the text to make sure that you
     get a vector with all words in chapter as individual entries also
     filter any non-letter characters and now identify the longest word.
