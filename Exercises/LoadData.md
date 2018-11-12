@@ -217,12 +217,11 @@ command will read in a file from a web server.
 	 </pre>
 	 </details>
 <br>
-
-	<details>
-	<summary>:key: Click to see how</summary>
+	<details> 
+	<summary>:key: Click to see how</summary> 
 	<pre>
-   	
-		write.table(x = ed, na = "missing", file = "example_mis.data")
+    
+ 		write.table(x = ed, na = "missing", file = "example_mis.data")
 	</pre>
 	</details>
 <br>
@@ -233,7 +232,6 @@ command will read in a file from a web server.
 	<pre>
     
         df.test <- read.table("example_mis.data", na.strings = "missing")
-
 	</pre>
 	</details>
 <br>
