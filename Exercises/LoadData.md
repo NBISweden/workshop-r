@@ -182,8 +182,7 @@ command will read in a file from a web server.
     computer and import it to R using the read.table function. This
     files consist of gene expression values. Once you have the object
     in R validate that it looks okay and export it using the
-    write.table function. Encode all NA values as "missing", at
-    export.  
+    write.table function. 
 	<details> 
 	<summary>:key: Click to see how</summary> 
 	<pre>
@@ -208,20 +207,22 @@ command will read in a file from a web server.
         6 2.64236018063295 6.27033804098888
 		
         'data.frame':   18946 obs. of  6 variables:
-         $ V1: Factor w/ 3053 levels "0","0.0545089922844682",..: 3053 NA 27 1844 85 NA 2715 2291 1260 1052 ...
-         $ V2: Factor w/ 3265 levels "0","0.0500605748274972",..: 3265 579 25 1970 3242 1920 879 2473 1184 1313 ...
-         $ V3: Factor w/ 2888 levels "0","0.0629742860057041",..: 2888 304 NA 1802 2775 1449 527 2574 1026 1034 ...
-         $ V4: Factor w/ 3112 levels "0","0.05368903545997",..: 3112 555 NA 1746 117 1500 2597 1830 1319 NA ...
-         $ V5: Factor w/ 3234 levels "0","0.0498558524647727",..: 3234 NA 23 1689 3193 1036 NA 2157 1337 1556 ...
-         $ V6: Factor w/ 3287 levels "0","0.0505672422660393",..: 3287 NA NA 2187 3047 2495 NA 2494 1143 944 ...
-	 </pre>
-	 </details>
+        $ V1: Factor w/ 3053 levels "0","0.0545089922844682",..: 3053 NA 27 1844 85 NA 2715 2291 1260 1052 ...
+        $ V2: Factor w/ 3265 levels "0","0.0500605748274972",..: 3265 579 25 1970 3242 1920 879 2473 1184 1313 ...
+        $ V3: Factor w/ 2888 levels "0","0.0629742860057041",..: 2888 304 NA 1802 2775 1449 527 2574 1026 1034 ...
+        $ V4: Factor w/ 3112 levels "0","0.05368903545997",..: 3112 555 NA 1746 117 1500 2597 1830 1319 NA ...
+        $ V5: Factor w/ 3234 levels "0","0.0498558524647727",..: 3234 NA 23 1689 3193 1036 NA 2157 1337 1556 ...
+        $ V6: Factor w/ 3287 levels "0","0.0505672422660393",..: 3287 NA NA 2187 3047 2495 NA 2494 1143 944 ...
+	</pre>
+	</details>
+	
 <br>
+	Encode all NA values as "missing", at export.  
 	<details> 
 	<summary>:key: Click to see how</summary> 
 	<pre>
     
- 		write.table(x = ed, na = "missing", file = "example_mis.data")
+ 	write.table(x = ed, na = "missing", file = "example_mis.data")
 	</pre>
 	</details>
 <br>
