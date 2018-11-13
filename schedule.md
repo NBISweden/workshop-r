@@ -12,16 +12,16 @@ Room: Trippelrummet, E10, ground floor
 **10:15-10:45** [Lecture: Introduction to R environment](Lectures/Lecture_2_-_REnvironment.pdf) (Marcin Kierczak)   
 **11:00-12:00** [Exercise and video: Using R-studio](https://www.dropbox.com/s/3sy4ou2o8jh5syf/RCourseVideo.mov?dl=0) (Marcin Kierczak)   
 **12:00-13:00** Lunch at BMC restaurant  
-**13:00-15:00** Lecture: Elements of R programming - variable types, operators (Sebastian DiLorenzo)   
-**15:00-17:00** Exercise: Data types in R (Roy Francis, Sebastian DiLorenzo, Per Unneberg)   
+**13:00-15:00** [Lecture: Elements of R programming - variable types, operators](Lectures/Lecture_3_-_Elements1.pdf) (Sebastian DiLorenzo)   
+**15:00-17:00** [Exercise: Data types in R](Exercises/DataTypes.md) (Roy Francis, Sebastian DiLorenzo, Per Unneberg)   
 
 **Tuesday**
 Room: Trippelrummet, E10, ground floor  
-**09:00-10:00** Lecture: Elements of R programming language - vectors, strings (Sebastian DiLorenzo)   
-**10:00-11:00** Lecture: Elements of R programming language - matrices, lists, data frames and objects (Marcin Kierczak)    
-**11:00-12:00** Exercise: Working with vectors (Dimitris Bampalikis, Marcin Kierczak, Sebastian DiLorenzo, Per Unneberg)    
+**09:00-10:00** [Lecture: Elements of R programming language - vectors, strings](Lectures/Lecture_4_-_Elements2.pdf) (Sebastian DiLorenzo)   
+**10:00-11:00** [Lecture: Elements of R programming language - matrices, lists, data frames and objects](Lectures/Lecture_5_-_Elements3.pdf) (Marcin Kierczak)    
+**11:00-12:00** [Exercise: Working with vectors](Exercises/Vectors.md) (Dimitris Bampalikis, Marcin Kierczak, Sebastian DiLorenzo, Per Unneberg)    
 **12:00-13:00** Lunch at BMC restaurant    
-**13:00-17:00** Exercise: Matrices, lists, data frames (Dimitris Bampalikis, Marcin Kierczak, Sebastian DiLorenzo, Per Unneberg)    
+**13:00-17:00** [Exercise: Matrices, lists, data frames](Exercises/Dataframes.md) (Dimitris Bampalikis, Marcin Kierczak, Sebastian DiLorenzo, Per Unneberg)    
 
 **Wednesday**
 Room: Trippelrummet, E10, ground floor  
@@ -36,7 +36,7 @@ Room: Trippelrummet, E10, ground floor
 **Thursday**
 Room: Trippelrummet, E10, ground floor  
 **09:00-10:00** Lecture: Graphics (Sebastian DiLorenzo)  
-**10:00-12:00** Exercise: Graphics (Marcin Kierczak, Sebastian DiLorenzo)    
+**10:00-12:00** Exercise: Graphics (Marcin Kierczak, Sebastian DiLorenzo, Anna Johansson)    
 **12:00-13:00** Lunch at BMC restaurant    
 **13:00-14:00** Lecture: Intro to Tidyverse (Marcin Kierczak)   
 **15:00-17:00** Exercise: Intro to Tidyverse (Johan Viklund, Markus Mayrhofer, Sebastian DiLorenzo)   

@@ -3,7 +3,7 @@ title: "Data types in R"
 layout: default
 ---
 
-# Pre-course Material
+# Data Types
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
