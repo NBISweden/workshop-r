@@ -21,7 +21,7 @@ Room: Trippelrummet, E10, ground floor
 **10:00-11:00** [Lecture: Elements of R programming language - matrices, lists, data frames and objects](Lectures/Lecture_5_-_Elements3.pdf) (Marcin Kierczak)    
 **11:00-12:00** [Exercise: Working with vectors](Exercises/Vectors.md) (Dimitris Bampalikis, Marcin Kierczak, Sebastian DiLorenzo, Per Unneberg)    
 **12:00-13:00** Lunch at BMC restaurant    
-**13:00-17:00** Exercise: Matrices, lists, data frames (Dimitris Bampalikis, Marcin Kierczak, Sebastian DiLorenzo, Per Unneberg)    
+**13:00-17:00** [Exercise: Matrices, lists, data frames](Exercises/Dataframes.md) (Dimitris Bampalikis, Marcin Kierczak, Sebastian DiLorenzo, Per Unneberg)    
 
 **Wednesday**
 Room: Trippelrummet, E10, ground floor  
