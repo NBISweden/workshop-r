@@ -36,7 +36,7 @@ Room: Trippelrummet, E10, ground floor
 **Thursday**
 Room: Trippelrummet, E10, ground floor  
 **09:00-10:00** Lecture: Graphics (Sebastian DiLorenzo)  
-**10:00-12:00** Exercise: Graphics (Marcin Kierczak, Sebastian DiLorenzo)    
+**10:00-12:00** Exercise: Graphics (Marcin Kierczak, Sebastian DiLorenzo, Anna Johansson)    
 **12:00-13:00** Lunch at BMC restaurant    
 **13:00-14:00** Lecture: Intro to Tidyverse (Marcin Kierczak)   
 **15:00-17:00** Exercise: Intro to Tidyverse (Johan Viklund, Markus Mayrhofer, Sebastian DiLorenzo)   
