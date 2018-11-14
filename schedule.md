@@ -31,7 +31,7 @@ Room: Trippelrummet, E10, ground floor
 **12:00-13:00** [Lunch at BMC restaurant](http://www.hors.se/veckans-meny/?week_for=2018-11-14&rest=175&l=e)    
 **13:00-17:00** [Exercise: Loops, conditional statements, functions, variable scope](Exercises/Loops.md) (Bengt Sennblad, Dimitris Bampalikis, Markus Mayrhofer)   
 
-**18:00-** Course dinner
+**18:00-** [Course dinner at the LoCo Restaurant](https://restaurangloco.se/)
 
 **Thursday**
 Room: Trippelrummet, E10, ground floor  
