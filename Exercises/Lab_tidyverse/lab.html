@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Marcin Kierczak" />
+
+
+<title>Tidy Work in Tidyverse</title>
+
+<script src="lab_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="lab_files/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="lab_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="lab_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="lab_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="lab_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="lab_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="lab_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="lab_files/navigation-1.1/tabsets.js"></script>
+<script src="lab_files/navigation-1.1/codefolding.js"></script>
+<link href="lab_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="lab_files/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+div.sourceCode {
+  overflow-x: visible;
+}
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Tidy Work in Tidyverse</h1>
+<h3 class="subtitle"><em>Hands-on</em></h3>
+<h4 class="author"><em>Marcin Kierczak</em></h4>
+<h4 class="date"><em>14-Nov-2018</em></h4>
+
+</div>
+
+
+<hr />
+<p class="abstract">
+This is the Tidyverse course work material for Introduction to R Programming for Life Scientists Course, Uppsala, fall 2018.
+</p>
+<hr />
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Welcome to the hands-on workshop “Tidy Work in Tidyverse”. Most of the things necessary to complete the tutorials and challenges were covered in the lecture. However, sometimes the tasks require that you check the docs or search online. Not all our solutions are optimal. Let us know if you can do better or solve things in a different way. If stuck, look at hints, next google and if still stuck, turn to TA. It is a lot of material, do not fee bad if you do not solve all tasks. Good luck!</p>
+</div>
+<div id="general-excercises" class="section level1">
+<h1><span class="header-section-number">2</span> General excercises</h1>
+<div id="pipes" class="section level2">
+<h2><span class="header-section-number">2.1</span> Pipes</h2>
+<div id="task-1" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Task 1</h3>
+<p>Rewrite the following code chunk as one pipe (<code>magrittr</code>):</p>
+<pre><code>my_cars &lt;- mtcars[, c(1:4, 7)]
+my_cars &lt;- my_cars[my_cars$disp &gt; mean(my_cars$disp), ]
+print(my_cars)
+my_cars &lt;- colMeans(my_cars)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_cars &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">7</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(disp <span class="op">&gt;</span><span class="st"> </span><span class="kw">mean</span>(disp)) <span class="op">%T&gt;%</span>
+<span class="st">  </span><span class="kw">print</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">colMeans</span>()</code></pre></div>
+</div>
+<div id="task-2" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Task 2</h3>
+<p>Rewrite the correlations below using pipes.</p>
+<pre><code>cor(mtcars$gear, mtcars$mpg)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">%$%</span><span class="st"> </span><span class="kw">cor</span>(gear, mpg)</code></pre></div>
+<pre><code>cor(mtcars)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cor</span>()</code></pre></div>
+</div>
+</div>
+<div id="tibbles" class="section level2">
+<h2><span class="header-section-number">2.2</span> Tibbles</h2>
+<div id="task-1-1" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Task 1</h3>
+<ul>
+<li>Convert the <code>mtcars</code> dataset to a tibble <code>vehicles</code>.</li>
+<li>Select the number of cylinders (<code>cyl</code>) variable using:
+<ul>
+<li>the <code>[[index]]</code> accessor,</li>
+<li>the <code>[[string]]</code> accessor,</li>
+<li>the <code>$</code> accessor.</li>
+</ul></li>
+<li>Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).</li>
+<li>Print the tibble.</li>
+<li>Print the 30 first rows of the tibble.</li>
+<li>Change the default behaviour of printing a tibble so that at least 15 and at most 30 rows are printed.</li>
+<li>Convert <code>vehicles</code> back to a <code>data.frame</code> called <code>automobiles</code>.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 1</span>
+vehicles &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>()
+
+<span class="co"># 2</span>
+vehicles[[<span class="st">&#39;cyl&#39;</span>]]
+vehicles[[<span class="dv">2</span>]]
+vehicles<span class="op">$</span>cyl
+
+<span class="co"># 3</span>
+vehicles <span class="op">%T&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.[[<span class="st">&#39;cyl&#39;</span>]])} <span class="op">%T&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.[[<span class="dv">2</span>]])} <span class="op">%&gt;%</span>
+<span class="st">  </span>.<span class="op">$</span>cyl
+
+<span class="co"># 4</span>
+vehicles
+
+<span class="co"># 5</span>
+vehicles <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">30</span>)
+
+<span class="co"># 6</span>
+<span class="kw">options</span>(<span class="dt">tibble.print_min =</span> <span class="dv">15</span>, <span class="dt">tibble.print_max =</span> <span class="dv">30</span>)
+
+<span class="co"># 7</span>
+automobiles &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(vehicles)</code></pre></div>
+</div>
+<div id="bonus-task" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Bonus Task</h3>
+<p>Do you think tibbles are lazy? Try to create a tibble that tests whether <em>lazy evaluation</em> applies to tibbles too.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">replace =</span> T), <span class="dt">y =</span> <span class="kw">log10</span>(x))</code></pre></div>
+</div>
+</div>
+</div>
+<div id="nyc-flights-challenge" class="section level1">
+<h1><span class="header-section-number">3</span> NYC flights Challenge</h1>
+<p>The <code>nycflights13</code> package contains information about all flights that departed from NYC (i.e., EWR, JFK and LGA) in 2013: 336,776 flights with 16 variables. To help understand what causes delays, it also includes a number of other useful datasets: weather, planes, airports, airlines. We will use it to train working with tibbles and <code>dplyr</code>.</p>
+<div id="task-1-selecting-column" class="section level2">
+<h2><span class="header-section-number">3.1</span> Task 1 – selecting column</h2>
+<ul>
+<li>load the <code>nycflights13</code> package (install if necessary),</li>
+<li>read about the data in the package docs,</li>
+<li>inspect the <code>flights</code> tibble.</li>
+<li>select all columns but <code>carrier</code> and <code>arr_time</code>,</li>
+<li>select <code>carrier</code>, <code>tailnum</code> and <code>origin</code>,</li>
+<li>hide columns from <code>day</code> through <code>carrier</code>,</li>
+<li>select all columns that have to do with <code>arr</code>ival (hint: <code>?tidyselect</code>),</li>
+<li>select columns based on a vector <code>v &lt;- c(&quot;arr_time&quot;, &quot;sched_arr_time&quot;, &quot;arr_delay&quot;)</code>,</li>
+<li>rename column <code>dest</code> to <code>destination</code> using:
+<ul>
+<li><code>select()</code> and</li>
+<li><code>rename()</code><br />
+What is the difference between the two approaches?</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&#39;nycflights13&#39;</span>)
+
+<span class="kw">library</span>(<span class="st">&#39;nycflights13&#39;</span>)
+
+?nycflights13
+
+flights
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>carrier, <span class="op">-</span>arr_time)
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(carrier, tailnum, origin)
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>(day<span class="op">:</span>carrier))
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">contains</span>(<span class="st">&#39;arr_&#39;</span>)) <span class="co"># or</span>
+
+v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;arr_time&quot;</span>, <span class="st">&quot;sched_arr_time&quot;</span>, <span class="st">&quot;arr_delay&quot;</span>)
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(v) <span class="co"># or</span>
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">one_of</span>(v))
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dt">destination =</span> dest)
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">destination =</span> dest)
+<span class="co"># select keeps only the renamed column while rename returns the whole dataset</span>
+<span class="co"># with the column renamed</span></code></pre></div>
+</div>
+<div id="task-2-filtering-rows" class="section level2">
+<h2><span class="header-section-number">3.2</span> Task 2 – filtering rows</h2>
+<ul>
+<li>filter only the flights that arrived ahead of schedule,</li>
+<li>filter the flights that had departure delay between 10 and 33,</li>
+<li>fish out all flights with unknown arrival time,</li>
+<li>retrieve rows 1234:1258 (hint: <code>?slice</code>),</li>
+<li>sample (<code>?sample_n()</code>) 3 random flights per day in March,</li>
+<li>show 5 most departure-delayed flights in January per carrier,</li>
+<li>retrieve all <code>unique()</code> routes and sort them by origin,</li>
+<li>retrieve all <code>distinct()</code> routes and sort them by origin,</li>
+<li>is <code>unique()</code> more efficient than <code>distinct()</code>?</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(arr_delay <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(dep_delay <span class="op">&gt;=</span><span class="st"> </span><span class="dv">10</span>, dep_delay <span class="op">&lt;=</span><span class="st"> </span><span class="dv">33</span>) <span class="co"># or</span>
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">between</span>(dep_delay, <span class="dv">10</span>, <span class="dv">33</span>))
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">is.na</span>(arr_time))
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(<span class="dv">1234</span><span class="op">:</span><span class="dv">1258</span>)
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(month <span class="op">==</span><span class="st"> </span><span class="dv">3</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">3</span>)
+
+flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(month <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">top_n</span>(<span class="dv">5</span>, dep_delay)</code></pre></div>
+</div>
+<div id="task-3-transmutations" class="section level2">
+<h2><span class="header-section-number">3.3</span> Task 3 – Trans(mutations)</h2>
+<ul>
+<li><p><code>air_time</code> is the amount of time in minutes spent in the air. Add a new column <code>air_spd</code> that will contain aircraft’s airspeed in mph,</p></li>
+<li><p>as above, but keep only the new <code>air_spd</code> variable,</p></li>
+<li><p>use <code>rownames_to_column()</code> on <code>mtcars</code> to add car model as an extra column,</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">air_spd =</span> distance<span class="op">/</span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>))
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">transmute</span>(<span class="dt">air_spd =</span> distance<span class="op">/</span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>))
+
+mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rownames_to_column</span>(<span class="st">&#39;model&#39;</span>)</code></pre></div>
+</div>
+<div id="task-4-groups-and-counts" class="section level2">
+<h2><span class="header-section-number">3.4</span> Task 4 – groups and counts</h2>
+<ul>
+<li>use <code>group_by()</code>, <code>summarise()</code> and <code>n()</code> to see how many planes were delayed (departure) every month,</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(dep_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(month) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">num_dep_delayed =</span> <span class="kw">n</span>())</code></pre></div>
+<ul>
+<li>what was the mean <code>dep_delay</code> per month?</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(month) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_dep_delay =</span> <span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> T))</code></pre></div>
+<ul>
+<li>count the number of incoming delayed flights from each unique origin and sort origins by this count (descending),</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(arr_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(origin) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">cnt =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(cnt))</code></pre></div>
+<ul>
+<li>use <code>summarise()</code> to sum total <code>dep_delay</code> per month in hours,</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> flights <span class="op">%&gt;%</span>
+<span class="st">   </span><span class="kw">group_by</span>(month) <span class="op">%&gt;%</span>
+<span class="st">   </span><span class="kw">summarize</span>(<span class="dt">tot_dep_delay =</span> <span class="kw">sum</span>(dep_delay<span class="op">/</span><span class="dv">60</span>, <span class="dt">na.rm =</span> T))</code></pre></div>
+<ul>
+<li>run <code>group_size()</code> on <code>carrier</code> what does it return?</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_size</span>()</code></pre></div>
+<ul>
+<li>use <code>n_groups()</code> to check the number of unique origin-carrier pairs,</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">n_groups</span>()</code></pre></div>
+<p><strong>Note on <code>ungroup</code></strong> Depending on the version of <code>dplyr</code> you may or may need to use the <code>ungroup()</code> if you want to group your data on some other variables. In the newer versions, <code>summarise</code> and <code>mutate</code> drop one aggregation level.</p>
+</div>
+</div>
+<div id="session-info" class="section level1">
+<h1><span class="header-section-number">4</span> Session Info</h1>
+<ul>
+<li>This document has been created in RStudio using R Markdown and related packages.</li>
+<li>For R Markdown, see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a></li>
+<li>For details about the OS, packages and versions, see detailed information below:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.5.0 (2018-04-23)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS  10.14
+## 
+## Matrix products: default
+## BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] C
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] magrittr_1.5    forcats_0.3.0   stringr_1.3.1   dplyr_0.7.8    
+##  [5] purrr_0.2.5     readr_1.1.1     tidyr_0.8.2     tibble_1.4.2   
+##  [9] ggplot2_3.1.0   tidyverse_1.2.1 captioner_2.2.3 bookdown_0.7   
+## [13] knitr_1.20     
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.0       cellranger_1.1.0 plyr_1.8.4       compiler_3.5.0  
+##  [5] pillar_1.3.0     bindr_0.1.1      tools_3.5.0      digest_0.6.18   
+##  [9] lubridate_1.7.4  jsonlite_1.5     evaluate_0.12    nlme_3.1-137    
+## [13] gtable_0.2.0     lattice_0.20-38  pkgconfig_2.0.2  rlang_0.3.0.1   
+## [17] cli_1.0.1        rstudioapi_0.8   yaml_2.2.0       haven_1.1.2     
+## [21] xfun_0.4         bindrcpp_0.2.2   withr_2.1.2      xml2_1.2.0      
+## [25] httr_1.3.1       hms_0.4.2        rprojroot_1.3-2  grid_3.5.0      
+## [29] tidyselect_0.2.5 glue_1.3.0       R6_2.3.0         readxl_1.1.0    
+## [33] rmarkdown_1.10   modelr_0.1.2     backports_1.1.2  scales_1.0.0    
+## [37] htmltools_0.3.6  rvest_0.3.2      assertthat_0.2.0 colorspace_1.3-2
+## [41] stringi_1.2.4    lazyeval_0.2.1   munsell_0.5.0    broom_0.5.0     
+## [45] crayon_1.3.4</code></pre>
+<p style="text-align: left; font-size: small;">
+Page built on: <i class="fa fa-calendar" aria-hidden="true"></i> 14-Nov-2018 at <i class="fa fa-clock-o" aria-hidden="true"></i> 15:06:50.
+</p>
+<hr/>
+<div style="padding-bottom: 1.5em">
+<p><span style="float:left; vertical-align:middle"> <b>2018</b> | <a href="https://www.scilifelab.se/">SciLifeLab</a> &gt; <a href="https://nbis.se/">NBIS</a>) </span> <span style="float:right; vertical-align:middle"> <span class="footericon" style="padding-right:4px; padding-left:4px"> <a href=""><img src="assets/icons8-globe-26.png" alt="website" border="0" style="height:15px"></a> </span> <span class="footericon" style="padding-right:4px; padding-left:4px"> <a href=""><img src="assets/icons8-twitter-26.png" alt="twitter" border="0" style="height:15px"></a> </span> </span></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
