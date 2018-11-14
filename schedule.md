@@ -25,11 +25,11 @@ Room: Trippelrummet, E10, ground floor
 
 **Wednesday**
 Room: Trippelrummet, E10, ground floor  
-**09:00-10:00** Lecture: Elements of R programming language - control structures, iteration, recursion, variable scope (Marcin Kierczak)    
+**09:00-10:00** [Lecture: Elements of R programming language - control structures, iteration, recursion, variable scope](Lectures/Lecture_6_-_Elements4.pdf) (Marcin Kierczak)    
 **10:00-11:00** [Lecture: Loading data into R](Lectures/Lecture_7_-_Loading_data.pdf) (Sebastian DiLorenzo)   
 **11:00-12:00** [Exercise: Loading data](Exercises/LoadData.md) (Bengt Sennblad, Dimitris Bampalikis, Markus Mayrhofer)   
 **12:00-13:00** Lunch at BMC restaurant    
-**13:00-17:00** Exercise: Loops, conditional statements, functions, variable scope (Bengt Sennblad, Dimitris Bampalikis, Markus Mayrhofer)   
+**13:00-17:00** [Exercise: Loops, conditional statements, functions, variable scope](Exercises/Loops.md) (Bengt Sennblad, Dimitris Bampalikis, Markus Mayrhofer)   
 
 **18:00-** Course dinner
 
