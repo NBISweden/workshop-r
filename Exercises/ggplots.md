@@ -48,6 +48,10 @@ working directory:
 If you cannot load the library install it either via the menu of
 RStudio or by typing `install.packages("ggmap")` in R.
 
+** NOTE: the *sp* and *rgdal* libraries may be difficult to install on your computer as they rely on a lot of 3rd party software. They are used to convert between
+different map reference systems, here RT90 to WGS84. If you run into troubles, do the ICA/Coop part of the lab instead. The plotting part will be exactly the same as 
+in the System Bolaget part.**
+
 ```R
 # Load the libraries necessary for working with maps
 # Install them if missing
@@ -58,7 +62,7 @@ library(rgdal)
 library(deldir)
     
 # Download the map of Uppsala from Stamen Maps
-google.map <- get_stamenmap(bbox=c(left=17.4616, bottom = 59.7817, right=17.8358, top=59.9014), zoom=12, maptype='toner')
+offline.map <- get_stamenmap(bbox=c(left=17.4616, bottom = 59.7817, right=17.8358, top=59.9014), zoom=12, maptype='toner')
     
 # Load the list of System Bolaget shops
 data <- read.table("Bolaget.csv", header=T, sep=";", quote="")
@@ -67,7 +71,7 @@ data <- read.table("Bolaget.csv", header=T, sep=";", quote="")
 data <- data[data$Address4 == "UPPSALA",]
 		
 # The description in the file says the provided coords are in the RT90 datum.
-# The map uses WGS84 thus we need a conversion from RT90 to WGS84:
+# The downloaded map uses WGS84 thus we need a conversion from RT90 to WGS84:
 latlonRT90 <- data[,c('RT90x', 'RT90y')]
 colnames(latlonRT90) <- c('x','y')
 
@@ -85,7 +89,7 @@ coords <- data.frame(lat=coords@coords[,1], lon=coords@coords[,2])
 voronoi <- deldir(coords)
 
 # Plot the map, shops density, shops as points and the tesselation lines.
-map <- ggmap(google.map)
+map <- ggmap(downloaded.map)
 map +
 stat_density2d(data = coords, 
 	           aes(x = lat, y = lon,
@@ -109,10 +113,10 @@ coop.kml <- getKMLcoordinates(kmlfile="coop_Uppsala.kml", ignoreAltitude=T)
 tmp <- unlist(coop.kml)
 coop.coords <- data.frame(lat=tmp[1:length(tmp) %% 2 == 0], lon=tmp[1:length(tmp) %% 2 == 1], type='coop')
 coords <- rbind(ica.coords, coop.coords)
-google.map <- get_stamenmap(bbox=c(left=17.4616, bottom = 59.7817, right=17.8358, top=59.9014), zoom=12)
+downloaded.map <- get_stamenmap(bbox=c(left=17.4616, bottom = 59.7817, right=17.8358, top=59.9014), zoom=12)
 voronoi <- deldir(coords)
 
-map <- ggmap(google.map)
+map <- ggmap(downloaded.map)
 	         map +
 			 scale_fill_gradient(low = "green", high = "olivedrab", guide = FALSE) + 
 			 scale_alpha(range = c(0, 0.1), guide = FALSE) + 

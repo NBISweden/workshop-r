@@ -47,13 +47,13 @@ Room: Trippelrummet, E10, ground floor
 **10:00-11:00** Intro to R package anatomy (Sebastian DiLorenzo)    
 **11:00-12:00** Q&A session   
 **12.00-13.00** [Lunch at BMC restaurant](http://www.hors.se/veckans-meny/?week_for=2018-11-14&rest=175&l=e)   
-**13:00-16.00** Graphics in R: ggplot2 (Sebastian DiLorenzo, Marcin Kierczak, Bengt Sennblad)   
+**13:00-16.00** [Graphics in R: ggplot2](Exercises/ggplots.md) (Sebastian DiLorenzo, Marcin Kierczak, Bengt Sennblad)   
 
-**Extra exercise** Gapminder example -- a tribute to Hans Rosling
+**Extra exercise** [Gapminder example -- a tribute to Hans Rosling](Exercises/Lab_gapminder_ggplot/gapminder.html)
 
 **Extra Material**
-- Color names list in R
-- Visualizing data
-- Naming conventions in R
-- Introduction to statistical tests in R
-- Bioconductor examples
+- [Color names list in R](files/Rcolor.pdf)
+- [Visualizing data](files/rules_for_using_color.pdf)
+- [Naming conventions in R](files/Rnaming.pdf)
+- [Introduction to statistical tests in R](files/stats_tests.pdf)
+- [Bioconductor examples](https://f1000research.com/gateways/bioconductor)
