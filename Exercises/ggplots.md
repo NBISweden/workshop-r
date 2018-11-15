@@ -58,7 +58,7 @@ library(rgdal)
 library(deldir)
     
 # Download the map of Uppsala from Stamen Maps
-google.map <- get_map(c(17.63,59.84), zoom=12, maptype = 'toner')
+google.map <- get_stamenmap(bbox=c(left=17.4616, bottom = 59.7817, right=17.8358, top=59.9014), zoom=12, maptype='toner')
     
 # Load the list of System Bolaget shops
 data <- read.table("Bolaget.csv", header=T, sep=";", quote="")
@@ -109,7 +109,7 @@ coop.kml <- getKMLcoordinates(kmlfile="coop_Uppsala.kml", ignoreAltitude=T)
 tmp <- unlist(coop.kml)
 coop.coords <- data.frame(lat=tmp[1:length(tmp) %% 2 == 0], lon=tmp[1:length(tmp) %% 2 == 1], type='coop')
 coords <- rbind(ica.coords, coop.coords)
-google.map <- get_map(c(17.63,59.84), zoom=12)
+google.map <- get_stamenmap(bbox=c(left=17.4616, bottom = 59.7817, right=17.8358, top=59.9014), zoom=12)
 voronoi <- deldir(coords)
 
 map <- ggmap(google.map)
