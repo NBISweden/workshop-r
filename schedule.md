@@ -35,8 +35,8 @@ Room: Trippelrummet, E10, ground floor
 
 **Thursday**
 Room: Trippelrummet, E10, ground floor  
-**09:00-10:00** Lecture: Graphics (Sebastian DiLorenzo)  
-**10:00-12:00** Exercise: Graphics (Marcin Kierczak, Sebastian DiLorenzo, Anna Johansson)    
+**09:00-10:00** [Lecture: Graphics](Lectures/Lecture_9_-_graphics.pdf) (Sebastian DiLorenzo)  
+**10:00-12:00** [Exercise: Graphics](Exercises/PlotHandson.md) (Marcin Kierczak, Sebastian DiLorenzo, Anna Johansson)    
 **12:00-13:00** [Lunch at BMC restaurant](http://www.hors.se/veckans-meny/?week_for=2018-11-14&rest=175&l=e)   
 **13:00-14:00** [Lecture: Intro to Tidyverse](Lectures/Lecture_tidyverse/tidyverse_presentation.html) (Marcin Kierczak)   
 **15:00-17:00** [Exercise: Intro to Tidyverse](Exercises/Lab_tidyverse/lab.html) (Johan Viklund, Markus Mayrhofer, Sebastian DiLorenzo)   
