@@ -89,7 +89,7 @@ coords <- data.frame(lat=coords@coords[,1], lon=coords@coords[,2])
 voronoi <- deldir(coords)
 
 # Plot the map, shops density, shops as points and the tesselation lines.
-map <- ggmap(downloaded.map)
+map <- ggmap(offline.map)
 map +
 stat_density2d(data = coords, 
 	           aes(x = lat, y = lon,
