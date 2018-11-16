@@ -43,7 +43,7 @@ Room: Trippelrummet, E10, ground floor
 
 **Friday**
 Room: Trippelrummet, E10, ground floor  
-**09:00-10:00** [Lecture: Graphics using ggplot2](Lecture_10_-_ggplot2.pdf) (Marcin Kierczak)     
+**09:00-10:00** [Lecture: Graphics using ggplot2](Lectures/Lecture_10_-_ggplot2.pdf) (Marcin Kierczak)     
 **10:00-11:00** Intro to R package anatomy (Sebastian DiLorenzo)    
 **11:00-12:00** Q&A session   
 **12.00-13.00** [Lunch at BMC restaurant](http://www.hors.se/veckans-meny/?week_for=2018-11-14&rest=175&l=e)   
