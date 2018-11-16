@@ -37,7 +37,7 @@ In many other and languages as well as in R you can also create this
 with a loop instead
 
     for (i in vec.a) {
-        v[i] <- vec.a[i] * 2
+        vec.a[i] <- vec.a[i] * 2
         }
     vec.a
 
@@ -51,7 +51,6 @@ After this exercise you should know:
 - Some common alternatives to using loops in R
 - How one can convert a short script to a function.
 - Use that new function in R.
--  
 
 
 ## Exercises: Loop structures<a id="orgheadline1"></a>

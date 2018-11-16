@@ -85,42 +85,44 @@ have a sound word vector and list.
         sort(nchar(shelley.vec), decreasing = TRUE)
         which(nchar(shelley.vec) == max(nchar(shelley.vec)))
         shelley.vec[381]
-
-      [1] 690  12  11  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
-     [19]   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9
-     [37]   9   9   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8
-     [55]   8   8   8   8   8   8   8   8   8   8   7   7   7   7   7   7   7   7
-     [73]   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   6
-     [91]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
-    [109]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
-    [127]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-    [145]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-    [163]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-    [181]   5   5   5   5   5   4   4   4   4   4   4   4   4   4   4   4   4   4
-    [199]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
-    [217]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
-    [235]   4   4   4   4   4   4   4   3   3   3   3   3   3   3   3   3   3   3
-    [253]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-    [271]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-    [289]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-    [307]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-    [325]   3   3   3   3   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-    [343]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-    [361]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-    [379]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-    [397]   2   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
-    [415]   1   1   1   1   1   1
-    [1] 381
-    [1] "By the sacred earth on which I kneel, by the shades that wander near me, by the deep and eternal grief that I feel, I swear; and by thee, O Night, and the spirits that preside over thee, to pursue the daemon who caused this misery, until he or I shall perish in mortal conflict. For this purpose I will preserve my life; to execute this dear revenge will I again behold the sun and tread the green herbage of earth, which otherwise should vanish from my eyes forever. And I call on you, spirits of the dead, and on you, wandering ministers of vengeance, to aid and conduct me in my work. Let the cursed and hellish monster drink deep of agony; let him feel the despair that now torments me."
+	
+      	[1] 690  12  11  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
+     	[19]   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9
+     	[37]   9   9   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8
+     	[55]   8   8   8   8   8   8   8   8   8   8   7   7   7   7   7   7   7   7
+     	[73]   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   6
+     	[91]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
+    	[109]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
+    	[127]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+    	[145]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+    	[163]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+    	[181]   5   5   5   5   5   4   4   4   4   4   4   4   4   4   4   4   4   4
+    	[199]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
+    	[217]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
+    	[235]   4   4   4   4   4   4   4   3   3   3   3   3   3   3   3   3   3   3
+    	[253]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+    	[271]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+    	[289]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+    	[307]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+    	[325]   3   3   3   3   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+    	[343]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+    	[361]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+    	[379]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+    	[397]   2   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+    	[415]   1   1   1   1   1   1
+    	[1] 381
+    	[1] "By the sacred earth on which I kneel, by the shades that wander near me, by the deep and eternal grief that I feel, I swear; and by thee, O Night, and the spirits that preside over thee, to pursue the daemon who caused this misery, until he or I shall perish in mortal conflict. For this purpose I will preserve my life; to execute this dear revenge will I again behold the sun and tread the green herbage of earth, which otherwise should vanish from my eyes forever. And I call on you, spirits of the dead, and on you, wandering ministers of vengeance, to aid and conduct me in my work. Let the cursed and hellish monster drink deep of agony; let him feel the despair that now torments me."
 	</pre>
 	</details>
 <br>
+
 2.  Go back and fix the way you read in the text to make sure that you
     get a vector with all words in chapter as individual entries also
     filter any non-letter characters and now identify the longest word.
 	<details>
 	<summary>:key: Click to see how</summary>
 	<pre>
+	
         shelley.vec2 <- scan(file = "book_chapter.txt", what = " ", quote = NULL)
         shelley.filt2 <- gsub(pattern = '[^[:alnum:] ]', replacement = "", x = shelley.vec2)
         which(nchar(shelley.filt2) == max(nchar(shelley.filt2)))
@@ -180,8 +182,7 @@ command will read in a file from a web server.
     computer and import it to R using the read.table function. This
     files consist of gene expression values. Once you have the object
     in R validate that it looks okay and export it using the
-    write.table function. Encode all NA values as "missing", at
-    export.  
+    write.table function. 
 	<details> 
 	<summary>:key: Click to see how</summary> 
 	<pre>
@@ -206,24 +207,25 @@ command will read in a file from a web server.
         6 2.64236018063295 6.27033804098888
 		
         'data.frame':   18946 obs. of  6 variables:
-         $ V1: Factor w/ 3053 levels "0","0.0545089922844682",..: 3053 NA 27 1844 85 NA 2715 2291 1260 1052 ...
-         $ V2: Factor w/ 3265 levels "0","0.0500605748274972",..: 3265 579 25 1970 3242 1920 879 2473 1184 1313 ...
-         $ V3: Factor w/ 2888 levels "0","0.0629742860057041",..: 2888 304 NA 1802 2775 1449 527 2574 1026 1034 ...
-         $ V4: Factor w/ 3112 levels "0","0.05368903545997",..: 3112 555 NA 1746 117 1500 2597 1830 1319 NA ...
-         $ V5: Factor w/ 3234 levels "0","0.0498558524647727",..: 3234 NA 23 1689 3193 1036 NA 2157 1337 1556 ...
-         $ V6: Factor w/ 3287 levels "0","0.0505672422660393",..: 3287 NA NA 2187 3047 2495 NA 2494 1143 944 ...
-	 </pre>
-	 </details>
-<br>
-
-	<details>
-	<summary>:key: Click to see how</summary>
-	<pre>
-   	
-		write.table(x = ed, na = "missing", file = "example_mis.data")
+        $ V1: Factor w/ 3053 levels "0","0.0545089922844682",..: 3053 NA 27 1844 85 NA 2715 2291 1260 1052 ...
+        $ V2: Factor w/ 3265 levels "0","0.0500605748274972",..: 3265 579 25 1970 3242 1920 879 2473 1184 1313 ...
+        $ V3: Factor w/ 2888 levels "0","0.0629742860057041",..: 2888 304 NA 1802 2775 1449 527 2574 1026 1034 ...
+        $ V4: Factor w/ 3112 levels "0","0.05368903545997",..: 3112 555 NA 1746 117 1500 2597 1830 1319 NA ...
+        $ V5: Factor w/ 3234 levels "0","0.0498558524647727",..: 3234 NA 23 1689 3193 1036 NA 2157 1337 1556 ...
+        $ V6: Factor w/ 3287 levels "0","0.0505672422660393",..: 3287 NA NA 2187 3047 2495 NA 2494 1143 944 ...
 	</pre>
 	</details>
-<br>
+
+	<br>
+	Encode all NA values as "missing", at export.  
+	<details> 
+	<summary>:key: Click to see how</summary> 
+	<pre>
+  
+ 	write.table(x = ed, na = "missing", file = "example_mis.data")	
+	</pre>
+	</details>
+	<br>
 
 2.  Read in the file you just created and double-check that you have the same data as earlier.
 	<details>
@@ -231,7 +233,6 @@ command will read in a file from a web server.
 	<pre>
     
         df.test <- read.table("example_mis.data", na.strings = "missing")
-
 	</pre>
 	</details>
 <br>
