@@ -1,6 +1,3 @@
 [submodule "workshop-commo"]
 	path = workshop-commo
 	url = https://github.com/NBISweden/workshop-common.git
-[submodule "workshop-common"]
-	path = workshop-common
-	url = https://github.com/NBISweden/workshop-common.git
