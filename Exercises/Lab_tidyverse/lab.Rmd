@@ -1,0 +1,295 @@
+---
+title: "Tidy Work in Tidyverse"
+subtitle: "Hands-on"
+author: "Marcin Kierczak"
+date: "`r format(Sys.Date(),format='%d-%b-%Y')`"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    number_sections: true
+    theme: united
+    highlight: tango
+    df_print: paged
+    code_folding: hide
+    self_contained: false
+    keep_md: false
+    encoding: "UTF-8"
+    css: ["assets/course.css"]
+---
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
+# run setup code
+source("assets/setup.R")
+library(magrittr)
+```
+
+```{r,echo=FALSE,results='hide'}
+## LIBRARIES AND VARIABLES
+# load the packages you need for this document
+
+#library(ggplot2)
+#library(tidyverse)
+
+# variables needed in this document
+# raukr colours
+#rv_col_dark <- "#125687"
+#rv_col_light <- "#e7eef3"
+```
+
+---
+
+<p class="abstract">
+This is the Tidyverse course work material for Introduction to R Programming for Life Scientists Course, Uppsala, fall 2018.
+</p>
+
+---
+
+# Introduction
+
+Welcome to the hands-on workshop "Tidy Work in Tidyverse". Most of the things necessary to complete the tutorials and challenges were covered in the lecture. However, sometimes the tasks require that you check the docs or search online. Not all our solutions are optimal. Let us know if you can do better or solve things in a different way. If stuck, look at hints, next google and if still stuck, turn to TA. It is a lot of material, do not fee bad if you do not solve all tasks. Good luck!
+
+# General excercises
+
+## Pipes
+
+### Task 1
+Rewrite the following code chunk as one pipe (`magrittr`):
+
+```
+my_cars <- mtcars[, c(1:4, 7)]
+my_cars <- my_cars[my_cars$disp > mean(my_cars$disp), ]
+print(my_cars)
+my_cars <- colMeans(my_cars)
+```
+```{r echo=TRUE, eval=FALSE}
+my_cars <- mtcars %>%
+  select(c(1:4, 7)) %>%
+  filter(disp > mean(disp)) %T>%
+  print() %>%
+  colMeans()
+```
+
+
+### Task 2
+Rewrite the correlations below using pipes.
+```
+cor(mtcars$gear, mtcars$mpg)
+```
+
+```{r echo=TRUE, eval=FALSE}
+mtcars %$% cor(gear, mpg)
+```
+
+```
+cor(mtcars)
+```
+
+```{r echo=TRUE, eval=FALSE}
+mtcars %>% cor()
+```
+
+## Tibbles
+### Task 1
+* Convert the `mtcars` dataset to a tibble `vehicles`.
+* Select the number of cylinders (`cyl`) variable using:
+    - the `[[index]]` accessor,
+    - the `[[string]]` accessor,
+    - the `$` accessor.
+* Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).
+* Print the tibble.
+* Print the 30 first rows of the tibble.
+* Change the default behaviour of printing a tibble so that at least 15 and at most 30 rows are printed.
+* Convert `vehicles` back to a `data.frame` called `automobiles`.
+
+```{r echo=TRUE, eval=FALSE}
+# 1
+vehicles <- mtcars %>% as_tibble()
+
+# 2
+vehicles[['cyl']]
+vehicles[[2]]
+vehicles$cyl
+
+# 3
+vehicles %T>%
+  {print(.[['cyl']])} %T>%
+  {print(.[[2]])} %>%
+  .$cyl
+
+# 4
+vehicles
+
+# 5
+vehicles %>% head(n = 30)
+
+# 6
+options(tibble.print_min = 15, tibble.print_max = 30)
+
+# 7
+automobiles <- as.data.frame(vehicles)
+```
+
+### Bonus Task
+Do you think tibbles are lazy? Try to create a tibble that tests whether *lazy evaluation* applies to tibbles too.
+
+```{r eval=FALSE}
+tibble(x = sample(1:10, size = 10, replace = T), y = log10(x))
+```
+
+# NYC flights Challenge
+The `nycflights13` package contains information about all flights that departed from NYC (i.e., EWR, JFK and LGA) in 2013: 336,776 flights with 16 variables. To help understand what causes delays, it also includes a number of other useful datasets: weather, planes, airports, airlines. We will use it to train working with tibbles and `dplyr`.
+
+## Task 1 -- selecting column
+* load the `nycflights13` package (install if necessary),
+* read about the data in the package docs,
+* inspect the `flights` tibble.
+* select all columns but `carrier` and `arr_time`,
+* select `carrier`, `tailnum` and `origin`,
+* hide columns from `day` through `carrier`,
+* select all columns that have to do with `arr`ival (hint: `?tidyselect`),
+* select columns based on a vector `v <- c("arr_time", "sched_arr_time", "arr_delay")`,
+* rename column `dest` to `destination` using:
+    - `select()` and
+    - `rename()`  
+What is the difference between the two approaches?
+
+```{r eval=F}
+install.packages('nycflights13')
+
+library('nycflights13')
+
+?nycflights13
+
+flights
+
+flights %>% select(-carrier, -arr_time)
+
+flights %>% select(carrier, tailnum, origin)
+
+flights %>% select(-(day:carrier))
+
+flights %>% select(contains('arr_')) # or
+
+v <- c("arr_time", "sched_arr_time", "arr_delay")
+flights %>% select(v) # or
+flights %>% select(one_of(v))
+
+flights %>% select(destination = dest)
+flights %>% rename(destination = dest)
+# select keeps only the renamed column while rename returns the whole dataset
+# with the column renamed
+```
+
+## Task 2 -- filtering rows
+
+* filter only the flights that arrived ahead of schedule,
+* filter the flights that had departure delay between 10 and 33,
+* fish out all flights with unknown arrival time,
+* retrieve rows 1234:1258 (hint: `?slice`),
+* sample (`?sample_n()`) 3 random flights per day in March,
+* show 5 most departure-delayed flights in January per carrier,
+* retrieve all `unique()` routes and sort them by origin,
+* retrieve all `distinct()` routes and sort them by origin,
+* is `unique()` more efficient than `distinct()`?
+
+```{r eval=F}
+flights %>% filter(arr_delay < 0)
+
+flights %>% filter(dep_delay >= 10, dep_delay <= 33) # or
+flights %>% filter(between(dep_delay, 10, 33))
+
+flights %>% filter(is.na(arr_time))
+
+flights %>% slice(1234:1258)
+
+flights %>% filter(month == 3) %>%
+  group_by(day) %>%
+  sample_n(3)
+
+flights %>%
+  filter(month == 1) %>%
+  group_by(carrier) %>%
+  top_n(5, dep_delay)
+```
+
+## Task 3 -- Trans(mutations)
+
+* `air_time` is the amount of time in minutes spent in the air. Add a new column `air_spd` that will contain aircraft's airspeed in mph,
+
+* as above, but keep only the new `air_spd` variable,
+
+* use `rownames_to_column()` on `mtcars` to add car model as an extra column,
+
+```{r eval=F}
+flights %>% mutate(air_spd = distance/(air_time / 60))
+
+flights %>% transmute(air_spd = distance/(air_time / 60))
+
+mtcars %>% rownames_to_column('model')
+```
+
+## Task 4 -- groups and counts
+
+* use `group_by()`, `summarise()` and `n()` to see how many planes were delayed (departure) every month,
+
+```{r eval = FALSE}
+flights %>%
+  filter(dep_delay > 0) %>%
+  group_by(month) %>%
+  summarise(num_dep_delayed = n())
+```
+
+* what was the mean `dep_delay` per month?
+
+```{r eval=F}
+flights %>%
+  group_by(month) %>%
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = T))
+```
+
+* count the number of incoming delayed flights from each unique origin and sort origins by this count (descending),
+
+```{r eval=F}
+flights %>%
+  filter(arr_delay > 0) %>%
+  group_by(origin) %>%
+  summarise(cnt = n()) %>%
+  arrange(desc(cnt))
+```
+
+* use `summarise()` to sum total `dep_delay` per month in hours,
+
+```{r eval = F}
+ flights %>%
+   group_by(month) %>%
+   summarize(tot_dep_delay = sum(dep_delay/60, na.rm = T))
+```
+
+* run `group_size()` on `carrier` what does it return?
+
+```{r eval = F}
+flights %>%
+    group_by(carrier) %>%
+    group_size()
+```
+
+* use `n_groups()` to check the number of unique origin-carrier pairs,
+
+```{r eval = F}
+flights %>%
+    group_by(carrier) %>%
+    n_groups()
+```
+
+**Note on `ungroup`** Depending on the version of `dplyr` you may or may need to use the `ungroup()` if you want to group your data on some other variables. In the newer versions, `summarise` and `mutate` drop one aggregation level.
+
+```{r, echo=FALSE, child="assets/session.Rmd"}
+```
+
+```{r, echo=FALSE, child="assets/build.Rmd"}
+```
+
+```{r, echo=FALSE, child="assets/footer.Rmd"}
+```

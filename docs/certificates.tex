@@ -1,0 +1,79 @@
+\documentclass[a4paper]{letter}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+\usepackage{graphicx}
+\usepackage{datatool}
+\usepackage{xcolor}
+\DTLloaddb{name}{participants.csv}
+
+\pagenumbering{gobble}
+
+\usepackage{Sweave}
+\begin{document}
+\DTLforeach{name}{
+ \name=name}{
+ 
+\input{certificates-concordance}
+
+
+\begin{center}
+\begin{tabular}{ lll } 
+\includegraphics[width=0.20\textwidth]{uu_logo.png} &   & \includegraphics[width=0.35\textwidth]{scilife_logo.png} \\ 
+\end{tabular}
+\vspace{1.5cm}  
+
+\large{This is to certify that}\\ 
+\vspace{0.3cm}
+{\huge {\color{blue}{\name}}}\\
+\vspace{0.3cm}
+has successfully taken part in 
+
+{\Large {\bf R Foundations for Life Scientists}}
+
+\end{center}
+
+The course was held in Uppsala, 11-15 Nov. 2019. It consisted of 40 hours of lectures and computer excercises. 
+
+The following fields and subjects were covered:
+
+\begin{itemize}
+  \item introduction to fundamental programming concepts,
+  \item introduction to R environment and RStudio,
+  \item writing efficient code in R,
+  \item explanatory programming using RMarkdown,
+  \item data types and data structures in R,
+  \item loops, conditional statements, functions, variable scope,
+  \item loading/importing data,
+  \item selected functions in R,
+  \item R graphics and ggplot2,
+  \item introduction to tidyverse and tidy data,
+  \item overview of R package anatomy.
+\end{itemize}
+
+
+{\bf Examination:} Presence and active participation in all lectures and computer exercises.  
+
+\textit{The course was arranged by Science for Life Laboratory (SciLifeLab), Uppsala University. \\
+The course is accepted as 2 university credits.}  
+
+\vspace{10mm}
+
+Uppsala, November 15, 2019
+\vspace{5mm}
+
+Course examiners:\\
+
+\vspace{10mm}
+\begin{tabular}{ lll } 
+{\bf Marcin Kierczak, PhD} & \hspace{1.2cm} & {\bf Roy Francis, PhD} \\  
+Associate Professor in Bioinformatics, & & Bioinformatics Data Scientist,\\  
+National Bioinformatics Infrastructure Sweden & & National Bioinformatics Infrastructure Sweden,\\
+Uppsala University & & Uppsala University
+\end{tabular}
+}
+\end{document}
