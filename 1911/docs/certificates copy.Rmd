@@ -1,0 +1,52 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\includegraphics{'uu_logo.png'}
+
+\begin{center} 
+
+This is to certify that `r print('test')`
+
+{\huge Daenerys Taergeryan}
+
+has successfully taken part in 
+
+R Foundations for Life Scientists
+
+The course was held in Uppsala, 11-15 Nov. 2019. It consisted of 40 hours of lectures and computer excercises. 
+
+The following fields and subjects were covered:
+
+\begin{itemize}
+  \item Introduction to R programming
+  \item Introduction to R environment
+  \item Using R-studio
+  \item Elements of R programming
+  \item Datatypes in R
+  \item Working with vectors 
+  \item Matrices, lists, data frames
+  \item Loading data
+  \item Loops, conditional statements, functions, variable scope
+  \item Selected functions in R
+  \item Graphics in R
+  \item Graphics in R: ggplot2
+  \item Explanatory programming
+  \item Q\&A session
+\end{itemize}
+\end{center}
+
+Examination: Presence during all the lectures and computer exercises.
+
+The course was arranged by Science For Life Laboratory (SciLifeLab), Uppsala University. The course is accepted as 2 university credits.
+
+
+Uppsala, November 15, 2019
+
+
+
+Marcin Kierczak, PhD
+Associate Professor in Bioinformatics,
+National Bioinformatics Infrastructure Sweden
+Uppsala University
+Course examiner
