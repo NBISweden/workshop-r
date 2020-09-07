@@ -1,0 +1,40 @@
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Overview</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col s3">
+                {% if page.teaching %}
+                    <strong>Teaching:</strong> {{ page.teaching }} min
+                    <br/>
+                {% endif %}
+                {% if page.exercises %}
+                    <strong>Exercises:</strong> {{ page.exercises }} min
+                    <br/>
+                {% endif %}
+                {% if page.break %}
+                    <strong>Break:</strong> {{ page.break }} min
+                {% endif %}
+            </div>
+            <div class="col s9">
+                {% if page.questions %}
+                    <strong>Questions</strong>
+                    <ul>
+                        {% for question in page.questions %}
+                            <li>{{ question }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if page.objectives %}
+                    <strong>Objectives</strong>
+                    <ul>
+                        {% for objective in page.objectives %}
+                            <li>{{ objective }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

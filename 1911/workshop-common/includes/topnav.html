@@ -15,7 +15,7 @@
 <div {% if page.fixednav == true %}class="navbar-fixed"{% endif %}>
   <nav class="z-depth-0  main {% if page.transparentnav == true %}transparent{% endif %} " role="navigation">
     <div class="nav-wrapper">
-    {% if page.logosnav == true %}<a href="/" class="left navlogo"><img src="{{ site.baseurl }}/workshop-common/assets/img/logo/nbislogo-green.svg" style="height:48px;margin-top:8px;padding:0px;margin-left:8px"></a>{% endif %}
+      {% if page.logosnav == true %}<a href="{{ site.baseurl }}/" class="left navlogo"><img src="{{ site.baseurl }}/workshop-common/assets/img/logo/nbislogo-green.svg" style="height:48px;margin-top:8px;padding:0px;margin-left:8px"></a>{% endif %}
       <ul class="right hide-on-med-and-down">
       {% for m in site.menu %}
         {% if m.submenus %}

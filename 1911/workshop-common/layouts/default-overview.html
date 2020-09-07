@@ -21,6 +21,8 @@ logosnav: true
       {% else %}
       <div class="col s12 l10 z-depth-2 content">
       {% endif %}
+        <h1>{{ page.title }}</h1>
+        {% include overview.html %}
         {{ content }}
       </div>
     </div>
