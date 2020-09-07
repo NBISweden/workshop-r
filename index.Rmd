@@ -1,0 +1,50 @@
+---
+title: "&nbsp;"
+output:
+  bookdown::html_document2:
+    toc: false
+    number_sections: false
+---
+
+<div class="container landing-container">
+<div class="row landing-div" style="position:relative;">
+<div class="col" style="align-self:center;position:absolute;top:80px;">
+<div class="row">
+
+<div class="col-md-12 flex-box">
+<p class="landing-subtitle">
+<span style="display:block;">NBIS • Workshop</span>
+</p>
+</div>
+
+<div class="col-md-12 flex-box">
+<p class="landing-title">
+<span style="display:block;">R Programming Foundations</span>
+<span style="display:block;">for Life Scientists</span>
+</p>
+</div>
+
+<div class="col-md-12 flex-box">
+<p class="medium landing-bullets">
+<span style="display:block;">Data structures</span>
+<span style="display:block;">Logic and control structures</span>
+<span style="display:block;">Input/Output</span>
+<span style="display:block;">Data wrangling</span>
+<span style="display:block;">Base and ggplot graphics</span>
+</p>
+</div>
+
+</div>
+</div>
+</div>
+
+***
+
+<div class="landing-update">
+<p class="small" style="color:#bdbdbd;">
+`r paste("Last updated on",fontawesome::fa("calendar-alt",fill="#bdbdbd"),format(Sys.time(),format='%d-%b-%Y'),"at",fontawesome::fa("clock",fill="#bdbdbd"),format(Sys.time(),format='%X'),".")`
+</p>
+</div>
+
+</div>
+

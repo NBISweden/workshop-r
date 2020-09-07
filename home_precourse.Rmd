@@ -1,0 +1,100 @@
+---
+title: "&nbsp;"
+output:
+  bookdown::html_document2:
+    toc: false
+    number_sections: false
+---
+
+```{r,child="assets/header-lab.Rmd"}
+```
+
+# Precourse {.tabset .tabset-fade}
+
+This workshop is aimed towards biologists, and other life sciences researchers with limited experience with R programming or even programming in general.
+
+## Preparation
+
+### Tools
+
+`r fa1("chevron-circle-right")` &nbsp; **Install R statistical software**
+
+<div class="boxy boxy-lightbulb">
+
+If you have an old version of R and you do not use it, uninstall it and then install a newer version. If you prefer to keep your old R version, then you can still install a newer version for this workshop. This is easy on Windows, but can be tricky on Linux.
+
+</div>
+
+Go to [r-project.org](https://cloud.r-project.org/) and choose the link appropriate for your operating system. 
+
+<img src="data/common/r-download.png" class="fancyimage">
+
+<div class="boxy boxy-lightbulb">
+
+**Installation details**
+
+<i class="fab fa-windows"></i> **Windows:** Click **Download R for Windows** > **base** > **Download R X.X.X for Windows**. This should download an .exe file. It is recommended that you DO NOT install to `C:\Program Files\R\`. Instead, install to `C:\R\`. It is also recommended that you install Rtools for building R packages from source code. Click **Download R for Windows** > **Rtools**.
+
+<i class="fab fa-apple"></i> **Mac:** Click **Download R for (Mac) OS X** > **R-X.X.X.pkg** that will download R to your computer. If you are not sure what version of Mac OS you are running, click the apple on the top left of your screen and select **About this mac** (Om den här datorn). In case you are running something older than 10.9, you should instead pick the “R-X.X.X-snowleopard.pkg” to install. Note that this will not give you the latest version of R, but it will be sufficient for most sections of the course. You can then double-click the downloaded package that will prompt you with some questions for installation details. Stick with the default settings and you should be fine.
+
+<i class="fab fa-linux"></i> **Linux:** Click **Download R for Linux** then pick your distribution of Linux. On most distributions, this will be via a software install system like `yum` or `apt-get`. If you run this make sure that you update your information to the installer first, otherwise you might end up installing at outdated version of R. For some systems you might need to install not only **r-base**, but also **r-devel** or you will lack important features of your R installation. When installing R packages, you might need to install OS specific packages before. These are displayed during R package installation.
+
+</div>
+
+`r fa1("chevron-circle-right")` &nbsp; **Install [RStudio](https://rstudio.com/products/rstudio/download/#download)**. Choose based on your OS.
+
+[![](data/common/rstudio.png)](https://rstudio.com/products/rstudio/download/#download)
+
+RStudio provides you with tools like code editor with highlighting, project management, version control, package building, debugger, profiler and more. Start up RStudio to check that everything has been installed correctly. If not, contact us and we can help you out.
+
+`r fa1("chevron-circle-right")` &nbsp; **Install R packages**
+
+Extra R packages used in the workshop exercises (if any) are listed below. It is recommended that you install this in advance. Simply copy and paste the code into R.
+
+```{r,eval=TRUE,block.title=NULL,echo=FALSE,comment="",class.output="r"}
+# this code block reads package names from '_site.yml' and prints them as installation instruction.
+
+pkg <- yaml::read_yaml("_site.yml")
+
+if(!is.null(pkg$packages$packages_cran_student)) {
+ cat("# install from cran\n")
+ cat(paste0("install.packages(c('",paste(pkg$packages$packages_cran_student,sep="",collapse="','"),"'))"))
+ cat("\n")
+}
+
+if(!is.null(pkg$packages$packages_bioc_student)) {
+ cat("# install from bioconductor\n")
+ cat(paste0("BiocManager::install(c('",paste(pkg$packages$packages_bioc_student,sep="",collapse="','"),"'))"))
+}
+```
+
+***
+
+## Syllabus
+
+The syllabus for this workshop are as follows.
+
+* Introduction to programming with R
+* R environment and RStudio IDE
+* Data types
+* Variables and operators
+* Input/Output
+* Control structures
+* Functions and variable scope
+* Base and ggplot2 graphics
+* R package anatomy
+* Brief introduction to Tidyverse
+* Brief introduction to RMarkdown
+
+***
+
+## Learning outcomes
+
+* Familiarity working with R in RStudio
+* Read some data and perform basic data manipulation
+* Perform some basic analysis and generate plots
+* Generate a report
+
+***
+
+#
