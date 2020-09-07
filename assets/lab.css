@@ -156,6 +156,12 @@ blockquote {
   font-weight: bold;
 }
 
+
+/* no indent for lists */
+ol,ul { 
+  padding-left: 0; 
+} 
+
 /* div styles --------------------------------------------------------------- */
 
 /** div style for instructions **/
