@@ -1,0 +1,16 @@
+ 
+ bookdown
+ captioner
+ formattable
+ ggplot2
+ kableExtra
+ knitr
+ leaflet
+ lubridate
+ markdown
+ remotes
+ rmarkdown
+ rstudio/fontawesome
+ tidyverse
+ xaringan
+ yaml
