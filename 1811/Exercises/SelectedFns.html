@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Working with selected R functions</title>
+  <meta name="description" content="">
+
+  <link rel="canonical" href="./Exercises/SelectedFns.html">
+  <!-- CSS  -->
+  <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    <!-- Custom Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <link href="./workshop-common/css/main.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+  <body>
+    <!-- define dropdowns first -->
+
+  
+
+  
+
+  
+
+  
+
+
+<div>
+  <nav class="z-depth-0  main  " role="navigation">
+    <div class="nav-wrapper">
+      <a href="./" class="left navlogo"><img src="./workshop-common/assets/img/logo/nbislogo-green.svg" style="height:48px;margin-top:8px;padding:0px;margin-left:8px"></a>
+      <ul class="right hide-on-med-and-down">
+      
+        
+          <li><a href="./index.html">Overview</a></li>
+        
+      
+        
+          <li><a href="./schedule.html">Schedule</a></li>
+        
+      
+        
+          <li><a href="./precourse.html">Pre-course material</a></li>
+        
+      
+        
+          <li><a href="./travel.html">Travel info</a></li>
+        
+      
+      </ul>
+
+      <a href="#" data-activates="nav-mobile" class="button-collapse right"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+</div>
+      <ul id="nav-mobile" class="side-nav">
+      
+        
+          <li class="no-padding"><a style="padding: 0px 16px" href="./index.html">Overview</a></li>
+        
+      
+        
+          <li class="no-padding"><a style="padding: 0px 16px" href="./schedule.html">Schedule</a></li>
+        
+      
+        
+          <li class="no-padding"><a style="padding: 0px 16px" href="./precourse.html">Pre-course material</a></li>
+        
+      
+        
+          <li class="no-padding"><a style="padding: 0px 16px" href="./travel.html">Travel info</a></li>
+        
+      
+      </ul>
+
+
+  
+  <div class="l2 s12">
+    <div id="toc-sidebar">
+        <ul id="toc"></ul>
+    </div>
+</div>
+
+  
+  <div class="container">
+    <div class="row"></div>
+    <div class="row">
+      
+      <div class="col s12 l10 z-depth-2 content">
+      
+        <h1 id="introduction">Introduction<a id="orgheadline1"></a>
+</h1>
+
+<p>There is a number of R functions available in the basic, pre-loaded
+packages, such as <em>base</em>, <em>utils</em> or <em>stats</em> and there is a huge
+number of functions available via third-party packages. Today, we will
+work a bit with some of the functions that are commonly used by R
+users coming from different disciplines. In particular, we will:</p>
+
+<ul>
+  <li>Learn how to work with sets.</li>
+  <li>Work with polynomials.</li>
+  <li>Learn how to define and work with functions.</li>
+  <li>Do some basic calculus.</li>
+  <li>Learn about <em>formulas</em>.</li>
+  <li>Work with some selected statistical tests.</li>
+  <li>Learn more about setting up a statistical analyses workflow by
+fitting a linear model to example data.</li>
+</ul>
+
+<h2 id="exercise-1-create-and-work-with-sets">Exercise 1. Create and work with sets<a id="orgheadline4"></a>
+</h2>
+<ol>
+  <li>Open R-studio and create three sets of genes:<br>
+G1 &lt;- {‘ANK-1’, ‘ANK-c’, ‘GALNTL-1’} <br>
+G2 &lt;- {‘ANK-1’, ‘FMA’, ‘RHO’, ‘GRP’} <br>
+G3 &lt;- {‘GALNTL-1’, ‘ANK-c’, ‘HQX’}. <br>
+Visualise membership relations between all elements of the sets
+using Venn diagram. Use package <em>venn</em>.
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ library('venn')
+ G1 &lt;- c('ANK-1', 'ANK-c', 'GALNTL-1')
+ G2 &lt;- c('ANK-1', 'FMA', 'RHO', 'GRP')
+ G3 &lt;- c('GALNTL-1', 'ANK-c', 'HQX')
+ venn(list(G1 = G1, G2 = G2, G3 = G3))
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>What is the:
+    <ul>
+      <li>Union of G1 and G3?</li>
+      <li>Union of intersections: G1 with G2 and G1 with G3?</li>
+      <li>Difference between G2 and G3?</li>
+      <li>Is union of G1 and G2 equal to the intersection of G2 with G3?</li>
+      <li>Are genes <em>ANK-c</em> and <em>GALNTL-1</em> members of the intersection of
+G1 with G3?</li>
+    </ul>
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ union(G1, G3)
+ union(intersect(G1, G2), intersect(G2, G3))
+ setdiff(G2, G3)
+ setequal(union(G1, G2), intersect(G2, G3))
+ is.element(c('ANK-c', 'GALNTL-1'), intersect(G1, G3))
+</pre>
+</details>
+    <p><br></p>
+  </li>
+</ol>
+
+<h2 id="exercise-2-define-and-work-with-polynomials">Exercise 2. Define and work with polynomials<a id="orgheadline5"></a>
+</h2>
+<ol>
+  <li>Define the following polynomials p1 and p2: 5x^3 + 4x^2 + 7 and
+2x^2 + 3x - 11.
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ library(polynom)
+ p1 &lt;- polynomial(c(7, 0, 4, 5))
+ p2 &lt;- polynomial(c(-11, 3, 2)) 
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Define a polynomial (p3) with the following zeros: -3, 4, 7.
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ library(polynom)
+ p3 &lt;- poly.calc(c(-3, 4, 7))
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Define a polynomial (p4) passing through the following points:
+A(-3,7), B(24,-9), C(7,4).
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ p4 &lt;- poly.calc(c(-3, 24, 7), c(7, -9, 4))
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Find approximate maximum (value) of the p4 polynomial using its
+visualisation.
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ plot(p4, ylim=c(-1, 8))
+ #The maximum is between 6 and 8.
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Perform the following operations:
+    <ul>
+      <li>Find the sum of p1 and p3.</li>
+      <li>Divide p4 by p2.</li>
+      <li>Find the area under p4 on the [-10, 0] interval.</li>
+      <li>Find the second order derivative of p1.</li>
+      <li>Find the Greatest Common Divisor of p1 and p2.</li>
+      <li>Find the Least Common Multiple of p1 and the sum of p2 and
+p3.</li>
+    </ul>
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ p1 + p3
+ p4 / p2
+ integral(p4, c(-10, 0))
+ deriv(deriv(p1))
+ GCD(p1, p2)
+ LCM(p1, p2 + p3)
+</pre>
+</details>
+    <p><br></p>
+  </li>
+</ol>
+
+<h2 id="exercise-3-formulas">Exercise 3. Formulas<a id="orgheadline7"></a>
+</h2>
+<p>Observe that there is a convenient way of validating your formulas:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># First, define the formula  </span><span class="w">
+</span><span class="n">frm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">formula</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">(</span><span class="n">v1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v3</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w">  
+</span><span class="c1"># Check the validity of the above  </span><span class="w">
+</span><span class="n">terms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">attr</span><span class="p">(</span><span class="n">terms.formula</span><span class="p">(</span><span class="n">frm</span><span class="p">),</span><span class="w"> </span><span class="s2">"term.labels"</span><span class="p">)</span><span class="w">  
+</span><span class="c1"># See all terms that will be added together  </span><span class="w">
+</span><span class="n">terms</span><span class="w">  
+</span><span class="c1"># Here: y ~ v1:v + v2:v + v3:v  </span><span class="w">
+</span></code></pre></div></div>
+<p>Write formulas describing the following relations of y:</p>
+
+<ul>
+  <li>depends on var1 and var2 but not on their interaction,</li>
+  <li>depends on <em>height</em> but without the constant term,</li>
+  <li>depends on interactions of ‘a’ with ‘b’ and ‘a’ with ‘c’ and ‘a’<br>
+with ‘d’ but without additive effects,</li>
+  <li>like above, but with additive effects of single variables,</li>
+  <li>like above, but without the constant term and without the additive<br>
+effect of ‘c’.</li>
+</ul>
+
+<details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+	y ~ var1 + var2
+	y ~ +0 + height
+	frm &lt;- formula(y ~ (b + c + d) %in% a)
+	#Check the validity of the above
+	terms &lt;- attr(terms.formula(frm), "term.labels")
+	y ~ a * (b + c + d)
+	y ~ a * (b + c + d) - c
+</pre>
+</details>
+<p><br></p>
+
+<h2 id="exercise-4-define-and-work-with-functions">Exercise 4. Define and work with functions<a id="orgheadline8"></a>
+</h2>
+<ol>
+  <li>Define function: f(x) = 2x^3 + 3x^2 + sin(x/2) + 7 and finds its
+value for x = 42.
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ f &lt;- function(x) {
+     y = 2*x^3 + 3*x^2 + sin(x/2) + 7
+     return(y)
+ }
+ f(42)
+
+ f(42) = 153476
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Find the f(x) zeros on the [-10, 10] interval, values at zeros
+and plot the function for the same interval.
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ uniroot(f, lower=-10, upper=10)
+ curve(f, from=-10, to=10)
+	
+ One zero: $f(-2.16) = 5.24\times10^{-5}$
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Find the first order derivative of f(x) with respect to x. Use
+both <em>D()</em> and <em>deriv()</em>. Are the resulting derivatives the same?
+What is the difference between the functions?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ D(expression(2*x^3 + 3*x^2 + sin(x/2) + 7), name='x')
+ deriv(~2*x^3 + 3*x^2 + sin(x/2) + 7, 'x')
+ 
+ The resulting derivatives are the same, just written in different
+ ways. *D()* takes an expression as argument and it returns an
+ expression while *deriv()* works on formulas.
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Evaluate the derivative from FNS4.3 at x = {1, 3, 7}. What values
+does it take at these points?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ my.call &lt;- D(expression(2*x^3 + 3*x^2 + sin(x/2) + 7), name='x')
+ x &lt;- c(1, 3, 7)
+ eval(my.call)
+ 
+ [1]  12.4  72.0 335.5
+ 
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Perform numerical integration: \int_1^7 f(x).
+    <ul>
+      <li>What is the value?</li>
+      <li>What is the absolute estimation error?</li>
+    </ul>
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+ integrate(f, lower = 1, upper = 7)
+
+ 1588 with absolute error &lt; 1.8e-11
+</pre>
+</details>
+    <p><br></p>
+  </li>
+</ol>
+
+<h2 id="exercise-5-statistical-tests">Exercise 5. Statistical tests<a id="orgheadline9"></a>
+</h2>
+<p>Draw N=30 random observations from N(0,1) (normal distribution
+with mean=0 and std. dev.=1) and N=38 random observations from
+N(0.02,1.1).</p>
+
+<ul>
+  <li>What statistical test(s) would you use to check whether the two
+samples come from the normal distribution?</li>
+  <li>Can we really say something about the samples’ normality? Why?</li>
+  <li>What parametric test would you use to check whether both samples
+come from the distribution with the same mean?</li>
+  <li>
+    <p>What do you have to check before you apply the test?</p>
+
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see the answer</summary>
+  
+- For example, one can plot a QQ plot for both samples. One can  
+  also use Shapiro-Wilk test for normality. Can you think of any  
+  more tests?  
+  
+- Well, here sample size is low, we may get false results!  
+  
+- For instance the Student's t-test. It is appropriate for sample  
+  sizes below N=100. As a rule of thumb, N=30 is about sufficient.  
+	
+- Before applying the test, one has to check whether its  
+  assumptions are valid. Here, we have to check the normality  
+  first.  	
+</details>
+    <p><br></p>
+  </li>
+</ul>
+
+<h2 id="exercise-6-linear-model-and-diagnostics">Exercise 6. Linear model and diagnostics<a id="orgheadline9"></a>
+</h2>
+<p>Package <em>UsingR</em> contains a data with fat measurements in 252
+males.</p>
+<ul>
+  <li>load the dataset (install the package if necessary),</li>
+  <li>read about the dataset in package help,</li>
+  <li>construct a linear model with <em>body.fat</em> as the dependent
+variable and variables: <em>age</em>, <em>weight</em>, <em>height</em>, <em>neck</em> and
+<em>hip</em> as independent variables,</li>
+  <li>perform model diagnostics,</li>
+  <li>improve the model if necessary (hint: e.g. outliers),</li>
+  <li>which variables are significant?</li>
+  <li>how much of the variability can be explained by the model?</li>
+  <li>how would you improve the model? Do this if you have time,</li>
+</ul>
+<details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+library('UsingR')
+data('fat')
+?fat
+model &lt;- lm(body.fat ~ age + weight + height + neck + hip,  data=fat)
+summary(model)
+plot(model)
+#Remove outliers
+fat2 &lt;- fat[-c(54, 39, 42), ]
+model2 &lt;- lm(body.fat ~ age + weight + height + neck + hip,  data=fat2)
+summary(model2)
+plot(model2)
+</pre>
+</details>
+
+      </div>
+    </div>
+  </div>
+
+    <footer class="page-footer topborder">
+    <div class="container">
+      <div class="row">
+        <div class="col s12">
+          <h5 class="white-text">NBIS</h5>
+          <p class="grey-text text-lighten-4">NBIS is a distributed national bioinformatics infrastructure, supporting life sciences in Sweden.</p>
+        </div>
+      </div>
+    </div>
+    <div id="funding" class="row">
+      <div class="center-block">
+        <p class="logos">
+          <a href="http://www.vr.se"><img alt="Vetenskapsrådet" src="./workshop-common/assets/img/logo/vetenskapsradet-logotyp.png" style="height:65px;padding:5px"></a>
+          <a href="http://www.scilifelab.se"><img alt="Scilifelab" src="./workshop-common/assets/img/logo/scilifelab.jpg" style="height:40px;padding:5px 0px 5px 0px"></a>
+          <a href="http://www.liu.se"><img alt="Linköping University" src="./workshop-common/assets/img/logo/liu.jpg" style="height:65px;padding:5px"></a>
+          <a href="http://www.chalmers.se"><img alt="Chalmers University" src="./workshop-common/assets/img/logo/chalmers.png" style="height:65px;padding:5px"></a>
+          <a href="http://www.gu.se"><img alt="University of Gothenburg" src="./workshop-common/assets/img/logo/gu.jpg" style="height:65px;padding:5px"></a>
+          <a href="http://www.ki.se"><img alt="Karolinska Institutet" src="./workshop-common/assets/img/logo/ki.png" style="height:65px;padding:0px 5px 0px 5px"></a>
+          <a href="http://www.kth.se"><img alt="KTH Royal Institute of Technology" src="./workshop-common/assets/img/logo/kth.png" style="height:65px;padding:5px"></a>
+          <a href="http://www.lu.se"><img alt="Lund University" src="./workshop-common/assets/img/logo/lu.jpg" style="height:65px;padding:5px 0px 5px 0px"></a>
+          <a href="http://www.nrm.se"><img alt="Swedish Museum of Natural History" src="./workshop-common/assets/img/logo/nrm.gif" style="height:65px;padding:0px 0px 0px 0px"></a>
+          <a href="http://www.slu.se"><img alt="Swedish University of Agricultural Sciences" src="./workshop-common/assets/img/logo/slu.png" style="height:65px;padding:0px 5px 0px 0px"></a>
+          <a href="http://www.su.se"><img alt="Stockholm University" src="./workshop-common/assets/img/logo/su.png" style="height:65px;padding:5px 0px 5px 5px"></a>
+          <a href="http://www.umu.se"><img alt="Umeå University" src="./workshop-common/assets/img/logo/umu.jpg" style="height:65px;padding:5px 0px 5px 0px"></a>
+          <a href="http://www.uu.se"><img alt="Uppsala University" src="./workshop-common/assets/img/logo/uu.png" style="height:65px;padding:5px"></a>
+          <a href="https://www.wallenberg.com/kaw/en"><img alt="Knuth and Alice Wallenberg Foundation" src="./workshop-common/assets/img/logo/kaw.png" style="height:65px;padding:5px"></a>
+          <!-- <a href="http://www.elixir-europe.org"><img alt="ELIXIR" src="./workshop-common/assets/img/logo/elixir.png" style="height:65px;padding:5pxi;float:right" ></a> -->
+        </p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  
+
+  <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!--  Additional scripts for page -->
+  
+
+  <!-- This needs to be loaded last -->
+  <script src="./workshop-common/assets/js/init.js"></script>
+
+
+  </body>
+</html>

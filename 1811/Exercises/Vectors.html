@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Vectors in R</title>
+  <meta name="description" content="">
+
+  <link rel="canonical" href="./Exercises/Vectors.html">
+  <!-- CSS  -->
+  <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    <!-- Custom Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <link href="./workshop-common/css/main.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+  <body>
+    <!-- define dropdowns first -->
+
+  
+
+  
+
+  
+
+  
+
+
+<div>
+  <nav class="z-depth-0  main  " role="navigation">
+    <div class="nav-wrapper">
+      <a href="./" class="left navlogo"><img src="./workshop-common/assets/img/logo/nbislogo-green.svg" style="height:48px;margin-top:8px;padding:0px;margin-left:8px"></a>
+      <ul class="right hide-on-med-and-down">
+      
+        
+          <li><a href="./index.html">Overview</a></li>
+        
+      
+        
+          <li><a href="./schedule.html">Schedule</a></li>
+        
+      
+        
+          <li><a href="./precourse.html">Pre-course material</a></li>
+        
+      
+        
+          <li><a href="./travel.html">Travel info</a></li>
+        
+      
+      </ul>
+
+      <a href="#" data-activates="nav-mobile" class="button-collapse right"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+</div>
+      <ul id="nav-mobile" class="side-nav">
+      
+        
+          <li class="no-padding"><a style="padding: 0px 16px" href="./index.html">Overview</a></li>
+        
+      
+        
+          <li class="no-padding"><a style="padding: 0px 16px" href="./schedule.html">Schedule</a></li>
+        
+      
+        
+          <li class="no-padding"><a style="padding: 0px 16px" href="./precourse.html">Pre-course material</a></li>
+        
+      
+        
+          <li class="no-padding"><a style="padding: 0px 16px" href="./travel.html">Travel info</a></li>
+        
+      
+      </ul>
+
+
+  
+  <div class="l2 s12">
+    <div id="toc-sidebar">
+        <ul id="toc"></ul>
+    </div>
+</div>
+
+  
+  <div class="container">
+    <div class="row"></div>
+    <div class="row">
+      
+      <div class="col s12 l10 z-depth-2 content">
+      
+        <h1 id="vectors-in-r">Vectors in R</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li>
+<a href="#orgheadline4">1. Introduction</a>
+<ul>
+<li><a href="#orgheadline1">1.1. Data types</a></li>
+<li><a href="#orgheadline2">1.2. Vectors in R</a></li>
+<li><a href="#orgheadline3">1.3. Basic R operators</a></li>
+</ul>
+</li>
+<li>
+<a href="#orgheadline7">2. Exercise: Creating and working with vectors</a>
+<ul>
+<li><a href="#orgheadline5">2.1. Create and modify vectors</a></li>
+<li><a href="#orgheadline6">2.2. Exercise: Modify and subset vectors</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<h1 id="introduction">Introduction<a id="orgheadline4"></a>
+</h1>
+
+<p>There are several different data structures that are commonly used in
+R. The different data structures can be seen as different ways to
+organise data. In this exercise we will focus on vectors, which are the
+base data structure in R, and will also get an overview of the key data types
+(modes) that are found in R. At the end of this exercise you should
+know:</p>
+
+<ul>
+  <li>What are the data types commonly used in R.</li>
+  <li>What is a vector.</li>
+  <li>How to create vectors in an interactive R session.</li>
+  <li>How one can use R functions to determine the structure and mode of an vector.</li>
+  <li>What basic operators you can find in R</li>
+  <li>How to subset vector using both indexes and operators.</li>
+  <li>Try some of the built-in functions in R.</li>
+</ul>
+
+<h2 id="data-types">Data types<a id="orgheadline1"></a>
+</h2>
+
+<p>From the lecture you might remember that all elements in any data
+stuctures found in R will be of a certain type (or have a certain
+mode). The four most commonly used data types in R are: logical,
+integer, double (often called numeric), and character. The names hints
+at what they are.</p>
+
+<ul>
+  <li>Logical = TRUE or FALSE (or NA)</li>
+  <li>Integer = Numbers that can be represented without fractional component</li>
+  <li>Numeric = Any number that is not a complex number</li>
+  <li>Character = Text</li>
+</ul>
+
+<p>In many cases the mode of an entry is determined by the content so if
+you save the value 5.1 as a variable in R, the variable will by R
+automatically be recognised as numeric. If you instead have a text
+string like “hello world” it will have the mode character. Below you
+will also see examples of how you can specify the mode and not rely on
+R inferring the right mode based on content.</p>
+
+<h2 id="vectors-in-r-1">Vectors in R<a id="orgheadline2"></a>
+</h2>
+
+<p>Depending on the type of data one needs to store in R different data
+structures can be used. The four most commonly used data types in R is
+vectors, lists, matrixes and data frames. We will in this exercise
+work only with vectors.</p>
+
+<p>The most basic data structure in R are vectors. Vectors are
+1-dimensional data structures that contain only one type of data
+(eg. all entries must have the same mode). To create a vector in R one
+can use the function <code class="language-plaintext highlighter-rouge">c()</code> (concatenate or
+combine) as seen below. This example will create a vector named
+example.vector with 3 entries in it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example.vector &lt;- c(10, 20, 30)
+</code></pre></div></div>
+
+<p>NB! If you need more information about the function <code class="language-plaintext highlighter-rouge">c()</code> you can always use
+the built-in manual in R. Typing <code class="language-plaintext highlighter-rouge">?c</code> will bring up the
+documentation for the function <code class="language-plaintext highlighter-rouge">c()</code>.</p>
+
+<p>Once you have created this vector in R, you can access it by simply
+typing its name in an interactive session.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example.vector
+
+[1] 10 20 30
+</code></pre></div></div>
+
+<p>The output generate on screen shows the entries in your vector and the
+1 in squared brackets indicates what position in the vector the entry
+to the right of it has. In this case 10 is the first entry of the vector.</p>
+
+<p>If we for some reason only wanted to extract the value 10 from this
+vector we can use the fact that we know it is the first position to do
+so.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example.vector[1]
+
+[1] 10
+</code></pre></div></div>
+
+<p>Since a vector can only contain one data type, all members need to be
+of the same type. If you try to combine data of different types into
+the same vector, R will not warn you, but instead coerce it to the
+most flexible type (From least to most flexible: Logical, integer,
+double, character). Hence, adding a number to a logical vector
+will turn the whole vector to a numeric vector.</p>
+
+<p>To check what data type an object is, run the R built-in function
+class(), with the object as the only parameter.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class(example.vector)
+
+[1] "numeric"
+</code></pre></div></div>
+
+<p>If you for any reason want to have more information about any object
+you have stored in your R session the command <code class="language-plaintext highlighter-rouge">str()</code> is very helpful.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>str(example.vector)
+
+num [1:3] 10 20 30
+</code></pre></div></div>
+
+<h2 id="basic-r-operators">Basic R operators<a id="orgheadline3"></a>
+</h2>
+
+<p>As in other programming languages there are a set of basic operators in R.</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col class="org-left">
+
+<col class="org-left">
+
+<col class="org-left">
+
+<col class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operation</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Example</th>
+<th scope="col" class="org-left">Example Result</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">x + y</td>
+<td class="org-left">Addition</td>
+<td class="org-left">1 + 3</td>
+<td class="org-left">4</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x - y</td>
+<td class="org-left">Subtraction</td>
+<td class="org-left">1 - 3</td>
+<td class="org-left">-2</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x * y</td>
+<td class="org-left">Multiplication</td>
+<td class="org-left">2 * 3</td>
+<td class="org-left">6</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x / y</td>
+<td class="org-left">Division</td>
+<td class="org-left">1 / 2</td>
+<td class="org-left">0.5</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x ^ y</td>
+<td class="org-left">Exponent</td>
+<td class="org-left">2 ^ 2</td>
+<td class="org-left">4</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x %% y</td>
+<td class="org-left">Modular arethmetic</td>
+<td class="org-left">1 %% 2</td>
+<td class="org-left">1</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x %/% y</td>
+<td class="org-left">Integer division</td>
+<td class="org-left">1 %/% 2</td>
+<td class="org-left">0</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x == y</td>
+<td class="org-left">Test for equality</td>
+<td class="org-left">1 == 1</td>
+<td class="org-left">TRUE</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x &lt;= y</td>
+<td class="org-left">Test less or equal</td>
+<td class="org-left">1 &lt;= 1</td>
+<td class="org-left">TRUE</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x &gt;= y</td>
+<td class="org-left">Test for greater or equal</td>
+<td class="org-left">1 &gt;= 2</td>
+<td class="org-left">FALSE</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x &amp;&amp; y</td>
+<td class="org-left">Non-vectorized boolean AND</td>
+<td class="org-left">3 &gt;= 2 &amp;&amp;  3 &lt; 10</td>
+<td class="org-left">TRUE</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x &amp; y</td>
+<td class="org-left">Vectorized boolean AND</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+
+
+<tr>
+<td class="org-left">x || y</td>
+<td class="org-left">Non-vectorized boolean OR</td>
+<td class="org-left">1 &gt;= 2 || 3 &lt; 10</td>
+<td class="org-left">TRUE</td>
+</tr>
+
+
+<tr>
+<td class="org-left">x |  y</td>
+<td class="org-left">Vectorized boolean OR</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+
+
+<tr>
+<td class="org-left">!x</td>
+<td class="org-left">Boolean not</td>
+<td class="org-left">1 != 2</td>
+<td class="org-left">TRUE</td>
+</tr>
+</tbody>
+</table>
+
+<p>Besides these, there of course numerous more or less simple functions
+available in any R session. For example, if we want to add all values
+in our example.vector that we discussed earlier, we can do that using
+addition:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example.vector[1] + example.vector[2] + example.vector[3]
+
+[1] 60
+</code></pre></div></div>
+
+<p>But we can also use the function <code class="language-plaintext highlighter-rouge">sum()</code> that adds all numeric values
+present as arguments.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sum(example.vector)
+
+[1] 60
+</code></pre></div></div>
+
+<p>To learn more about a function use the built in R manual as described
+earlier. If you do not know the name of a function that you believe
+should be found in R, use the function <code class="language-plaintext highlighter-rouge">help.search()</code> or use google
+to try and identify the name of the command.</p>
+
+<h1 id="exercise-creating-and-working-with-vectors">Exercise: Creating and working with vectors<a id="orgheadline7"></a>
+</h1>
+
+<p>In all exercises on this course it is important that you prior to
+running the commands in R, try to figure out what you expect the
+result to be. You should then verify that this will indeed be the
+result by running the command in an R session. In case there is a
+discrepency between your expectations and the actual output make sure
+you understand why before you move forward. If you can not figure out
+howto, or which command to run you can click the key to reveal example code
+including expected output. Also note that in many cases there multiple
+solutions that solve the problem equally well.</p>
+
+<h2 id="create-and-modify-vectors">Create and modify vectors<a id="orgheadline5"></a>
+</h2>
+
+<p>Open R-studio and create two numeric vectors named x and y that are of
+equal length. Use these vectors to answer the questions below.</p>
+
+<p><img class="emoji" title=":computer:" alt=":computer:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f4bb.png" height="20" width="20"> <strong>Create vectors</strong></p>
+<details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see example R code to generate vectors</summary>
+<pre>
+x &lt;- c(2, 4 ,7)  
+y &lt;- c(1, 5, 11)  
+</pre>
+</details>
+<p><br></p>
+
+<ol>
+  <li>How many numbers are there in the vector x?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+length(x)  
+    
+[1] 3  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>How many numbers will x + y generate?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+length(x + y)  
+    
+[1] 3  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>What is the sum of all values in x?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+sum(x)  
+    
+[1] 13  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>What is the sum of y times y?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+sum(y*y)  
+    
+[1] 147  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>What do you get if you add x and y?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+x + y  
+    
+[1]  3  9 18  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Assign x times 2 to a new vector named z
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+z &lt;- x * 2  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>How many numbers will z have, why?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+length(z)  
+    
+[1] 3  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Assign the mean of z to a new vector named z.mean and determine the length of z.mean
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+z.mean &lt;- mean(z)  
+length(z.mean)  
+	
+[1] 1  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Create a numeric vector with all integers from 5 to 107
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+vec.tmp &lt;- 5:107  
+vec.tmp  
+	
+[1]   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  
+[19]  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  
+[37]  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  
+[55]  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  
+[73]  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  
+[91]  95  96  97  98  99 100 101 102 103 104 105 106 107  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Create a numeric vector with the same length as the previos one, but only containg the number 3
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+vec.tmp2 &lt;- rep(3, length(vec.tmp))  
+vec.tmp2  
+    
+[1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3  
+[38] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3  
+[75] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Create a vector that contain all numbers from 1 to 17, where each number
+occurs the the same number of times as the number itself eg. 1, 2, 2, 3, 3, 3…
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+rep(1:17, 1:17)  
+	
+[1]  1  2  2  3  3  3  4  4  4  4  5  5  5  5  5  6  6  6  6  6  6  7  7  7  7  
+[26]  7  7  7  8  8  8  8  8  8  8  8  9  9  9  9  9  9  9  9  9 10 10 10 10 10  
+[51] 10 10 10 10 10 11 11 11 11 11 11 11 11 11 11 11 12 12 12 12 12 12 12 12 12  
+[76] 12 12 12 13 13 13 13 13 13 13 13 13 13 13 13 13 14 14 14 14 14 14 14 14 14  
+[101] 14 14 14 14 14 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 16 16 16 16 16  
+[126] 16 16 16 16 16 16 16 16 16 16 16 17 17 17 17 17 17 17 17 17 17 17 17 17 17  
+[151] 17 17 17  
+</pre>
+</details>
+  </li>
+  <li>What will be the result of the following calculations?
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">c(1, 3, 5) + c(2, 4, 6)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">c(1, 3, 5) + c(2, 4, 6, 8)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">c(1, 3) - c(2, 4, 6 ,8)</code></li>
+    </ul>
+  </li>
+  <li>Create two numeric vectors of length 4 and test run all the basic
+operators (as seen in the table earlier) with these two as
+arguments. Make sure you understand the output generated by R.</li>
+</ol>
+
+<h2 id="modify-and-subset-vectors">Modify and subset vectors<a id="orgheadline6"></a>
+</h2>
+
+<p>Create a new character vector that contains the following words and save it using a suitable name:
+apple, banana, orange, kiwi, potato</p>
+<details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+veggies &lt;- c("apple", "banana", "orange", "kiwi", "potato")
+</pre>
+</details>
+<p><br></p>
+
+<p>Do the following on your newly created vector.</p>
+
+<ol>
+  <li>Select orange from the vector
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+veggies[3]  
+	
+[1] "orange"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Select all fruits from the vector
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+veggies[-5]  
+
+[1] "apple"  "banana" "orange" "kiwi"  
+
+veggies[1:4]  
+	
+[1] "apple"  "banana" "orange" "kiwi"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Do the same selection as in question 2 without using index positions
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+veggies[veggies=="apple" | veggies == "banana" | veggies == "orange" | veggies == "kiwi"]  
+
+[1] "apple"  "banana" "orange" "kiwi"  
+
+veggies[veggies!="potato"]  
+	
+[1] "apple"  "banana" "orange" "kiwi"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Convert the character string to a numeric vector
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+as.numeric(veggies)  
+	
+[1] NA NA NA NA NA  
+Warning message:  
+NAs introduced by coercion  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Create a vector of logic values that can be used to extract every second value from your character vector
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+selection &lt;- c(FALSE, TRUE, FALSE, TRUE, FALSE)  
+veggies[selection]  
+   	
+[1] "banana" "kiwi"  
+</pre>
+</details>
+    <p><br></p>
+
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Alternative solution, why do this work?</summary>
+<pre>
+selection2 &lt;- c(FALSE, TRUE)  
+veggies[selection2]  
+	
+[1] "banana" "kiwi"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Add the names a, b, o, k and p to the vector
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+names(veggies) &lt;- c("a", "b", "o", "k", "p")  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Create a vector containing all the letters in the alphabet (NB! this
+can be done without having to type all letters). Google is your friend
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+letters  
+    
+[1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"  
+[20] "t" "u" "v" "w" "x" "y" "z"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Sample 30 values randomly with replacement from your letter vector and convert the character vector to factors. Which of the levels have most entries in the vector?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+letter.sample &lt;- sample(letters, size = 30, replace = TRUE)  
+letter.sample &lt;- factor(letter.sample)  
+summary(letter.sample)  
+	
+a b c e g k l m n o q r t v w x z  
+3 1 2 1 3 1 1 1 3 1 2 2 1 3 2 1 2  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Extract the letter 14 to 19 from the created vector
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+letters[14:19]  
+    
+[1] "n" "o" "p" "q" "r" "s"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Extract all but the last letter
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+letters[1:length(letters)-1]  
+
+[1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"  
+[20] "t" "u" "v" "w" "x" "y"  
+
+letters[-length(letters)]  
+         
+[1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"  
+[20] "t" "u" "v" "w" "x" "y"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Which is the index position of the letter u in the vector?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+which(letters=="u")  
+   
+[1] 21  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Create a new vector of length one that holds all the alphabet a single entry
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+paste(letters, sep = "", collapse = "")  
+	
+[1] "abcdefghijklmnopqrstuvwxyz"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Create a numeric vector by sampling 100 numbers from a normal
+distribution with mean 2 and standard deviation 4. Hint! Check the
+function rnorm()
+    <details> 
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary> 
+<pre>
+norm.rand &lt;- rnorm(100, mean = 2, sd = 4)  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>How many of the generated values are negative?
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+length(norm.rand[norm.rand&lt;0])  
+[1] 23  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Calculate the standard deviation, mean, median of your random numbers
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+sd(norm.rand)  
+mean(norm.rand)  
+median(norm.rand)  
+	
+[1] 3.541989  
+[1] 1.910667  
+[1] 1.631083  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Replace the 11th value in your random number vector with NA and calculate the same summary statistics again
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+norm.rand[11] &lt;- NA  
+sd(norm.rand, na.rm = TRUE)  
+mean(norm.rand, na.rm = TRUE)  
+median(norm.rand, na.rm = TRUE)  
+	
+[1] 3.553763  
+[1] 1.889685  
+[1] 1.62893  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>Replace the last position in the vector with the letter L and calculate the same summary statistics.
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+norm.rand[100] &lt;- "L"  
+sd(norm.rand, na.rm = TRUE)  
+mean(norm.rand, na.rm = TRUE)  
+median(norm.rand, na.rm = TRUE)  
+
+Warning message:  
+In var(if (is.vector(x) || is.factor(x)) x else as.double(x), na.rm = na.rm) :  
+NAs introduced by coercion  
+[1] NA  
+Warning message:  
+In mean.default(norm.rand, na.rm = TRUE) :  
+argument is not numeric or logical: returning NA  
+[1] NA  
+Warning message:  
+In mean.default(sort(x, partial = half + 0L:1L)[half + 0L:1L]) :  
+argument is not numeric or logical: returning NA  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+  <li>In many cases one has data from multiple replicates and different
+treatments in such cases it can be useful to have names of the type:
+Geno_a_1, Geno_a_2, Geno_a_3, Geno_b_1, Geno_b_2…, Geno_s_3
+Try to create this such a vector without manually typing it all in.
+    <details>
+<summary><img class="emoji" title=":key:" alt=":key:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f511.png" height="20" width="20"> Click to see how</summary>
+<pre>
+geno &lt;- rep("Geno", 57)  
+needed.letters &lt;- rep(letters[1:19], 3)  
+needed.numbers &lt;- rep(1:3, 19)  
+temp &lt;- paste(geno, needed.letters, needed.numbers, sep = "_")  
+sort(temp)  
+[1] "Geno_a_1" "Geno_a_2" "Geno_a_3" "Geno_b_1" "Geno_b_2" "Geno_b_3"  
+[7] "Geno_c_1" "Geno_c_2" "Geno_c_3" "Geno_d_1" "Geno_d_2" "Geno_d_3"  
+[13] "Geno_e_1" "Geno_e_2" "Geno_e_3" "Geno_f_1" "Geno_f_2" "Geno_f_3"  
+[19] "Geno_g_1" "Geno_g_2" "Geno_g_3" "Geno_h_1" "Geno_h_2" "Geno_h_3"  
+[25] "Geno_i_1" "Geno_i_2" "Geno_i_3" "Geno_j_1" "Geno_j_2" "Geno_j_3"  
+[31] "Geno_k_1" "Geno_k_2" "Geno_k_3" "Geno_l_1" "Geno_l_2" "Geno_l_3"  
+[37] "Geno_m_1" "Geno_m_2" "Geno_m_3" "Geno_n_1" "Geno_n_2" "Geno_n_3"  
+[43] "Geno_o_1" "Geno_o_2" "Geno_o_3" "Geno_p_1" "Geno_p_2" "Geno_p_3"  
+[49] "Geno_q_1" "Geno_q_2" "Geno_q_3" "Geno_r_1" "Geno_r_2" "Geno_r_3"  
+[55] "Geno_s_1" "Geno_s_2" "Geno_s_3"  
+</pre>
+</details>
+    <p><br></p>
+  </li>
+</ol>
+
+
+      </div>
+    </div>
+  </div>
+
+    <footer class="page-footer topborder">
+    <div class="container">
+      <div class="row">
+        <div class="col s12">
+          <h5 class="white-text">NBIS</h5>
+          <p class="grey-text text-lighten-4">NBIS is a distributed national bioinformatics infrastructure, supporting life sciences in Sweden.</p>
+        </div>
+      </div>
+    </div>
+    <div id="funding" class="row">
+      <div class="center-block">
+        <p class="logos">
+          <a href="http://www.vr.se"><img alt="Vetenskapsrådet" src="./workshop-common/assets/img/logo/vetenskapsradet-logotyp.png" style="height:65px;padding:5px"></a>
+          <a href="http://www.scilifelab.se"><img alt="Scilifelab" src="./workshop-common/assets/img/logo/scilifelab.jpg" style="height:40px;padding:5px 0px 5px 0px"></a>
+          <a href="http://www.liu.se"><img alt="Linköping University" src="./workshop-common/assets/img/logo/liu.jpg" style="height:65px;padding:5px"></a>
+          <a href="http://www.chalmers.se"><img alt="Chalmers University" src="./workshop-common/assets/img/logo/chalmers.png" style="height:65px;padding:5px"></a>
+          <a href="http://www.gu.se"><img alt="University of Gothenburg" src="./workshop-common/assets/img/logo/gu.jpg" style="height:65px;padding:5px"></a>
+          <a href="http://www.ki.se"><img alt="Karolinska Institutet" src="./workshop-common/assets/img/logo/ki.png" style="height:65px;padding:0px 5px 0px 5px"></a>
+          <a href="http://www.kth.se"><img alt="KTH Royal Institute of Technology" src="./workshop-common/assets/img/logo/kth.png" style="height:65px;padding:5px"></a>
+          <a href="http://www.lu.se"><img alt="Lund University" src="./workshop-common/assets/img/logo/lu.jpg" style="height:65px;padding:5px 0px 5px 0px"></a>
+          <a href="http://www.nrm.se"><img alt="Swedish Museum of Natural History" src="./workshop-common/assets/img/logo/nrm.gif" style="height:65px;padding:0px 0px 0px 0px"></a>
+          <a href="http://www.slu.se"><img alt="Swedish University of Agricultural Sciences" src="./workshop-common/assets/img/logo/slu.png" style="height:65px;padding:0px 5px 0px 0px"></a>
+          <a href="http://www.su.se"><img alt="Stockholm University" src="./workshop-common/assets/img/logo/su.png" style="height:65px;padding:5px 0px 5px 5px"></a>
+          <a href="http://www.umu.se"><img alt="Umeå University" src="./workshop-common/assets/img/logo/umu.jpg" style="height:65px;padding:5px 0px 5px 0px"></a>
+          <a href="http://www.uu.se"><img alt="Uppsala University" src="./workshop-common/assets/img/logo/uu.png" style="height:65px;padding:5px"></a>
+          <a href="https://www.wallenberg.com/kaw/en"><img alt="Knuth and Alice Wallenberg Foundation" src="./workshop-common/assets/img/logo/kaw.png" style="height:65px;padding:5px"></a>
+          <!-- <a href="http://www.elixir-europe.org"><img alt="ELIXIR" src="./workshop-common/assets/img/logo/elixir.png" style="height:65px;padding:5pxi;float:right" ></a> -->
+        </p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  
+
+  <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!--  Additional scripts for page -->
+  
+
+  <!-- This needs to be loaded last -->
+  <script src="./workshop-common/assets/js/init.js"></script>
+
+
+  </body>
+</html>
