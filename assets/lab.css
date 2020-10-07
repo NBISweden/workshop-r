@@ -732,3 +732,40 @@ ul.nav a:hover {
   margin-right: 0.5%;
   margin-left: 0.5%;
 }
+
+/* blur panel -------------------------------------------------------------------------------- */
+
+.blur-title {
+  position: absolute;
+  z-index: 1;
+  font-weight: bold;
+}
+
+.blur-outer .blur-title {
+  transition: .3s ease;
+  opacity: 0;
+}
+
+.blur-outer:hover .blur-title {
+ transition: .3s ease;
+ opacity: 1;
+}
+
+.blur-content {
+  transition: .3s ease;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  -moz-filter: blur(8px);
+  -o-filter: blur(8px);
+  -ms-filter: blur(8px);
+}
+
+.blur-outer:active .blur-content {
+ transition: .3s ease;
+ filter: none;
+}
+
+.blur-outer:active .blur-title {
+ transition: .3s ease;
+ opacity: 0;
+}

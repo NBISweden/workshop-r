@@ -1,0 +1,199 @@
+---
+title: "Loading data into R"
+subtitle: "R Programming Foundation for Life Scientists"
+---
+
+```{r,child="assets/header-lab.Rmd"}
+```
+
+# Introduction
+
+Up until now we have mostly created the object we worked with on the fly from within R. The most common use-case is however to read in different data sets that are stored as files, either somewhere on a server or locally on your computer. In this exercise we will test some common ways to import data in R and also show to save data from R. After this exercise you will know how to:
+
+-   Read data from txt files and save the information as a vector, data frame or a list.
+-   Identify missing data and correctly encode this at import
+-   Check that imported objects are imported correctly
+-   Read data from online resource
+-   Write data to a file
+
+# `scan()`
+
+The function `scan()` can be used both to read data from files and directly from keyboard. The function is very flexible and have many different settings that allow to read data in different formats. To read and store a set of words that you type on your keyboard try the following code that will prompt your for input. After each word press enter and R will prompt you for new input. After the last word have been typed press enter twice to get back to your R prompt and have your character vector named words available in R your session.
+
+```{r,eval=FALSE}
+words <- scan(what = character())
+```
+
+Download the file book chapter from this [link](../data/common/book_chapter.txt). Read the manual for scan and read the text file named **book_chapter.txt** into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.
+
+
+```{r,accordion=TRUE}
+shelley.vec <- scan(file = "./data/common/book_chapter.txt", what = character())
+str(shelley.vec)
+
+shelley.list <- scan(file = "./data/common/book_chapter.txt", what = list(character()))
+class(shelley.list)
+```
+
+Check that your newly created objects contain the correct information and have been saved as you have intended eg. each entry of the vector or the list should contain a single word. Once your convinced that you have a sound word vector and list.
+
+1.  Identify the longest word in your vector.
+
+```{r,accordion=TRUE}
+sort(nchar(shelley.vec), decreasing = TRUE)
+which(nchar(shelley.vec) == max(nchar(shelley.vec)))
+shelley.vec[381]
+```
+
+2.  Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.
+
+```{r,accordion=TRUE}
+shelley.vec2 <- scan(file = "./data/common/book_chapter.txt", what = 'character', sep = ' ', quote = NULL)
+shelley.filt2 <- gsub(pattern = '[^[:alnum:] ]', replacement = "", x = shelley.vec2)
+which(nchar(shelley.filt2) == max(nchar(shelley.filt2)))
+shelley.filt2[301]
+```
+
+# `read.table`
+
+This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.
+
+In this code block with first import the data from normalized.txt from a file (that you can get [here](../files/normalized.txt)) and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.
+
+```{r,accordion=TRUE}
+expr.At <- read.table("./data/common/normalized.txt")
+head(expr.At)
+```
+
+One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.
+
+```{r,accordion=TRUE}
+url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data'
+abalone = read.table(url, header = F , sep = ',')
+head(abalone)
+```
+
+1.  Download the file [example.data](../files/example.data) to your computer and import it to R using the `read.table()` function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the `write.table` function.
+
+```{r,accordion=TRUE}
+ed <- read.table("./data/common/example.data", sep = ":")
+head(ed)
+str(ed)
+```
+
+Encode all NA values as "missing", at export. 
+
+```{r,accordion=TRUE}
+write.table(x = ed, na = "missing", file = "example_mis.data")
+```
+
+2.  Read in the file you just created and double-check that you have the same data as earlier.
+
+```{r,accordion=TRUE}
+df.test <- read.table("example_mis.data", na.strings = "missing")
+```
+
+3. Analysing genome annotation in R using read.table
+
+For this exercise we will load a GTF file into R and calculate some basic summary statistics from the file. In the first part we will use basic manipulations of data frames to extract the information. In the second part you get a try out a library designed to work with annotation data, that stores the information in a more complex format, that allow for easy manipulation and calculation of summaries from genome annotation files.
+
+For those not familiar with the gtf format it is a file format containing annotation information for a genome. It does not contain the actual DNA sequence of the organism, but instead refers to positions along the genome.
+
+A valid GTF file should contain the following tab delimited fields (taken from the ensembl home page).
+
+1.  **seqname** - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix.
+2.  **source** - name of the program that generated this feature, or the data source (database or project name)
+3.  **feature** - feature type name, e.g. Gene, Variation, Similarity
+4.  **start** - Start position of the feature, with sequence numbering starting at 1.
+5.  **end** - End position of the feature, with sequence numbering starting at 1.
+6.  **score** - A floating point value.
+7.  **strand** - defined as + (forward) or - (reverse).
+8.  **frame** - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on..
+9.  **attribute** - A semicolon-separated list of tag-value pairs, providing additional information about each feature.
+
+|1|2|3|4|5|6|7|8|9|
+|---|---|---|---|---|---|---|---|---|
+1|transcribed_unprocessed_pseudogene|gene|11869|14409|.|+|.|gene_id; "ENSG00000223972";|
+|1|processed_transcript|transcript|11869|14409|.|+|.|gene_id; "ENSG00000223972";|
+
+The last column can contain a large number of attributes that are comma-separated.
+
+As these files for many organisms are large we will in this exercise use the latest version of Drosophila melanogaster genome annotation available at `ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster` that is small enough for analysis even on a laptop.  
+
+Open this and download the file named **Drosophila_melanogaster.BDGP6.86.gtf.gz** to your computer. Unzip this file and keep track of where your store the file.
+
+With this done read this file into R using the function `read.table()` and add meaningful column names to the table.
+
+```{r,include=FALSE,eval=TRUE}
+if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz") && !file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) download.file("ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz","Drosophila_melanogaster.BDGP6.86.gtf.gz")
+if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) system("gunzip Drosophila_melanogaster.BDGP6.86.gtf.gz")
+```
+
+```{r,accordion=TRUE}
+d.gtf <- read.table("Drosophila_melanogaster.BDGP6.86.gtf", header=FALSE, comment.char="#", sep="\t")
+colnames(d.gtf) <- c("Chromosome","Source","Feature", "Start","End","Score","Strand","Frame","Attribute")
+```
+
+Prior to any analysis you should make sure that your attempt to read in the file has worked as expected. This can for example be done by having a look at the dimension of the stored object and making sure that it has the structure you expect.
+
+```{r,accordion=TRUE}
+dim(d.gtf)
+str(d.gtf)
+```
+
+1.  How many chromosome names can be found in the annotation file?
+
+```{r,accordion=TRUE}
+levels(d.gtf$Chromosome)
+```
+
+2.  How many exons is there in total and per chromosome?
+
+```{r,accordion=TRUE}
+aggregate(d.gtf$Feature, by = list(d.gtf$Chromosome), summary)
+```
+
+```{r,accordion=TRUE}
+by(data = d.gtf$Feature, d.gtf[,"Chromosome"], summary)
+```
+
+3.  Filter the data frame to only retain gene annotations
+
+```{r,accordion=TRUE}
+d.gtf.gene <- d.gtf[d.gtf$Feature == "gene",]
+```
+
+4.  What is the average gene length of in the Drosophila genome?
+
+```{r,accordion=TRUE}
+mean(abs(d.gtf.gene$Start - d.gtf.gene$End))
+```
+
+5.  What fraction of the genes are encoded on the plus strand of the genome.
+
+```{r,accordion=TRUE}
+sum(d.gtf.gene$Strand == "+") / length(d.gtf.gene$Strand)
+```
+
+6.  What is the median and mean length of the exons found on chromosome 3R in the data set?
+
+```{r,accordion=TRUE}
+d.gtf3R <- d.gtf[d.gtf$Chromosome == "3R",]
+exon.position <- d.gtf3R[d.gtf3R$Feature == "exon",c("Start", "End")]   
+median(abs(exon.position$Start - exon.position$End))
+mean(abs(exon.position$Start - exon.position$End))
+```
+
+7.  Do the same calculations for the chromosomes 2L, 2R, 3L, 4, X and Y using a for loop.
+
+```{r,accordion=TRUE}
+chr <- c("2L", "2R", "3L", "4", "X", "Y")
+for (i in chr) {
+  d.gtf.tmp <- d.gtf[d.gtf$Chromosome == i,]
+  exon.position <- d.gtf.tmp[d.gtf.tmp$Feature == "exon", c("Start", "End")]   
+  exon.med <- median(abs(exon.position$Start - exon.position$End))
+  exon.mean <- mean(abs(exon.position$Start - exon.position$End))
+  txt <- sprintf("The median and mean exon length for %s is %g and %g, respectively", i, exon.med, exon.mean)
+  print(txt)
+}
+```

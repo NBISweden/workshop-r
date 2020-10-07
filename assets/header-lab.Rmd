@@ -43,6 +43,18 @@ knitr::knit_hooks$set(accordion=function(before,options,envir) {
   }
 })
 
+## blur panel
+knitr::knit_hooks$set(blur=function(before,options,envir) {
+  if(before) {
+    if(is.null(options$blurtitle)) {blurtitle <- ""}else{blurtitle <- options$blurtitle}
+    paste0('<div class="blur-outer">',
+           '<div class="blur-title">',blurtitle,'</div>',
+           '<div class="blur-content">')
+  }else{
+    paste0("</div>","</div>")
+  }
+})
+
 ## block title for code
 knitr::knit_hooks$set(block.title=function(before,options,envir) {
 

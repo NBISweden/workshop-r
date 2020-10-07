@@ -7,9 +7,9 @@ subtitle: "R Programming Foundation for Life Scientists"
 ```
 
 ```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
-library(magrittr)
+library(dplyr)
+library(nycflights13)
 ```
-
 
 # Introduction
 
@@ -17,9 +17,7 @@ Welcome to the hands-on workshop "Tidy Work in Tidyverse". Most of the things ne
 
 # Pipes
 
-## Task 1
-
-Rewrite the following code chunk as one pipe (`magrittr`):
+- Rewrite the following code chunk as one pipe (`magrittr`):
 
 ```{r,eval=FALSE}
 my_cars <- mtcars[, c(1:4, 7)]
@@ -28,7 +26,7 @@ print(my_cars)
 my_cars <- colMeans(my_cars)
 ```
 
-```{r echo=TRUE, eval=FALSE}
+```{r, accordion=TRUE, echo=TRUE, eval=FALSE}
 my_cars <- mtcars %>%
   select(c(1:4, 7)) %>%
   filter(disp > mean(disp)) %T>%
@@ -36,70 +34,75 @@ my_cars <- mtcars %>%
   colMeans()
 ```
 
+- Rewrite the correlations below using pipes.
 
-## Task 2
-
-Rewrite the correlations below using pipes.
-
-```
-cor(mtcars$gear, mtcars$mpg)
-```
-
-```{r echo=TRUE, eval=FALSE}
-mtcars %$% cor(gear, mpg)
-```
-
-```
+```{r,eval=FALSE}
 cor(mtcars)
 ```
 
-```{r echo=TRUE, eval=FALSE}
+```{r, accordion=TRUE, echo=TRUE, eval=FALSE}
 mtcars %>% cor()
 ```
 
-# Tibbles
-## Task 1
+```{r,eval=FALSE}
+cor(mtcars$gear, mtcars$mpg)
+```
 
-* Convert the `mtcars` dataset to a tibble `vehicles`.
-* Select the number of cylinders (`cyl`) variable using:
+```{r, accordion=TRUE, echo=TRUE, eval=FALSE}
+mtcars %$% cor(gear, mpg)
+```
+
+# Tibbles
+
+- Convert the `mtcars` dataset to a tibble `vehicles`.
+
+```{r,accordion=TRUE}
+vehicles <- mtcars %>% as_tibble()
+```
+
+- Select the number of cylinders (`cyl`) variable using:
     - the `[[index]]` accessor,
     - the `[[string]]` accessor,
     - the `$` accessor.
-* Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).
-* Print the tibble.
-* Print the 30 first rows of the tibble.
-* Change the default behaviour of printing a tibble so that at least 15 and at most 30 rows are printed.
-* Convert `vehicles` back to a `data.frame` called `automobiles`.
-
-```{r echo=TRUE, eval=FALSE}
-# 1
-vehicles <- mtcars %>% as_tibble()
-
-# 2
+    
+```{r,accordion=TRUE}
 vehicles[['cyl']]
 vehicles[[2]]
 vehicles$cyl
+```
 
-# 3
+- Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).
+
+```{r,accordion=TRUE}
 vehicles %T>%
   {print(.[['cyl']])} %T>%
   {print(.[[2]])} %>%
   .$cyl
-
-# 4
-vehicles
-
-# 5
-vehicles %>% head(n = 30)
-
-# 6
-options(tibble.print_min = 15, tibble.print_max = 30)
-
-# 7
-automobiles <- as.data.frame(vehicles)
 ```
 
-## Bonus Task
+- Print the tibble.
+
+```{r,accordion=TRUE}
+vehicles
+```
+
+- Print the 30 first rows of the tibble.
+
+```{r,accordion=TRUE}
+vehicles %>% head(n = 30)
+```
+
+- Change the default behaviour of printing a tibble so that at least 15 and at most 30 rows are printed.
+
+```{r,accordion=TRUE}
+options(tibble.print_min = 15, tibble.print_max = 30)
+```
+
+- Convert `vehicles` back to a `data.frame` called `automobiles`.
+
+```{r,accordion=TRUE}
+automobiles <- as.data.frame(vehicles)
+```
 
 Do you think tibbles are lazy? Try to create a tibble that tests whether *lazy evaluation* applies to tibbles too.
 
@@ -111,118 +114,168 @@ tibble(x = sample(1:10, size = 10, replace = T), y = log10(x))
 
 The `nycflights13` package contains information about all flights that departed from NYC (i.e., EWR, JFK and LGA) in 2013: 336,776 flights with 16 variables. To help understand what causes delays, it also includes a number of other useful datasets: weather, planes, airports, airlines. We will use it to train working with tibbles and `dplyr`.
 
-## Task 1 -- selecting column
+## Selecting columns
 
-* load the `nycflights13` package (install if necessary),
-* read about the data in the package docs,
-* inspect the `flights` tibble.
-* select all columns but `carrier` and `arr_time`,
-* select `carrier`, `tailnum` and `origin`,
-* hide columns from `day` through `carrier`,
-* select all columns that have to do with `arr`ival (hint: `?tidyselect`),
-* select columns based on a vector `v <- c("arr_time", "sched_arr_time", "arr_delay")`,
-* rename column `dest` to `destination` using:
-    - `select()` and
-    - `rename()`
-What is the difference between the two approaches?
+- Load the `nycflights13` package (install if necessary)
 
-```{r eval=F}
+```{r,accordion=TRUE,eval=FALSE}
 install.packages('nycflights13')
+library(nycflights13)
+```
 
-library('nycflights13')
+- Read about the data in the package docs
 
+```{r,accordion=TRUE}
 ?nycflights13
+```
 
+- Inspect the `flights` tibble.
+
+```{r,accordion=TRUE}
 flights
+```
 
+- Select all columns but `carrier` and `arr_time`
+
+```{r,accordion=TRUE}
 flights %>% select(-carrier, -arr_time)
+```
 
+- Select `carrier`, `tailnum` and `origin`
+
+```{r,accordion=TRUE}
 flights %>% select(carrier, tailnum, origin)
+```
 
+- Hide columns from `day` through `carrier`
+
+```{r,accordion=TRUE}
 flights %>% select(-(day:carrier))
+```
 
-flights %>% select(contains('arr_')) # or
+- Select all columns that have to do with `arr`ival (hint: `?tidyselect`)
 
+```{r,accordion=TRUE}
+flights %>% select(contains('arr_'))
+```
+
+- Select columns based on a vector `v <- c("arr_time", "sched_arr_time", "arr_delay")`
+
+```{r,accordion=TRUE}
 v <- c("arr_time", "sched_arr_time", "arr_delay")
 flights %>% select(v) # or
 flights %>% select(one_of(v))
+```
 
-flights %>% select(destination = dest)
-flights %>% rename(destination = dest)
+- Rename column `dest` to `destination` using `select()` and `rename()`. What is the difference between the two approaches?
+
+```{r,accordion=TRUE}
+flights %>% select(destination = dest) %>% head()
+flights %>% rename(destination = dest) %>% head()
 # select keeps only the renamed column while rename returns the whole dataset
 # with the column renamed
 ```
 
-## Task 2 -- filtering rows
+## Filtering rows
 
-* filter only the flights that arrived ahead of schedule,
-* filter the flights that had departure delay between 10 and 33,
-* fish out all flights with unknown arrival time,
-* retrieve rows 1234:1258 (hint: `?slice`),
-* sample (`?sample_n()`) 3 random flights per day in March,
-* show 5 most departure-delayed flights in January per carrier,
-* retrieve all `unique()` routes and sort them by origin,
-* retrieve all `distinct()` routes and sort them by origin,
-* is `unique()` more efficient than `distinct()`?
+- Filter only the flights that arrived ahead of schedule
 
-```{r eval=F}
+```{r,accordion=TRUE}
 flights %>% filter(arr_delay < 0)
+```
 
+- Filter the flights that had departure delay between 10 and 33
+
+```{r,accordion=TRUE}
 flights %>% filter(dep_delay >= 10, dep_delay <= 33) # or
 flights %>% filter(between(dep_delay, 10, 33))
+```
 
+- Fish out all flights with unknown arrival time
+
+```{r,accordion=TRUE}
 flights %>% filter(is.na(arr_time))
+```
 
+- Retrieve rows 1234:1258 (hint: `?slice`)
+
+```{r,accordion=TRUE}
 flights %>% slice(1234:1258)
+```
 
+- Sample (`?sample_n()`) 3 random flights per day in March
+
+```{r,accordion=TRUE}
 flights %>% filter(month == 3) %>%
   group_by(day) %>%
   sample_n(3)
+```
 
+- Show 5 most departure-delayed flights in January per carrier
+
+```{r,accordion=TRUE}
 flights %>%
   filter(month == 1) %>%
   group_by(carrier) %>%
   top_n(5, dep_delay)
 ```
 
-## Task 3 -- Trans(mutations)
+- How many unique routes exists?
 
-* `air_time` is the amount of time in minutes spent in the air. Add a new column `air_spd` that will contain aircraft's airspeed in mph,
-
-* as above, but keep only the new `air_spd` variable,
-
-* use `rownames_to_column()` on `mtcars` to add car model as an extra column,
-
-```{r eval=F}
-flights %>% mutate(air_spd = distance/(air_time / 60))
-
-flights %>% transmute(air_spd = distance/(air_time / 60))
-
-mtcars %>% rownames_to_column('model')
+```{r,accordion=TRUE}
+flights %>%
+  mutate(route=paste(origin,"-",dest)) %>%
+  distinct(route,.keep_all=T) %>%
+  nrow()
 ```
 
-## Task 4 -- groups and counts
+- Which is the most frequent route?
 
-* use `group_by()`, `summarise()` and `n()` to see how many planes were delayed (departure) every month,
+```{r,accordion=TRUE}
+# JFK - LAX
+flights %>%
+  mutate(route=paste(origin,"-",dest)) %>% 
+  group_by(route) %>%
+  count() %>%
+  arrange(-n)
+```
 
-```{r eval = FALSE}
+## Trans(mutations)
+
+- `air_time` is the amount of time in minutes spent in the air. Add a new column `air_spd` that will contain aircraft's airspeed in mph
+
+```{r,accordion=TRUE}
+flights %>% mutate(air_spd = distance/(air_time / 60))
+```
+
+- As above, but keep only the new `air_spd` variable
+
+```{r,accordion=TRUE}
+flights %>% transmute(air_spd = distance/(air_time / 60))
+```
+
+## Groups and counts
+
+- Use `group_by()`, `summarise()` and `n()` to see how many planes were delayed (departure) every month
+
+```{r,accordion=TRUE}
 flights %>%
   filter(dep_delay > 0) %>%
   group_by(month) %>%
   summarise(num_dep_delayed = n())
 ```
 
-* what was the mean `dep_delay` per month?
+- What was the mean `dep_delay` per month?
 
-```{r eval=F}
+```{r,accordion=TRUE}
 flights %>%
   group_by(month) %>%
   summarise(mean_dep_delay = mean(dep_delay, na.rm = T))
 ```
 
-* count the number of incoming delayed flights from each unique origin and sort origins by this count (descending),
+- Count the number of incoming delayed flights from each unique origin and sort origins by this count (descending)
 
-```{r eval=F}
+```{r,accordion=TRUE}
 flights %>%
   filter(arr_delay > 0) %>%
   group_by(origin) %>%
@@ -230,25 +283,25 @@ flights %>%
   arrange(desc(cnt))
 ```
 
-* use `summarise()` to sum total `dep_delay` per month in hours,
+- Use `summarise()` to sum total `dep_delay` per month in hours
 
-```{r eval = F}
+```{r,accordion=TRUE}
  flights %>%
    group_by(month) %>%
    summarize(tot_dep_delay = sum(dep_delay/60, na.rm = T))
 ```
 
-* run `group_size()` on `carrier` what does it return?
+- Run `group_size()` on `carrier` what does it return?
 
-```{r eval = F}
+```{r,accordion=TRUE}
 flights %>%
     group_by(carrier) %>%
     group_size()
 ```
 
-* use `n_groups()` to check the number of unique origin-carrier pairs,
+- Use `n_groups()` to check the number of unique origin-carrier pairs,
 
-```{r eval = F}
+```{r,accordion=TRUE}
 flights %>%
     group_by(carrier) %>%
     n_groups()

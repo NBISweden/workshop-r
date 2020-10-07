@@ -1,0 +1,341 @@
+---
+title: "Working with Vectors"
+subtitle: "R Programming Foundation for Life Scientists"
+---
+
+```{r,child="assets/header-lab.Rmd"}
+```
+
+# Introduction
+
+There are several different data structures that are commonly used in R. The different data structures can be seen as different ways to organise data. In this exercise we will focus on vectors, which are the base data structure in R, and will also get an overview of the key data types (modes) that are found in R. At the end of this exercise you should know:
+
+-   What are the data types commonly used in R.
+-   What is a vector.
+-   How to create vectors in an interactive R session.
+-   How one can use R functions to determine the structure and mode of an vector.
+-   What basic operators you can find in R
+-   How to subset vector using both indexes and operators.
+-   Try some of the built-in functions in R.
+
+## Data types
+
+From the lecture you might remember that all elements in any data stuctures found in R will be of a certain type (or have a certain mode). The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.
+
+-   Logical = TRUE or FALSE (or NA)
+-   Integer = Numbers that can be represented without fractional component
+-   Numeric = Any number that is not a complex number
+-   Character = Text
+
+In many cases the mode of an entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will by R automatically be recognised as numeric. If you instead have a text string like "hello world" it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.
+
+## Vectors in R
+
+Depending on the type of data one needs to store in R different data structures can be used. The four most commonly used data types in R is
+vectors, lists, matrixes and data frames. We will in this exercise work only with vectors.
+
+The most basic data structure in R are vectors. Vectors are 1-dimensional data structures that contain only one type of data (eg. all entries must have the same mode). To create a vector in R one can use the function `c()` (concatenate or combine) as seen below. This example will create a vector named example.vector with 3 entries in it.
+
+```{r}
+example.vector <- c(10, 20, 30)
+```
+
+<i class="fas fa-lightbulb"></i> If you need more information about the function `c()` you can always use the built-in manual in R. Typing `?c()` will bring up the documentation for the function `c()`.
+
+Once you have created this vector in R, you can access it by simply typing its name in an interactive session.
+
+```{r}
+example.vector
+```
+
+The output generate on screen shows the entries in your vector and the 1 in squared brackets indicates what position in the vector the entry to the right of it has. In this case 10 is the first entry of the vector.
+
+If we for some reason only wanted to extract the value 10 from this vector we can use the fact that we know it is the first position to do so.
+
+```{r}
+example.vector[1]
+```
+
+Since a vector can only contain one data type, all members need to be of the same type. If you try to combine data of different types into the same vector, R will not warn you, but instead coerce it to the most flexible type (From least to most flexible: Logical, integer, double, character). Hence, adding a number to a logical vector will turn the whole vector to a numeric vector.
+
+To check what data type an object is, run the R built-in function `class()`, with the object as the only parameter.
+
+```{r}
+class(example.vector)
+```
+
+If you for any reason want to have more information about any object you have stored in your R session the command `str()` is very helpful.
+
+```{r}
+str(example.vector)
+```
+
+## Basic R operators
+
+As in other programming languages there are a set of basic operators in R.
+
+| Operation | Description | Example | Example Result |
+|---|---|---|---|
+|`x + y`|Addition|`1 + 3`|`4`|
+|`x - y`|Subtraction|`1 - 3`|`-2`|
+|`x * y`|Multiplication|`2 * 3`|`6`|
+|`x / y`|Division|`1 / 2`|`0.5`|
+|`x ^ y`|Exponent|`2 ^ 2`|`4`|
+|`x %% y`|Modular arethmetic|`1 %% 2`|`1`|
+|`x %/% y`|Integer division|`1 %/% 2`|`0`|
+|`x == y`|Test for equality|`1 == 1`|`TRUE`|
+|`x <= y`|Test less or equal|`1 <= 1`|`TRUE`|
+|`x >= y`|Test for greater or equal|`1 >= 2`|`FALSE`|
+|`x && y`|Non-vectorized boolean AND|`c(T,F) && c(T,T)`|`TRUE`|
+|`x & y`|Vectorized boolean AND|`c(T,F) & c(T,T)`|`TRUE FALSE`|
+|`x || y`| Non-vectorized boolean OR|`c(T,F) || c(T,T)`|`TRUE`|
+|`x | y`|Vectorized boolean OR|`c(T,F) || c(T,T)`|`TRUE TRUE`|
+|`!x`|Boolean not|`1 != 2`|`TRUE`|
+
+Besides these, there of course numerous more or less simple functions available in any R session. For example, if we want to add all values in our example.vector that we discussed earlier, we can do that using addition:
+
+```{r}
+example.vector[1] + example.vector[2] + example.vector[3]
+```
+
+But we can also use the function `sum()` that adds all numeric values present as arguments.
+
+```{r}
+sum(example.vector)
+```
+
+To learn more about a function use the built in R manual as described earlier. If you do not know the name of a function that you believe should be found in R, use the function `help.search()` or use google to try and identify the name of the command.
+
+# Exercise
+
+In all exercises on this course it is important that you prior to running the commands in R, try to figure out what you expect the result to be. You should then verify that this will indeed be the result by running the command in an R session. In case there is a discrepency between your expectations and the actual output make sure you understand why before you move forward. If you can not figure out howto, or which command to run you can click the key to reveal example code including expected output. Also note that in many cases there multiple solutions that solve the problem equally well.
+
+## Create and modify vectors
+
+Open R-studio and create two numeric vectors named x and y that are of equal length. Use these vectors to answer the questions below.
+
+```{r}
+x <- c(2, 4 ,7)
+y <- c(1, 5, 11)
+```
+
+1.  How many numbers are there in the vector x?
+
+```{r,accordion=TRUE}
+length(x)
+```
+
+2.  How many numbers will x + y generate?
+
+```{r,accordion=TRUE}
+length(x + y)
+```
+
+3.  What is the sum of all values in x?
+
+```{r,accordion=TRUE}
+sum(x)
+```
+
+4.  What is the sum of y times y?
+
+```{r,accordion=TRUE}
+sum(y*y)
+```
+
+5.  What do you get if you add x and y?
+
+```{r,accordion=TRUE}
+x + y
+```
+
+6.  Assign x times 2 to a new vector named z
+
+```{r,accordion=TRUE}
+z <- x * 2
+```
+
+7.  How many numbers will z have, why?
+
+```{r,accordion=TRUE}
+length(z)
+```
+
+8.  Assign the mean of z to a new vector named z.mean and determine the length of z.mean
+
+```{r,accordion=TRUE}
+z.mean <- mean(z)  
+length(z.mean) 
+```
+
+9.  Create a numeric vector with all integers from 5 to 107
+
+```{r,accordion=TRUE}
+vec.tmp <- 5:107  
+vec.tmp
+```
+
+10. Create a numeric vector with the same length as the previos one, but only containg the number 3
+
+```{r,accordion=TRUE}
+vec.tmp2 <- rep(3, length(vec.tmp))  
+vec.tmp2
+```
+
+11. Create a vector that contain all numbers from 1 to 17, where each number occurs the the same number of times as the number itself eg. 1, 2, 2, 3, 3, 3...
+
+```{r,accordion=TRUE}
+rep(1:17, 1:17) 
+```
+
+12. What will be the result of the following calculations?
+	- `c(1, 3, 5) + c(2, 4, 6)`
+	- `c(1, 3, 5) + c(2, 4, 6, 8)`
+	- `c(1, 3) - c(2, 4, 6 ,8)`
+
+13. Create two numeric vectors of length 4 and test run all the basic operators (as seen in the table earlier) with these two as arguments. Make sure you understand the output generated by R.
+
+## Modify and subset vectors
+
+Create a new character vector that contains the following words and save it using a suitable name:
+`apple, banana, orange, kiwi, potato`.
+
+```{r,accordion=TRUE}
+veggies <- c("apple", "banana", "orange", "kiwi", "potato")
+```
+
+Do the following on your newly created vector.
+
+1. Select orange from the vector.
+
+```{r,accordion=TRUE}
+veggies[3]
+```
+
+2. Select all fruits from the vector.
+
+```{r,accordion=TRUE}
+veggies[-5]  
+veggies[1:4]  
+```
+
+3. Do the same selection as in question 2 without using index positions.
+
+```{r,accordion=TRUE}
+veggies[veggies=="apple" | veggies == "banana" | veggies == "orange" | veggies == "kiwi"]  
+veggies[veggies!="potato"]  
+```
+
+4. Convert the character string to a numeric vector.
+
+```{r,accordion=TRUE}
+as.numeric(veggies)  
+```
+
+5. Create a vector of logic values that can be used to extract every second value from your character vector.
+
+```{r,accordion=TRUE}
+selection <- c(FALSE, TRUE, FALSE, TRUE, FALSE)  
+veggies[selection]  
+```
+
+Alternative solution, why do this work?
+
+```{r,accordion=TRUE}
+selection2 <- c(FALSE, TRUE)  
+veggies[selection2]  
+```
+
+6.  Add the names a, b, o, k and p to the vector.
+
+```{r,accordion=TRUE}
+names(veggies) <- c("a", "b", "o", "k", "p")  
+```
+
+7.  Create a vector containing all the letters in the alphabet (NB! this can be done without having to type all letters). Google is your friend.
+
+```{r,accordion=TRUE}
+letters  
+```
+
+8.  Sample 30 values randomly with replacement from your letter vector and convert the character vector to factors. Which of the levels have most entries in the vector?
+
+```{r,accordion=TRUE}
+letter.sample <- sample(letters, size = 30, replace = TRUE)  
+letter.sample <- factor(letter.sample)  
+summary(letter.sample)  
+```
+
+9.  Extract the letter 14 to 19 from the created vector.
+
+```{r,accordion=TRUE}
+letters[14:19]  
+```
+
+10. Extract all but the last letter.
+
+```{r,accordion=TRUE}
+letters[1:length(letters)-1]  
+
+letters[-length(letters)]  
+```
+
+11. Which is the index position of the letter u in the vector?
+
+```{r,accordion=TRUE}
+which(letters=="u")  
+```
+
+12. Create a new vector of length one that holds all the alphabet a single entry.
+
+```{r,accordion=TRUE}
+paste(letters, sep = "", collapse = "")  
+```
+
+13. Create a numeric vector by sampling 100 numbers from a normal distribution with mean 2 and standard deviation 4. Hint! Check the function `rnorm()`.
+
+```{r,accordion=TRUE}
+norm.rand <- rnorm(100, mean = 2, sd = 4)  
+```
+
+14. How many of the generated values are negative?
+
+```{r,accordion=TRUE}
+length(norm.rand[norm.rand<0])  
+```
+
+15. Calculate the standard deviation, mean, median of your random numbers.
+
+```{r,accordion=TRUE}
+sd(norm.rand)  
+mean(norm.rand)  
+median(norm.rand)  
+```
+
+16. Replace the 11th value in your random number vector with NA and calculate the same summary statistics again.
+
+```{r,accordion=TRUE}
+norm.rand[11] <- NA  
+sd(norm.rand, na.rm = TRUE)  
+mean(norm.rand, na.rm = TRUE)  
+median(norm.rand, na.rm = TRUE)  
+```
+
+17. Replace the last position in the vector with the letter L and calculate the same summary statistics.
+   
+```{r,accordion=TRUE}
+norm.rand[100] <- "L"  
+sd(norm.rand, na.rm = TRUE)  
+mean(norm.rand, na.rm = TRUE)  
+median(norm.rand, na.rm = TRUE)  
+```
+
+18. In many cases one has data from multiple replicates and different treatments in such cases it can be useful to have names of the type: Geno\_a\_1, Geno\_a\_2, Geno\_a\_3, Geno\_b\_1, Geno\_b\_2&#x2026;, Geno\_s\_3. Try to create this such a vector without manually typing it all in.
+
+```{r,accordion=TRUE}
+geno <- rep("Geno", 57)  
+needed.letters <- rep(letters[1:19], 3)  
+needed.numbers <- rep(1:3, 19)  
+temp <- paste(geno, needed.letters, needed.numbers, sep = "_")  
+sort(temp)  
+```

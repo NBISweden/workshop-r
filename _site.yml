@@ -10,11 +10,13 @@ assistants:
   - "PE: Payam Emami"
   - "DB: Dimitris Bampalikis"
   - "PU: Per Unneberg"
+  - "MG: Mun-Gwan"
+  - "LM: Lokeshwaran Manoharan"
 
 favicon: assets/favicon.png
 exclude: ["docs","README.md","schedule.csv","LICENSE","LICENSE.md","scripts","tmprepo"]
 navbar:
-  title: '<img src="assets/logo.svg" id="logo" style="height:30px;margin:0;"/>'
+  title: '<img src="assets/logo.svg" id="logo" style="height:22px;margin:0;"/>'
   type: default
   logo:
     image: "assets/logo.svg"
@@ -55,8 +57,9 @@ output:
 # if a package is only needed for repo (build, rendering etc), add to _repo
 packages:
   packages_cran_student:
-   - ggplot2
    - tidyverse
+   - lubridate
+   - nycflights13
   packages_bioc_student:
   package_github_student:
   packages_cran_repo:
