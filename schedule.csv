@@ -1,28 +1,28 @@
 date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_room
-09/11/2020;E10:1309;09:00;09:15;Welcome;Marcin Kierczak;;;;http://bit.ly/2PRscGA
+02/11/2020;online;09:00;09:15;Welcome;Marcin Kierczak;;;;http://bit.ly/2PRscGA
 ;;09:15;10:00;Intro to R;Marcin Kierczak;;slide_r_intro.pdf;;
 ;;10:15;10:45;Intro to R environment;Marcin Kierczak;;slide_r_environment.pdf;;
-;;11:00;12:00;Using Rstudio;Marcin Kierczak;PE, EF, BV, DB;;https://www.dropbox.com/s/3sy4ou2o8jh5syf/RCourseVideo.mov?dl=0;
+;;11:00;12:00;Using Rstudio;Marcin Kierczak;;;https://www.dropbox.com/s/3sy4ou2o8jh5syf/RCourseVideo.mov?dl=0;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;15:00;Variables & Operators;Marcin Kierczak;;slide_elements_1.pdf;;
-;;15:00;17:00;Data types;Marcin Kierczak;PE, EF, BV, DB;;lab_datatypes.html;
-10/11/2020;E10:1309;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;;slide_elements_2.pdf;;http://bit.ly/2PRscGA
+;;15:00;17:00;Data types;Marcin Kierczak;;;lab_datatypes.html;
+03/11/2020;online;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;;slide_elements_2.pdf;;http://bit.ly/2PRscGA
 ;;10:00;11:00;Matrices, Lists and Dataframes;Marcin Kierczak;;slide_elements_3.pdf;;
-;;10:00;12:00;Working with Vectors;Marcin Kierczak;DB, EF, BV, PE;;lab_vectors.html;
+;;10:00;12:00;Working with Vectors;Marcin Kierczak;;;lab_vectors.html;
 ;;12:00;13:00;Lunch;;;;;
-;;13:00;17:00;Matrices, Lists and Dataframes;Marcin Kierczak;DB, PU, BV;;lab_dataframes.html;
-11/11/2020;E10:1309;09:00;10:00;Loading data into R;Roy Francis;;slide_loadingdata.pdf;;http://bit.ly/2PRscGA
-;;10:00;12:00;Loading data into R;Roy Francis;MK, PU, PE;;lab_loadingdata.html;
+;;13:00;17:00;Matrices, Lists and Dataframes;Marcin Kierczak;;;lab_dataframes.html;
+04/11/2020;online;09:00;10:00;Loading data into R;Roy Francis;;slide_loadingdata.pdf;;http://bit.ly/2PRscGA
+;;10:00;12:00;Loading data into R;Roy Francis;;;lab_loadingdata.html;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;14:00;Control Structures, Iteration;Marcin Kierczak;;slide_elements_4.pdf;;
-;;14:00;17:00;Loops, Conditionals, Functions;Marcin Kierczak;NN, PU, BV;;lab_loops.html;
-12/11/2020;E10:1309;09:00;10:00;Graphics;Marcin Kierczak;;slide_graphics.pdf;;http://bit.ly/2PRscGA
-;;10:00;12:00;Graphics;Marcin Kierczak;PE, NN, PU;;lab_plot.html;
+;;14:00;17:00;Loops, Conditionals, Functions;Marcin Kierczak;;;lab_loops.html;
+05/11/2020;online;09:00;10:00;Graphics;Marcin Kierczak;;slide_graphics.pdf;;http://bit.ly/2PRscGA
+;;10:00;12:00;Graphics;Marcin Kierczak;;;lab_plot.html;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;14:00;Intro to Tidyverse;Marcin Kierczak;;slide_tidyverse.html;;
-;;14:00;17:00;Intro to Tidyverse;Marcin Kierczak;MM, SD;;lab_tidyverse.html;
-13/11/2020;E10:1309;09:00;10:00;Graphics using ggplot2;Roy Francis;;slide_ggplot2.pdf;;http://bit.ly/2PRscGA
-;;10:00;11:00;R package anatomy;Marcin Kierczak;PE, NN, BV, RF;slide_rpackage.html;;
+;;14:00;17:00;Intro to Tidyverse;Marcin Kierczak;;;lab_tidyverse.html;
+06/11/2020;online;09:00;10:00;Graphics using ggplot2;Roy Francis;;slide_ggplot2.pdf;;http://bit.ly/2PRscGA
+;;10:00;11:00;R package anatomy;Marcin Kierczak;;slide_rpackage.html;;
 ;;11:00;12:00;Q&A;Marcin Kierczak;;;;
 ;;12:00;13:00;Lunch;;;;;
-;;13:00;16:00;Working with ggplot2;Roy Francis;MK, NN;;lab_ggplot2.html;
+;;13:00;16:00;Working with ggplot2;Roy Francis;;;lab_ggplot2.html;
