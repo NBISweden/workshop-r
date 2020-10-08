@@ -25,4 +25,4 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 ;;10:00;11:00;R package anatomy;Marcin Kierczak;;slide_rpackage.html;;
 ;;11:00;12:00;Q&A;Marcin Kierczak;;;;
 ;;12:00;13:00;Lunch;;;;;
-;;13:00;16:00;Working with ggplot2;Roy Francis;;;lab_ggplot2.html;
+;;13:00;16:00;Working with ggplot2;Roy Francis;;;lab_ggplot.html;
