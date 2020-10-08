@@ -197,3 +197,10 @@ for (i in chr) {
   print(txt)
 }
 ```
+
+```{r,include=FALSE}
+# remove drosophila gtf
+if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf")
+if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf.gz")
+```
+
