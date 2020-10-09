@@ -8,9 +8,9 @@ subtitle: "R Programming Foundation for Life Scientists"
 
 ```{r,include=FALSE}
 library(ggplot2)
+library(dplyr)
+library(tidyr)
 ```
-
-<div class="large" style="color:red;">This page is work in progress.</div>
 
 # Introduction
 
@@ -338,17 +338,19 @@ d <- read.csv("./data/common/covid.csv",header=TRUE,stringsAsFactors=TRUE) %>%
 
 Create a histogram showing the overall distribution of cases.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   ggplot(aes(x=cases))+
   geom_histogram()
 ```
 
+A whole lot of zero cases which is not surprising. A very few number of extremely large number of cases. 
+
 ## Line plot
 
 A line plot is a good option when you dense data and over a time period/duration. Create a line plot for the Country Sweden (`geoId=="SE"` or `countriesAndTerritories=="Sweden"`) showing date (`date`) on the x-axis and cases per day (`cases`) on the y-axis. Set a plot title and axes titles.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>% 
   filter(geoId=="SE") %>%
   ggplot(aes(x=date,y=cases))+
@@ -360,7 +362,7 @@ The number of cases per day in Sweden are shown for the period from Jan to Sep. 
 
 Similar to above, create a line plot for the following 8 countries: `Sweden, Denmark, Norway, Finland, United_Kingdom, France, Germany, Italy` where each country has a different coloured line. Set plot title and axes titles. Change theme to `theme_bw()`.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   filter(countriesAndTerritories %in% c("Sweden", "Denmark", "Norway", "Finland", "United_Kingdom", "France", "Germany", "Italy")) %>%
   ggplot(aes(x=date,y=cases,colour=countriesAndTerritories))+
@@ -372,7 +374,7 @@ d %>%
 
 The countries with lower number of counts are hard to see. Perhaps a log transformation would help? Change the y-axis to a log scale to bring clarity to countries with lower cases.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   filter(countriesAndTerritories %in% c("Sweden", "Denmark", "Norway", "Finland", "United_Kingdom", "France", "Germany", "Italy")) %>%
   ggplot(aes(x=date,y=cases,colour=countriesAndTerritories))+
@@ -385,7 +387,7 @@ d %>%
 
 Did that really help? Why not? Perhaps we could draw a trendline rather than showing the actual data. Create a line plot for the same information as above showing a smoothed trendline (`geom_smooth()`) rather than the actual data points.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   filter(countriesAndTerritories %in% c("Sweden", "Denmark", "Norway", "Finland", "United_Kingdom", "France", "Germany", "Italy")) %>%
   ggplot(aes(x=date,y=cases,colour=countriesAndTerritories))+
@@ -400,7 +402,7 @@ This is much easier to read.
 
 Similarily, we can plot regression lines by changing arguments inside `geom_smooth()`.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   filter(countriesAndTerritories %in% c("Sweden", "Denmark", "Norway", "Finland", "United_Kingdom", "France", "Germany", "Italy")) %>%
   ggplot(aes(x=date,y=cases,colour=countriesAndTerritories))+
@@ -415,7 +417,7 @@ d %>%
 
 Boxplot show the full distribution of data within a bin. Now, for the same countries, create monthwise boxplots (`geom_boxplot()`) of cases.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   filter(countriesAndTerritories %in% c("Sweden", "Denmark", "Norway", "Finland", "United_Kingdom", "France", "Germany", "Italy")) %>%
   ggplot(aes(x=month,y=cases,colour=countriesAndTerritories))+
@@ -428,7 +430,7 @@ d %>%
 
 This gets a bit messy. Can you split each country into a subplot rather than showing all the countries in one plot?
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   filter(countriesAndTerritories %in% c("Sweden", "Denmark", "Norway", "Finland", "United_Kingdom", "France", "Germany", "Italy")) %>%
   ggplot(aes(x=month,y=cases,colour=countriesAndTerritories))+
@@ -443,7 +445,7 @@ d %>%
 
 Create a barplot (`geom_bar()`) with mean cases for each continent.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   group_by(continentExp) %>%
   summarise(mean=mean(cases,na.rm=TRUE)) %>%
@@ -453,7 +455,7 @@ d %>%
 
 Now for a bit more complexity, create a stacked barplot (`geom_bar()`) with total cases monthwise for each continent. Set months on the x-axis, cases on the y-axis. Colour the bars by continent.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   group_by(continentExp,month) %>%
   summarise(sum=sum(cases,na.rm=TRUE)) %>%
@@ -465,7 +467,7 @@ This figure shows the total number of cases per month across the globe. Continen
 
 Create a stacked barplot as above showing proportion of total cases on the y-axis.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   group_by(continentExp,month) %>%
   summarise(sum=sum(cases,na.rm=TRUE)) %>%
@@ -485,7 +487,7 @@ Now, we can see that the pandemic initially started with 100% of the cases in th
 
 Now let's look at barplots with error bars. First, create a barplot showing mean number of cases per continent per month. Place the bars within a group (month) next to each other rather than stack.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   group_by(continentExp,month) %>%
   summarise(mean=mean(cases,na.rm=TRUE)) %>%
@@ -497,7 +499,7 @@ d %>%
 
 Now to compute, error bars, computer error metrics in the `summary()` function, let's say standard deviation (`sd()`).
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   group_by(continentExp,month) %>%
   summarise(mean=mean(cases,na.rm=TRUE),
@@ -515,7 +517,7 @@ d %>%
 
 Scatterplots are commonly used for continuous vs continuous variables. Let's try to see if there is any relationship between number of cases and number of deaths. Create a scatterplot showing `cases` vs `deaths`.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 ggplot(d,aes(cases,deaths))+
   geom_point()
 ```
@@ -524,7 +526,7 @@ Scatterplots are extremely useful in visually inspecting relationships between v
 
 Scatterplots can also be used with categorical variables. Create a scatterplot with month on the x-axis and cases per month on the y-axis. Colour the points by continent.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
   ggplot(d,aes(x=month,y=cases,colour=continentExp))+
   geom_point()+
   scale_colour_discrete(name="Continent")+
@@ -533,7 +535,7 @@ Scatterplots can also be used with categorical variables. Create a scatterplot w
 
 `geom_jitter()` can be used to jitter the points around, so they do not overlap.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 ggplot(d,aes(x=month,y=cases,colour=continentExp))+
 geom_jitter(width=0.3)+
 scale_colour_discrete(name="Continent")+
@@ -542,7 +544,7 @@ labs(x="Month",y="Cases per Month")
 
 Create a scatterplot with month on the x-axis and **mean** cases per month on the y-axis. Colour the points by continent.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   group_by(month,continentExp) %>%
   summarise(mean=mean(cases,na.rm=TRUE)) %>%
@@ -554,7 +556,7 @@ d %>%
 
 Add a line to connect the continents across months. Use the `group` argument in `aes()`.
 
-```{r,accordion=TRUE}
+```{r,class.source="blur-effect"}
 d %>%
   group_by(month,continentExp) %>%
   summarise(mean=mean(cases,na.rm=TRUE)) %>%
@@ -567,20 +569,31 @@ d %>%
 
 ## Heatmap
 
-Here is an example of a heatmap showing cases for all European countries. Cases per 1 mil people are shown on the log10 scale.
+Here, we will look at creating a heatmap using ggplot2 as well as fine customisation of the plot for publication. This heatmap shows cases for all European countries over time.
+
+First, countries in Europe are selected and cases per million people is computed.
 
 ```{r,fig.height=8}
+# subset europe, calculate cases per million
 d2 <- d %>%
   filter(continentExp=="Europe") %>%
-  mutate(casesp=round((cases/popData2019)*10^6,3))
-  
-cols <- c("#e7f0fa","#c9e2f6","#95cbee","#0099dc","#4ab04a", "#ffd73e","#eec73a","#e29421","#f05336","#ce472e")
+  mutate(casesp=log10(round((cases/popData2019)*10^6,3)+1))
+```
 
+```{r,fig.height=8}
+# colours
+cols <- c("#e7f0fa","#c9e2f6","#95cbee","#0099dc","#4ab04a", "#ffd73e","#eec73a","#e29421","#f05336","#ce472e")
+leg_label <- "Log[10]~Cases~Per~Million~Persons"
+
+# plotting
 ggplot(d2,aes(x=date,y=countriesAndTerritories,fill=casesp))+
   geom_tile()+
   labs(x="",y="")+
-  scale_fill_gradientn(colors=cols,na.value="grey95",trans="log10",
-                       guide=guide_colourbar(ticks=T,nbin=10,barheight=.5,label=T,barwidth=10))+
+  scale_fill_gradientn(colors=cols,na.value="grey90",
+   guide=guide_colourbar(ticks=T,nbin=10,barheight=.5,label=T,barwidth=10),
+   name=eval(parse(text=leg_label)))+
+  scale_x_date(breaks=seq(as.Date("2020/1/1"), by = "month", length.out = 10),
+               labels=format(seq(as.Date("2020/1/1"), by = "month", length.out = 10),"%b"))+
   theme_bw()+
   theme(plot.background = element_blank(),
         panel.border = element_blank(),
@@ -588,7 +601,51 @@ ggplot(d2,aes(x=date,y=countriesAndTerritories,fill=casesp))+
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
         legend.position = "top",
-        legend.direction = "horizontal",
-        legend.title = element_blank())
+        legend.direction = "horizontal")
+#pheatmap::pheatmap(d3,cluster_cols = F,scale = "none")
+```
+
+It would be nice to have the countries grouping together based on the trend rather than just alphabetical order. This bit of code below clusters countries based on the data. Therefore, countries with similar case patterns should cluster together.
+
+```{r}
+# cluster countries
+d3 <- d2 %>%
+  mutate(casesp=casesp) %>%
+  select(date,countriesAndTerritories,casesp) %>%
+  spread(key=date,value=casesp)
+rownames(d3) <- d3$countriesAndTerritories
+d3$countriesAndTerritories <- NULL
+h <- hclust(dist(d3))
+d2$countriesAndTerritories <- factor(as.character(d2$countriesAndTerritories),levels=rownames(d3)[h$order])
+```
+
+```{r,include=FALSE}
+#h <- hclust(as.dist(cor(t(d3),use = "na.or.complete")))
+```
+
+Now, our new figure looks like this. It should be easier to see the trend over time. Primary and secondary waves are now starting to be easily visible.
+
+```{r,fig.height=8}
+# colours
+cols <- c("#e7f0fa","#c9e2f6","#95cbee","#0099dc","#4ab04a", "#ffd73e","#eec73a","#e29421","#f05336","#ce472e")
+leg_label <- "Log[10]~Cases~Per~Million~Persons"
+
+# plotting
+ggplot(d2,aes(x=date,y=countriesAndTerritories,fill=casesp))+
+  geom_tile()+
+  labs(x="",y="")+
+  scale_fill_gradientn(colors=cols,na.value="grey90",
+   guide=guide_colourbar(ticks=T,nbin=10,barheight=.5,label=T,barwidth=10),
+   name=eval(parse(text=leg_label)))+
+  scale_x_date(breaks=seq(as.Date("2020/1/1"), by = "month", length.out = 10),
+               labels=format(seq(as.Date("2020/1/1"), by = "month", length.out = 10),"%b"))+
+  theme_bw()+
+  theme(plot.background = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        legend.position = "top",
+        legend.direction = "horizontal")
 ```
 
