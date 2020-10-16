@@ -11,7 +11,7 @@ output:
 
 # Precourse {.tabset .tabset-fade}
 
-This workshop is aimed towards biologists, and other life sciences researchers with limited experience with R programming or even programming in general.
+This workshop is aimed towards biologists, and other life sciences researchers with none or limited experience with R programming or even programming in general.
 
 ## Preparation
 
@@ -68,32 +68,48 @@ if(!is.null(pkg$packages$packages_bioc_student)) {
 }
 ```
 
+`r fa1("chevron-circle-right")` &nbsp; **Install Docker**
+
+It is NOT absolutely necessary to have Docker installed but we are working on shiping the working course as a Docker container ready to run.
+In order to be able to use this functionality, please make sure you have [Docker Desktop](https://www.docker.com/get-started)
+installed and running on your machine.
+
+`r fa1("chevron-circle-right")` &nbsp; **Install git**
+
+In order to use RStudio's version control features, install [Git](https://git-scm.com/downloads) on your machine. This step is also NOT necessary,
+but to our experience learning and using git makes your life much easier.
+
+`r fa1("chevron-circle-right")` &nbsp; **Install Zoom**
+
+Go to [Zoom website](https://zoom.us) and follow instalation instructions. Most likely, your University has already paid some pro plan and you should 
+consult your local IT to get university account details.
+ 
 ***
 
 ## Syllabus
 
 The syllabus for this workshop are as follows.
 
-* Introduction to programming with R
-* R environment and RStudio IDE
-* Data types
-* Variables and operators
-* Input/Output
-* Control structures
-* Functions and variable scope
-* Base and ggplot2 graphics
-* R package anatomy
-* Brief introduction to Tidyverse
-* Brief introduction to RMarkdown
+* General introduction to programming and R.
+* R environment and RStudio IDE.
+* Data types.
+* Variables and operators.
+* Input/Output.
+* Control structures.
+* Functions and variable scope.
+* Base and ggplot2 graphics.
+* Overview of R package anatomy.
+* Brief introduction to Tidyverse.
+* Brief introduction to RMarkdown.
 
 ***
 
 ## Learning outcomes
 
-* Familiarity working with R in RStudio
-* Read some data and perform basic data manipulation
-* Perform some basic analysis and generate plots
-* Generate a report
+* Feeling comfortable while working with R in RStudio.
+* Being able to read some data and perform basic data manipulation in R.
+* Being able to perform some basic analysis and generate plots in R.
+* Knowing how to generate a simple report.
 
 ***
 
