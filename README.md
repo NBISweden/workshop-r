@@ -32,6 +32,10 @@ The source material is located on the *master* branch (default). The rendered ma
 
 For more details about repo organisation, updating and modifying this repo, check out the [template repo](https://github.com/royfrancis/workshop-template-rmd-ga).
 
+### Schedule
+Schedule is saved into the `schedule.csv` file. It is a csv file with semi-colon as delimiter. You should NOT try to edit it in a text editor, but use proper spreadsheet.
+If you are using command line, you can install `vd` and open and edit the file `vd --csv-delimiter ';' schedule.csv`.
+
 ---
 
 **2020** NBIS • SciLifeLab
