@@ -19,17 +19,17 @@ This workshop is aimed towards biologists, and other life sciences researchers w
 
 `r fa1("chevron-circle-right")` &nbsp; **Install R statistical software**
 
-<div class="boxy boxy-lightbulb">
+<div class="boxy boxy-exclamation boxy-warning">
 
 If you have an old version of R and you do not use it, uninstall it and then install a newer version. If you prefer to keep your old R version, then you can still install a newer version for this workshop. This is easy on Windows, but can be tricky on Linux.
 
 </div>
 
-Go to [r-project.org](https://cloud.r-project.org/) and choose the link appropriate for your operating system. 
+Go to [r-project.org](https://cloud.r-project.org/) and choose the link appropriate for your operating system.
 
 <img src="data/common/r-download.png" class="fancyimage">
 
-<div class="boxy boxy-lightbulb">
+<div class="boxy boxy-lightbulb boxy-primary">
 
 **Installation details**
 
@@ -70,20 +70,16 @@ if(!is.null(pkg$packages$packages_bioc_student)) {
 
 `r fa1("chevron-circle-right")` &nbsp; **Install Docker**
 
-It is NOT absolutely necessary to have Docker installed but we are working on shiping the working course as a Docker container ready to run.
-In order to be able to use this functionality, please make sure you have [Docker Desktop](https://www.docker.com/get-started)
-installed and running on your machine.
+It is NOT absolutely necessary to have Docker installed, but we are working on shipping the working course as a Docker container ready to run. In order to be able to use this functionality, please make sure you have [Docker Desktop](https://www.docker.com/get-started) installed and running on your machine.
 
 `r fa1("chevron-circle-right")` &nbsp; **Install git**
 
-In order to use RStudio's version control features, install [Git](https://git-scm.com/downloads) on your machine. This step is also NOT necessary,
-but to our experience learning and using git makes your life much easier.
+In order to use RStudio's version control features, install [Git](https://git-scm.com/downloads) on your machine. This step is also NOT necessary, but to our experience learning and using git makes your life much easier.
 
 `r fa1("chevron-circle-right")` &nbsp; **Install Zoom**
 
-Go to [Zoom website](https://zoom.us) and follow instalation instructions. Most likely, your University has already paid some pro plan and you should 
-consult your local IT to get university account details.
- 
+Go to [Zoom website](https://zoom.us) and follow installation instructions. Most likely, your University has already paid some pro plan and you should consult your local IT to get university account details.
+
 ***
 
 ## Syllabus
@@ -109,7 +105,7 @@ The syllabus for this workshop are as follows.
 * Feeling comfortable while working with R in RStudio.
 * Being able to read some data and perform basic data manipulation in R.
 * Being able to perform some basic analysis and generate plots in R.
-* Knowing how to generate a simple report.
+* Being able to generate a simple report.
 
 ***
 
