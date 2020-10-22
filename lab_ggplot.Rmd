@@ -441,7 +441,7 @@ d %>%
   theme_bw()
 ```
 
-  ## Barplots
+## Barplots
 
 Create a barplot (`geom_bar()`) with mean cases for each continent.
 
@@ -567,9 +567,40 @@ d %>%
   labs(x="Month",y="Mean cases per Month")
 ```
 
+Now for a slightly more advanced example. Create the same plot above with each continent as separate facets. Add all other continents in the background as reference lines in light grey colour.
+
+```{r,class.source="blur-effect",fig.height=6}
+ds <- d %>%
+  group_by(month,continentExp) %>%
+  summarise(mean=mean(cases,na.rm=TRUE))
+
+# new df for background points
+dsb <- ds %>% mutate(co=continentExp) %>% select(-continentExp)
+
+ggplot()+
+  geom_point(data=dsb,aes(x=month,y=mean,group=co),colour="grey90")+
+  geom_line(data=dsb,aes(x=month,y=mean,group=co),colour="grey90")+
+  geom_point(data=ds,aes(x=month,y=mean,colour=continentExp,group=continentExp))+
+  geom_line(data=ds,aes(x=month,y=mean,colour=continentExp,group=continentExp))+
+  facet_wrap(~continentExp)+
+  scale_colour_discrete(name="Continent")+
+  labs(x="Month",y="Mean cases per Month")+
+  guides(colour=guide_legend(nrow=1))+
+  theme_bw()+
+  theme(plot.background = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        legend.position = "top",
+        legend.direction = "horizontal",
+        legend.title=element_blank(),
+        strip.background = element_blank())
+```
+
 ## Heatmap
 
-Here, we will look at creating a heatmap using ggplot2 as well as fine customisation of the plot for publication. This heatmap shows cases for all European countries over time.
+Here, we will look at creating a heatmap using ggplot2 as well as fine customisation of the plot for publication. This heatmap shows cases for all European countries over time. This is also a slightly more advanced example.
 
 First, countries in Europe are selected and cases per million people is computed.
 

@@ -32,7 +32,7 @@ In many cases the mode of on entry is determined by the content so if you save t
 
 # Exercises
 
-<div class="boxy boxy-lightbulb">
+<div class="boxy boxy-lightbulb boxy-primary">
 In all exercises during this course, it is important that you try to figure out what the expected result would be, prior to running the commands. You should then verify that this will indeed be the
 result by running the command. In case there is a discrepency between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
 how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or your someone sitting next to you who might have wrapped their head around the issue.
