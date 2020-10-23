@@ -1,5 +1,5 @@
 date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_room
-02/11/2020;online;09:00;09:15;Welcome;Marcin Kierczak, Sebastian DiLorenzo;MK, SDL;;;http://bit.ly/2PRscGA
+02/11/2020;online;09:00;09:15;Welcome;Marcin Kierczak, Sebastian DiLorenzo;MK, SDL;;;https://uu-se.zoom.us/j/64914582551
 ;;09:15;09:30;Intro to R;Marcin Kierczak, Sebastian DiLorenzo;MK, SDL;slide_r_intro.html;;
 ;;09:30;10:00;Intro to R programming;Marcin Kierczak;MK, SDL;slide_r_programming_1.html;;
 ;;10:15;10:45;Intro to R environment;Marcin Kierczak;MK, SDL, JOW, LM;slide_r_environment.pdf;;
@@ -7,22 +7,22 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;15:00;Variables & Operators;Marcin Kierczak;MK, M-GH, LS;slide_elements_1.pdf;;
 ;;15:00;17:00;Data types;Marcin Kierczak;MK, M-GH, LS;;lab_datatypes.html;
-03/11/2020;online;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;SDL;slide_elements_2.pdf;;http://bit.ly/2PRscGA
+03/11/2020;online;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;SDL;slide_elements_2.pdf;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;11:00;Matrices, Lists and Dataframes;Marcin Kierczak;MK, RF, DB;slide_elements_3.pdf;;
 ;;10:00;12:00;Working with Vectors;Sebastian DiLorenzo;MK, RF, DB;;lab_vectors.html;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;17:00;Matrices, Lists and Dataframes;Marcin Kierczak;M-GH, RF;;lab_dataframes.html;
-04/11/2020;online;09:00;10:00;Loading data into R;Marcin Kierczak;RF;slide_loadingdata.pdf;;http://bit.ly/2PRscGA
+04/11/2020;online;09:00;10:00;Loading data into R;Marcin Kierczak;RF;slide_loadingdata.pdf;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;12:00;Loading data into R;Marcin Kierczak;RF, M-GH, PU;;lab_loadingdata.html;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;14:00;Control Structures, Iteration;Marcin Kierczak;MK;slide_elements_4.pdf;;
 ;;14:00;17:00;Loops, Conditionals, Functions;Marcin Kierczak;PU, DB, LS;;lab_loops.html;
-05/11/2020;online;09:00;10:00;Base graphics;Marcin Kierczak;MK;slide_graphics.pdf;;http://bit.ly/2PRscGA
+05/11/2020;online;09:00;10:00;Base graphics;Marcin Kierczak;MK;slide_graphics.pdf;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;12:00;Base graphics;Marcin Kierczak;PU, JOW, LS;;lab_plot.html;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;14:00;Intro to Tidyverse;Marcin Kierczak;MK;slide_tidyverse.html;;
 ;;14:00;17:00;Intro to Tidyverse;Marcin Kierczak;PU, DB, M-GH;;lab_tidyverse.html;
-06/11/2020;online;09:00;10:00;Graphics using ggplot2;Roy Francis;RF;slide_ggplot2.pdf;;http://bit.ly/2PRscGA
+06/11/2020;online;09:00;10:00;Graphics using ggplot2;Roy Francis;RF;slide_ggplot2.pdf;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;11:00;R package anatomy;Sebastian DiLorenzo;SDL;slide_rpackage.html;;
 ;;11:00;12:00;Q&A;Sebastian DiLorenzo;MK, SDL, RF, LM;;;
 ;;12:00;13:00;Lunch;;;;;
