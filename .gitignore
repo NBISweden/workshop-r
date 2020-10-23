@@ -1,2 +1,7 @@
 .Rhistory
 .Rproj.user
+2011/*
+data/.DS*
+*.Rproj
+libs/
+.DS_Store
