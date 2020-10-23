@@ -13,8 +13,9 @@ This page contains links to different lectures (slides) and practical exercises 
 
 **Basics**
 
-* [Intro to R (Slides)](slide_r_intro.pdf)  
-* [Intro to R environment (Slides)](slide_r_environment.pdf)  
+* [Intro to R (Slides)](slide_r_intro.html)  
+* [Intro to R environment (Slides)](slide_r_environment.html)
+* [intro to programming in R (Slides)](slide_r_programming_1.html)  
 * [Variables and Operators (Slides)](slide_elements_1.pdf)  
 * [Data types (Lab)](lab_datatypes.html)  
 * [Vectors and Strings (Slides)](slide_elements_2.pdf)  
