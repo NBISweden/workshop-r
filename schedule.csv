@@ -5,7 +5,7 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 ;;10:15;10:45;Intro to R environment;Marcin Kierczak;MK, SDL, JOW, LM;slide_r_environment.html;;
 ;;11:00;12:00;Using Rstudio;Marcin Kierczak;MK, SDL, JOW, LM;;https://www.dropbox.com/s/3sy4ou2o8jh5syf/RCourseVideo.mov?dl=0;
 ;;12:00;13:00;Lunch;;;;;
-;;13:00;15:00;Variables & Operators;Marcin Kierczak;MK, M-GH, LS;slide_elements_1.pdf;;
+;;13:00;15:00;Variables & Operators;Marcin Kierczak;MK, M-GH, LS;slide__r_elements_1.html;;
 ;;15:00;17:00;Data types;Marcin Kierczak;MK, M-GH, LS;;lab_datatypes.html;
 03/11/2020;online;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;SDL;slide_elements_2.pdf;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;11:00;Matrices, Lists and Dataframes;Marcin Kierczak;MK, RF, DB;slide_elements_3.pdf;;

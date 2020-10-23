@@ -1,0 +1,421 @@
+---
+title: "Elements of the R language: variables, data types, operators"
+subtitle: "R Foundations for Life Scientists"
+author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
+institute: NBIS, SciLifeLab
+keywords: bioinformatics, course, scilifelab, nbis, R
+output:
+  xaringan::moon_reader:
+    encoding: 'UTF-8'
+    self_contained: false
+    chakra: 'assets/remark-latest.min.js'
+    css: 'assets/slide.css'
+    lib_dir: libs
+    include: NULL
+    nature:
+      ratio: '4:3'
+      highlightLanguage: r
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%/%total%"
+---
+
+exclude: true
+count: false
+
+```{r,echo=FALSE,child="assets/header-slide.Rmd"}
+```
+
+<!-- ------------ Only edit title, subtitle & author above this ------------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width=60)
+```
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+# load the packages you need
+#library(dplyr)
+#library(tidyr)
+#library(stringr)
+#library(ggplot2)
+#library(mkteachr)
+```
+
+---
+name: intro
+
+## Introduction
+
+Today, we will talk about various elements of a programming language and see how they are realized in R.
+
+## Contents 
+
+- **variables and their types**
+- **operators**
+- vectors
+- numbers as vectors
+- strings as vectors
+- matrices
+- lists
+- data frames
+- objects
+- repeating actions: iteration and recursion
+- decision taking: control structures
+- functions in general
+- variable scope
+- core functions
+
+---
+name: variables
+
+## Variables
+
+> Creating a variable is simply assigning a name to some structure that stores data...
+
+```{r variables, echo = TRUE, size='Tiny'}
+7 + 9
+a <- 7
+a
+b <- 9
+b
+c <- a + b
+c
+```
+
+---
+## Variables cted.
+We are not constrained to numbers...
+```{r variables2, echo = TRUE}
+text1 <- 'a'
+text2 <- 'qwerty'
+text1  
+text2
+```
+
+### Is `<-` equivalent to `=`? Which one shall I use?
+> `val <- 3`, `val = 3` and `val -> 3` are in R three equivalent ways of assigning, BUT you should use only `<-` to avoid possible confusion. The equal sign `=` you can and should use 
+when setting function arguments `f(a = 3)`.
+
+---
+name: variables_naming
+
+## Variables &mdash; naming conventions
+
+> How to write variable names? 
+
+- What is legal/valid?
+- What is a good style?
+
+--
+
+A syntactically valid name consists of letters, numbers and the dot or underline characters and starts with a letter or the dot not followed by a number.  
+
+--
+
+Names such as ".2way" are not valid, and neither are the so-called *reserved words*.  
+
+--
+
+### Reserved words
+  
+- `if, else, repeat, while, function, for, in, next, break, TRUE, FALSE, NULL, Inf, NaN, NA, NA_integer_, NA_real_, NA_complex_, NA_character_`  
+
+- and you also **cannot** use: `c, q, t, C, D, I`
+
+- and you **should not** use: `T, F`
+
+---
+name: variables_good_style
+
+## Variables &mdash; good style
+
+> So, how to name variables?
+
+- make them informative, e.g. `genotypes` instead of `fsjht45jkhsdf4`,
+
+--
+
+- use consistent notation across your code &ndash; the same *naming convention*,
+
+--
+
+- camelNotation vs. dot.notation vs. dash_notation,
+
+--
+
+- do not `give_them_too_long_names`, 
+
+--
+
+- in the dot notation avoid `my.variable.2`, use `my.variable2` instead,
+
+--
+
+- there are certain customary names: 
+    - `tmp` - for temporary variables; 
+    - `cnt` for counters; 
+    - `i,j,k` within loops, 
+    - `pwd` - for password...
+
+---
+name: data_types_1
+
+## Variables have types
+
+A *numeric* stores numbers of different *types*:
+
+```{r variable.types1, echo=TRUE}
+x = 41.99 # assign 41.99 to x
+typeof(x)
+```
+
+---
+name: class_type_mode
+
+## Classes, types, and modes
+
+- `class` what type of object is it for R,
+- `typeof()` what R thinks it is,
+- `mode()` how S language would see it (backward compatibility), 
+- `storage.mode()` how is it stored in the memory; useful when talking to C or Java,
+
+```{r class, echo=T, eval=T}
+x <- 1:3
+class(x)
+typeof(x)
+mode(x)
+storage.mode(x)
+```
+
+---
+name: type_casting
+
+## Type casting
+
+By default, any *numeric* is stored as *double* !
+
+```{r variable types2, echo=TRUE}
+y = 12 # now assign an integer value to y
+class(y) # still numeric
+typeof(y) # an integer, but still a double!
+```
+
+But we can explicitly **cast it** to integer:
+
+```{r variable types3, echo=TRUE}
+x <- as.integer(x) # type conversion, casting
+typeof(x)
+class(x)
+is.integer(x)
+```
+
+> We need **casting** because sometimes a function requires data of some type!
+
+---
+name: casting2
+
+## More on type casting
+
+Be careful when casting!
+
+```{r careful.casting, echo=T}
+pi <- 3.1415926536 # assign approximation of pi to pi
+pi
+pi <- as.integer(pi) # not-so-careful casting
+pi
+pi <- as.double(pi) # trying to rescue the situation
+pi
+```
+
+Casting is not rounding!
+
+```{r casting.not.rounding, echo=T}
+as.integer(3.14)
+as.integer(3.51)
+```
+
+---
+name: ceiling_floor
+
+## Ceiling, floor and a round corner
+```{r casting.not.rounding2, echo=T}
+floor(3.51) # floor of 3.51
+ceiling(3.51) # ceiling of 3.51
+round(3.51, digits = 1) # round to one decimal
+```
+
+---
+name: coercion
+
+## What happens if we cast a string to a number
+```{r casting.string, echo=T}
+as.numeric('4.5678')
+as.double('4.5678')
+as.numeric('R course is cool!')
+```
+
+---
+name: some_special_values
+
+## Special values
+```{r special.values, echo=T}
+-1/0  # Minus infinity
+1/0 # Infinity
+```
+
+and also:
+
+```{r special.values2, echo=T}
+112345^67890  # Also infinity for R
+1/2e78996543  # Zero for R
+Inf - Inf # Not a Number
+```
+
+---
+name: cplx_numbers
+
+## Complex number type
+Core R supports complex numbers.
+```{r cplx, echo=T}
+z = 7 + 4i # create a complex number
+z
+class(z)
+typeof(z)
+is.complex(z)
+```
+
+```{r cplx2, echo=T} 
+sqrt(-1) # not treated as cplx number
+sqrt(-1 + 0i) # now a proper cplx number
+sqrt(as.complex(-1)) # an alternative way
+```
+
+---
+name: logical_type
+
+## Logical type
+```{r logical.type, echo=T}
+a <- 7 > 2
+b <- 2 >= 7
+a
+b
+class(a)
+typeof(a)
+```
+
+R has three logical values: TRUE, FALSE and NA.
+
+```{r logical.type2, echo=T}
+x <- c(TRUE, FALSE, NA)
+names(x) <- as.character(x)
+and_truth_table <- outer(x, x, "&") # AND table
+```
+```{r logical.DT, echo=F}
+kableExtra::kable(and_truth_table)
+```
+
+---
+name: logical_cted
+
+## Logical type cted.
+```{r logical.type3, echo=T}
+x <- TRUE
+x
+x <- T # also valid
+x
+is.logical(x)
+typeof(x)
+```
+
+> Observe that in R the logical type is also a numeric!
+
+```{r logical.as.number, echo=T}
+x <- TRUE
+y <- FALSE
+x + y
+2 * x
+x * y
+```
+
+---
+name: logical_joke
+
+## A trap set up for you
+Never ever use variable names as T or F. Why?
+```{r TFtrap, echo=T} 
+F <- T
+T
+F
+```
+Maybe applicable in politics, but not really in science...
+
+---
+name: character_type
+
+## Character type
+It is easy to work with characters and strings:
+```{r char.type, echo=T}
+character <- 'c'
+text <- 'This is my first sentence in R.'
+text
+character
+class(character)
+typeof(text) # also of 'character' type
+```
+
+---
+name: character_type_2
+
+## Character type
+```{r char.type2, echo=T}
+number <- 3.14
+number.text <- as.character(number) # cast to char
+number.text
+class(number.text)
+as.numeric(number.text) # and the other way round
+```
+
+---
+name: basic_string_ops
+
+## Basic string operations
+```{r basic.string, echo=T}
+  text1 <- "John had a yellow "
+  text2 <- "submarine"
+  result <- paste(text1, text2, ".", sep='')
+  result
+  sub("submarine", "cab", result)
+  substr(result, start = 1, stop = 5)
+```
+
+---
+name: basic_printing
+
+## Basic printing
+```{r basic.printing, echo=T}
+  txt <- "blue"
+  (txt <- 'red')
+  val <- 345.78
+  sprintf("The weight of a %s ball is  %g g", txt, val)
+```
+
+<!-- --------------------- Do not edit this and below --------------------- -->
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# See you at the next lecture!
+
+```{r, echo=FALSE,child="assets/footer-slide.Rmd"}
+```
+
+```{r,include=FALSE,eval=FALSE}
+# manually run this to render this document to HTML
+#rmarkdown::render("presentation_demo.Rmd")
+# manually run this to convert HTML to PDF
+#pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
+```
+

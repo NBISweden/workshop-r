@@ -217,7 +217,7 @@ name: end_slide
 class: end-slide, middle
 count: false
 
-# Thank you. Questions?
+# Now you know a bit more about R!
 
 ```{r,echo=FALSE,child="assets/footer-slide.Rmd"}
 ```
