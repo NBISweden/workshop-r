@@ -5,13 +5,15 @@ output_dir: 2011
 location: uppsala
 assistants:
   - "MK: Marcin Kierczak"
-  - "SD: Sebastian DiLorenzo"
+  - "SDL: Sebastian DiLorenzo"
   - "RF: Roy Francis"
-  - "PE: Payam Emami"
+  - "JOW: Jakub Orzechowski Westholm"
+  - "LM: Lokeshwaran Manoharan"
   - "DB: Dimitris Bampalikis"
   - "PU: Per Unneberg"
-  - "MG: Mun-Gwan"
-  - "LM: Lokeshwaran Manoharan"
+  - "M-GH: Mun-Gwan Hong"
+  - "LS: Lucile Soler"
+
 
 favicon: assets/favicon.png
 exclude: ["docs","README.md","schedule.csv","LICENSE","LICENSE.md","scripts","tmprepo"]
