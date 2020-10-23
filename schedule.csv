@@ -2,7 +2,7 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 02/11/2020;online;09:00;09:15;Welcome;Marcin Kierczak, Sebastian DiLorenzo;MK, SDL;;;http://bit.ly/2PRscGA
 ;;09:15;09:30;Intro to R;Marcin Kierczak, Sebastian DiLorenzo;MK, SDL;slide_r_intro.html;;
 ;;09:30;10:00;Intro to R programming;Marcin Kierczak;MK, SDL;slide_r_programming_1.html;;
-;;10:15;10:45;Intro to R environment;Marcin Kierczak;MK, SDL, JOW, LM;slide_r_environment.pdf;;
+;;10:15;10:45;Intro to R environment;Marcin Kierczak;MK, SDL, JOW, LM;slide_r_environment.html;;
 ;;11:00;12:00;Using Rstudio;Marcin Kierczak;MK, SDL, JOW, LM;;https://www.dropbox.com/s/3sy4ou2o8jh5syf/RCourseVideo.mov?dl=0;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;15:00;Variables & Operators;Marcin Kierczak;MK, M-GH, LS;slide_elements_1.pdf;;

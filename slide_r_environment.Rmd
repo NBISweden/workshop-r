@@ -1,0 +1,236 @@
+---
+title: "Working in R environment"
+subtitle: "R Foundations for Life Scientists"
+author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
+institute: NBIS, SciLifeLab
+keywords: bioinformatics, course, scilifelab, nbis, R
+output:
+  xaringan::moon_reader:
+    encoding: 'UTF-8'
+    self_contained: false
+    chakra: 'assets/remark-latest.min.js'
+    css: 'assets/slide.css'
+    lib_dir: libs
+    include: NULL
+    nature:
+      ratio: '4:3'
+      highlightLanguage: r
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%/%total%"
+---
+
+exclude: true
+count: false
+
+```{r,echo=FALSE,child="assets/header-slide.Rmd"}
+```
+
+<!-- ------------ Only edit title, subtitle & author above this ------------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width=60)
+```
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+# load the packages you need
+#library(dplyr)
+#library(tidyr)
+#library(stringr)
+#library(ggplot2)
+library(mkteachr)
+```
+
+---
+name: working_with_r
+
+## Working with R
+
+There are several ways to work with/in R:
+
+* from a command line,
+* in batch mode,
+* from a native GUI,
+* using external editor, e.g. RStudio.
+
+During this course, we will be focusing on working with [RStudio](https://www.rstudio.com) and also in *batch mode*.
+
+---
+name: cline_working
+
+## Working from comand line
+
+1. Open Terminal.
+2. Type *R*. 
+3. Type R commands...
+4. Type q() to quit R.
+
+* Arrows let you browse throughout the history.
+* TAB attempts to autocomplete the command you have just started typing. 
+
+---
+name: batch_mode
+
+## The batch mode
+
+If you are working on a computational cluster, such as the Uppmax, it is very likely you would like to run large jobs that one has to enqueue. This makes interactive work from the console virtually impossible. The solution is to run R code from a file, using the so-called **batch mode**:
+
+1. Create a file with your code and give it extension **.R**.
+2. In the console (or in the queue script) write:  
+
+`R --vanilla < mycode.R` [two minus signs in front of *vanilla*]. 
+
+Should you like to log the output add either:
+
+- `R --vanilla < mycode.R > output.log` or like this
+- `R --vanilla < mycode.R | tee output.log`  
+
+---
+name: help
+
+## Getting help
+
+```{r help, echo=T, eval=F}
+help(t.test) # function level 
+?t.test # same as above
+??t.test # extensive search
+vignette("GenABEL") # package level demo(graphics)
+example(barplot) # run help examples for barplot
+demo() # see all currently available demos
+demo('graphics') # run demo for 'graphics'
+```
+
+[Stackoverflow](http://stackoverflow.com) is a great resource.
+
+---
+name: work_with_packages
+
+## Working with packages
+Packages are organised in repositories. The three main repositories are:
+
+* [CRAN](https://cran.r-project.org)
+* [R-Forge](http://r-forge.r-project.org)
+* [Bioconductor](http://www.bioconductor.org)
+
+We also have [GitHub](https://github.com)
+
+--
+## Working with packages -- CRAN example.
+```{r, out.width="400pt", fig.align='center', echo=F}
+knitr::include_graphics("data/slide_r_environment/cran-package.png")
+```
+
+---
+name: pkg_cran_inst
+
+## Working with packages -- installation
+Only a few packages are pre-installed:
+```{r pkg.err.ex, eval=T, error=TRUE}
+library("XLConnect")
+```
+
+In order to install a package from command line, use:
+```{r pkg.inst, eval=F}
+install.packages('GenABEL', dependencies=T)
+```
+
+---
+name: work_pkg_details
+
+## Working with packages -- details
+It may happen that you want to also specify the repository, e.g. because it is geographically closer to you or because your default mirror is down:
+```{r pkg.inst.repo, eval=F}
+install.packages('GenABEL', dependencies=T, 
+                 repos="http://cran.se.r-project.org")
+```
+
+But, sometimes, this does not work either because the package is not available for your platform. In such case, you need to *compile* it from its *source code*.
+
+---
+name: work_pkg_details2
+
+## Working with packages -- details cted.
+```{r, out.width="400pt", fig.align='center', echo=F}
+knitr::include_graphics("data/slide_r_environment/cran-package.png")
+```
+
+---
+name: source_pkg_inst
+
+## Working with packages -- installing from source.
+
+- Make sure you have appropriate tools installed, e.g. XCode or build-essentials.
+- Download the source file, in our example *GenABEL_1.8-0.tar.gz*.
+- Install it:
+```{r pkg.inst.src, eval=F}
+install.packages("path/to/GenABEL_1.8-0.tar.gz", 
+                 repos=NULL, 
+                 type='source',
+                 dependencies=T)
+```
+- Load it:
+```{r pkg.load, eval=F}
+library('GenABEL') # always forces reloading
+require('GenABEL') # load only if not already loaded
+```
+- Enjoy!
+
+---
+name: pkg_github
+
+## Packages -- GitHub
+Nowadays, more and more developers contribute their packages via GitHub. The easiest way to install packages from the GitHub is via the *devtools* package:
+
+- Install the *devtools* package.
+- Load it.
+- Install.
+- Enjoy!
+
+```{r pkg.inst.devtools.github, eval=F}
+install.packages('devtools', dependencies=T)
+library('devtools')
+install_github('talgalili/installr')
+```
+
+---
+name: pkg_bioconductor
+
+## Packages -- Bioconductor
+```{r, out.width="200pt", fig.align='center', echo=F}
+knitr::include_graphics("data/slide_r_environment/logo_bioconductor.png")
+```
+
+First install Bioconductor Manager:
+```{r inst.biocond, eval=F}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+```
+
+---
+name: pkg_bioconductor2
+
+## Packages -- Bioconductor cted.
+Now, you can install particular packages from Bioconductor:
+```{r biocond.inst.pkg, eval=F}
+BiocManager::install("GenomicRanges")
+```
+For more info, visit [Bioconductor website](http://www.bioconductor.org/install/).
+
+---
+## One package to rule them all -- the magisc of `renv`
+
+- first time do `renv::activate()` and `renv::init()`
+- while working: `renv::hydrate()` and `renv::snapshot()`
+
+Now, send `renv.lock` to your friend to share the environment and she can:
+
+- restore the environment `renv::restore()`
+
+**Pure magic!**
+
+---
+name: rstdio
+
+## RStudio -- a live demonstration
+![RStudio screenshot](data/slide_r_environment/RStudio.png)
