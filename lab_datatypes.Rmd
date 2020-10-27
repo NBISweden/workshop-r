@@ -193,7 +193,7 @@ substr(line1, 5, 5 + 5)
 - Get help for the *t.test*, *table*, *locator* and *identify* functions,
 - Check for all occurences of *fisher.test* in the docs,
 - Which package contains the *plot.ecdf* function. What does it do?
-- Find package 'reshaape'-related questions on StackOverflow,
+- Find package 'reshape'-related questions on StackOverflow,
 - Search on the internet on how to load an XML file into R,
 - Install the 'cgmisc' package from GitHub,
 - Look up the 'cgmisc' vignette,
