@@ -33,7 +33,7 @@ count: false
 knitr::opts_chunk$set(echo = TRUE, width=60)
 ```
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE}
+```{r,include=FALSE}
 # load the packages you need
 #library(dplyr)
 #library(tidyr)
@@ -49,25 +49,25 @@ name: working_with_r
 
 There are several ways to work with/in R:
 
-* from a command line,
-* in batch mode,
-* from a native GUI,
-* using external editor, e.g. RStudio.
+- from a command line,
+- in batch mode,
+- from a native GUI,
+- using external editor, e.g. RStudio.
 
 During this course, we will be focusing on working with [RStudio](https://www.rstudio.com) and also in *batch mode*.
 
 ---
 name: cline_working
 
-## Working from comand line
+## Working from command line
 
 1. Open Terminal.
 2. Type *R*. 
 3. Type R commands...
 4. Type q() to quit R.
 
-* Arrows let you browse throughout the history.
-* TAB attempts to autocomplete the command you have just started typing. 
+- Arrows let you browse throughout the history.
+- TAB attempts to autocomplete the command you have just started typing. 
 
 ---
 name: batch_mode
@@ -91,7 +91,7 @@ name: help
 
 ## Getting help
 
-```{r help, echo=T, eval=F}
+```{r help,echo=TRUE,eval=FALSE}
 help(t.test) # function level 
 ?t.test # same as above
 ??t.test # extensive search
@@ -107,17 +107,19 @@ demo('graphics') # run demo for 'graphics'
 name: work_with_packages
 
 ## Working with packages
+
 Packages are organised in repositories. The three main repositories are:
 
 * [CRAN](https://cran.r-project.org)
 * [R-Forge](http://r-forge.r-project.org)
 * [Bioconductor](http://www.bioconductor.org)
 
-We also have [GitHub](https://github.com)
+We also have [GitHub](https://github.com).
 
 --
 ## Working with packages -- CRAN example.
-```{r, out.width="400pt", fig.align='center', echo=F}
+
+```{r,out.width="400pt",fig.align='center',echo=FALSE}
 knitr::include_graphics("data/slide_r_environment/cran-package.png")
 ```
 
@@ -125,24 +127,28 @@ knitr::include_graphics("data/slide_r_environment/cran-package.png")
 name: pkg_cran_inst
 
 ## Working with packages -- installation
+
 Only a few packages are pre-installed:
-```{r pkg.err.ex, eval=T, error=TRUE}
+
+```{r pkg.err.ex,eval=TRUE,error=TRUE}
 library("XLConnect")
 ```
 
 In order to install a package from command line, use:
-```{r pkg.inst, eval=F}
-install.packages('GenABEL', dependencies=T)
+
+```{r pkg.inst,eval=FALSE}
+install.packages('GenABEL',dependencies=TRUE)
 ```
 
 ---
 name: work_pkg_details
 
 ## Working with packages -- details
+
 It may happen that you want to also specify the repository, e.g. because it is geographically closer to you or because your default mirror is down:
-```{r pkg.inst.repo, eval=F}
-install.packages('GenABEL', dependencies=T, 
-                 repos="http://cran.se.r-project.org")
+
+```{r pkg.inst.repo,eval=FALSE}
+install.packages('GenABEL',dependencies=TRUE,repos="http://cran.se.r-project.org")
 ```
 
 But, sometimes, this does not work either because the package is not available for your platform. In such case, you need to *compile* it from its *source code*.
@@ -151,7 +157,7 @@ But, sometimes, this does not work either because the package is not available f
 name: work_pkg_details2
 
 ## Working with packages -- details cted.
-```{r, out.width="400pt", fig.align='center', echo=F}
+```{r,out.width="400pt",fig.align='center',echo=FALSE}
 knitr::include_graphics("data/slide_r_environment/cran-package.png")
 ```
 
@@ -163,17 +169,21 @@ name: source_pkg_inst
 - Make sure you have appropriate tools installed, e.g. XCode or build-essentials.
 - Download the source file, in our example *GenABEL_1.8-0.tar.gz*.
 - Install it:
-```{r pkg.inst.src, eval=F}
+
+```{r pkg.inst.src,eval=FALSE}
 install.packages("path/to/GenABEL_1.8-0.tar.gz", 
                  repos=NULL, 
                  type='source',
-                 dependencies=T)
+                 dependencies=TRUE)
 ```
+
 - Load it:
-```{r pkg.load, eval=F}
+
+```{r pkg.load,eval=FALSE}
 library('GenABEL') # always forces reloading
 require('GenABEL') # load only if not already loaded
 ```
+
 - Enjoy!
 
 ---
@@ -187,8 +197,8 @@ Nowadays, more and more developers contribute their packages via GitHub. The eas
 - Install.
 - Enjoy!
 
-```{r pkg.inst.devtools.github, eval=F}
-install.packages('devtools', dependencies=T)
+```{r pkg.inst.devtools.github,eval=FALSE}
+install.packages('devtools',dependencies=TRUE)
 library('devtools')
 install_github('talgalili/installr')
 ```
@@ -197,13 +207,15 @@ install_github('talgalili/installr')
 name: pkg_bioconductor
 
 ## Packages -- Bioconductor
-```{r, out.width="200pt", fig.align='center', echo=F}
+
+```{r,out.width="200pt",fig.align='center',echo=FALSE}
 knitr::include_graphics("data/slide_r_environment/logo_bioconductor.png")
 ```
 
 First install Bioconductor Manager:
-```{r inst.biocond, eval=F}
-if (!requireNamespace("BiocManager", quietly = TRUE))
+
+```{r inst.biocond,eval=FALSE}
+if (!requireNamespace("BiocManager",quietly = TRUE))
     install.packages("BiocManager")
 ```
 
@@ -211,14 +223,17 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 name: pkg_bioconductor2
 
 ## Packages -- Bioconductor cted.
+
 Now, you can install particular packages from Bioconductor:
-```{r biocond.inst.pkg, eval=F}
+
+```{r biocond.inst.pkg,eval=FALSE}
 BiocManager::install("GenomicRanges")
 ```
+
 For more info, visit [Bioconductor website](http://www.bioconductor.org/install/).
 
 ---
-## One package to rule them all -- the magisc of `renv`
+## One package to rule them all -- the magic of `renv`
 
 - first time do `renv::activate()` and `renv::init()`
 - while working: `renv::hydrate()` and `renv::snapshot()`
@@ -230,7 +245,8 @@ Now, send `renv.lock` to your friend to share the environment and she can:
 **Pure magic!**
 
 ---
-name: rstdio
+name: rstudio
 
 ## RStudio -- a live demonstration
+
 ![RStudio screenshot](data/slide_r_environment/RStudio.png)
