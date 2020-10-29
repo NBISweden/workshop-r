@@ -76,7 +76,7 @@ head(abalone)
 1.  Download the file [example.data](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/common/example.data) to your computer and import it to R using the `read.table()` function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the `write.table` function.
 
 ```{r,accordion=TRUE}
-ed <- read.table("example.data", sep = ":")
+ed <- read.table("./data/common/example.data", sep = ":")
 head(ed)
 str(ed)
 ```
