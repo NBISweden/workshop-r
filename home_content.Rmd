@@ -33,7 +33,7 @@ This page contains links to different lectures (slides) and practical exercises 
 **Graphics**
 
 * [Graphics with base R (Slides)](slide_graphics.pdf)  
-* [Graphics with base R (Lab)](lab_plot.pdf)  
+* [Graphics with base R (Lab)](lab_graphics.html)  
 * [Graphics with ggplot2 (Slides)](slide_ggplot2.html)  
 * [Working with ggplot2 (Lab)](lab_ggplot2.html)  
 
