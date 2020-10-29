@@ -953,17 +953,7 @@ class: spaced
 name: end-slide
 class: end-slide
 
-# Thank you
+# Thank you. Questions?
 
----
-name: session
-
-## Session
-
-* This presentation was created in RStudio using [`remarkjs`](https://github.com/gnab/remark) framework through R package [`xaringan`](https://github.com/yihui/xaringan).
-* For R Markdown, see <http://rmarkdown.rstudio.com>
-* For R Markdown presentations, see <https://rmarkdown.rstudio.com/lesson-11.html>
-
-```{r,echo=TRUE}
-R.version
+```{r,echo=FALSE,child="assets/footer-slide.Rmd"}
 ```

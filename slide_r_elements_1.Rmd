@@ -1,5 +1,5 @@
 ---
-title: "Elements of the R language: variables, data types, operators"
+title: "Variables, data types, operators"
 subtitle: "R Foundations for Life Scientists"
 author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
 institute: NBIS, SciLifeLab
