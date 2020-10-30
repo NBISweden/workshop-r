@@ -6,11 +6,6 @@ subtitle: "R Programming Foundation for Life Scientists"
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
-```{r,setup,include=FALSE}
-knitr::opts_chunk$set(eval=FALSE)
-```
-
-
 # Introduction
 
 Up until now we have mostly created the object we worked with on the fly from within R. The most common use-case is however to read in different data sets that are stored as files, either somewhere on a server or locally on your computer. In this exercise we will test some common ways to import data in R and also show to save data from R. After this exercise you will know how to:
@@ -26,7 +21,7 @@ Up until now we have mostly created the object we worked with on the fly from wi
 The function `scan()` can be used both to read data from files and directly from keyboard. The function is very flexible and have many different settings that allow to read data in different formats. To read and store a set of words that you type on your keyboard try the following code that will prompt your for input. After each word press enter and R will prompt you for new input. After the last word have been typed press enter twice to get back to your R prompt and have your character vector named words available in R your session.
 
 ```{r,eval=FALSE}
-words <- scan(what = character())
+words <- scan(what=character())
 ```
 
 We will read in this [book chapter](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt). Read the manual for scan and read the text file named **book_chapter.txt** into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.
@@ -45,7 +40,7 @@ Check that your newly created objects contain the correct information and have b
 1.  Identify the longest word in your vector.
 
 ```{r,accordion=TRUE}
-sort(nchar(shelley.vec), decreasing = TRUE)
+sort(nchar(shelley.vec), decreasing=TRUE)
 which(nchar(shelley.vec) == max(nchar(shelley.vec)))
 shelley.vec[381]
 ```
@@ -73,15 +68,15 @@ head(expr.At)
 One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.
 
 ```{r,accordion=TRUE}
-url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data'
-abalone = read.table(url, header=F , sep=',')
+url <- 'http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data'
+abalone <- read.table(url, header=FALSE , sep=',')
 head(abalone)
 ```
 
 1. Read this [example data](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data) to R using the `read.table()` function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the `write.table` function.
 
 ```{r,accordion=TRUE}
-ed <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data", sep = ":")
+ed <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data", sep=":")
 head(ed)
 str(ed)
 ```
@@ -89,13 +84,13 @@ str(ed)
 Encode all NA values as "missing", at export. 
 
 ```{r,eval=FALSE,accordion=TRUE}
-write.table(x = ed, na = "missing", file = "example_mis.data")
+write.table(x=ed, na="missing", file="example_mis.data")
 ```
 
 2.  Read in the file you just created and double-check that you have the same data as earlier.
 
 ```{r,eval=FALSE,accordion=TRUE}
-df.test <- read.table("example_mis.data", na.strings = "missing")
+df.test <- read.table("example_mis.data", na.strings="missing")
 ```
 
 3. Analysing genome annotation in R using read.table
@@ -155,11 +150,11 @@ levels(d.gtf$Chromosome)
 2.  How many exons is there in total and per chromosome?
 
 ```{r,accordion=TRUE}
-aggregate(d.gtf$Feature, by = list(d.gtf$Chromosome), summary)
+aggregate(d.gtf$Feature, by=list(d.gtf$Chromosome), summary)
 ```
 
 ```{r,accordion=TRUE}
-by(data = d.gtf$Feature, d.gtf[,"Chromosome"], summary)
+by(data=d.gtf$Feature, d.gtf[,"Chromosome"], summary)
 ```
 
 3.  Filter the data frame to only retain gene annotations
@@ -192,7 +187,7 @@ mean(abs(exon.position$Start - exon.position$End))
 7.  Do the same calculations for the chromosomes 2L, 2R, 3L, 4, X and Y using a for loop.
 
 ```{r,accordion=TRUE}
-chr <- c("2L", "2R", "3L", "4", "X", "Y")
+chr <- c("2L","2R","3L","4","X","Y")
 for (i in chr) {
   d.gtf.tmp <- d.gtf[d.gtf$Chromosome == i,]
   exon.position <- d.gtf.tmp[d.gtf.tmp$Feature == "exon", c("Start", "End")]   

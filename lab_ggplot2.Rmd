@@ -327,7 +327,7 @@ Covid cases data was download from [ECDC](https://www.ecdc.europa.eu/en/publicat
 Read the table, keep only date up to september, convert the `dateRep` as date format to a new column named `date`, convert month and year to factors.
 
 ```{r}
-d <- read.csv("./data/lab_ggplot2/covid.csv",header=TRUE,stringsAsFactors=TRUE) %>%
+d <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_ggplot2/covid.csv",header=TRUE,stringsAsFactors=TRUE) %>%
   filter(month<=9) %>%
   mutate(date=as.Date(as.character(dateRep),"%d/%m/%Y"),
          month=as.factor(month),
