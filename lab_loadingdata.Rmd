@@ -6,6 +6,11 @@ subtitle: "R Programming Foundation for Life Scientists"
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
+```{r,setup,include=FALSE}
+knitr::opts_chunk$set(eval=FALSE)
+```
+
+
 # Introduction
 
 Up until now we have mostly created the object we worked with on the fly from within R. The most common use-case is however to read in different data sets that are stored as files, either somewhere on a server or locally on your computer. In this exercise we will test some common ways to import data in R and also show to save data from R. After this exercise you will know how to:
@@ -24,14 +29,14 @@ The function `scan()` can be used both to read data from files and directly from
 words <- scan(what = character())
 ```
 
-Download the file book chapter from this [link](../data/common/book_chapter.txt). Read the manual for scan and read the text file named **book_chapter.txt** into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.
+We will read in this [book chapter](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt). Read the manual for scan and read the text file named **book_chapter.txt** into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.
 
 
 ```{r,accordion=TRUE}
-shelley.vec <- scan(file = "./data/common/book_chapter.txt", what = character())
+shelley.vec <- scan(file="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt", what=character())
 str(shelley.vec)
 
-shelley.list <- scan(file = "./data/common/book_chapter.txt", what = list(character()))
+shelley.list <- scan(file="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt", what=list(character()))
 class(shelley.list)
 ```
 
@@ -48,8 +53,8 @@ shelley.vec[381]
 2.  Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.
 
 ```{r,accordion=TRUE}
-shelley.vec2 <- scan(file = "./data/common/book_chapter.txt", what = 'character', sep = ' ', quote = NULL)
-shelley.filt2 <- gsub(pattern = '[^[:alnum:] ]', replacement = "", x = shelley.vec2)
+shelley.vec2 <- scan(file="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt", what='character', sep=' ', quote=NULL)
+shelley.filt2 <- gsub(pattern='[^[:alnum:] ]', replacement="", x=shelley.vec2)
 which(nchar(shelley.filt2) == max(nchar(shelley.filt2)))
 shelley.filt2[301]
 ```
@@ -58,10 +63,10 @@ shelley.filt2[301]
 
 This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.
 
-In this code block with first import the data from normalized.txt from a file (that you can get [here](../files/normalized.txt)) and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.
+In this code block with first import the data from [normalized.txt](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt) and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.
 
 ```{r,accordion=TRUE}
-expr.At <- read.table("./data/common/normalized.txt")
+expr.At <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt")
 head(expr.At)
 ```
 
@@ -69,14 +74,14 @@ One does however not have to have all data as a file an the local disk, instead 
 
 ```{r,accordion=TRUE}
 url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data'
-abalone = read.table(url, header = F , sep = ',')
+abalone = read.table(url, header=F , sep=',')
 head(abalone)
 ```
 
-1.  Download the file [example.data](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/common/example.data) to your computer and import it to R using the `read.table()` function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the `write.table` function.
+1. Read this [example data](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data) to R using the `read.table()` function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the `write.table` function.
 
 ```{r,accordion=TRUE}
-ed <- read.table("./data/common/example.data", sep = ":")
+ed <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data", sep = ":")
 head(ed)
 str(ed)
 ```
@@ -125,7 +130,7 @@ Open this and download the file named **Drosophila_melanogaster.BDGP6.86.gtf.gz*
 With this done read this file into R using the function `read.table()` and add meaningful column names to the table.
 
 ```{r,include=FALSE,eval=TRUE}
-if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz") && !file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) download.file("ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz","Drosophila_melanogaster.BDGP6.86.gtf.gz")
+if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf") && !file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) download.file("ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz","Drosophila_melanogaster.BDGP6.86.gtf.gz")
 if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) system("gunzip Drosophila_melanogaster.BDGP6.86.gtf.gz")
 ```
 
@@ -198,7 +203,7 @@ for (i in chr) {
 }
 ```
 
-```{r,include=FALSE}
+```{r,eval=TRUE,include=FALSE}
 # remove drosophila gtf
 if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf")
 if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf.gz")
