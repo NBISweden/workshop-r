@@ -69,7 +69,6 @@ packages:
    - kableExtra
    - knitr
    - leaflet
-   - lubridate
    - markdown
    - remotes
    - rmarkdown

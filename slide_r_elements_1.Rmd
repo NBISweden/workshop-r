@@ -94,7 +94,7 @@ text2
 ```
 
 ### Is `<-` equivalent to `=`? Which one shall I use?
-> `val <- 3`, `val = 3` and `val -> 3` are in R three equivalent ways of assigning, BUT you should use only `<-` to avoid possible confusion. The equal sign `=` you can and should use 
+> `val <- 3`, `val = 3` and `3 -> val` are in R three equivalent ways of assigning, BUT you should use only `<-` to avoid possible confusion. The equal sign `=` you can and should use 
 when setting function arguments `f(a = 3)`.
 
 ---
@@ -166,7 +166,7 @@ name: data_types_1
 A *numeric* stores numbers of different *types*:
 
 ```{r variable.types1,echo=TRUE}
-x=41.99 # assign 41.99 to x
+x <- 41.99 # assign 41.99 to x
 typeof(x)
 ```
 
@@ -239,6 +239,7 @@ as.integer(3.51)
 name: ceiling_floor
 
 ## Ceiling, floor and a round corner
+
 ```{r casting.not.rounding2,echo=TRUE}
 floor(3.51) # floor of 3.51
 ceiling(3.51) # ceiling of 3.51
@@ -249,6 +250,7 @@ round(3.51, digits=1) # round to one decimal
 name: coercion
 
 ## What happens if we cast a string to a number
+
 ```{r casting.string,echo=TRUE}
 as.numeric('4.5678')
 as.double('4.5678')
@@ -259,6 +261,7 @@ as.numeric('R course is cool!')
 name: some_special_values
 
 ## Special values
+
 ```{r special.values,echo=TRUE}
 -1/0  # Minus infinity
 1/0 # Infinity
@@ -276,7 +279,9 @@ Inf - Inf # Not a Number
 name: cplx_numbers
 
 ## Complex number type
+
 Core R supports complex numbers.
+
 ```{r cplx,echo=TRUE}
 z = 7 + 4i # create a complex number
 z

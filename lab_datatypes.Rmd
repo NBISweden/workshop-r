@@ -136,7 +136,7 @@ as.numeric('3.56437')
 9. Divide &infin; by - &infin;
 
 ```{r,accordion=TRUE}
--Inf/Inf
+Inf/-Inf
 ```
 
 10. Create two freely chosen complex numbers.

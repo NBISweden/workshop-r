@@ -120,7 +120,7 @@ The last column can contain a large number of attributes that are comma-separate
 
 As these files for many organisms are large we will in this exercise use the latest version of Drosophila melanogaster genome annotation available at `ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster` that is small enough for analysis even on a laptop.  
 
-Open this and download the file named **Drosophila_melanogaster.BDGP6.86.gtf.gz** to your computer. Unzip this file and keep track of where your store the file.
+Download the file named **Drosophila_melanogaster.BDGP6.86.gtf.gz** to your computer. Unzip this file and keep track of where your store the file.
 
 With this done read this file into R using the function `read.table()` and add meaningful column names to the table.
 
