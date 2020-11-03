@@ -60,6 +60,7 @@ packages:
    - tidyverse
    - lubridate
    - nycflights13
+   - vcd
   packages_bioc_student:
   package_github_student:
   packages_cran_repo:
