@@ -1,0 +1,17 @@
+ bookdown
+ captioner
+ formattable
+ kableExtra
+ knitr
+ leaflet
+ lubridate
+ markdown
+ mkierczak/mkteachr
+ nycflights13
+ remotes
+ rmarkdown
+ rstudio/fontawesome
+ tidyverse
+ vcd
+ xaringan
+ yaml
