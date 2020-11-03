@@ -1,0 +1,271 @@
+---
+title: "Reading (and writing) data in R"
+subtitle: "R Foundations for Life Scientists"
+author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
+institute: NBIS, SciLifeLab
+keywords: bioinformatics, course, scilifelab, nbis, R
+output:
+  xaringan::moon_reader:
+    encoding: 'UTF-8'
+    self_contained: false
+    chakra: 'assets/remark-latest.min.js'
+    css: 'assets/slide.css'
+    lib_dir: libs
+    include: NULL
+    nature:
+      ratio: '4:3'
+      highlightLanguage: r
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%/%total%"
+---
+
+exclude: true
+count: false
+
+```{r,echo=FALSE,child="assets/header-slide.Rmd"}
+```
+
+<!-- ------------ Only edit title, subtitle & author above this ------------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width=60)
+```
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+# load the packages you need
+#library(dplyr)
+#library(tidyr)
+#library(stringr)
+#library(ggplot2)
+#library(mkteachr)
+```
+
+---
+name: reading_data
+
+## Reading data
+
+* Reading data is one of the most consuming and most cumbersome aspects of bioinformatics...
+
+--
+
+* R provides a number of ways to read and write data stored on different media (file, database, url, twitter, Facebook, etc.) and in different formats. 
+
+--
+
+* Package `foreign` contains a number of functions to import less common data formats.
+
+---
+name:reading_tables
+
+## Reading tables
+
+Most often, we will use the `read.table()` function. It is really, really flexible and nice way to read your data into a data.frame structure with rows corresponding to observations and columns to particular variables.  
+
+The function is declared in the following way:  
+```
+read.table(file, header = FALSE, sep = "", quote = "\"'",
+           dec = ".", numerals = c("allow.loss", "warn.loss", "no.loss"),
+           row.names, col.names, as.is = !stringsAsFactors,
+           na.strings = "NA", colClasses = NA, nrows = -1,
+           skip = 0, check.names = TRUE, fill = !blank.lines.skip,
+           strip.white = FALSE, blank.lines.skip = TRUE,
+           comment.char = "#",
+           allowEscapes = FALSE, flush = FALSE,
+           stringsAsFactors = default.stringsAsFactors(),
+          fileEncoding = "", encoding = "unknown", text, skipNul = FALSE)*
+```
+
+---
+name: read_table_params
+## `read.table` parameters
+
+You can read more about the *read.table* function on its man page, but the most important arguments are:
+
+* file &ndash; the path to the file that contains data,
+* header &ndash; a logical indicating whether the first line of the file contains variable names,
+* sep &ndash; a character determining variable delimiter, e.g. comma for csv files,
+* quote &ndash; a character telling R which character surrounds strings,
+* dec &ndash; acharacter determining the decimal separator,
+* row/col.names &ndash; vectors containing row and column names,
+* na.strings &ndash; a character used for missing data,
+* nrows &ndash; how many rows should be read,
+* skip &ndash; how many rows to skip,
+* as.is &ndash; a vector of logicals or numbers indicating which columns shall not be converted to factors,
+* fill &ndash; add NA to the end of shorter rows,
+* stringsAsFactors &ndash; a logical. Rather self explanatory.
+
+---
+name: read_table_sibs
+## `read.table` and its siblings  
+
+The `read.table` function has some siblings, functions with particular arguments pre-set to a specific value to spare some time:
+
+* `read.csv()` and `read.csv2()` with comma and semicolon as default `sep` and dot and comma as `dec` respectively,
+* `read.delim()` and `read.delim2()` for reading tab-delimited files.
+
+We, however, most often use the canonical `read.table()` as it is the most flexible one.
+
+---
+name: read_Table_example
+## `read.table` &mdash; example use
+
+```{r read.table, echo=T}
+tab <- read.table(file = 'data/slide_loading_data/2014-04-07_phenos2.csv',
+                  sep = ' ', 
+                  header = T)
+tab[1:5, 1:3]
+class(tab$reg_no)
+```
+
+---
+name: handling_errors
+
+## What if you encounter errors?
+
+* StackOverflow,
+* Google &ndash; just type R and copy the error you got without your variable names,
+* open the file &ndash; has the header line the same number of columns as the first line?
+* in Terminal (on Linux/OsX) you can type some useful commands.
+--
+
+### Useful commands for debugging
+* `cat phenos.txt | awk -F';' '{print NF}'` prints the number of words in each row. `-F';'` says that semicolon is the delimiter,
+
+--
+
+* `head -n 5 phenos.txt` prints the 5 first lines of the file,
+
+--
+
+* `tail -n 5 phenos.txt` prints the 5 last lines of the file,
+
+--
+
+* `head -n 5 phenos.txt | tail -n 2` will print lines 4 and 5...
+
+--
+
+* `wc -l phenos.txt` will print the number of lines in the file
+
+--
+
+* `head -n 2 phenos.txt > test.txt` will write the first 2 lines to a new file
+
+--
+
+If it still does not give you a clue &mdash; just try to load first line of the file.  
+
+--
+
+If this still did not help, split the file in two equal-size parts. Check which part gives the error. Split this part into halves and check which 1/4 gives the error... It is faster than you think!
+
+---
+name: writing
+## Writing with write.table()
+`read.table()` has its counterpart, the `write.table()` function (as well ass its siblings, like write.csv()). You can read more about it in the documentation, let us show some examples:
+
+```{r write.table, echo=T, eval=F}
+vec <- rnorm(10)
+write.table(vec, '') # write to screen
+write.table(vec, file = 'vector.txt') 
+# write to the system clipboard, handy!
+write.table(vec, 'clipboard', col.names=F, 
+            row.names=F) 
+# or on OsX
+clip <- pipe("pbcopy", "w")                       
+write.table(vec, file=clip)                               
+close(clip)
+# To use in a spreadsheet
+write.csv(vec, file = 'spreadsheet.csv')
+```
+
+---
+name: write_big_data
+## Writing big data
+* HINT: `write.table()` is rather slow on big data &ndash; it checks types for every column and row and does separate formatting to each. If your data consists of only one type of data, convert it to a matrix using `as.matrix` before you write it!  
+
+* You may want to use function `scan()` that reads files as vectors. The content does not have to be in the tabular form. You can also use scan to read data from keyboard: `typed.data <- scan()`
+  
+* If data are written as fixed-width fields, use the `read.fwf()` function.
+
+* Also check out the `readLines()` function that enables you to read data from any stream.
+
+---
+name: read_xls_matlab
+## Read data in XLS and Matlab
+```{r xls, eval=F, echo=T}
+library(gdata)
+# Note, the gdata:: -- not necessary, but 
+# good to refresh your memory:-)
+data <- gdata::read.xls('myfile.xls', sheet = 2)
+```
+
+```{r matlab, eval=F, echo=T} 
+library(R.matlab)
+data <- R.matlab::readMat("mydata.mat")
+```
+
+---
+name: remote_data
+## Working with remote data
+```{r url.data, eval=T, cache=T, echo=T}
+url <- 'https://en.wikipedia.org/wiki/List_of_countries_by_average_wage'
+conn <- url(url, 'r')
+raw.data <- readLines(conn)
+raw.data[1:3]
+```
+But data is often tabularized...
+
+```{r url.data.2, eval=T, cache=T, echo=T}
+library(rvest)
+html <- read_html(url)
+tables <- html_nodes(html, 'table')
+data <- html_table(tables[4])[[1]]
+data[1:5, ]
+```
+
+---
+name: databases
+## Working with databases
+It is also relatively easy to work with different databases. We will focus on MySQL and present only one example that uses the *RMySQL* package (check also *RODBC* and *RPostgreSQL*).
+```{r db, echo=T, eval=F}
+library(RMySQL)
+db.conn <- dbConnect(MySQL(), user='me', 
+                     password='qwerty123',
+                     dbname='genes', 
+                     host='127.0.0.237')
+query <- dbSendQuery(db.conn, 'SELECT * FROM table7')
+data <- fetch(query, n = - 1)
+```
+
+---
+name: capabilities
+
+## Capabilities
+If you are getting some errors, e.g. trying to connect to a url, you may check whether your system (and R) support particular type of file or connection:
+```{r capabil, echo=T, size='tiny'}
+capabilities()
+```
+
+<!-- --------------------- Do not edit this and below --------------------- -->
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# See you at the next lecture!
+
+```{r, echo=FALSE,child="assets/footer-slide.Rmd"}
+```
+
+```{r,include=FALSE,eval=FALSE}
+# manually run this to render this document to HTML
+#rmarkdown::render("presentation_demo.Rmd")
+# manually run this to convert HTML to PDF
+#pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
+```
+
