@@ -15,7 +15,7 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 04/11/2020;online;09:00;10:00;Loading data into R;Marcin Kierczak;RF;slide_loading_data.html;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;12:00;Loading data into R;Marcin Kierczak;RF, M-GH, PU;;lab_loadingdata.html;
 ;;12:00;13:00;Lunch;;;;;
-;;13:00;14:00;Control Structures, Iteration;Marcin Kierczak;MK;slide_elements_4.html;;
+;;13:00;14:00;Control Structures, Iteration;Marcin Kierczak;MK;slide_r_elements_4.html;;
 ;;14:00;17:00;Loops, Conditionals, Functions;Marcin Kierczak;PU, DB, LS;;lab_loops.html;
 05/11/2020;online;09:00;10:00;Base graphics;Marcin Kierczak;MK;slide_graphics.pdf;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;12:00;Base graphics;Marcin Kierczak;PU, JOW, LS;;lab_graphics.html;
