@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Tidy work in Tidyverse</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="03-Nov-2020" />
+    <meta name="keywords" content="r, r programming, markdown, tidyverse" />
+    <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-5.1.0/fonts/fontawesome-webfont.ttf"/>
+    <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Tidy work in Tidyverse
+## R Programming Foundation for Life Scientists
+### 03-Nov-2020
+### NBIS
+
+---
+
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+&lt;!-- ----------------- Only edit title &amp; author above this ----------------- --&gt;
+
+
+
+
+
+## Tidyverse -- What is it all About?
+
+* [Tidyverse](http://www.tidyverse.org) is a collection of packages.
+* Created by [Hadley Wickham](http://hadley.nz).
+* Gains popularity, on the way to become a *de facto* standard in data analyses.
+* Knowing how to use it can increase your salary :-)
+* A philosophy of programming or a programing paradigm.
+* Everything is about the flow of *tidy data*.
+.center[
+&lt;img src="data/slide_tidyverse/hex-tidyverse.png", style="height:200px;"&gt;
+&lt;img src="data/slide_tidyverse/Hadley-wickham2016-02-04.jpeg", style="height:200px;"&gt;
+&lt;img src="data/slide_tidyverse/RforDataScience.jpeg", style="height:200px;"&gt;
+]
+.vsmall[sources of images: www.tidyverse.org, Wikipedia, www.tidyverse.org]
+
+---
+name: tidyverse_workflow
+
+## Typical Tidyverse Workflow
+
+The tidyverse curse?&lt;br&gt;&lt;br&gt;
+--
+*Navigating the balance between base R and the tidyverse is a challenge to learn.*
+.right[.small[-- [Robert A. Muenchen](http://r4stats.com/articles/why-r-is-hard-to-learn/)]]
+&lt;br&gt;&lt;br&gt;
+--
+&lt;img src="data/slide_tidyverse/tidyverse-flow.png", style="height:400px;"&gt;&lt;br&gt;
+.vsmall[source: http://www.storybench.org/getting-started-with-tidyverse-in-r/]
+
+---
+name: intro_to_pipes
+
+## Introduction to Pipes
+
+.pull-left-50[
+  .center[
+    
+    ```r
+    knitr::include_graphics("data/slide_tidyverse/MagrittePipe.jpg")
+    ```
+    
+    &lt;img src="data/slide_tidyverse/MagrittePipe.jpg" width="300" style="display: block; margin: auto auto auto 0;" /&gt;
+  ]
+  .vsmall[
+    Rene Magritt, *La trahison des images*, [Wikimedia Commons](https://en.wikipedia.org/wiki/The_Treachery_of_Images#/media/File:MagrittePipe.jpg)
+  ]
+  &lt;br&gt;&amp;nbsp;
+  .center[
+    
+    ```r
+    knitr::include_graphics("data/slide_tidyverse/magrittr.png")
+    ```
+    
+    &lt;img src="data/slide_tidyverse/magrittr.png" width="150" style="display: block; margin: auto auto auto 0;" /&gt;
+  ]
+]
+--
+.pull-right-50[
+* Let the data flow.
+* *Ceci n'est pas une pipe* -- `magrittr`
+* The `%&gt;%` pipe:
+  + `x %&gt;% f` `\(\equiv\)` `f(x)`
+  + `x %&gt;% f(y)` `\(\equiv\)` `f(x, y)`
+  + `x %&gt;% f %&gt;% g %&gt;% h` `\(\equiv\)` `h(g(f(x)))`
+]
+
+--
+
+.pull-right-50[
+
+instead of writing this:
+
+```r
+data &lt;- iris
+data &lt;- head(data, n=3)
+```
+]
+--
+.pull-right-50[
+
+write this:
+
+```r
+iris %&gt;% head(n=3)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+```
+]
+
+
+---
+name: tibble_intro
+
+## Tibbles
+
+.pull-left-50[
+  &lt;img src="data/slide_tidyverse/hex-tibble.png" width="160" style="display: block; margin: auto;" /&gt;
+  
+  ```r
+  as_tibble(iris)
+  ```
+  
+  ```
+  ## [90m# A tibble: 150 x 5[39m
+  ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+  ##           [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;dbl&gt;[39m[23m       [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m  
+  ## [90m 1[39m          5.1         3.5          1.4         0.2 setosa 
+  ## [90m 2[39m          4.9         3            1.4         0.2 setosa 
+  ## [90m 3[39m          4.7         3.2          1.3         0.2 setosa 
+  ## [90m 4[39m          4.6         3.1          1.5         0.2 setosa 
+  ## [90m 5[39m          5           3.6          1.4         0.2 setosa 
+  ## [90m 6[39m          5.4         3.9          1.7         0.4 setosa 
+  ## [90m 7[39m          4.6         3.4          1.4         0.3 setosa 
+  ## [90m 8[39m          5           3.4          1.5         0.2 setosa 
+  ## [90m 9[39m          4.4         2.9          1.4         0.2 setosa 
+  ## [90m10[39m          4.9         3.1          1.5         0.1 setosa 
+  ## [90m11[39m          5.4         3.7          1.5         0.2 setosa 
+  ## [90m12[39m          4.8         3.4          1.6         0.2 setosa 
+  ## [90m13[39m          4.8         3            1.4         0.1 setosa 
+  ## [90m14[39m          4.3         3            1.1         0.1 setosa 
+  ## [90m15[39m          5.8         4            1.2         0.2 setosa 
+  ## [90m# … with 135 more rows[39m
+  ```
+]
+
+.pull-right-50[
+* `tibble` is one of the unifying features of tidyverse,
+* it is a *better* `data.frame` realization,
+* objects `data.frame` can be coerced to `tibble` using `as_tibble()`
+
+
+```r
+  tibble(
+    x = 1,          # recycling
+    y = runif(50),
+    z = x + y^2,
+    outcome = rnorm(50)
+  )
+```
+
+```
+## [90m# A tibble: 50 x 4[39m
+##        x     y     z outcome
+##    [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m
+## [90m 1[39m     1 0.870  1.76   0.222
+## [90m 2[39m     1 0.864  1.75   0.149
+## [90m 3[39m     1 0.869  1.76  -[31m0[39m[31m.[39m[31m273[39m
+## [90m 4[39m     1 0.761  1.58   1.27 
+## [90m 5[39m     1 0.177  1.03  -[31m0[39m[31m.[39m[31m696[39m
+## [90m 6[39m     1 0.637  1.41  -[31m2[39m[31m.[39m[31m39[39m 
+## [90m 7[39m     1 0.733  1.54   0.112
+## [90m 8[39m     1 0.272  1.07  -[31m0[39m[31m.[39m[31m390[39m
+## [90m 9[39m     1 0.800  1.64  -[31m1[39m[31m.[39m[31m20[39m 
+## [90m10[39m     1 0.359  1.13   0.331
+## [90m11[39m     1 0.472  1.22   0.937
+## [90m12[39m     1 0.653  1.43  -[31m1[39m[31m.[39m[31m49[39m 
+## [90m13[39m     1 0.960  1.92  -[31m0[39m[31m.[39m[31m625[39m
+## [90m14[39m     1 0.419  1.18   1.43 
+## [90m15[39m     1 0.679  1.46  -[31m0[39m[31m.[39m[31m504[39m
+## [90m# … with 35 more rows[39m
+```
+]
+
+---
+name: tibble2
+
+## More on Tibbles
+
+* When you print a `tibble`:
+  + all columns that fit the screen are shown,
+  + first 10 rows are shown,
+  + data type for each column is shown.
+
+
+```r
+as_tibble(cars)
+```
+
+```
+## [90m# A tibble: 5 x 2[39m
+##   speed  dist
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m     4     2
+## [90m2[39m     4    10
+## [90m3[39m     7     4
+## [90m4[39m     7    22
+## [90m5[39m     8    16
+```
+
+* `my_tibble %&gt;% print(n = 50, width = Inf)`,
+* `options(tibble.print_min = 15, tibble.print_max = 25)`,
+* `options(dplyr.print_min = Inf)`,
+* `options(tibble.width = Inf)`
+
+---
+name: tibble2
+
+## Subsetting Tibbles
+
+
+```r
+vehicles &lt;- as_tibble(cars[1:5,])
+
+vehicles[['speed']]
+vehicles[[1]]
+vehicles$speed
+
+# Using placeholders
+
+vehicles %&gt;% .$dist
+vehicles %&gt;% .[['dist']]
+vehicles %&gt;% .[[2]]
+```
+
+```
+## [1] 4 4 7 7 8
+## [1] 4 4 7 7 8
+## [1] 4 4 7 7 8
+## [1]  2 10  4 22 16
+## [1]  2 10  4 22 16
+## [1]  2 10  4 22 16
+```
+
+--
+
+**Note!** Not all old R functions work with tibbles, than you have to use `as.data.frame(my_tibble)`.
+
+---
+name: tibbles_partial_matching
+
+## Tibbles are Stricter than `data.frames`
+
+
+```r
+cars &lt;- cars[1:5,]
+```
+
+```r
+cars$spe      # partial matching
+```
+
+```
+## [1] 4 4 7 7 8
+```
+
+```r
+vehicles$spe  # no partial matching
+```
+
+```
+## Warning: Unknown or uninitialised column: `spe`.
+```
+
+```
+## NULL
+```
+
+```r
+cars$gear
+```
+
+```
+## NULL
+```
+
+```r
+vehicles$gear
+```
+
+```
+## Warning: Unknown or uninitialised column: `gear`.
+```
+
+```
+## NULL
+```
+
+---
+name: loading_data
+
+## Loading Data
+
+In `tidyverse` you import data using `readr` package that provides a number of useful data import functions:
+* `read_delim()` a generic function for reading *-delimited files. There are a number of convenience wrappers:
+  + `read_csv()` used to read comma-delimited files,
+  + `read_csv2()` reads semicolon-delimited files,
+  `read_tsv()` that reads tab-delimited files.
+* `read_fwf` for reading fixed-width files with its wrappers:
+  + fwf_widths() for width-based reading,
+  + fwf_positions() for positions-based reading and
+  + read_table() for reading white space-delimited fixed-width files.
+* `read_log()` for reading Apache-style logs.
+
+The most commonly used `read_csv()` has some familiar arguments like:
+* `skip` -- to specify the number of rows to skip (headers),
+* `col_names` -- to supply a vector of column names,
+* `comment` -- to specify what character designates a comment,
+* `na` -- to specify how missing values are represented.
+
+---
+name: readr
+
+## Importing Data Using `readr`
+
+When reading and parsing a file, `readr` attempts to guess proper parser for each column by looking at the 1000 first rows.
+
+
+```r
+tricky_dataset &lt;- read_csv(readr_example('challenge.csv'))
+```
+
+```
+## 
+## [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────[39m
+## cols(
+##   x = [32mcol_double()[39m,
+##   y = [33mcol_logical()[39m
+## )
+```
+
+```
+## Warning: 1000 parsing failures.
+##  row col           expected     actual                                                          file
+## 1001   y 1/0/T/F/TRUE/FALSE 2015-01-16 '/home/runner/work/_temp/Library/readr/extdata/challenge.csv'
+## 1002   y 1/0/T/F/TRUE/FALSE 2018-05-18 '/home/runner/work/_temp/Library/readr/extdata/challenge.csv'
+## 1003   y 1/0/T/F/TRUE/FALSE 2015-09-05 '/home/runner/work/_temp/Library/readr/extdata/challenge.csv'
+## 1004   y 1/0/T/F/TRUE/FALSE 2012-11-28 '/home/runner/work/_temp/Library/readr/extdata/challenge.csv'
+## 1005   y 1/0/T/F/TRUE/FALSE 2020-01-13 '/home/runner/work/_temp/Library/readr/extdata/challenge.csv'
+## .... ... .................. .......... .............................................................
+## See problems(...) for more details.
+```
+
+OK, so there are some parsing failures. We can examine them more closely using `problems()` as suggested in the above output.
+
+---
+name: readr_problems
+
+## Looking at Problematic Columns
+
+
+```r
+p &lt;- problems(tricky_dataset)
+p
+```
+
+```
+## [90m# A tibble: 1,000 x 5[39m
+##      row col   expected        actual   file                                    
+##    [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;chr&gt;[39m[23m                                   
+## [90m 1[39m  [4m1[24m001 y     1/0/T/F/TRUE/F… 2015-01… '/home/runner/work/_temp/Library/readr/…
+## [90m 2[39m  [4m1[24m002 y     1/0/T/F/TRUE/F… 2018-05… '/home/runner/work/_temp/Library/readr/…
+## [90m 3[39m  [4m1[24m003 y     1/0/T/F/TRUE/F… 2015-09… '/home/runner/work/_temp/Library/readr/…
+## [90m 4[39m  [4m1[24m004 y     1/0/T/F/TRUE/F… 2012-11… '/home/runner/work/_temp/Library/readr/…
+## [90m 5[39m  [4m1[24m005 y     1/0/T/F/TRUE/F… 2020-01… '/home/runner/work/_temp/Library/readr/…
+## [90m 6[39m  [4m1[24m006 y     1/0/T/F/TRUE/F… 2016-04… '/home/runner/work/_temp/Library/readr/…
+## [90m 7[39m  [4m1[24m007 y     1/0/T/F/TRUE/F… 2011-05… '/home/runner/work/_temp/Library/readr/…
+## [90m 8[39m  [4m1[24m008 y     1/0/T/F/TRUE/F… 2020-07… '/home/runner/work/_temp/Library/readr/…
+## [90m 9[39m  [4m1[24m009 y     1/0/T/F/TRUE/F… 2011-04… '/home/runner/work/_temp/Library/readr/…
+## [90m10[39m  [4m1[24m010 y     1/0/T/F/TRUE/F… 2010-05… '/home/runner/work/_temp/Library/readr/…
+## [90m11[39m  [4m1[24m011 y     1/0/T/F/TRUE/F… 2014-11… '/home/runner/work/_temp/Library/readr/…
+## [90m12[39m  [4m1[24m012 y     1/0/T/F/TRUE/F… 2014-06… '/home/runner/work/_temp/Library/readr/…
+## [90m13[39m  [4m1[24m013 y     1/0/T/F/TRUE/F… 2017-05… '/home/runner/work/_temp/Library/readr/…
+## [90m14[39m  [4m1[24m014 y     1/0/T/F/TRUE/F… 2017-11… '/home/runner/work/_temp/Library/readr/…
+## [90m15[39m  [4m1[24m015 y     1/0/T/F/TRUE/F… 2013-04… '/home/runner/work/_temp/Library/readr/…
+## [90m# … with 985 more rows[39m
+```
+
+OK, let's see which columns cause trouble:
+
+
+```r
+p %$% table(col)
+```
+
+```
+## col
+##    y 
+## 1000
+```
+
+Looks like the problem occurs only in the `x` column.
+
+---
+name: readr_problems_fixing
+
+## Fixing Problematic Columns
+
+So, how can we fix the problematic columns?
+
+1. We can explicitely tell what parser to use:
+
+
+```r
+tricky_dataset &lt;- read_csv(readr_example('challenge.csv'),
+                           col_types = cols(x = col_double(),
+                                            y = col_character()
+                                            )
+                                                      )
+tricky_dataset %&gt;% tail(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 2[39m
+##       x y         
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m     
+## [90m1[39m 0.164 2018-03-29
+## [90m2[39m 0.472 2014-08-04
+## [90m3[39m 0.718 2015-08-16
+## [90m4[39m 0.270 2020-02-04
+## [90m5[39m 0.608 2019-01-06
+```
+
+As you can see, we can still do better by parsing the `y` column as *date*, not as *character*.
+
+---
+name: readr_problems_fixing2
+
+## Fixing Problematic Columns cted.
+
+But knowing that the parser is guessed based on the first 1000 lines, we can see what sits past the 1000-th line in the data:
+
+
+```r
+tricky_dataset %&gt;% head(n = 1002) %&gt;% tail(n = 4)
+```
+
+```
+## [90m# A tibble: 4 x 2[39m
+##          x y         
+##      [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m     
+## [90m1[39m [4m4[24m569     [31mNA[39m        
+## [90m2[39m [4m4[24m548     [31mNA[39m        
+## [90m3[39m    0.238 2015-01-16
+## [90m4[39m    0.412 2018-05-18
+```
+
+It seems, we were very unlucky, because up till 1000-th line there are only integers in the x column and `NA`s in the y column so the parser cannot be guessed correctly. To fix this:
+
+
+```r
+tricky_dataset &lt;- read_csv(readr_example('challenge.csv'),
+                           guess_max = 1001)
+```
+
+```
+## 
+## [36m──[39m [1m[1mColumn specification[1m[22m [36m────────────────────────────────────────────────────────[39m
+## cols(
+##   x = [32mcol_double()[39m,
+##   y = [34mcol_date(format = "")[39m
+## )
+```
+
+---
+name: readr_writing
+
+## Writing to a File
+
+The `readr` package also provides functions useful for writing tibbled data into a file:
+
+* `write_csv()`
+* `write_tsv()`
+* `write_excel_csv()`
+
+They **always** save:
+
+* text in UTF-8,
+* dates in ISO8601
+
+But saving in csv (or tsv) does mean you loose information about the type of data in particular columns. You can avoid this by using:
+
+* `write_rds()` and `read_rds()` to read/write objects in R binary rds format,
+* use `write_feather()` and `read_feather()` from package `feather` to read/write objects in a fast binary format that other programming languages can access.
+
+---
+name: basic_data_transformations
+
+## Basic Data Transformations with `dplyr`
+
+Let us create a tibble:
+
+
+```r
+bijou &lt;- as_tibble(diamonds) %&gt;% head(n = 100)
+bijou
+```
+
+```
+## [90m# A tibble: 100 x 10[39m
+##    carat cut       color clarity depth table price     x     y     z
+##    [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m     [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m 1[39m 0.23  Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## [90m 2[39m 0.21  Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## [90m 3[39m 0.23  Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## [90m 4[39m 0.290 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## [90m 5[39m 0.31  Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## [90m 6[39m 0.24  Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48
+## [90m 7[39m 0.24  Very Good I     VVS1     62.3    57   336  3.95  3.98  2.47
+## [90m 8[39m 0.26  Very Good H     SI1      61.9    55   337  4.07  4.11  2.53
+## [90m 9[39m 0.22  Fair      E     VS2      65.1    61   337  3.87  3.78  2.49
+## [90m10[39m 0.23  Very Good H     VS1      59.4    61   338  4     4.05  2.39
+## [90m11[39m 0.3   Good      J     SI1      64      55   339  4.25  4.28  2.73
+## [90m12[39m 0.23  Ideal     J     VS1      62.8    56   340  3.93  3.9   2.46
+## [90m13[39m 0.22  Premium   F     SI1      60.4    61   342  3.88  3.84  2.33
+## [90m14[39m 0.31  Ideal     J     SI2      62.2    54   344  4.35  4.37  2.71
+## [90m15[39m 0.2   Premium   E     SI2      60.2    62   345  3.79  3.75  2.27
+## [90m# … with 85 more rows[39m
+```
+
+.center[
+  &lt;img src="data/slide_tidyverse/diamonds.png", style="height:200px"&gt;
+]
+---
+name: filter
+
+## Picking Observations using `filter()`
+
+
+```r
+bijou %&gt;% filter(cut == 'Ideal' | cut == 'Premium', carat &gt;= 0.23) %&gt;%
+  head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 10[39m
+##   carat cut     color clarity depth table price     x     y     z
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m 0.23  Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
+## [90m2[39m 0.290 Premium I     VS2      62.4    58   334  4.2   4.23  2.63
+## [90m3[39m 0.23  Ideal   J     VS1      62.8    56   340  3.93  3.9   2.46
+## [90m4[39m 0.31  Ideal   J     SI2      62.2    54   344  4.35  4.37  2.71
+## [90m5[39m 0.32  Premium E     I1       60.9    58   345  4.38  4.42  2.68
+```
+
+Be careful with floating point comparisons! Also, rows with comparison resulting in `NA` are skipped by default!
+
+
+```r
+bijou %&gt;% filter(near(0.23, carat) | is.na(carat)) %&gt;%
+  head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 10[39m
+##   carat cut       color clarity depth table price     x     y     z
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m     [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## [90m2[39m  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## [90m3[39m  0.23 Very Good H     VS1      59.4    61   338  4     4.05  2.39
+## [90m4[39m  0.23 Ideal     J     VS1      62.8    56   340  3.93  3.9   2.46
+## [90m5[39m  0.23 Very Good E     VS2      63.8    55   352  3.85  3.92  2.48
+```
+
+---
+name: arrange
+
+## Rearranging Observations using `arrange()`
+
+
+```r
+bijou %&gt;% arrange(cut, carat, desc(price))
+```
+
+```
+## [90m# A tibble: 100 x 10[39m
+##    carat cut   color clarity depth table price     x     y     z
+##    [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m 1[39m  0.22 Fair  E     VS2      65.1    61   337  3.87  3.78  2.49
+## [90m 2[39m  0.86 Fair  E     SI2      55.1    69  [4m2[24m757  6.45  6.33  3.52
+## [90m 3[39m  0.96 Fair  F     SI2      66.3    62  [4m2[24m759  6.27  5.95  4.07
+## [90m 4[39m  0.23 Good  F     VS1      58.2    59   402  4.06  4.08  2.37
+## [90m 5[39m  0.23 Good  E     VS1      64.1    59   402  3.83  3.85  2.46
+## [90m 6[39m  0.23 Good  E     VS1      56.9    65   327  4.05  4.07  2.31
+## [90m 7[39m  0.26 Good  E     VVS1     57.9    60   554  4.22  4.25  2.45
+## [90m 8[39m  0.26 Good  D     VS2      65.2    56   403  3.99  4.02  2.61
+## [90m 9[39m  0.26 Good  D     VS1      58.4    63   403  4.19  4.24  2.46
+## [90m10[39m  0.3  Good  H     SI1      63.7    57   554  4.28  4.26  2.72
+## [90m11[39m  0.3  Good  I     SI1      63.2    55   405  4.25  4.29  2.7 
+## [90m12[39m  0.3  Good  J     SI1      63.4    54   351  4.23  4.29  2.7 
+## [90m13[39m  0.3  Good  J     SI1      63.8    56   351  4.23  4.26  2.71
+## [90m14[39m  0.3  Good  I     SI2      63.3    56   351  4.26  4.3   2.71
+## [90m15[39m  0.3  Good  J     SI1      64      55   339  4.25  4.28  2.73
+## [90m# … with 85 more rows[39m
+```
+
+The `NA`s always end up at the end of the rearranged tibble.
+
+---
+name: select
+
+## Selecting Variables with `select()`
+
+Simple `select` with a range:
+
+
+```r
+bijou %&gt;% select(color, clarity, x:z) %&gt;% head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 5[39m
+##   color clarity     x     y     z
+##   [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m E     SI2      3.95  3.98  2.43
+## [90m2[39m E     SI1      3.89  3.84  2.31
+## [90m3[39m E     VS1      4.05  4.07  2.31
+## [90m4[39m I     VS2      4.2   4.23  2.63
+## [90m5[39m J     SI2      4.34  4.35  2.75
+```
+
+--
+
+Exclusive `select`:
+
+```r
+bijou %&gt;% select(-(x:z)) %&gt;% head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 7[39m
+##   carat cut     color clarity depth table price
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m
+## [90m1[39m 0.23  Ideal   E     SI2      61.5    55   326
+## [90m2[39m 0.21  Premium E     SI1      59.8    61   326
+## [90m3[39m 0.23  Good    E     VS1      56.9    65   327
+## [90m4[39m 0.290 Premium I     VS2      62.4    58   334
+## [90m5[39m 0.31  Good    J     SI2      63.3    58   335
+```
+
+---
+name: select2
+
+## Selecting Variables with `select()` cted.
+
+`rename` is a variant of `select`, here used with `everything()` to move `x` to the beginning and rename it to `var_x`
+
+```r
+bijou %&gt;% rename(var_x = x) %&gt;% head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 10[39m
+##   carat cut     color clarity depth table price var_x     y     z
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m 0.23  Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
+## [90m2[39m 0.21  Premium E     SI1      59.8    61   326  3.89  3.84  2.31
+## [90m3[39m 0.23  Good    E     VS1      56.9    65   327  4.05  4.07  2.31
+## [90m4[39m 0.290 Premium I     VS2      62.4    58   334  4.2   4.23  2.63
+## [90m5[39m 0.31  Good    J     SI2      63.3    58   335  4.34  4.35  2.75
+```
+
+--
+
+use `everything()` to bring some columns to the front:
+
+```r
+bijou %&gt;% select(x:z, everything()) %&gt;% head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 10[39m
+##       x     y     z carat cut     color clarity depth table price
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m
+## [90m1[39m  3.95  3.98  2.43 0.23  Ideal   E     SI2      61.5    55   326
+## [90m2[39m  3.89  3.84  2.31 0.21  Premium E     SI1      59.8    61   326
+## [90m3[39m  4.05  4.07  2.31 0.23  Good    E     VS1      56.9    65   327
+## [90m4[39m  4.2   4.23  2.63 0.290 Premium I     VS2      62.4    58   334
+## [90m5[39m  4.34  4.35  2.75 0.31  Good    J     SI2      63.3    58   335
+```
+
+---
+name: mutate
+
+## Create/alter new Variables with `mutate`
+
+
+```r
+bijou %&gt;% mutate(p = x + z, q = p + y) %&gt;% select(-(depth:price)) %&gt;% head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 9[39m
+##   carat cut     color clarity     x     y     z     p     q
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m 0.23  Ideal   E     SI2      3.95  3.98  2.43  6.38  10.4
+## [90m2[39m 0.21  Premium E     SI1      3.89  3.84  2.31  6.2   10.0
+## [90m3[39m 0.23  Good    E     VS1      4.05  4.07  2.31  6.36  10.4
+## [90m4[39m 0.290 Premium I     VS2      4.2   4.23  2.63  6.83  11.1
+## [90m5[39m 0.31  Good    J     SI2      4.34  4.35  2.75  7.09  11.4
+```
+--
+or with `transmute` (only the transformed variables will be retained)
+
+```r
+bijou %&gt;% transmute(carat, cut, sum = x + y + z) %&gt;% head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 3[39m
+##   carat cut       sum
+##   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m 0.23  Ideal    10.4
+## [90m2[39m 0.21  Premium  10.0
+## [90m3[39m 0.23  Good     10.4
+## [90m4[39m 0.290 Premium  11.1
+## [90m5[39m 0.31  Good     11.4
+```
+
+---
+name: grouped_summaries
+
+## Group and Summarize
+
+
+```r
+bijou %&gt;% group_by(cut) %&gt;% summarize(max_price = max(price),
+                                      mean_price = mean(price),
+                                      min_price = min(price))
+```
+
+```
+## [90m# A tibble: 5 x 4[39m
+##   cut       max_price mean_price min_price
+##   [3m[90m&lt;ord&gt;[39m[23m         [3m[90m&lt;int&gt;[39m[23m      [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;int&gt;[39m[23m
+## [90m1[39m Fair           [4m2[24m759      [4m1[24m951        337
+## [90m2[39m Good           [4m2[24m759       661.       327
+## [90m3[39m Very Good      [4m2[24m760       610.       336
+## [90m4[39m Premium        [4m2[24m760       569.       326
+## [90m5[39m Ideal          [4m2[24m757       693.       326
+```
+--
+
+```r
+bijou %&gt;%
+  group_by(cut, color) %&gt;%
+  summarize(max_price = max(price),
+            mean_price = mean(price),
+            min_price = min(price)) %&gt;% head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 5[39m
+## [90m# Groups:   cut [2][39m
+##   cut   color max_price mean_price min_price
+##   [3m[90m&lt;ord&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m     [3m[90m&lt;int&gt;[39m[23m      [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;int&gt;[39m[23m
+## [90m1[39m Fair  E          [4m2[24m757      [4m1[24m547        337
+## [90m2[39m Fair  F          [4m2[24m759      [4m2[24m759       [4m2[24m759
+## [90m3[39m Good  D           403       403        403
+## [90m4[39m Good  E          [4m2[24m759      [4m1[24m010.       327
+## [90m5[39m Good  F          [4m2[24m759      [4m1[24m580.       402
+```
+
+---
+name: other_data_manipulations
+
+## Other data manipulation tips
+
+
+```r
+bijou %&gt;% group_by(cut) %&gt;% summarize(count = n())
+```
+
+```
+## [90m# A tibble: 5 x 2[39m
+##   cut       count
+##   [3m[90m&lt;ord&gt;[39m[23m     [3m[90m&lt;int&gt;[39m[23m
+## [90m1[39m Fair          3
+## [90m2[39m Good         18
+## [90m3[39m Very Good    38
+## [90m4[39m Premium      22
+## [90m5[39m Ideal        19
+```
+--
+When you need to regroup within the same pipe, use `ungroup()`.
+---
+name: concept_of_tidy_data
+
+## The Concept of Tidy Data
+
+Data are tidy *sensu Wickham* if:
+* each and every observation is represented as exactly one row,
+* each and every variable is represented by exactly one column,
+* thus each data table cell contains only one value.
+&lt;img src="data/slide_tidyverse/tidy_data.png" width="2560" style="display: block; margin: auto auto auto 0;" /&gt;
+
+Usually data are untidy in only one way. However, if you are unlucky, they are really untidy and thus a pain to work with...
+---
+name: tidy_data
+
+## Tidy Data
+
+&lt;img src="data/slide_tidyverse/tidy_data.png" width="2560" style="display: block; margin: auto auto auto 0;" /&gt;
+
+--
+.center[**Are these data tidy?**]
+
+.pull-left-70[
+&lt;table class="table table-striped table-hover table-responsive table-condensed" style=""&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Sepal.Length &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Sepal.Width &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Petal.Length &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Petal.Width &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Species &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5.1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+--
+.pull-right-30[
+&lt;table class="table table-striped table-hover table-responsive table-condensed" style=""&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Species &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; variable &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Sepal.Length &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 5.1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Sepal.Length &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Sepal.Length &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.7 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+&lt;br&gt;&amp;nbsp;&lt;hr&gt;&lt;br&gt;
+
+--
+.pull-left-50[
+&lt;table class="table table-striped table-hover table-responsive table-condensed" style=""&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Sepal.L.W &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Petal.L.W &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Species &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5.1/3.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4/0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4.9/3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4/0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4.7/3.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.3/0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+--
+.pull-right-50[
+&lt;table class="table table-striped table-hover table-responsive table-condensed" style=""&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Sepal.Length &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 5.1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Sepal.Width &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Petal.Length &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Petal.Width &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Species &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+name: tidying_data_gather
+
+## Tidying Data with `gather`
+
+If some of your column names are actually values of a variable, use `gather`:
+
+
+
+```r
+bijou2 %&gt;% head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 3[39m
+##   cut     `2008` `2009`
+##   [3m[90m&lt;ord&gt;[39m[23m    [3m[90m&lt;int&gt;[39m[23m  [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Ideal      326   334.
+## [90m2[39m Premium    326   334.
+## [90m3[39m Good       327   335.
+## [90m4[39m Premium    334   342.
+## [90m5[39m Good       335   343.
+```
+
+```r
+bijou2 %&gt;%
+  gather(`2008`, `2009`, key = 'year', value = 'price') %&gt;%
+  head(n = 5)
+```
+
+```
+## [90m# A tibble: 5 x 3[39m
+##   cut     year  price
+##   [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Ideal   2008    326
+## [90m2[39m Premium 2008    326
+## [90m3[39m Good    2008    327
+## [90m4[39m Premium 2008    334
+## [90m5[39m Good    2008    335
+```
+
+---
+name: tidying_data_spread
+
+## Tidying Data with `spread`
+
+If some of your observations are scattered across many rows, use `gather`:
+
+
+
+```r
+bijou3
+```
+
+```
+## [90m# A tibble: 9 x 5[39m
+##   cut     price clarity dimension measurement
+##   [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Ideal     326 SI2     x                3.95
+## [90m2[39m Premium   326 SI1     x                3.89
+## [90m3[39m Good      327 VS1     x                4.05
+## [90m4[39m Ideal     326 SI2     y                3.98
+## [90m5[39m Premium   326 SI1     y                3.84
+## [90m6[39m Good      327 VS1     y                4.07
+## [90m7[39m Ideal     326 SI2     z                2.43
+## [90m8[39m Premium   326 SI1     z                2.31
+## [90m9[39m Good      327 VS1     z                2.31
+```
+
+```r
+bijou3 %&gt;%
+  spread(key=dimension, value=measurement) %&gt;%
+  head(n = 5)
+```
+
+```
+## [90m# A tibble: 3 x 6[39m
+##   cut     price clarity     x     y     z
+##   [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Good      327 VS1      4.05  4.07  2.31
+## [90m2[39m Premium   326 SI1      3.89  3.84  2.31
+## [90m3[39m Ideal     326 SI2      3.95  3.98  2.43
+```
+
+---
+name: tidying_data_separate
+
+## Tidying Data with `separate`
+
+If some of your columns contain more than one value, use `separate`:
+
+
+
+```r
+bijou4
+```
+
+```
+## [90m# A tibble: 5 x 4[39m
+##   cut     price clarity dim           
+##   [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m         
+## [90m1[39m Ideal     326 SI2     3.95/3.98/2.43
+## [90m2[39m Premium   326 SI1     3.89/3.84/2.31
+## [90m3[39m Good      327 VS1     4.05/4.07/2.31
+## [90m4[39m Premium   334 VS2     4.2/4.23/2.63 
+## [90m5[39m Good      335 SI2     4.34/4.35/2.75
+```
+
+```r
+bijou4 %&gt;%
+  separate(dim, into = c("x", "y", "z"), sep = "/", convert = T)
+```
+
+```
+## [90m# A tibble: 5 x 6[39m
+##   cut     price clarity     x     y     z
+##   [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Ideal     326 SI2      3.95  3.98  2.43
+## [90m2[39m Premium   326 SI1      3.89  3.84  2.31
+## [90m3[39m Good      327 VS1      4.05  4.07  2.31
+## [90m4[39m Premium   334 VS2      4.2   4.23  2.63
+## [90m5[39m Good      335 SI2      4.34  4.35  2.75
+```
+
+---
+name: tidying_data_separate
+
+## Tidying Data with `unite`
+
+If some of your columns contain more than one value, use `separate`:
+
+
+
+```r
+bijou5
+```
+
+```
+## [90m# A tibble: 5 x 7[39m
+##   cut     price clarity_prefix clarity_suffix     x     y     z
+##   [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m          [3m[90m&lt;chr&gt;[39m[23m          [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Ideal     326 SI             2               3.95  3.98  2.43
+## [90m2[39m Premium   326 SI             1               3.89  3.84  2.31
+## [90m3[39m Good      327 VS             1               4.05  4.07  2.31
+## [90m4[39m Premium   334 VS             2               4.2   4.23  2.63
+## [90m5[39m Good      335 SI             2               4.34  4.35  2.75
+```
+
+```r
+bijou5 %&gt;% unite(clarity, clarity_prefix, clarity_suffix, sep='')
+```
+
+```
+## [90m# A tibble: 5 x 6[39m
+##   cut     price clarity     x     y     z
+##   [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
+## [90m1[39m Ideal     326 SI2      3.95  3.98  2.43
+## [90m2[39m Premium   326 SI1      3.89  3.84  2.31
+## [90m3[39m Good      327 VS1      4.05  4.07  2.31
+## [90m4[39m Premium   334 VS2      4.2   4.23  2.63
+## [90m5[39m Good      335 SI2      4.34  4.35  2.75
+```
+**Note:** that `sep` is here interpreted as the position to split on. It can also be a *regular expression* or a delimiting string/character. Pretty flexible approach!
+
+---
+name: missing_complete
+
+## Completing Missing Values Using `complete`
+
+
+
+```r
+bijou %&gt;% head(n = 10) %&gt;%
+  select(cut, clarity, price) %&gt;%
+  mutate(continent = sample(c('AusOce', 'Eur'),
+                            size = 10,
+                            replace = T)) -&gt; missing_stones
+```
+
+```r
+missing_stones %&gt;% complete(cut, continent)
+```
+
+```
+## [90m# A tibble: 14 x 4[39m
+##    cut       continent clarity price
+##    [3m[90m&lt;ord&gt;[39m[23m     [3m[90m&lt;chr&gt;[39m[23m     [3m[90m&lt;ord&gt;[39m[23m   [3m[90m&lt;int&gt;[39m[23m
+## [90m 1[39m Fair      AusOce    VS2       337
+## [90m 2[39m Fair      Eur       [31mNA[39m         [31mNA[39m
+## [90m 3[39m Good      AusOce    VS1       327
+## [90m 4[39m Good      AusOce    SI2       335
+## [90m 5[39m Good      Eur       [31mNA[39m         [31mNA[39m
+## [90m 6[39m Very Good AusOce    VVS1      336
+## [90m 7[39m Very Good AusOce    VS1       338
+## [90m 8[39m Very Good Eur       VVS2      336
+## [90m 9[39m Very Good Eur       SI1       337
+## [90m10[39m Premium   AusOce    [31mNA[39m         [31mNA[39m
+## [90m11[39m Premium   Eur       SI1       326
+## [90m12[39m Premium   Eur       VS2       334
+## [90m13[39m Ideal     AusOce    [31mNA[39m         [31mNA[39m
+## [90m14[39m Ideal     Eur       SI2       326
+```
+
+---
+name: more_tidyverse
+
+## Some Other Friends
+* `stringr` for string manipulation and regular expressions,
+* `forcats` for working with factors,
+* `lubridate` for working with dates.
+
+---
+name: end-slide
+class: end-slide
+
+# Thank you. Questions?
+
+
+
+.end-text[
+&lt;p&gt;R version 4.0.3 (2020-10-10)&lt;br&gt;&lt;p&gt;Platform: x86_64-pc-linux-gnu (64-bit)&lt;/p&gt;&lt;p&gt;OS: Ubuntu 18.04.5 LTS&lt;/p&gt;&lt;br&gt;
+
+&lt;hr&gt;
+
+&lt;span class="small"&gt;Built on : &lt;i class='fa fa-calendar' aria-hidden='true'&gt;&lt;/i&gt; 03-Nov-2020 at &lt;i class='fa fa-clock-o' aria-hidden='true'&gt;&lt;/i&gt; 07:42:27&lt;/span&gt;  
+
+&lt;b&gt;2020&lt;/b&gt; • [SciLifeLab](https://www.scilifelab.se/) • [NBIS](https://nbis.se/)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
