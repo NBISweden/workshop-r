@@ -138,7 +138,7 @@ class: spaced
 ## Grammar Of Graphics
 
 .pull-left-30[
-![](data/data/slide_ggplot2/gog.jpg)
+![](data/slide_ggplot2/gog.jpg)
 ![](data/slide_ggplot2/gog.png)
 ]
 
