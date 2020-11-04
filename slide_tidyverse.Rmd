@@ -84,7 +84,7 @@ name: intro_to_pipes
 .pull-left-50[
   .center[
     ```{r, echo=F, out.width=300}
-    knitr::include_graphics("data/slide_tidyverse/MagrittePipe.jpg")
+    knitr::include_graphics("data/slide_tidyverse/pipe_magritte.jpg")
     ```
   ]
   .vsmall[
@@ -149,9 +149,9 @@ name: tibble_intro
 ```{r tibble_from_scratch}
   tibble(
     x = 1,          # recycling
-    y = runif(50),
+    y = runif(8),
     z = x + y^2,
-    outcome = rnorm(50)
+    outcome = rnorm(8)
   )
 ```
 ]
@@ -167,7 +167,7 @@ name: tibble2
   + data type for each column is shown.
 
 ```{r tibble_printing}
-as_tibble(cars)
+as_tibble(cars) %>% print(n = 5)
 ```
 
 * `my_tibble %>% print(n = 50, width = Inf)`,
@@ -235,6 +235,7 @@ In `tidyverse` you import data using `readr` package that provides a number of u
   + read_table() for reading white space-delimited fixed-width files.
 * `read_log()` for reading Apache-style logs.
 
+--
 The most commonly used `read_csv()` has some familiar arguments like:
 * `skip` -- to specify the number of rows to skip (headers),
 * `col_names` -- to supply a vector of column names,
@@ -260,8 +261,7 @@ name: readr_problems
 ## Looking at Problematic Columns
 
 ```{r tricky_dataset_problems}
-p <- problems(tricky_dataset)
-p
+(p <- problems(tricky_dataset))
 ```
 
 OK, let's see which columns cause trouble:
@@ -339,8 +339,7 @@ name: basic_data_transformations
 Let us create a tibble:
 
 ```{r}
-bijou <- as_tibble(diamonds) %>% head(n = 100)
-bijou
+(bijou <- as_tibble(diamonds) %>% head(n = 100))
 ```
 
 .center[
@@ -435,8 +434,7 @@ bijou %>% group_by(cut) %>% summarize(max_price = max(price),
 ```
 --
 ```{r}
-bijou %>%
-  group_by(cut, color) %>%
+bijou %>% group_by(cut, color) %>%
   summarize(max_price = max(price),
             mean_price = mean(price),
             min_price = min(price)) %>% head(n = 5)
@@ -468,8 +466,7 @@ Usually data are untidy in only one way. However, if you are unlucky, they are r
 name: tidy_data
 
 ## Tidy Data
-
-`r knitr::include_graphics("data/slide_tidyverse/tidy_data.png")`
+<img src="data/slide_tidyverse/tidy_data.png" style="height:100px">
 
 --
 .center[**Are these data tidy?**]
@@ -522,11 +519,11 @@ iris4[,1:4] %>%
 ]
 
 ---
-name: tidying_data_gather
+name: tidying_data_pivot_longer
 
-## Tidying Data with `gather`
+## Tidying Data with `tidyr::pivot_longer` 
 
-If some of your column names are actually values of a variable, use `gather`:
+If some of your column names are actually values of a variable, use `pivot_longer` (replaces `gather`):
 
 ```{r include=FALSE}
 bijou %>%
@@ -544,16 +541,16 @@ bijou2 %>% head(n = 5)
 ```
 ```{r}
 bijou2 %>%
-  gather(`2008`, `2009`, key = 'year', value = 'price') %>%
+  pivot_longer(c(`2008`, `2009`), names_to = 'year', values_to = 'price') %>%
   head(n = 5)
 ```
 
 ---
-name: tidying_data_spread
+name: tidying_data_pivot_wider
 
-## Tidying Data with `spread`
+## Tidying Data with `tidyr::pivot_wider` 
 
-If some of your observations are scattered across many rows, use `gather`:
+If some of your observations are scattered across many rows, use `pivot_wider` (replaces `gather`):
 
 ```{r include=FALSE}
 bijou %>% head(n = 3) %>% select(cut, price, clarity, x, y, z) %>% gather(x,y,z, key='dimension', value='measurement') -> bijou3
@@ -563,7 +560,7 @@ bijou3
 ```
 ```{r}
 bijou3 %>%
-  spread(key=dimension, value=measurement) %>%
+  pivot_wider(names_from=dimension, values_from=measurement) %>%
   head(n = 5)
 ```
 

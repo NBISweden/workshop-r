@@ -73,6 +73,7 @@ packages:
    - markdown
    - remotes
    - rmarkdown
+   - vioplot
    - xaringan
    - yaml
   packages_bioc_repo:
