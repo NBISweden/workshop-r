@@ -174,16 +174,16 @@ name: tibble_intro
 
 ```
 ## # A tibble: 8 x 4
-##       x     y     z outcome
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-## 1     1 0.292  1.09  1.72  
-## 2     1 0.604  1.37 -1.14  
-## 3     1 0.736  1.54  0.958 
-## 4     1 0.515  1.27 -0.0749
-## 5     1 0.684  1.47 -0.578 
-## 6     1 0.702  1.49 -1.76  
-## 7     1 0.168  1.03 -1.70  
-## 8     1 0.812  1.66 -0.855
+##       x       y     z outcome
+##   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1     1 0.00718  1.00  -1.48 
+## 2     1 0.386    1.15   0.487
+## 3     1 0.474    1.22  -0.191
+## 4     1 0.834    1.69   0.484
+## 5     1 0.330    1.11   0.734
+## 6     1 0.0269   1.00  -0.827
+## 7     1 0.234    1.05   0.171
+## 8     1 0.648    1.42   0.536
 ```
 ]
 
@@ -953,11 +953,11 @@ bijou2 %&gt;% head(n = 5)
 ## # A tibble: 5 x 3
 ##   cut     `2008` `2009`
 ##   &lt;ord&gt;    &lt;int&gt;  &lt;dbl&gt;
-## 1 Ideal      326   332.
-## 2 Premium    326   332.
-## 3 Good       327   333.
-## 4 Premium    334   340.
-## 5 Good       335   341.
+## 1 Ideal      326   333.
+## 2 Premium    326   333.
+## 3 Good       327   334.
+## 4 Premium    334   341.
+## 5 Good       335   342.
 ```
 
 ```r
@@ -971,9 +971,9 @@ bijou2 %&gt;%
 ##   cut     year  price
 ##   &lt;ord&gt;   &lt;chr&gt; &lt;dbl&gt;
 ## 1 Ideal   2008   326 
-## 2 Ideal   2009   332.
+## 2 Ideal   2009   333.
 ## 3 Premium 2008   326 
-## 4 Premium 2009   332.
+## 4 Premium 2009   333.
 ## 5 Good    2008   327
 ```
 
@@ -1122,21 +1122,22 @@ missing_stones %&gt;% complete(cut, continent)
 ```
 
 ```
-## # A tibble: 12 x 4
+## # A tibble: 13 x 4
 ##    cut       continent clarity price
 ##    &lt;ord&gt;     &lt;chr&gt;     &lt;ord&gt;   &lt;int&gt;
-##  1 Fair      AusOce    &lt;NA&gt;       NA
-##  2 Fair      Eur       VS2       337
+##  1 Fair      AusOce    VS2       337
+##  2 Fair      Eur       &lt;NA&gt;       NA
 ##  3 Good      AusOce    SI2       335
 ##  4 Good      Eur       VS1       327
 ##  5 Very Good AusOce    VVS2      336
 ##  6 Very Good AusOce    VVS1      336
-##  7 Very Good AusOce    VS1       338
-##  8 Very Good Eur       SI1       337
+##  7 Very Good Eur       SI1       337
+##  8 Very Good Eur       VS1       338
 ##  9 Premium   AusOce    SI1       326
-## 10 Premium   Eur       VS2       334
-## 11 Ideal     AusOce    SI2       326
-## 12 Ideal     Eur       &lt;NA&gt;       NA
+## 10 Premium   AusOce    VS2       334
+## 11 Premium   Eur       &lt;NA&gt;       NA
+## 12 Ideal     AusOce    &lt;NA&gt;       NA
+## 13 Ideal     Eur       SI2       326
 ```
 
 ---
@@ -1160,7 +1161,7 @@ class: end-slide
 
 &lt;hr&gt;
 
-&lt;span class="small"&gt;Built on : &lt;i class='fa fa-calendar' aria-hidden='true'&gt;&lt;/i&gt; 05-Nov-2020 at &lt;i class='fa fa-clock-o' aria-hidden='true'&gt;&lt;/i&gt; 10:16:45&lt;/span&gt;  
+&lt;span class="small"&gt;Built on : &lt;i class='fa fa-calendar' aria-hidden='true'&gt;&lt;/i&gt; 05-Nov-2020 at &lt;i class='fa fa-clock-o' aria-hidden='true'&gt;&lt;/i&gt; 10:40:16&lt;/span&gt;  
 
 &lt;b&gt;2020&lt;/b&gt; • [SciLifeLab](https://www.scilifelab.se/) • [NBIS](https://nbis.se/)
 ]
