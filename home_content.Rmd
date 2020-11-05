@@ -27,7 +27,7 @@ This page contains links to different lectures (slides) and practical exercises 
 
 * [Loading data (Slides)](slide_loadingdata.pdf)
 * [Loading data (Lab)](lab_loadingdata.html)  
-* [Tidyverse (Slides)](slide_tidyverse.html)  
+* [Tidyverse (Slides)](slide_tidyverse_1.html)  
 * [Tidyverse (Lab)](lab_tidyverse.html)  
 
 **Graphics**

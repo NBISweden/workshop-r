@@ -20,7 +20,7 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 05/11/2020;online;09:00;10:00;Base graphics;Marcin Kierczak;MK;slide_base_graphics.html;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;12:00;Base graphics;Marcin Kierczak;PU, JOW, LS;;lab_graphics.html;
 ;;12:00;13:00;Lunch;;;;;
-;;13:00;14:00;Intro to Tidyverse;Marcin Kierczak;MK;slide_tidyverse.html;;
+;;13:00;14:00;Intro to Tidyverse;Marcin Kierczak;MK;slide_tidyverse_1.html;;
 ;;14:00;17:00;Intro to Tidyverse;Marcin Kierczak;PU, DB, M-GH;;lab_tidyverse.html;
 06/11/2020;online;09:00;10:00;Graphics using ggplot2;Roy Francis;RF;slide_ggplot2.html;;https://uu-se.zoom.us/j/64914582551
 ;;10:00;11:00;Topic of your interest;Roy Francis, Marcin Kierczak;LM, MK, RF;;;
