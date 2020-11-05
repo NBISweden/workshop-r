@@ -303,7 +303,8 @@ iris %>% head(n=4)
 ```
 
 ```{r,comment=""}
-iris %>% tidyr::pivot_longer(!Species,names_to="variable",values_to="value") %>% head(n=4)
+iris %>% tidyr::pivot_longer(!Species,names_to="variable",values_to="value") %>% 
+         as.data.frame() %>% head(n=5)
 ```
 
 ???
