@@ -5,5 +5,4 @@ data/.DS*
 *.Rproj
 libs/
 .DS_Store
-*.html
 Marcin/

@@ -381,14 +381,14 @@ name: select
 Simple `select` with a range:
 
 ```{r}
-bijou %>% select(color, clarity, x:z) %>% head(n = 5)
+bijou %>% select(color, clarity, x:z) %>% head(n = 4)
 ```
 
 --
 
 Exclusive `select`:
 ```{r}
-bijou %>% select(-(x:z)) %>% head(n = 5)
+bijou %>% select(-(x:z)) %>% head(n = 4)
 ```
 
 ---
@@ -437,7 +437,7 @@ bijou %>% group_by(cut) %>% summarize(max_price = max(price),
 bijou %>% group_by(cut, color) %>%
   summarize(max_price = max(price),
             mean_price = mean(price),
-            min_price = min(price)) %>% head(n = 5)
+            min_price = min(price)) %>% head(n = 4)
 ```
 
 ---
@@ -555,13 +555,15 @@ If some of your observations are scattered across many rows, use `pivot_wider` (
 ```{r include=FALSE}
 bijou %>% head(n = 3) %>% select(cut, price, clarity, x, y, z) %>% gather(x,y,z, key='dimension', value='measurement') -> bijou3
 ```
+
 ```{r bijou3}
 bijou3
 ```
+
 ```{r}
 bijou3 %>%
   pivot_wider(names_from=dimension, values_from=measurement) %>%
-  head(n = 5)
+  head(n = 4)
 ```
 
 ---
