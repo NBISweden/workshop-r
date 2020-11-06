@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Variables, data types, operators</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Marcin Kierczak | 06-Nov-2020" />
+    <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
+    <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-5.1.0/fonts/fontawesome-webfont.ttf"/>
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Variables, data types, operators
+## R Foundations for Life Scientists
+### <b>Marcin Kierczak</b> | 06-Nov-2020
+### NBIS, SciLifeLab
+
+---
+
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+&lt;!-- ------------ Only edit title, subtitle &amp; author above this ------------ --&gt;
+
+
+
+
+
+---
+name: intro
+
+## Introduction
+
+Today, we will talk about various elements of a programming language and see how they are realized in R.
+
+## Contents 
+
+- **variables and their types**
+- **operators**
+- vectors
+- numbers as vectors
+- strings as vectors
+- matrices
+- lists
+- data frames
+- objects
+- repeating actions: iteration and recursion
+- decision taking: control structures
+- functions in general
+- variable scope
+- core functions
+
+---
+name: variables
+
+## Variables
+
+&gt; Creating a variable is simply assigning a name to some structure that stores data...
+
+
+```r
+7 + 9
+a &lt;- 7
+a
+b &lt;- 9
+b
+c &lt;- a + b
+c
+```
+
+```
+## [1] 16
+## [1] 7
+## [1] 9
+## [1] 16
+```
+
+---
+## Variables cted.
+We are not constrained to numbers...
+
+```r
+text1 &lt;- 'a'
+text2 &lt;- 'qwerty'
+text1  
+text2
+```
+
+```
+## [1] "a"
+## [1] "qwerty"
+```
+
+### Is `&lt;-` equivalent to `=`? Which one shall I use?
+&gt; `val &lt;- 3`, `val = 3` and `3 -&gt; val` are in R three equivalent ways of assigning, BUT you should use only `&lt;-` to avoid possible confusion. The equal sign `=` you can and should use 
+when setting function arguments `f(a = 3)`.
+
+---
+name: variables_naming
+
+## Variables &amp;mdash; naming conventions
+
+&gt; How to write variable names? 
+
+- What is legal/valid?
+- What is a good style?
+
+--
+
+A syntactically valid name consists of letters, numbers and the dot or underline characters and starts with a letter or the dot not followed by a number.  
+
+--
+
+Names such as ".2way" are not valid, and neither are the so-called *reserved words*.  
+
+--
+
+### Reserved words
+  
+- `if, else, repeat, while, function, for, in, next, break, TRUE, FALSE, NULL, Inf, NaN, NA, NA_integer_, NA_real_, NA_complex_, NA_character_`  
+
+- and you also **cannot** use: `c, q, t, C, D, I`
+
+- and you **should not** use: `T, F`
+
+---
+name: variables_good_style
+
+## Variables &amp;mdash; good style
+
+&gt; So, how to name variables?
+
+- make them informative, e.g. `genotypes` instead of `fsjht45jkhsdf4`,
+
+--
+
+- use consistent notation across your code &amp;ndash; the same *naming convention*,
+
+--
+
+- camelNotation vs. dot.notation vs. dash_notation,
+
+--
+
+- do not `give_them_too_long_names`, 
+
+--
+
+- in the dot notation avoid `my.variable.2`, use `my.variable2` instead,
+
+--
+
+- there are certain customary names: 
+    - `tmp` - for temporary variables; 
+    - `cnt` for counters; 
+    - `i,j,k` within loops, 
+    - `pwd` - for password...
+
+---
+name: data_types_1
+
+## Variables have types
+
+A *numeric* stores numbers of different *types*:
+
+
+```r
+x &lt;- 41.99 # assign 41.99 to x
+typeof(x)
+```
+
+```
+## [1] "double"
+```
+
+---
+name: class_type_mode
+
+## Classes, types, and modes
+
+- `class` what type of object is it for R,
+- `typeof()` what R thinks it is,
+- `mode()` how S language would see it (backward compatibility), 
+- `storage.mode()` how is it stored in the memory; useful when talking to C or Java,
+
+
+```r
+x &lt;- 1:3
+class(x)
+typeof(x)
+mode(x)
+storage.mode(x)
+```
+
+```
+## [1] "integer"
+## [1] "integer"
+## [1] "numeric"
+## [1] "integer"
+```
+
+---
+name: type_casting
+
+## Type casting
+
+By default, any *numeric* is stored as *double* !
+
+
+```r
+y=12 # now assign an integer value to y
+class(y) # still numeric
+typeof(y) # an integer, but still a double!
+```
+
+```
+## [1] "numeric"
+## [1] "double"
+```
+
+But we can explicitly **cast it** to integer:
+
+
+```r
+x &lt;- as.integer(x) # type conversion, casting
+typeof(x)
+class(x)
+is.integer(x)
+```
+
+```
+## [1] "integer"
+## [1] "integer"
+## [1] TRUE
+```
+
+&gt; We need **casting** because sometimes a function requires data of some type!
+
+---
+name: casting2
+
+## More on type casting
+
+Be careful when casting!
+
+
+```r
+pi &lt;- 3.1415926536 # assign approximation of pi to pi
+pi
+pi &lt;- as.integer(pi) # not-so-careful casting
+pi
+pi &lt;- as.double(pi) # trying to rescue the situation
+pi
+```
+
+```
+## [1] 3.141593
+## [1] 3
+## [1] 3
+```
+
+Casting is not rounding!
+
+
+```r
+as.integer(3.14)
+as.integer(3.51)
+```
+
+```
+## [1] 3
+## [1] 3
+```
+
+---
+name: ceiling_floor
+
+## Ceiling, floor and a round corner
+
+
+```r
+floor(3.51) # floor of 3.51
+ceiling(3.51) # ceiling of 3.51
+round(3.51, digits=1) # round to one decimal
+```
+
+```
+## [1] 3
+## [1] 4
+## [1] 3.5
+```
+
+---
+name: coercion
+
+## What happens if we cast a string to a number
+
+
+```r
+as.numeric('4.5678')
+as.double('4.5678')
+as.numeric('R course is cool!')
+```
+
+```
+## [1] 4.5678
+## [1] 4.5678
+## [1] NA
+```
+
+---
+name: some_special_values
+
+## Special values
+
+
+```r
+-1/0  # Minus infinity
+1/0 # Infinity
+```
+
+```
+## [1] -Inf
+## [1] Inf
+```
+
+and also:
+
+
+```r
+112345^67890  # Also infinity for R
+1/2e78996543  # Zero for R
+Inf - Inf # Not a Number
+```
+
+```
+## [1] Inf
+## [1] 0
+## [1] NaN
+```
+
+---
+name: cplx_numbers
+
+## Complex number type
+
+Core R supports complex numbers.
+
+
+```r
+z = 7 + 4i # create a complex number
+z
+class(z)
+typeof(z)
+is.complex(z)
+```
+
+```
+## [1] 7+4i
+## [1] "complex"
+## [1] "complex"
+## [1] TRUE
+```
+
+
+```r
+sqrt(-1) # not treated as cplx number
+sqrt(-1 + 0i) # now a proper cplx number
+sqrt(as.complex(-1)) # an alternative way
+```
+
+```
+## [1] NaN
+## [1] 0+1i
+## [1] 0+1i
+```
+
+---
+name: logical_type
+
+## Logical type
+
+
+```r
+a &lt;- 7 &gt; 2
+b &lt;- 2 &gt;= 7
+a
+b
+class(a)
+typeof(a)
+```
+
+```
+## [1] TRUE
+## [1] FALSE
+## [1] "logical"
+## [1] "logical"
+```
+
+R has three logical values: TRUE, FALSE and NA.
+
+
+```r
+x &lt;- c(TRUE, FALSE, NA)
+names(x) &lt;- as.character(x)
+and_truth_table &lt;- outer(x, x, "&amp;") # AND table
+```
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; TRUE &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; FALSE &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; NA &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+name: logical_cted
+
+## Logical type cted.
+
+
+```r
+x &lt;- TRUE
+x
+x &lt;- T # also valid
+x
+is.logical(x)
+typeof(x)
+```
+
+```
+## [1] TRUE
+## [1] TRUE
+## [1] TRUE
+## [1] "logical"
+```
+
+&gt; Observe that in R the logical type is also a numeric!
+
+
+```r
+x &lt;- TRUE
+y &lt;- FALSE
+x + y
+2 * x
+x * y
+```
+
+```
+## [1] 1
+## [1] 2
+## [1] 0
+```
+
+---
+name: logical_joke
+
+## A trap set up for you
+
+Never ever use variable names as T or F. Why?
+
+
+```r
+F &lt;- T
+T
+F
+```
+
+```
+## [1] TRUE
+## [1] TRUE
+```
+Maybe applicable in politics, but not really in science...
+
+---
+name: character_type
+
+## Character type
+
+It is easy to work with characters and strings:
+
+
+```r
+character &lt;- 'c'
+text &lt;- 'This is my first sentence in R.'
+text
+character
+class(character)
+typeof(text) # also of 'character' type
+```
+
+```
+## [1] "This is my first sentence in R."
+## [1] "c"
+## [1] "character"
+## [1] "character"
+```
+
+---
+name: character_type_2
+
+## Character type
+
+
+```r
+number &lt;- 3.14
+number.text &lt;- as.character(number) # cast to char
+number.text
+class(number.text)
+as.numeric(number.text) # and the other way round
+```
+
+```
+## [1] "3.14"
+## [1] "character"
+## [1] 3.14
+```
+
+---
+name: basic_string_ops
+
+## Basic string operations
+
+
+```r
+  text1 &lt;- "John had a yellow "
+  text2 &lt;- "submarine"
+  result &lt;- paste(text1, text2, ".", sep='')
+  result
+  sub("submarine", "cab", result)
+  substr(result, start=1, stop=5)
+```
+
+```
+## [1] "John had a yellow submarine."
+## [1] "John had a yellow cab."
+## [1] "John "
+```
+
+---
+name: basic_printing
+
+## Basic printing
+
+
+```r
+  txt &lt;- "blue"
+  (txt &lt;- 'red')
+  val &lt;- 345.78
+  sprintf("The weight of a %s ball is  %g g", txt, val)
+```
+
+```
+## [1] "red"
+## [1] "The weight of a red ball is  345.78 g"
+```
+
+&lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# See you at the next lecture!
+
+
+
+.end-text[
+&lt;p&gt;R version 4.0.3 (2020-10-10)&lt;br&gt;&lt;p&gt;Platform: x86_64-pc-linux-gnu (64-bit)&lt;/p&gt;&lt;p&gt;OS: Ubuntu 18.04.5 LTS&lt;/p&gt;&lt;br&gt;
+
+&lt;hr&gt;
+
+&lt;span class="small"&gt;Built on : &lt;i class='fa fa-calendar' aria-hidden='true'&gt;&lt;/i&gt; 06-Nov-2020 at &lt;i class='fa fa-clock-o' aria-hidden='true'&gt;&lt;/i&gt; 22:20:46&lt;/span&gt;  
+
+&lt;b&gt;2020&lt;/b&gt; • [SciLifeLab](https://www.scilifelab.se/) • [NBIS](https://nbis.se/)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

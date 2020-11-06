@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Marcin Kierczak | 06-Nov-2020" />
+    <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
+    <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-5.1.0/fonts/fontawesome-webfont.ttf"/>
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to R
+## R Foundations for Life Scientists
+### <b>Marcin Kierczak</b> | 06-Nov-2020
+### NBIS, SciLifeLab
+
+---
+
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+&lt;!-- ------------ Only edit title, subtitle &amp; author above this ------------ --&gt;
+
+
+
+---
+name: content
+class: spaced
+
+## Contents
+
+* [About R](#about)
+* [Timeline](#timeline)
+* [Ideas behind R](#ideas)
+* [Pros and cons of R](#pros_and_cons)
+* [Ecosystem of packages](#num_packages)
+
+---
+name: about
+
+## Breifly about R 
+
+**R definitely is:**
+
+* a programming language
+
+--
+* a programming platform (= environment + interpreter)
+
+--
+* a software project driven by the core team and the community
+
+--
+* a very powerful tool for statistical computing 
+
+--
+* a very powerful computational tool in general 
+
+--
+* a catalyst between an idea and its realization  
+
+--
+  
+**But NOT!**  
+
+* a tool to replace a statistician
+
+--
+* the very best programming language
+
+--
+* the most elegant programming solution 
+
+--
+* the most efficient programming language  
+
+--
+  
+**Yet...**  
+
+* it is very elegant
+
+--
+* it becomes more and more efficient
+
+.pull-right-70[.size-20[![](data/slide_intro/Rlogo.png)]]
+
+---
+name: timeline
+
+## Timeline
+
+* ca. 1992 &amp;mdash; conceived by [Robert Gentleman](https://bit.ly/35kn99L) and [Ross Ihaka](https://en.wikipedia.org/wiki/Ross_Ihaka) (R&amp;R) at the University of Auckland, NZ as a tool for **teaching statistics**
+
+--
+.size-20[![](data/slide_intro/Ihaka_and_Gentleman.jpg)]
+
+--
+* 1994 &amp;mdash; initial version
+* 2000 &amp;mdash; stable version
+
+--
+* 2011 &amp;mdash; [RStudio](https://en.wikipedia.org/wiki/RStudio), first release by J.J. Allaire 
+.size-20[![](data/slide_intro/jjallaire_siliconangle_com.jpg)]
+
+--
+* ca. 2017 &amp;mdash; Tidyverse by [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham)
+.size-20[![](data/slide_intro/hadley-wickham.jpg)]
+
+---
+name: ideas
+
+## Ideas behind R
+
+* open-source solution &amp;mdash; fast development
+
+--
+* based on the [S language](https://en.wikipedia.org/wiki/S_%28programming_language%29) created at the Bell Labs by  
+[John Mc Kinley Chambers](https://bit.ly/2RhDqUx) to 
+
+--
+&gt; *turn ideas into software, quickly and faithfully*
+
+--
+* [lexical scope](https://en.wikipedia.org/wiki/Scope_%28computer_science%29%23Lexical_scoping) inspired by [Lisp](https://en.wikipedia.org/wiki/Lisp) syntax
+
+--
+* since 1997 developed by the R Development Core Team (ca. 20 experts, with Chambers onboard; 6 are active)
+
+--
+* overviewed by [The R Foundation for Statistical Computing](https://www.r-project.org/foundation/)
+
+--
+### Packages
+.pull-right-50[
+&lt;img src="data/slide_intro/packages.jpg" width="250pt" style="display: block; margin: auto;" /&gt;
+]
+
+--
+* developed by the community
+
+--
+* cover several very diverse areas of science/life
+
+--
+* uniformely structured and documented
+
+--
+* organised in repositiries:
+    + [CRAN](https://cran.r-project.org) - The Comprehensive R Archive Network
+    + [R-Forge](https://r-forge.r-project.org)
+    + [Bioconductor](http://www.bioconductor.org)
+    + [GitHub](https://github.com)
+
+---
+name: pros_and_cons
+class: spaced
+
+## Pros and cons
+
+&lt;i class='fa fa-minus-square'&gt;&lt;/i&gt; steep learning curve  
+
+--
+&lt;i class='fa fa-plus-square'&gt;&lt;/i&gt; uniform, clear and clean system of documentation and help  
+
+--
+&lt;i class='fa fa-minus-square'&gt;&lt;/i&gt; difficulties due to a limited object-oriented programming capabilities,  
+e.g. an agent-based simulation is a challenge  
+
+--
+&lt;i class='fa fa-plus-square'&gt;&lt;/i&gt; good interconnectivity with compiled languages like Java or C    
+
+--
+&lt;i class='fa fa-minus-square'&gt;&lt;/i&gt; cannot order a pizza for you (?)  
+
+--
+&lt;i class='fa fa-plus-square'&gt;&lt;/i&gt; a very powerful ecosystem of packages  
+
+--
+&lt;i class='fa fa-plus-square'&gt;&lt;/i&gt; free and open source, GNU GPL and GNU GPL 2.0  
+
+--
+&lt;i class='fa fa-plus-square'&gt;&lt;/i&gt; easy to generate high quality graphics  
+
+---
+name: num_packages
+
+## Ecosystem of R packages
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;  
+&lt;img src="slide_r_intro_files/figure-html/num_pkgs-1.svg" style="display: block; margin: auto;" /&gt;
+
+&lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# Now you know a bit more about R!
+
+
+
+.end-text[
+&lt;p&gt;R version 4.0.3 (2020-10-10)&lt;br&gt;&lt;p&gt;Platform: x86_64-pc-linux-gnu (64-bit)&lt;/p&gt;&lt;p&gt;OS: Ubuntu 18.04.5 LTS&lt;/p&gt;&lt;br&gt;
+
+&lt;hr&gt;
+
+&lt;span class="small"&gt;Built on : &lt;i class='fa fa-calendar' aria-hidden='true'&gt;&lt;/i&gt; 06-Nov-2020 at &lt;i class='fa fa-clock-o' aria-hidden='true'&gt;&lt;/i&gt; 22:20:57&lt;/span&gt;  
+
+&lt;b&gt;2020&lt;/b&gt; • [SciLifeLab](https://www.scilifelab.se/) • [NBIS](https://nbis.se/)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
