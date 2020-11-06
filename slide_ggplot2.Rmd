@@ -941,8 +941,6 @@ class: spaced
 * [**ggraph**](https://github.com/thomasp85/ggraph): Network graphs  
 * [**ggiraph**](http://davidgohel.github.io/ggiraph/): Converting ggplot2 to interactive graphics  
 
-A collection of ggplot extension packages: <https://www.ggplot2-exts.org/>.
-
 ---
 name: help
 class: spaced
