@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Working in R environment</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Marcin Kierczak | 06-Nov-2020" />
+    <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
+    <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-5.1.0/fonts/fontawesome-webfont.ttf"/>
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Working in R environment
+## R Foundations for Life Scientists
+### <b>Marcin Kierczak</b> | 06-Nov-2020
+### NBIS, SciLifeLab
+
+---
+
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+&lt;!-- ------------ Only edit title, subtitle &amp; author above this ------------ --&gt;
+
+
+
+
+
+---
+name: working_with_r
+
+## Working with R
+
+There are several ways to work with/in R:
+
+- from a command line,
+- in batch mode,
+- from a native GUI,
+- using external editor, e.g. RStudio.
+
+During this course, we will be focusing on working with [RStudio](https://www.rstudio.com) and also in *batch mode*.
+
+---
+name: cline_working
+
+## Working from command line
+
+1. Open Terminal.
+2. Type *R*. 
+3. Type R commands...
+4. Type q() to quit R.
+
+- Arrows let you browse throughout the history.
+- TAB attempts to autocomplete the command you have just started typing. 
+
+---
+name: batch_mode
+
+## The batch mode
+
+If you are working on a computational cluster, such as the Uppmax, it is very likely you would like to run large jobs that one has to enqueue. This makes interactive work from the console virtually impossible. The solution is to run R code from a file, using the so-called **batch mode**:
+
+1. Create a file with your code and give it extension **.R**.
+2. In the console (or in the queue script) write:  
+
+`R --vanilla &lt; mycode.R` [two minus signs in front of *vanilla*]. 
+
+Should you like to log the output add either:
+
+- `R --vanilla &lt; mycode.R &gt; output.log` or like this
+- `R --vanilla &lt; mycode.R | tee output.log`  
+
+---
+name: help
+
+## Getting help
+
+
+```r
+help(t.test) # function level 
+?t.test # same as above
+??t.test # extensive search
+vignette("GenABEL") # package level demo(graphics)
+example(barplot) # run help examples for barplot
+demo() # see all currently available demos
+demo('graphics') # run demo for 'graphics'
+```
+
+[Stackoverflow](http://stackoverflow.com) is a great resource.
+
+---
+name: work_with_packages
+
+## Working with packages
+
+Packages are organised in repositories. The three main repositories are:
+
+* [CRAN](https://cran.r-project.org)
+* [R-Forge](http://r-forge.r-project.org)
+* [Bioconductor](http://www.bioconductor.org)
+
+We also have [GitHub](https://github.com).
+
+--
+## Working with packages -- CRAN example.
+
+&lt;img src="data/slide_r_environment/cran-package.png" width="400pt" style="display: block; margin: auto;" /&gt;
+
+---
+name: pkg_cran_inst
+
+## Working with packages -- installation
+
+Only a few packages are pre-installed:
+
+
+```r
+library("XLConnect")
+```
+
+```
+## Error in library("XLConnect"): there is no package called 'XLConnect'
+```
+
+In order to install a package from command line, use:
+
+
+```r
+install.packages('GenABEL',dependencies=TRUE)
+```
+
+---
+name: work_pkg_details
+
+## Working with packages -- details
+
+It may happen that you want to also specify the repository, e.g. because it is geographically closer to you or because your default mirror is down:
+
+
+```r
+install.packages('GenABEL',dependencies=TRUE,repos="http://cran.se.r-project.org")
+```
+
+But, sometimes, this does not work either because the package is not available for your platform. In such case, you need to *compile* it from its *source code*.
+
+---
+name: work_pkg_details2
+
+## Working with packages -- details cted.
+&lt;img src="data/slide_r_environment/cran-package.png" width="400pt" style="display: block; margin: auto;" /&gt;
+
+---
+name: source_pkg_inst
+
+## Working with packages -- installing from source.
+
+- Make sure you have appropriate tools installed, e.g. XCode or build-essentials.
+- Download the source file, in our example *GenABEL_1.8-0.tar.gz*.
+- Install it:
+
+
+```r
+install.packages("path/to/GenABEL_1.8-0.tar.gz", 
+                 repos=NULL, 
+                 type='source',
+                 dependencies=TRUE)
+```
+
+- Load it:
+
+
+```r
+library('GenABEL') # always forces reloading
+require('GenABEL') # load only if not already loaded
+```
+
+- Enjoy!
+
+---
+name: pkg_github
+
+## Packages -- GitHub
+Nowadays, more and more developers contribute their packages via GitHub. The easiest way to install packages from the GitHub is via the *devtools* package:
+
+- Install the *devtools* package.
+- Load it.
+- Install.
+- Enjoy!
+
+
+```r
+install.packages('devtools',dependencies=TRUE)
+library('devtools')
+install_github('talgalili/installr')
+```
+
+---
+name: pkg_bioconductor
+
+## Packages -- Bioconductor
+
+&lt;img src="data/slide_r_environment/logo_bioconductor.png" width="200pt" style="display: block; margin: auto;" /&gt;
+
+First install Bioconductor Manager:
+
+
+```r
+if (!requireNamespace("BiocManager",quietly = TRUE))
+    install.packages("BiocManager")
+```
+
+---
+name: pkg_bioconductor2
+
+## Packages -- Bioconductor cted.
+
+Now, you can install particular packages from Bioconductor:
+
+
+```r
+BiocManager::install("GenomicRanges")
+```
+
+For more info, visit [Bioconductor website](http://www.bioconductor.org/install/).
+
+---
+## One package to rule them all -- the magic of `renv`
+
+- first time do `renv::activate()` and `renv::init()`
+- while working: `renv::hydrate()` and `renv::snapshot()`
+
+Now, send `renv.lock` to your friend to share the environment and she can:
+
+- restore the environment `renv::restore()`
+
+**Pure magic!**
+
+---
+name: rstudio
+
+## RStudio -- a live demonstration
+
+![RStudio screenshot](data/slide_r_environment/RStudio.png)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
