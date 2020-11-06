@@ -31,6 +31,7 @@ count: false
 
 ```{r setup,include=FALSE}
 knitr::opts_chunk$set(dev="png",results="hold",fig.show="hold",fig.align="left",echo=TRUE,warning=FALSE,message=FALSE)
+options(crayon.enabled = FALSE)
 
 # report related
 library(knitr)
@@ -67,13 +68,16 @@ name: tidyverse_workflow
 
 ## Typical Tidyverse Workflow
 
-The tidyverse curse?<br><br>
+The tidyverse curse?
+
 --
-*Navigating the balance between base R and the tidyverse is a challenge to learn.*
-.right[.small[-- [Robert A. Muenchen](http://r4stats.com/articles/why-r-is-hard-to-learn/)]]
-<br><br>
+
+> Navigating the balance between base R and the tidyverse is a challenge to learn. [-Robert A. Muenchen](http://r4stats.com/articles/why-r-is-hard-to-learn/)
+
 --
-<img src="data/slide_tidyverse/tidyverse-flow.png", style="height:400px;"><br>
+
+.center[<img src="data/slide_tidyverse/tidyverse-flow.png", style="height:400px;">]
+
 .vsmall[source: http://www.storybench.org/getting-started-with-tidyverse-in-r/]
 
 ---
@@ -82,29 +86,25 @@ name: intro_to_pipes
 ## Introduction to Pipes
 
 .pull-left-50[
-  .center[
-    ```{r, echo=F, out.width=300}
-    knitr::include_graphics("data/slide_tidyverse/pipe_magritte.jpg")
-    ```
-  ]
-  .vsmall[
-    Rene Magritt, *La trahison des images*, [Wikimedia Commons](https://en.wikipedia.org/wiki/The_Treachery_of_Images#/media/File:MagrittePipe.jpg)
-  ]
-  <br>&nbsp;
-  .center[
-    ```{r, echo=F, out.width=150}
-    knitr::include_graphics("data/slide_tidyverse/magrittr.png")
-    ```
-  ]
+
+.center[<img src="data/slide_tidyverse/pipe_magritte.jpg", style="width:300px;">]
+
+.vsmall[Rene Magritt, *La trahison des images*, [Wikimedia Commons](https://en.wikipedia.org/wiki/The_Treachery_of_Images#/media/File:MagrittePipe.jpg)]
+
+.center[<img src="data/slide_tidyverse/magrittr.png", style="width:150px;">]
 ]
+
 --
+
 .pull-right-50[
+
 * Let the data flow.
 * *Ceci n'est pas une pipe* -- `magrittr`
 * The `%>%` pipe:
   + `x %>% f` $\equiv$ `f(x)`
   + `x %>% f(y)` $\equiv$ `f(x, y)`
   + `x %>% f %>% g %>% h` $\equiv$ `h(g(f(x)))`
+  
 ]
 
 --
@@ -112,18 +112,24 @@ name: intro_to_pipes
 .pull-right-50[
 
 instead of writing this:
+
 ```{r magrittr0, eval=F}
 data <- iris
 data <- head(data, n=3)
 ```
+
 ]
+
 --
+
 .pull-right-50[
 
 write this:
+
 ```{r magrittr1}
 iris %>% head(n=3)
 ```
+
 ]
 
 
@@ -133,27 +139,30 @@ name: tibble_intro
 ## Tibbles
 
 .pull-left-50[
-  ```{r, fig.align='center', echo=FALSE}
-  knitr::include_graphics("data/slide_tidyverse/hex-tibble.png")
-  ```
-  ```{r}
-  as_tibble(iris)
-  ```
+
+.center[<img src="data/slide_tidyverse/hex-tibble.png">]
+
+```{r}
+as_tibble(iris)
+```
+
 ]
 
 .pull-right-50[
+
 * `tibble` is one of the unifying features of tidyverse,
 * it is a *better* `data.frame` realization,
 * objects `data.frame` can be coerced to `tibble` using `as_tibble()`
 
 ```{r tibble_from_scratch}
-  tibble(
-    x = 1,          # recycling
-    y = runif(8),
-    z = x + y^2,
-    outcome = rnorm(8)
-  )
+tibble(
+  x = 1,          # recycling
+  y = runif(8),
+  z = x + y^2,
+  outcome = rnorm(8)
+)
 ```
+
 ]
 
 ---
@@ -284,9 +293,7 @@ So, how can we fix the problematic columns?
 ```{r fix_problematic_explicite_parser, echo=TRUE, message=TRUE, warning=T}
 tricky_dataset <- read_csv(readr_example('challenge.csv'),
                            col_types = cols(x = col_double(),
-                                            y = col_character()
-                                            )
-                                                      )
+                                            y = col_character()))
 tricky_dataset %>% tail(n = 5)
 ```
 
@@ -342,24 +349,21 @@ Let us create a tibble:
 (bijou <- as_tibble(diamonds) %>% head(n = 100))
 ```
 
-.center[
-  <img src="data/slide_tidyverse/diamonds.png", style="height:200px">
-]
+.center[<img src="data/slide_tidyverse/diamonds.png", style="height:200px">]
+
 ---
 name: filter
 
 ## Picking Observations using `filter()`
 
 ```{r}
-bijou %>% filter(cut == 'Ideal' | cut == 'Premium', carat >= 0.23) %>%
-  head(n = 5)
+bijou %>% filter(cut == 'Ideal' | cut == 'Premium', carat >= 0.23) %>% head(n = 5)
 ```
 
 Be careful with floating point comparisons! Also, rows with comparison resulting in `NA` are skipped by default!
 
 ```{r}
-bijou %>% filter(near(0.23, carat) | is.na(carat)) %>%
-  head(n = 5)
+bijou %>% filter(near(0.23, carat) | is.na(carat)) %>% head(n = 5)
 ```
 
 ---
@@ -397,6 +401,7 @@ name: select2
 ## Selecting Variables with `select()` cted.
 
 `rename` is a variant of `select`, here used with `everything()` to move `x` to the beginning and rename it to `var_x`
+
 ```{r}
 bijou %>% rename(var_x = x) %>% head(n = 5)
 ```
@@ -404,8 +409,9 @@ bijou %>% rename(var_x = x) %>% head(n = 5)
 --
 
 use `everything()` to bring some columns to the front:
+
 ```{r}
-bijou %>% select(x:z, everything()) %>% head(n = 5)
+bijou %>% select(x:z, everything()) %>% head(n = 4)
 ```
 
 ---
@@ -416,8 +422,11 @@ name: mutate
 ```{r}
 bijou %>% mutate(p = x + z, q = p + y) %>% select(-(depth:price)) %>% head(n = 5)
 ```
+
 --
+
 or with `transmute` (only the transformed variables will be retained)
+
 ```{r}
 bijou %>% transmute(carat, cut, sum = x + y + z) %>% head(n = 5)
 ```
@@ -432,7 +441,9 @@ bijou %>% group_by(cut) %>% summarize(max_price = max(price),
                                       mean_price = mean(price),
                                       min_price = min(price))
 ```
+
 --
+
 ```{r}
 bijou %>% group_by(cut, color) %>%
   summarize(max_price = max(price),
@@ -448,8 +459,11 @@ name: other_data_manipulations
 ```{r}
 bijou %>% group_by(cut) %>% summarize(count = n())
 ```
+
 --
+
 When you need to regroup within the same pipe, use `ungroup()`.
+
 ---
 name: concept_of_tidy_data
 
@@ -462,13 +476,16 @@ Data are tidy *sensu Wickham* if:
 `r knitr::include_graphics("data/slide_tidyverse/tidy_data.png")`
 
 Usually data are untidy in only one way. However, if you are unlucky, they are really untidy and thus a pain to work with...
+
 ---
 name: tidy_data
 
 ## Tidy Data
+
 <img src="data/slide_tidyverse/tidy_data.png" style="height:100px">
 
 --
+
 .center[**Are these data tidy?**]
 
 .pull-left-70[
@@ -479,8 +496,11 @@ iris %>% head(n=3) %>% kable("html",escape=F,align="c") %>%
                 position="left",full_width = F)
 ```
 ]
+
 --
+
 .pull-right-30[
+
 ```{r tidy_iris2, echo=FALSE}
 iris2 <- iris %>%
   gather(key=variable, value=value, -Species)
@@ -490,11 +510,14 @@ iris2 %>%
   kable_styling(bootstrap_options=c("striped","hover","responsive","condensed"),
                 position="left",full_width = F)
 ```
+
 ]
+
 <br>&nbsp;<hr><br>
 
 --
 .pull-left-50[
+
 ```{r tidy_iris3, echo=FALSE}
 iris3 <-
   iris %>%
@@ -506,8 +529,11 @@ iris3 %>%
   kable_styling(bootstrap_options=c("striped","hover","responsive","condensed"),
                 position="left",full_width = F)
 ```
+
 ]
+
 --
+
 .pull-right-50[
 ```{r tidy_iris4, echo=FALSE}
 iris4 <- t(iris)
@@ -516,6 +542,7 @@ iris4[,1:4] %>%
   kable_styling(bootstrap_options=c("striped","hover","responsive","condensed"),
                 position="left",full_width = F)
 ```
+
 ]
 
 ---
@@ -600,6 +627,7 @@ bijou5
 ```{r}
 bijou5 %>% unite(clarity, clarity_prefix, clarity_suffix, sep='')
 ```
+
 **Note:** that `sep` is here interpreted as the position to split on. It can also be a *regular expression* or a delimiting string/character. Pretty flexible approach!
 
 ---
