@@ -71,6 +71,7 @@ packages:
    - knitr
    - leaflet
    - markdown
+   - pagedown
    - remotes
    - rmarkdown
    - vioplot
