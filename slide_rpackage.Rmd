@@ -1,8 +1,7 @@
 ---
-title: "R package anatomy"
-subtitle: "R Programming Foundation for Life Scientists"
-author: "`r format(Sys.time(), '%d-%b-%Y')`"
-institute: NBIS
+title: "R Package Anatomy"
+subtitle: "R Foundations for Life Scientists"
+author: "Sebastian DiLorenzo"
 keywords: r, r programming, markdown, tidyverse
 output:
   xaringan::moon_reader:
@@ -20,6 +19,7 @@ output:
       countIncrementalSlides: false
       slideNumberFormat: "%current%/%total%"
 ---
+
 exclude: true
 count: false
 
@@ -72,7 +72,7 @@ And in "Cran and "R CMD check"" I will talk about tools to check your package an
 ---
 name: rpkg
 
-## What is an R package?
+# What is an R package?
 
 .pull-left-50[
 <img src="data/slide_rpackage/tree_rpkg_mini.png", style="width:60%">
@@ -88,7 +88,7 @@ You can think of an R package under development as a folder and file structure w
 
 ---
 
-## What is an R package?
+# What is an R package?
 
 .pull-left-50[
 <img src="data/slide_rpackage/tree_rpkg_mini.png", style="width:60%">
@@ -105,7 +105,7 @@ There are many additional components you can add to the package, more than are s
 
 ---
 
-## What is an R package?
+# What is an R package?
 
 .pull-left-50[
 <img src="data/slide_rpackage/tree_rpkg_mini.png", style="width:60%">
@@ -140,7 +140,7 @@ Finally; At the moment there is much talk about the reproducibility crisis and c
 ---
 name: pkg-tips
 
-## Package naming
+# Package naming
 
 .pull-left-50[
 * A name that describes your packages function
@@ -157,7 +157,7 @@ name: pkg-tips
 ---
 name: pkg-states
 
-## Possible package states
+# Possible package states
 
 There are five states a package can exist in:
 * Source
@@ -172,13 +172,13 @@ To help understand what's going on with a package it is useful to know the possi
 
 ---
 
-## Source
+# Source
 
 The development version of your package. The collection of files on your computer.
 
 --
 
-## Bundled
+# Bundled
 
 * A compressed, tar.gz, source package with vignettes built
 * .Rbuildignore files are excluded
@@ -190,7 +190,7 @@ We will get to what vignettes are.
 
 --
 
-## Binary
+# Binary
 
 * A bundle that is built for a certain architecture
 * Parsed format, skipping the development tools needed to take the package between source and being interpretable by R
@@ -201,7 +201,7 @@ Like the bundled package except that if you uncompressed it doesnt look like the
 
 ---
 
-## Installed
+# Installed
 
 * A binary package decompressed into a package library for R
     + The package library is the directory or directories where `library(packagename)` searches
@@ -209,7 +209,7 @@ Like the bundled package except that if you uncompressed it doesnt look like the
 
 --
 
-## In-memory
+# In-memory
 
 When you use a package, it is in memory. When developing, a package does not have to be installed to be in memory.
 * `packagename::function()`
@@ -225,7 +225,7 @@ There is a subtle difference between loading a package into memory to be able to
 
 ---
 
-## Possible package states
+# Possible package states
 
 <img src="data/slide_rpackage/installation.png">
 .vsmall[http://r-pkgs.had.co.nz/package.html]
@@ -238,7 +238,7 @@ This image is from Hadleys great introduction to developing packages and I think
 ---
 name: r
 
-## R/
+# R/
 
 .pull-left-40[
 <img src="data/slide_rpackage/tree_rpkg.png", style="width:80%">
@@ -250,7 +250,7 @@ Now we will start to go through the folders and files in a package to see how th
 
 ---
 
-## R/
+# R/
 
 .pull-left-40[
 <img src="data/slide_rpackage/tree_rpkg.png", style="width:80%;opacity:0.5">
@@ -276,7 +276,7 @@ You should avoid using functions in your code that modify the environment of you
 ---
 name: desc
 
-## DESCRIPTION
+# DESCRIPTION
 
 <img src="data/slide_rpackage/DESCRIPTION.png">
 
@@ -315,7 +315,7 @@ The title of you package should be a short description, no more than 65 characte
 
 ---
 
-## DESCRIPTION
+# DESCRIPTION
 
 <img src="data/slide_rpackage/DESCRIPTION.png">
 
@@ -350,7 +350,7 @@ The license of your package should reflect who and how your package should be us
 
 ---
 
-## Versioning
+# Versioning
 
 <center>
 .largest[0.0.0.9000]
@@ -381,7 +381,7 @@ Wether you are developing your package, or updating and adding to a released pac
 ---
 name: man
 
-## man/
+# man/
 
 .pull-left-30[
 <img src="data/slide_rpackage/tree_rpkg.png">
@@ -427,7 +427,7 @@ Here is an example function call_me.R with the roxygen2 documentation block prec
 
 ---
 
-## man/
+# man/
 
 .pull-left-60[
 .small[
@@ -490,7 +490,7 @@ And when you do question mark the function name in R the Rd file is parsed and y
 
 ---
 
-## man/ for datasets
+# man/ for datasets
 
 .pull-left-30[
 <img src="data/slide_rpackage/tree_rpkg.png">
@@ -541,7 +541,7 @@ And here we see the documentation, which I have put in data.R. Just like previou
 ---
 name: vig
 
-## vignettes/
+# vignettes/
 
 * A more complete guide to your package
   + For user/you
@@ -579,7 +579,7 @@ Luckily you have already gone through rmarkdown, so we dont need to talk about t
 
 ---
 
-## vignettes/
+# vignettes/
 
 * A more complete guide to your package
   + For user/you
@@ -608,7 +608,7 @@ usethis::use_vignette("typicalr-vignette")
 ---
 name: namespace
 
-## NAMESPACE
+# NAMESPACE
 
 .center[package1 names &emsp; &emsp; &emsp; &emsp; package2 names]
 .center[<img src="data/slide_rpackage/venn.png">]
@@ -633,7 +633,7 @@ If you are not going to share your package, just export every function.
 
 ---
 
-## NAMESPACE
+# NAMESPACE
 
 .small[*call_me.R:*]
 ```
@@ -675,7 +675,7 @@ So when I run devtools::document(), just like when we generated the other docume
 
 ---
 
-## NAMESPACE
+# NAMESPACE
 
 .center.large[Import in **DESCRIPTION** and in **NAMESPACE**!?]
 
@@ -701,7 +701,7 @@ Finally: Realise that writing package::function() removes the need to import fun
 ---
 name: data
 
-## data/
+# data/
 
 .pull-left-50[
 **Package types:**
@@ -757,7 +757,7 @@ Here we see some code where we use usethis to save a object directly to data/ di
 ---
 name: src
 
-## src/
+# src/
 
 .pull-left-50[
 * Compiled code
@@ -812,7 +812,7 @@ First you can call usethis::use_rcpp() which automates the processes of adding i
 
 ---
 
-## src/
+# src/
 
 .pull-left-50[
 * Compiled code
@@ -854,7 +854,7 @@ To get this to R code we first build the documentation, which exports the functi
 name: git
 class: spaced
 
-## git, Github, Rstudio and you!
+# git, Github, Rstudio and you!
 
 .pull-left-50[
 * `git`
@@ -879,7 +879,7 @@ Now let's talk alittle about hosting your package. Using version control, such a
 ---
 name: cran
 
-## CRAN and `R CMD check`
+# CRAN and `R CMD check`
 
 .pull-left-60[
 * **C**omprehensive **R** **A**rchive **N**etwork
@@ -923,7 +923,7 @@ If you are developing your package on github you can set up Travis to run this c
 ---
 class: spaced
 
-## Summary
+# Summary
 
 .pull-left-70[
 * [What is an R package?](#rpkg)

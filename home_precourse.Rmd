@@ -1,5 +1,5 @@
 ---
-title: "&nbsp;"
+title: "Precourse"
 output:
   bookdown::html_document2:
     toc: false
@@ -9,9 +9,9 @@ output:
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
-# Precourse {.tabset .tabset-fade}
-
 This workshop is aimed towards biologists, and other life sciences researchers with none or limited experience with R programming or even programming in general.
+
+# &nbsp; {.tabset .tabset-fade}
 
 ## Preparation
 
@@ -19,7 +19,7 @@ This workshop is aimed towards biologists, and other life sciences researchers w
 
 `r fa1("chevron-circle-right")` &nbsp; **Install R statistical software**
 
-<div class="boxy boxy-exclamation boxy-warning">
+<div class="boxy boxy-exclamation boxy-yellow">
 
 If you have an old version of R and you do not use it, uninstall it and then install a newer version. If you prefer to keep your old R version, then you can still install a newer version for this workshop. This is easy on Windows, but can be tricky on Linux.
 
@@ -29,7 +29,7 @@ Go to [r-project.org](https://cloud.r-project.org/) and choose the link appropri
 
 <img src="data/common/r-download.png" class="fancyimage">
 
-<div class="boxy boxy-lightbulb boxy-primary">
+<div class="boxy boxy-lightbulb">
 
 **Installation details**
 
@@ -51,7 +51,7 @@ RStudio provides you with tools like code editor with highlighting, project mana
 
 Extra R packages used in the workshop exercises (if any) are listed below. It is recommended that you install this in advance. Simply copy and paste the code into R.
 
-```{r,eval=TRUE,block.title=NULL,echo=FALSE,comment="",class.output="r"}
+```{r,eval=TRUE,chunk.title=NULL,echo=FALSE,comment="",class.output="r"}
 # this code block reads package names from '_site.yml' and prints them as installation instruction.
 
 pkg <- yaml::read_yaml("_site.yml")

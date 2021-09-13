@@ -1,8 +1,7 @@
 ---
-title: "Variables, data types, operators"
-subtitle: "R Foundations for Life Scientists"
-author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
-institute: NBIS, SciLifeLab
+title: "Variables, Data types & Operators"
+subtitle: "Elements of the R language"
+author: "Marcin Kierczak"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -45,11 +44,11 @@ knitr::opts_chunk$set(echo=TRUE, width=60)
 ---
 name: intro
 
-## Introduction
+# Introduction
 
 Today, we will talk about various elements of a programming language and see how they are realized in R.
 
-## Contents 
+# Contents
 
 - **variables and their types**
 - **operators**
@@ -69,9 +68,9 @@ Today, we will talk about various elements of a programming language and see how
 ---
 name: variables
 
-## Variables
+# Variables
 
-> Creating a variable is simply assigning a name to some structure that stores data...
+- Creating a variable is simply assigning a name to some structure that stores data...
 
 ```{r variables,echo=TRUE,size='Tiny'}
 7 + 9
@@ -84,8 +83,10 @@ c
 ```
 
 ---
-## Variables cted.
+# Variables cted.
+
 We are not constrained to numbers...
+
 ```{r variables2,echo=TRUE}
 text1 <- 'a'
 text2 <- 'qwerty'
@@ -93,17 +94,16 @@ text1
 text2
 ```
 
-### Is `<-` equivalent to `=`? Which one shall I use?
-> `val <- 3`, `val = 3` and `3 -> val` are in R three equivalent ways of assigning, BUT you should use only `<-` to avoid possible confusion. The equal sign `=` you can and should use 
-when setting function arguments `f(a = 3)`.
+# Is `<-` equivalent to `=`? Which one shall I use?
+
+- `val <- 3`, `val = 3` and `3 -> val` are three equivalent ways of assigning in R, But, it's best to use only `<-` to avoid possible confusion. The equal sign `=` should be used when setting function arguments ie; `f(a = 3)`.
 
 ---
 name: variables_naming
 
-## Variables &mdash; naming conventions
+# Variables &mdash; naming conventions
 
-> How to write variable names? 
-
+- How to write variable names?
 - What is legal/valid?
 - What is a good style?
 
@@ -117,8 +117,8 @@ Names such as ".2way" are not valid, and neither are the so-called *reserved wor
 
 --
 
-### Reserved words
-  
+# Reserved words
+
 - `if, else, repeat, while, function, for, in, next, break, TRUE, FALSE, NULL, Inf, NaN, NA, NA_integer_, NA_real_, NA_complex_, NA_character_`  
 
 - and you also **cannot** use: `c, q, t, C, D, I`
@@ -128,9 +128,9 @@ Names such as ".2way" are not valid, and neither are the so-called *reserved wor
 ---
 name: variables_good_style
 
-## Variables &mdash; good style
+# Variables &mdash; good style
 
-> So, how to name variables?
+- So, how to name variables?
 
 - make them informative, e.g. `genotypes` instead of `fsjht45jkhsdf4`,
 
@@ -144,7 +144,7 @@ name: variables_good_style
 
 --
 
-- do not `give_them_too_long_names`, 
+- do not `give_them_too_long_names`,
 
 --
 
@@ -152,16 +152,16 @@ name: variables_good_style
 
 --
 
-- there are certain customary names: 
-    - `tmp` - for temporary variables; 
-    - `cnt` for counters; 
-    - `i,j,k` within loops, 
+- there are certain customary names:
+    - `tmp` - for temporary variables;
+    - `cnt` for counters;
+    - `i,j,k` within loops,
     - `pwd` - for password...
 
 ---
 name: data_types_1
 
-## Variables have types
+# Variables have types
 
 A *numeric* stores numbers of different *types*:
 
@@ -173,11 +173,11 @@ typeof(x)
 ---
 name: class_type_mode
 
-## Classes, types, and modes
+# Classes, types, and modes
 
 - `class` what type of object is it for R,
 - `typeof()` what R thinks it is,
-- `mode()` how S language would see it (backward compatibility), 
+- `mode()` how S language would see it (backward compatibility),
 - `storage.mode()` how is it stored in the memory; useful when talking to C or Java,
 
 ```{r class,echo=TRUE,eval=TRUE}
@@ -191,7 +191,7 @@ storage.mode(x)
 ---
 name: type_casting
 
-## Type casting
+# Type casting
 
 By default, any *numeric* is stored as *double* !
 
@@ -215,7 +215,7 @@ is.integer(x)
 ---
 name: casting2
 
-## More on type casting
+# More on type casting
 
 Be careful when casting!
 
@@ -238,7 +238,7 @@ as.integer(3.51)
 ---
 name: ceiling_floor
 
-## Ceiling, floor and a round corner
+# Ceiling, floor and a round corner
 
 ```{r casting.not.rounding2,echo=TRUE}
 floor(3.51) # floor of 3.51
@@ -249,7 +249,7 @@ round(3.51, digits=1) # round to one decimal
 ---
 name: coercion
 
-## What happens if we cast a string to a number
+# What happens if we cast a string to a number
 
 ```{r casting.string,echo=TRUE}
 as.numeric('4.5678')
@@ -260,7 +260,7 @@ as.numeric('R course is cool!')
 ---
 name: some_special_values
 
-## Special values
+# Special values
 
 ```{r special.values,echo=TRUE}
 -1/0  # Minus infinity
@@ -278,7 +278,7 @@ Inf - Inf # Not a Number
 ---
 name: cplx_numbers
 
-## Complex number type
+# Complex number type
 
 Core R supports complex numbers.
 
@@ -290,7 +290,7 @@ typeof(z)
 is.complex(z)
 ```
 
-```{r cplx2,echo=TRUE} 
+```{r cplx2,echo=TRUE}
 sqrt(-1) # not treated as cplx number
 sqrt(-1 + 0i) # now a proper cplx number
 sqrt(as.complex(-1)) # an alternative way
@@ -299,7 +299,7 @@ sqrt(as.complex(-1)) # an alternative way
 ---
 name: logical_type
 
-## Logical type
+# Logical type
 
 ```{r logical.type,echo=TRUE}
 a <- 7 > 2
@@ -324,7 +324,7 @@ kableExtra::kable(and_truth_table)
 ---
 name: logical_cted
 
-## Logical type cted.
+# Logical type cted.
 
 ```{r logical.type3,echo=TRUE}
 x <- TRUE
@@ -335,7 +335,7 @@ is.logical(x)
 typeof(x)
 ```
 
-> Observe that in R the logical type is also a numeric!
+- Observe that in R the logical type is also a numeric!
 
 ```{r logical.as.number,echo=TRUE}
 x <- TRUE
@@ -348,11 +348,11 @@ x * y
 ---
 name: logical_joke
 
-## A trap set up for you
+# A trap set up for you
 
 Never ever use variable names as T or F. Why?
 
-```{r TFtrap,echo=TRUE} 
+```{r TFtrap,echo=TRUE}
 F <- T
 T
 F
@@ -362,7 +362,7 @@ Maybe applicable in politics, but not really in science...
 ---
 name: character_type
 
-## Character type
+# Character type
 
 It is easy to work with characters and strings:
 
@@ -378,7 +378,7 @@ typeof(text) # also of 'character' type
 ---
 name: character_type_2
 
-## Character type
+# Character type
 
 ```{r char.type2,echo=TRUE}
 number <- 3.14
@@ -391,7 +391,7 @@ as.numeric(number.text) # and the other way round
 ---
 name: basic_string_ops
 
-## Basic string operations
+# Basic string operations
 
 ```{r basic.string,echo=TRUE}
   text1 <- "John had a yellow "
@@ -405,7 +405,7 @@ name: basic_string_ops
 ---
 name: basic_printing
 
-## Basic printing
+# Basic printing
 
 ```{r basic.printing,echo=TRUE}
   txt <- "blue"
@@ -432,4 +432,3 @@ count: false
 # manually run this to convert HTML to PDF
 #pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
 ```
-

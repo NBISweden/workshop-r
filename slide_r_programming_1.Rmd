@@ -1,8 +1,7 @@
 ---
-title: "Introduction to programming in R (1)"
+title: "Introduction To Programming in R (1)"
 subtitle: "R Foundations for Life Scientists"
-author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
-institute: NBIS, SciLifeLab
+author: "Marcin Kierczak"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -38,75 +37,81 @@ count: false
 ---
 name: programming_language
 
-## Computer program
+# Computer program
 
 --
- * flow of data 
+
+ * flow of data
 
 --
- * from one function to another 
+
+ * from one function to another
 
 --
+
  * each function does something to the data  
- 
+
 --
 
-## HOW?
+# How?
 
 --
 > A **programming language** is a formal computer language or constructed language designed to communicate instructions to a machine, particularly a computer. Programming languages can be used to create programs to control the behavior of a machine or to express algorithms.  
-.right[.small[source: [Wikipedia](https://en.wikipedia.org/wiki/Programming_language)]]
+.small[[Wikipedia](https://en.wikipedia.org/wiki/Programming_language)]
 
 --
 
-### Three things to think about
+# Three things to think about
+
+ * what *types* of data can I process?
 
 --
- * what *types* of data can I process
-  
+
+ * how do I *write* what I want?
 
 --
- * how do I *write* what I want
-  
 
---
- * when does it *mean* anything
-  
+ * when does it *mean* anything?
+
 
 ---
 
-## Three components of a language
+# Three components of a language
 
 --
- * what *types* of data can I process &mdash; *type system* 
+
+ * what *types* of data can I process &mdash; *type system*
 
 --
-> * int &mdash; 1 2 5 9
-  * double &mdash; 1.23 -5.74 
+
+  * int &mdash; 1 2 5 9
+  * double &mdash; 1.23 -5.74
   * char &mdash; a b test 7 9
 
 --
- * how do I *write* what I want &mdash; *syntax* defined by a language *grammar* 
+
+ * how do I *write* what I want &mdash; *syntax* defined by a language *grammar*
+
+  `2 * 1 + 1` vs. `(+ (* 2 1) 1)`
 
 --
-> `2 * 1 + 1` vs. `(+ (* 2 1) 1)`
 
---
  * when does it *mean* anything &mdash; *semantics*
 
 --
-> * *Colorful yellow train sleeps on a crazy wave.* &mdash; has no generally accepted meaning
+
+  * *Colorful yellow train sleeps on a crazy wave.* &mdash; has no generally accepted meaning
   * *There is $500 on his empty bank acount.* &mdash; internal contradiction
 
 ---
 name: topic2
 
-## Where to start?
+# Where to start?
 
 
 *Divide et impera* &mdash; divide and rule.
 
-**Top-down approach:** define the big problem and split it into smaller ones. Assume you have solution to the small problems and continue &mdash; push the responsibility down. 
+**Top-down approach:** define the big problem and split it into smaller ones. Assume you have solution to the small problems and continue &mdash; push the responsibility down.
 Wishful thinking!
 
 <!-- --------------------- Do not edit this and below --------------------- -->

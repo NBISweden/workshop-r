@@ -1,8 +1,7 @@
 ---
 title: "Introduction to R"
 subtitle: "R Foundations for Life Scientists"
-author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
-institute: NBIS, SciLifeLab
+author: "Marcin Kierczak"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -42,7 +41,7 @@ library(mkteachr)
 name: content
 class: spaced
 
-## Contents
+# Contents
 
 * [About R](#about)
 * [Timeline](#timeline)
@@ -53,100 +52,110 @@ class: spaced
 ---
 name: about
 
-## Breifly about R 
+# Briefly about R
 
-**R definitely is:**
+.pull-left-50[
+
+# R is ...
 
 * a programming language
-
---
 * a programming platform (= environment + interpreter)
-
---
 * a software project driven by the core team and the community
-
---
-* a very powerful tool for statistical computing 
-
---
-* a very powerful computational tool in general 
-
---
+* a very powerful tool for statistical computing
+* a very powerful computational tool in general
 * a catalyst between an idea and its realization  
 
+]
+
 --
-  
-**But NOT!**  
+
+.pull-right-50[
+
+# R is not ...
 
 * a tool to replace a statistician
-
---
 * the very best programming language
-
---
-* the most elegant programming solution 
-
---
+* the most elegant programming solution
 * the most efficient programming language  
 
+]
+
 --
-  
-**Yet...**  
+
+.pull-left-70[
+
+# Yet ...
 
 * it is very elegant
+* it becomes more and more feature-rich
 
---
-* it becomes more and more efficient
+]
 
-.pull-right-70[.size-20[![](data/slide_intro/Rlogo.png)]]
+.pull-right-30[
+![](data/common/r.png)
+]
 
 ---
 name: timeline
 
-## Timeline
+# Timeline
+
+--
+
+.pull-left-50[
+
+![](data/slide_intro/Ihaka_and_Gentleman.jpg)
 
 * ca. 1992 &mdash; conceived by [Robert Gentleman](https://bit.ly/35kn99L) and [Ross Ihaka](https://en.wikipedia.org/wiki/Ross_Ihaka) (R&R) at the University of Auckland, NZ as a tool for **teaching statistics**
 
---
-.size-20[![](data/slide_intro/Ihaka_and_Gentleman.jpg)]
-
---
 * 1994 &mdash; initial version
 * 2000 &mdash; stable version
 
---
-* 2011 &mdash; [RStudio](https://en.wikipedia.org/wiki/RStudio), first release by J.J. Allaire 
-.size-20[![](data/slide_intro/jjallaire_siliconangle_com.jpg)]
+]
 
 --
+
+.pull-right-50[
+
+![](data/slide_intro/jjallaire_siliconangle_com.jpg)
+
+* 2011 &mdash; [RStudio](https://en.wikipedia.org/wiki/RStudio), first release by J.J. Allaire
+
+![](data/slide_intro/hadley-wickham.jpg)
+
 * ca. 2017 &mdash; Tidyverse by [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham)
-.size-20[![](data/slide_intro/hadley-wickham.jpg)]
+]
 
 ---
 name: ideas
 
-## Ideas behind R
+# Ideas behind R
 
 * open-source solution &mdash; fast development
 
 --
-* based on the [S language](https://en.wikipedia.org/wiki/S_%28programming_language%29) created at the Bell Labs by  
-[John Mc Kinley Chambers](https://bit.ly/2RhDqUx) to 
 
---
+* based on the [S language](https://en.wikipedia.org/wiki/S_%28programming_language%29) created at the Bell Labs by [John Mc Kinley Chambers](https://bit.ly/2RhDqUx) to
+
 > *turn ideas into software, quickly and faithfully*
 
 --
+
 * [lexical scope](https://en.wikipedia.org/wiki/Scope_%28computer_science%29%23Lexical_scoping) inspired by [Lisp](https://en.wikipedia.org/wiki/Lisp) syntax
 
 --
+
 * since 1997 developed by the R Development Core Team (ca. 20 experts, with Chambers onboard; 6 are active)
 
 --
+
 * overviewed by [The R Foundation for Statistical Computing](https://www.r-project.org/foundation/)
 
---
-### Packages
+---
+name: packages
+
+# Packages
+
 .pull-right-50[
 ```{r, out.width="250pt", fig.align='center', echo=FALSE}
 knitr::include_graphics("data/slide_intro/packages.jpg")
@@ -154,17 +163,21 @@ knitr::include_graphics("data/slide_intro/packages.jpg")
 ]
 
 --
+
 * developed by the community
 
 --
+
 * cover several very diverse areas of science/life
 
 --
+
 * uniformely structured and documented
 
 --
+
 * organised in repositiries:
-    + [CRAN](https://cran.r-project.org) - The Comprehensive R Archive Network
+    + [CRAN](https://cran.r-project.org)
     + [R-Forge](https://r-forge.r-project.org)
     + [Bioconductor](http://www.bioconductor.org)
     + [GitHub](https://github.com)
@@ -173,7 +186,7 @@ knitr::include_graphics("data/slide_intro/packages.jpg")
 name: pros_and_cons
 class: spaced
 
-## Pros and cons
+# Pros and cons
 
 <i class='fa fa-minus-square'></i> steep learning curve  
 
@@ -202,11 +215,11 @@ e.g. an agent-based simulation is a challenge
 ---
 name: num_packages
 
-## Ecosystem of R packages
+# Ecosystem of R packages
+
 <br>
-<br>
-<br>  
-```{r num_pkgs, echo=FALSE, fig.align='center', fig.height=5.0, fig.width=7.5, cache=TRUE, message=FALSE}
+
+```{r num_pkgs, echo=FALSE, fig.align='center', fig.height=7, fig.width=9, cache=TRUE, message=FALSE}
 data <- mkteachr::update_repos_data()
 gg <- mkteachr::plot_repos_data(data)
 gg
@@ -219,7 +232,7 @@ name: end_slide
 class: end-slide, middle
 count: false
 
-# Now you know a bit more about R!
+# Thank you! Questions?
 
 ```{r,echo=FALSE,child="assets/footer-slide.Rmd"}
 ```

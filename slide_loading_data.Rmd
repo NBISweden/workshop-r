@@ -1,8 +1,7 @@
 ---
 title: "Reading (and writing) data in R"
 subtitle: "R Foundations for Life Scientists"
-author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
-institute: NBIS, SciLifeLab
+author: "Marcin Kierczak"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -45,26 +44,29 @@ knitr::opts_chunk$set(echo = TRUE, width=60)
 ---
 name: reading_data
 
-## Reading data
+# Reading data
+
+--
 
 * Reading data is one of the most consuming and most cumbersome aspects of bioinformatics...
 
 --
 
-* R provides a number of ways to read and write data stored on different media (file, database, url, twitter, Facebook, etc.) and in different formats. 
+* R provides a number of ways to read and write data stored on different media (file, database, url, twitter, Facebook, etc.) and in different formats.
 
 --
 
 * Package `foreign` contains a number of functions to import less common data formats.
 
 ---
-name:reading_tables
+name: reading_tables
 
-## Reading tables
+# Reading tables
 
 Most often, we will use the `read.table()` function. It is really, really flexible and nice way to read your data into a data.frame structure with rows corresponding to observations and columns to particular variables.  
 
 The function is declared in the following way:  
+
 ```
 read.table(file, header = FALSE, sep = "", quote = "\"'",
            dec = ".", numerals = c("allow.loss", "warn.loss", "no.loss"),
@@ -80,7 +82,8 @@ read.table(file, header = FALSE, sep = "", quote = "\"'",
 
 ---
 name: read_table_params
-## `read.table` parameters
+
+# `read.table` parameters
 
 You can read more about the *read.table* function on its man page, but the most important arguments are:
 
@@ -99,7 +102,8 @@ You can read more about the *read.table* function on its man page, but the most 
 
 ---
 name: read_table_sibs
-## `read.table` and its siblings  
+
+# `read.table` and its siblings  
 
 The `read.table` function has some siblings, functions with particular arguments pre-set to a specific value to spare some time:
 
@@ -109,12 +113,13 @@ The `read.table` function has some siblings, functions with particular arguments
 We, however, most often use the canonical `read.table()` as it is the most flexible one.
 
 ---
-name: read_Table_example
-## `read.table` &mdash; example use
+name: read_table_example
+
+# `read.table` &mdash; example use
 
 ```{r read.table, echo=T}
 tab <- read.table(file = 'data/slide_loading_data/2014-04-07_phenos2.csv',
-                  sep = ' ', 
+                  sep = ' ',
                   header = T)
 tab[1:5, 1:3]
 class(tab$reg_no)
@@ -123,15 +128,19 @@ class(tab$reg_no)
 ---
 name: handling_errors
 
-## What if you encounter errors?
+# What if you encounter errors?
 
 * StackOverflow,
 * Google &ndash; just type R and copy the error you got without your variable names,
 * open the file &ndash; has the header line the same number of columns as the first line?
 * in Terminal (on Linux/OsX) you can type some useful commands.
+
 --
 
-### Useful commands for debugging
+# Useful commands for debugging
+
+--
+
 * `cat phenos.txt | awk -F';' '{print NF}'` prints the number of words in each row. `-F';'` says that semicolon is the delimiter,
 
 --
@@ -164,16 +173,18 @@ If this still did not help, split the file in two equal-size parts. Check which 
 
 ---
 name: writing
-## Writing with write.table()
+
+# Writing with `write.table()`
+
 `read.table()` has its counterpart, the `write.table()` function (as well ass its siblings, like write.csv()). You can read more about it in the documentation, let us show some examples:
 
 ```{r write.table, echo=T, eval=F}
 vec <- rnorm(10)
 write.table(vec, '') # write to screen
-write.table(vec, file = 'vector.txt') 
+write.table(vec, file = 'vector.txt')
 # write to the system clipboard, handy!
-write.table(vec, 'clipboard', col.names=F, 
-            row.names=F) 
+write.table(vec, 'clipboard', col.names=F,
+            row.names=F)
 # or on OsX
 clip <- pipe("pbcopy", "w")                       
 write.table(vec, file=clip)                               
@@ -184,33 +195,37 @@ write.csv(vec, file = 'spreadsheet.csv')
 
 ---
 name: write_big_data
-## Writing big data
+
+# Writing big data
+
 * HINT: `write.table()` is rather slow on big data &ndash; it checks types for every column and row and does separate formatting to each. If your data consists of only one type of data, convert it to a matrix using `as.matrix` before you write it!  
 
 * You may want to use function `scan()` that reads files as vectors. The content does not have to be in the tabular form. You can also use scan to read data from keyboard: `typed.data <- scan()`
-  
+
 * If data are written as fixed-width fields, use the `read.fwf()` function.
 
 * Also check out the `readLines()` function that enables you to read data from any stream.
 
 ---
 name: read_xls_matlab
-## Read data in XLS and Matlab
+
+# Read data in xls/xlsx and Matlab
+
 ```{r xls, eval=F, echo=T}
-library(gdata)
-# Note, the gdata:: -- not necessary, but 
-# good to refresh your memory:-)
-data <- gdata::read.xls('myfile.xls', sheet = 2)
+library(readxl)
+data <- readxl::read_xlsx('myfile.xlsx')
 ```
 
-```{r matlab, eval=F, echo=T} 
+```{r matlab, eval=F, echo=T}
 library(R.matlab)
 data <- R.matlab::readMat("mydata.mat")
 ```
 
 ---
 name: remote_data
-## Working with remote data
+
+# Working with remote data
+
 ```{r url.data, eval=T, cache=T, echo=T}
 url <- 'https://en.wikipedia.org/wiki/List_of_countries_by_average_wage'
 conn <- url(url, 'r')
@@ -229,13 +244,15 @@ data[1:5, ]
 
 ---
 name: databases
-## Working with databases
+
+# Working with databases
+
 It is also relatively easy to work with different databases. We will focus on MySQL and present only one example that uses the *RMySQL* package (check also *RODBC* and *RPostgreSQL*).
 ```{r db, echo=T, eval=F}
 library(RMySQL)
-db.conn <- dbConnect(MySQL(), user='me', 
+db.conn <- dbConnect(MySQL(), user='me',
                      password='qwerty123',
-                     dbname='genes', 
+                     dbname='genes',
                      host='127.0.0.237')
 query <- dbSendQuery(db.conn, 'SELECT * FROM table7')
 data <- fetch(query, n = - 1)
@@ -244,7 +261,8 @@ data <- fetch(query, n = - 1)
 ---
 name: capabilities
 
-## Capabilities
+# Capabilities
+
 If you are getting some errors, e.g. trying to connect to a url, you may check whether your system (and R) support particular type of file or connection:
 ```{r capabil, echo=T, size='tiny'}
 capabilities()
@@ -268,4 +286,3 @@ count: false
 # manually run this to convert HTML to PDF
 #pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
 ```
-

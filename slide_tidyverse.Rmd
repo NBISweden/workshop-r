@@ -1,8 +1,7 @@
 ---
 title: "Tidy work in Tidyverse"
-subtitle: "R Programming Foundation for Life Scientists"
-author: "`r format(Sys.time(), '%d-%b-%Y')`"
-institute: NBIS
+subtitle: "R Foundation for Life Scientists"
+author: "Marcin Kierczak"
 keywords: r, r programming, markdown, tidyverse
 output:
   xaringan::moon_reader:
@@ -48,7 +47,7 @@ library(kableExtra)
 library(magrittr)
 ```
 
-## Tidyverse -- What is it all About?
+# Tidyverse -- What is it all About?
 
 * [Tidyverse](http://www.tidyverse.org) is a collection of packages.
 * Created by [Hadley Wickham](http://hadley.nz).
@@ -66,7 +65,7 @@ library(magrittr)
 ---
 name: tidyverse_workflow
 
-## Typical Tidyverse Workflow
+# Typical Tidyverse Workflow
 
 The tidyverse curse?
 
@@ -83,7 +82,7 @@ The tidyverse curse?
 ---
 name: intro_to_pipes
 
-## Introduction to Pipes
+# Introduction to Pipes
 
 .pull-left-50[
 
@@ -104,7 +103,7 @@ name: intro_to_pipes
   + `x %>% f` $\equiv$ `f(x)`
   + `x %>% f(y)` $\equiv$ `f(x, y)`
   + `x %>% f %>% g %>% h` $\equiv$ `h(g(f(x)))`
-  
+
 ]
 
 --
@@ -136,14 +135,14 @@ iris %>% head(n=3)
 ---
 name: tibble_intro
 
-## Tibbles
+# Tibbles
 
 .pull-left-50[
 
 .center[<img src="data/slide_tidyverse/hex-tibble.png">]
 
 ```{r}
-as_tibble(iris)
+head(as_tibble(iris))
 ```
 
 ]
@@ -168,7 +167,7 @@ tibble(
 ---
 name: tibble2
 
-## More on Tibbles
+# More on Tibbles
 
 * When you print a `tibble`:
   + all columns that fit the screen are shown,
@@ -187,7 +186,7 @@ as_tibble(cars) %>% print(n = 5)
 ---
 name: tibble2
 
-## Subsetting Tibbles
+# Subsetting Tibbles
 
 ```{r tibble_subs}
 vehicles <- as_tibble(cars[1:5,])
@@ -210,7 +209,7 @@ vehicles %>% .[[2]]
 ---
 name: tibbles_partial_matching
 
-## Tibbles are Stricter than `data.frames`
+# Tibbles are Stricter than `data.frames`
 
 ```{r tibble_strict, warning=T, echo=F}
 cars <- cars[1:5,]
@@ -231,7 +230,7 @@ vehicles$gear
 ---
 name: loading_data
 
-## Loading Data
+# Loading Data
 
 In `tidyverse` you import data using `readr` package that provides a number of useful data import functions:
 * `read_delim()` a generic function for reading *-delimited files. There are a number of convenience wrappers:
@@ -254,7 +253,7 @@ The most commonly used `read_csv()` has some familiar arguments like:
 ---
 name: readr
 
-## Importing Data Using `readr`
+# Importing Data Using `readr`
 
 When reading and parsing a file, `readr` attempts to guess proper parser for each column by looking at the 1000 first rows.
 
@@ -267,7 +266,7 @@ OK, so there are some parsing failures. We can examine them more closely using `
 ---
 name: readr_problems
 
-## Looking at Problematic Columns
+# Looking at Problematic Columns
 
 ```{r tricky_dataset_problems}
 (p <- problems(tricky_dataset))
@@ -284,7 +283,7 @@ Looks like the problem occurs only in the `x` column.
 ---
 name: readr_problems_fixing
 
-## Fixing Problematic Columns
+# Fixing Problematic Columns
 
 So, how can we fix the problematic columns?
 
@@ -302,7 +301,7 @@ As you can see, we can still do better by parsing the `y` column as *date*, not 
 ---
 name: readr_problems_fixing2
 
-## Fixing Problematic Columns cted.
+# Fixing Problematic Columns cted.
 
 But knowing that the parser is guessed based on the first 1000 lines, we can see what sits past the 1000-th line in the data:
 
@@ -320,7 +319,7 @@ tricky_dataset <- read_csv(readr_example('challenge.csv'),
 ---
 name: readr_writing
 
-## Writing to a File
+# Writing to a File
 
 The `readr` package also provides functions useful for writing tibbled data into a file:
 
@@ -341,12 +340,12 @@ But saving in csv (or tsv) does mean you loose information about the type of dat
 ---
 name: basic_data_transformations
 
-## Basic Data Transformations with `dplyr`
+# Basic Data Transformations with `dplyr`
 
 Let us create a tibble:
 
 ```{r}
-(bijou <- as_tibble(diamonds) %>% head(n = 100))
+(bijou <- as_tibble(diamonds) %>% head(n = 10))
 ```
 
 .center[<img src="data/slide_tidyverse/diamonds.png", style="height:200px">]
@@ -354,7 +353,7 @@ Let us create a tibble:
 ---
 name: filter
 
-## Picking Observations using `filter()`
+# Picking Observations using `filter()`
 
 ```{r}
 bijou %>% filter(cut == 'Ideal' | cut == 'Premium', carat >= 0.23) %>% head(n = 5)
@@ -369,7 +368,7 @@ bijou %>% filter(near(0.23, carat) | is.na(carat)) %>% head(n = 5)
 ---
 name: arrange
 
-## Rearranging Observations using `arrange()`
+# Rearranging Observations using `arrange()`
 
 ```{r}
 bijou %>% arrange(cut, carat, desc(price))
@@ -380,7 +379,7 @@ The `NA`s always end up at the end of the rearranged tibble.
 ---
 name: select
 
-## Selecting Variables with `select()`
+# Selecting Variables with `select()`
 
 Simple `select` with a range:
 
@@ -398,7 +397,7 @@ bijou %>% select(-(x:z)) %>% head(n = 4)
 ---
 name: select2
 
-## Selecting Variables with `select()` cted.
+# Selecting Variables with `select()` cted.
 
 `rename` is a variant of `select`, here used with `everything()` to move `x` to the beginning and rename it to `var_x`
 
@@ -417,7 +416,7 @@ bijou %>% select(x:z, everything()) %>% head(n = 4)
 ---
 name: mutate
 
-## Create/alter new Variables with `mutate`
+# Create/alter new Variables with `mutate`
 
 ```{r}
 bijou %>% mutate(p = x + z, q = p + y) %>% select(-(depth:price)) %>% head(n = 5)
@@ -434,7 +433,7 @@ bijou %>% transmute(carat, cut, sum = x + y + z) %>% head(n = 5)
 ---
 name: grouped_summaries
 
-## Group and Summarize
+# Group and Summarize
 
 ```{r}
 bijou %>% group_by(cut) %>% summarize(max_price = max(price),
@@ -454,7 +453,7 @@ bijou %>% group_by(cut, color) %>%
 ---
 name: other_data_manipulations
 
-## Other data manipulation tips
+# Other data manipulation tips
 
 ```{r}
 bijou %>% group_by(cut) %>% summarize(count = n())
@@ -467,7 +466,7 @@ When you need to regroup within the same pipe, use `ungroup()`.
 ---
 name: concept_of_tidy_data
 
-## The Concept of Tidy Data
+# The Concept of Tidy Data
 
 Data are tidy *sensu Wickham* if:
 * each and every observation is represented as exactly one row,
@@ -480,7 +479,7 @@ Usually data are untidy in only one way. However, if you are unlucky, they are r
 ---
 name: tidy_data
 
-## Tidy Data
+# Tidy Data
 
 <img src="data/slide_tidyverse/tidy_data.png" style="height:100px">
 
@@ -548,7 +547,7 @@ iris4[,1:4] %>%
 ---
 name: tidying_data_pivot_longer
 
-## Tidying Data with `tidyr::pivot_longer` 
+# Tidying Data with `tidyr::pivot_longer`
 
 If some of your column names are actually values of a variable, use `pivot_longer` (replaces `gather`):
 
@@ -575,7 +574,7 @@ bijou2 %>%
 ---
 name: tidying_data_pivot_wider
 
-## Tidying Data with `tidyr::pivot_wider` 
+# Tidying Data with `tidyr::pivot_wider`
 
 If some of your observations are scattered across many rows, use `pivot_wider` (replaces `gather`):
 
@@ -596,7 +595,7 @@ bijou3 %>%
 ---
 name: tidying_data_separate
 
-## Tidying Data with `separate`
+# Tidying Data with `separate`
 
 If some of your columns contain more than one value, use `separate`:
 
@@ -614,7 +613,7 @@ bijou4 %>%
 ---
 name: tidying_data_separate
 
-## Tidying Data with `unite`
+# Tidying Data with `unite`
 
 If some of your columns contain more than one value, use `separate`:
 
@@ -633,7 +632,7 @@ bijou5 %>% unite(clarity, clarity_prefix, clarity_suffix, sep='')
 ---
 name: missing_complete
 
-## Completing Missing Values Using `complete`
+# Completing Missing Values Using `complete`
 
 ```{r eval=FALSE, include=FALSE}
 bijou %>%
@@ -655,7 +654,8 @@ missing_stones %>% complete(cut, continent)
 ---
 name: more_tidyverse
 
-## Some Other Friends
+# Some Other Friends
+
 * `stringr` for string manipulation and regular expressions,
 * `forcats` for working with factors,
 * `lubridate` for working with dates.

@@ -1,8 +1,7 @@
 ---
-title: "Working in R environment"
+title: "Working in the R environment"
 subtitle: "R Foundations for Life Scientists"
-author: "`r paste0('<b>Marcin Kierczak</b> | ',format(Sys.time(), '%d-%b-%Y'))`"
-institute: NBIS, SciLifeLab
+author: "Marcin Kierczak"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -45,7 +44,7 @@ library(mkteachr)
 ---
 name: working_with_r
 
-## Working with R
+# Working with R
 
 There are several ways to work with/in R:
 
@@ -59,27 +58,27 @@ During this course, we will be focusing on working with [RStudio](https://www.rs
 ---
 name: cline_working
 
-## Working from command line
+# Working from command line
 
 1. Open Terminal.
-2. Type *R*. 
+2. Type `R`.
 3. Type R commands...
-4. Type q() to quit R.
+4. Type `q()` to quit R.
 
 - Arrows let you browse throughout the history.
-- TAB attempts to autocomplete the command you have just started typing. 
+- .kbd[TAB] attempts to autocomplete the command you have just started typing.
 
 ---
 name: batch_mode
 
-## The batch mode
+# The batch mode
 
 If you are working on a computational cluster, such as the Uppmax, it is very likely you would like to run large jobs that one has to enqueue. This makes interactive work from the console virtually impossible. The solution is to run R code from a file, using the so-called **batch mode**:
 
 1. Create a file with your code and give it extension **.R**.
 2. In the console (or in the queue script) write:  
 
-`R --vanilla < mycode.R` [two minus signs in front of *vanilla*]. 
+`R --vanilla < mycode.R` [two minus signs in front of *vanilla*].
 
 Should you like to log the output add either:
 
@@ -89,10 +88,10 @@ Should you like to log the output add either:
 ---
 name: help
 
-## Getting help
+# Getting help
 
 ```{r help,echo=TRUE,eval=FALSE}
-help(t.test) # function level 
+help(t.test) # function level
 ?t.test # same as above
 ??t.test # extensive search
 vignette("GenABEL") # package level demo(graphics)
@@ -106,7 +105,7 @@ demo('graphics') # run demo for 'graphics'
 ---
 name: work_with_packages
 
-## Working with packages
+# Working with packages
 
 Packages are organised in repositories. The three main repositories are:
 
@@ -117,7 +116,7 @@ Packages are organised in repositories. The three main repositories are:
 We also have [GitHub](https://github.com).
 
 --
-## Working with packages -- CRAN example.
+# Working with packages -- CRAN example.
 
 ```{r,out.width="400pt",fig.align='center',echo=FALSE}
 knitr::include_graphics("data/slide_r_environment/cran-package.png")
@@ -126,24 +125,24 @@ knitr::include_graphics("data/slide_r_environment/cran-package.png")
 ---
 name: pkg_cran_inst
 
-## Working with packages -- installation
+# Working with packages -- installation
 
 Only a few packages are pre-installed:
 
 ```{r pkg.err.ex,eval=TRUE,error=TRUE}
-library("XLConnect")
+library(XLConnect)
 ```
 
 In order to install a package from command line, use:
 
 ```{r pkg.inst,eval=FALSE}
-install.packages('GenABEL',dependencies=TRUE)
+install.packages("GenABEL",dependencies=TRUE)
 ```
 
 ---
 name: work_pkg_details
 
-## Working with packages -- details
+# Working with packages -- details
 
 It may happen that you want to also specify the repository, e.g. because it is geographically closer to you or because your default mirror is down:
 
@@ -156,7 +155,7 @@ But, sometimes, this does not work either because the package is not available f
 ---
 name: work_pkg_details2
 
-## Working with packages -- details cted.
+# Working with packages -- details cted.
 ```{r,out.width="400pt",fig.align='center',echo=FALSE}
 knitr::include_graphics("data/slide_r_environment/cran-package.png")
 ```
@@ -164,15 +163,15 @@ knitr::include_graphics("data/slide_r_environment/cran-package.png")
 ---
 name: source_pkg_inst
 
-## Working with packages -- installing from source.
+# Working with packages -- installing from source.
 
 - Make sure you have appropriate tools installed, e.g. XCode or build-essentials.
 - Download the source file, in our example *GenABEL_1.8-0.tar.gz*.
 - Install it:
 
 ```{r pkg.inst.src,eval=FALSE}
-install.packages("path/to/GenABEL_1.8-0.tar.gz", 
-                 repos=NULL, 
+install.packages("path/to/GenABEL_1.8-0.tar.gz",
+                 repos=NULL,
                  type='source',
                  dependencies=TRUE)
 ```
@@ -189,7 +188,8 @@ require('GenABEL') # load only if not already loaded
 ---
 name: pkg_github
 
-## Packages -- GitHub
+# Packages -- GitHub
+
 Nowadays, more and more developers contribute their packages via GitHub. The easiest way to install packages from the GitHub is via the *devtools* package:
 
 - Install the *devtools* package.
@@ -206,7 +206,7 @@ install_github('talgalili/installr')
 ---
 name: pkg_bioconductor
 
-## Packages -- Bioconductor
+# Packages -- Bioconductor
 
 ```{r,out.width="200pt",fig.align='center',echo=FALSE}
 knitr::include_graphics("data/slide_r_environment/logo_bioconductor.png")
@@ -222,7 +222,7 @@ if (!requireNamespace("BiocManager",quietly = TRUE))
 ---
 name: pkg_bioconductor2
 
-## Packages -- Bioconductor cted.
+# Packages -- Bioconductor cted.
 
 Now, you can install particular packages from Bioconductor:
 
@@ -233,7 +233,7 @@ BiocManager::install("GenomicRanges")
 For more info, visit [Bioconductor website](http://www.bioconductor.org/install/).
 
 ---
-## One package to rule them all -- the magic of `renv`
+# One package to rule them all -- the magic of `renv`
 
 - first time do `renv::activate()` and `renv::init()`
 - while working: `renv::hydrate()` and `renv::snapshot()`
@@ -247,6 +247,25 @@ Now, send `renv.lock` to your friend to share the environment and she can:
 ---
 name: rstudio
 
-## RStudio -- a live demonstration
+# RStudio -- a live demonstration
 
 ![RStudio screenshot](data/slide_r_environment/RStudio.png)
+
+<!-- --------------------- Do not edit this and below --------------------- -->
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# See you at the next lecture!
+
+```{r, echo=FALSE,child="assets/footer-slide.Rmd"}
+```
+
+```{r,include=FALSE,eval=FALSE}
+# manually run this to render this document to HTML
+#rmarkdown::render("presentation_demo.Rmd")
+# manually run this to convert HTML to PDF
+#pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
+```

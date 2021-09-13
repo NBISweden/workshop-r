@@ -147,7 +147,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 We can create subplots using the facetting functionality. Let's create three subplots for the three levels of Species.
 
-```{r,fig.height=4,fig.width=6}
+```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Sepal.Width))+
   geom_smooth(method="lm")+
@@ -162,7 +162,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 The look of the plot can be changed using themes. Let's can the default `theme_grey()` to `theme_bw()`.
 
-```{r,fig.height=4,fig.width=6}
+```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Sepal.Width))+
   geom_smooth(method="lm")+
@@ -176,7 +176,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 All non-data related aspects of the plot can be modified through themes. Let's modify the colors of the title labels and turn off the gridlines. The various parameters for theme ca be found using `?theme`.
 
-```{r,fig.height=4,fig.width=6}
+```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Sepal.Width))+
   geom_smooth(method="lm")+
@@ -196,7 +196,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 Themes can be saved and reused.
 
-```{r,fig.height=4,fig.width=6}
+```{r,fig.height=4,fig.width=6,dev="png"}
 newtheme <- theme(
     axis.title=element_text(color="Blue",face="bold"),
     plot.title=element_text(color="Green",face="bold"),
@@ -220,14 +220,14 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 Here we see two legends based on the two aesthetic mappings.
 
-```{r,fig.height=4,fig.width=5}
+```{r,fig.height=4,fig.width=5,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species,size=Sepal.Width))
 ```
 
 If we don't want to have the extra legend, we can turn off legends individually by aesthetic.
 
-```{r,fig.height=4,fig.width=5}
+```{r,fig.height=4,fig.width=5,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species,size=Sepal.Width))+
   guides(size="none")
@@ -235,14 +235,14 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 We can also turn off legends by geom.
 
-```{r,fig.height=4,fig.width=5}
+```{r,fig.height=4,fig.width=5,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species,size=Sepal.Width),show.legend=FALSE)
 ```
 
 Legends can be moved around using theme.
 
-```{r,fig.height=4,fig.width=6}
+```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species,size=Sepal.Width))+
   theme(legend.position="top",
@@ -251,7 +251,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 Legend rows can be controlled in a finer manner.
 
-```{r,fig.height=4,fig.width=5}
+```{r,fig.height=4,fig.width=5,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species,size=Sepal.Width))+
   guides(size=guide_legend(nrow=2,byrow=TRUE),
@@ -264,13 +264,13 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 Items on the plot can be labelled using the `geom_text` or `geom_label` geoms.
 
-```{r,fig.height=4,fig.width=5}
+```{r,fig.height=4,fig.width=5,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species))+
   geom_text(aes(label=Species,hjust=0),nudge_x=0.5,size=3)
 ```
 
-```{r,fig.height=4,fig.width=5}
+```{r,fig.height=4,fig.width=5,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species))+
   geom_label(aes(label=Species,hjust=0),nudge_x=0.5,size=3)
@@ -280,9 +280,9 @@ Check out the R package `ggrepel` allows for non-overlapping labels.
 
 ## Annotations
 
-Custom annotations of any geom can be added arbitrarly anywhere on the plot.
+Custom annotations of any geom can be added arbitrarily anywhere on the plot.
 
-```{r,fig.height=4,fig.width=6}
+```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species))+
   annotate("text",x=2.5,y=2.1,label="There is a random line here")+
@@ -291,7 +291,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 ## Barplots
 
-```{r,fig.height=4,fig.width=6}
+```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Species,y=Petal.Width))+
   geom_bar(stat="identity")
 ```
@@ -300,7 +300,7 @@ ggplot(data=iris,mapping=aes(x=Species,y=Petal.Width))+
 
 x and y axes can be flipped using `coord_flip`.
 
-```{r,fig.height=4,fig.width=6}
+```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Species,y=Petal.Width))+
   geom_bar(stat="identity")+
   coord_flip()
@@ -517,7 +517,7 @@ d %>%
 
 Scatterplots are commonly used for continuous vs continuous variables. Let's try to see if there is any relationship between number of cases and number of deaths. Create a scatterplot showing `cases` vs `deaths`.
 
-```{r,class.source="blur-effect"}
+```{r,class.source="blur-effect",dev="png"}
 ggplot(d,aes(cases,deaths))+
   geom_point()
 ```
@@ -526,8 +526,8 @@ Scatterplots are extremely useful in visually inspecting relationships between v
 
 Scatterplots can also be used with categorical variables. Create a scatterplot with month on the x-axis and cases per month on the y-axis. Colour the points by continent.
 
-```{r,class.source="blur-effect"}
-  ggplot(d,aes(x=month,y=cases,colour=continentExp))+
+```{r,class.source="blur-effect",dev="png"}
+ggplot(d,aes(x=month,y=cases,colour=continentExp))+
   geom_point()+
   scale_colour_discrete(name="Continent")+
   labs(x="Month",y="Cases per Month")
@@ -535,16 +535,16 @@ Scatterplots can also be used with categorical variables. Create a scatterplot w
 
 `geom_jitter()` can be used to jitter the points around, so they do not overlap.
 
-```{r,class.source="blur-effect"}
+```{r,class.source="blur-effect",dev="png"}
 ggplot(d,aes(x=month,y=cases,colour=continentExp))+
-geom_jitter(width=0.3)+
-scale_colour_discrete(name="Continent")+
-labs(x="Month",y="Cases per Month")
+  geom_jitter(width=0.3)+
+  scale_colour_discrete(name="Continent")+
+  labs(x="Month",y="Cases per Month")
 ```
 
 Create a scatterplot with month on the x-axis and **mean** cases per month on the y-axis. Colour the points by continent.
 
-```{r,class.source="blur-effect"}
+```{r,class.source="blur-effect",dev="png"}
 d %>%
   group_by(month,continentExp) %>%
   summarise(mean=mean(cases,na.rm=TRUE)) %>%
@@ -556,7 +556,7 @@ d %>%
 
 Add a line to connect the continents across months. Use the `group` argument in `aes()`.
 
-```{r,class.source="blur-effect"}
+```{r,class.source="blur-effect",dev="png"}
 d %>%
   group_by(month,continentExp) %>%
   summarise(mean=mean(cases,na.rm=TRUE)) %>%
@@ -569,7 +569,7 @@ d %>%
 
 Now for a slightly more advanced example. Create the same plot above with each continent as separate facets. Add all other continents in the background as reference lines in light grey colour.
 
-```{r,class.source="blur-effect",fig.height=6}
+```{r,class.source="blur-effect",fig.height=6,dev="png"}
 ds <- d %>%
   group_by(month,continentExp) %>%
   summarise(mean=mean(cases,na.rm=TRUE))
@@ -611,7 +611,7 @@ d2 <- d %>%
   mutate(casesp=log10(round((cases/popData2019)*10^6,3)+1))
 ```
 
-```{r,fig.height=8}
+```{r,fig.height=8,dev="png"}
 # colours
 cols <- c("#e7f0fa","#c9e2f6","#95cbee","#0099dc","#4ab04a", "#ffd73e","#eec73a","#e29421","#f05336","#ce472e")
 leg_label <- "Log[10]~Cases~Per~Million~Persons"
@@ -656,7 +656,7 @@ d2$countriesAndTerritories <- factor(as.character(d2$countriesAndTerritories),le
 
 Now, our new figure looks like this. It should be easier to see the trend over time. Primary and secondary waves are now starting to be easily visible.
 
-```{r,fig.height=8}
+```{r,fig.height=8,dev="png"}
 # colours
 cols <- c("#e7f0fa","#c9e2f6","#95cbee","#0099dc","#4ab04a", "#ffd73e","#eec73a","#e29421","#f05336","#ce472e")
 leg_label <- "Log[10]~Cases~Per~Million~Persons"

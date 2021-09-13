@@ -122,7 +122,7 @@ class(letnum)
 sort(as.vector(letnum))
 ```
 
-8.  Create two different 2 by 2 matrices named A and B. A should contain the values 1-4 and B the values 5-8. Try out the following commands and by looking at the results see if you can figure out what is going on. 
+8.  Create two different 2 by 2 matrices named A and B. A should contain the values 1-4 and B the values 5-8. Try out the following commands and by looking at the results see if you can figure out what is going on.
 
 ```
 A. A * B

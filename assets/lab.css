@@ -1,28 +1,30 @@
-/* CSS Bootstrap custom style for workshop */
-/* 2020 Roy Francis */
+/* bootstrap css custom styles for workshop */
+/* 2021 Roy Francis */
 
 /* define font */
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i|Ubuntu+Mono&display=swap&subset=latin-ext');
 
 :root {
-  --color-primary: #4C979F;
+  --color-primary: #95b540;
+  --color-primary-light: #E9F2D1;
+  --color-primary-lighter: #f6f9ec;
+  --color-primary-dark: #96b43f;
   --color-border: #ccc;
   --color-text: #424949;
   --color-code-bg:  #f4f6f6;
   --color-code-inline: #5d6d7e;
   --color-boxy-bg: #fbfcfc;
   --color-shadow: #E0E0E0;
-  --color-optional: #bf6300;
   --font-base: 'Source Sans Pro';
   --font-highlight: 'Source Sans Pro';
   --font-code: 'Ubuntu Mono';
 }
 
-/* body font */
+/* FONTS -------------------------------------------------------------------- */
+
 /* body font family */
 body,p,h1,h2,h3,h4,h5,h6 {
   font-family: var(--font-base, 'Roboto', 'DIN', 'Helvetica', sans-serif);
-  /*color: var(--color-text);*/
   font-weight: 400;
   font-size: 17px;
   line-height: 1.55;
@@ -31,7 +33,6 @@ body,p,h1,h2,h3,h4,h5,h6 {
 /* title font family, weight and size */
 h1,h2,h3 {
   font-family: var(--font-highlight, 'Roboto', 'DIN', 'Helvetica', sans-serif);
-  /*color: var(--color-text);*/
   font-weight: 600;
 }
 
@@ -59,19 +60,19 @@ h6 {
   font-size: 1.125em;
 }
 
-.section .level1 {
+.level1 {
   margin-bottom: 2.5em;
 }
 
-.section .level2 {
+.level2 {
   margin-bottom: 1.8em;
 }
 
-.section .level3 {
+.level3 {
   margin-bottom: 1.3em;
 }
 
-.section .level4 {
+.level4 {
   margin-bottom: 1em;
 }
 
@@ -85,7 +86,6 @@ pre {
 
 code {
   font-family: var(--font-code,"Menlo","Monaco", "Consolas","Liberation Mono", "Courier New", monospace);
-  font-size: 16px;
   word-break: break-all;
 }
 
@@ -105,7 +105,7 @@ code {
 
 /* report author style */
 .author {
-  font-size: 1em;
+  font-size: 1.6em;
   margin-top: -6px;
   margin-bottom: 5px;
   font-weight: 600;
@@ -113,7 +113,8 @@ code {
 
 /* report date style */
 .date {
-  margin-top: 0;
+  font-size: 1.5em;
+  margin-top: -12px;
   margin-bottom: 10px;
 }
 
@@ -127,13 +128,18 @@ code {
 .smallest{ font-size: 0.579em; }
 
 blockquote {
-  border-left: 5px solid var(--color-primary);
+  display: inline-block;
   background: var(--color-code-bg);
-  padding: 10px;
-  padding-left: 12px;
-  margin-left: 16px;
-  margin-right: 0;
-  border-radius: 0px 4px 4px 0px;
+  padding: 20px;
+  border-radius: 4px 4px 4px 4px;
+}
+
+blockquote::before {
+  content: '"';
+  font-size: 200%;
+  position: absolute;
+  margin-left: -30px;
+  margin-top: -6px;
 }
 
 /* abstract paragraph style */
@@ -142,9 +148,17 @@ blockquote {
 }
 
 /* kbd */
-.kbd {
+kbd, .kbd {
+  background-color: var(--color-text);
+  color: white;
   padding: 2px 5px;
-  font-family: var(--font-code,"Menlo","Monaco", "Consolas","Liberation Mono", "Courier New", monospace);
+  border-radius: 4px;
+  font-size: 85%;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 0em 0.05em;
+  font-family: var(--font-code);
+  text-align: center;
 }
 
 /* danger alert text style */
@@ -161,11 +175,12 @@ blockquote {
 /* div styles --------------------------------------------------------------- */
 
 /** div style for instructions **/
+
 .boxy {
- /*border: 1px solid var(--color-primary);*/
- background-color: var(--color-boxy-bg);
- border: 1px solid var(--color-border);
- border-left: 6px solid var(--color-border);
+ color: var(--color-primary-dark);
+ background-color: var(--color-primary-lighter);
+ border: 1px solid var(--color-primary-light);
+ border-left: 6px solid var(--color-primary-dark);
  border-radius: 0px 4px 4px 0px;
  padding: 10px 10px 0px 10px;
  margin: 10px 0px 10px 0px;
@@ -173,18 +188,29 @@ blockquote {
 }
 
 .boxy::before {
+  background-color: var(--color-primary-dark) !important;
+  font-family: "Font Awesome 5 Free";
+  font-size: 15px;
+  font-weight: 900;
+  height: 24px;
+  width: 24px;
+  color: white;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  left: -15px;
+  text-align: center;
+  text-indent: 1px;
+  position: absolute;
+}
+
+.boxy-grey {
+  color: var(--color-text);
+  background-color: var(--color-boxy-bg);
+  border-color: var(--color-border);
+}
+
+.boxy-grey::before {
   background-color: var(--color-border) !important;
-}
-
-.boxy-primary {
-  color: #3c787f;
-  background-color: #edf4f5;
-  border-color: #c9dfe2;
-  border-left-color: #3c787f;
-}
-
-.boxy-primary::before {
-  background-color: #3c787f !important;
 }
 
 .boxy-orange {
@@ -198,219 +224,84 @@ blockquote {
   background-color: #bf6300 !important;
 }
 
-.boxy-warning {
+.boxy-yellow {
  color: #8a6d3b;
  background-color: #fcf8e3;
  border-color: #faebcc;
  border-left-color: #8a6d3b;
 }
 
-.boxy-warning::before {
+.boxy-yellow::before {
   background-color: #8a6d3b !important;
 }
 
-.boxy-success {
+.boxy-green {
  color: #3c763d;
  background-color: #dff0d8;
  border-color: #d6e9c6;
  border-left-color: #3c763d;
 }
 
-.boxy-success::before {
+.boxy-green::before {
   background-color: #3c763d !important;
 }
 
-.boxy-danger {
+.boxy-red {
  color: #a94442;
  background-color: #f2dede;
  border-color: #ebccd1;
  border-left-color: #a94442;
 }
 
-.boxy-danger::before {
+.boxy-red::before {
   background-color: #a94442 !important;
 }
 
-.boxy-info {
+.boxy-blue {
  color: #31708f;
  background-color: #d9edf7;
  border-color: #bce8f1;
  border-left-color: #31708f;
 }
 
-.boxy-info::before {
+.boxy-blue::before {
   background-color: #31708f !important;
 }
 
-/* fa exclamation */
 .boxy-exclamation::before {
   content: "\f12a";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
-/* fa lightbulb */
 .boxy-lightbulb::before {
   content: "\f0eb";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
-/* fa clipboard-list */
 .boxy-clipboard-list::before {
   content: "\f46d";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
-/* fa comments */
 .boxy-comments::before {
   content: "\f086";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
-/* fa desktop */
 .boxy-desktop::before {
   content: "\f108";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
-/* fa cloud */
 .boxy-cloud::before {
   content: "\f0c2";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
-/* fa check */
 .boxy-check::before {
   content: "\f00c";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
-/* fa times cross */
 .boxy-times::before {
   content: "\f00d";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
-/* fa skull */
 .boxy-skull::before {
   content: "\f54c";
-  /*display: inline-block;*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 15px;
-  font-weight: 900;
-  height: 24px;
-  width: 24px;
-  color: white;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  left: -15px;
-  text-align: center;
-  text-indent: 1px;
-  position: absolute;
-  z-index: 1;
 }
 
 /* Indent first line when icon is present */
@@ -419,36 +310,36 @@ blockquote {
 }
 
 /* change colours for blockquote and links inside boxy */
-.boxy-orange > a {
-  color: #bf6300;
-}
-.boxy-success > a {
-  color: #3c763d;
-}
-.boxy-warning > a {
-  color: #8a6d3b;
-}
-.boxy-danger > a {
-  color: #a94442;
-}
-.boxy-info > a {
-  color: #31708f;
+.boxy a {
+  color: var(--color-text);
 }
 
-.boxy-orange > blockquote {
+.boxy a:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.boxy-orange blockquote {
   border-left-color: #bf6300;
 }
-.boxy-success > blockquote {
+.boxy-green blockquote {
   border-left-color: #3c763d;
 }
-.boxy-warning > blockquote{
+.boxy-yellow blockquote{
   border-left-color: #8a6d3b;
 }
-.boxy-danger > blockquote {
+.boxy-red blockquote {
   border-left-color: #a94442;
 }
-.boxy-info > blockquote {
+.boxy-blue blockquote {
   border-left-color: #31708f;
+}
+
+/* TABLES ------------------------------------------------------------------- */
+
+/* table even shading colour */
+.even {
+    background-color: var(--color-code-bg);
 }
 
 /* IMAGES ------------------------------------------------------------------- */
@@ -510,6 +401,11 @@ a:hover, table a:hover {
   text-decoration: underline;
 }
 
+a:focus, table a:focus{
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
 /* table even shading colour */
 .even {
     background-color: var(--color-code-bg);
@@ -545,20 +441,18 @@ button.btn {
  width: 35px;
 }
 
+/* accordion buttons by themselves or inside boxy by default take primary colour */
 button.btn-collapse {
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   letter-spacing: 1px;
   margin-bottom: 5px;
-}
-
-button.btn-collapse-normal {
   color: white;
   border-color: var(--color-primary);
   background-color: var(--color-primary);
 }
 
-button.btn-collapse-normal:hover {
+button.btn-collapse:hover, button.btn-collapse:active, button.btn-collapse:focus {
     background-color: white;
     color: var(--color-primary);
     border-color: white;
@@ -567,28 +461,66 @@ button.btn-collapse-normal:hover {
     -moz-box-shadow: 0px 3px 40px -9px var(--color-primary);
 }
 
-button.btn-collapse-optional {
+/* accordion buttons inside default boxy by default takes primary colour */
+.boxy button.btn-collapse {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
   color: white;
-  border-color: var(--color-optional);
-  background-color: var(--color-optional);
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
 }
 
-button.btn-collapse-optional:hover {
+.boxy button.btn-collapse:hover, .boxy button.btn-collapse:active, .boxy button.btn-collapse:focus {
     background-color: white;
-    color: var(--color-optional);
+    color: var(--color-primary);
     border-color: white;
-    box-shadow: 0px 3px 30px -9px var(--color-optional);
-    -webkit-box-shadow: 0px 3px 30px -9px var(--color-optional);
-    -moz-box-shadow: 0px 3px 30px -9px var(--color-optional);
+    box-shadow: 0px 3px 40px -9px var(--color-primary);
+    -webkit-box-shadow: 0px 3px 40px -9px var(--color-primary);
+    -moz-box-shadow: 0px 3px 40px -9px var(--color-primary);
 }
 
-button.btn-collapse-warning {
+/* accordion buttons inside boxy-grey by default take grey colour */
+.boxy-grey button.btn-collapse {
+  color: white;
+  border-color: var(--color-border);
+  background-color: var(--color-border);
+}
+
+.boxy-grey button.btn-collapse:hover {
+    background-color: white;
+    color: var(--color-border);
+    border-color: white;
+    box-shadow: 0px 3px 30px -9px var(--color-border);
+    -webkit-box-shadow: 0px 3px 30px -9px var(--color-border);
+    -moz-box-shadow: 0px 3px 30px -9px var(--color-border);
+}
+
+/* accordion buttons inside boxy-orange by default takes orange colour */
+.boxy-orange button.btn-collapse, button.btn-collapse-orange {
+  color: white;
+  border-color: #bf6300;
+  background-color: #bf6300;
+}
+
+.boxy-orange button.btn-collapse:hover, button.btn-collapse-orange:hover {
+    background-color: white;
+    color: #bf6300;
+    border-color: white;
+    box-shadow: 0px 3px 30px -9px #bf6300;
+    -webkit-box-shadow: 0px 3px 30px -9px #bf6300;
+    -moz-box-shadow: 0px 3px 30px -9px #bf6300;
+}
+
+/* accordion buttons inside boxy-yellow by default takes yellow colour */
+.boxy-yellow button.btn-collapse, button.btn-collapse-yellow {
   color: white;
   border-color: #8a6d3b;
   background-color: #8a6d3b;
 }
 
-button.btn-collapse-warning:hover {
+.boxy-yellow button.btn-collapse:hover, button.btn-collapse-yellow:hover {
     background-color: white;
     color: #8a6d3b;
     border-color: white;
@@ -597,13 +529,14 @@ button.btn-collapse-warning:hover {
     -moz-box-shadow: 0px 3px 30px -9px #8a6d3b;
 }
 
-button.btn-collapse-success {
+/* accordion buttons inside boxy-green by default takes green colour */
+.boxy-green button.btn-collapse, button.btn-collapse-green {
   color: white;
   border-color: #3c763d;
   background-color: #3c763d;
 }
 
-button.btn-collapse-success:hover {
+.boxy-green button.btn-collapse:hover, button.btn-collapse-green:hover {
     background-color: white;
     color: #3c763d;
     border-color: white;
@@ -612,13 +545,14 @@ button.btn-collapse-success:hover {
     -moz-box-shadow: 0px 3px 30px -9px #3c763d;
 }
 
-button.btn-collapse-danger {
+/* accordion buttons inside boxy-red by default takes red colour */
+.boxy-red button.btn-collapse, button.btn-collapse-red {
   color: white;
   border-color: #a94442;
   background-color: #a94442;
 }
 
-button.btn-collapse-danger:hover {
+.boxy-red button.btn-collapse:hover, button.btn-collapse-red:hover {
     background-color: white;
     color: #a94442;
     border-color: white;
@@ -627,13 +561,15 @@ button.btn-collapse-danger:hover {
     -moz-box-shadow: 0px 3px 30px -9px #a94442;
 }
 
-button.btn-collapse-info {
+/* accordion buttons inside boxy-blue by default takes blue colour */
+
+.boxy-blue button.btn-collapse, button.btn-collapse-blue {
   color: white;
   border-color: #31708f;
   background-color: #31708f;
 }
 
-button.btn-collapse-info:hover {
+.boxy-blue button.btn-collapse:hover, button.btn-collapse-blue:hover {
     background-color: white;
     color: #31708f;
     border-color: white;
@@ -663,7 +599,7 @@ button.btn:before
 }
 
 /** top title code **/
-div.block-title {
+div.chunk-title {
   font-weight: bold;
   text-transform: uppercase;
   background-color: var(--color-border);
@@ -720,15 +656,7 @@ ul.nav a:hover {
   background-color: #566573;
 }
 
-.navbar .container {
-  max-width: 940px !important;
-}
-
 /* footer ------------------------------------------------------------------- */
-
-.footer-container {
-  max-width: 940px !important;
-}
 
 .footer {
   color: #bdbdbd;
@@ -744,66 +672,92 @@ ul.nav a:hover {
   border: none;
 }
 
-/* .footer p {
-  color: lightgrey;
-}*/
+.footer-left {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.footer-right {
+  text-align:right;
+  vertical-align:middle;
+}
+
+.footer p {
+  color: #bdbdbd;
+}
 
 .footer a {
-  color: var(--color-primary);
+  color: #bdbdbd;
   text-decoration: none;
 }
 
 .footer a:hover {
   /*color: lightgrey;*/
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* homepage -------------------------------------------------------------------- */
 
-.landing-container {
-  max-width: 940px !important;
+.container {
+  max-width: 940px;
 }
 
-.landing-div {
-  background-image: url('landing.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: left bottom;
-  height: 580px;
+.landing {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-weight: 300;
+  margin-top: 2em;
 }
+
+.landing-title h1 {
+  font-size: 2.5em;
+  line-height: 1.1;
+  font-weight: 300;
+  margin-bottom: 0.5em;
+}
+
+.landing-subtitle h2 {
+  font-size: 1.5em;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.landing-features {
+  font-size: 120%;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.landing-features ul {
+  padding-left: 1em;
+}
+
+.landing-right {
+  align-self: center;
+}
+
+.landing-left {
+  align-self: center;
+}
+
 
 @media only screen and (max-width: 575px) {
-  .flex-box {
-    text-align: center;
-  }
-  .landing-update {
-    text-align: center;
-  }
-  .landing-div {
-    height: 680px;
-  }
+
+ .landing {
+   grid-template-columns: 100%;
+   text-align: center;
+ }
+
+ .landing-update {
+   text-align: center;
+ }
+
+ .landing-right {
+   padding: 2em;
+ }
+
 }
 
-.landing-subtitle {
-  font-size: 1.3em;
-  font-weight: 200;
-  line-height: 1;
-  margin-bottom: 1em;
-  margin-left: 2px;
-}
-
-.landing-title {
-  font-size: 2.8em;
-  font-weight: 200;
-  line-height: 1.2;
-  margin-bottom: 0.7em;
-}
-
-.landing-bullets {
-  font-size:1.5em;
-  font-weight:200;
-  line-height:1.4;
-}
 
 /* tocify ---------------------------------------------------------------------- */
 
@@ -976,3 +930,4 @@ ul.nav a:hover {
  transition: .2s ease;
  filter: none;
 }
+

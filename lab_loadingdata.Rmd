@@ -54,7 +54,7 @@ which(nchar(shelley.filt2) == max(nchar(shelley.filt2)))
 shelley.filt2[301]
 ```
 
-# `read.table`
+# `read.table()`
 
 This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.
 
@@ -81,7 +81,7 @@ head(ed)
 str(ed)
 ```
 
-Encode all NA values as "missing", at export. 
+Encode all NA values as "missing", at export.
 
 ```{r,eval=FALSE,accordion=TRUE}
 write.table(x=ed, na="missing", file="example_mis.data")
@@ -125,8 +125,12 @@ Download the file named **Drosophila_melanogaster.BDGP6.86.gtf.gz** to your comp
 With this done read this file into R using the function `read.table()` and add meaningful column names to the table.
 
 ```{r,include=FALSE,eval=TRUE}
-if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf") && !file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) download.file("ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz","Drosophila_melanogaster.BDGP6.86.gtf.gz")
-if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) system("gunzip Drosophila_melanogaster.BDGP6.86.gtf.gz")
+if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) {
+  if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) {
+    download.file("ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz","Drosophila_melanogaster.BDGP6.86.gtf.gz")
+    system("gunzip Drosophila_melanogaster.BDGP6.86.gtf.gz")
+  }
+}
 ```
 
 ```{r,accordion=TRUE}
@@ -203,4 +207,3 @@ for (i in chr) {
 if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf")
 if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf.gz")
 ```
-

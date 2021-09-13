@@ -6,35 +6,34 @@ output:
     number_sections: false
 ---
 
-<div class="container landing-container">
-<div class="row landing-div" style="position:relative;">
-<div class="col" style="align-self:center;position:absolute;top:80px;">
-<div class="row">
+```{r,child="assets/header-lab.Rmd"}
+```
 
-<div class="col-md-12 flex-box">
-<p class="landing-subtitle">
-<span style="display:block;">NBIS • Workshop</span>
-</p>
-</div>
+```{css,echo=FALSE}
+.title{
+  display: none;
+}
+```
 
-<div class="col-md-12 flex-box">
-<p class="landing-title">
-<span style="display:block;">R Programming Foundations</span>
-<span style="display:block;">for Life Scientists</span>
-</p>
+<div class="container">
+<div class="landing">
+<div class="landing-left">
+<div class="landing-subtitle">
+## NBIS • Workshop
 </div>
-
-<div class="col-md-12 flex-box">
-<p class="medium landing-bullets">
-<span style="display:block;">Data structures</span>
-<span style="display:block;">Logic and control structures</span>
-<span style="display:block;">Input/Output</span>
-<span style="display:block;">Data wrangling</span>
-<span style="display:block;">Base and ggplot graphics</span>
-</p>
+<div class="landing-title">
+# R Programming Foundations for Life Scientist
 </div>
-
+<div class="landing-features">
+- Data structures
+- Logic and control structures
+- Input/Output
+- Data wrangling
+- Base and ggplot graphics
 </div>
+</div>
+<div class="landing-right">
+<img src="assets/landing.png">
 </div>
 </div>
 
@@ -47,4 +46,3 @@ output:
 </div>
 
 </div>
-
