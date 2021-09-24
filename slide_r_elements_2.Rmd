@@ -1,0 +1,100 @@
+---
+title: "Variables, Data types & Operators"
+subtitle: "Elements of the R language"
+author: "Marcin Kierczak"
+keywords: bioinformatics, course, scilifelab, nbis, R
+output:
+  xaringan::moon_reader:
+    encoding: 'UTF-8'
+    self_contained: false
+    chakra: 'assets/remark-latest.min.js'
+    css: 'assets/slide.css'
+    lib_dir: libs
+    include: NULL
+    nature:
+      ratio: '4:3'
+      highlightLanguage: r
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%/%total%"
+---
+
+exclude: true
+count: false
+
+```{r,echo=FALSE,child="assets/header-slide.Rmd"}
+```
+
+<!-- ------------ Only edit title, subtitle & author above this ------------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, width=60)
+```
+
+```{r,include=FALSE}
+# load the packages you need
+#library(dplyr)
+#library(tidyr)
+#library(stringr)
+#library(ggplot2)
+#library(mkteachr)
+```
+
+---
+name: intro
+
+# Introduction
+
+Today, we will continue talking about various elements of a programming language and see how they are realized in R.
+
+# Contents
+
+- variables and their types
+- operators
+- **vectors**
+- **numbers as vectors**
+- **strings as vectors**
+- matrices
+- lists
+- data frames
+- objects
+- repeating actions: iteration and recursion
+- decision taking: control structures
+- functions in general
+- variable scope
+- core functions
+
+---
+name: cplx_data_strs
+
+# Complex data structures
+Using the previously discussed basic data types (numeric, integer, logical and character) one can construct more complex data structures:
+
+dim | Homogenous | Heterogenous
+----|------------|-----------------
+0d  | n/a        | n/a
+1d  | vectors    | list
+2d  | matrices   | data frame
+nd  | arrays     | n/a  
+
+- factors -- special type
+
+<!-- --------------------- Do not edit this and below --------------------- -->
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# See you at the next lecture!
+
+```{r, echo=FALSE,child="assets/footer-slide.Rmd"}
+```
+
+```{r,include=FALSE,eval=FALSE}
+# manually run this to render this document to HTML
+#rmarkdown::render("presentation_demo.Rmd")
+# manually run this to convert HTML to PDF
+#pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
+```
