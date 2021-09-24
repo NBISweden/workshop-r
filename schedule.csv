@@ -7,7 +7,7 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;15:00;Variables & Operators;Marcin Kierczak;MK, M-GH, LS;slide_r_elements_1.html;;
 ;;15:00;17:00;Data types;Marcin Kierczak;MK, M-GH, LS;;lab_datatypes.html;
-03/11/2020;online;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;SDL;slide_elements_2.pdf;;
+03/11/2020;online;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;SDL;slide_r_elements_2.html;;
 ;;10:00;11:00;Matrices, Lists and Dataframes;Marcin Kierczak;MK, RF, DB;slide_r_elements_3.html;;
 ;;11:00;12:00;Working with Vectors;Sebastian DiLorenzo;MK, RF, DB;;lab_vectors.html;
 ;;12:00;13:00;Lunch;;;;;
