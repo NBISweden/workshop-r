@@ -1,7 +1,7 @@
 ---
-title: "Variables, Data types & Operators"
-subtitle: "Elements of the R language"
-author: "Marcin Kierczak"
+title: "Introduction To Programming in R (2)"
+subtitle: "R Foundations for Life Scientists"
+author: "Marcin Kierczak, Sebastian DiLorenzo"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -10,7 +10,6 @@ output:
     chakra: 'assets/remark-latest.min.js'
     css: 'assets/slide.css'
     lib_dir: libs
-    include: NULL
     nature:
       ratio: '4:3'
       highlightLanguage: r
@@ -19,7 +18,6 @@ output:
       countIncrementalSlides: false
       slideNumberFormat: "%current%/%total%"
 ---
-
 exclude: true
 count: false
 
@@ -28,27 +26,18 @@ count: false
 
 <!-- ------------ Only edit title, subtitle & author above this ------------ -->
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=TRUE, width=60)
-```
-
-```{r,include=FALSE}
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
 # load the packages you need
 #library(dplyr)
 #library(tidyr)
 #library(stringr)
 #library(ggplot2)
-#library(mkteachr)
 ```
 
 ---
-name: intro
+name: contents
 
-# Introduction
-
-Today, we will continue talking about various elements of a programming language and see how they are realized in R.
-
-# Contents
+## Contents of the lecture
 
 - variables and their types
 - operators
@@ -66,10 +55,12 @@ Today, we will continue talking about various elements of a programming language
 - core functions
 
 ---
-name: cplx_data_strs
+name: cplx_data_str
 
-# Complex data structures
-Using the previously discussed basic data types (numeric, integer, logical and character) one can construct more complex data structures:
+## Complex data structures
+Using the previously discussed basic data types (`numeric`, `integer`, `logical` and `character`) one can construct more complex data structures:
+
+--
 
 dim | Homogenous | Heterogenous
 ----|------------|-----------------
@@ -78,7 +69,427 @@ dim | Homogenous | Heterogenous
 2d  | matrices   | data frame
 nd  | arrays     | n/a  
 
-- factors -- special type
+- factors &ndash; special type
+
+---
+name: atomic_vectors
+
+## Atomic vectors
+An *atomic vector*, or simply a *vector* is a one dimensional data structure (a sequence) of elements of the same data type. Elements of a vector are oficially called *components*, but we will just call them *elements*.
+
+We construct vectors using core function `c()` (construct).
+```{r vector, echo=T} 
+vec <- c(1,2,5,7,9,27,45.5)
+vec
+```
+In R, even a single number is a one-element vector. You have to get used to think in terms of vectors...
+
+---
+name: atomic_vectors2
+
+## Atomic vectors cted.
+You can also create empty/zero vectors of a given type and length:
+```{r vec.empty, echo=T}
+vector('integer', 5) # a vector of 5 integers
+vector('character', 5)
+character(5) # does the same
+logical(5) # same as vector('logical', 5)
+```
+
+---
+name: combining_vectors
+
+## Combining two or more vectors
+Vectors can easily be combined:
+```{r vec.comb, echo=T}
+v1 <- c(1,3,5,7.56)
+v2 <- c('a','b','c')
+v3 <- c(0.1, 0.2, 3.1415)
+c(v1, v2, v3)
+```
+Please note that after combining vectors, all elements became character. It is called a *coercion*.
+
+---
+name: basic_vect_arithm
+
+## Basic vector arithmetics
+```{r vec.artihmetics, echo=T}
+v1 <- c(1, 2, 3, 4)
+v2 <- c(7, -9, 15.2, 4)
+v1 + v2 # addition
+v1 - v2 # subtraction
+v1 * v2 # scalar multiplication
+v1 / v2 # division
+```
+
+---
+name: recycling_rule
+
+## Vectors &ndash; recycling rule
+```{r vec.recycling, echo=T}
+v1 <- c(1, 2, 3, 4, 5)
+v2 <- c(1, 2)
+v1 + v2
+```
+Values in the shorter vector will be **recycled** to match the length of the longer one: v2 <- c(1, 2, 1, 2, 1)
+
+---
+name: vec_indexing
+
+## Vectors &ndash; indexing
+We can access or retrieve particular elements of a vector by using the [] notation:
+```{r vec.indexing, echo=T}
+vec <- c('a', 'b', 'c', 'd', 'e')
+vec[1] # the first element
+vec[5] # the fifth element
+vec[-1] # remove the first element
+```
+
+---
+name: vec_indexing2
+
+## Vectors &ndash; indexing cted.
+And what happens if we want to retrieve elements outside the vector?
+```{r vec.index.beyond, echo=T}
+vec[0] # R counts elements from 1
+vec[78] # Index past the length of the vector
+```
+Note, if you ask for an element with index lower than the index of the first element, you will het an empty vector of the sme type as the original vector.
+If you ask for an element beyond the vector's length, you get an NA value.
+
+---
+name: vec_indexing3
+
+## Vectors &ndash; indexing cted.
+You can also retrieve elements of a vector using a vector of indices:
+```{r vec.index.vec, echo=T}
+vec <- c('a', 'b', 'c', 'd', 'e')
+vec.ind <- c(1,3,5)
+vec[vec.ind]
+```
+
+--
+
+Or even a logical vector:
+```{r vec.index.vec.log, echo=T}
+vec <- c('a', 'b', 'c', 'd', 'e')
+vec.ind <- c(TRUE, FALSE, TRUE, FALSE, TRUE)
+vec[vec.ind]
+```
+
+---
+name: vec_indexing_names
+
+## Vectors &ndash; indexing using names
+You can name elements of your vector:
+```{r vec.index.names, echo=T}
+vec <- c(23.7, 54.5, 22.7)
+names(vec) # by default there are no names
+names(vec) <- c('sample1', 'sample2', 'sample3')
+vec[c('sample2', 'sample1')]
+```
+
+---
+name: vec_rem_elem
+
+## Vectors &ndash; removing elements
+You can return a vector without certain elements:
+```{r vec.rm, echo=T}
+vec <- c(1, 2, 3, 4, 5)
+vec[-5] # without the 5-th element
+vec[-(c(1,3,5))] # withoutelements 1, 3, 5
+```
+
+---
+name: vec_conditions
+
+## Vectors indexing &ndash; conditions
+Also logical expressions are allowed in indexing:
+```{r vec.index.cond, echo=T}
+vec <- c(1, 2, 3, 4, 5)
+vec < 3 # we can use the value of this logical comparison
+vec[vec < 3]# Et voila!
+```
+
+---
+name: vec_more_ops
+
+## Vectors &ndash; more operations
+You can easily reverse a vector:
+```{r vec.rev, echo=T}
+vec <- c(1, 2, 3, 4, 5)
+rev(vec)
+```
+You can generate vectors of subsequent numbers using `:`, e.g.:
+```{r vec.seq.gen, echo=T}
+v <- c(5:7)
+v
+v2 <- c(3:-4)
+v2
+```
+
+---
+name: vec_size
+
+## Vectors &ndash; size
+To get the size of a vector, use `length()`:
+```{r vec.len, echo=T}
+vec <- c(1:78)
+length(vec)
+```
+
+---
+name: vec_subst_elem
+
+## Vectors &ndash; substitute element
+To substitute an element in a vector simply:
+```{r vec.subst, echo=T}
+vec <- c(1:5)
+vec
+vec[3] <- 'a' # Note the coercion!
+vec 
+```
+
+--
+
+To insert 'a' at, say, the 2nd position:
+```{r vec.ins, echo=T}
+c(vec[1], 'a', vec[2:length(vec)])
+```
+
+---
+name: vec_alter_len
+
+## Vectors &ndash; changing the length
+What if we write past the vectors last element?
+```{r vec.chlen, echo=T}
+vec <- c(1:5)
+vec
+vec[9] <- 9
+vec 
+```
+
+---
+name: vec_count_vals
+
+## Vectors &ndash; counting values
+One may be interested in the count of particular values:
+```{r vec.table, echo=T}
+vec <- c(1:5, 1:4, 1:3) # a vector with repeating values
+table(vec) # table of counts
+tab <- table(vec)/length(vec) # table of freqs.
+round(tab, digits=3) # and let's round it
+```
+
+---
+name: vec_sorting
+
+## Vectors &ndash; sorting
+To sort values of a vector:
+```{r vec.sort, echo=T}
+vec <- c(1:5, NA, NA, 1:3)
+sort(vec) # oops, NAs got lost
+sort(vec, na.last = TRUE)
+sort(vec, decreasing = TRUE) # in a decreasing order
+```
+
+---
+name: seq
+
+## Sequences of numbers
+R provides also a few handy functions to generate sequences of numbers:
+```{r seq, echo=T}
+c(1:5, 7:10) # the ':' operator
+(seq1 <- seq(from=1, to=10, by=2))
+(seq2 <- seq(from=11, along.with = seq1))
+seq(from=10, to=1, by=-2)
+```
+
+---
+name: printing_brackets
+
+## A detour &ndash; printing with `()`
+Note what we did here, if you enclose the expression in `()`, the result of assignment will be also printed:
+
+```{r assignprint, echo=T}
+seq1 <- seq(from = 1, to = 5)
+seq1 # has to be printed explicitly
+```
+while:
+
+--
+
+```{r assignprint2, echo=T}
+(seq2 <- seq(from = 5, to = 1)) # will print automatically
+```
+
+---
+name: seq2
+
+## Back to sequences
+One may also wish to repeat certain value or a vector n times:
+```{r rep, echo=T}
+rep('a', times=5)
+rep(1:5, times=3)
+rep(seq(from=1, to=3, by=2), times=2)
+```
+
+---
+name: random_seq
+
+## Sequences of random numbers
+There is also a really useful function `sample()` that helps with generating sequences of random numbers:
+
+```{r sample, echo=T}
+# simulate casting a fair dice 10x
+sample(x = c(1:6), size=10, replace = T) 
+# make it unfair, it is loaded on '3'
+myprobs = rep(0.15, times = 6)
+myprobs[3] <- 0.25 # a bit higher probability for '3'
+sample(x = c(1:6), size = 10, replace = T, prob=myprobs)
+```
+
+---
+name: simulate_dice
+
+## Fair vs. loaded dice
+Now, let us see how this can be useful. We need more than 10 results. Let's cast our dices 10,000 times and plot the freq. distribution.
+```{r dices, echo=T}
+# simulate casting a fair dice 10x
+fair <- sample(x = c(1:6), size=10e3, replace = T) 
+unfair <- sample(x = c(1:6), size=10e3, replace = T, 
+                 prob = myprobs)
+```
+
+---
+name: simulate_dice2
+
+## Fair vs. loaded dice &ndash; the result
+```{r dices.pic, fig=T, fig.height=4}
+t1 <- table(fair)/length(fair)
+t2 <- table(unfair)/length(unfair)
+plot(0,0,type="n",xlim=c(1,6.0),ylim=c(0,.3),xlab="x",ylab="freq",bty='n', las=1)
+grid()
+points(1:6, t1, col="olivedrab")
+points(1:6, t2, col="slateblue")
+legend('topleft', legend = c('fair','unfair'), col = c('olivedrab', 'slateblue'),pch = 15, border = NULL, bty='n')
+```
+
+---
+name: more_on_sample
+
+## Sample &ndash; one more use
+The sample function has one more interesting feature, it can be used to randomize order of already created vectors:
+```{r sample.shuffle, echo=T}
+mychars <- c('a', 'b', 'c', 'd', 'e', 'f')
+mychars
+sample(mychars)
+sample(mychars)
+```
+
+---
+name: vec_adv
+
+## Vectors/sequences &ndash; more advanced operations
+```{r vec.adv.oper, echo=T}
+v1 <- sample(1:5, size = 4)
+v1
+max(v1) # max value of the vector
+min(v1) # min value
+sum(v1) # sum all the elements
+```
+
+---
+name: vec_adv2
+
+## Vectors/sequences &ndash; more advanced operations 2
+```{r vec.adv.oper2, echo=T}
+v1
+diff(v1) # diff. of element pairs
+cumsum(v1) # cumulative sum
+prod(v1) # product of all elements
+```
+
+---
+name: vec_adv3
+
+## Vectors/sequences &ndash; more advanced operations 3
+```{r vec.adv.oper3, echo=T}
+v1
+cumprod(v1) # cumulative product
+cummin(v1) # minimum so far (up to i-th el.)
+cummax(v1) # maximum up to i-th element
+```
+
+---
+name: vec_pairwise_comp
+
+## Vectors/sequences &ndash; pairwise comparisons
+```{r make.vec2}
+v2 <- sample(1:5, size=4)
+```
+```{r vec.adv.pairwise, echo=T}
+v1
+v2
+v1 <= v2 # direct comparison
+pmin(v1, v2) # pairwise min
+pmax(v1, v2) # pairwise max
+```
+
+---
+name: vec_order_rank
+
+## Vectors/sequences &ndash; `rank()` and `order()`
+rank() and order() are a pair of inverse functions.  
+```{r vec.adv.rank.order, echo=T}
+v1 <- c(1, 3, 4, 5, 3, 2)
+rank(v1) # show rank of each value (min has rank 1)
+order(v1) # order of indices for a sorted vector
+v1[order(v1)]
+sort(v1)
+```
+
+---
+name: factors
+
+## Factors
+To work with **nominal** values, R offers a special data type, a *factor*:
+```{r factor, echo=T}
+vec <- c('giraffe', 'donkey', 'liger', 
+         'liger', 'giraffe', 'liger')
+vec.f <- factor(vec)
+summary(vec.f)
+```
+So donkey is coded as 1, giraffe as 2 and liger as 3. Coding is alphabetical.
+```{r factor2, echo=T}
+as.numeric(vec.f)
+```
+
+---
+name: factors2
+
+## Factors
+You can also control the coding/mapping:
+```{r factor.coding, echo=T}
+vec <- c('giraffe', 'donkey', 'liger', 
+         'liger', 'giraffe', 'liger')
+vec.f <- factor(vec, levels=c('donkey', 'giraffe', 
+                              'liger'), 
+                labels=c('zonkey','Sophie','tigon'))
+summary(vec.f)
+```
+A bit confusing, factors...
+
+---
+name: ordered_fac
+
+## Ordered
+To work with ordinal scale (ordered) variables, one can also use factors:
+```{r ordinal, echo=T}
+vec <- c('tiny', 'small', 'medium', 'large')
+factor(vec) # rearranged alphabetically
+factor(vec, ordered=T) # order as provided
+```
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 
@@ -87,14 +498,16 @@ name: end_slide
 class: end-slide, middle
 count: false
 
-# See you at the next lecture!
+# We will talk about matrices in the next lecture!
 
-```{r, echo=FALSE,child="assets/footer-slide.Rmd"}
+```{r,echo=FALSE,child="assets/footer-slide.Rmd"}
 ```
 
 ```{r,include=FALSE,eval=FALSE}
 # manually run this to render this document to HTML
-#rmarkdown::render("presentation_demo.Rmd")
+rmarkdown::render("presentation_demo.Rmd")
 # manually run this to convert HTML to PDF
 #pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
 ```
+
+
