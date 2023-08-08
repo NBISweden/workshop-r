@@ -235,7 +235,7 @@ raw.data[1:3]
 
 But data is often tabularized...
 
-```{r url.data.2, eval=T, cache=T, echo=T}
+```{r url.data.2, eval=F, cache=T, echo=T}
 library(rvest)
 html <- read_html(url)
 tables <- html_nodes(html, 'table')
