@@ -1,8 +1,8 @@
 name: R Programming Foundation for Life Scientists
 # output directory used on gh-pages branch. format: YYMM
-output_dir: 2111
+output_dir: 2310
 # location options are linkoping, lund, umea or uppsala
-location: online
+location: uppsala
 assistants:
   - "MK: Marcin Kierczak"
   - "SDL: Sebastian DiLorenzo"
