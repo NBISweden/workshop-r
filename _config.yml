@@ -1,6 +1,6 @@
-title: Introduction to Bioinformatics using NGS data
+title: R Programming Foundations for Life Scientists
 description: NBIS Workshop
-repository: NBISweden/workshop-ngsintro
+repository: NBISweden/workshop-r
 theme: jekyll-theme-cayman
 github:
   is_project_page: false
