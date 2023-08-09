@@ -2,8 +2,22 @@
 title: "Info"
 output:
   bookdown::html_document2:
+    highlight: textmate
     toc: false
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+      print: false
+    toc_depth: 4
     number_sections: false
+    df_print: default
+    code_folding: none
+    self_contained: false
+    keep_md: false
+    encoding: 'UTF-8'
+    css: "assets/lab.css"
+    include:
+      after_body: assets/footer-lab.html
 ---
 
 ```{r,child="assets/header-lab.Rmd"}
@@ -53,7 +67,7 @@ if(loc=="linkoping") {
 
 ```{r,eval=TRUE,echo=FALSE,chunk.title=NULL}
 if(loc!="online") {
-  address <- paste(unlist(strsplit(dfr$venue_address,split=",")),collapse="<br>")
+  address <- paste(unlist(strsplit(as.character(dfr$venue_address),split=",")),collapse="<br>")
   leaflet(height=450,width="auto") %>%
     addTiles(urlTemplate='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') %>%
     addMarkers(lat=dfr$venue_lat,lng=dfr$venue_lon,popup=address) %>%

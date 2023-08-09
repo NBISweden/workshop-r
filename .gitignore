@@ -1,6 +1,6 @@
 .Rhistory
 .Rproj.user
-2011/*
+[0-9]*
 data/.DS*
 *.Rproj
 libs/

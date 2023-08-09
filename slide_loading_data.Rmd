@@ -2,7 +2,7 @@
 title: "Reading (and writing) data in R"
 subtitle: "R Foundations for Life Scientists"
 author: "Marcin Kierczak"
-keywords: bioinformatics, course, scilifelab, nbis, R
+keywords: "bioinformatics, course, scilifelab, nbis, R"
 output:
   xaringan::moon_reader:
     encoding: 'UTF-8'
@@ -226,15 +226,16 @@ name: remote_data
 
 # Working with remote data
 
-```{r url.data, eval=T, cache=T, echo=T}
+```{r url.data, eval=F, cache=T, echo=T}
 url <- 'https://en.wikipedia.org/wiki/List_of_countries_by_average_wage'
 conn <- url(url, 'r')
 raw.data <- readLines(conn)
 raw.data[1:3]
 ```
+
 But data is often tabularized...
 
-```{r url.data.2, eval=T, cache=T, echo=T}
+```{r url.data.2, eval=F, cache=T, echo=T}
 library(rvest)
 html <- read_html(url)
 tables <- html_nodes(html, 'table')
