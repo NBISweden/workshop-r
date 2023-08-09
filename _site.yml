@@ -53,6 +53,7 @@ packages:
    - bookdown
    - captioner
    - formattable
+   - formatR
    - kableExtra
    - knitr
    - leaflet
