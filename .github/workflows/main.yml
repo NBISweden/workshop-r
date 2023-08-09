@@ -189,7 +189,7 @@ jobs:
           	printf -v thedate '2000-01-01 +%s years +%s months -1 day' "${i:0:2}" "${i:2}"
           	dt=$(date -d "$thedate" +'%Y %b')
           	echo $dt
-          	printf "<h3><a href='https://${GITHUB_REPOSITORY_OWNER}.github.io/${REPO}/${i}/'>$dt</a></h3>" >> index.md
+          	printf "<h3><a href='https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY}/${i}/'>$dt</a></h3>" >> index.md
           done
           printf "</div>\n" >> index.md
           # printf "<hr>\n" >> index.md
