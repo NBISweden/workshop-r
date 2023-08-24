@@ -1,7 +1,7 @@
 ---
 title: "Working in the R environment"
 subtitle: "R Foundations for Life Scientists"
-author: "Marcin Kierczak"
+author: "Marcin Kierczak and Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -65,7 +65,7 @@ name: cline_working
 3. Type R commands...
 4. Type `q()` to quit R.
 
-- Arrows let you browse throughout the history.
+- Arrows let you browse throughout the history (&uarr; & &darr;).
 - .kbd[TAB] attempts to autocomplete the command you have just started typing.
 
 ---
@@ -100,7 +100,8 @@ demo() # see all currently available demos
 demo('graphics') # run demo for 'graphics'
 ```
 
-[Stackoverflow](http://stackoverflow.com) is a great resource.
+[Stackoverflow](http://stackoverflow.com) is a great resource.  
+And these days [ChatGPT](https://chat.openai.com/). 
 
 ---
 name: work_with_packages
