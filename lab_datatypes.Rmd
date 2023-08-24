@@ -46,16 +46,16 @@ From the lecture you might remember that all elements in any data stuctures foun
 - Numeric = Any number that is not a complex number.
 - Character = Text
 
-In many cases the mode of on entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like "hello world" it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.
+In many cases the mode of an entry is determined by the content. So if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like "hello world" it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.
 
 # Exercises
 
 <div class="boxy boxy-lightbulb">
 In all exercises during this course, it is important that you try to figure out what the expected result would be, prior to running the commands. You should then verify that this will indeed be the
-result by running the command. In case there is a discrepency between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
-how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or your someone sitting next to you who might have wrapped their head around the issue.
+result by running the command. In case there is a discrepency between your expectations and the actual output make sure you understand why, before you move forward. If you cannot figure out
+how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or someone sitting next to you who might have wrapped their head around the issue.
 
-Also note that in many cases there multiple solutions that solve the problem equally well.
+Also note that in many cases there are multiple solutions that solve the problem equally well.
 
 We do recommend to write all code in a Rmarkdown document in R-studio as that will at the end of the course be your own R tutorial with comments and code solutions.
 </div>
