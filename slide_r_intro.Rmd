@@ -1,7 +1,7 @@
 ---
 title: "Introduction to R"
 subtitle: "R Foundations for Life Scientists"
-author: "Marcin Kierczak"
+author: "Marcin Kierczak & Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -43,16 +43,84 @@ class: spaced
 
 # Contents
 
-* [About R](#about)
+* [WHY R?](#why_R)
+* [HOW did R evolve?](#how_R)
+* [WHAT is R?](#what_R)
 * [Timeline](#timeline)
 * [Ideas behind R](#ideas)
 * [Pros and cons of R](#pros_and_cons)
 * [Ecosystem of packages](#num_packages)
 
 ---
-name: about
+name: why_R
 
-# Briefly about R
+# WHY R?
+--
+.pull-left-50[
+
+![](data/slide_intro/Lab_data_no_sense.png)
+
+]
+
+# With the power of R, your project can ARISE:  
+
+--
+
+ **A**utomative: Streamline your analysis
+
+--
+
+ **R**eproducible: Reproduce the results
+
+--
+
+ **I**nterpretable: Make sense  
+
+--
+
+ **S**hareable: Share with colleagues/mentors (FAIR)
+
+--
+
+ **E**xplainable: Easy to explain
+
+
+---
+name: how_R
+
+# HOW did R evolve?   
+
+--
+
+.pull-left-50[
+
+![](data/slide_intro/Ihaka_and_Gentleman.jpg)
+
+* ca. 1992 &mdash; conceived by [Robert Gentleman](https://bit.ly/35kn99L) and [Ross Ihaka](https://en.wikipedia.org/wiki/Ross_Ihaka) (R&R) at the University of Auckland, NZ as a tool for **teaching statistics**
+
+* 1994 &mdash; initial version
+* 2000 &mdash; stable version
+
+]
+
+--
+
+.pull-right-50[
+
+![](data/slide_intro/jjallaire_siliconangle_com.jpg)
+
+* 2011 &mdash; [RStudio](https://en.wikipedia.org/wiki/RStudio), first release by J.J. Allaire
+
+![](data/slide_intro/hadley-wickham.jpg)
+
+* ca. 2017 &mdash; Tidyverse by [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham)
+]
+
+--- 
+
+name: what_R
+
+# WHAT is R?
 
 .pull-left-50[
 
@@ -96,37 +164,7 @@ name: about
 ]
 
 ---
-name: timeline
 
-# Timeline
-
---
-
-.pull-left-50[
-
-![](data/slide_intro/Ihaka_and_Gentleman.jpg)
-
-* ca. 1992 &mdash; conceived by [Robert Gentleman](https://bit.ly/35kn99L) and [Ross Ihaka](https://en.wikipedia.org/wiki/Ross_Ihaka) (R&R) at the University of Auckland, NZ as a tool for **teaching statistics**
-
-* 1994 &mdash; initial version
-* 2000 &mdash; stable version
-
-]
-
---
-
-.pull-right-50[
-
-![](data/slide_intro/jjallaire_siliconangle_com.jpg)
-
-* 2011 &mdash; [RStudio](https://en.wikipedia.org/wiki/RStudio), first release by J.J. Allaire
-
-![](data/slide_intro/hadley-wickham.jpg)
-
-* ca. 2017 &mdash; Tidyverse by [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham)
-]
-
----
 name: ideas
 
 # Ideas behind R
@@ -188,7 +226,7 @@ class: spaced
 
 # Pros and cons
 
-<i class='fa fa-minus-square'></i> steep learning curve  
+<i class='fa fa-minus-square'></i> cannot order a pizza for you (?)  
 
 --
 <i class='fa fa-plus-square'></i> uniform, clear and clean system of documentation and help  
@@ -201,7 +239,7 @@ e.g. an agent-based simulation is a challenge
 <i class='fa fa-plus-square'></i> good interconnectivity with compiled languages like Java or C    
 
 --
-<i class='fa fa-minus-square'></i> cannot order a pizza for you (?)  
+<i class='fa fa-minus-square'></i> steep learning curve  
 
 --
 <i class='fa fa-plus-square'></i> a very powerful ecosystem of packages  
