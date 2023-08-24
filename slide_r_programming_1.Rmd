@@ -1,7 +1,7 @@
 ---
-title: "Introduction To Programming in R (1)"
+title: "Introduction To Programming in R"
 subtitle: "R Foundations for Life Scientists"
-author: "Marcin Kierczak"
+author: "Marcin Kierczak and Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -41,16 +41,32 @@ name: programming_language
 
 --
 
- * flow of data
+ * flow of _data_ 
+--
+
+    * Data is collected information which qualitatively and/or quantitatively describe an entity.  
+--
+
+    * Data is collected from quite diverse sources (data types).  
+--
+
+    * Data processing.  
+--
+
+    * Data cleaning.  
 
 --
 
- * from one function to another
-
+ * from one _function_ to another
 --
 
- * each function does something to the data  
+    * Function is a **reusable** chunk of code that performs a task. It takes **inputs** as well as **arguments** to process. 
+--
 
+ * each function does something to the data and return output(s)
+--
+   
+   * For example `mean()`, `min()`   
 --
 
 # How?
@@ -59,7 +75,7 @@ name: programming_language
 > A **programming language** is a formal computer language or constructed language designed to communicate instructions to a machine, particularly a computer. Programming languages can be used to create programs to control the behavior of a machine or to express algorithms.  
 .small[[Wikipedia](https://en.wikipedia.org/wiki/Programming_language)]
 
---
+---
 
 # Three things to think about
 
