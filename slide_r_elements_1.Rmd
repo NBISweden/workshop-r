@@ -1,7 +1,7 @@
 ---
 title: "Variables, Data types & Operators"
 subtitle: "Elements of the R language"
-author: "Marcin Kierczak"
+author: "Marcin Kierczak and Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -70,7 +70,7 @@ name: variables
 
 # Variables
 
-- Creating a variable is simply assigning a name to some structure that stores data...
+- Creating a variable is simply assigning values to some names in order to store data...
 
 ```{r variables,echo=TRUE,size='Tiny'}
 7 + 9
@@ -276,28 +276,6 @@ Inf - Inf # Not a Number
 ```
 
 ---
-name: cplx_numbers
-
-# Complex number type
-
-Core R supports complex numbers.
-
-```{r cplx,echo=TRUE}
-z = 7 + 4i # create a complex number
-z
-class(z)
-typeof(z)
-is.complex(z)
-```
-
-```{r cplx2,echo=TRUE}
-sqrt(-1) # not treated as cplx number
-sqrt(-1 + 0i) # now a proper cplx number
-sqrt(as.complex(-1)) # an alternative way
-```
-
----
-name: logical_type
 
 # Logical type
 
@@ -413,6 +391,9 @@ name: basic_printing
   val <- 345.78
   sprintf("The weight of a %s ball is  %g g", txt, val)
 ```
+`%s` is a spaceholder for inserting a string.    
+`%g` is a spaceholder for inserting a numeric value into a formatted string.  
+
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 
