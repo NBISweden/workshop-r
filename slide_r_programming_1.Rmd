@@ -1,5 +1,5 @@
 ---
-title: "Introduction To Programming in R"
+title: "Introduction To Programming in R (1)"
 subtitle: "R Foundations for Life Scientists"
 author: "Marcin Kierczak and Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
