@@ -1,7 +1,7 @@
 ---
 title: "Introduction To Programming in R (2)"
 subtitle: "R Foundations for Life Scientists"
-author: "Marcin Kierczak, Sebastian DiLorenzo"
+author: "Marcin Kierczak, Sebastian DiLorenzo, Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -131,7 +131,18 @@ v1 <- c(1, 2, 3, 4, 5)
 v2 <- c(1, 2)
 v1 + v2
 ```
-Values in the shorter vector will be **recycled** to match the length of the longer one: v2 <- c(1, 2, 1, 2, 1)
+Values in the shorter vector will be **recycled** to match the length of the longer one:   
+`v2 <- c(1, 2, 1, 2, 1)`
+
+---
+name: vec_size
+
+## Vectors &ndash; size
+To get the size of a vector, use `length()`:
+```{r vec.len, echo=T}
+vec <- c(1:77)
+length(vec)
+```
 
 ---
 name: vec_indexing
@@ -154,7 +165,7 @@ And what happens if we want to retrieve elements outside the vector?
 vec[0] # R counts elements from 1
 vec[78] # Index past the length of the vector
 ```
-Note, if you ask for an element with index lower than the index of the first element, you will het an empty vector of the sme type as the original vector.
+Note, if you ask for an element with index lower than the index of the first element, you will get an empty vector of the sme type as the original vector.
 If you ask for an element beyond the vector's length, you get an NA value.
 
 ---
@@ -229,16 +240,6 @@ v2
 ```
 
 ---
-name: vec_size
-
-## Vectors &ndash; size
-To get the size of a vector, use `length()`:
-```{r vec.len, echo=T}
-vec <- c(1:78)
-length(vec)
-```
-
----
 name: vec_subst_elem
 
 ## Vectors &ndash; substitute element
@@ -276,6 +277,7 @@ name: vec_count_vals
 One may be interested in the count of particular values:
 ```{r vec.table, echo=T}
 vec <- c(1:5, 1:4, 1:3) # a vector with repeating values
+vec
 table(vec) # table of counts
 tab <- table(vec)/length(vec) # table of freqs.
 round(tab, digits=3) # and let's round it
@@ -365,16 +367,22 @@ unfair <- sample(x = c(1:6), size=10e3, replace = T,
 name: simulate_dice2
 
 ## Fair vs. loaded dice &ndash; the result
-```{r dices.pic, fig=T, fig.height=4}
+```{r dices.pic, fig=T, fig.height=3.5, fig.width=6}
 t1 <- table(fair)/length(fair)
 t2 <- table(unfair)/length(unfair)
-plot(0,0,type="n",xlim=c(1,6.0),ylim=c(0,.3),xlab="x",ylab="freq",bty='n', las=1)
+plot(x = 0, y = 0, type="n",xlim=c(1,6.0),ylim=c(0,.3),xlab="x",
+     ylab="freq",bty="n", las=1)
 grid()
-points(1:6, t1, col="olivedrab")
-points(1:6, t2, col="slateblue")
+points(x = 1:6, y = t1, col="olivedrab")
+points(x = 1:6, y = t2, col="slateblue")
 legend('topleft', legend = c('fair','unfair'), col = c('olivedrab', 'slateblue'),pch = 15, border = NULL, bty='n')
 ```
-
+About parameters in plot/points/legend functions:  
+- `type = "n"` no plotting or an empty plot.  
+- `xlim/ylim` range of x-axis and y-axis.  
+- `xlab/ylab` x-axis and y-axis lable.  
+- `bty = "n"` no box around the plot.  
+- `pch = 15` pooints shape (more in Basic Graphics lecture).  
 ---
 name: more_on_sample
 
