@@ -1,7 +1,7 @@
 ---
 title: "Replication, Control Structures & Functions"
 subtitle: "Elements of the R language"
-author: "Marcin Kierczak"
+author: "Marcin Kierczak and Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -98,7 +98,7 @@ Sometimes, we also want an external counter:
 cnt <- 1
 for (i in c(2,4,6,8,10)) {
   cat(paste('Performing operation no.', cnt,
-            'on element', i), '\n')
+            'on i = ', i), '\n')
   cnt <- cnt + 1
 }
 ```
