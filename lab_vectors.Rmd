@@ -200,7 +200,7 @@ vec.tmp2 <- rep(3, length(vec.tmp))
 vec.tmp2
 ```
 
-11. Create a vector that contain all numbers from 1 to 17, where each number occurs the the same number of times as the number itself eg. 1, 2, 2, 3, 3, 3...
+11. Create a vector that contain all numbers from 1 to 17, where each number occurs the same number of times as the number itself eg. 1, 2, 2, 3, 3, 3...
 
 ```{r,accordion=TRUE}
 rep(1:17, 1:17) 
