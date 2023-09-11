@@ -167,7 +167,7 @@ name: source_pkg_inst
 # Working with packages -- installing from source.
 
 - Make sure you have appropriate tools installed, e.g. XCode or build-essentials.
-- Download the source file, in our example *GenABEL_1.8-0.tar.gz*.
+- Download the source file, in our example *ggplot2_3.4.3.tar.gz*.
 - Install it:
 
 ```{r pkg.inst.src,eval=FALSE}
