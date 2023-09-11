@@ -90,10 +90,6 @@ It is NOT absolutely necessary to have Docker installed, but we are working on s
 
 In order to use RStudio's version control features, install [Git](https://git-scm.com/downloads) on your machine. This step is also NOT necessary, but to our experience learning and using git makes your life much easier.
 
-`r fa1("chevron-circle-right")` &nbsp; **Install Zoom**
-
-Go to [Zoom website](https://zoom.us) and follow installation instructions. Most likely, your University has already paid some pro plan and you should consult your local IT to get university account details.
-
 ***
 
 ## Syllabus
