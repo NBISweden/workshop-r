@@ -166,14 +166,14 @@ names(x) <- as.character(x)
 outer(x, x, "|")
 ```
 
-12. Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.
+11. Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.
 
 ```{r,accordion=TRUE}
 TRUE * FALSE
 T^7
 ```
 
-13. Create two character variables containing two verses of your favorite song.
+12. Create two character variables containing two verses of your favorite song.
 
 - Concatenate the two variables,  
 - Paste the variables with '\*' as separator.  
@@ -194,7 +194,7 @@ substr(line1, 5, 5 + 5)
 ## R Environment
 
 - Get help for the *t.test*, *table*, *locator* and *identify* functions,
-- Check for all occurences of *fisher.test* in the docs,
+- Check for all occurrences of *fisher.test* in the docs,
 - Which package contains the *plot.ecdf* function. What does it do?
 - Find package 'reshape'-related questions on StackOverflow,
 - Search on the internet on how to load an XML file into R,
