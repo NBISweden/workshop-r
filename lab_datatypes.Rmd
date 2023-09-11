@@ -157,23 +157,8 @@ as.numeric('3.56437')
 Inf/-Inf
 ```
 
-10. Create two freely chosen complex numbers.
 
-- Check that they are complex indeed.
-- Add, multiply and divide one by another.
-- Add an integer to their sum.
-
-```{r,accordion=TRUE}
-c1 <- 23 + 4i
-c2 <- -15 - 7i
-is.complex(c1)
-is.complex(c2)
-c1 + c2
-c1 / c2
-c1 + c2 + 7
-```
-
-11. Print a truth table for OR (for three distinct logical values). Read about truth tables [here](https://en.wikipedia.org/wiki/Truth_table).
+10. Print a truth table for OR (for three distinct logical values). Read about truth tables [here](https://en.wikipedia.org/wiki/Truth_table).
 
 ```{r,accordion=TRUE}
 x <- c(NA, FALSE, TRUE)
