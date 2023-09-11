@@ -94,7 +94,7 @@ name: help
 help(t.test) # function level
 ?t.test # same as above
 ??t.test # extensive search
-vignette("GenABEL") # package level demo(graphics)
+vignette("car") # package level demo(graphics)
 example(barplot) # run help examples for barplot
 demo() # see all currently available demos
 demo('graphics') # run demo for 'graphics'
@@ -119,8 +119,8 @@ We also have [GitHub](https://github.com).
 --
 # Working with packages -- CRAN example.
 
-```{r,out.width="400pt",fig.align='center',echo=FALSE}
-knitr::include_graphics("data/slide_r_environment/cran-package.png")
+```{r,out.width="100%",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_r_environment/ggplot2_CRAN.png")
 ```
 
 ---
@@ -137,7 +137,7 @@ library(XLConnect)
 In order to install a package from command line, use:
 
 ```{r pkg.inst,eval=FALSE}
-install.packages("GenABEL",dependencies=TRUE)
+install.packages("ggplot2",dependencies=TRUE)
 ```
 
 ---
@@ -148,7 +148,7 @@ name: work_pkg_details
 It may happen that you want to also specify the repository, e.g. because it is geographically closer to you or because your default mirror is down:
 
 ```{r pkg.inst.repo,eval=FALSE}
-install.packages('GenABEL',dependencies=TRUE,repos="http://cran.se.r-project.org")
+install.packages('ggplot2',dependencies=TRUE,repos="http://cran.se.r-project.org")
 ```
 
 But, sometimes, this does not work either because the package is not available for your platform. In such case, you need to *compile* it from its *source code*.
@@ -157,8 +157,8 @@ But, sometimes, this does not work either because the package is not available f
 name: work_pkg_details2
 
 # Working with packages -- details cted.
-```{r,out.width="400pt",fig.align='center',echo=FALSE}
-knitr::include_graphics("data/slide_r_environment/cran-package.png")
+```{r,out.width="150%",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_r_environment/ggplot2_CRAN.png")
 ```
 
 ---
@@ -171,7 +171,7 @@ name: source_pkg_inst
 - Install it:
 
 ```{r pkg.inst.src,eval=FALSE}
-install.packages("path/to/GenABEL_1.8-0.tar.gz",
+install.packages("path/to/ggplot2_3.4.3.tar.gz",
                  repos=NULL,
                  type='source',
                  dependencies=TRUE)
@@ -180,8 +180,8 @@ install.packages("path/to/GenABEL_1.8-0.tar.gz",
 - Load it:
 
 ```{r pkg.load,eval=FALSE}
-library('GenABEL') # always forces reloading
-require('GenABEL') # load only if not already loaded
+library('ggplot2') # always forces reloading
+require('ggplot2') # load only if not already loaded
 ```
 
 - Enjoy!
