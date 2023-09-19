@@ -19,6 +19,8 @@ output:
     css: "assets/lab.css"
     include:
       after_body: assets/footer-lab.html
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r,child="assets/header-lab.Rmd"}
@@ -59,8 +61,8 @@ Check that your newly created objects contain the correct information and have b
 
 ```{r,accordion=TRUE}
 sort(nchar(shelley.vec), decreasing=TRUE)
-which(nchar(shelley.vec) == max(nchar(shelley.vec)))
-shelley.vec[381]
+longest_wotd_index <- which(nchar(shelley.vec) == max(nchar(shelley.vec)))
+shelley.vec[longest_wotd_index]
 ```
 
 2.  Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.
@@ -74,16 +76,16 @@ shelley.filt2[301]
 
 # `read.table()`
 
-This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.
+This is by far the most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.
 
-In this code block with first import the data from [normalized.txt](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt) and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.
+In this code block with first import the data from [normalized.txt](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt) and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as `colnames` (header) and the first column as `rownames`.
 
 ```{r,accordion=TRUE}
 expr.At <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt")
 head(expr.At)
 ```
 
-One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.
+You don't need to store all data on your local disk; you can simply read it from online resources. The following command will read in a file from a web server. 
 
 ```{r,accordion=TRUE}
 url <- 'http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data'
@@ -91,10 +93,10 @@ abalone <- read.table(url, header=FALSE , sep=',')
 head(abalone)
 ```
 
-1. Read this [example data](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data) to R using the `read.table()` function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the `write.table` function.
+1. Read this [example data](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data) to R using the `read.table()` function. This file consists of gene expression values. Once you have the object in R, validate that it looks okay and export it using the `write.table` function.
 
 ```{r,accordion=TRUE}
-ed <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data", sep=":")
+ed <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data", sep=":", header = T)
 head(ed)
 str(ed)
 ```
@@ -108,51 +110,54 @@ write.table(x=ed, na="missing", file="example_mis.data")
 2.  Read in the file you just created and double-check that you have the same data as earlier.
 
 ```{r,eval=FALSE,accordion=TRUE}
-df.test <- read.table("example_mis.data", na.strings="missing")
+df.test <- read.table("example_mis.data", na.strings="missing", header = T)
 ```
 
 3. Analysing genome annotation in R using read.table
 
-For this exercise we will load a GTF file into R and calculate some basic summary statistics from the file. In the first part we will use basic manipulations of data frames to extract the information. In the second part you get a try out a library designed to work with annotation data, that stores the information in a more complex format, that allow for easy manipulation and calculation of summaries from genome annotation files.
+For this exercise we will load a GTF file into R and calculate some basic summary statistics from the file. In the first part we will use basic manipulations of data frames to extract the information. In the second part you get a try out a library designed to work with annotation data, that stores the information in a more complex format, that allow for easy manipulation and calculation of summaries from genome annotation files. 
+  
 
-For those not familiar with the gtf format it is a file format containing annotation information for a genome. It does not contain the actual DNA sequence of the organism, but instead refers to positions along the genome.
+For those not familiar with the GTF format it is a file format containing annotation information for a genome. It does not contain the actual DNA sequence of the organism, but instead refers to positions along the genome. It is like an address book for location of genes in a genome. 
+
+Note: There are different versions of GTF/GFF format which you can read more in [AGAT tutorial](https://agat.readthedocs.io/en/latest/gxf.html). 
 
 A valid GTF file should contain the following tab delimited fields (taken from the ensembl home page).
 
-1.  **seqname** - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix.
-2.  **source** - name of the program that generated this feature, or the data source (database or project name)
-3.  **feature** - feature type name, e.g. Gene, Variation, Similarity
-4.  **start** - Start position of the feature, with sequence numbering starting at 1.
-5.  **end** - End position of the feature, with sequence numbering starting at 1.
-6.  **score** - A floating point value.
-7.  **strand** - defined as + (forward) or - (reverse).
-8.  **frame** - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on..
-9.  **attribute** - A semicolon-separated list of tag-value pairs, providing additional information about each feature.
+1.  **seqname** - Name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix  
+2.  **source** - Name of the program that generated this feature, or the data source (database or project name)  
+3.  **feature** - Feature type name, e.g. gene, transcript, exon, CDS, start_codon, end_codon  
+4.  **start** - Start position of the feature, with sequence numbering starting at 1  
+5.  **end** - End position of the feature, with sequence numbering starting at 1  
+6.  **score** - A floating point value  
+7.  **strand** - Defined as + (forward) or - (reverse)  
+8.  **frame** - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on..   
+9.  **attribute** - A semicolon-separated list of tag-value pairs, providing additional information about each feature  
 
 |1|2|3|4|5|6|7|8|9|
 |---|---|---|---|---|---|---|---|---|
 1|transcribed_unprocessed_pseudogene|gene|11869|14409|.|+|.|gene_id; "ENSG00000223972";|
 |1|processed_transcript|transcript|11869|14409|.|+|.|gene_id; "ENSG00000223972";|
 
-The last column can contain a large number of attributes that are comma-separated.
+The last column can contain a large number of attributes that are semicolon-separated.
 
-As these files for many organisms are large we will in this exercise use the latest version of Drosophila melanogaster genome annotation available at `ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster` that is small enough for analysis even on a laptop.  
+As these files for many organisms are large we will, in this exercise, use the latest version of _Drosophila melanogaster_ genome annotation available at `https://ftp.ensembl.org/pub/release-110/gtf/drosophila_melanogaster/` that is small enough for analysis even on a laptop.  
 
-Download the file named **Drosophila_melanogaster.BDGP6.86.gtf.gz** to your computer. Unzip this file and keep track of where your store the file.
+Download the file named **Drosophila_melanogaster.BDGP6.46.110.gtf.gz** to your computer. Unzip this file and keep track of where your store the file.
 
-With this done read this file into R using the function `read.table()` and add meaningful column names to the table.
+With this done, read this file into R using the function `read.table()` and add meaningful column names to the table.
 
 ```{r,include=FALSE,eval=TRUE}
-if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) {
-  if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) {
-    download.file("ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz","Drosophila_melanogaster.BDGP6.86.gtf.gz")
-    system("gunzip Drosophila_melanogaster.BDGP6.86.gtf.gz")
+if(!file.exists("Drosophila_melanogaster.BDGP6.46.110.gtf.gz")) {
+  if(!file.exists("Drosophila_melanogaster.BDGP6.46.110.gtf.gz")) {
+    download.file("https://ftp.ensembl.org/pub/release-110/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.110.gtf.gz","Drosophila_melanogaster.BDGP6.46.110.gtf.gz")
+    system("gunzip Drosophila_melanogaster.BDGP6.46.110.gtf.gz")
   }
 }
 ```
 
 ```{r,accordion=TRUE}
-d.gtf <- read.table("Drosophila_melanogaster.BDGP6.86.gtf", header=FALSE, comment.char="#", sep="\t")
+d.gtf <- read.table("Drosophila_melanogaster.BDGP6.46.110.gtf", header=FALSE, comment.char="#", sep="\t")
 colnames(d.gtf) <- c("Chromosome","Source","Feature", "Start","End","Score","Strand","Frame","Attribute")
 ```
 
@@ -166,17 +171,18 @@ str(d.gtf)
 1.  How many chromosome names can be found in the annotation file?
 
 ```{r,accordion=TRUE}
-levels(d.gtf$Chromosome)
+levels(as.factor(d.gtf$Chromosome))
 ```
 
-2.  How many exons is there in total and per chromosome?
+2.  How many **exons** is there in total and per chromosome? (hint: first extract lines that have `feature == 'exon'`)   
 
 ```{r,accordion=TRUE}
-aggregate(d.gtf$Feature, by=list(d.gtf$Chromosome), summary)
+d.gtf.exons <- d.gtf[(d.gtf$Feature == 'exon'),]
+aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)
 ```
 
 ```{r,accordion=TRUE}
-by(data=d.gtf$Feature, d.gtf[,"Chromosome"], summary)
+by(data=d.gtf.exons$Feature, d.gtf.exons[,"Chromosome"], summary)
 ```
 
 3.  Filter the data frame to only retain gene annotations
@@ -202,8 +208,9 @@ sum(d.gtf.gene$Strand == "+") / length(d.gtf.gene$Strand)
 ```{r,accordion=TRUE}
 d.gtf3R <- d.gtf[d.gtf$Chromosome == "3R",]
 exon.position <- d.gtf3R[d.gtf3R$Feature == "exon",c("Start", "End")]   
-median(abs(exon.position$Start - exon.position$End))
-mean(abs(exon.position$Start - exon.position$End))
+exon.med <- median(abs(exon.position$Start - exon.position$End))
+exon.mean <- mean(abs(exon.position$Start - exon.position$End))
+sprintf("The median and mean exon length for 3R is %g and %g, respectively", exon.med, exon.mean)
 ```
 
 7.  Do the same calculations for the chromosomes 2L, 2R, 3L, 4, X and Y using a for loop.
@@ -222,6 +229,6 @@ for (i in chr) {
 
 ```{r,eval=TRUE,include=FALSE}
 # remove drosophila gtf
-if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf")
-if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf.gz")
+if(file.exists("Drosophila_melanogaster.BDGP6.46.110.gtf")) file.remove("Drosophila_melanogaster.BDGP6.46.110.gtf")
+if(file.exists("Drosophila_melanogaster.BDGP6.46.110.gtf.gz")) file.remove("Drosophila_melanogaster.BDGP6.46.110.gtf.gz")
 ```
