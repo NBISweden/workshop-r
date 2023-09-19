@@ -19,6 +19,8 @@ output:
     css: "assets/lab.css"
     include:
       after_body: assets/footer-lab.html
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r,child="assets/header-lab.Rmd"}
@@ -26,8 +28,7 @@ output:
 
 # Introduction
 
-In programming languages loop structures, either with or without conditions, are used to repeat commands over multiple entities. For
-and while loops as well as if-else statements are also often used in R, but not as often as in many other programming languages. The reason for this is that many needs of the loops are addressed using vectorization or via apply functions.
+In programming languages loop structures, either with or without conditions, are used to repeat commands over multiple entities. `for` and `while` loops as well as `if`-`else` statements are also often used in R, but not as often as in many other programming languages. The reason for this is that many needs of the loops are addressed using **vectorization** or via `apply` functions.
 
 This means that we can multiply all values in a vector in R by two by calling
 
@@ -57,7 +58,7 @@ After this exercise you should know:
 
 # Exercises
 
-1. Create a 100000 by 10 matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the `apply()` function to calculate row sums as well as with the built-in `rowSums()` function. These functions were discussed in the lecture **Elements of the programming language - part 2**.
+1. Create a **100000 by 10** matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the `apply()` function to calculate row sums as well as with the built-in `rowSums()` function. These functions were discussed in the lecture **Elements of the programming language - part 2**.
 
 ```{r,accordion=TRUE,results='markup'}
 X <- matrix(1:1000000, nrow = 100000, ncol = 10)
@@ -128,9 +129,9 @@ sum.vec
 
 5.  Read up on the if-else function in R. If possible use the if-else function to answer question 3.
 
-6.  In all loops that we tried out we have created the variable where the output is saved outside the loop. Why is this?
+6.  In all loops that we tried out, we have created the variable where the output is saved outside the loop. Why is this?
 
-7. <i class="fas fa-exclamation-circle"></i> **Advanced:** At the lecture an approach to calculate factorials were implemented using recursion (function calling itself). Here we instead will have a go at generating Fibonacci numbers. A fibonacci number is part of a series of number with the following properties:
+7. <i class="fas fa-exclamation-circle"></i> **Advanced:** As explained in the lecture, an approach to calculate factorials were implemented using recursion (function calling itself). Here we instead will have a go at generating Fibonacci numbers. A fibonacci number is part of a series of number with the following properties:
 
 The first two numbers in the Fibonacci sequence are either 1 and 1, or 0 and 1, depending on the chosen starting point of the sequence, and each subsequent number is the sum of the previous two. Hence:
 
@@ -141,3 +142,5 @@ or
 `1, 1, 2, 3, 5, 8, 13, 21, ...`
 
 Try to generate such a series using a recursive approach.
+
+
