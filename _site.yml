@@ -4,15 +4,12 @@ output_dir: 2310
 # location options are linkoping, lund, umea or uppsala
 location: uppsala
 assistants:
+  - "NR: Nima Rafati"
+  - "PA: PRasoon Agarwal"
   - "MK: Marcin Kierczak"
   - "SDL: Sebastian DiLorenzo"
   - "RF: Roy Francis"
-  - "JOW: Jakub Orzechowski Westholm"
-  - "LM: Lokeshwaran Manoharan"
-  - "DB: Dimitris Bampalikis"
-  - "PU: Per Unneberg"
-  - "M-GH: Mun-Gwan Hong"
-  - "LS: Lucile Soler"
+  - "GD: Guilherme Dias"
 
 
 favicon: assets/favicon.png
