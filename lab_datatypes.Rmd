@@ -193,15 +193,15 @@ substr(line1, 5, 5 + 5)
 
 ## R Environment
 
-- Get help for the *t.test*, *table*, *locator* and *identify* functions,
-- Check for all occurrences of *fisher.test* in the docs,
-- Which package contains the *plot.ecdf* function. What does it do?
-- Find package 'reshape'-related questions on StackOverflow,
-- Search on the internet on how to load an XML file into R,
-- Install the 'cgmisc' package from GitHub,
-- Look up the 'cgmisc' vignette,
-- See all the demos available for you and run one you like,
-- Run examples for the *fisher.test*,
-- Check out CRANs view for genetics,
-- Install a CRAN package of choice,
-- Install the R-Forge package 'bigRR'
+- Get help for the *t.test*, *table*, *locator* and *identify* functions.  
+- Check for all occurrences of *select* in the help.  
+- Which package contains the *plot.ecdf* function. What does it do?  
+- Find package 'reshape'-related questions on StackOverflow.  
+- Search on the internet on how to load an XML file into R.  
+- Install the 'dplyr' package from GitHub.  
+- Look up the 'dplyr' vignette.  
+- See all the demos available for you and run one you like.  
+- Run examples for the *fisher.test*.  
+- Check out CRANs view for genetics.  
+- Install a CRAN package of choice. 
+- Install the R-Forge package 'bigRR' or 'Matrix'. 
