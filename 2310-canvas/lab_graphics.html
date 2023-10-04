@@ -34,9 +34,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
-<link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.0/fonts/fontawesome-webfont.ttf"/>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -417,10 +417,10 @@ myData &lt;-read.table(uri, header=T, sep=&#39;\t&#39;)</code></pre>
 <h2><span class="header-section-number">4.3</span> Built empty plot</h2>
 <p>Create an empty plot to show your and WHO data,</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023081614153815" aria-expanded="false" aria-controls="acc2023081614153815">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100419213987" aria-expanded="false" aria-controls="acc2023100419213987">
 </button>
 </p>
-<div id="acc2023081614153815" class="collapse">
+<div id="acc2023100419213987" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plot(1, xlim=c(0, max(myData$Month)), type=&#39;n&#39;, bty=&#39;n&#39;, ylim=c(0, max(myData[,c(5:19)])), las=1, xlab=&#39;Month&#39;, ylab=&#39;kg&#39;)
 grid()</code></pre>
@@ -431,10 +431,10 @@ grid()</code></pre>
 <h2><span class="header-section-number">4.4</span> Plot reference data</h2>
 <p>Plot WHO mean and percentiles: P25, P75, P0.1 and P99.9, use different colors and line types to make the plot pretty.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023081614157986" aria-expanded="false" aria-controls="acc2023081614157986">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100419217610" aria-expanded="false" aria-controls="acc2023100419217610">
 </button>
 </p>
-<div id="acc2023081614157986" class="collapse">
+<div id="acc2023100419217610" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>lines(myData$M, col=&#39;grey&#39;, lty=1)
 lines(myData$P25, col=&#39;blue&#39;, lty=2)
@@ -448,10 +448,10 @@ lines(myData$P999, col=&#39;tomato&#39;, lty=2)</code></pre>
 <h2><span class="header-section-number">4.5</span> Plot input data</h2>
 <p>Plot your data on top of the percentiles, mind the units so that they match with the WHO ones</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023081614158886" aria-expanded="false" aria-controls="acc2023081614158886">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100419210413" aria-expanded="false" aria-controls="acc2023100419210413">
 </button>
 </p>
-<div id="acc2023081614158886" class="collapse">
+<div id="acc2023100419210413" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>points(xpoints, weight/1000, pch=3, type=&#39;l&#39;, cex=.5)
 points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
@@ -462,10 +462,10 @@ points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
 <h2><span class="header-section-number">4.6</span> Add annotation</h2>
 <p>Add descriptions of the confidence lines in the margins</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023081614154836" aria-expanded="false" aria-controls="acc2023081614154836">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100419214377" aria-expanded="false" aria-controls="acc2023100419214377">
 </button>
 </p>
-<div id="acc2023081614154836" class="collapse">
+<div id="acc2023100419214377" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mtext(text = c(&#39;P0.1&#39;,&#39;P25&#39;,&#39;P75&#39;,&#39;P99.9&#39;), side = 4, at=myData[dim(myData)[1], c(&#39;P01&#39;,&#39;P25&#39;,&#39;P75&#39;,&#39;P999&#39;)], las=1, cex=.8)</code></pre>
 </div>
