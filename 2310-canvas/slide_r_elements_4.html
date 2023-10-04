@@ -3,7 +3,7 @@
   <head>
     <title>Replication, Control Structures &amp; Functions</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Marcin Kierczak" />
+    <meta name="author" content="Marcin Kierczak and Nima Rafati" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
     <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -22,7 +22,7 @@ class: center, middle, inverse, title-slide
 ## Elements of the R language
 ]
 .author[
-### Marcin Kierczak
+### Marcin Kierczak and Nima Rafati
 ]
 
 ---
@@ -128,17 +128,17 @@ Sometimes, we also want an external counter:
 cnt &lt;- 1
 for (i in c(2,4,6,8,10)) {
   cat(paste('Performing operation no.', cnt,
-            'on element', i), '\n')
+            'on i = ', i), '\n')
   cnt &lt;- cnt + 1
 }
 ```
 
 ```
-## Performing operation no. 1 on element 2 
-## Performing operation no. 2 on element 4 
-## Performing operation no. 3 on element 6 
-## Performing operation no. 4 on element 8 
-## Performing operation no. 5 on element 10
+## Performing operation no. 1 on i =  2 
+## Performing operation no. 2 on i =  4 
+## Performing operation no. 3 on i =  6 
+## Performing operation no. 4 on i =  8 
+## Performing operation no. 5 on i =  10
 ```
 
 ---
@@ -194,7 +194,7 @@ proc.time() - ptm # vectorized
 
 ```
 ##    user  system elapsed 
-##   0.004   0.000   0.004
+##   0.004   0.000   0.003
 ```
 
 --
@@ -213,7 +213,7 @@ proc.time() - ptm # for-loop
 
 ```
 ##    user  system elapsed 
-##    0.07    0.00    0.07
+##   0.068   0.004   0.072
 ```
 
 ---
@@ -293,7 +293,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.002   0.000   0.002
+##   0.002   0.000   0.001
 ```
 And the iterative one:
 
@@ -306,7 +306,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.008   0.000   0.007
+##   0.007   0.000   0.006
 ```
 --&gt;
 
@@ -822,7 +822,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 04-Oct-2023 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 04-Oct-2023 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt;
 &lt;/p&gt;
 ]
 
