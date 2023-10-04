@@ -24,18 +24,39 @@ If you are not added as a collaborator, first fork this repo to your account, th
 
 :exclamation: Do not push any rendered .html files or intermediates.
 
+### Local build/preview using Docker
+
+You can preview changes and build the whole website locally without a local installation of R or dependency packages by using the pre-built Docker image.
+
+:exclamation: **Note:** Large image size: 4.3GB.
+
+Clone the repo if not already done. Make sure you are standing in the repo directory.
+
+To build the complete site,
+
+```
+docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest
+```
+
+To build a single file (for example `index.Rmd`),
+
+```
+docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render("index.Rmd")'
+```
+
+:exclamation: Output files are for local preview only. Do not push any rendered .html files or intermediates.
+
 ## Repo organisation
 
 The source material is located on the *master* branch (default). The rendered material is located on the *gh-pages* branch. For most part, one only needs to update content in master. Changes pushed to the *master* branch is automatically rendered to the *gh-pages* branch.
 
-:exclamation: The first build can take around 30-40 mins depending on the number of R packages (listed in **_site.yml**). Subsequent builds take about 2-3 minutes since caching is enabled. Caches are removed after 7 days of last access. A push after that will require a full rebuild.
-
-For more details about repo organisation, updating and modifying this repo, check out the [template repo](https://github.com/royfrancis/workshop-template-rmd-ga).
+:exclamation: Every push rebuilds the whole website using a docker image. Build takes about 6 mins.
 
 ### Schedule
+
 Schedule is saved into the `schedule.csv` file. It is a csv file with semi-colon as delimiter. You should NOT try to edit it in a text editor, but use proper spreadsheet.
 If you are using command line, you can install `vd` and open and edit the file `vd --csv-delimiter ';' schedule.csv`.
 
 ---
 
-**2020** NBIS • SciLifeLab
+**2023** NBIS • SciLifeLab
