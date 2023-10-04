@@ -44,6 +44,8 @@ To build a single file (for example `index.Rmd`),
 docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render("index.Rmd")'
 ```
 
+See **Dockerfile** to build the image.
+
 :exclamation: Output files are for local preview only. Do not push any rendered .html files or intermediates.
 
 ## Repo organisation
