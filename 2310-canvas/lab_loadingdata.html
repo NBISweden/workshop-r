@@ -267,10 +267,10 @@ div.tocify {
 <pre class="r"><code>words &lt;- scan(what=character())</code></pre>
 <p>We will read in this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt" target="_blank">book chapter</a>. Read the manual for scan and read the text file named <strong>book_chapter.txt</strong> into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420483555" aria-expanded="false" aria-controls="acc2023100420483555">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420559795" aria-expanded="false" aria-controls="acc2023100420559795">
 </button>
 </p>
-<div id="acc2023100420483555" class="collapse">
+<div id="acc2023100420559795" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>shelley.vec &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=character())
 str(shelley.vec)
@@ -286,10 +286,10 @@ class(shelley.list)</code></pre>
 <li>Identify the longest word in your vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420482350" aria-expanded="false" aria-controls="acc2023100420482350">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420556877" aria-expanded="false" aria-controls="acc2023100420556877">
 </button>
 </p>
-<div id="acc2023100420482350" class="collapse">
+<div id="acc2023100420556877" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sort(nchar(shelley.vec), decreasing=TRUE)
 longest_wotd_index &lt;- which(nchar(shelley.vec) == max(nchar(shelley.vec)))
@@ -325,10 +325,10 @@ shelley.vec[longest_wotd_index]</code></pre>
 <li>Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420489566" aria-expanded="false" aria-controls="acc2023100420489566">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420555122" aria-expanded="false" aria-controls="acc2023100420555122">
 </button>
 </p>
-<div id="acc2023100420489566" class="collapse">
+<div id="acc2023100420555122" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>shelley.vec2 &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=&#39;character&#39;, sep=&#39; &#39;, quote=NULL)
 shelley.filt2 &lt;- gsub(pattern=&#39;[^[:alnum:] ]&#39;, replacement=&quot;&quot;, x=shelley.vec2)
@@ -344,10 +344,10 @@ shelley.filt2[301]</code></pre>
 <p>This is by far the most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.</p>
 <p>In this code block with first import the data from <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt" target="_blank">normalized.txt</a> and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as <code>colnames</code> (header) and the first column as <code>rownames</code>.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420483800" aria-expanded="false" aria-controls="acc2023100420483800">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420556071" aria-expanded="false" aria-controls="acc2023100420556071">
 </button>
 </p>
-<div id="acc2023100420483800" class="collapse">
+<div id="acc2023100420556071" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>expr.At &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt&quot;)
 head(expr.At)</code></pre>
@@ -362,10 +362,10 @@ head(expr.At)</code></pre>
 </div>
 <p>You don’t need to store all data on your local disk; you can simply read it from online resources. The following command will read in a file from a web server.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420499231" aria-expanded="false" aria-controls="acc2023100420499231">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420561881" aria-expanded="false" aria-controls="acc2023100420561881">
 </button>
 </p>
-<div id="acc2023100420499231" class="collapse">
+<div id="acc2023100420561881" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>url &lt;- &#39;http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&#39;
 abalone &lt;- read.table(url, header=FALSE , sep=&#39;,&#39;)
@@ -383,10 +383,10 @@ head(abalone)</code></pre>
 <li>Read this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data" target="_blank">example data</a> to R using the <code>read.table()</code> function. This file consists of gene expression values. Once you have the object in R, validate that it looks okay and export it using the <code>write.table</code> function.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420499313" aria-expanded="false" aria-controls="acc2023100420499313">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420568460" aria-expanded="false" aria-controls="acc2023100420568460">
 </button>
 </p>
-<div id="acc2023100420499313" class="collapse">
+<div id="acc2023100420568460" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>ed &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data&quot;, sep=&quot;:&quot;, header = T)
 head(ed)
@@ -409,10 +409,10 @@ str(ed)</code></pre>
 </div>
 <p>Encode all NA values as “missing”, at export.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420507765" aria-expanded="false" aria-controls="acc2023100420507765">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420567924" aria-expanded="false" aria-controls="acc2023100420567924">
 </button>
 </p>
-<div id="acc2023100420507765" class="collapse">
+<div id="acc2023100420567924" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>write.table(x=ed, na=&quot;missing&quot;, file=&quot;example_mis.data&quot;)</code></pre>
 </div>
@@ -421,10 +421,10 @@ str(ed)</code></pre>
 <li>Read in the file you just created and double-check that you have the same data as earlier.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420506654" aria-expanded="false" aria-controls="acc2023100420506654">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420568028" aria-expanded="false" aria-controls="acc2023100420568028">
 </button>
 </p>
-<div id="acc2023100420506654" class="collapse">
+<div id="acc2023100420568028" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>df.test &lt;- read.table(&quot;example_mis.data&quot;, na.strings=&quot;missing&quot;, header = T)</code></pre>
 </div>
@@ -510,10 +510,10 @@ str(ed)</code></pre>
 <p>Download the file named <strong>Drosophila_melanogaster.BDGP6.46.110.gtf.gz</strong> to your computer. Unzip this file and keep track of where your store the file.</p>
 <p>With this done, read this file into R using the function <code>read.table()</code> and add meaningful column names to the table.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420094678" aria-expanded="false" aria-controls="acc2023100420094678">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420158338" aria-expanded="false" aria-controls="acc2023100420158338">
 </button>
 </p>
-<div id="acc2023100420094678" class="collapse">
+<div id="acc2023100420158338" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf &lt;- read.table(&quot;Drosophila_melanogaster.BDGP6.46.110.gtf&quot;, header=FALSE, comment.char=&quot;#&quot;, sep=&quot;\t&quot;)
 colnames(d.gtf) &lt;- c(&quot;Chromosome&quot;,&quot;Source&quot;,&quot;Feature&quot;, &quot;Start&quot;,&quot;End&quot;,&quot;Score&quot;,&quot;Strand&quot;,&quot;Frame&quot;,&quot;Attribute&quot;)</code></pre>
@@ -521,10 +521,10 @@ colnames(d.gtf) &lt;- c(&quot;Chromosome&quot;,&quot;Source&quot;,&quot;Feature&
 </div>
 <p>Prior to any analysis you should make sure that your attempt to read in the file has worked as expected. This can for example be done by having a look at the dimension of the stored object and making sure that it has the structure you expect.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420173578" aria-expanded="false" aria-controls="acc2023100420173578">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420239945" aria-expanded="false" aria-controls="acc2023100420239945">
 </button>
 </p>
-<div id="acc2023100420173578" class="collapse">
+<div id="acc2023100420239945" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dim(d.gtf)
 str(d.gtf)</code></pre>
@@ -545,10 +545,10 @@ str(d.gtf)</code></pre>
 <li>How many chromosome names can be found in the annotation file?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420172780" aria-expanded="false" aria-controls="acc2023100420172780">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420234252" aria-expanded="false" aria-controls="acc2023100420234252">
 </button>
 </p>
-<div id="acc2023100420172780" class="collapse">
+<div id="acc2023100420234252" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>levels(as.factor(d.gtf$Chromosome))</code></pre>
 <pre><code>##  [1] &quot;211000022278279&quot;                 &quot;211000022278436&quot;                
@@ -572,10 +572,10 @@ str(d.gtf)</code></pre>
 <li>How many <strong>exons</strong> is there in total and per chromosome? (hint: first extract lines that have <code>feature == 'exon'</code>)</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420170118" aria-expanded="false" aria-controls="acc2023100420170118">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420238435" aria-expanded="false" aria-controls="acc2023100420238435">
 </button>
 </p>
-<div id="acc2023100420170118" class="collapse">
+<div id="acc2023100420238435" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf.exons &lt;- d.gtf[(d.gtf$Feature == &#39;exon&#39;),]
 aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code></pre>
@@ -612,10 +612,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 </div>
 </div>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420175419" aria-expanded="false" aria-controls="acc2023100420175419">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420235119" aria-expanded="false" aria-controls="acc2023100420235119">
 </button>
 </p>
-<div id="acc2023100420175419" class="collapse">
+<div id="acc2023100420235119" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>by(data=d.gtf.exons$Feature, d.gtf.exons[,&quot;Chromosome&quot;], summary)</code></pre>
 <pre><code>## d.gtf.exons[, &quot;Chromosome&quot;]: 211000022278279
@@ -739,10 +739,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 <li>Filter the data frame to only retain gene annotations</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420177186" aria-expanded="false" aria-controls="acc2023100420177186">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420238281" aria-expanded="false" aria-controls="acc2023100420238281">
 </button>
 </p>
-<div id="acc2023100420177186" class="collapse">
+<div id="acc2023100420238281" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf.gene &lt;- d.gtf[d.gtf$Feature == &quot;gene&quot;,]</code></pre>
 </div>
@@ -751,10 +751,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 <li>What is the average gene length of in the Drosophila genome?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420176006" aria-expanded="false" aria-controls="acc2023100420176006">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420230956" aria-expanded="false" aria-controls="acc2023100420230956">
 </button>
 </p>
-<div id="acc2023100420176006" class="collapse">
+<div id="acc2023100420230956" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mean(abs(d.gtf.gene$Start - d.gtf.gene$End))</code></pre>
 <pre><code>## [1] 4616.647</code></pre>
@@ -764,10 +764,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 <li>What fraction of the genes are encoded on the plus strand of the genome.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420176336" aria-expanded="false" aria-controls="acc2023100420176336">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420231757" aria-expanded="false" aria-controls="acc2023100420231757">
 </button>
 </p>
-<div id="acc2023100420176336" class="collapse">
+<div id="acc2023100420231757" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sum(d.gtf.gene$Strand == &quot;+&quot;) / length(d.gtf.gene$Strand)</code></pre>
 <pre><code>## [1] 0.4988467</code></pre>
@@ -777,10 +777,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 <li>What is the median and mean length of the exons found on chromosome 3R in the data set?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420172005" aria-expanded="false" aria-controls="acc2023100420172005">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420230233" aria-expanded="false" aria-controls="acc2023100420230233">
 </button>
 </p>
-<div id="acc2023100420172005" class="collapse">
+<div id="acc2023100420230233" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf3R &lt;- d.gtf[d.gtf$Chromosome == &quot;3R&quot;,]
 exon.position &lt;- d.gtf3R[d.gtf3R$Feature == &quot;exon&quot;,c(&quot;Start&quot;, &quot;End&quot;)]   
@@ -794,10 +794,10 @@ sprintf(&quot;The median and mean exon length for 3R is %g and %g, respectively&
 <li>Do the same calculations for the chromosomes 2L, 2R, 3L, 4, X and Y using a for loop.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420180290" aria-expanded="false" aria-controls="acc2023100420180290">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420245385" aria-expanded="false" aria-controls="acc2023100420245385">
 </button>
 </p>
-<div id="acc2023100420180290" class="collapse">
+<div id="acc2023100420245385" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>chr &lt;- c(&quot;2L&quot;,&quot;2R&quot;,&quot;3L&quot;,&quot;4&quot;,&quot;X&quot;,&quot;Y&quot;)
 for (i in chr) {
