@@ -40,6 +40,7 @@ navbar:
 # split into cran and bioc packages
 # if a package is needed by students and repo, add to _student
 # if a package is only needed for repo (build, rendering etc), add to _repo
+# THIS LIST IS NOT USED IN GITHUB ACTIONS OR DOCKER CONTAINER
 packages:
   packages_cran_student:
    - tidyverse
