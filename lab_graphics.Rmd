@@ -467,7 +467,7 @@ Go to WHO website (http://www.who.int/childgrowth/standards/en/) and find out th
 ```{r,eval=T}
 library(readxl)
 uri <- "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/tab_wfa_girls_p_0_5.xlsx?sfvrsn=666fe445_7"
-local_file_path <- "../wfa_girls_p_0_5.xlsx" ## give the local path of the downloaded file
+local_file_path <- "data/wfa_girls_p_0_5.xlsx" ## give the local path of the downloaded file
 download.file(url = uri, destfile = local_file_path, mode = "wb")
 myData <-read_excel(local_file_path)
 ```
