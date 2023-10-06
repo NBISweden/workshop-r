@@ -7,9 +7,9 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;15:00;Variables & Operators;Nima;NR, PA, GD;slide_r_elements_1.html;;
 ;;15:00;17:00;Data types;Nima;NR, PA, GD;;lab_datatypes.html;
-24/10/2023;Tripplet room;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;NR, PA, LS, SD, GD;slide_r_elements_2.html;;
-;;10:00;11:00;Matrices, Lists and Dataframes;Prasoon;NR, PA, LS, SD, GD;slide_r_elements_3.html;;
-;;11:00;12:00;Working with Vectors;Sebastian DiLorenzo;NR, PA, LS, SD, GD;;lab_vectors.html;
+24/10/2023;Tripplet room;09:00;10:00;Vectors & Strings;Sebastian DiLorenzo;NR, PA, SD, GD;slide_r_elements_2.html;;
+;;10:00;11:00;Matrices, Lists and Dataframes;Prasoon;NR, PA, SD, GD;slide_r_elements_3.html;;
+;;11:00;12:00;Working with Vectors;Sebastian DiLorenzo;NR, PA, SD, GD;;lab_vectors.html;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;17:00;Working with Matrices, Lists and Dataframes;Prasoon;NR, PA, SD;;lab_dataframes.html;
 25/10/2023;Tripplet room;09:00;10:00;Loading data into R;Sebastian DiLorenzo;NR, PA, GD, SD;slide_loading_data.html;;
