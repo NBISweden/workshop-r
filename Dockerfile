@@ -21,7 +21,7 @@ RUN apt-get update -y \
   && Rscript -e 'install.packages(c("bookdown","knitr","remotes","fontawesome","formattable","formatR","kableExtra","leaflet","pagedown","lubridate","markdown","rmarkdown","xaringan","yaml"),repos = "https://packagemanager.posit.co/cran/__linux__/jammy/latest");' \
   && mkdir /rmd
 
-RUN Rscript -e 'install.packages(c("tidyverse","nycflights13","vcd","patchwork","vioplot"),repos = "https://packagemanager.posit.co/cran/__linux__/jammy/latest");'
+RUN Rscript -e 'install.packages(c("tidyverse","nycflights13","vcd","patchwork","vioplot", "readxl"),repos = "https://packagemanager.posit.co/cran/__linux__/jammy/latest");'
 RUN Rscript -e 'remotes::install_github("mkierczak/mkteachr");'
 WORKDIR /rmd
 CMD Rscript -e "rmarkdown::render_site()"
