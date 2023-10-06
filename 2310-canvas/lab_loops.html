@@ -252,7 +252,8 @@ div.tocify {
 <p><br></p>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>In programming languages loop structures, either with or without conditions, are used to repeat commands over multiple entities. <code>for</code> and <code>while</code> loops as well as <code>if</code>-<code>else</code> statements are also often used in R, but not as often as in many other programming languages. The reason for this is that many needs of the loops are addressed using <strong>vectorization</strong> or via <code>apply</code> functions.</p>
+<p>In programming languages loop structures, either with or without conditions, are used to repeat commands over multiple entities. For
+and while loops as well as if-else statements are also often used in R, but not as often as in many other programming languages. The reason for this is that many needs of the loops are addressed using vectorization or via apply functions.</p>
 <p>This means that we can multiply all values in a vector in R by two by calling</p>
 <pre class="r"><code>vec.a &lt;- c(1, 2, 3, 4)
 vec.a * 2</code></pre>
@@ -276,13 +277,13 @@ vec.a</code></pre>
 <div id="exercises" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Exercises</h1>
 <ol style="list-style-type: decimal">
-<li>Create a <strong>100000 by 10</strong> matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the <code>apply()</code> function to calculate row sums as well as with the built-in <code>rowSums()</code> function. These functions were discussed in the lecture <strong>Elements of the programming language - part 2</strong>.</li>
+<li>Create a 100000 by 10 matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the <code>apply()</code> function to calculate row sums as well as with the built-in <code>rowSums()</code> function. These functions were discussed in the lecture <strong>Elements of the programming language - part 2</strong>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420247932" aria-expanded="false" aria-controls="acc2023100420247932">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613474692" aria-expanded="false" aria-controls="acc2023100613474692">
 </button>
 </p>
-<div id="acc2023100420247932" class="collapse">
+<div id="acc2023100613474692" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X &lt;- matrix(1:1000000, nrow = 100000, ncol = 10)
 for.sum &lt;- vector()
@@ -311,10 +312,10 @@ head(rowSums.sum)</code></pre>
 <li>Another common loop structure that is used is the while loop, which functions much like a for loop, but will only run as long as a test condition is TRUE. Modify your for loop from exercise 1 and make it into a while loop.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420252472" aria-expanded="false" aria-controls="acc2023100420252472">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613484829" aria-expanded="false" aria-controls="acc2023100613484829">
 </button>
 </p>
-<div id="acc2023100420252472" class="collapse">
+<div id="acc2023100613484829" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>x &lt;- 1
 while.sum &lt;- vector(&quot;integer&quot;, 100000)
@@ -330,10 +331,10 @@ head(while.sum)</code></pre>
 <li>Create a data frame with two numeric and one character vector. Write a loop that loops over the columns and reports the sum of the column values if it is numeric and the total number of characters if it is a character vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420256378" aria-expanded="false" aria-controls="acc2023100420256378">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613486379" aria-expanded="false" aria-controls="acc2023100613486379">
 </button>
 </p>
-<div id="acc2023100420256378" class="collapse">
+<div id="acc2023100613486379" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vector1 &lt;- 1:10
 vector2 &lt;- c(&quot;Odd&quot;, &quot;Loop&quot;, letters[1:8])
@@ -348,17 +349,17 @@ for(i in 1:ncol(dfr1)) {
   }
 }
 sum.vec</code></pre>
-<pre><code>## [1] 55.00000 15.00000 46.10911</code></pre>
+<pre><code>## [1]  55.00000  15.00000 -54.92967</code></pre>
 </div>
 </div>
 <ol start="4" style="list-style-type: decimal">
 <li>In question 3 you generated a loop to go over a data frame. Try to convert this code to a function in R. The function should take a single data frame name as argument.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420257829" aria-expanded="false" aria-controls="acc2023100420257829">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613489620" aria-expanded="false" aria-controls="acc2023100613489620">
 </button>
 </p>
-<div id="acc2023100420257829" class="collapse">
+<div id="acc2023100613489620" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr.info &lt;- function(dfr) {
 sum.vec &lt;- vector()
@@ -375,8 +376,8 @@ sum.vec
 </div>
 <ol start="5" style="list-style-type: decimal">
 <li><p>Read up on the if-else function in R. If possible use the if-else function to answer question 3.</p></li>
-<li><p>In all loops that we tried out, we have created the variable where the output is saved outside the loop. Why is this?</p></li>
-<li><p><i class="fas fa-exclamation-circle"></i> <strong>Advanced:</strong> As explained in the lecture, an approach to calculate factorials were implemented using recursion (function calling itself). Here we instead will have a go at generating Fibonacci numbers. A fibonacci number is part of a series of number with the following properties:</p></li>
+<li><p>In all loops that we tried out we have created the variable where the output is saved outside the loop. Why is this?</p></li>
+<li><p><i class="fas fa-exclamation-circle"></i> <strong>Advanced:</strong> At the lecture an approach to calculate factorials were implemented using recursion (function calling itself). Here we instead will have a go at generating Fibonacci numbers. A fibonacci number is part of a series of number with the following properties:</p></li>
 </ol>
 <p>The first two numbers in the Fibonacci sequence are either 1 and 1, or 0 and 1, depending on the chosen starting point of the sequence, and each subsequent number is the sum of the previous two. Hence:</p>
 <p><code>0, 1, 1, 2, 3, 5, 8, 13, 21, ...</code></p>

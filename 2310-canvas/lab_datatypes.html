@@ -271,16 +271,16 @@ this exercise you should know:</p>
 <li>Numeric = Any number that is not a complex number.</li>
 <li>Character = Text</li>
 </ul>
-<p>In many cases the mode of an entry is determined by the content. So if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like “hello world” it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.</p>
+<p>In many cases the mode of on entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like “hello world” it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.</p>
 </div>
 </div>
 <div id="exercises" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Exercises</h1>
 <div class="boxy boxy-lightbulb">
 <p>In all exercises during this course, it is important that you try to figure out what the expected result would be, prior to running the commands. You should then verify that this will indeed be the
-result by running the command. In case there is a discrepency between your expectations and the actual output make sure you understand why, before you move forward. If you cannot figure out
-how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or someone sitting next to you who might have wrapped their head around the issue.</p>
-<p>Also note that in many cases there are multiple solutions that solve the problem equally well.</p>
+result by running the command. In case there is a discrepency between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
+how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or your someone sitting next to you who might have wrapped their head around the issue.</p>
+<p>Also note that in many cases there multiple solutions that solve the problem equally well.</p>
 <p>We do recommend to write all code in a Rmarkdown document in R-studio as that will at the end of the course be your own R tutorial with comments and code solutions.</p>
 </div>
 <div id="working-with-variables" class="section level2" number="2.1">
@@ -305,10 +305,10 @@ your current R session.</p>
 <li>Create variables <em>var1</em> and <em>var2</em> and initialize them with two integers of choice.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420133749" aria-expanded="false" aria-controls="acc2023100420133749">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613000371" aria-expanded="false" aria-controls="acc2023100613000371">
 </button>
 </p>
-<div id="acc2023100420133749" class="collapse">
+<div id="acc2023100613000371" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>var1 &lt;- 11
 var2 &lt;- 34</code></pre>
@@ -318,10 +318,10 @@ var2 &lt;- 34</code></pre>
 <li>Add the two variables and save them as a new variable named <em>var3</em> and print the result.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420137698" aria-expanded="false" aria-controls="acc2023100420137698">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613004366" aria-expanded="false" aria-controls="acc2023100613004366">
 </button>
 </p>
-<div id="acc2023100420137698" class="collapse">
+<div id="acc2023100613004366" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>var3 &lt;- var1 + var2
 var3</code></pre>
@@ -332,10 +332,10 @@ var3</code></pre>
 <li>Check the class, mode, and type for var1, var2, var3 and π (is found under the variable name <code>pi</code> in R)</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420130662" aria-expanded="false" aria-controls="acc2023100420130662">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613001235" aria-expanded="false" aria-controls="acc2023100613001235">
 </button>
 </p>
-<div id="acc2023100420130662" class="collapse">
+<div id="acc2023100613001235" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mode(var1)
 class(var1)
@@ -346,10 +346,10 @@ typeof(var1)</code></pre>
 </div>
 </div>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420134379" aria-expanded="false" aria-controls="acc2023100420134379">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613008917" aria-expanded="false" aria-controls="acc2023100613008917">
 </button>
 </p>
-<div id="acc2023100420134379" class="collapse">
+<div id="acc2023100613008917" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mode(pi)
 class(pi)
@@ -363,10 +363,10 @@ typeof(pi)</code></pre>
 <li>Create two character variables containing a text of choice. Check the mode, class, and type of the first one.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420132681" aria-expanded="false" aria-controls="acc2023100420132681">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613005419" aria-expanded="false" aria-controls="acc2023100613005419">
 </button>
 </p>
-<div id="acc2023100420132681" class="collapse">
+<div id="acc2023100613005419" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>text1 &lt;- &quot;test1&quot;
 text2 &lt;- &quot;test2&quot;
@@ -381,10 +381,10 @@ typeof(text1)</code></pre>
 </div>
 <p>Add <strong>var1</strong> to it. What is the result and why?</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420131916" aria-expanded="false" aria-controls="acc2023100420131916">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613007573" aria-expanded="false" aria-controls="acc2023100613007573">
 </button>
 </p>
-<div id="acc2023100420131916" class="collapse">
+<div id="acc2023100613007573" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>text1+var1</code></pre>
 <pre><code>## Error in text1 + var1: non-numeric argument to binary operator</code></pre>
@@ -394,10 +394,10 @@ typeof(text1)</code></pre>
 <li>Convert <strong>var3</strong> to an integer, cast an integer variable to double, cast a string to a double.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420138612" aria-expanded="false" aria-controls="acc2023100420138612">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613009020" aria-expanded="false" aria-controls="acc2023100613009020">
 </button>
 </p>
-<div id="acc2023100420138612" class="collapse">
+<div id="acc2023100613009020" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>as.integer(var3)
 i &lt;- 175
@@ -412,10 +412,10 @@ as.double(text1)</code></pre>
 <li>Report floor and ceiling of π and round π to 3 decimal places.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420139719" aria-expanded="false" aria-controls="acc2023100420139719">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613001543" aria-expanded="false" aria-controls="acc2023100613001543">
 </button>
 </p>
-<div id="acc2023100420139719" class="collapse">
+<div id="acc2023100613001543" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>floor(pi)
 ceiling(pi)
@@ -429,10 +429,10 @@ round(pi, digits=3)</code></pre>
 <li>Is floor of π an integer?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420136191" aria-expanded="false" aria-controls="acc2023100420136191">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613000103" aria-expanded="false" aria-controls="acc2023100613000103">
 </button>
 </p>
-<div id="acc2023100420136191" class="collapse">
+<div id="acc2023100613000103" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>is.integer(floor(pi))</code></pre>
 <pre><code>## [1] FALSE</code></pre>
@@ -442,10 +442,10 @@ round(pi, digits=3)</code></pre>
 <li>Treat <code>"3.56437"</code> string as number.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420130619" aria-expanded="false" aria-controls="acc2023100420130619">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613005935" aria-expanded="false" aria-controls="acc2023100613005935">
 </button>
 </p>
-<div id="acc2023100420130619" class="collapse">
+<div id="acc2023100613005935" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>as.numeric(&#39;3.56437&#39;)</code></pre>
 <pre><code>## [1] 3.56437</code></pre>
@@ -455,23 +455,51 @@ round(pi, digits=3)</code></pre>
 <li>Divide ∞ by - ∞</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420132328" aria-expanded="false" aria-controls="acc2023100420132328">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613009205" aria-expanded="false" aria-controls="acc2023100613009205">
 </button>
 </p>
-<div id="acc2023100420132328" class="collapse">
+<div id="acc2023100613009205" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>Inf/-Inf</code></pre>
 <pre><code>## [1] NaN</code></pre>
 </div>
 </div>
 <ol start="10" style="list-style-type: decimal">
+<li>Create two freely chosen complex numbers.</li>
+</ol>
+<ul>
+<li>Check that they are complex indeed.</li>
+<li>Add, multiply and divide one by another.</li>
+<li>Add an integer to their sum.</li>
+</ul>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613009851" aria-expanded="false" aria-controls="acc2023100613009851">
+</button>
+</p>
+<div id="acc2023100613009851" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>c1 &lt;- 23 + 4i
+c2 &lt;- -15 - 7i
+is.complex(c1)
+is.complex(c2)
+c1 + c2
+c1 / c2
+c1 + c2 + 7</code></pre>
+<pre><code>## [1] TRUE
+## [1] TRUE
+## [1] 8-3i
+## [1] -1.361314+0.368613i
+## [1] 15-3i</code></pre>
+</div>
+</div>
+<ol start="11" style="list-style-type: decimal">
 <li>Print a truth table for OR (for three distinct logical values). Read about truth tables <a href="https://en.wikipedia.org/wiki/Truth_table" target="_blank">here</a>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420130971" aria-expanded="false" aria-controls="acc2023100420130971">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613002878" aria-expanded="false" aria-controls="acc2023100613002878">
 </button>
 </p>
-<div id="acc2023100420130971" class="collapse">
+<div id="acc2023100613002878" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>x &lt;- c(NA, FALSE, TRUE)
 names(x) &lt;- as.character(x)
@@ -482,14 +510,14 @@ outer(x, x, &quot;|&quot;)</code></pre>
 ## TRUE  TRUE  TRUE TRUE</code></pre>
 </div>
 </div>
-<ol start="11" style="list-style-type: decimal">
+<ol start="12" style="list-style-type: decimal">
 <li>Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420137457" aria-expanded="false" aria-controls="acc2023100420137457">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613005509" aria-expanded="false" aria-controls="acc2023100613005509">
 </button>
 </p>
-<div id="acc2023100420137457" class="collapse">
+<div id="acc2023100613005509" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>TRUE * FALSE
 T^7</code></pre>
@@ -497,7 +525,7 @@ T^7</code></pre>
 ## [1] 1</code></pre>
 </div>
 </div>
-<ol start="12" style="list-style-type: decimal">
+<ol start="13" style="list-style-type: decimal">
 <li>Create two character variables containing two verses of your favorite song.</li>
 </ol>
 <ul>
@@ -512,10 +540,10 @@ T^7</code></pre>
 <li>Extract substring starting at the 5th character and 5 characters long.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100420137668" aria-expanded="false" aria-controls="acc2023100420137668">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023100613008728" aria-expanded="false" aria-controls="acc2023100613008728">
 </button>
 </p>
-<div id="acc2023100420137668" class="collapse">
+<div id="acc2023100613008728" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>line1 &lt;- &quot;Hello darkness my old friend&quot;
 line2 &lt;- &quot;I&#39;ve come to talk to you again&quot;
@@ -535,28 +563,18 @@ substr(line1, 5, 5 + 5)</code></pre>
 <div id="r-environment" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> R Environment</h2>
 <ul>
-<li>Get help for the <em>t.test</em>, <em>table</em>, <em>locator</em> and <em>identify</em> functions.<br />
-</li>
-<li>Check for all occurrences of <em>select</em> in the help.<br />
-</li>
-<li>Which package contains the <em>plot.ecdf</em> function. What does it do?<br />
-</li>
-<li>Find package ‘reshape’-related questions on StackOverflow.<br />
-</li>
-<li>Search on the internet on how to load an XML file into R.<br />
-</li>
-<li>Install the ‘dplyr’ package from GitHub.<br />
-</li>
-<li>Look up the ‘dplyr’ vignette.<br />
-</li>
-<li>See all the demos available for you and run one you like.<br />
-</li>
-<li>Run examples for the <em>fisher.test</em>.<br />
-</li>
-<li>Check out CRANs view for genetics.<br />
-</li>
-<li>Install a CRAN package of choice.</li>
-<li>Install the R-Forge package ‘bigRR’ or ‘Matrix’.</li>
+<li>Get help for the <em>t.test</em>, <em>table</em>, <em>locator</em> and <em>identify</em> functions,</li>
+<li>Check for all occurences of <em>fisher.test</em> in the docs,</li>
+<li>Which package contains the <em>plot.ecdf</em> function. What does it do?</li>
+<li>Find package ‘reshape’-related questions on StackOverflow,</li>
+<li>Search on the internet on how to load an XML file into R,</li>
+<li>Install the ‘cgmisc’ package from GitHub,</li>
+<li>Look up the ‘cgmisc’ vignette,</li>
+<li>See all the demos available for you and run one you like,</li>
+<li>Run examples for the <em>fisher.test</em>,</li>
+<li>Check out CRANs view for genetics,</li>
+<li>Install a CRAN package of choice,</li>
+<li>Install the R-Forge package ‘bigRR’</li>
 </ul>
 </div>
 </div>
