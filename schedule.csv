@@ -24,6 +24,6 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 ;;14:00;17:00;Intro to Tidyverse;Marcin Kierczak;MK, PA, GD, NR;;lab_tidyverse.html;
 27/10/2023;Tripplet room;09:00;10:00;Graphics using ggplot2;Prasoon;PA, NR;slide_ggplot2.html;;
 ;;10:00;11:00;Topic of your interest;Nima/Prasoon;NR, PA;;;
-;;11:00;12:00;Q&A;Nima/Prasoon;NR, PA;;;
+;;11:00;12:00;Q&A;Nima/Prasoon;NR, PA, MR;;;
 ;;12:00;13:00;Lunch;;;;;
-;;13:00;16:00;Working with ggplot2;Prasoon;PA, NR;;lab_ggplot2.html;
+;;13:00;16:00;Working with ggplot2;Prasoon;PA, NR, MR;;lab_ggplot2.html;
