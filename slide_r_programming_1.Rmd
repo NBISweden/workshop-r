@@ -37,7 +37,10 @@ count: false
 ---
 name: programming_language
 
-# Computer program
+# Programing Language    
+
+--
+> Programming is a process of instructing a computer to perform a specific task. We write these instructions by **programming language**. It can be as simple as calculation (like a calculator) or complex applications. 
 
 --
 
@@ -69,11 +72,7 @@ name: programming_language
    * For example `mean()`, `min()`   
 --
 
-# How?
 
---
-> A **programming language** is a formal computer language or constructed language designed to communicate instructions to a machine, particularly a computer. Programming languages can be used to create programs to control the behavior of a machine or to express algorithms.  
-.small[[Wikipedia](https://en.wikipedia.org/wiki/Programming_language)]
 
 ---
 
@@ -102,7 +101,7 @@ name: programming_language
 
   * int &mdash; 1 2 5 9
   * double &mdash; 1.23 -5.74
-  * char &mdash; a b test 7 9
+  * char &mdash; a b test 
 
 --
 
@@ -144,7 +143,7 @@ count: false
 
 ```{r,include=FALSE,eval=FALSE}
 # manually run this to render this document to HTML
-rmarkdown::render("presentation_demo.Rmd")
+#rmarkdown::render("presentation_demo.Rmd")
 # manually run this to convert HTML to PDF
 #pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
 ```

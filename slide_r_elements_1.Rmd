@@ -363,7 +363,7 @@ number <- 3.14
 number.text <- as.character(number) # cast to char
 number.text
 class(number.text)
-as.numeric(number.text) # and the other way round
+as.numeric(number.text) # and the other way around
 ```
 
 ---
