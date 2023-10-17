@@ -60,6 +60,16 @@ name: programming_language
 
 --
 
+```{r,out.width="75%",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_programming/Data_Information_Knowledge.png")
+```
+
+---
+
+# Programing Language cted.   
+
+--
+
  * from one _function_ to another
 --
 
@@ -90,6 +100,15 @@ name: programming_language
 
 
 ---
+# Data type  
+
+```{r,out.width="75%",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_programming/Data_classification.png")
+```
+---
+name: topicdata
+
+
 
 # Three components of a language
 
