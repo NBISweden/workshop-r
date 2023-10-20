@@ -65,11 +65,25 @@ which denotes multiplication of elements $1 ... n$.
 It is important to learn how to translate these (and similar) formulas into the R language.
 
 ---
-name: for_loop
+name: for_loop_0
 
 # Repeating actions &mdash; for loop
 
 One way to repeat an action is to use the **for-loop**
+
+```{r for.loop.general, echo=T, eval = F}
+for (var in seq) {
+  expr
+}
+```
+
+---
+name: for_loop_1
+
+# Repeating actions &mdash; for loop
+
+Example. 
+
 
 ```{r for.loop, echo=T}
 for (i in 1:5) {
@@ -252,7 +266,7 @@ Always try to know the size of the object you are going to create!
 ---
 name: if_clause
 
-# To R or not to Python? &mdash; taking decisions, an if-clause
+# An if-clause
 
 Often, one has to take a different course of action depending on a flow of the algorithm. You have already seen the **if-else** block. Let's print only odd numbers $[1, 10]$:
 
@@ -351,8 +365,8 @@ If-else clauses operate on logical values. What if we want to take decisions bas
 ```{r switch, echo=T}
 switch.demo <- function(x) {
   switch(class(x),
-         logical = ,
-         numeric = cat('Numeric or logical.'),
+         logical = cat('logical'),
+         numeric = cat('Numeric'),
          factor = cat('Factor.'),
          cat('Undefined')
          )
@@ -519,7 +533,7 @@ h <- function(a = 1, b = d) {
 h()
 ```
 
-> The above won't be possible in, e.g. C where values of both arguments have to be known before calling a function **eager evaluation**.
+> The above won't be possible in, e.g. where values of both arguments have to be known before calling a function which is known as **eager evaluation**.
 
 ---
 name: everything_is_a_fn
