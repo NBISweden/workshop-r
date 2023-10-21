@@ -71,7 +71,7 @@ name: for_loop_0
 
 One way to repeat an action is to use the **for-loop**
 
-```{r for.loop.general, echo=T, eval = F}
+```{r for.loop.general, eval=FALSE, echo=TRUE}
 for (var in seq) {
   expr
 }
