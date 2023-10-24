@@ -1,7 +1,7 @@
 ---
 title: "Replication, Control Structures & Functions"
 subtitle: "Elements of the R language"
-author: "Marcin Kierczak"
+author: "Marcin Kierczak and Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -55,21 +55,30 @@ name: repeating_actions_1
 
 # Repeating actions
 
-In several algorithms, the point is to repeat certain action several times.
-In the language of mathematical formulas, we have for instance the following signs for repeating an action:
-$$\Sigma_{i=1}^{n}(expression)$$
-which denotes addition over elements $1 ... n$ or
-$$\Pi_{i=1}^{n}(expression)$$
-which denotes multiplication of elements $1 ... n$.
+Somtimes you want to repeat certain action several times.  
 
-It is important to learn how to translate these (and similar) formulas into the R language.
+There are few alternatives in R, for example:  
+- `for` loop 
+- `while` loop   
 
 ---
-name: for_loop
+name: for_loop_0
 
 # Repeating actions &mdash; for loop
 
 One way to repeat an action is to use the **for-loop**
+
+```{r for.loop.general, eval=FALSE, echo=TRUE}
+for (var in seq) {
+  expr
+}
+```
+
+---
+name: for_loop_1
+# Repeating actions &mdash; for loop
+
+Example. 
 
 ```{r for.loop, echo=T}
 for (i in 1:5) {
@@ -121,11 +130,12 @@ vec
 
 --
 
-The above can be achieved in R by means of **vectorization**:
+The above can be achieved in R by means of **vectorization**.  
+**Vectorization** is an element-wise operation where you perform task/operation on entire vectors/matrix/data.frames.
 
 ```{r for.loop.avoid, echo=T}
 vec <- c(1:5)
-vec + 1
+vec + 1  
 ```
 
 ---
@@ -135,7 +145,7 @@ name: vectorization_benchmark
 
 Let us compare the time of execution of the vectorized version (vector with 10,000 elements):
 
-```{r for.loop.avoid.timing, echo=F}
+```{r for.loop.avoid.timing, echo=T}
 vec <- c(1:1e6)
 ptm <- proc.time()
 vec <- vec + 1
@@ -146,7 +156,7 @@ proc.time() - ptm # vectorized
 
 to the loop version:
 
-```{r for.loop.avoid.timing2, echo=F}
+```{r for.loop.avoid.timing2, echo=T}
 vec <- c(1:1e6)
 ptm <- proc.time()
 for (i in vec) {
@@ -172,11 +182,11 @@ while (x < 5) {
 ---
 name: recursion
 
-# Recursion
+<!-- # Recursion
 
 When we explicitely repeat an action using a loop, we talk about **iteration**. We can also repeat actions by means of **recursion**, i.e. when a function calls itself. Let us implement a factorial $!$:
 
-```{r rec.fact, echo=T}
+```{r rec.fact, echo=F}
 factorial.rec <- function(x) {
   if (x == 0 || x == 1)
     return(1)
@@ -186,7 +196,7 @@ factorial.rec <- function(x) {
 factorial.rec(5)
 ```
 
-<!--
+
 # Recursion = iteration?
 Yes, every iteration can be converted to recursion (Church-Turing conjecture) and vice-versa. It is not always obvious, but theoretically it is doable. Let's see how to implement *factorial* in iterative manner:
 ```{r rec.fact.iter, echo=T}
@@ -252,9 +262,9 @@ Always try to know the size of the object you are going to create!
 ---
 name: if_clause
 
-# To R or not to Python? &mdash; taking decisions, an if-clause
+# Decisions, an if-clause
 
-Often, one has to take a different course of action depending on a flow of the algorithm. You have already seen the **if-else** block. Let's print only odd numbers $[1, 10]$:
+Often, one has to take a different course of action depending on a flow of the algorithm. Let's print only odd numbers $[1, 10]$:
 
 ```{r if, echo=T}
 v <- 1:10
@@ -351,10 +361,10 @@ If-else clauses operate on logical values. What if we want to take decisions bas
 ```{r switch, echo=T}
 switch.demo <- function(x) {
   switch(class(x),
-         logical = ,
-         numeric = cat('Numeric or logical.'),
-         factor = cat('Factor.'),
-         cat('Undefined')
+         logical = cat('logical\n'),
+         numeric = cat('Numeric\n'),
+         factor = cat('Factor\n'),
+         cat('Undefined\n')
          )
 }
 switch.demo(x=TRUE)
@@ -387,9 +397,10 @@ name:anatomy_of_a_fn
 A function consists of: *formal arguments*, *function body* and *environment*:
 
 ```{r fns.formalsbodyenv, echo=T}
-formals(ecdf)
-body(plot.ecdf)
-environment(ecdf)
+formals(add.one)
+body(add.one)
+environment(add.one)
+environment(sd)
 ```
 
 ---
@@ -421,17 +432,19 @@ args.demo <- function(x, y, arg3) {
 args.demo(1,2,3)
 args.demo(x=1, y=2, arg3=3)
 args.demo(x=1, 2, 3)
-args.demo(a=3, x=1, y=2)
+args.demo(arg3=3, x=1, y=2)
 ```
 
+<!--  
 --
 
-```{r functions4, echo=T, error=T}
+```{r functions4, echo=F, error=F}
 args.demo2 <- function(x, arg2, arg3) {
   print(paste('x =', x, 'arg2 =', arg2, 'arg3 =', arg3))
 }
-args.demo2(x=1, y=2, ar=3)
+#args.demo2(x=1, y=2, ar=3)
 ```
+-->
 
 ---
 name: variable_scope
@@ -477,7 +490,7 @@ name: fns_ellipsis
 There is a special argument **...** (ellipsis) which allows you to give any number of arguments or pass arguments downstream:
 
 ```{r fns.3dots, echo=T, fig.height = 3, fig.width = 6}
-c # Any number of arguments
+# Any number of arguments
 my.plot <- function(x, y, ...) { # Passing downstream
   plot(x, y, las=1, cex.axis=.8, ...)
 }
@@ -505,30 +518,32 @@ my.plot(1, 1, col='red', pch=19)
 ```
 
 ---
+<!--  
 name: lazy_eval
 
 # R is lazy!
 
 In R, arguments are evaluated as late as possible, i.e. when they are needed. This is **lazy evaluation**:
 
-```{r lazy.eval, echo=T}
+```{r lazy.eval, echo=F, eval = T}
 h <- function(a = 1, b = d) {
   d <- (a + 1) ^ 2
   c(a, b)
 }
-h()
+#h()
 ```
 
-> The above won't be possible in, e.g. C where values of both arguments have to be known before calling a function **eager evaluation**.
-
+> The above won't be possible in, e.g. C where values of both arguments have to be known before calling a function **eager evaluation**.  
+-->
 ---
+
 name: everything_is_a_fn
 
 # In R everything is a function
 
 Because in R everything is a function
 
-```{r fns.everything_1, echo=T}
+```{r fns.everything_1, echo=F}
 `+`
 ```
 
