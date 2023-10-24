@@ -66,21 +66,31 @@ name: repeating_actions_1
 
 # Repeating actions
 
-In several algorithms, the point is to repeat certain action several times.
-In the language of mathematical formulas, we have for instance the following signs for repeating an action:
-`$$\Sigma_{i=1}^{n}(expression)$$`
-which denotes addition over elements `\(1 ... n\)` or
-`$$\Pi_{i=1}^{n}(expression)$$`
-which denotes multiplication of elements `\(1 ... n\)`.
+Somtimes you want to repeat certain action several times.  
 
-It is important to learn how to translate these (and similar) formulas into the R language.
+There are few alternatives in R, for example:  
+- `for` loop 
+- `while` loop   
 
 ---
-name: for_loop
+name: for_loop_0
 
 # Repeating actions &amp;mdash; for loop
 
 One way to repeat an action is to use the **for-loop**
+
+
+```r
+for (var in seq) {
+  expr
+}
+```
+
+---
+name: for_loop_1
+# Repeating actions &amp;mdash; for loop
+
+Example. 
 
 
 ```r
@@ -128,17 +138,17 @@ Sometimes, we also want an external counter:
 cnt &lt;- 1
 for (i in c(2,4,6,8,10)) {
   cat(paste('Performing operation no.', cnt,
-            'on i = ', i), '\n')
+            'on element', i), '\n')
   cnt &lt;- cnt + 1
 }
 ```
 
 ```
-## Performing operation no. 1 on i =  2 
-## Performing operation no. 2 on i =  4 
-## Performing operation no. 3 on i =  6 
-## Performing operation no. 4 on i =  8 
-## Performing operation no. 5 on i =  10
+## Performing operation no. 1 on element 2 
+## Performing operation no. 2 on element 4 
+## Performing operation no. 3 on element 6 
+## Performing operation no. 4 on element 8 
+## Performing operation no. 5 on element 10
 ```
 
 ---
@@ -165,12 +175,13 @@ vec
 
 --
 
-The above can be achieved in R by means of **vectorization**:
+The above can be achieved in R by means of **vectorization**.  
+**Vectorization** is an element-wise operation where you perform task/operation on entire vectors/matrix/data.frames.
 
 
 ```r
 vec &lt;- c(1:5)
-vec + 1
+vec + 1  
 ```
 
 ```
@@ -194,7 +205,7 @@ proc.time() - ptm # vectorized
 
 ```
 ##    user  system elapsed 
-##   0.004   0.000   0.004
+##   0.003   0.000   0.003
 ```
 
 --
@@ -213,7 +224,7 @@ proc.time() - ptm # for-loop
 
 ```
 ##    user  system elapsed 
-##   0.070   0.004   0.076
+##   0.067   0.000   0.067
 ```
 
 ---
@@ -238,7 +249,7 @@ while (x &lt; 5) {
 ---
 name: recursion
 
-# Recursion
+&lt;!-- # Recursion
 
 When we explicitely repeat an action using a loop, we talk about **iteration**. We can also repeat actions by means of **recursion**, i.e. when a function calls itself. Let us implement a factorial `\(!\)`:
 
@@ -257,7 +268,7 @@ factorial.rec(5)
 ## [1] 120
 ```
 
-&lt;!--
+
 # Recursion = iteration?
 Yes, every iteration can be converted to recursion (Church-Turing conjecture) and vice-versa. It is not always obvious, but theoretically it is doable. Let's see how to implement *factorial* in iterative manner:
 
@@ -306,7 +317,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.008   0.000   0.009
+##   0.007   0.000   0.006
 ```
 --&gt;
 
@@ -344,9 +355,9 @@ Always try to know the size of the object you are going to create!
 ---
 name: if_clause
 
-# To R or not to Python? &amp;mdash; taking decisions, an if-clause
+# Decisions, an if-clause
 
-Often, one has to take a different course of action depending on a flow of the algorithm. You have already seen the **if-else** block. Let's print only odd numbers `\([1, 10]\)`:
+Often, one has to take a different course of action depending on a flow of the algorithm. Let's print only odd numbers `\([1, 10]\)`:
 
 
 ```r
@@ -469,10 +480,10 @@ If-else clauses operate on logical values. What if we want to take decisions bas
 ```r
 switch.demo &lt;- function(x) {
   switch(class(x),
-         logical = ,
-         numeric = cat('Numeric or logical.'),
-         factor = cat('Factor.'),
-         cat('Undefined')
+         logical = cat('logical\n'),
+         numeric = cat('Numeric\n'),
+         factor = cat('Factor\n'),
+         cat('Undefined\n')
          )
 }
 switch.demo(x=TRUE)
@@ -482,7 +493,10 @@ switch.demo(data.frame())
 ```
 
 ```
-## Numeric or logical.Numeric or logical.Factor.Undefined
+## logical
+## Numeric
+## Factor
+## Undefined
 ```
 
 ---
@@ -519,20 +533,21 @@ A function consists of: *formal arguments*, *function body* and *environment*:
 
 
 ```r
-formals(ecdf)
-body(plot.ecdf)
-environment(ecdf)
+formals(add.one)
+body(add.one)
+environment(add.one)
+environment(sd)
 ```
 
 ```
-## $x
+## $arg1
 ## 
 ## 
 ## {
-##     plot.stepfun(x, ..., ylab = ylab, verticals = verticals, 
-##         pch = pch)
-##     abline(h = c(0, 1), col = col.01line, lty = 2)
+##     arg1 &lt;- arg1 + 1
+##     return(arg1)
 ## }
+## &lt;environment: R_GlobalEnv&gt;
 ## &lt;environment: namespace:stats&gt;
 ```
 
@@ -576,7 +591,7 @@ args.demo &lt;- function(x, y, arg3) {
 args.demo(1,2,3)
 args.demo(x=1, y=2, arg3=3)
 args.demo(x=1, 2, 3)
-args.demo(a=3, x=1, y=2)
+args.demo(arg3=3, x=1, y=2)
 ```
 
 ```
@@ -586,6 +601,7 @@ args.demo(a=3, x=1, y=2)
 ## [1] "x = 1 y = 2 arg3 = 3"
 ```
 
+&lt;!--  
 --
 
 
@@ -593,12 +609,9 @@ args.demo(a=3, x=1, y=2)
 args.demo2 &lt;- function(x, arg2, arg3) {
   print(paste('x =', x, 'arg2 =', arg2, 'arg3 =', arg3))
 }
-args.demo2(x=1, y=2, ar=3)
+#args.demo2(x=1, y=2, ar=3)
 ```
-
-```
-## Error in args.demo2(x = 1, y = 2, ar = 3): argument 3 matches multiple formal arguments
-```
+--&gt;
 
 ---
 name: variable_scope
@@ -657,7 +670,7 @@ There is a special argument **...** (ellipsis) which allows you to give any numb
 
 
 ```r
-c # Any number of arguments
+# Any number of arguments
 my.plot &lt;- function(x, y, ...) { # Passing downstream
   plot(x, y, las=1, cex.axis=.8, ...)
 }
@@ -665,10 +678,6 @@ my.plot &lt;- function(x, y, ...) { # Passing downstream
 {par(mfrow=c(1,2),mar=c(4,4,1,1))
 my.plot(1,1)
 my.plot(1, 1, col='red', pch=19)}
-```
-
-```
-## [1] 16
 ```
 
 &lt;img src="slide_r_elements_4_files/figure-html/fns.3dots-1.png" width="432" style="display: block; margin: auto auto auto 0;" /&gt;
@@ -694,6 +703,7 @@ my.plot(1, 1, col='red', pch=19)
 &lt;img src="slide_r_elements_4_files/figure-html/fns.3dots.trick-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
 
 ---
+&lt;!--  
 name: lazy_eval
 
 # R is lazy!
@@ -706,16 +716,13 @@ h &lt;- function(a = 1, b = d) {
   d &lt;- (a + 1) ^ 2
   c(a, b)
 }
-h()
+#h()
 ```
 
-```
-## [1] 1 4
-```
-
-&gt; The above won't be possible in, e.g. C where values of both arguments have to be known before calling a function **eager evaluation**.
-
+&gt; The above won't be possible in, e.g. C where values of both arguments have to be known before calling a function **eager evaluation**.  
+--&gt;
 ---
+
 name: everything_is_a_fn
 
 # In R everything is a function
@@ -798,14 +805,13 @@ search()    # see packages currently loaded
 
 ```
 ##  [1] ".GlobalEnv"           "package:vcd"          "package:grid"        
-##  [4] "package:patchwork"    "package:nycflights13" "package:readxl"      
-##  [7] "package:tidyr"        "package:ggplot2"      "package:formattable" 
-## [10] "package:kableExtra"   "package:dplyr"        "package:lubridate"   
-## [13] "package:leaflet"      "package:yaml"         "package:fontawesome" 
-## [16] "package:bookdown"     "package:knitr"        "package:stats"       
-## [19] "package:graphics"     "package:grDevices"    "package:utils"       
-## [22] "package:datasets"     "package:methods"      "Autoloads"           
-## [25] "package:base"
+##  [4] "package:patchwork"    "package:nycflights13" "package:tidyr"       
+##  [7] "package:ggplot2"      "package:formattable"  "package:kableExtra"  
+## [10] "package:dplyr"        "package:lubridate"    "package:leaflet"     
+## [13] "package:yaml"         "package:fontawesome"  "package:bookdown"    
+## [16] "package:knitr"        "package:stats"        "package:graphics"    
+## [19] "package:grDevices"    "package:utils"        "package:datasets"    
+## [22] "package:methods"      "Autoloads"            "package:base"
 ```
 
 Check what basic functions are offered by packages: *base*, *utils* and we will soon work with package *graphics*. If you want to see what statistical functions are in your arsenal, check out package *stats*.
@@ -823,7 +829,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 06-Oct-2023 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt;
+Created: 24-Oct-2023 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 
