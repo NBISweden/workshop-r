@@ -282,7 +282,27 @@ plot(data[,1:2])</code></pre>
 <p>As you see, the points are displayed in a simple way, axes are set automatically, the radius is not reflected on the plot in any way (3rd dimension).</p>
 <div id="hide-markers" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Hide markers</h2>
-<p>Build the plot from scratch, begin by displaying no points.</p>
+<p>Build the plot from scratch, begin by displaying no points. You can do this by setting <code>type = 'n'</code>.</p>
+<ul>
+<li>Other <code>type</code>s:
+<ul>
+<li>“p” for points.<br />
+</li>
+<li>“l” for lines.<br />
+</li>
+<li>“b” for both points and lines.<br />
+</li>
+<li>“c” for empty points joined by lines.<br />
+</li>
+<li>“o” for overplotted points and lines.<br />
+</li>
+<li>“s” and “S” for stair steps.<br />
+</li>
+<li>“h” for histogram-like vertical lines.<br />
+</li>
+<li>“n” does not produce any points or lines.</li>
+</ul></li>
+</ul>
 <pre class="r"><code>plot(data[,1:2], type=&#39;n&#39;)</code></pre>
 <p><img src="lab_graphics_files/figure-html/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
@@ -324,7 +344,7 @@ abline(h=coords.y, col=&quot;darkgrey&quot;, lty=3)
 </div>
 <div id="add-markers" class="section level2" number="3.5">
 <h2><span class="header-section-number">3.5</span> Add markers</h2>
-<p>Define a new <em>mycol</em> function that takes a color name and a transparency value as two arguments and returns the corresponding rgb color value. OPTIONAL – if it seems to difficult, look up the answer.</p>
+<p>Define a new <em>mycol</em> function that takes a color name and a transparency value as two arguments and returns the corresponding rgb color value.</p>
 <pre class="r"><code>#Function for adding transparency to a given color.
 mycol &lt;- function(colname=&quot;olivedrab&quot;, transparency=.5) {
 #convert color name to its RGB value and add the desired
@@ -392,38 +412,49 @@ mtext(&quot;X&quot;, side=1, line=3, cex.lab=1,las=1, col=&quot;blue&quot;)</cod
 </ul>
 <div id="prepare-input-data" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Prepare input data</h2>
-<p>Use function <code>dmy()</code> from the <strong>lubridate</strong> package to create a vector of timepoints.</p>
+<p>We save the timepoints and measurements in vectors.</p>
 <pre class="r"><code>library(lubridate)
-timepoints &lt;- dmy(c(&#39;30-09-2015&#39;, &#39;12-10-2015&#39;,&#39;19-10-2015&#39;, &#39;26-10-2015&#39;, &#39;07-11-2015&#39;, &#39;16-11-2015&#39;,&#39;30-11-2015&#39;, &#39;11-01-2016&#39;, &#39;08-02-2016&#39;, &#39;14-03-2016&#39;, &#39;05-04-2016&#39;, &#39;14-04-2016&#39;, &#39;31-05-2016&#39;, &#39;14-07-2016&#39;))</code></pre>
-<p>Enter the measurement of choice as a vector</p>
-<pre class="r"><code>weight &lt;- c(3300, 3540, 3895, 4070, 4230, 4385, 4855, 5865, NA, 6736, 7065, 7080, 7530, 7640)
+timepoints &lt;- dmy(c(&#39;30-09-2015&#39;, &#39;12-10-2015&#39;,&#39;19-10-2015&#39;, &#39;26-10-2015&#39;, &#39;07-11-2015&#39;, &#39;16-11-2015&#39;,&#39;30-11-2015&#39;, &#39;11-01-2016&#39;, &#39;08-02-2016&#39;, &#39;14-03-2016&#39;, &#39;05-04-2016&#39;, &#39;14-04-2016&#39;, &#39;31-05-2016&#39;, &#39;14-07-2016&#39;))
+
+weight &lt;- c(3300, 3540, 3895, 4070, 4230, 4385, 4855, 5865, NA, 6736, 7065, 7080, 7530, 7640)
 length &lt;- c(43,NA,53,54,55,56,58,62.5,65,67,67.5,67.5,70.5,71.5)
 head &lt;- c(34,35.5,36.1,36.8,36.8,37.3,38,40.2,41.4,42.1,NA,43,44,45)</code></pre>
-<p>WHO months are 30.4375 days long. Transform timepoints into OX coordinates so that the distance between them corresponds to the days between the two measurements. HINT: check <code>as.duration()</code> and <code>ddays()</code> functions.</p>
+<p>We can calculate the interval between the dates of measurements by two approaches:<br />
+<strong>Approach1:</strong><br />
+Simply calculate the interval by subtracting each date from the the first date of data collection (e.g. ‘2016-05-31’ - ‘2015-09-30’ ) and then convert it to months.</p>
+<pre class="r"><code>xpoints &lt;- (as.Date(timepoints) - as.Date(timepoints[1]) )/ 30</code></pre>
+<p><strong>Approach2:</strong><br />
+Calculate the intervals by seconds and then use WHO standard months day length which is 30.4375 to calculate by month.<br />
+Use function <code>dmy()</code> from the <strong>lubridate</strong> package to create a vector of timepoints.</p>
+<p>HINTS:<br />
+- We can define an Interval using the <code>%--%</code> operator.<br />
+- check <code>as.duration()</code> and <code>ddays()</code> functions.</p>
 <pre class="r"><code>who.month &lt;- 30.4375 #days
 xpoints &lt;- as.duration(timepoints[1] %--% timepoints) / ddays(1) / who.month</code></pre>
 </div>
 <div id="prepare-reference-data" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Prepare reference data</h2>
-<p>Go to WHO website (<a href="http://www.who.int/childgrowth/standards/en/" class="uri">http://www.who.int/childgrowth/standards/en/</a>) and find out the link to the dataset of your concern, e.g. Weight for age, percentiles for girls have the following address: <a href="http://www.who.int/entity/childgrowth/standards/tab_wfa_girls_p_0_5.txt" class="uri">http://www.who.int/entity/childgrowth/standards/tab_wfa_girls_p_0_5.txt</a></p>
-<p>Load the data using URL from the previous point and the <code>read.table()</code> function.</p>
-<p><span style="color:red;"><strong>ERROR:</strong></span> The URL below is broken therefore everything downstream is set to <code>eval=FALSE</code>. This needs to be fixed.</p>
-<pre class="r"><code>uri &lt;- &quot;http://www.who.int/entity/childgrowth/standards/tab_wfa_girls_p_0_5.txt&quot;
-#uri &lt;- &quot;http://www.who.int/entity/childgrowth/standards/second_set/tab_hcfa_girls_p_0_5.txt&quot;
-#uri &lt;- &quot;http://www.who.int/entity/childgrowth/standards/tab_lhfa_girls_p_0_2.txt&quot;
-myData &lt;-read.table(uri, header=T, sep=&#39;\t&#39;)</code></pre>
+<p>Download manually and then load:<br />
+Go to WHO website (<a href="http://www.who.int/childgrowth/standards/en/" class="uri">http://www.who.int/childgrowth/standards/en/</a>) and find out the link to the dataset of your concern, e.g. Weight for age, percentiles for girls have the following address: <a href="http://www.who.int/entity/childgrowth/standards/wfa_girls_p_0_5.xlsx" class="uri">http://www.who.int/entity/childgrowth/standards/wfa_girls_p_0_5.xlsx</a></p>
+<p>Or using direct link to the excel file:</p>
+<pre class="r"><code>library(readxl)
+uri &lt;- &quot;https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/tab_wfa_girls_p_0_5.xlsx?sfvrsn=666fe445_7&quot;
+local_file_path &lt;- &quot;wfa_girls_p_0_5.xlsx&quot; ## give the local path of the downloaded file
+download.file(url = uri, destfile = local_file_path, mode = &quot;wb&quot;)
+myData &lt;-read_excel(local_file_path)</code></pre>
 </div>
-<div id="built-empty-plot" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Built empty plot</h2>
+<div id="build-empty-plot" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Build empty plot</h2>
 <p>Create an empty plot to show your and WHO data,</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507348361" aria-expanded="false" aria-controls="acc2023102507348361">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521049414" aria-expanded="false" aria-controls="acc2023102521049414">
 </button>
 </p>
-<div id="acc2023102507348361" class="collapse">
+<div id="acc2023102521049414" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plot(1, xlim=c(0, max(myData$Month)), type=&#39;n&#39;, bty=&#39;n&#39;, ylim=c(0, max(myData[,c(5:19)])), las=1, xlab=&#39;Month&#39;, ylab=&#39;kg&#39;)
 grid()</code></pre>
+<img src="lab_graphics_files/figure-html/unnamed-chunk-25-1.png" width="960" style="display: block; margin: auto auto auto 0;" />
 </div>
 </div>
 </div>
@@ -431,10 +462,10 @@ grid()</code></pre>
 <h2><span class="header-section-number">4.4</span> Plot reference data</h2>
 <p>Plot WHO mean and percentiles: P25, P75, P0.1 and P99.9, use different colors and line types to make the plot pretty.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507343283" aria-expanded="false" aria-controls="acc2023102507343283">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521045573" aria-expanded="false" aria-controls="acc2023102521045573">
 </button>
 </p>
-<div id="acc2023102507343283" class="collapse">
+<div id="acc2023102521045573" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>lines(myData$M, col=&#39;grey&#39;, lty=1)
 lines(myData$P25, col=&#39;blue&#39;, lty=2)
@@ -447,11 +478,12 @@ lines(myData$P999, col=&#39;tomato&#39;, lty=2)</code></pre>
 <div id="plot-input-data" class="section level2" number="4.5">
 <h2><span class="header-section-number">4.5</span> Plot input data</h2>
 <p>Plot your data on top of the percentiles, mind the units so that they match with the WHO ones</p>
+<p><img src="lab_graphics_files/figure-html/unnamed-chunk-28-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507346312" aria-expanded="false" aria-controls="acc2023102507346312">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521048441" aria-expanded="false" aria-controls="acc2023102521048441">
 </button>
 </p>
-<div id="acc2023102507346312" class="collapse">
+<div id="acc2023102521048441" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>points(xpoints, weight/1000, pch=3, type=&#39;l&#39;, cex=.5)
 points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
@@ -461,11 +493,12 @@ points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
 <div id="add-annotation" class="section level2" number="4.6">
 <h2><span class="header-section-number">4.6</span> Add annotation</h2>
 <p>Add descriptions of the confidence lines in the margins</p>
+<p><img src="lab_graphics_files/figure-html/unnamed-chunk-30-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507344422" aria-expanded="false" aria-controls="acc2023102507344422">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521041474" aria-expanded="false" aria-controls="acc2023102521041474">
 </button>
 </p>
-<div id="acc2023102507344422" class="collapse">
+<div id="acc2023102521041474" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mtext(text = c(&#39;P0.1&#39;,&#39;P25&#39;,&#39;P75&#39;,&#39;P99.9&#39;), side = 4, at=myData[dim(myData)[1], c(&#39;P01&#39;,&#39;P25&#39;,&#39;P75&#39;,&#39;P999&#39;)], las=1, cex=.8)</code></pre>
 </div>

@@ -267,10 +267,10 @@ div.tocify {
 <pre class="r"><code>words &lt;- scan(what=character())</code></pre>
 <p>We will read in this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt" target="_blank">book chapter</a>. Read the manual for scan and read the text file named <strong>book_chapter.txt</strong> into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507355048" aria-expanded="false" aria-controls="acc2023102507355048">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521055220" aria-expanded="false" aria-controls="acc2023102521055220">
 </button>
 </p>
-<div id="acc2023102507355048" class="collapse">
+<div id="acc2023102521055220" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>shelley.vec &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=character())
 str(shelley.vec)
@@ -286,10 +286,10 @@ class(shelley.list)</code></pre>
 <li>Identify the longest word in your vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507353465" aria-expanded="false" aria-controls="acc2023102507353465">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521056466" aria-expanded="false" aria-controls="acc2023102521056466">
 </button>
 </p>
-<div id="acc2023102507353465" class="collapse">
+<div id="acc2023102521056466" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sort(nchar(shelley.vec), decreasing=TRUE)
 which(nchar(shelley.vec) == max(nchar(shelley.vec)))
@@ -326,10 +326,10 @@ shelley.vec[381]</code></pre>
 <li>Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507357084" aria-expanded="false" aria-controls="acc2023102507357084">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521050840" aria-expanded="false" aria-controls="acc2023102521050840">
 </button>
 </p>
-<div id="acc2023102507357084" class="collapse">
+<div id="acc2023102521050840" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>shelley.vec2 &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=&#39;character&#39;, sep=&#39; &#39;, quote=NULL)
 shelley.filt2 &lt;- gsub(pattern=&#39;[^[:alnum:] ]&#39;, replacement=&quot;&quot;, x=shelley.vec2)
@@ -345,10 +345,10 @@ shelley.filt2[301]</code></pre>
 <p>This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.</p>
 <p>In this code block with first import the data from <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt" target="_blank">normalized.txt</a> and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507350079" aria-expanded="false" aria-controls="acc2023102507350079">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521058734" aria-expanded="false" aria-controls="acc2023102521058734">
 </button>
 </p>
-<div id="acc2023102507350079" class="collapse">
+<div id="acc2023102521058734" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>expr.At &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt&quot;)
 head(expr.At)</code></pre>
@@ -363,10 +363,10 @@ head(expr.At)</code></pre>
 </div>
 <p>One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507365508" aria-expanded="false" aria-controls="acc2023102507365508">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521053489" aria-expanded="false" aria-controls="acc2023102521053489">
 </button>
 </p>
-<div id="acc2023102507365508" class="collapse">
+<div id="acc2023102521053489" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>url &lt;- &#39;http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&#39;
 abalone &lt;- read.table(url, header=FALSE , sep=&#39;,&#39;)
@@ -384,10 +384,10 @@ head(abalone)</code></pre>
 <li>Read this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data" target="_blank">example data</a> to R using the <code>read.table()</code> function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the <code>write.table</code> function.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507362314" aria-expanded="false" aria-controls="acc2023102507362314">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521064231" aria-expanded="false" aria-controls="acc2023102521064231">
 </button>
 </p>
-<div id="acc2023102507362314" class="collapse">
+<div id="acc2023102521064231" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>ed &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data&quot;, sep=&quot;:&quot;)
 head(ed)
@@ -417,10 +417,10 @@ str(ed)</code></pre>
 </div>
 <p>Encode all NA values as “missing”, at export.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507378870" aria-expanded="false" aria-controls="acc2023102507378870">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521067797" aria-expanded="false" aria-controls="acc2023102521067797">
 </button>
 </p>
-<div id="acc2023102507378870" class="collapse">
+<div id="acc2023102521067797" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>write.table(x=ed, na=&quot;missing&quot;, file=&quot;example_mis.data&quot;)</code></pre>
 </div>
@@ -429,10 +429,10 @@ str(ed)</code></pre>
 <li>Read in the file you just created and double-check that you have the same data as earlier.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507370067" aria-expanded="false" aria-controls="acc2023102507370067">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521063114" aria-expanded="false" aria-controls="acc2023102521063114">
 </button>
 </p>
-<div id="acc2023102507370067" class="collapse">
+<div id="acc2023102521063114" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>df.test &lt;- read.table(&quot;example_mis.data&quot;, na.strings=&quot;missing&quot;)</code></pre>
 </div>
@@ -446,7 +446,7 @@ str(ed)</code></pre>
 <ol style="list-style-type: decimal">
 <li><strong>seqname</strong> - name of the chromosome or scaffold; chromosome names can be given with or without the ‘chr’ prefix.</li>
 <li><strong>source</strong> - name of the program that generated this feature, or the data source (database or project name)</li>
-<li><strong>feature</strong> - feature type name, e.g. Gene, Variation, Similarity</li>
+<li><strong>feature</strong> - feature type name, e.g. gene, transcript, exon, CDS, start_codon, end_codon</li>
 <li><strong>start</strong> - Start position of the feature, with sequence numbering starting at 1.</li>
 <li><strong>end</strong> - End position of the feature, with sequence numbering starting at 1.</li>
 <li><strong>score</strong> - A floating point value.</li>
@@ -504,15 +504,15 @@ str(ed)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>The last column can contain a large number of attributes that are comma-separated.</p>
+<p>The last column can contain a large number of attributes that are semicolon-separated.</p>
 <p>As these files for many organisms are large we will in this exercise use the latest version of Drosophila melanogaster genome annotation available at <code>ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster</code> that is small enough for analysis even on a laptop.</p>
 <p>Download the file named <strong>Drosophila_melanogaster.BDGP6.86.gtf.gz</strong> to your computer. Unzip this file and keep track of where your store the file.</p>
 <p>With this done read this file into R using the function <code>read.table()</code> and add meaningful column names to the table.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507420523" aria-expanded="false" aria-controls="acc2023102507420523">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521123095" aria-expanded="false" aria-controls="acc2023102521123095">
 </button>
 </p>
-<div id="acc2023102507420523" class="collapse">
+<div id="acc2023102521123095" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf &lt;- read.table(&quot;Drosophila_melanogaster.BDGP6.86.gtf&quot;, header=FALSE, comment.char=&quot;#&quot;, sep=&quot;\t&quot;)
 colnames(d.gtf) &lt;- c(&quot;Chromosome&quot;,&quot;Source&quot;,&quot;Feature&quot;, &quot;Start&quot;,&quot;End&quot;,&quot;Score&quot;,&quot;Strand&quot;,&quot;Frame&quot;,&quot;Attribute&quot;)</code></pre>
@@ -520,10 +520,10 @@ colnames(d.gtf) &lt;- c(&quot;Chromosome&quot;,&quot;Source&quot;,&quot;Feature&
 </div>
 <p>Prior to any analysis you should make sure that your attempt to read in the file has worked as expected. This can for example be done by having a look at the dimension of the stored object and making sure that it has the structure you expect.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507501298" aria-expanded="false" aria-controls="acc2023102507501298">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521186416" aria-expanded="false" aria-controls="acc2023102521186416">
 </button>
 </p>
-<div id="acc2023102507501298" class="collapse">
+<div id="acc2023102521186416" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dim(d.gtf)
 str(d.gtf)</code></pre>
@@ -544,90 +544,91 @@ str(d.gtf)</code></pre>
 <li>How many chromosome names can be found in the annotation file?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507500716" aria-expanded="false" aria-controls="acc2023102507500716">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521185846" aria-expanded="false" aria-controls="acc2023102521185846">
 </button>
 </p>
-<div id="acc2023102507500716" class="collapse">
+<div id="acc2023102521185846" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>levels(d.gtf$Chromosome)</code></pre>
 <pre><code>## NULL</code></pre>
 </div>
 </div>
 <ol start="2" style="list-style-type: decimal">
-<li>How many exons is there in total and per chromosome?</li>
+<li>How many <strong>exons</strong> is there in total and per chromosome? (hint: first extract lines that have <code>feature == 'exon'</code>)</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507506810" aria-expanded="false" aria-controls="acc2023102507506810">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521181081" aria-expanded="false" aria-controls="acc2023102521181081">
 </button>
 </p>
-<div id="acc2023102507506810" class="collapse">
+<div id="acc2023102521181081" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>aggregate(d.gtf$Feature, by=list(d.gtf$Chromosome), summary)</code></pre>
+<pre class="r"><code>d.gtf.exons &lt;- d.gtf[(d.gtf$Feature == &#39;exon&#39;),]
+aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code></pre>
 <pre><code>##                      Group.1 x.Length   x.Class    x.Mode
-## 1            211000022278158        3 character character
-## 2            211000022278279        3 character character
-## 3            211000022278282        3 character character
-## 4            211000022278298        3 character character
-## 5            211000022278307        3 character character
-## 6            211000022278309        3 character character
-## 7            211000022278436        3 character character
-## 8            211000022278449        4 character character
-## 9            211000022278498        3 character character
-## 10           211000022278522        3 character character
-## 11           211000022278603        3 character character
-## 12           211000022278604        3 character character
-## 13           211000022278664        3 character character
-## 14           211000022278724        3 character character
-## 15           211000022278750        3 character character
-## 16           211000022278760        7 character character
-## 17           211000022278875        3 character character
-## 18           211000022278877        3 character character
-## 19           211000022278878        3 character character
-## 20           211000022278879        3 character character
-## 21           211000022278880        3 character character
-## 22           211000022278985        3 character character
-## 23           211000022279055        3 character character
-## 24           211000022279108        3 character character
-## 25           211000022279132        3 character character
-## 26           211000022279134        3 character character
-## 27           211000022279165        3 character character
-## 28           211000022279188       12 character character
-## 29           211000022279222        3 character character
-## 30           211000022279264        3 character character
-## 31           211000022279342        3 character character
-## 32           211000022279392        3 character character
-## 33           211000022279446        3 character character
-## 34           211000022279528        3 character character
-## 35           211000022279529        3 character character
-## 36           211000022279531        3 character character
-## 37           211000022279555        3 character character
-## 38           211000022279681        3 character character
-## 39           211000022279708        3 character character
-## 40           211000022280133        3 character character
-## 41           211000022280328       14 character character
-## 42           211000022280341        3 character character
-## 43           211000022280347        3 character character
-## 44           211000022280481        3 character character
-## 45           211000022280494        6 character character
-## 46           211000022280645        3 character character
-## 47           211000022280703        3 character character
-## 48                        2L    96740 character character
-## 49                        2R   110108 character character
-## 50                        3L   100745 character character
-## 51                        3R   125133 character character
-## 52                         4     7844 character character
-## 53 dmel_mitochondrion_genome      146 character character
-## 54                      rDNA       59 character character
-## 55       Unmapped_Scaffold_8       43 character character
-## 56                         X    97193 character character
-## 57                         Y      504 character character</code></pre>
+## 1            211000022278158        1 character character
+## 2            211000022278279        1 character character
+## 3            211000022278282        1 character character
+## 4            211000022278298        1 character character
+## 5            211000022278307        1 character character
+## 6            211000022278309        1 character character
+## 7            211000022278436        1 character character
+## 8            211000022278449        2 character character
+## 9            211000022278498        1 character character
+## 10           211000022278522        1 character character
+## 11           211000022278603        1 character character
+## 12           211000022278604        1 character character
+## 13           211000022278664        1 character character
+## 14           211000022278724        1 character character
+## 15           211000022278750        1 character character
+## 16           211000022278760        2 character character
+## 17           211000022278875        1 character character
+## 18           211000022278877        1 character character
+## 19           211000022278878        1 character character
+## 20           211000022278879        1 character character
+## 21           211000022278880        1 character character
+## 22           211000022278985        1 character character
+## 23           211000022279055        1 character character
+## 24           211000022279108        1 character character
+## 25           211000022279132        1 character character
+## 26           211000022279134        1 character character
+## 27           211000022279165        1 character character
+## 28           211000022279188        3 character character
+## 29           211000022279222        1 character character
+## 30           211000022279264        1 character character
+## 31           211000022279342        1 character character
+## 32           211000022279392        1 character character
+## 33           211000022279446        1 character character
+## 34           211000022279528        1 character character
+## 35           211000022279529        1 character character
+## 36           211000022279531        1 character character
+## 37           211000022279555        1 character character
+## 38           211000022279681        1 character character
+## 39           211000022279708        1 character character
+## 40           211000022280133        1 character character
+## 41           211000022280328        4 character character
+## 42           211000022280341        1 character character
+## 43           211000022280347        1 character character
+## 44           211000022280481        1 character character
+## 45           211000022280494        2 character character
+## 46           211000022280645        1 character character
+## 47           211000022280703        1 character character
+## 48                        2L    32747 character character
+## 49                        2R    38551 character character
+## 50                        3L    34347 character character
+## 51                        3R    43159 character character
+## 52                         4     3165 character character
+## 53 dmel_mitochondrion_genome       37 character character
+## 54                      rDNA       21 character character
+## 55       Unmapped_Scaffold_8       14 character character
+## 56                         X    34136 character character
+## 57                         Y      182 character character</code></pre>
 </div>
 </div>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507510869" aria-expanded="false" aria-controls="acc2023102507510869">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521190721" aria-expanded="false" aria-controls="acc2023102521190721">
 </button>
 </p>
-<div id="acc2023102507510869" class="collapse">
+<div id="acc2023102521190721" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>by(data=d.gtf$Feature, d.gtf[,&quot;Chromosome&quot;], summary)</code></pre>
 <pre><code>## d.gtf[, &quot;Chromosome&quot;]: 211000022278158
@@ -863,10 +864,10 @@ str(d.gtf)</code></pre>
 <li>Filter the data frame to only retain gene annotations</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507516660" aria-expanded="false" aria-controls="acc2023102507516660">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521198768" aria-expanded="false" aria-controls="acc2023102521198768">
 </button>
 </p>
-<div id="acc2023102507516660" class="collapse">
+<div id="acc2023102521198768" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf.gene &lt;- d.gtf[d.gtf$Feature == &quot;gene&quot;,]</code></pre>
 </div>
@@ -875,10 +876,10 @@ str(d.gtf)</code></pre>
 <li>What is the average gene length of in the Drosophila genome?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507515428" aria-expanded="false" aria-controls="acc2023102507515428">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521197989" aria-expanded="false" aria-controls="acc2023102521197989">
 </button>
 </p>
-<div id="acc2023102507515428" class="collapse">
+<div id="acc2023102521197989" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mean(abs(d.gtf.gene$Start - d.gtf.gene$End))</code></pre>
 <pre><code>## [1] 5753.282</code></pre>
@@ -888,10 +889,10 @@ str(d.gtf)</code></pre>
 <li>What fraction of the genes are encoded on the plus strand of the genome.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507511291" aria-expanded="false" aria-controls="acc2023102507511291">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521195185" aria-expanded="false" aria-controls="acc2023102521195185">
 </button>
 </p>
-<div id="acc2023102507511291" class="collapse">
+<div id="acc2023102521195185" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sum(d.gtf.gene$Strand == &quot;+&quot;) / length(d.gtf.gene$Strand)</code></pre>
 <pre><code>## [1] 0.5016231</code></pre>
@@ -901,10 +902,10 @@ str(d.gtf)</code></pre>
 <li>What is the median and mean length of the exons found on chromosome 3R in the data set?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507518518" aria-expanded="false" aria-controls="acc2023102507518518">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521196371" aria-expanded="false" aria-controls="acc2023102521196371">
 </button>
 </p>
-<div id="acc2023102507518518" class="collapse">
+<div id="acc2023102521196371" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf3R &lt;- d.gtf[d.gtf$Chromosome == &quot;3R&quot;,]
 exon.position &lt;- d.gtf3R[d.gtf3R$Feature == &quot;exon&quot;,c(&quot;Start&quot;, &quot;End&quot;)]   
@@ -918,10 +919,10 @@ mean(abs(exon.position$Start - exon.position$End))</code></pre>
 <li>Do the same calculations for the chromosomes 2L, 2R, 3L, 4, X and Y using a for loop.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507516062" aria-expanded="false" aria-controls="acc2023102507516062">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102521190068" aria-expanded="false" aria-controls="acc2023102521190068">
 </button>
 </p>
-<div id="acc2023102507516062" class="collapse">
+<div id="acc2023102521190068" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>chr &lt;- c(&quot;2L&quot;,&quot;2R&quot;,&quot;3L&quot;,&quot;4&quot;,&quot;X&quot;,&quot;Y&quot;)
 for (i in chr) {
