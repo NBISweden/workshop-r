@@ -121,7 +121,7 @@ A valid GTF file should contain the following tab delimited fields (taken from t
 
 1.  **seqname** - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix.
 2.  **source** - name of the program that generated this feature, or the data source (database or project name)
-3.  **feature** - feature type name, e.g. Gene, Variation, Similarity
+3.  **feature** - feature type name, e.g. gene, transcript, exon, CDS, start_codon, end_codon 
 4.  **start** - Start position of the feature, with sequence numbering starting at 1.
 5.  **end** - End position of the feature, with sequence numbering starting at 1.
 6.  **score** - A floating point value.
@@ -134,7 +134,7 @@ A valid GTF file should contain the following tab delimited fields (taken from t
 1|transcribed_unprocessed_pseudogene|gene|11869|14409|.|+|.|gene_id; "ENSG00000223972";|
 |1|processed_transcript|transcript|11869|14409|.|+|.|gene_id; "ENSG00000223972";|
 
-The last column can contain a large number of attributes that are comma-separated.
+The last column can contain a large number of attributes that are semicolon-separated.
 
 As these files for many organisms are large we will in this exercise use the latest version of Drosophila melanogaster genome annotation available at `ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster` that is small enough for analysis even on a laptop.  
 
@@ -169,11 +169,13 @@ str(d.gtf)
 levels(d.gtf$Chromosome)
 ```
 
-2.  How many exons is there in total and per chromosome?
+2.  How many **exons** is there in total and per chromosome? (hint: first extract lines that have `feature == 'exon'`)   
 
 ```{r,accordion=TRUE}
-aggregate(d.gtf$Feature, by=list(d.gtf$Chromosome), summary)
+d.gtf.exons <- d.gtf[(d.gtf$Feature == 'exon'),]
+aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)
 ```
+
 
 ```{r,accordion=TRUE}
 by(data=d.gtf$Feature, d.gtf[,"Chromosome"], summary)
