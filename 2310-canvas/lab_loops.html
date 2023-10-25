@@ -280,10 +280,10 @@ vec.a</code></pre>
 <li>Create a 100000 by 10 matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the <code>apply()</code> function to calculate row sums as well as with the built-in <code>rowSums()</code> function. These functions were discussed in the lecture <strong>Elements of the programming language - part 2</strong>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102421043829" aria-expanded="false" aria-controls="acc2023102421043829">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507529092" aria-expanded="false" aria-controls="acc2023102507529092">
 </button>
 </p>
-<div id="acc2023102421043829" class="collapse">
+<div id="acc2023102507529092" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X &lt;- matrix(1:1000000, nrow = 100000, ncol = 10)
 for.sum &lt;- vector()
@@ -312,10 +312,10 @@ head(rowSums.sum)</code></pre>
 <li>Another common loop structure that is used is the while loop, which functions much like a for loop, but will only run as long as a test condition is TRUE. Modify your for loop from exercise 1 and make it into a while loop.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102421042563" aria-expanded="false" aria-controls="acc2023102421042563">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507522305" aria-expanded="false" aria-controls="acc2023102507522305">
 </button>
 </p>
-<div id="acc2023102421042563" class="collapse">
+<div id="acc2023102507522305" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>x &lt;- 1
 while.sum &lt;- vector(&quot;integer&quot;, 100000)
@@ -332,10 +332,10 @@ head(while.sum)</code></pre>
 <strong>Tips</strong> to count number of characters, you can use <code>nchar</code> function.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102421042585" aria-expanded="false" aria-controls="acc2023102421042585">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507526479" aria-expanded="false" aria-controls="acc2023102507526479">
 </button>
 </p>
-<div id="acc2023102421042585" class="collapse">
+<div id="acc2023102507526479" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vector1 &lt;- 1:10
 vector2 &lt;- c(&quot;Odd&quot;, &quot;Loop&quot;, letters[1:8])
@@ -350,17 +350,17 @@ for(i in 1:ncol(dfr1)) {
   }
 }
 sum.vec</code></pre>
-<pre><code>## [1] 55.00000 15.00000 44.11994</code></pre>
+<pre><code>## [1] 55.00000 15.00000 45.01788</code></pre>
 </div>
 </div>
 <ol start="4" style="list-style-type: decimal">
 <li>In question 3 you generated a loop to go over a data frame. Try to convert this code to a function in R. The function should take a single data frame name as argument.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102421049224" aria-expanded="false" aria-controls="acc2023102421049224">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2023102507523178" aria-expanded="false" aria-controls="acc2023102507523178">
 </button>
 </p>
-<div id="acc2023102421049224" class="collapse">
+<div id="acc2023102507523178" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr.info &lt;- function(dfr) {
   sum.vec &lt;- vector()
