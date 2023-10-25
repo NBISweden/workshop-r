@@ -62,7 +62,18 @@ As you see, the points are displayed in a simple way, axes are set automatically
 
 ## Hide markers
 
-Build the plot from scratch, begin by displaying no points.
+Build the plot from scratch, begin by displaying no points. You can do this by setting `type = 'n'`.   
+
+* Other `type`s:   
+  + "p" for points.   
+  + "l" for lines.   
+  + "b" for both points and lines.  
+  + "c" for empty points joined by lines.  
+  + "o" for overplotted points and lines.  
+  + "s" and "S" for stair steps.   
+  + "h" for histogram-like vertical lines.   
+  + "n" does not produce any points or lines.   
+  
 
 ```{r,fig.height=6,fig.width=10}
 plot(data[,1:2], type='n')
@@ -162,7 +173,7 @@ abline(h=coords.y, col="darkgrey", lty=3)
 
 ## Add markers
 
-Define a new *mycol* function that takes a color name and a transparency value as two arguments and returns the corresponding rgb color value. OPTIONAL -- if it seems to difficult, look up the answer.
+Define a new *mycol* function that takes a color name and a transparency value as two arguments and returns the corresponding rgb color value. 
   
 ```{r,fig.height=6,fig.width=10}
 #Function for adding transparency to a given color.
@@ -437,48 +448,59 @@ Your task is to plot these data on the WHO centile grids. Choose weight/length/c
 
 ## Prepare input data
 
-Use function `dmy()` from the **lubridate** package to create a vector of timepoints.
-
+We save the timepoints and measurements in vectors.  
 ```{r}
 library(lubridate)
 timepoints <- dmy(c('30-09-2015', '12-10-2015','19-10-2015', '26-10-2015', '07-11-2015', '16-11-2015','30-11-2015', '11-01-2016', '08-02-2016', '14-03-2016', '05-04-2016', '14-04-2016', '31-05-2016', '14-07-2016'))
-```
 
-Enter the measurement of choice as a vector
-
-```{r}
 weight <- c(3300, 3540, 3895, 4070, 4230, 4385, 4855, 5865, NA, 6736, 7065, 7080, 7530, 7640)
 length <- c(43,NA,53,54,55,56,58,62.5,65,67,67.5,67.5,70.5,71.5)
 head <- c(34,35.5,36.1,36.8,36.8,37.3,38,40.2,41.4,42.1,NA,43,44,45)
 ```
 
-WHO months are 30.4375 days long. Transform timepoints into OX coordinates so that the distance between them corresponds to the days between the two measurements. HINT: check `as.duration()` and `ddays()` functions.
+We can calculate the interval between the dates of measurements by two approaches:  
+**Approach1:**  
+Simply calculate the interval by subtracting each date from the the first date of data collection (e.g. '2016-05-31' - '2015-09-30' )  and then convert it to months.  
 
 ```{r}
+xpoints <- (as.Date(timepoints) - as.Date(timepoints[1]) )/ 30
+```
+
+**Approach2:**  
+Calculate the intervals by seconds and then use WHO standard months day length which is 30.4375 to calculate by month.   
+Use function `dmy()` from the **lubridate** package to create a vector of timepoints.
+
+HINTS:   
+- We can define an Interval using the `%--%` operator.  
+- check `as.duration()` and `ddays()` functions.  
+
+
+
+```{r, echo = T, eval = F}
 who.month <- 30.4375 #days
 xpoints <- as.duration(timepoints[1] %--% timepoints) / ddays(1) / who.month
 ```
 
 ## Prepare reference data
 
-Go to WHO website (http://www.who.int/childgrowth/standards/en/) and find out the link to the dataset of your concern, e.g. Weight for age, percentiles for girls have the following address: http://www.who.int/entity/childgrowth/standards/tab_wfa_girls_p_0_5.txt
+Download manually and then load:   
+Go to WHO website (http://www.who.int/childgrowth/standards/en/) and find out the link to the dataset of your concern, e.g. Weight for age, percentiles for girls have the following address: http://www.who.int/entity/childgrowth/standards/wfa_girls_p_0_5.xlsx
 
-Load the data using URL from the previous point and the `read.table()` function.
+Or using direct link to the excel file:  
 
-<span style="color:red;">**ERROR:**</span> The URL below is broken therefore everything downstream is set to `eval=FALSE`. This needs to be fixed.
-
-```{r,eval=FALSE}
-uri <- "http://www.who.int/entity/childgrowth/standards/tab_wfa_girls_p_0_5.txt"
-#uri <- "http://www.who.int/entity/childgrowth/standards/second_set/tab_hcfa_girls_p_0_5.txt"
-#uri <- "http://www.who.int/entity/childgrowth/standards/tab_lhfa_girls_p_0_2.txt"
-myData <-read.table(uri, header=T, sep='\t')
+```{r,eval=T}
+library(readxl)
+uri <- "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/tab_wfa_girls_p_0_5.xlsx?sfvrsn=666fe445_7"
+local_file_path <- "wfa_girls_p_0_5.xlsx" ## give the local path of the downloaded file
+download.file(url = uri, destfile = local_file_path, mode = "wb")
+myData <-read_excel(local_file_path)
 ```
 
-## Built empty plot
+## Build empty plot
 
 Create an empty plot to show your and WHO data,
 
-```{r,accordion=TRUE,fig.height=6,fig.width=10,eval=FALSE}
+```{r,accordion=TRUE,fig.height=6,fig.width=10,eval=T}
 plot(1, xlim=c(0, max(myData$Month)), type='n', bty='n', ylim=c(0, max(myData[,c(5:19)])), las=1, xlab='Month', ylab='kg')
 grid()
 ```
@@ -512,7 +534,7 @@ lines(myData$P999, col='tomato', lty=2)
 
 Plot your data on top of the percentiles, mind the units so that they match with the WHO ones
 
-```{r,fig.height=6,fig.width=10,echo=FALSE,eval=FALSE}
+```{r,fig.height=6,fig.width=10,echo=FALSE,eval=T}
 ## CODE EVALUATED BUT NOT DISPLAYED ##
 
 plot(1, xlim=c(0, max(myData$Month)), type='n', bty='n', ylim=c(0, max(myData[,c(5:19)])), las=1, xlab='Month', ylab='kg')
@@ -537,7 +559,7 @@ points(xpoints, weight/1000, pch=3, type='p', cex=.5)
 
 Add descriptions of the confidence lines in the margins
 
-```{r,fig.height=6,fig.width=10,echo=FALSE,eval=FALSE}
+```{r,fig.height=6,fig.width=10,echo=FALSE,eval=T}
 ## CODE EVALUATED BUT NOT DISPLAYED ##
 
 plot(1, xlim=c(0, max(myData$Month)), type='n', bty='n', ylim=c(0, max(myData[,c(5:19)])), las=1, xlab='Month', ylab='kg')
