@@ -36,7 +36,7 @@ output:
 ## NBIS • Workshop
 </div>
 <div class="landing-title">
-# R Programming Foundations for Life Scientist
+# R Programming Foundations for Data Analysis
 </div>
 <div class="landing-features">
 - Data structures

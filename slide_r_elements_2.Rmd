@@ -1,6 +1,6 @@
 ---
 title: "Introduction To Programming in R (2)"
-subtitle: "R Foundations for Life Scientists"
+subtitle: "R Foundations for Data Analysis"
 author: "Marcin Kierczak, Sebastian DiLorenzo"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
@@ -75,11 +75,11 @@ nd  | arrays     | n/a
 name: atomic_vectors
 
 ## Atomic vectors
-An *atomic vector*, or simply a *vector* is a one dimensional data structure (a sequence) of elements of the same data type. Elements of a vector are oficially called *components*, but we will just call them *elements*.
+An *atomic vector*, or simply a *vector*, is a one dimensional data structure (a sequence) of elements of the same data type.
 
-We construct vectors using core function `c()` (construct).
+We build vectors using the function `c()` (combine).
 ```{r vector, echo=T} 
-vec <- c(1,2,5,7,9,27,45.5)
+vec <- c(7,2.3,4,12)
 vec
 ```
 In R, even a single number is a one-element vector. You have to get used to think in terms of vectors...

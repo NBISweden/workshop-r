@@ -1,18 +1,22 @@
-name: R Programming Foundation for Life Scientists
+name: R Programming Foundations for Data Analysis
 # output directory used on gh-pages branch. format: YYMM
-output_dir: 2310
-# location options are linkoping, lund, umea or uppsala
-location: uppsala
+output_dir: 2410
+# location options are linkoping, lund, umea, uppsala (ScilifeLab) or uppsala2 (Blåsenhus)
+location: uppsala2
 assistants:
   - "MK: Marcin Kierczak"
-  - "SDL: Sebastian DiLorenzo"
-  - "RF: Roy Francis"
-  - "JOW: Jakub Orzechowski Westholm"
+#  - "SDL: Sebastian DiLorenzo"
+#  - "RF: Roy Francis"
+#  - "JOW: Jakub Orzechowski Westholm"
   - "LM: Lokeshwaran Manoharan"
-  - "DB: Dimitris Bampalikis"
-  - "PU: Per Unneberg"
-  - "M-GH: Mun-Gwan Hong"
-  - "LS: Lucile Soler"
+#  - "DB: Dimitris Bampalikis"
+#  - "PU: Per Unneberg"
+#  - "M-GH: Mun-Gwan Hong"
+#  - "LS: Lucile Soler"
+  - "NR: Nima Rafati"
+  - "GD: Guilherme Dias"
+  - "MR: Miguel Redondo"
+  - "LV: Louella Vasquez"
 
 
 favicon: assets/favicon.png
