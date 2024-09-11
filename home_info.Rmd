@@ -56,6 +56,14 @@ if(loc=="uppsala") {
                     stringsAsFactors=F)
 }
 
+if(loc=="uppsala2") {
+  dfr <- data.frame(venue_lat=59.8511535,
+                    venue_lon=17.6310231,
+                    venue_address="<b>Blåsenhus</b>,Laborativa lärosalen room 10:203,Entrance von Kraemers allé 1a, Uppsala University,75237 Uppsala,Sweden",
+                    description="Use the [UL website](www.ul.se) or the [UL app](https://www.ul.se/en/tickets/how-to-buy-a-ticket/the-UL-app/) for bus and train services around Uppsala. From the Centralstation (Train/Bus) it is a 20 min walk to the building. Alternatively take Bus 11 (towards Rosendal Vårdsatra Gottsunda) and get off at the stop *Segerstedhuset*. Bus tickets can be purchased in the app, ticket machines at Centralstation, or directly from the driver using a credit card.",
+                    stringsAsFactors=F)
+}
+
 if(loc=="linkoping") {
   dfr <- data.frame(venue_lat=58.402748,
                     venue_lon=15.578822,
