@@ -1,7 +1,7 @@
 ---
 title: "Introduction To Programming in R (2)"
 subtitle: "R Foundations for Data Analysis"
-author: "Marcin Kierczak, Sebastian DiLorenzo"
+author: "Marcin Kierczak, Sebastian DiLorenzo, Guilherme Dias"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -58,31 +58,40 @@ name: contents
 name: cplx_data_str
 
 ## Complex data structures
-Using the previously discussed basic data types (`numeric`, `integer`, `logical` and `character`) one can construct more complex data structures:
 
---
+Using the basic data types (`numeric`, `logical` and `character`) one can construct more complex data structures:
 
-dim | Homogenous | Heterogenous
+<br>
+<br>
+-- 
+
+.pull-left-50[
+![](images/data_structures.png)
+]
+
+.pull-right-50[
+
+dimensions | Homogenous | Heterogenous
 ----|------------|-----------------
-0d  | n/a        | n/a
-1d  | vectors    | list
-2d  | matrices   | data frame
-nd  | arrays     | n/a  
+0  | n/a        | n/a
+1  | vectors    | list
+2  | matrices   | data frame
+n  | arrays     | n/a  
 
-- factors &ndash; special type
 
+]
 ---
 name: atomic_vectors
 
 ## Atomic vectors
-An *atomic vector*, or simply a *vector*, is a one dimensional data structure (a sequence) of elements of the same data type.
+An *atomic vector*, or simply a *vector*, is a sequence of elements of the same data type.
 
 We build vectors using the function `c()` (combine).
 ```{r vector, echo=T} 
-vec <- c(7,2.3,4,12)
+vec <- c(1, 2, 3)
 vec
 ```
-In R, even a single number is a one-element vector. You have to get used to think in terms of vectors...
+In R, even a single number is a one-element vector. Get used to think in terms of vectors...
 
 ---
 name: atomic_vectors2
@@ -102,17 +111,20 @@ name: combining_vectors
 ## Combining two or more vectors
 Vectors can easily be combined:
 ```{r vec.comb, echo=T}
-v1 <- c(1,3,5,7.56)
+v1 <- c(1,2,3)
 v2 <- c('a','b','c')
-v3 <- c(0.1, 0.2, 3.1415)
+v3 <- c('do','re','mi')
 c(v1, v2, v3)
 ```
-Please note that after combining vectors, all elements became character. It is called a *coercion*.
+Note that after combining numbers with characters, all elements became character. 
+
+This is called a **coercion**.
 
 ---
 name: basic_vect_arithm
 
 ## Basic vector arithmetics
+We can perform operations on vectors:
 ```{r vec.artihmetics, echo=T}
 v1 <- c(1, 2, 3, 4)
 v2 <- c(7, -9, 15.2, 4)
@@ -128,10 +140,12 @@ name: recycling_rule
 ## Vectors &ndash; recycling rule
 ```{r vec.recycling, echo=T}
 v1 <- c(1, 2, 3, 4, 5)
-v2 <- c(1, 2)
+v2 <- c(0, 1)
 v1 + v2
 ```
-Values in the shorter vector will be **recycled** to match the length of the longer one: v2 <- c(1, 2, 1, 2, 1)
+Values in the shorter vector will be **recycled** (repeated) to match the length of the longer one.
+
+In this case, `v2 <- c(0, 1)` becomes `v2 <- c(0, 1, 0, 1, 0)` so that it can be added to v1.
 
 ---
 name: vec_indexing
@@ -151,11 +165,16 @@ name: vec_indexing2
 ## Vectors &ndash; indexing cted.
 And what happens if we want to retrieve elements outside the vector?
 ```{r vec.index.beyond, echo=T}
+vec <- c('a', 'b', 'c', 'd', 'e')
 vec[0] # R counts elements from 1
-vec[78] # Index past the length of the vector
+vec[10] # Positive index past the length of the vector
+vec[-6] # Negative index past the length of the vector
 ```
-Note, if you ask for an element with index lower than the index of the first element, you will het an empty vector of the sme type as the original vector.
-If you ask for an element beyond the vector's length, you get an NA value.
+An index of **zero** will result in an empty vector of the same type as the original vector.
+
+A **positive** index beyond the vector's length will result in an `NA` value.
+
+A **negative** index beyond the vector's length will result in the full unchanged vector. Basically, R ignores your request.
 
 ---
 name: vec_indexing3
@@ -186,6 +205,7 @@ You can name elements of your vector:
 vec <- c(23.7, 54.5, 22.7)
 names(vec) # by default there are no names
 names(vec) <- c('sample1', 'sample2', 'sample3')
+vec
 vec[c('sample2', 'sample1')]
 ```
 
@@ -197,7 +217,7 @@ You can return a vector without certain elements:
 ```{r vec.rm, echo=T}
 vec <- c(1, 2, 3, 4, 5)
 vec[-5] # without the 5-th element
-vec[-(c(1,3,5))] # withoutelements 1, 3, 5
+vec[-(c(1,3,5))] # without elements 1, 3, 5
 ```
 
 ---
@@ -300,12 +320,13 @@ name: seq
 R provides also a few handy functions to generate sequences of numbers:
 ```{r seq, echo=T}
 c(1:5, 7:10) # the ':' operator
-(seq1 <- seq(from=1, to=10, by=2))
-(seq2 <- seq(from=11, along.with = seq1))
+seq1 <- seq(from=1, to=10, by=2)
+seq(from=11, along.with = seq1)
 seq(from=10, to=1, by=-2)
 ```
 
 ---
+exclude: true
 name: printing_brackets
 
 ## A detour &ndash; printing with `()`
@@ -326,8 +347,8 @@ while:
 ---
 name: seq2
 
-## Back to sequences
-One may also wish to repeat certain value or a vector n times:
+## Repeating sequences
+One may also wish to repeat a value or a vector n times:
 ```{r rep, echo=T}
 rep('a', times=5)
 rep(1:5, times=3)
@@ -338,7 +359,7 @@ rep(seq(from=1, to=3, by=2), times=2)
 name: random_seq
 
 ## Sequences of random numbers
-There is also a really useful function `sample()` that helps with generating sequences of random numbers:
+We can use `sample()` to generate sequences of random numbers:
 
 ```{r sample, echo=T}
 # simulate casting a fair dice 10x
@@ -357,8 +378,7 @@ Now, let us see how this can be useful. We need more than 10 results. Let's cast
 ```{r dices, echo=T}
 # simulate casting a fair dice 10x
 fair <- sample(x = c(1:6), size=10e3, replace = T) 
-unfair <- sample(x = c(1:6), size=10e3, replace = T, 
-                 prob = myprobs)
+unfair <- sample(x = c(1:6), size=10e3, replace = T, prob = myprobs)
 ```
 
 ---
@@ -400,6 +420,7 @@ sum(v1) # sum all the elements
 ```
 
 ---
+exclude: true
 name: vec_adv2
 
 ## Vectors/sequences &ndash; more advanced operations 2
@@ -422,6 +443,7 @@ cummax(v1) # maximum up to i-th element
 ```
 
 ---
+exclude: true
 name: vec_pairwise_comp
 
 ## Vectors/sequences &ndash; pairwise comparisons
@@ -455,12 +477,14 @@ name: factors
 ## Factors
 To work with **nominal** values, R offers a special data type, a *factor*:
 ```{r factor, echo=T}
-vec <- c('giraffe', 'donkey', 'liger', 
-         'liger', 'giraffe', 'liger')
+vec <- c('blue', 'yellow', 'purple', 
+         'yellow', 'yellow', 'blue')
 vec.f <- factor(vec)
 summary(vec.f)
 ```
-So donkey is coded as 1, giraffe as 2 and liger as 3. Coding is alphabetical.
+The levels of a factor are coded alphabetically by default. So blue is coded as 1, purple as 2 and yellow as 3.
+
+Factors are really just a special type of integer vectors.
 ```{r factor2, echo=T}
 as.numeric(vec.f)
 ```
@@ -469,16 +493,15 @@ as.numeric(vec.f)
 name: factors2
 
 ## Factors
-You can also control the coding/mapping:
+You can manually control the coding/mapping of factors and their labels:
 ```{r factor.coding, echo=T}
-vec <- c('giraffe', 'donkey', 'liger', 
-         'liger', 'giraffe', 'liger')
-vec.f <- factor(vec, levels=c('donkey', 'giraffe', 
-                              'liger'), 
-                labels=c('zonkey','Sophie','tigon'))
+vec <- c('blue', 'yellow', 'purple', 
+         'yellow', 'yellow', 'blue')
+vec.f <- factor(vec, levels=c('blue', 'purple', 'yellow', 'white'), 
+                labels=c('sea','flower','sun','snow'))
 summary(vec.f)
 ```
-A bit confusing, factors...
+
 
 ---
 name: ordered_fac
@@ -486,9 +509,14 @@ name: ordered_fac
 ## Ordered
 To work with ordinal scale (ordered) variables, one can also use factors:
 ```{r ordinal, echo=T}
-vec <- c('tiny', 'small', 'medium', 'large')
+vec <- c('small', 'tiny', 'large', 'medium')
 factor(vec) # rearranged alphabetically
-factor(vec, ordered=T) # order as provided
+```
+--
+We can control the order:
+```{r ordinal2, echo=T}
+factor(vec, levels = c('tiny', 'small', 'medium', 'large'),
+       ordered=TRUE) # ordered as provided in the levels argument
 ```
 
 <!-- --------------------- Do not edit this and below --------------------- -->
