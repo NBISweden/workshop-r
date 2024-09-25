@@ -29,57 +29,97 @@ output:
 library(yaml)
 library(leaflet)
 
-# set location in _site.yml
+# set location in _site.yml with comma separated values if two locations
 loc <- yaml::read_yaml("_site.yml")$location
 
-if(loc=="lund") {
-  dfr <- data.frame(venue_lat=55.713394,
-                    venue_lon=13.206628,
-                    venue_address="<b>Department of Biology</b>,Building D, Room Retina D227, Sölvegatan 35,Lund Sweden",
-                    description="For Lund city buses, regional buses and regional trains, [click here](https://www.skanetrafiken.se/). You can buy a ticket at the central station in Lund or at the regional bus (card only). You can also use the app [Skånetrafiken](https://www.skanetrafiken.se/biljetter/app2/)",
-                    stringsAsFactors=F)
+lund <- data.frame(
+  venue_lat = 55.713394,
+  venue_lon = 13.206628,
+  venue_address = "<b>Department of Biology</b>,Building D, Room Retina D227, Sölvegatan 35,Lund Sweden",
+  description = "For Lund city buses, regional buses and regional trains, go to https://www.skanetrafiken.se/. You can buy a ticket at the central station in Lund or at the regional bus (card only). You can also use the app Skånetrafiken. The easiest way to get to the venue (Retina D227, Biologihuset Lund University) is by tram which is located directly in front of the train station. The tram stop is Lund LTH, which is 3 min from Lund Central. On foot, it is a 1.9km or 30 min walk.",
+  stringsAsFactors = F
+)
+
+
+umea <- data.frame(
+  venue_lat = 63.820019,
+  venue_lon = 20.307814,
+  venue_address = "<b>Department of Science and Mathematics Education</b>,Naturvetarhuset A,Umeå University,Universums gränd,90736 Umeå,Sweden",
+  description = "[Umeå city buses](http://tabussen.nu/):<br>Pay your bus ticket on the bus (credit card only), or in advance in the ticket machines at Vasaplan or Umeå Airport, or at any Reseinfo centre. It is cheaper to buy the ticket in advance. You can also use the app [Ultra vill mer](https://www.tabussen.nu/ultra/biljetter/appen-ultra-vill-mer/). The bus stop in the city centre is *Vasaplan* and the stop near the course venue is *Universum*. Bus options are 2,5,8 or 9 and takes about 6-7 min.<br><br>[Airport bus](https://www.tabussen.nu/flygbussen/english/):<br>The airport bus (Bus 80) goes from the airport to *Vasaplan* (the city centre), and then passes NUS and Umeå Campus on the way back. The trip takes about 8 min from the airport to *Vasaplan*, and about 15 min the other way. It stops at *Universum* (Umeå Campus) approx. 5 min after leaving *Vasaplan*.",
+  stringsAsFactors = F
+)
+
+
+uppsala <- data.frame(
+  venue_lat = 59.841949,
+  venue_lon = 17.637073,
+  venue_address = "<b>SciLifeLab</b>,Entrance C11,Biomedicinskt centrum,Uppsala University,Husargatan 3,75237 Uppsala,Sweden",
+  description = "Use the [UL website](www.ul.se) or the [UL app](https://www.ul.se/en/tickets/how-to-buy-a-ticket/the-UL-app/) for bus and train services around Uppsala. For buses from the Centralstation (Train/Bus), take Bus 4 (towards Gottsunda Centrum) or 8 (towards Sunnersta) and get off at the stop *Uppsala Science Park*. Bus tickets can be purchased in the app or directly from the driver using a credit card.",
+  stringsAsFactors = F
+)
+
+
+uppsala2 <- data.frame(
+  venue_lat = 59.8511535,
+  venue_lon = 17.6310231,
+  venue_address = "<b>Blåsenhus</b>,Laborativa lärosalen room 10:203,Entrance von Kraemers allé 1a, Uppsala University,75237 Uppsala,Sweden",
+  description = "Use the [UL website](www.ul.se) or the [UL app](https://www.ul.se/en/tickets/how-to-buy-a-ticket/the-UL-app/) for bus and train services around Uppsala. From the Centralstation (Train/Bus) it is a 20 min walk to the building. Alternatively take Bus 11 (towards Rosendal Vårdsatra Gottsunda) and get off at the stop *Segerstedhuset*. Bus tickets can be purchased in the app, ticket machines at Centralstation, or directly from the driver using a credit card.",
+  stringsAsFactors = F
+)
+
+
+linkoping <- data.frame(
+  venue_lat = 58.402748,
+  venue_lon = 15.578822,
+  venue_address = "<b>Linköping University</b>,Campus Valla, C-house, Entrance 12, 581 83 Linköping, Sweden",
+  description = "Use the [Östgötatrafiken website](https://www.ostgotatrafiken.se) or the [Östgötatrafiken app](https://www.ostgotatrafiken.se/kundservice/hur-kan-vi-hjalpa-dig/nya-appen/) for bus services around Linköping. The easiest way to by tickets is through the app, but you can by a travel card in advance which you can load with tickets as described [here](https://www.ostgotatrafiken.se/biljetter/kopa-biljett/utan-app/). From Linköping Resecentrum, take bus 12 (towards Lambohov) or bus 543 (towards Slaka) and get off at the stop *Mäster Mattias väg*.",
+  stringsAsFactors = F
+)
+
+# check if single or dual location
+if(length(unlist(strsplit(loc,","))) == 1) {
+  dfr <- get(loc)
+} 
+
+if (length(unlist(strsplit(loc,","))) == 2) {
+  dfr <- list()
+  for (i in 1:2) {
+    dfr[[i]] <- get(unlist(strsplit(loc,","))[i])
+  }
 }
 
-if(loc=="umea") {
-  dfr <- data.frame(venue_lat=63.820019,
-                    venue_lon=20.307814,
-                    venue_address="<b>Department of Science and Mathematics Education</b>,Naturvetarhuset A,Umeå University,Universums gränd,90736 Umeå,Sweden",
-                    description="[Umeå city buses](http://tabussen.nu/):<br>Pay your bus ticket on the bus (credit card only), or in advance in the ticket machines at Vasaplan or Umeå Airport, or at any Reseinfo centre. It is cheaper to buy the ticket in advance. You can also use the app [Ultra vill mer](https://www.tabussen.nu/ultra/biljetter/appen-ultra-vill-mer/). The bus stop in the city centre is *Vasaplan* and the stop near the course venue is *Universum*. Bus options are 2,5,8 or 9 and takes about 6-7 min.<br><br>[Airport bus](https://www.tabussen.nu/flygbussen/english/):<br>The airport bus (Bus 80) goes from the airport to *Vasaplan* (the city centre), and then passes NUS and Umeå Campus on the way back. The trip takes about 8 min from the airport to *Vasaplan*, and about 15 min the other way. It stops at *Universum* (Umeå Campus) approx. 5 min after leaving *Vasaplan*.",
-                    stringsAsFactors=F)
-}
-
-if(loc=="uppsala") {
-  dfr <- data.frame(venue_lat=59.841949,
-                    venue_lon=17.637073,
-                    venue_address="<b>SciLifeLab</b>,Entrance C11,Biomedicinskt centrum,Uppsala University,Husargatan 3,75237 Uppsala,Sweden",
-                    description="Use the [UL website](www.ul.se) or the [UL app](https://www.ul.se/en/tickets/how-to-buy-a-ticket/the-UL-app/) for bus and train services around Uppsala. For buses from the Centralstation (Train/Bus), take Bus 4 (towards Gottsunda Centrum) or 8 (towards Sunnersta) and get off at the stop *Uppsala Science Park*. Bus tickets can be purchased in the app or directly from the driver using a credit card.",
-                    stringsAsFactors=F)
-}
-
-if(loc=="uppsala2") {
-  dfr <- data.frame(venue_lat=59.8511535,
-                    venue_lon=17.6310231,
-                    venue_address="<b>Blåsenhus</b>,Laborativa lärosalen room 10:203,Entrance von Kraemers allé 1a, Uppsala University,75237 Uppsala,Sweden",
-                    description="Use the [UL website](www.ul.se) or the [UL app](https://www.ul.se/en/tickets/how-to-buy-a-ticket/the-UL-app/) for bus and train services around Uppsala. From the Centralstation (Train/Bus) it is a 20 min walk to the building. Alternatively take Bus 11 (towards Rosendal Vårdsatra Gottsunda) and get off at the stop *Segerstedhuset*. Bus tickets can be purchased in the app, ticket machines at Centralstation, or directly from the driver using a credit card.",
-                    stringsAsFactors=F)
-}
-
-if(loc=="linkoping") {
-  dfr <- data.frame(venue_lat=58.402748,
-                    venue_lon=15.578822,
-                    venue_address="<b>Linköping University</b>,Campus Valla, C-house, Entrance 12, 581 83 Linköping, Sweden",
-                    description="Use the [Östgötatrafiken website](https://www.ostgotatrafiken.se) or the [Östgötatrafiken app](https://www.ostgotatrafiken.se/kundservice/hur-kan-vi-hjalpa-dig/nya-appen/) for bus services around Linköping. The easiest way to by tickets is through the app, but you can by a travel card in advance which you can load with tickets as described [here](https://www.ostgotatrafiken.se/biljetter/kopa-biljett/utan-app/). From Linköping Resecentrum, take bus 12 (towards Lambohov) or bus 543 (towards Slaka) and get off at the stop *Mäster Mattias väg*.",
-                    stringsAsFactors=F)
-}
 ```
 
-```{r,eval=TRUE,echo=FALSE,chunk.title=NULL}
-if(loc!="online") {
+```{r,eval=TRUE,echo=FALSE,chunk.title=NULL,fig.show='hold'}
+library(manipulateWidget)
+# single location
+if(loc!="online" & length(unlist(strsplit(loc,","))) == 1) {
   address <- paste(unlist(strsplit(as.character(dfr$venue_address),split=",")),collapse="<br>")
   leaflet(height=450,width="auto") %>%
     addTiles(urlTemplate='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') %>%
     addMarkers(lat=dfr$venue_lat,lng=dfr$venue_lon,popup=address) %>%
     setView(lat=dfr$venue_lat,lng=dfr$venue_lon,zoom=15)
+}
+
+# dual location
+if(loc!="online" & length(unlist(strsplit(loc,","))) == 2) {
+  cities <- c("Gothenburg","Linköping","Lund","Stockholm","Umeå","Uppsala")
+  
+  address <- paste(unlist(strsplit(as.character(dfr[[1]]$venue_address),split=",")),collapse="<br>")
+  p1 <- leaflet(height=450,width="100%") %>%
+    addTiles(urlTemplate='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') %>%
+    addMarkers(lat=dfr[[1]]$venue_lat,lng=dfr[[1]]$venue_lon,popup=address) %>%
+    setView(lat=dfr[[1]]$venue_lat,lng=dfr[[1]]$venue_lon,zoom=15)
+
+  address <- paste(unlist(strsplit(as.character(dfr[[2]]$venue_address),split=",")),collapse="<br>")
+  p2 <- leaflet(height=450,width="100%") %>%
+    addTiles(urlTemplate='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') %>%
+    addMarkers(lat=dfr[[2]]$venue_lat,lng=dfr[[2]]$venue_lon,popup=address) %>%
+    setView(lat=dfr[[2]]$venue_lat,lng=dfr[[2]]$venue_lon,zoom=15)
+
+  combineWidgets(cities[agrep(unlist(strsplit(loc,","))[1],cities,ignore.case = T)],
+                 cities[agrep(unlist(strsplit(loc,","))[2],cities,ignore.case = T)],
+                 p1, p2, ncol = 2, rowsize = c(1,20),width = "100%")
 }
 ```
 
@@ -90,9 +130,19 @@ if(loc=="online") {
 ```
 
 ```{r,eval=TRUE,echo=FALSE,results="asis",chunk.title=NULL}
-if(loc!="online") {
+library(stringr)
+# single location
+if(loc!="online" & length(unlist(strsplit(loc,","))) == 1) {
   cat("## Travel info")
   cat("\n",dfr$description)
+}
+
+# dual location
+if(loc!="online" & length(unlist(strsplit(loc,","))) == 2) {
+  for (i in 1:2) {
+  cat("## Travel info to",str_to_title(gsub("[0-9]","",unlist(strsplit(loc,","))[i])))
+  cat("\n",dfr[[i]]$description,"\n\n")
+  }
 }
 ```
 
