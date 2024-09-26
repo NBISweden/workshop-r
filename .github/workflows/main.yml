@@ -52,7 +52,7 @@ jobs:
 
           # Render website
           echo "Rendering Rmd files ..."
-          docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }}
+          docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }} Rscript -e 'rmarkdown::render_site()'
           # Generate PDFs
           # cd ${PATH_EXPORT}
           # echo "Generating PDFs ..."
@@ -73,7 +73,7 @@ jobs:
           ls -lh
           cat _site.yml
           echo "Rendering Rmd files for canvas ..."
-          docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }}
+          docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }} Rscript -e 'rmarkdown::render_site()'
 
           cd ${PATH_EXPORT_CANVAS}
 
