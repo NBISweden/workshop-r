@@ -39,6 +39,8 @@ If you are using command line, you can install `vd` and open and edit the file `
 
 A docker container is used in GitHub actions to build the website. The Dockerfile contains the image definition. To update the docker image, follow the steps below:
 
+:exclamation: Remember to update the version number
+
 ```
 # build container and add tags
 docker build --platform=linux/amd64 -t ghcr.io/nbisweden/workshop-r:1.1.0 .
