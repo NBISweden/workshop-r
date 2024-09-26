@@ -25,4 +25,3 @@ RUN Rscript -e 'install.packages(c("nycflights13","vcd","patchwork","vioplot","m
   && Rscript -e 'remotes::install_github("mkierczak/mkteachr");'
   
 WORKDIR /rmd
-CMD ["Rscript", "-e", "rmarkdown::render_site()"]
