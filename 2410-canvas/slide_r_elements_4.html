@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Marcin Kierczak and Nima Rafati" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
-    <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
     <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
     <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
@@ -80,7 +80,7 @@ name: for_loop_0
 One way to repeat an action is to use the **for-loop**
 
 
-```r
+``` r
 for (var in seq) {
   expr
 }
@@ -93,7 +93,7 @@ name: for_loop_1
 Example. 
 
 
-```r
+``` r
 for (i in 1:5) {
   cat(paste('Performing operation no.', i), '\n')
 }
@@ -112,7 +112,7 @@ for (i in 1:5) {
 A slight modification of the above example will skip odd indices.
 
 
-```r
+``` r
 for (i in c(2,4,6,8,10)) {
   cat(paste('Performing operation no.', i), '\n')
 }
@@ -134,7 +134,7 @@ name: for_loop_counter
 Sometimes, we also want an external counter:
 
 
-```r
+``` r
 cnt &lt;- 1
 for (i in c(2,4,6,8,10)) {
   cat(paste('Performing operation no.', cnt,
@@ -159,7 +159,7 @@ name: for_loop_example
 Say, we want to add 1 to every element of a vector:
 
 
-```r
+``` r
 vec &lt;- c(1:5)
 vec
 for (i in vec) {
@@ -179,7 +179,7 @@ The above can be achieved in R by means of **vectorization**.
 **Vectorization** is an element-wise operation where you perform task/operation on entire vectors/matrix/data.frames.
 
 
-```r
+``` r
 vec &lt;- c(1:5)
 vec + 1  
 ```
@@ -196,7 +196,7 @@ name: vectorization_benchmark
 Let us compare the time of execution of the vectorized version (vector with 10,000 elements):
 
 
-```r
+``` r
 vec &lt;- c(1:1e6)
 ptm &lt;- proc.time()
 vec &lt;- vec + 1
@@ -205,7 +205,7 @@ proc.time() - ptm # vectorized
 
 ```
 ##    user  system elapsed 
-##   0.003   0.000   0.003
+##   0.002   0.000   0.002
 ```
 
 --
@@ -213,7 +213,7 @@ proc.time() - ptm # vectorized
 to the loop version:
 
 
-```r
+``` r
 vec &lt;- c(1:1e6)
 ptm &lt;- proc.time()
 for (i in vec) {
@@ -224,7 +224,7 @@ proc.time() - ptm # for-loop
 
 ```
 ##    user  system elapsed 
-##   0.054   0.000   0.054
+##   0.055   0.000   0.055
 ```
 
 ---
@@ -234,7 +234,7 @@ name: while_loop
 
 There is also another type of loop in R, the **while loop** which is executed as long as some condition is true.
 
-```r
+``` r
 x &lt;- 1
 while (x &lt; 5) {
   cat(x, " ... ")
@@ -254,7 +254,7 @@ name: recursion
 When we explicitely repeat an action using a loop, we talk about **iteration**. We can also repeat actions by means of **recursion**, i.e. when a function calls itself. Let us implement a factorial `\(!\)`:
 
 
-```r
+``` r
 factorial.rec &lt;- function(x) {
   if (x == 0 || x == 1)
     return(1)
@@ -272,7 +272,7 @@ factorial.rec(5)
 # Recursion = iteration?
 Yes, every iteration can be converted to recursion (Church-Turing conjecture) and vice-versa. It is not always obvious, but theoretically it is doable. Let's see how to implement *factorial* in iterative manner:
 
-```r
+``` r
 factorial.iter &lt;- function(x) {
   if (x == 0 || x == 1)
     return(1)
@@ -295,7 +295,7 @@ factorial.iter(5)
 More writing for the iterative version, right? What about the time efficiency?  
 The recursive version:
 
-```r
+``` r
 ptm &lt;- proc.time()
 factorial.rec(20)
 proc.time() - ptm
@@ -304,11 +304,11 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.001   0.000   0.001
+##   0.000   0.000   0.001
 ```
 And the iterative one:
 
-```r
+``` r
 ptm &lt;- proc.time()
 factorial.iter(20)
 proc.time() - ptm
@@ -317,7 +317,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.006   0.000   0.006
+##   0.005   0.000   0.005
 ```
 --&gt;
 
@@ -329,7 +329,7 @@ name: loops_avoid_growing
 Avoid changing dimensions of an object inside the loop:
 
 
-```r
+``` r
 v &lt;- c() # Initialize
 for (i in 1:100) {
   v &lt;- c(v, i)
@@ -341,7 +341,7 @@ for (i in 1:100) {
 It is much better to do it like this:
 
 
-```r
+``` r
 v &lt;- rep(NA, 100) # Initialize with length
 for (i in 1:100) {
   v[i] &lt;- i
@@ -360,7 +360,7 @@ name: if_clause
 Often, one has to take a different course of action depending on a flow of the algorithm. Let's print only odd numbers `\([1, 10]\)`:
 
 
-```r
+``` r
 v &lt;- 1:10
 for (i in v) {
   if (i %% 2 != 0) { # if clause
@@ -382,7 +382,7 @@ If we want to print 'o' for an odd number and 'e' for an even, we could write ei
 
 .pull-left-50[
 
-```r
+``` r
 v &lt;- 1:10
 for (i in v) {
   if (i %% 2 != 0) { # if clause
@@ -403,7 +403,7 @@ for (i in v) {
 
 .pull-right-50[
 
-```r
+``` r
 v &lt;- 1:10
 for (i in v) {
   if (i %% 2 != 0) { # if clause
@@ -423,7 +423,7 @@ for (i in v) {
 
 .pull-left-50[
 
-```r
+``` r
 v &lt;- 1:10
 for (i in v) {
   tmp &lt;- 'e ' # set default to even
@@ -451,7 +451,7 @@ name: elif
 So far, so good, but we were only dealing with 3 alternatives. Let's say that we want to print '?' for zero, 'e' for even and 'o' for an odd number:
 
 
-```r
+``` r
 v &lt;- c(0:10)
 for (i in v) {
   if (i == 0) {
@@ -477,7 +477,7 @@ name: switch
 If-else clauses operate on logical values. What if we want to take decisions based on non-logical values? Well, if-else will still work by evaluating a number of comparisons, but we can also use **switch**:
 
 
-```r
+``` r
 switch.demo &lt;- function(x) {
   switch(class(x),
          logical = cat('logical\n'),
@@ -507,7 +507,7 @@ name: fns
 Often, it is really handy to re-use some code we have written or to pack together the code that is doing some task. Functions are a really good way to do this in R:
 
 
-```r
+``` r
 add.one &lt;- function(arg1) {
   arg1 &lt;- arg1 + 1
   return(arg1)
@@ -532,7 +532,7 @@ name:anatomy_of_a_fn
 A function consists of: *formal arguments*, *function body* and *environment*:
 
 
-```r
+``` r
 formals(add.one)
 body(add.one)
 environment(add.one)
@@ -559,7 +559,7 @@ name: fns_defaults
 Sometimes, it is good to use default values for some arguments:
 
 
-```r
+``` r
 add.a.num &lt;- function(arg, num=1) {
   arg &lt;- arg + num
   return(arg)
@@ -584,7 +584,7 @@ name:fns_args
 # Functions &amp;mdash; order of arguments
 
 
-```r
+``` r
 args.demo &lt;- function(x, y, arg3) {
   print(paste('x =', x, 'y =', y, 'arg3 =', arg3))
 }
@@ -605,7 +605,7 @@ args.demo(arg3=3, x=1, y=2)
 --
 
 
-```r
+``` r
 args.demo2 &lt;- function(x, arg2, arg3) {
   print(paste('x =', x, 'arg2 =', arg2, 'arg3 =', arg3))
 }
@@ -621,7 +621,7 @@ name: variable_scope
 .pull-left-50[
 Functions 'see' not only what has been passed to them as arguments:
 
-```r
+``` r
 x &lt;- 7
 y &lt;- 3
 xyplus &lt;- function(x) {
@@ -644,7 +644,7 @@ x
 Everything outside the function is called **global environment**. There is a special operator `&lt;&lt;-` for working on global environment:
 
 
-```r
+``` r
 x &lt;- 1
 xplus &lt;- function(x) {
   x &lt;&lt;- x + 1
@@ -669,7 +669,7 @@ name: fns_ellipsis
 There is a special argument **...** (ellipsis) which allows you to give any number of arguments or pass arguments downstream:
 
 
-```r
+``` r
 # Any number of arguments
 my.plot &lt;- function(x, y, ...) { # Passing downstream
   plot(x, y, las=1, cex.axis=.8, ...)
@@ -692,7 +692,7 @@ name: ellipsis_trick
 What if the authors of, e.g. plot.something wrapper forgot about the `...`?
 
 
-```r
+``` r
 my.plot &lt;- function(x, y) { # Passing downstrem
   plot(x, y, las=1, cex.axis=.8, ...)
 }
@@ -711,7 +711,7 @@ name: lazy_eval
 In R, arguments are evaluated as late as possible, i.e. when they are needed. This is **lazy evaluation**:
 
 
-```r
+``` r
 h &lt;- function(a = 1, b = d) {
   d &lt;- (a + 1) ^ 2
   c(a, b)
@@ -730,7 +730,7 @@ name: everything_is_a_fn
 Because in R everything is a function
 
 
-```r
+``` r
 `+`
 ```
 
@@ -745,7 +745,7 @@ we can re-define things like this:
 --
 
 
-```r
+``` r
 `+` &lt;- function(e1, e2) { e1 - e2 }
 2 + 2
 ```
@@ -761,7 +761,7 @@ and, finally, clean up the mess...
 --
 
 
-```r
+``` r
 rm("+")
 2 + 2
 ```
@@ -778,7 +778,7 @@ name: infix_fns
 Operators like `+`, `-` or `*` are using the so-called **infix** functions, where the function name is between arguments. We can define our own:
 
 
-```r
+``` r
 `%p%` &lt;- function(x, y) {
   paste(x,y)
 }
@@ -797,22 +797,27 @@ name: base_fns
 When we start R, the following packages are pre-loaded automatically:
 
 
-```r
+``` r
 # .libPaths() # get library location
 # library()   # see all packages installed
 search()    # see packages currently loaded
 ```
 
 ```
-##  [1] ".GlobalEnv"           "package:vcd"          "package:grid"        
-##  [4] "package:patchwork"    "package:nycflights13" "package:readxl"      
-##  [7] "package:tidyr"        "package:ggplot2"      "package:formattable" 
-## [10] "package:kableExtra"   "package:dplyr"        "package:lubridate"   
-## [13] "package:leaflet"      "package:yaml"         "package:fontawesome" 
-## [16] "package:bookdown"     "package:knitr"        "package:stats"       
-## [19] "package:graphics"     "package:grDevices"    "package:utils"       
-## [22] "package:datasets"     "package:methods"      "Autoloads"           
-## [25] "package:base"
+##  [1] ".GlobalEnv"               "package:vcd"             
+##  [3] "package:grid"             "package:patchwork"       
+##  [5] "package:nycflights13"     "package:readxl"          
+##  [7] "package:tidyr"            "package:ggplot2"         
+##  [9] "package:formattable"      "package:kableExtra"      
+## [11] "package:dplyr"            "package:lubridate"       
+## [13] "package:stringr"          "package:manipulateWidget"
+## [15] "package:leaflet"          "package:yaml"            
+## [17] "package:fontawesome"      "package:bookdown"        
+## [19] "package:knitr"            "package:stats"           
+## [21] "package:graphics"         "package:grDevices"       
+## [23] "package:utils"            "package:datasets"        
+## [25] "package:methods"          "Autoloads"               
+## [27] "package:base"
 ```
 
 Check what basic functions are offered by packages: *base*, *utils* and we will soon work with package *graphics*. If you want to see what statistical functions are in your arsenal, check out package *stats*.
@@ -830,7 +835,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 25-Sep-2024 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 26-Sep-2024 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 
