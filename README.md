@@ -28,14 +28,34 @@ If you are not added as a collaborator, first fork this repo to your account, th
 
 The source material is located on the *master* branch (default). The rendered material is located on the *gh-pages* branch. For most part, one only needs to update content in master. Changes pushed to the *master* branch is automatically rendered to the *gh-pages* branch.
 
-:exclamation: The first build can take around 30-40 mins depending on the number of R packages (listed in **_site.yml**). Subsequent builds take about 2-3 minutes since caching is enabled. Caches are removed after 7 days of last access. A push after that will require a full rebuild. If you want to add new packages related to labs please add them to line **24**. For core packages please use line **21**. 
-
 For more details about repo organisation, updating and modifying this repo, check out the [template repo](https://github.com/royfrancis/workshop-template-rmd-ga).
 
 ### Schedule
+
 Schedule is saved into the `schedule.csv` file. It is a csv file with semi-colon as delimiter. You should NOT try to edit it in a text editor, but use proper spreadsheet.
 If you are using command line, you can install `vd` and open and edit the file `vd --csv-delimiter ';' schedule.csv`.
 
+### Docker
+
+A docker container is used in GitHub actions to build the website. The Dockerfile contains the image definition. To update the docker image, follow the steps below:
+
+```
+# build container and add tags
+docker build --platform=linux/amd64 -t ghcr.io/nbisweden/workshop-r:1.1.0 .
+docker tag ghcr.io/nbisweden/workshop-r:1.1.0 ghcr.io/nbisweden/workshop-r:latest
+
+# push to ghcr
+docker login ghcr.io
+docker push ghcr.io/nbisweden/workshop-r:1.1.0
+docker push ghcr.io/nbisweden/workshop-r:latest
+
+# run container locally
+# render whole website
+docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest
+# render one file
+docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render("index.Rmd")'
+```
+
 ---
 
-**2020** NBIS • SciLifeLab
+**2024** NBIS • SciLifeLab
