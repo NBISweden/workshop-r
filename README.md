@@ -53,7 +53,7 @@ docker push ghcr.io/nbisweden/workshop-r:latest
 
 # run container locally
 # render whole website
-docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest
+docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render_site()'
 # render one file
 docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render("index.Rmd")'
 ```
