@@ -18,7 +18,6 @@ assistants:
   - "MR: Miguel Redondo"
   - "LV: Louella Vasquez"
 
-
 favicon: assets/favicon.png
 exclude: ["docs","README.md","schedule.csv","LICENSE","LICENSE.md","scripts","tmprepo"]
 navbar:
@@ -39,37 +38,3 @@ navbar:
     - text: Info
       href: home_info.html
 
-# r packages needed for the workshop
-# used in home_precourse.Rmd
-# split into cran and bioc packages
-# if a package is needed by students and repo, add to _student
-# if a package is only needed for repo (build, rendering etc), add to _repo
-# THIS LIST IS NOT USED IN GITHUB ACTIONS OR DOCKER CONTAINER
-packages:
-  packages_cran_student:
-   - tidyverse
-   - lubridate
-   - nycflights13
-   - vcd
-   - patchwork
-  packages_bioc_student:
-  package_github_student:
-  packages_cran_repo:
-   - bookdown
-   - formattable
-   - formatR
-   - kableExtra
-   - knitr
-   - leaflet
-   - markdown
-   - pagedown
-   - remotes
-   - rmarkdown
-   - vioplot
-   - xaringan
-   - yaml
-   - manipulateWidget
-  packages_bioc_repo:
-  packages_github_repo:
-   - rstudio/fontawesome
-   - mkierczak/mkteachr
