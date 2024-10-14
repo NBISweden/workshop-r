@@ -37,9 +37,33 @@ If you are using command line, you can install `vd` and open and edit the file `
 
 ### Docker
 
-A docker container is used in GitHub actions to build the website. The Dockerfile contains the image definition. To update the docker image, follow the steps below:
+R packages needed to build the website and run the labs are all contained in a Docker container. To run docker container locally, follow instructions below:
+
+:exclamation: Image is about 4.8 GB!
+
+```
+# pull the container
+docker pull --platform=linux/amd64 ghcr.io/nbisweden/workshop-r:latest
+
+# render whole website
+docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render_site()'
+
+# render one file
+docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render("index.Rmd")'
+```
+
+To run RStudio server and develop in the browser, run;
+
+```
+docker run --platform=linux/amd64 --rm -e PASSWORD=rstudio -p 8788:8787 -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest
+```
+
+Go to [http://localhost:8788/](http://localhost:8788/) or [http://0.0.0.0:8788](http://0.0.0.0:8788). Username is `rstudio` and password is `rstudio`. Change to folder `/rmd` to see your files.
+
+To add new packages, you need to update `Dockerfile`, rebuild the container, test it and push it to repository. Make changes to the `Dockerfile` as needed. Then to rebuild and push the docker image, follow the steps below:
 
 :exclamation: Remember to update the version number
+:exclamation: Remember to render the whole website to make sure everything works
 
 ```
 # build container and add tags
@@ -50,12 +74,6 @@ docker tag ghcr.io/nbisweden/workshop-r:1.1.0 ghcr.io/nbisweden/workshop-r:lates
 docker login ghcr.io
 docker push ghcr.io/nbisweden/workshop-r:1.1.0
 docker push ghcr.io/nbisweden/workshop-r:latest
-
-# run container locally
-# render whole website
-docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render_site()'
-# render one file
-docker run --platform=linux/amd64 --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ghcr.io/nbisweden/workshop-r:latest Rscript -e 'rmarkdown::render("index.Rmd")'
 ```
 
 ---
