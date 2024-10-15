@@ -526,21 +526,6 @@ ikea_sweden$ikea_uppsala$park
 
 
 ---
-name: lists_2
-exclude: true
-
-# Lists &mdash; collections of various data types
-
-Elements of a list can also be different data structures:
-
-```{r lists2, echo=T, eval=F}
-weight <- matrix(sample(1:9, size = 9), nrow=3)
-data <- list(name, weight)
-data
-data[[2]][3]
-```
-
----
 name: objects_type_class
 exclude: true
 
@@ -548,7 +533,7 @@ exclude: true
 
 An object of class **factor** is internally represented by numbers:
 
-```{r obj.type.class, echo=T}
+```{r obj.type.class, echo=T, eval=F}
 size <- factor('small')
 class(size) # Class 'factor'
 mode(size) # Is represented by 'numeric'
@@ -577,7 +562,7 @@ exclude: true
 
 We can easily modify values of object's **attributes**:
 
-```{r obj.fix, echo=T}
+```{r obj.fix, echo=T, eval=F}
 attributes(his)
 attr(his, "names")
 #fix(his) # Opens an object editor
@@ -590,7 +575,7 @@ exclude: true
 # Lists as S3 classes
 
 A list that has been named, becomes an S3 class:
-```{r obj.S3.list, echo=T}
+```{r obj.S3.list, echo=T, eval=F}
 my.list <- list(numbers = c(1:5),
                 letters = letters[1:5])
 class(my.list)
@@ -607,7 +592,7 @@ exclude: true
 # S3 classes
 
 For an S3 class we can define a *generic function* applicable to all objects of this class.
-```{r obj.S3, echo=T}
+```{r obj.S3, echo=T, eval=F}
 print.my.list.class <- function(x) {
   cat('Numbers:', x$numbers, '\n')
   cat('Letters:', x$letters)
@@ -617,7 +602,7 @@ print(my.list)
 
 But here, we have no error-proofing. If the object will lack *numbers*, the function will still be called:
 
-```{r obj.S3.error, echo=T}
+```{r obj.S3.error, echo=T, eval=F}
 class(his) <- 'my.list.class' # alter class
 print(his) # Gibberish but no error...
 ```
@@ -637,7 +622,7 @@ exclude: true
 # S4 class mechanism
 
 S4 classes are more advanced as you actually define the structure of the data within the object of your particular class:
-```{r S4, echo=T}
+```{r S4, echo=T, eval=F}
 setClass('gene',
          representation(name='character',
                         coords='numeric')
@@ -654,7 +639,7 @@ exclude: true
 
 The variables within an S4 class are stored in the so-called **slots**. In the above example, we have 2 such slots: *name* and *coords*. Here is how to access them:
 
-```{r S4.slots, echo=T}
+```{r S4.slots, echo=T, eval=F}
 my.gene@name # access using @ operator
 my.gene@coords[2] # access the 2nd element in slot coords
 ```
@@ -667,7 +652,7 @@ exclude: true
 
 The power of classes lies in the fact that they define both the data types in particular slots and operations (functions) we can perform on them. Let us define a *generic print function* for an S4 class:
 
-```{r S4.methods, echo=T}
+```{r S4.methods, echo=T, eval=F}
 setMethod('print', 'gene',
           function(x) {
               cat('GENE: ', x@name, ' --> ')
