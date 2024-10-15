@@ -32,10 +32,11 @@ This page contains links to different lectures (slides) and practical exercises 
 * [Intro to programming in R (Slides)](slide_r_programming_1.html)  
 * [Variables and Operators (Slides)](slide_r_elements_1.html)  
 * [Data types (Lab)](lab_datatypes.html)  
-* [Vectors and Strings (Slides)](slide_elements_2.pdf)  
-* [Matrices, Lists and Dataframes (Slides)](slide_elements_3.pdf)  
+* [Vectors and Strings (Slides)](slide_r_elements_2.html)  
+* [Matrices, Lists and Dataframes (Slides)](slide_r_elements_3.html)  
 * [Working with Vectors (Lab)](lab_vectors.html)
 * [Dataframes (Lab)](lab_dataframes.html)
+* [Loops and functions (Slides)](slide_r_elements_4.html)
 
 **Data wrangling**
 
