@@ -264,10 +264,10 @@ my_cars &lt;- my_cars[my_cars$disp &gt; mean(my_cars$disp), ]
 print(my_cars)
 my_cars &lt;- colMeans(my_cars)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510420921" aria-expanded="false" aria-controls="acc2024101510420921">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510245843" aria-expanded="false" aria-controls="acc2024101510245843">
 </button>
 </p>
-<div id="acc2024101510420921" class="collapse">
+<div id="acc2024101510245843" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>my_cars &lt;- mtcars %&gt;%
   select(c(1:4, 7)) %&gt;%
@@ -281,20 +281,20 @@ my_cars &lt;- colMeans(my_cars)</code></pre>
 </ul>
 <pre class="r"><code>cor(mtcars)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510428394" aria-expanded="false" aria-controls="acc2024101510428394">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510246430" aria-expanded="false" aria-controls="acc2024101510246430">
 </button>
 </p>
-<div id="acc2024101510428394" class="collapse">
+<div id="acc2024101510246430" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mtcars %&gt;% cor()</code></pre>
 </div>
 </div>
 <pre class="r"><code>cor(mtcars$gear, mtcars$mpg)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510428571" aria-expanded="false" aria-controls="acc2024101510428571">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510246913" aria-expanded="false" aria-controls="acc2024101510246913">
 </button>
 </p>
-<div id="acc2024101510428571" class="collapse">
+<div id="acc2024101510246913" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mtcars %$% cor(gear, mpg)</code></pre>
 </div>
@@ -306,10 +306,10 @@ my_cars &lt;- colMeans(my_cars)</code></pre>
 <li>Convert the <code>mtcars</code> dataset to a tibble <code>vehicles</code>.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510427219" aria-expanded="false" aria-controls="acc2024101510427219">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510247394" aria-expanded="false" aria-controls="acc2024101510247394">
 </button>
 </p>
-<div id="acc2024101510427219" class="collapse">
+<div id="acc2024101510247394" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vehicles &lt;- mtcars %&gt;% as_tibble()</code></pre>
 </div>
@@ -323,10 +323,10 @@ my_cars &lt;- colMeans(my_cars)</code></pre>
 </ul></li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510422485" aria-expanded="false" aria-controls="acc2024101510422485">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510245083" aria-expanded="false" aria-controls="acc2024101510245083">
 </button>
 </p>
-<div id="acc2024101510422485" class="collapse">
+<div id="acc2024101510245083" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vehicles[[&#39;cyl&#39;]]
 vehicles[[2]]
@@ -340,10 +340,10 @@ vehicles$cyl</code></pre>
 <li>Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510424968" aria-expanded="false" aria-controls="acc2024101510424968">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510241336" aria-expanded="false" aria-controls="acc2024101510241336">
 </button>
 </p>
-<div id="acc2024101510424968" class="collapse">
+<div id="acc2024101510241336" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vehicles %T&gt;%
   {print(.[[&#39;cyl&#39;]])} %T&gt;%
@@ -358,10 +358,10 @@ vehicles$cyl</code></pre>
 <li>Print the tibble.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510420039" aria-expanded="false" aria-controls="acc2024101510420039">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510247273" aria-expanded="false" aria-controls="acc2024101510247273">
 </button>
 </p>
-<div id="acc2024101510420039" class="collapse">
+<div id="acc2024101510247273" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vehicles</code></pre>
 <pre><code>## # A tibble: 32 × 11
@@ -384,10 +384,10 @@ vehicles$cyl</code></pre>
 <li>Print the 30 first rows of the tibble.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510427605" aria-expanded="false" aria-controls="acc2024101510427605">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510243779" aria-expanded="false" aria-controls="acc2024101510243779">
 </button>
 </p>
-<div id="acc2024101510427605" class="collapse">
+<div id="acc2024101510243779" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vehicles %&gt;% head(n = 30)</code></pre>
 <pre><code>## # A tibble: 30 × 11
@@ -410,10 +410,10 @@ vehicles$cyl</code></pre>
 <li>Change the default behaviour of printing a tibble so that at least 15 and at most 30 rows are printed.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510429404" aria-expanded="false" aria-controls="acc2024101510429404">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510244793" aria-expanded="false" aria-controls="acc2024101510244793">
 </button>
 </p>
-<div id="acc2024101510429404" class="collapse">
+<div id="acc2024101510244793" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>options(tibble.print_min = 15, tibble.print_max = 30)</code></pre>
 </div>
@@ -422,10 +422,10 @@ vehicles$cyl</code></pre>
 <li>Convert <code>vehicles</code> back to a <code>data.frame</code> called <code>automobiles</code>.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510423300" aria-expanded="false" aria-controls="acc2024101510423300">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510245846" aria-expanded="false" aria-controls="acc2024101510245846">
 </button>
 </p>
-<div id="acc2024101510423300" class="collapse">
+<div id="acc2024101510245846" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>automobiles &lt;- as.data.frame(vehicles)</code></pre>
 </div>
@@ -442,10 +442,10 @@ vehicles$cyl</code></pre>
 <li>Load the <code>nycflights13</code> package (install if necessary)</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510429789" aria-expanded="false" aria-controls="acc2024101510429789">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510241994" aria-expanded="false" aria-controls="acc2024101510241994">
 </button>
 </p>
-<div id="acc2024101510429789" class="collapse">
+<div id="acc2024101510241994" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>install.packages(&#39;nycflights13&#39;)
 library(nycflights13)</code></pre>
@@ -455,10 +455,10 @@ library(nycflights13)</code></pre>
 <li>Read about the data in the package docs</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510424003" aria-expanded="false" aria-controls="acc2024101510424003">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510249822" aria-expanded="false" aria-controls="acc2024101510249822">
 </button>
 </p>
-<div id="acc2024101510424003" class="collapse">
+<div id="acc2024101510249822" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>?nycflights13</code></pre>
 <pre><code>## No documentation for &#39;nycflights13&#39; in specified packages and libraries:
@@ -469,10 +469,10 @@ library(nycflights13)</code></pre>
 <li>Inspect the <code>flights</code> tibble.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510422642" aria-expanded="false" aria-controls="acc2024101510422642">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510241379" aria-expanded="false" aria-controls="acc2024101510241379">
 </button>
 </p>
-<div id="acc2024101510422642" class="collapse">
+<div id="acc2024101510241379" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights</code></pre>
 <pre><code>## # A tibble: 336,776 × 19
@@ -503,10 +503,10 @@ library(nycflights13)</code></pre>
 <li>Select all columns but <code>carrier</code> and <code>arr_time</code></li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510445149" aria-expanded="false" aria-controls="acc2024101510445149">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510268279" aria-expanded="false" aria-controls="acc2024101510268279">
 </button>
 </p>
-<div id="acc2024101510445149" class="collapse">
+<div id="acc2024101510268279" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% select(-carrier, -arr_time)</code></pre>
 <pre><code>## # A tibble: 336,776 × 17
@@ -536,10 +536,10 @@ library(nycflights13)</code></pre>
 <li>Select <code>carrier</code>, <code>tailnum</code> and <code>origin</code></li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510446161" aria-expanded="false" aria-controls="acc2024101510446161">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510265367" aria-expanded="false" aria-controls="acc2024101510265367">
 </button>
 </p>
-<div id="acc2024101510446161" class="collapse">
+<div id="acc2024101510265367" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% select(carrier, tailnum, origin)</code></pre>
 <pre><code>## # A tibble: 336,776 × 3
@@ -567,10 +567,10 @@ library(nycflights13)</code></pre>
 <li>Hide columns from <code>day</code> through <code>carrier</code></li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510449672" aria-expanded="false" aria-controls="acc2024101510449672">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510260823" aria-expanded="false" aria-controls="acc2024101510260823">
 </button>
 </p>
-<div id="acc2024101510449672" class="collapse">
+<div id="acc2024101510260823" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% select(-(day:carrier))</code></pre>
 <pre><code>## # A tibble: 336,776 × 11
@@ -599,10 +599,10 @@ library(nycflights13)</code></pre>
 <li>Select all columns that have to do with <code>arr</code>ival (hint: <code>?tidyselect</code>)</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510444157" aria-expanded="false" aria-controls="acc2024101510444157">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510261569" aria-expanded="false" aria-controls="acc2024101510261569">
 </button>
 </p>
-<div id="acc2024101510444157" class="collapse">
+<div id="acc2024101510261569" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% select(contains(&#39;arr_&#39;))</code></pre>
 <pre><code>## # A tibble: 336,776 × 3
@@ -630,10 +630,10 @@ library(nycflights13)</code></pre>
 <li>Select columns based on a vector <code>v &lt;- c("arr_time", "sched_arr_time", "arr_delay")</code></li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510446933" aria-expanded="false" aria-controls="acc2024101510446933">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510265865" aria-expanded="false" aria-controls="acc2024101510265865">
 </button>
 </p>
-<div id="acc2024101510446933" class="collapse">
+<div id="acc2024101510265865" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>v &lt;- c(&quot;arr_time&quot;, &quot;sched_arr_time&quot;, &quot;arr_delay&quot;)
 flights %&gt;% select(v) # or
@@ -682,10 +682,10 @@ flights %&gt;% select(one_of(v))</code></pre>
 <li>Rename column <code>dest</code> to <code>destination</code> using <code>select()</code> and <code>rename()</code>. What is the difference between the two approaches?</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510446200" aria-expanded="false" aria-controls="acc2024101510446200">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510266635" aria-expanded="false" aria-controls="acc2024101510266635">
 </button>
 </p>
-<div id="acc2024101510446200" class="collapse">
+<div id="acc2024101510266635" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% select(destination = dest) %&gt;% head()
 flights %&gt;% rename(destination = dest) %&gt;% head()
@@ -721,10 +721,10 @@ flights %&gt;% rename(destination = dest) %&gt;% head()
 <li>Filter only the flights that arrived ahead of schedule</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510443348" aria-expanded="false" aria-controls="acc2024101510443348">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510264234" aria-expanded="false" aria-controls="acc2024101510264234">
 </button>
 </p>
-<div id="acc2024101510443348" class="collapse">
+<div id="acc2024101510264234" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% filter(arr_delay &lt; 0)</code></pre>
 <pre><code>## # A tibble: 188,933 × 19
@@ -755,10 +755,10 @@ flights %&gt;% rename(destination = dest) %&gt;% head()
 <li>Filter the flights that had departure delay between 10 and 33</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510443222" aria-expanded="false" aria-controls="acc2024101510443222">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510260972" aria-expanded="false" aria-controls="acc2024101510260972">
 </button>
 </p>
-<div id="acc2024101510443222" class="collapse">
+<div id="acc2024101510260972" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% filter(dep_delay &gt;= 10, dep_delay &lt;= 33) # or
 flights %&gt;% filter(between(dep_delay, 10, 33))</code></pre>
@@ -812,10 +812,10 @@ flights %&gt;% filter(between(dep_delay, 10, 33))</code></pre>
 <li>Fish out all flights with unknown arrival time</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510440514" aria-expanded="false" aria-controls="acc2024101510440514">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510260813" aria-expanded="false" aria-controls="acc2024101510260813">
 </button>
 </p>
-<div id="acc2024101510440514" class="collapse">
+<div id="acc2024101510260813" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% filter(is.na(arr_time))</code></pre>
 <pre><code>## # A tibble: 8,713 × 19
@@ -846,10 +846,10 @@ flights %&gt;% filter(between(dep_delay, 10, 33))</code></pre>
 <li>Retrieve rows 1234:1258 (hint: <code>?slice</code>)</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510442423" aria-expanded="false" aria-controls="acc2024101510442423">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510269594" aria-expanded="false" aria-controls="acc2024101510269594">
 </button>
 </p>
-<div id="acc2024101510442423" class="collapse">
+<div id="acc2024101510269594" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% slice(1234:1258)</code></pre>
 <pre><code>## # A tibble: 25 × 19
@@ -889,10 +889,10 @@ flights %&gt;% filter(between(dep_delay, 10, 33))</code></pre>
 <li>Sample (<code>?sample_n()</code>) 3 random flights per day in March</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510444319" aria-expanded="false" aria-controls="acc2024101510444319">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510268458" aria-expanded="false" aria-controls="acc2024101510268458">
 </button>
 </p>
-<div id="acc2024101510444319" class="collapse">
+<div id="acc2024101510268458" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% filter(month == 3) %&gt;%
   group_by(day) %&gt;%
@@ -901,21 +901,21 @@ flights %&gt;% filter(between(dep_delay, 10, 33))</code></pre>
 ## # Groups:   day [31]
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     3     1     1140           1115        25     1306           1255
-##  2  2013     3     1      808            815        -7     1027           1117
-##  3  2013     3     1     1452           1455        -3     1818           1757
-##  4  2013     3     2      725            725         0     1015           1030
-##  5  2013     3     2     1202           1200         2     1311           1330
-##  6  2013     3     2     1931           1935        -4     2232           2237
-##  7  2013     3     3     1556           1600        -4     1810           1838
-##  8  2013     3     3      624            630        -6      736            810
-##  9  2013     3     3      853            853         0     1019           1042
-## 10  2013     3     4     2013           2015        -2     2305           2318
-## 11  2013     3     4     2144           2138         6       29             29
-## 12  2013     3     4     2100           2046        14     2210           2214
-## 13  2013     3     5     1537           1540        -3     1859           1904
-## 14  2013     3     5     2043           1905        98     2236           2114
-## 15  2013     3     5     1754           1754         0     2126           2109
+##  1  2013     3     1     1029           1030        -1     1244           1340
+##  2  2013     3     1      824            829        -5     1101           1103
+##  3  2013     3     1     1924           1845        39     2115           2030
+##  4  2013     3     2     1427           1427         0     1600           1624
+##  5  2013     3     2     1525           1525         0     1638           1655
+##  6  2013     3     2     1339           1259        40     1530           1456
+##  7  2013     3     3     1539           1543        -4     1700           1710
+##  8  2013     3     3     1426           1435        -9     1638           1707
+##  9  2013     3     3     1031           1030         1     1402           1355
+## 10  2013     3     4     1737           1557       100     1914           1754
+## 11  2013     3     4     2044           2040         4     2344           2356
+## 12  2013     3     4     1446           1450        -4     1736           1755
+## 13  2013     3     5     1658           1700        -2     1830           1839
+## 14  2013     3     5     1500           1505        -5     1610           1640
+## 15  2013     3     5     1406           1318        48     1656           1623
 ## # ℹ 78 more rows
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
@@ -926,10 +926,10 @@ flights %&gt;% filter(between(dep_delay, 10, 33))</code></pre>
 <li>Show 5 most departure-delayed flights in January per carrier</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510441999" aria-expanded="false" aria-controls="acc2024101510441999">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510266518" aria-expanded="false" aria-controls="acc2024101510266518">
 </button>
 </p>
-<div id="acc2024101510441999" class="collapse">
+<div id="acc2024101510266518" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;%
   filter(month == 1) %&gt;%
@@ -964,10 +964,10 @@ flights %&gt;% filter(between(dep_delay, 10, 33))</code></pre>
 <li>How many unique routes exists?</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510446095" aria-expanded="false" aria-controls="acc2024101510446095">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510269820" aria-expanded="false" aria-controls="acc2024101510269820">
 </button>
 </p>
-<div id="acc2024101510446095" class="collapse">
+<div id="acc2024101510269820" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;%
   mutate(route=paste(origin,&quot;-&quot;,dest)) %&gt;%
@@ -980,10 +980,10 @@ flights %&gt;% filter(between(dep_delay, 10, 33))</code></pre>
 <li>Which is the most frequent route?</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510447688" aria-expanded="false" aria-controls="acc2024101510447688">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510266521" aria-expanded="false" aria-controls="acc2024101510266521">
 </button>
 </p>
-<div id="acc2024101510447688" class="collapse">
+<div id="acc2024101510266521" class="collapse">
 <div class="card card-body">
 <pre class="r"><code># JFK - LAX
 flights %&gt;%
@@ -1020,10 +1020,10 @@ flights %&gt;%
 <li><code>air_time</code> is the amount of time in minutes spent in the air. Add a new column <code>air_spd</code> that will contain aircraft’s airspeed in mph</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510440151" aria-expanded="false" aria-controls="acc2024101510440151">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510263449" aria-expanded="false" aria-controls="acc2024101510263449">
 </button>
 </p>
-<div id="acc2024101510440151" class="collapse">
+<div id="acc2024101510263449" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% mutate(air_spd = distance/(air_time / 60))</code></pre>
 <pre><code>## # A tibble: 336,776 × 20
@@ -1054,10 +1054,10 @@ flights %&gt;%
 <li>As above, but keep only the new <code>air_spd</code> variable</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510448753" aria-expanded="false" aria-controls="acc2024101510448753">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510261406" aria-expanded="false" aria-controls="acc2024101510261406">
 </button>
 </p>
-<div id="acc2024101510448753" class="collapse">
+<div id="acc2024101510261406" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;% transmute(air_spd = distance/(air_time / 60))</code></pre>
 <pre><code>## # A tibble: 336,776 × 1
@@ -1088,10 +1088,10 @@ flights %&gt;%
 <li>Use <code>group_by()</code>, <code>summarise()</code> and <code>n()</code> to see how many planes were delayed (departure) every month</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510442944" aria-expanded="false" aria-controls="acc2024101510442944">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510265302" aria-expanded="false" aria-controls="acc2024101510265302">
 </button>
 </p>
-<div id="acc2024101510442944" class="collapse">
+<div id="acc2024101510265302" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;%
   filter(dep_delay &gt; 0) %&gt;%
@@ -1118,10 +1118,10 @@ flights %&gt;%
 <li>What was the mean <code>dep_delay</code> per month?</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510446167" aria-expanded="false" aria-controls="acc2024101510446167">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510279527" aria-expanded="false" aria-controls="acc2024101510279527">
 </button>
 </p>
-<div id="acc2024101510446167" class="collapse">
+<div id="acc2024101510279527" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;%
   group_by(month) %&gt;%
@@ -1147,10 +1147,10 @@ flights %&gt;%
 <li>Count the number of incoming delayed flights from each unique origin and sort origins by this count (descending)</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510441631" aria-expanded="false" aria-controls="acc2024101510441631">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510277893" aria-expanded="false" aria-controls="acc2024101510277893">
 </button>
 </p>
-<div id="acc2024101510441631" class="collapse">
+<div id="acc2024101510277893" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;%
   filter(arr_delay &gt; 0) %&gt;%
@@ -1169,10 +1169,10 @@ flights %&gt;%
 <li>Use <code>summarise()</code> to sum total <code>dep_delay</code> per month in hours</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510440017" aria-expanded="false" aria-controls="acc2024101510440017">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510271096" aria-expanded="false" aria-controls="acc2024101510271096">
 </button>
 </p>
-<div id="acc2024101510440017" class="collapse">
+<div id="acc2024101510271096" class="collapse">
 <div class="card card-body">
 <pre class="r"><code> flights %&gt;%
    group_by(month) %&gt;%
@@ -1198,10 +1198,10 @@ flights %&gt;%
 <li>Run <code>group_size()</code> on <code>carrier</code> what does it return?</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510443122" aria-expanded="false" aria-controls="acc2024101510443122">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510277695" aria-expanded="false" aria-controls="acc2024101510277695">
 </button>
 </p>
-<div id="acc2024101510443122" class="collapse">
+<div id="acc2024101510277695" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;%
     group_by(carrier) %&gt;%
@@ -1214,10 +1214,10 @@ flights %&gt;%
 <li>Use <code>n_groups()</code> to check the number of unique origin-carrier pairs,</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510444851" aria-expanded="false" aria-controls="acc2024101510444851">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101510271242" aria-expanded="false" aria-controls="acc2024101510271242">
 </button>
 </p>
-<div id="acc2024101510444851" class="collapse">
+<div id="acc2024101510271242" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>flights %&gt;%
     group_by(carrier) %&gt;%
