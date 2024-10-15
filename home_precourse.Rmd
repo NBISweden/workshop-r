@@ -65,21 +65,26 @@ RStudio provides you with tools like code editor with highlighting, project mana
 
 Extra R packages used in the workshop exercises (if any) are listed below. It is recommended that you install this in advance. Simply copy and paste the code into R.
 
-```{r,eval=TRUE,chunk.title=NULL,echo=FALSE,comment="",class.output="r"}
-# this code block reads package names from '_site.yml' and prints them as installation instruction.
+```{r include=FALSE}
+# this first chunk runs through the root directory, finds the installed packages across the files and prints them as installation instruction.
 
-pkg <- yaml::read_yaml("_site.yml")
+#Add to the pkg_discard object the packages you want to discard from the list
 
-if(!is.null(pkg$packages$packages_cran_student)) {
+pkg<-unique(renv::dependencies()$Package)
+
+pkg_discard<-c("mkteachr")
+
+pkg_list<-pkg[!pkg %in% pkg_discard]
+
+```
+
+```{r echo=FALSE, warning=FALSE, chunk.title=NULL, class.output="r", comment="", r,eval=TRUE}
+
  cat("# install from cran\n")
- cat(paste0("install.packages(c('",paste(pkg$packages$packages_cran_student,sep="",collapse="','"),"'))"))
+ cat(paste0("install.packages(c('",paste(pkg_list,sep="",collapse="','"),"'))"))
  cat("\n")
-}
 
-if(!is.null(pkg$packages$packages_bioc_student)) {
- cat("# install from bioconductor\n")
- cat(paste0("BiocManager::install(c('",paste(pkg$packages$packages_bioc_student,sep="",collapse="','"),"'))"))
-}
+
 ```
 
 `r fa1("chevron-circle-right")` &nbsp; **Install Docker**

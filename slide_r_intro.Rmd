@@ -216,14 +216,21 @@ e.g. an agent-based simulation is a challenge
 name: num_packages
 
 # Ecosystem of R packages
-
 <br>
 
-```{r num_pkgs, echo=FALSE, fig.align='center', fig.height=7, fig.width=9, cache=TRUE, message=FALSE}
+
+```{r num_pkgs, eval=FALSE, fig.align='center', fig.height=7, fig.width=9, message=FALSE, cache=TRUE, include=FALSE}
+#I mute this chunk because it gives a readLines error in the 2024 course
+#I add the figure instead below the chunk
+#Maybe modify in the future
 data <- mkteachr::update_repos_data()
 gg <- mkteachr::plot_repos_data(data)
 gg
 ```
+
+<div style="text-align: center;">
+    <img src="data/slide_intro/num_pkgs.jpg" style="width:80%;">
+</div>
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 
