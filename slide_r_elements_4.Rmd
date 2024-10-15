@@ -1,7 +1,7 @@
 ---
 title: "Replication, Control Structures & Functions"
 subtitle: "Elements of the R language"
-author: "Marcin Kierczak and Nima Rafati"
+author: "Marcin Kierczak, Nima Rafati, Miguel Redondo"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -55,7 +55,7 @@ name: repeating_actions_1
 
 # Repeating actions
 
-Somtimes you want to repeat certain action several times.  
+Sometimes you want to repeat certain action several times.  
 
 There are few alternatives in R, for example:  
 - `for` loop 
@@ -66,13 +66,19 @@ name: for_loop_0
 
 # Repeating actions &mdash; for loop
 
-One way to repeat an action is to use the **for-loop**
+One way to repeat an action is to use the **for-loop**. 
+
+This is the general syntax:
 
 ```{r for.loop.general, eval=FALSE, echo=TRUE}
 for (var in seq) {
   expr
 }
 ```
+Where:
+- var = variable that will take values from the sequence
+- seq= sequence of values
+- expr = expression to be executed
 
 ---
 name: for_loop_1
@@ -82,17 +88,17 @@ Example.
 
 ```{r for.loop, echo=T}
 for (i in 1:5) {
-  cat(paste('Performing operation no.', i), '\n')
+  cat(paste('Performing operation on no.', i), '\n')
 }
 ```
 
 --
 
-A slight modification of the above example will skip odd indices.
+A slight modification of the above example.
 
 ```{r for.loop2, echo=T}
 for (i in c(2,4,6,8,10)) {
-  cat(paste('Performing operation no.', i), '\n')
+  cat(paste('Performing operation on no.', i), '\n')
 }
 ```
 
@@ -106,9 +112,10 @@ Sometimes, we also want an external counter:
 ```{r for.loop.cnt, echo=T}
 cnt <- 1
 for (i in c(2,4,6,8,10)) {
-  cat(paste('Performing operation no.', cnt,
-            'on element', i), '\n')
+  cat(paste('Iteration', cnt,
+            'Performing operation on no.', i), '\n')
   cnt <- cnt + 1
+  
 }
 ```
 
@@ -122,6 +129,11 @@ Say, we want to add 1 to every element of a vector:
 ```{r for.loop.ex1, echo=T}
 vec <- c(1:5)
 vec
+
+```
+
+```{r for.loop.ex2, echo=T}
+
 for (i in vec) {
   vec[i] <- vec[i] + 1
 }
@@ -165,6 +177,37 @@ for (i in vec) {
 proc.time() - ptm # for-loop
 ```
 
+
+---
+name: loops_avoid_growing
+
+# Loops &mdash; avoid growing data
+
+Avoid changing dimensions of an object inside the loop:
+
+```{r avoid.growing, echo=T}
+v <- c() # Initialize
+for (i in 1:100) {
+  v <- c(v, i)
+}
+```
+
+--
+
+It is much better to do it like this:
+
+```{r avoid.growing2, echo=T}
+v <- rep(NA, 100) # Initialize with length
+for (i in 1:100) {
+  v[i] <- i
+}
+```
+
+--
+
+Always try to know the size of the object you are going to create!
+
+
 ---
 name: while_loop
 
@@ -174,14 +217,15 @@ There is also another type of loop in R, the **while loop** which is executed as
 ```{r loop.while, echo=T}
 x <- 1
 while (x < 5) {
-  cat(x, " ... ")
+  cat("x equals",x, "\n")
   x <- x + 1
 }
 ```
 
 ---
 name: recursion
-
+exclude: true
+# Any questions so far?
 <!-- # Recursion
 
 When we explicitely repeat an action using a loop, we talk about **iteration**. We can also repeat actions by means of **recursion**, i.e. when a function calls itself. Let us implement a factorial $!$:
@@ -231,35 +275,7 @@ proc.time() - ptm
 -->
 
 ---
-name: loops_avoid_growing
 
-# Loops &mdash; avoid growing data
-
-Avoid changing dimensions of an object inside the loop:
-
-```{r avoid.growing, echo=T}
-v <- c() # Initialize
-for (i in 1:100) {
-  v <- c(v, i)
-}
-```
-
---
-
-It is much better to do it like this:
-
-```{r avoid.growing2, echo=T}
-v <- rep(NA, 100) # Initialize with length
-for (i in 1:100) {
-  v[i] <- i
-}
-```
-
---
-
-Always try to know the size of the object you are going to create!
-
----
 name: if_clause
 
 # Decisions, an if-clause
