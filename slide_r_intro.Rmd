@@ -1,7 +1,7 @@
 ---
 title: "Introduction to R"
-subtitle: "R Foundations for Life Scientists"
-author: "Marcin Kierczak"
+subtitle: "R Foundations for Data Analysis"
+author: "Marcin Kierczak and Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -34,7 +34,7 @@ count: false
 #library(tidyr)
 #library(stringr)
 #library(ggplot2)
-library(mkteachr)
+#library(mkteachr)
 ```
 
 ---
@@ -44,10 +44,11 @@ class: spaced
 # Contents
 
 * [About R](#about)
-* [Timeline](#timeline)
-* [Ideas behind R](#ideas)
 * [Pros and cons of R](#pros_and_cons)
 * [Ecosystem of packages](#num_packages)
+* [Programming language](#programming_language)
+* [Packages](#packages)
+* [Package installation](#pkg_cran_inst)
 
 ---
 name: about
@@ -98,90 +99,6 @@ name: about
 ---
 name: timeline
 
-# Timeline
-
---
-
-.pull-left-50[
-
-![](data/slide_intro/Ihaka_and_Gentleman.jpg)
-
-* ca. 1992 &mdash; conceived by [Robert Gentleman](https://bit.ly/35kn99L) and [Ross Ihaka](https://en.wikipedia.org/wiki/Ross_Ihaka) (R&R) at the University of Auckland, NZ as a tool for **teaching statistics**
-
-* 1994 &mdash; initial version
-* 2000 &mdash; stable version
-
-]
-
---
-
-.pull-right-50[
-
-![](data/slide_intro/jjallaire_siliconangle_com.jpg)
-
-* 2011 &mdash; [RStudio](https://en.wikipedia.org/wiki/RStudio), first release by J.J. Allaire
-
-![](data/slide_intro/hadley-wickham.jpg)
-
-* ca. 2017 &mdash; Tidyverse by [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham)
-]
-
----
-name: ideas
-
-# Ideas behind R
-
-* open-source solution &mdash; fast development
-
---
-
-* based on the [S language](https://en.wikipedia.org/wiki/S_%28programming_language%29) created at the Bell Labs by [John Mc Kinley Chambers](https://bit.ly/2RhDqUx) to
-
-> *turn ideas into software, quickly and faithfully*
-
---
-
-* [lexical scope](https://en.wikipedia.org/wiki/Scope_%28computer_science%29%23Lexical_scoping) inspired by [Lisp](https://en.wikipedia.org/wiki/Lisp) syntax
-
---
-
-* since 1997 developed by the R Development Core Team (ca. 20 experts, with Chambers onboard; 6 are active)
-
---
-
-* overviewed by [The R Foundation for Statistical Computing](https://www.r-project.org/foundation/)
-
----
-name: packages
-
-# Packages
-
-.pull-right-50[
-```{r, out.width="250pt", fig.align='center', echo=FALSE}
-knitr::include_graphics("data/slide_intro/packages.jpg")
-```
-]
-
---
-
-* developed by the community
-
---
-
-* cover several very diverse areas of science/life
-
---
-
-* uniformely structured and documented
-
---
-
-* organised in repositiries:
-    + [CRAN](https://cran.r-project.org)
-    + [R-Forge](https://r-forge.r-project.org)
-    + [Bioconductor](http://www.bioconductor.org)
-    + [GitHub](https://github.com)
-
 ---
 name: pros_and_cons
 class: spaced
@@ -213,8 +130,146 @@ e.g. an agent-based simulation is a challenge
 <i class='fa fa-plus-square'></i> easy to generate high quality graphics  
 
 ---
-name: num_packages
+name: programming_language
 
+# Programing Language    
+
+--
+> Programming is a process of instructing a computer to perform a specific task. We write these instructions by **programming language**. It can be as simple as calculation (like a calculator) or complex applications. 
+
+--
+
+ * flow of _data_ 
+--
+
+    * Data is collected information which qualitatively and/or quantitatively describe an entity.  
+--
+
+    * Data is collected from quite diverse sources (data types).  
+--
+
+    * Data processing.  
+--
+
+    * Data cleaning.  
+
+--
+
+```{r,out.width="75%",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_programming/Data_Information_Knowledge.png")
+```
+---
+# Programing Language cted.   
+
+--
+
+ * from one _function_ to another
+--
+
+    * Function is a **reusable** chunk of code that performs a task. It takes **inputs** as well as **arguments** to process. 
+--
+
+ * each function does something to the data and return output(s)
+--
+   
+   * For example `mean()`, `min()`   
+--
+---
+# Three things to think about
+
+ * what *types* of data can I process?
+
+--
+
+ * how do I *write* what I want?
+
+--
+
+ * when does it *mean* anything?
+
+
+---
+# Data type  
+
+```{r,out.width="75%",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_programming/Data_classification.png")
+```
+---
+
+# Three components of a language
+
+--
+
+ * what *types* of data can I process &mdash; *type system*
+
+--
+
+  * int &mdash; 1 2 5 9
+  * double &mdash; 1.23 -5.74
+  * char &mdash; a b test 7 9
+  * logical &mdash; TRUE/FALSE (T/F)
+  
+
+--
+
+ * how do I *write* what I want &mdash; *syntax* defined by a language *grammar*
+
+  `2 * 1 + 1` vs. `(+ (* 2 1) 1)`
+
+--
+
+ * when does it *mean* anything &mdash; *semantics*
+
+--
+
+  * *Colorful yellow train sleeps on a crazy wave.* &mdash; has no generally accepted meaning
+  * *There is $500 on his empty bank acount.* &mdash; internal contradiction
+
+---
+name: topic2
+
+# Where to start?
+
+
+*Divide et impera* &mdash; divide and rule.
+
+**Top-down approach:** define the big problem and split it into smaller ones. Assume you have solution to the small problems and continue &mdash; push the responsibility down.
+Wishful thinking!
+
+---
+
+name: packages
+
+# Packages
+
+.pull-right-50[
+```{r, out.width="250pt", fig.align='center', echo=FALSE}
+knitr::include_graphics("data/slide_intro/packages.jpg")
+```
+]
+
+--
+
+* developed by the community
+
+--
+
+* cover several very diverse areas of science/life
+
+--
+
+* uniformly structured and documented
+
+--
+
+* organised in repositiries:
+    + [CRAN](https://cran.r-project.org)
+    + [R-Forge](https://r-forge.r-project.org)
+    + [Bioconductor](http://www.bioconductor.org)
+    + [GitHub](https://github.com)
+
+---
+name: num_packages
 # Ecosystem of R packages
 <br>
 
@@ -232,6 +287,148 @@ gg
     <img src="data/slide_intro/num_pkgs.jpg" style="width:80%;">
 </div>
 
+
+---
+name: work_with_packages
+
+# Working with packages
+
+Packages are organised in repositories. The three main repositories are:
+
+* [CRAN](https://cran.r-project.org)
+* [R-Forge](http://r-forge.r-project.org)
+* [Bioconductor](http://www.bioconductor.org)
+
+We also have [GitHub](https://github.com).
+
+--
+# Working with packages -- CRAN example.
+
+```{r,out.width="80%",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_r_environment/ggplot2_CRAN.png")
+```
+
+---
+name: pkg_cran_inst
+
+# Working with packages -- installation
+
+Only a few packages are pre-installed:
+
+```{r pkg.err.ex,eval=TRUE,error=TRUE}
+library(XLConnect)
+```
+
+In order to install a package from command line, use:
+
+```{r pkg.inst,eval=FALSE}
+install.packages("ggplot2",dependencies=TRUE)
+```
+
+---
+name: work_pkg_details
+
+# Working with packages -- details
+
+It may happen that you want to also specify the repository, e.g. because it is geographically closer to you or because your default mirror is down:
+
+```{r pkg.inst.repo,eval=FALSE}
+install.packages('ggplot2',dependencies=TRUE,repos="http://cran.se.r-project.org")
+```
+
+But, sometimes, this does not work either because the package is not available for your platform. In such case, you need to *compile* it from its *source code*.
+
+---
+name: work_pkg_details2
+
+# Working with packages -- details cted.
+```{r,out.width="150%",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_r_environment/ggplot2_CRAN.png")
+```
+
+---
+name: source_pkg_inst
+
+# Working with packages -- installing from source.
+
+- Download the source file, in our example *ggplot2_3.4.3.tar.gz*.
+- Install it:
+
+```{r pkg.inst.src,eval=FALSE}
+install.packages("path/to/ggplot2_3.4.3.tar.gz",
+                 repos=NULL,
+                 type='source',
+                 dependencies=TRUE)
+```
+
+- Load it:
+
+```{r pkg.load,eval=FALSE}
+library('ggplot2') # always forces reloading
+require('ggplot2') # load only if not already loaded
+```
+
+- Enjoy!
+
+---
+name: pkg_github
+
+# Packages -- GitHub
+
+Nowadays, more and more developers distribute their packages via GitHub. The easiest way to install packages from the GitHub is via the *devtools* package:
+
+- Install the *devtools* package.
+- Load it.
+- Install.
+- Enjoy!
+
+```{r pkg.inst.devtools.github,eval=FALSE}
+install.packages('devtools',dependencies=TRUE)
+library('devtools')
+install_github('talgalili/installr')
+```
+
+---
+name: pkg_bioconductor
+
+# Packages -- Bioconductor
+
+```{r,out.width="200pt",fig.align='center',echo=FALSE}
+knitr::include_graphics("data/slide_r_environment/logo_bioconductor.png")
+```
+
+First install Bioconductor Manager:
+
+```{r inst.biocond,eval=FALSE}
+if (!requireNamespace("BiocManager",quietly = TRUE))
+    install.packages("BiocManager")
+```
+
+---
+name: pkg_bioconductor2
+
+# Packages -- Bioconductor cted.
+
+Now, you can install particular packages from Bioconductor:
+
+```{r biocond.inst.pkg,eval=FALSE}
+BiocManager::install("GenomicRanges")
+```
+
+For more info, visit [Bioconductor website](http://www.bioconductor.org/install/).
+
+---
+# One package to rule them all -- the magic of `renv`
+
+- first time do `renv::activate()` and `renv::init()`
+- while working: `renv::hydrate()` and `renv::snapshot()`
+
+Now, send `renv.lock` to your friend to share the environment and she can:
+
+- restore the environment `renv::restore()`
+
+**Pure magic!**
+
 <!-- --------------------- Do not edit this and below --------------------- -->
 
 ---
@@ -240,8 +437,7 @@ class: end-slide, middle
 count: false
 
 # Thank you! Questions?
-
-```{r,echo=FALSE,child="assets/footer-slide.Rmd"}
+```{r, echo=FALSE,child="assets/footer-slide.Rmd"}
 ```
 
 ```{r,include=FALSE,eval=FALSE}
