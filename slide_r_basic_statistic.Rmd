@@ -417,6 +417,8 @@ class: end-slide, middle
 count: false
 
 # See you at the next lecture!  
+```{r, echo=FALSE,child="assets/footer-slide.Rmd"}
+```
 
 ```{r,include=FALSE,eval=FALSE}
 # manually run this to render this document to HTML
