@@ -72,7 +72,7 @@ Extra R packages used in the workshop exercises (if any) are listed below. It is
 
 pkg<-unique(renv::dependencies()$Package)
 
-pkg_discard<-c("mkteachr")
+pkg_discard<-c("mkteachr", "manipulateWidget")
 
 pkg_list<-pkg[!pkg %in% pkg_discard]
 

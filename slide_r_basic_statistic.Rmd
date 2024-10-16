@@ -1,0 +1,428 @@
+---
+title: "Brief introduction to statistics"
+subtitle: "Statistics"
+author: "Nima Rafati"
+keywords: bioinformatics, course, scilifelab, nbis, R
+output:
+  xaringan::moon_reader:
+    encoding: 'UTF-8'
+    self_contained: false
+    chakra: 'assets/remark-latest.min.js'
+    css: 'assets/slide.css'
+    lib_dir: libs
+    include: NULL
+    nature:
+      ratio: '4:3'
+      highlightLanguage: r
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%/%total%"
+---
+
+exclude: true
+count: false
+
+```{r,echo=FALSE,child="assets/header-slide.Rmd"}
+```
+
+<!-- ------------ Only edit title, subtitle & author above this ------------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, width=60)
+```
+
+```{r,include=FALSE}
+# load the packages you need
+#library(dplyr)
+#library(tidyr)
+#library(stringr)
+#library(ggplot2)
+#library(mkteachr)
+```
+
+---
+name: intro
+
+# Introduction
+
+**Why do we need statistics in our analysis?**  
+
+- Make data understandable and insightful.  
+
+- Evaluate patterns and trends.  
+
+- Identify and quantify differences/similarities between groups. 
+
+
+--
+
+
+**Types of statistics:**  
+
+- Descriptive statistics: To summarize and describe main features of a dataset (Mean, median,...).  
+
+- Inferential statistics: To make prediction or inferences about a population using a sample of data (Hypothesis testing, regression analysis,...).  
+
+- Predictive statistics: To make predictions about future outcomes based on collected data (Regression models, time series forecasting, machine learning,...). 
+
+- ......  
+
+
+---
+name: Descriptive
+# Types of Descriptive Statistics
+
+Descriptive statistics helps to:
+
+- Summarize and describe the data.  
+
+- Visualize the data.   
+
+- Identify patterns (trends) and outliers in the data.     
+
+- Provide insights for downstream-analysis. 
+
+---
+name: SomeStats
+# Some of the basic descriptive statistics   
+
+1. **Measures of Central Tendency**
+    - Mean, Median, Mode.
+2. **Measures of Spread**
+    - Range, Interquartile Range, Standard Deviation, Variance.
+3. **Correlation**
+    - Relation between two variables (e.g. Pearson's correlation).
+
+---
+name: Mean 
+# Central Tendency: Mean
+- Mean: The average value of data.  
+$$
+\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+$$
+
+```{r Mean, eval = T, echo = F, fig.width = 10, fig.height=4}
+set.seed(123)
+par(mfrow = c(1, 2), mar = c(5, 4, 4, 2) + 0.1) 
+data <- data.frame( var1 = rgamma(10000, shape = 2, scale = 2) * 12,
+                    var2 = rnorm(10000, mean = 100, sd = 20))
+hist(data$var1,breaks = 50, main = 'var1 distribution', xlab = 'var1', col = 'skyblue', freq = TRUE) 
+var1_mean = mean(data$var1)
+# Mean
+abline(v = var1_mean, col = 'red', lwd = 2)
+text(x = var1_mean + 10 , y = 700, labels = paste("Mean =", round(var1_mean, 2)), pos = 4, col = 'red', cex = 0.8)
+
+hist(data$var2,breaks = 50, main = 'var2 distribution', xlab = 'var2', col = 'skyblue', freq = TRUE) 
+var2_mean = mean(data$var2)
+var2_median = median(data$var2)
+# Mean
+abline(v = var2_mean, col = 'red', lwd = 2)
+text(x = var2_mean + 10 , y = 700, labels = paste("Mean =", round(var2_mean, 2)), pos = 4, col = 'red', cex = 0.8)
+```
+
+```{r mean, eval = T, echo = T}
+mean(data$var1)
+mean(data$var2)
+```
+
+
+---
+name: Median 
+
+# Central Tendency: Median
+
+- Median: The middle value with the data is sorted.
+```{r Median, eval = T, echo = F, fig.width = 10, fig.height=5}
+par(mfrow=c(1,2))
+hist(data$var1,breaks = 50, main = 'var1 distribution', xlab = 'var1', col = 'skyblue', freq = TRUE) 
+var1_mean = mean(data$var1)
+var1_median = median(data$var1)
+# Mean
+abline(v = var1_mean, col = 'red', lwd = 2)
+text(x = var1_mean + 10 , y = 400, labels = paste("Mean =", round(var1_mean, 2)), pos = 4, col = 'red')
+# Median
+abline(v = var1_median, col = 'green', lwd = 2)
+text(x = var1_median + 10 , y = 500, labels = paste("Median =", round(var1_median, 2)), pos = 4, col = 'green')
+
+hist(data$var2,breaks = 50, main = 'var2 distribution', xlab = 'var2', col = 'skyblue', freq = TRUE) 
+var2_mean = mean(data$var2)
+var2_median = median(data$var2)
+# Mean
+abline(v = var2_mean, col = 'red', lwd = 2)
+text(x = var2_mean + 30 , y = 400, labels = paste("Mean =", round(var2_mean, 2)), pos = 4, col = 'red')
+# Median
+abline(v = var2_median, col = 'green', lwd = 2)
+text(x = var2_median + 30 , y = 600, labels = paste("Median =", round(var2_median, 2)), pos = 4, col = 'green')
+```
+
+```{r}
+median(data$var1)
+median(data$var2)
+```
+
+---
+name: Mode
+# Central Tendency: Mode
+
+- Mode: The most frequently occurring value.    
+```{r Mode-plot, eval = T, echo = F, fig.width = 10, fig.height=5}
+par(mfrow=c(1,2))
+hist(data$var1,breaks = 50, main = 'var1 distribution', xlab = 'var1', col = 'skyblue', freq = TRUE) 
+var1_mean = mean(data$var1)
+var1_median = median(data$var1)
+# Mean
+abline(v = var1_mean, col = 'red', lwd = 2)
+text(x = var1_mean + 10 , y = 400, labels = paste("Mean =", round(var1_mean, 2)), pos = 4, col = 'red')
+# Median
+abline(v = var1_median, col = 'green', lwd = 2)
+text(x = var1_median + 10 , y = 500, labels = paste("Median =", round(var1_median, 2)), pos = 4, col = 'green')
+# Mode
+density_data <- density(data$var1)
+var1_mode <- density_data$x[which.max(density_data$y)]
+abline(v = var1_mode, col = 'purple', lwd = 2)
+text(x = var1_mode + 10 , y = 600, labels = paste("Mode =", round(var1_mode, 2)), pos = 4, col = 'purple')
+
+
+hist(data$var2,breaks = 50, main = 'var2 distribution', xlab = 'var2', col = 'skyblue', freq = TRUE) 
+var2_mean = mean(data$var2)
+var2_median = median(data$var2)
+# Mean
+abline(v = var2_mean, col = 'red', lwd = 2)
+text(x = var2_mean + 30 , y = 400, labels = paste("Mean =", round(var2_mean, 2)), pos = 4, col = 'red')
+# Median
+abline(v = var2_median, col = 'green', lwd = 2)
+text(x = var2_median + 30 , y = 600, labels = paste("Median =", round(var2_median, 2)), pos = 4, col = 'green')
+# Mode
+density_data <- density(data$var2)
+var2_mode <- density_data$x[which.max(density_data$y)]
+abline(v = var2_mode, col = 'purple', lwd = 2)
+text(x = var2_mode - 90 , y = 600, labels = paste("Mode =", round(var2_mode, 2)), pos = 4, col = 'purple')
+```
+
+```{r mode, echoo = T, eval = T}
+mode(data$var1)
+mode(data$var2)
+```
+---
+name: Spread
+# Measures of spread: Range and Interquartile Range. 
+- Range: Difference between maximum `max(data$var2)`  and minimum `min(data$var2)`.  
+- Interquartile Range: Data is represented in four equally sized groups (bins) known as **Quartile** and the distance between quartile is called **Interquartile Range** (IQR).    
+
+```{r range, echo = F, eval = T}
+# Sample data
+set.seed(123)
+data_quartile <- c(24, 30, 33, 45, 47, 58, 60, 66, 70)
+
+# Calculate min, Q1, Q2 (median), Q3, max, IQR, and range
+min_val <- min(data_quartile)
+q1 <- quantile(data_quartile, 0.25)
+median_val <- median(data_quartile)
+q3 <- quantile(data_quartile, 0.75)
+max_val <- max(data_quartile)
+iqr_val <- IQR(data_quartile)
+range_val <- max_val - min_val
+
+# Plot the main line and quartiles
+plot(c(1, 9), c(0, 1), type = "n", xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n")
+
+# Main line (the range of the data)
+segments(1, 0.5, 9, 0.5, lwd = 2)
+
+# Draw vertical lines at min, Q1, median (Q2), Q3, max
+segments(1, 0.45, 1, 0.55, lwd = 2) # Min
+segments(3, 0.45, 3, 0.55, lwd = 2, col = "orange") # Q1
+segments(5, 0.45, 5, 0.55, lwd = 2, col = "red") # Q2 (Median)
+segments(7, 0.45, 7, 0.55, lwd = 2, col = "orange") # Q3
+segments(9, 0.45, 9, 0.55, lwd = 2) # Max
+
+# Add the values on top
+text(1, 0.6, min_val, cex = 1)
+text(3, 0.6, q1, cex = 1)
+text(5, 0.6, median_val, cex = 1, col = "red")
+text(7, 0.6, q3, cex = 1)
+text(9, 0.6, max_val, cex = 1)
+
+# Add labels for Min, Q1, Q2, Q3, Max
+text(1, 0.4, "Min", cex = 1, col = "blue")
+text(3, 0.4, "Q1", cex = 1, col = "blue")
+text(5, 0.4, "Q2", cex = 1, col = "blue")
+text(7, 0.4, "Q3", cex = 1, col = "blue")
+text(9, 0.4, "Max", cex = 1, col = "blue")
+
+# Add the IQR and Range arrows and labels
+arrows(3, 0.3, 7, 0.3, length = 0.1)
+text(5, 0.25, paste("IQR = Q3 - Q1 =", round(iqr_val, 2)), cex = 1)
+
+arrows(1, 0.2, 9, 0.2, length = 0.1)
+text(5, 0.15, paste("Range = Max - Min =", range_val), cex = 1)
+
+```
+
+---
+name: Variance
+# Measures of spread: Variance 
+
+- Variance: How far the data points are spread out from the mean. Unit is the square of the data's unit (e.g. $cm^2$ ). 
+
+$$
+\sigma^2 = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2
+$$
+```{r var, echo=TRUE, eval=TRUE}
+var(data$var2)
+```
+---
+name: Stdev
+# Measures of spread: Standard deviation
+
+- Standard deviation (sd): is the square root of the variance and provides a more intuitive measure of spread. Despite of variance, sd has the same unit as the data (e.g. cm). 
+
+$$
+\sigma =\sqrt{\sigma2}
+$$
+
+```{r sd-plot,echo = F, eval = T}
+var2_sd <- sd(data$var2)
+hist(data$var2,breaks = 50, main = 'var2 distribution', xlab = 'var2', col = 'skyblue', freq = TRUE, ylim = c(0,1200))
+abline(v = var2_mean, col = 'red', lwd = 2)
+rect(var2_mean - var2_sd, 0, var2_mean + var2_sd, 1100, col = rgb(0.9, 0.9, 0.9, 0.5), border = NA)
+rect(var2_mean - 2*var2_sd, 0, var2_mean - var2_sd, 1100, col = rgb(0.7, 0.7, 0.7, 0.5), border = NA)
+rect(var2_mean + 2*var2_sd, 0, var2_mean + var2_sd, 1100, col = rgb(0.7, 0.7, 0.7, 0.5), border = NA)
+
+rect(var2_mean - 3*var2_sd, 0, var2_mean - 2*var2_sd, 1100, col = rgb(0.5, 0.5, 0.5, 0.5), border = NA)
+rect(var2_mean + 3*var2_sd, 0, var2_mean + 2*var2_sd, 1100, col = rgb(0.5, 0.5, 0.5, 0.5), border = NA)
+
+text(x = var2_mean - 1 , y = 1200, labels = expression(bar(x)), pos = 4, col = 'red', cex = 0.8)
+text(x = var2_mean + 5, y = 1100, labels = expression(bar(x) + sd), pos = 4, col = 'black', cex = 0.8)
+text(x = var2_mean - var2_sd , y = 1100, labels = expression(bar(x) - sd), pos = 4, col = 'black', cex = 0.8)
+
+text(x = var2_mean + 2*var2_sd - 15 , y = 1100, labels = expression(bar(x) + 2*sd), pos = 4, col = 'black', cex = 0.7)
+text(x = var2_mean - 2*var2_sd , y = 1100, labels = expression(bar(x) - 2*sd), pos = 4, col = 'black', cex = 0.7)
+
+text(x = var2_mean + 3*var2_sd - 15 , y = 1100, labels = expression(bar(x) + 3*sd), pos = 4, col = 'black', cex = 0.7)
+text(x = var2_mean - 3*var2_sd , y = 1100, labels = expression(bar(x) - 3*sd), pos = 4, col = 'black', cex = 0.7)
+
+```
+---
+name: correlation
+# Correlation
+
+- Measuring the strength and direction of the **linear**  relationship between two variables.  
+
+  - Positive Correlation: As one variable increases, the other also increases.
+  
+  - Negative Correlation: As one variable increases, the other decreases.
+  
+  - No Correlation: No directional relationship between the variables.
+  
+---
+name: Pearson
+# Types of correlation 
+- Pearson's correlation coefficient: Correlation of two **continuous** variables.
+- Assumptions:  
+   - Linear relationship. 
+   - Normally distributed variables.  
+
+```{r pearson,echo = F, eval = T, fig.width=10, fig.height=5}
+set.seed(123)
+
+# Generate data for perfect positive correlation
+x_pos <- seq(1, 100, length.out = 100)
+y_pos <- x_pos + rnorm(100, mean = 0, sd = 1) # adding a tiny bit of noise for realism
+
+# Generate data for perfect negative correlation
+x_neg <- seq(1, 100, length.out = 100)
+y_neg <- -x_neg + rnorm(100, mean = 0, sd = 1)
+
+# Generate data for no correlation
+x_none <- seq(1, 100, length.out = 100)
+y_none <- rnorm(100, mean = 50, sd = 20)
+
+# Combine all datasets into a data frame
+data <- data.frame(
+  x_pos = x_pos,
+  y_pos = y_pos,
+  x_neg = x_neg,
+  y_neg = y_neg,
+  x_none = x_none,
+  y_none = y_none
+)
+
+# Plot the data to visualize the correlations
+par(mfrow = c(1, 3), mar = c(5, 4, 4, 5) + 0.1)
+
+# Positive correlation
+plot(data$x_pos, data$y_pos, main = paste0("Positive  (r =", round(cor(data$x_pos, data$y_pos), digits = 4), ")"), xlab = "X", ylab = "Y", col = "blue", pch = 19)
+abline(lm(data$y_pos ~ data$x_pos), col = "red", lwd = 2)
+
+# Negative correlation
+plot(data$x_neg, data$y_neg, main = paste0("Negative  (r =", round(cor(data$x_neg, data$y_neg), digits = 4), ")"), xlab = "X", ylab = "Y", col = "blue", pch = 19)
+abline(lm(data$y_neg ~ data$x_neg), col = "red", lwd = 2)
+
+# No correlation
+plot(data$x_none, data$y_none, main = paste0("No Correlation (r =", round(cor(data$x_none, data$y_none), digits = 2), ")"), xlab = "X", ylab = "Y", col = "blue", pch = 19)
+abline(lm(data$y_none ~ data$x_none), col = "red", lwd = 2)
+
+```
+
+$$
+r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2 \sum (y_i - \bar{y})^2}}
+$$
+
+
+---
+name: Spearman
+# Types of correlation 
+- Spearman's rank correlation coefficient: Measures the monotonic relationship between two **ranked** variables.  
+- Assumptions:  
+  - It is a non-parametric approach and does not require the data to be linearly correlated.  
+  - The data is not normally distributed.  
+  - For both conrinuous and ordinal (categorical) variables.  
+```{r spearman,echo = F, eval = T, fig.width=8, fig.height=4}
+# Create the ordinal dataset
+data_ordinal <- data.frame(
+  Satisfaction = c(5, 4, 3, 2, 1, 4, 5, 2, 3, 1),
+  Performance = c(9, 8, 7, 3, 2, 6, 10, 1, 5, 4)
+)
+
+# Calculate Spearman's rank correlation
+spearman_corr <- cor(data_ordinal$Satisfaction, data_ordinal$Performance, method = "spearman")
+
+# Plot to visualize the relationship
+plot(data_ordinal$Satisfaction, data_ordinal$Performance,
+     xlab = "Satisfaction (Ordinal)",
+     ylab = "Performance (Rank)",
+     main = paste("Spearman's Correlation =", round(spearman_corr, 2)),
+     pch = 19, col = "blue")
+
+# Add a line to show the trend
+abline(lm(data_ordinal$Performance ~ data_ordinal$Satisfaction), col = "red", lwd = 2)
+
+```
+
+$$
+\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
+$$
+---
+name: closing
+# More on statistics?
+- We discussed about very basic descriptive statistical measures.  
+- You can read more [here](https://nbisweden.github.io/workshop-mlbiostatistics/session-descriptive/docs/index.html).    
+<!-- --------------------- Do not edit this and below --------------------- -->
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# See you at the next lecture!  
+```{r, echo=FALSE,child="assets/footer-slide.Rmd"}
+```
+
+```{r,include=FALSE,eval=FALSE}
+# manually run this to render this document to HTML
+#rmarkdown::render("presentation_demo.Rmd")
+# manually run this to convert HTML to PDF
+#pagedown::chrome_print("presentation_demo.html",output="presentation_demo.pdf")
+```

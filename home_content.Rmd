@@ -37,6 +37,7 @@ This page contains links to different lectures (slides) and practical exercises 
 * [Working with Vectors (Lab)](lab_vectors.html)
 * [Dataframes (Lab)](lab_dataframes.html)
 * [Loops and functions (Slides)](slide_r_elements_4.html)
+* [Loops and functions (Lab)](lab_loops.html)
 
 **Data wrangling**
 
