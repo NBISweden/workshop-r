@@ -171,7 +171,7 @@ flights %>% select(carrier, tailnum, origin)
 flights %>% select(-(day:carrier))
 ```
 
-- Select all columns that have to do with `arr`ival (hint: `?tidyselect`)
+- Select all columns that have to do with `arr`_ival (hint: `?tidyselect`)
 
 ```{r,accordion=TRUE}
 flights %>% select(contains('arr_'))
