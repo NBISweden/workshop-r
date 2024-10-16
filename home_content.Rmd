@@ -40,14 +40,14 @@ This page contains links to different lectures (slides) and practical exercises 
 
 **Data wrangling**
 
-* [Loading data (Slides)](slide_loadingdata.pdf)
+* [Loading data (Slides)](slide_loading_data.html)
 * [Loading data (Lab)](lab_loadingdata.html)  
 * [Tidyverse (Slides)](slide_tidyverse.html)  
 * [Tidyverse (Lab)](lab_tidyverse.html)  
 
 **Graphics**
 
-* [Graphics with base R (Slides)](slide_graphics.pdf)  
+* [Graphics with base R (Slides)](slide_base_graphics.html)  
 * [Graphics with base R (Lab)](lab_graphics.html)  
 * [Graphics with ggplot2 (Slides)](slide_ggplot2.html)  
 * [Working with ggplot2 (Lab)](lab_ggplot2.html)  
@@ -59,7 +59,7 @@ This page contains links to different lectures (slides) and practical exercises 
 **Useful resources**
 
 * [Data structures in R](data/common/R_data_structures_ver_1_1.pdf)  
-* [Color names in R](data/common/Rolor.pdf)  
+* [Color names in R](data/common/Rcolor.pdf)  
 * [Visualising data](data/common/rules_for_using_color.pdf)  
 * [Naming conventions in R](data/common/Rnaming.pdf)  
 * [Introduction to statistical tests in R](data/common/stats_tests.pdf)  
