@@ -319,10 +319,10 @@ to a vector otherwise it will still be a matrix.</p>
 <li>How do find out the length and the mode of the matrix?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515030001" aria-expanded="false" aria-controls="acc2024101515030001">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610280616" aria-expanded="false" aria-controls="acc2024101610280616">
 </button>
 </p>
-<div id="acc2024101515030001" class="collapse">
+<div id="acc2024101610280616" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mode(X)
 length(X)</code></pre>
@@ -334,10 +334,10 @@ length(X)</code></pre>
 <li>Extract all the values in the matrix that is larger than 6.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515039866" aria-expanded="false" aria-controls="acc2024101515039866">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610287354" aria-expanded="false" aria-controls="acc2024101610287354">
 </button>
 </p>
-<div id="acc2024101515039866" class="collapse">
+<div id="acc2024101610287354" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X[X&gt;6]</code></pre>
 <pre><code>## [1]  7 10  8 11  9 12</code></pre>
@@ -347,10 +347,10 @@ length(X)</code></pre>
 <li>Swap the positions of column 1 and 3 in the matrix X</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515038602" aria-expanded="false" aria-controls="acc2024101515038602">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610281571" aria-expanded="false" aria-controls="acc2024101610281571">
 </button>
 </p>
-<div id="acc2024101515038602" class="collapse">
+<div id="acc2024101610281571" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X[,c(3,2,1)]</code></pre>
 <pre><code>##      [,1] [,2] [,3]
@@ -364,10 +364,10 @@ length(X)</code></pre>
 <li>Add a vector with three zeros as a fifth row to the matrix</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515035689" aria-expanded="false" aria-controls="acc2024101515035689">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610287125" aria-expanded="false" aria-controls="acc2024101610287125">
 </button>
 </p>
-<div id="acc2024101515035689" class="collapse">
+<div id="acc2024101610287125" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X.2 &lt;- rbind(X, rep(0, 3))
 X.2</code></pre>
@@ -383,10 +383,10 @@ X.2</code></pre>
 <li>Replace all values the first two columns in your matrix with <code>NA</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515038043" aria-expanded="false" aria-controls="acc2024101515038043">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610286173" aria-expanded="false" aria-controls="acc2024101610286173">
 </button>
 </p>
-<div id="acc2024101515038043" class="collapse">
+<div id="acc2024101610286173" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X[,1:2] &lt;- NA
 X</code></pre>
@@ -401,10 +401,10 @@ X</code></pre>
 <li>Replace all values in the matrix with 0 and convert it to a vector</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515030046" aria-expanded="false" aria-controls="acc2024101515030046">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610284841" aria-expanded="false" aria-controls="acc2024101610284841">
 </button>
 </p>
-<div id="acc2024101515030046" class="collapse">
+<div id="acc2024101610284841" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X[] &lt;- 0
 as.vector(X)</code></pre>
@@ -438,10 +438,10 @@ D. A + B
 E. A - B
 F. A == B</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515033238" aria-expanded="false" aria-controls="acc2024101515033238">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610283421" aria-expanded="false" aria-controls="acc2024101610283421">
 </button>
 </p>
-<div id="acc2024101515033238" class="collapse">
+<div id="acc2024101610283421" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>A &lt;- matrix(1:4, ncol = 2, nrow = 2)
 B &lt;- matrix(5:8, ncol = 2, nrow = 2)
@@ -486,10 +486,10 @@ A == B</code></pre>
 <li>Generate a 10 by 10 matrix with random numbers. Add row and column names and calculate mean and median over rows and save these in a new matrix.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515036598" aria-expanded="false" aria-controls="acc2024101515036598">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610286455" aria-expanded="false" aria-controls="acc2024101610286455">
 </button>
 </p>
-<div id="acc2024101515036598" class="collapse">
+<div id="acc2024101610286455" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>e &lt;- rnorm(n = 100)
 E &lt;- matrix(e, nrow = 10, ncol = 10)
@@ -499,12 +499,12 @@ E.means &lt;- rowMeans(E)
 E.medians &lt;- apply(E, MARGIN = 1, median)
 E.mm &lt;- rbind(E.means, E.medians)
 E.mm</code></pre>
-<pre><code>##                     A         B         C          D           E         F
-## E.means    0.02395197 0.1857900 0.3628021 -0.4510194 -0.05322365 0.3628696
-## E.medians -0.18213840 0.4722173 0.2151638 -0.3639413  0.31299107 0.4524887
-##                   G          H          I         J
-## E.means   0.2732740 -0.4167404 -0.2800297 0.2638955
-## E.medians 0.4242761 -0.4409358 -0.2012911 0.3788715</code></pre>
+<pre><code>##                     A          B           C          D         E         F
+## E.means   -0.11550011 -0.5067904 -0.04821721 -0.1134745 0.1953414 0.1434262
+## E.medians  0.02414141 -0.6181357  0.06513343 -0.1369052 0.1798268 0.2233098
+##                   G         H           I          J
+## E.means   0.2091703 0.5589836 -0.04060708 -0.6131914
+## E.medians 0.4382664 0.3811558  0.10249377 -0.4915868</code></pre>
 </div>
 </div>
 </div>
@@ -520,7 +520,7 @@ str(dfr)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    10 obs. of  3 variables:
 ##  $ vector1: int  1 2 3 4 5 6 7 8 9 10
 ##  $ vector2: chr  &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; ...
-##  $ vector3: num  8.55 -8.13 15.42 -1.02 -5.42 ...</code></pre>
+##  $ vector3: num  7.71 -5.12 11.15 -5.9 -1.56 ...</code></pre>
 <p>In the above example, we can see that the dataframe <strong>dfr</strong> contains 10 observations for three variables that all have different modes, column 1 is an integer vector, column 2 a vector with <strong>factors</strong> and column 3 a numeric vector. It is noteworthy that the second column is a factor even though we just gave it a character vector.</p>
 <div id="exercise-1" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Exercise</h2>
@@ -528,93 +528,94 @@ str(dfr)</code></pre>
 <li>Figure out what is going on with the second column in <strong>dfr</strong> dataframe described above and modify the creation of the dataframe so that the second column is stored as a character vector rather than a factor. Hint: Check the help for <code>data.frame</code> to find an argument that turns off the factor conversion.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515035987" aria-expanded="false" aria-controls="acc2024101515035987">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610285114" aria-expanded="false" aria-controls="acc2024101610285114">
 </button>
 </p>
-<div id="acc2024101515035987" class="collapse">
+<div id="acc2024101610285114" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr &lt;- data.frame(vector1, vector2, vector3, stringsAsFactors = FALSE)
 str(dfr)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    10 obs. of  3 variables:
 ##  $ vector1: int  1 2 3 4 5 6 7 8 9 10
 ##  $ vector2: chr  &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; ...
-##  $ vector3: num  8.55 -8.13 15.42 -1.02 -5.42 ...</code></pre>
+##  $ vector3: num  7.71 -5.12 11.15 -5.9 -1.56 ...</code></pre>
 </div>
 </div>
 <ol start="2" style="list-style-type: decimal">
 <li>One can select columns from a data frame using either the name or the position. Use both methods to print the last two columns from the <strong>dfr</strong> data frame.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515039895" aria-expanded="false" aria-controls="acc2024101515039895">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610284719" aria-expanded="false" aria-controls="acc2024101610284719">
 </button>
 </p>
-<div id="acc2024101515039895" class="collapse">
+<div id="acc2024101610284719" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr[,2:3]
 dfr[,c(&quot;vector2&quot;, &quot;vector3&quot;)]</code></pre>
-<pre><code>##    vector2   vector3
-## 1        a  8.553507
-## 2        b -8.130445
-## 3        c 15.424467
-## 4        d -1.020818
-## 5        e -5.421533
-## 6        f  4.563598
-## 7        g -4.604153
-## 8        h  2.420925
-## 9        i  6.540036
-## 10       j -9.902042
-##    vector2   vector3
-## 1        a  8.553507
-## 2        b -8.130445
-## 3        c 15.424467
-## 4        d -1.020818
-## 5        e -5.421533
-## 6        f  4.563598
-## 7        g -4.604153
-## 8        h  2.420925
-## 9        i  6.540036
-## 10       j -9.902042</code></pre>
+<pre><code>##    vector2      vector3
+## 1        a   7.70998761
+## 2        b  -5.12207149
+## 3        c  11.14677175
+## 4        d  -5.89800744
+## 5        e  -1.56250438
+## 6        f -13.42565884
+## 7        g  -1.25597985
+## 8        h  -6.49789570
+## 9        i  11.16377816
+## 10       j  -0.03869153
+##    vector2      vector3
+## 1        a   7.70998761
+## 2        b  -5.12207149
+## 3        c  11.14677175
+## 4        d  -5.89800744
+## 5        e  -1.56250438
+## 6        f -13.42565884
+## 7        g  -1.25597985
+## 8        h  -6.49789570
+## 9        i  11.16377816
+## 10       j  -0.03869153</code></pre>
 </div>
 </div>
 <ol start="3" style="list-style-type: decimal">
 <li>Print all letters in the <strong>vector2</strong> column of the data frame where the <strong>vector3</strong> column has a positive value.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515038288" aria-expanded="false" aria-controls="acc2024101515038288">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610285215" aria-expanded="false" aria-controls="acc2024101610285215">
 </button>
 </p>
-<div id="acc2024101515038288" class="collapse">
+<div id="acc2024101610285215" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr[dfr$vector3&gt;0,2]
 dfr$vector2[dfr$vector3&gt;0]</code></pre>
-<pre><code>## [1] &quot;a&quot; &quot;c&quot; &quot;f&quot; &quot;h&quot; &quot;i&quot;
-## [1] &quot;a&quot; &quot;c&quot; &quot;f&quot; &quot;h&quot; &quot;i&quot;</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;c&quot; &quot;i&quot;
+## [1] &quot;a&quot; &quot;c&quot; &quot;i&quot;</code></pre>
 </div>
 </div>
 <ol start="4" style="list-style-type: decimal">
 <li>Create a new vector combining the all columns of <strong>dfr</strong> separated by a underscore.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515036285" aria-expanded="false" aria-controls="acc2024101515036285">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610282142" aria-expanded="false" aria-controls="acc2024101610282142">
 </button>
 </p>
-<div id="acc2024101515036285" class="collapse">
+<div id="acc2024101610282142" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>paste(dfr$vector1, dfr$vector2, dfr$vector3, sep = &quot;_&quot;)</code></pre>
-<pre><code>##  [1] &quot;1_a_8.55350650097187&quot;   &quot;2_b_-8.13044526746177&quot;  &quot;3_c_15.4244672308965&quot;  
-##  [4] &quot;4_d_-1.02081760993225&quot;  &quot;5_e_-5.42153305349207&quot;  &quot;6_f_4.56359793118814&quot;  
-##  [7] &quot;7_g_-4.60415305859309&quot;  &quot;8_h_2.42092470950164&quot;   &quot;9_i_6.54003614139125&quot;  
-## [10] &quot;10_j_-9.90204155910564&quot;</code></pre>
+<pre><code>##  [1] &quot;1_a_7.70998760905912&quot;     &quot;2_b_-5.12207148765939&quot;   
+##  [3] &quot;3_c_11.1467717492185&quot;     &quot;4_d_-5.89800744075488&quot;   
+##  [5] &quot;5_e_-1.5625043752889&quot;     &quot;6_f_-13.4256588384262&quot;   
+##  [7] &quot;7_g_-1.25597984776342&quot;    &quot;8_h_-6.4978956986819&quot;    
+##  [9] &quot;9_i_11.1637781560534&quot;     &quot;10_j_-0.0386915314866101&quot;</code></pre>
 </div>
 </div>
 <ol start="5" style="list-style-type: decimal">
 <li>There is a dataframe of car information that comes with the base installation of R. Have a look at this data by typing <code>mtcars</code>. How many rows and columns does it have?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515038966" aria-expanded="false" aria-controls="acc2024101515038966">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610285816" aria-expanded="false" aria-controls="acc2024101610285816">
 </button>
 </p>
-<div id="acc2024101515038966" class="collapse">
+<div id="acc2024101610285816" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dim(mtcars)
 ncol(mtcars)
@@ -628,10 +629,10 @@ nrow(mtcars)</code></pre>
 <li>Re-arrange the row names of this dataframe and save as a vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515037479" aria-expanded="false" aria-controls="acc2024101515037479">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610284840" aria-expanded="false" aria-controls="acc2024101610284840">
 </button>
 </p>
-<div id="acc2024101515037479" class="collapse">
+<div id="acc2024101610284840" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>car.names &lt;- sample(row.names(mtcars))</code></pre>
 </div>
@@ -640,58 +641,58 @@ nrow(mtcars)</code></pre>
 <li>Create a dataframe containing the vector from the previous question and two vectors with random numbers named random1 and random2.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515033683" aria-expanded="false" aria-controls="acc2024101515033683">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610285268" aria-expanded="false" aria-controls="acc2024101610285268">
 </button>
 </p>
-<div id="acc2024101515033683" class="collapse">
+<div id="acc2024101610285268" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>random1 &lt;- rnorm(length(car.names))
 random2 &lt;- rnorm(length(car.names))
 mtcars2 &lt;- data.frame(car.names, random1, random2)
 mtcars2</code></pre>
-<pre><code>##              car.names     random1      random2
-## 1            Merc 240D  0.80398836 -0.859634050
-## 2           Datsun 710 -0.71723252 -1.123922624
-## 3         Lotus Europa  2.31787222  1.482795676
-## 4            Fiat X1-9 -1.04970880 -0.981084999
-## 5           Volvo 142E -1.31742467  0.198236512
-## 6          Merc 450SLC -0.43780605  1.387658402
-## 7         Ferrari Dino  1.53944179 -0.203605399
-## 8            Merc 280C  0.41180479 -0.004544947
-## 9              Valiant -0.65660491 -1.431800957
-## 10          Camaro Z28 -1.02074940  0.676912677
-## 11 Lincoln Continental -0.19545090  1.458738371
-## 12       Porsche 914-2 -0.88456448  1.190364709
-## 13          Merc 450SE -0.21694167  0.220916628
-## 14      Ford Pantera L -0.04733443 -1.640661659
-## 15           Mazda RX4 -0.48015495 -1.972788244
-## 16      Hornet 4 Drive -2.36967248 -2.053265121
-## 17    Pontiac Firebird  0.33905506 -0.336347933
-## 18          Duster 360  0.03492091 -1.609625813
-## 19       Maserati Bora  0.29780957  0.377096785
-## 20         Honda Civic -0.39004744 -0.564727370
-## 21            Merc 230 -0.88330818  0.622633120
-## 22         AMC Javelin -1.05586134  1.584238325
-## 23            Merc 280  1.08940100 -0.321263530
-## 24   Hornet Sportabout -0.53053279  1.113061005
-## 25      Toyota Corolla  0.30844100  0.032935726
-## 26    Dodge Challenger  0.33715284  0.503024770
-## 27            Fiat 128  0.49595250  0.603660973
-## 28   Chrysler Imperial  1.65537950  0.172393761
-## 29       Mazda RX4 Wag  0.54565555 -1.274572656
-## 30       Toyota Corona -0.18958963  0.155501819
-## 31  Cadillac Fleetwood  0.38114484  1.482401558
-## 32          Merc 450SL  0.72078872 -1.064276751</code></pre>
+<pre><code>##              car.names     random1     random2
+## 1         Ferrari Dino  0.36721619  0.71327715
+## 2       Ford Pantera L -0.82922971  1.36847963
+## 3  Lincoln Continental -0.58050994 -0.98351088
+## 4            Merc 240D  0.48924123  0.24957829
+## 5           Merc 450SL -0.01421342  0.68847827
+## 6           Duster 360 -0.46605361  0.59010607
+## 7          Honda Civic  0.03603550  0.39325060
+## 8            Fiat X1-9  0.26421055  0.63985520
+## 9           Camaro Z28  0.88776082 -0.05705703
+## 10          Volvo 142E -0.29774960 -1.04354918
+## 11          Datsun 710 -0.24305066  0.23117563
+## 12         AMC Javelin -0.46390683 -2.36427999
+## 13        Lotus Europa -0.52061463 -0.09502300
+## 14           Merc 280C -1.49893845 -0.49771042
+## 15       Mazda RX4 Wag -0.77863053  0.81870455
+## 16            Merc 280 -0.11942229 -0.25031951
+## 17             Valiant -0.79741698  0.66543430
+## 18            Fiat 128  2.04539232 -1.20020385
+## 19   Hornet Sportabout -0.11844791  1.25903171
+## 20          Merc 450SE -1.39106665  0.58758834
+## 21       Maserati Bora -0.58092123 -0.13152704
+## 22    Pontiac Firebird -0.86297179  1.46270951
+## 23    Dodge Challenger  0.46014408 -0.44296864
+## 24      Hornet 4 Drive  0.44916747 -0.13609233
+## 25      Toyota Corolla -1.48225315  0.02492976
+## 26           Mazda RX4 -0.08829514  0.71674433
+## 27  Cadillac Fleetwood -1.51397517  0.08046293
+## 28         Merc 450SLC -0.08445914 -0.38291002
+## 29   Chrysler Imperial -0.07810151  0.09048296
+## 30       Porsche 914-2  0.67626809  1.03504207
+## 31       Toyota Corona  0.20361499 -1.15704821
+## 32            Merc 230 -0.72286941 -0.43780273</code></pre>
 </div>
 </div>
 <ol start="8" style="list-style-type: decimal">
 <li>Now you have two dataframes that both contains information on a set of cars. A collaborator asks you to create a new dataframe with all this information combined. Create a merged dataframe ensuring that rows match correctly.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515031898" aria-expanded="false" aria-controls="acc2024101515031898">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610285873" aria-expanded="false" aria-controls="acc2024101610285873">
 </button>
 </p>
-<div id="acc2024101515031898" class="collapse">
+<div id="acc2024101610285873" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mt.merged &lt;- merge(mtcars, mtcars2, by.x = &quot;row.names&quot;, by.y = &quot;car.names&quot;)
 mt.merged</code></pre>
@@ -728,67 +729,67 @@ mt.merged</code></pre>
 ## 30       Toyota Corona 21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
 ## 31             Valiant 18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
 ## 32          Volvo 142E 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
-##        random1      random2
-## 1  -1.05586134  1.584238325
-## 2   0.38114484  1.482401558
-## 3  -1.02074940  0.676912677
-## 4   1.65537950  0.172393761
-## 5  -0.71723252 -1.123922624
-## 6   0.33715284  0.503024770
-## 7   0.03492091 -1.609625813
-## 8   1.53944179 -0.203605399
-## 9   0.49595250  0.603660973
-## 10 -1.04970880 -0.981084999
-## 11 -0.04733443 -1.640661659
-## 12 -0.39004744 -0.564727370
-## 13 -2.36967248 -2.053265121
-## 14 -0.53053279  1.113061005
-## 15 -0.19545090  1.458738371
-## 16  2.31787222  1.482795676
-## 17  0.29780957  0.377096785
-## 18 -0.48015495 -1.972788244
-## 19  0.54565555 -1.274572656
-## 20 -0.88330818  0.622633120
-## 21  0.80398836 -0.859634050
-## 22  1.08940100 -0.321263530
-## 23  0.41180479 -0.004544947
-## 24 -0.21694167  0.220916628
-## 25  0.72078872 -1.064276751
-## 26 -0.43780605  1.387658402
-## 27  0.33905506 -0.336347933
-## 28 -0.88456448  1.190364709
-## 29  0.30844100  0.032935726
-## 30 -0.18958963  0.155501819
-## 31 -0.65660491 -1.431800957
-## 32 -1.31742467  0.198236512</code></pre>
+##        random1     random2
+## 1  -0.46390683 -2.36427999
+## 2  -1.51397517  0.08046293
+## 3   0.88776082 -0.05705703
+## 4  -0.07810151  0.09048296
+## 5  -0.24305066  0.23117563
+## 6   0.46014408 -0.44296864
+## 7  -0.46605361  0.59010607
+## 8   0.36721619  0.71327715
+## 9   2.04539232 -1.20020385
+## 10  0.26421055  0.63985520
+## 11 -0.82922971  1.36847963
+## 12  0.03603550  0.39325060
+## 13  0.44916747 -0.13609233
+## 14 -0.11844791  1.25903171
+## 15 -0.58050994 -0.98351088
+## 16 -0.52061463 -0.09502300
+## 17 -0.58092123 -0.13152704
+## 18 -0.08829514  0.71674433
+## 19 -0.77863053  0.81870455
+## 20 -0.72286941 -0.43780273
+## 21  0.48924123  0.24957829
+## 22 -0.11942229 -0.25031951
+## 23 -1.49893845 -0.49771042
+## 24 -1.39106665  0.58758834
+## 25 -0.01421342  0.68847827
+## 26 -0.08445914 -0.38291002
+## 27 -0.86297179  1.46270951
+## 28  0.67626809  1.03504207
+## 29 -1.48225315  0.02492976
+## 30  0.20361499 -1.15704821
+## 31 -0.79741698  0.66543430
+## 32 -0.29774960 -1.04354918</code></pre>
 </div>
 </div>
 <ol start="9" style="list-style-type: decimal">
 <li>Calculate the mean value for the two columns that you added to the <strong>mtcars</strong> data frame. Check out the function <code>colMeans()</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515038906" aria-expanded="false" aria-controls="acc2024101515038906">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610281068" aria-expanded="false" aria-controls="acc2024101610281068">
 </button>
 </p>
-<div id="acc2024101515038906" class="collapse">
+<div id="acc2024101610281068" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>colMeans(mtcars2[, c(&quot;random1&quot;, &quot;random2&quot;)])</code></pre>
 <pre><code>##     random1     random2 
-## -0.03638050 -0.06811098</code></pre>
+## -0.23918895  0.07610401</code></pre>
 </div>
 </div>
 <p>Try to modify so you get the mean by cylinder instead. Check out the function <code>aggregate()</code>.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515033862" aria-expanded="false" aria-controls="acc2024101515033862">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610281273" aria-expanded="false" aria-controls="acc2024101610281273">
 </button>
 </p>
-<div id="acc2024101515033862" class="collapse">
+<div id="acc2024101610281273" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>aggregate(mtcars2$random1, by=list(mtcars$cyl), FUN=mean)</code></pre>
-<pre><code>##   Group.1          x
-## 1       4  0.3947019
-## 2       6 -0.4009356
-## 3       8 -0.1928105</code></pre>
+<pre><code>##   Group.1           x
+## 1       4 -0.17119826
+## 2       6 -0.04333687
+## 3       8 -0.39053625</code></pre>
 </div>
 </div>
 </div>
@@ -851,10 +852,10 @@ the list <strong>u.2</strong>.</p>
 <li>Create a list containing 1 character vector, a numeric vector, a character matrix.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515035733" aria-expanded="false" aria-controls="acc2024101515035733">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610287827" aria-expanded="false" aria-controls="acc2024101610287827">
 </button>
 </p>
-<div id="acc2024101515035733" class="collapse">
+<div id="acc2024101610287827" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>list.2 &lt;- list(vec1 = c(&quot;hi&quot;, &quot;ho&quot;, &quot;merry&quot;, &quot;christmas&quot;),
                vec2 = 4:19,
@@ -880,10 +881,10 @@ list.2</code></pre>
 <pre class="r"><code>dfr &lt;- data.frame(letters, LETTERS, letters == LETTERS)</code></pre>
 <p>Add this dataframe to the list created above.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515038281" aria-expanded="false" aria-controls="acc2024101515038281">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610280269" aria-expanded="false" aria-controls="acc2024101610280269">
 </button>
 </p>
-<div id="acc2024101515038281" class="collapse">
+<div id="acc2024101610280269" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>list.2[[4]] &lt;- dfr</code></pre>
 </div>
@@ -892,10 +893,10 @@ list.2</code></pre>
 <li>Remove the the second entry in your list.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515036916" aria-expanded="false" aria-controls="acc2024101515036916">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610284495" aria-expanded="false" aria-controls="acc2024101610284495">
 </button>
 </p>
-<div id="acc2024101515036916" class="collapse">
+<div id="acc2024101610284495" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>list.2[-2]</code></pre>
 <pre><code>## $vec1
@@ -942,10 +943,10 @@ list.2</code></pre>
 <li>Create a new list that contain 20 sublists, with each entry holding a numeric vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515030814" aria-expanded="false" aria-controls="acc2024101515030814">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610289882" aria-expanded="false" aria-controls="acc2024101610289882">
 </button>
 </p>
-<div id="acc2024101515030814" class="collapse">
+<div id="acc2024101610289882" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vec1 &lt;- rnorm(1000)
 list.a &lt;- split(vec1, 1:20)</code></pre>
@@ -955,10 +956,10 @@ list.a &lt;- split(vec1, 1:20)</code></pre>
 <li>How long is your list, and how long are each of the vectors that are part of the list?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515038616" aria-expanded="false" aria-controls="acc2024101515038616">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610287268" aria-expanded="false" aria-controls="acc2024101610287268">
 </button>
 </p>
-<div id="acc2024101515038616" class="collapse">
+<div id="acc2024101610287268" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>length(list.a)
 lapply(list.a, FUN = &quot;length&quot;)</code></pre>
@@ -1028,121 +1029,121 @@ lapply(list.a, FUN = &quot;length&quot;)</code></pre>
 <li>Figure out what the main differences are between the function <code>lapply()</code> and <code>sapply</code> are and use both of them with the function summary on your newly created list. What are the pros and cons of the two approaches to calculate the same summary statistics?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101515035422" aria-expanded="false" aria-controls="acc2024101515035422">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024101610281142" aria-expanded="false" aria-controls="acc2024101610281142">
 </button>
 </p>
-<div id="acc2024101515035422" class="collapse">
+<div id="acc2024101610281142" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>lapply(X = list.a, FUN = &quot;summary&quot;)
 sapply(X = list.a, FUN = &quot;summary&quot;)</code></pre>
 <pre><code>## $`1`
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -3.42830 -0.56980 -0.09780 -0.09613  0.41967  1.99683 
+## -2.71924 -0.97835  0.03254 -0.11514  0.44973  2.02492 
 ## 
 ## $`2`
-##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -2.00367 -0.88331 -0.16166  0.02964  0.97956  2.18831 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -2.3214 -0.8233 -0.1145 -0.1273  0.2078  3.9647 
 ## 
 ## $`3`
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -2.64585 -1.02006 -0.01211 -0.13380  0.59340  2.03063 
+## -1.83653 -0.64321 -0.03512  0.11420  0.83545  2.46683 
 ## 
 ## $`4`
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -2.6018 -0.8409 -0.2207 -0.2242  0.4206  2.6310 
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -2.17924 -0.64557 -0.01567 -0.03324  0.58338  1.77261 
 ## 
 ## $`5`
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -2.2425 -1.0052 -0.1493 -0.1378  0.5708  2.2513 
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -2.33334 -0.89320  0.10472 -0.03815  0.82084  2.69637 
 ## 
 ## $`6`
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -1.6371 -0.5634  0.1111  0.1051  0.5997  2.0953 
+## -2.9574 -0.3046  0.2486  0.1684  0.7656  1.9555 
 ## 
 ## $`7`
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -3.19836 -0.79562 -0.05584 -0.09063  0.57136  2.56410 
+## -2.06369 -0.54243 -0.09921  0.15430  1.05176  2.52721 
 ## 
 ## $`8`
-##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -2.17417 -0.68217  0.05160  0.01087  0.79536  2.12106 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -2.3294 -1.0265 -0.2318 -0.1972  0.5735  1.6981 
 ## 
 ## $`9`
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -4.16187 -0.58325 -0.04589  0.13049  0.80316  3.69762 
+## -2.30420 -0.42286  0.03798  0.16058  0.72053  2.45348 
 ## 
 ## $`10`
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -2.52092 -0.85133 -0.01006 -0.08429  0.55194  1.48560 
+## -3.32602 -0.52843  0.06080  0.01252  0.56944  2.51121 
 ## 
 ## $`11`
-##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -2.56626 -0.58862  0.08251  0.04315  0.71016  2.08115 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -2.4597 -0.5137  0.2790  0.1835  0.7468  2.3461 
 ## 
 ## $`12`
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -1.65434 -0.41167 -0.04644  0.12140  0.59577  2.42652 
+## -1.71373 -0.74729  0.03508  0.01548  0.65403  2.96912 
 ## 
 ## $`13`
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -2.1934 -0.9452 -0.2389 -0.2810  0.4839  1.8164 
+## -3.2028 -0.8624 -0.2680 -0.1958  0.5111  2.9846 
 ## 
 ## $`14`
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -2.14964 -0.56954  0.11558  0.02332  0.50761  1.70455 
+## -1.55497 -0.55051  0.04278  0.03782  0.51830  1.87938 
 ## 
 ## $`15`
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -2.2315 -0.8220  0.1100 -0.0514  0.6218  1.8113 
+## -3.0342 -0.8818 -0.1099 -0.0443  1.0388  1.8125 
 ## 
 ## $`16`
-##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-## -2.435401 -0.742555  0.009372 -0.037641  0.704470  2.669579 
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -2.64386 -0.33219  0.08861  0.13883  0.72843  2.15964 
 ## 
 ## $`17`
-##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-## -2.627626 -0.688621  0.005717 -0.049992  0.663076  2.059481 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -1.9438 -0.9390 -0.3693 -0.3129  0.2617  2.0641 
 ## 
 ## $`18`
-##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-## -1.835831 -0.559372  0.003477  0.053027  0.687339  1.951982 
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -2.56980 -0.62099 -0.07501 -0.11849  0.46765  2.35095 
 ## 
 ## $`19`
-##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-## -1.561813 -0.792556 -0.137289  0.003614  0.636765  2.803169 
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -1.77591 -0.59162  0.02874  0.04303  0.42589  2.90489 
 ## 
 ## $`20`
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -1.8259 -0.7934 -0.2118 -0.2434  0.1725  1.6900 
+## -2.5060 -0.3640  0.2587  0.1960  0.8934  2.1682 
 ## 
-##                   1           2           3          4          5          6
-## Min.    -3.42829721 -2.00366860 -2.64585148 -2.6017737 -2.2424540 -1.6371414
-## 1st Qu. -0.56979569 -0.88330707 -1.02005689 -0.8408604 -1.0051633 -0.5633842
-## Median  -0.09779604 -0.16165867 -0.01210519 -0.2207132 -0.1493408  0.1111283
-## Mean    -0.09613334  0.02963935 -0.13380263 -0.2241896 -0.1377660  0.1050535
-## 3rd Qu.  0.41967058  0.97955527  0.59339520  0.4205992  0.5707729  0.5997434
-## Max.     1.99683040  2.18830904  2.03062848  2.6310190  2.2512699  2.0952836
-##                   7           8           9          10          11          12
-## Min.    -3.19835639 -2.17416802 -4.16186636 -2.52091544 -2.56626421 -1.65434214
-## 1st Qu. -0.79562047 -0.68216760 -0.58324645 -0.85132590 -0.58861990 -0.41166614
-## Median  -0.05584299  0.05160305 -0.04589383 -0.01005976  0.08250842 -0.04644389
-## Mean    -0.09063487  0.01087086  0.13048569 -0.08428848  0.04314516  0.12140150
-## 3rd Qu.  0.57135984  0.79536333  0.80315733  0.55193623  0.71016115  0.59577255
-## Max.     2.56410051  2.12106145  3.69761921  1.48560025  2.08114598  2.42651607
-##                 13          14          15           16          17
-## Min.    -2.1934406 -2.14964491 -2.23154625 -2.435401069 -2.62762568
-## 1st Qu. -0.9452022 -0.56954358 -0.82200276 -0.742554580 -0.68862061
-## Median  -0.2388841  0.11557891  0.10995195  0.009372368  0.00571733
-## Mean    -0.2809620  0.02332335 -0.05139692 -0.037640564 -0.04999175
-## 3rd Qu.  0.4838923  0.50761271  0.62184770  0.704470125  0.66307611
-## Max.     1.8164041  1.70455070  1.81129703  2.669579311  2.05948123
-##                   18           19         20
-## Min.    -1.835830852 -1.561812854 -1.8259205
-## 1st Qu. -0.559371967 -0.792556248 -0.7934138
-## Median   0.003476666 -0.137288875 -0.2117927
-## Mean     0.053026641  0.003614134 -0.2434421
-## 3rd Qu.  0.687338855  0.636764947  0.1724551
-## Max.     1.951982528  2.803169243  1.6900425</code></pre>
+##                   1          2           3           4          5          6
+## Min.    -2.71923717 -2.3214348 -1.83652920 -2.17923815 -2.3333403 -2.9573658
+## 1st Qu. -0.97835350 -0.8232765 -0.64320627 -0.64556691 -0.8931961 -0.3045915
+## Median   0.03253697 -0.1145149 -0.03511581 -0.01567166  0.1047170  0.2485958
+## Mean    -0.11513866 -0.1272769  0.11419532 -0.03323565 -0.0381540  0.1683773
+## 3rd Qu.  0.44973157  0.2078239  0.83544610  0.58338119  0.8208397  0.7655758
+## Max.     2.02491570  3.9646897  2.46683155  1.77261469  2.6963675  1.9555347
+##                   7          8           9          10         11          12
+## Min.    -2.06368780 -2.3293541 -2.30420310 -3.32601964 -2.4597242 -1.71373392
+## 1st Qu. -0.54242888 -1.0264710 -0.42285543 -0.52843119 -0.5136558 -0.74728984
+## Median  -0.09921021 -0.2317575  0.03797861  0.06079946  0.2789667  0.03507972
+## Mean     0.15430397 -0.1972380  0.16058339  0.01251492  0.1834532  0.01548051
+## 3rd Qu.  1.05176026  0.5734994  0.72052924  0.56943945  0.7467859  0.65402572
+## Max.     2.52721057  1.6981075  2.45348002  2.51120818  2.3461468  2.96912430
+##                 13          14          15          16         17          18
+## Min.    -3.2028290 -1.55497432 -3.03420765 -2.64386440 -1.9438448 -2.56979700
+## 1st Qu. -0.8623625 -0.55051031 -0.88183133 -0.33219205 -0.9390457 -0.62099206
+## Median  -0.2679851  0.04278030 -0.10994795  0.08860904 -0.3693254 -0.07500722
+## Mean    -0.1957629  0.03782354 -0.04430283  0.13883314 -0.3129063 -0.11848681
+## 3rd Qu.  0.5111367  0.51829599  1.03876056  0.72842593  0.2617418  0.46765040
+## Max.     2.9846166  1.87937852  1.81252194  2.15963804  2.0641339  2.35094791
+##                  19         20
+## Min.    -1.77591139 -2.5060029
+## 1st Qu. -0.59161952 -0.3639503
+## Median   0.02873505  0.2586962
+## Mean     0.04302599  0.1959882
+## 3rd Qu.  0.42589399  0.8934491
+## Max.     2.90489313  2.1682063</code></pre>
 </div>
 </div>
 </div>
