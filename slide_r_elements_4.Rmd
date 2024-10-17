@@ -70,7 +70,7 @@ One way to repeat an action is to use the **for-loop**.
 
 This is the general syntax:
 
-```{r for.loop.general, eval=FALSE, echo=TRUE}
+```
 for (var in seq) {
   expr
 }
@@ -286,7 +286,7 @@ In R, we use the `if` clause for this purpose.
 
 This is the general syntax:
 
-```{r if.sintax, eval=F, echo=T}
+```
 if (condition) {
   expr
 }
