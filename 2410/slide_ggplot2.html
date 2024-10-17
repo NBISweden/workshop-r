@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Visualisation with ggplot2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Roy Francis &amp; Lokesh Mano" />
+    <meta name="keywords" content="r, rmarkdown, ggplot, graphics" />
+    <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+    <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+    <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Visualisation with <code>ggplot2</code>
+]
+.subtitle[
+## R Foundations for Life Scientists
+]
+.author[
+### Roy Francis &amp; Lokesh Mano
+]
+
+---
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+&lt;!-- ----------------- Only edit title &amp; author above this ----------------- --&gt;
+
+
+
+# Contents
+
+* [Why `ggplot2`?](#intro)
+* [Grammar of Graphics](#gog)
+* [Data](#data-iris)
+* [Geoms](#geom)
+* [Aesthetics](#aes)
+* [Scales](#scales-discrete-colour)
+* [Facets](#facet-wrap)
+* [Coordinates](#coordinate)
+* [Theme](#theme)
+* [Position](#position)
+* [Saving Plots](#save)
+* [Combining Plots](#comb)
+* [Interactive Plots](#interactive)
+* [Extensions](#extension)
+
+---
+name: intro
+class: spaced
+
+# Why `ggplot2`?
+
+* Consistent code
+* Flexible
+* Automatic legends, colors etc
+* Save plot objects
+* Themes for reusing styles
+* Numerous add-ons/extensions
+* Nearly complete graphing solution
+
+--
+
+Not suitable for:
+
+* 3D graphics
+
+???
+
+Why can't we just do everything is base plot? Of course, we could, but it's easier, consistent and more structured using `ggplot2`. There is bit of a learning curve, but once the code syntax and graphic building logic is clear, it becomes easy to plot a large variety of graphs.
+
+---
+name: gvb1
+
+# `ggplot2` vs Base Graphics
+
+.pull-left-50[
+
+``` r
+hist(iris$Sepal.Length)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+.pull-right-50[
+
+``` r
+library(ggplot2)
+ggplot(iris,aes(x=Sepal.Length))+
+  geom_histogram(bins=8)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+For simple graphs, the base plot seem to take minimal coding effort compared to a ggplot graph.
+
+---
+name: gvb2
+
+# `ggplot2` vs Base Graphics
+
+.pull-left-50[
+
+``` r
+plot(iris$Petal.Length,iris$Petal.Width,
+     col=c("red","green","blue")[iris$Species],
+     pch=c(0,1,2)[iris$Species])
+legend(x=1,y=2.5,
+       legend=c("setosa","versicolor","virginica"),
+       pch=c(0,1,2),col=c("red","green","blue"))
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+.pull-right-50[
+
+``` r
+ggplot(iris,aes(Petal.Length,Sepal.Length,color=Species))+
+  geom_point()
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-6-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+For anything beyond extremely basic plots, base plotting quickly become complex. More importantly, base plots do not have consistency in it's functions or plotting strategy.
+
+---
+name: gog
+class: spaced
+
+# Grammar Of Graphics
+
+.pull-left-30[
+![](data/slide_ggplot2/gog.jpg)
+![](data/slide_ggplot2/gog.png)
+]
+
+--
+
+.pull-right-70[
+* **Data**: Input data
+* **Geom**: A geometry representing data. Points, Lines etc
+* **Aesthetic**: Visual characteristics of the geometry. Size, Color, Shape etc
+* **Scale**: How visual characteristics are converted to display values
+* **Statistics**: Statistical transformations. Counts, Means etc
+* **Coordinates**: Numeric system to determine position of geometry. Cartesian, Polar etc
+* **Facets**: Split data into subsets
+]
+
+???
+
+`ggplot` was created by Hadley Wickham in 2005 as an implementation of Leland Wilkinson's book Grammar of Graphics.
+
+Different graphs have always been considered as independent entities and also labelled differently such as barplots, scatterplots, boxplots etc. Each graph has it's own function and plotting strategy.
+
+Grammar of graphics (GOG) tries to unify all graphs under a common umbrella. GOG brings the idea that graphs are made up of discrete components which can be mixed and matched to create any plot. This creates a consistent underlying framework to graphing.
+
+---
+name: syntax
+
+# Building A Graph: Syntax
+
+![](data/slide_ggplot2/syntax.png)
+
+---
+name: build-1
+
+# Building A Graph
+
+.pull-left-40[
+
+``` r
+ggplot(iris)
+```
+]
+
+.pull-right-50[
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-8-1.png" width="252" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+name: build-2
+
+# Building A Graph
+
+.pull-left-40[
+
+``` r
+ggplot(iris,aes(x=Sepal.Length,
+                y=Sepal.Width))
+```
+]
+
+.pull-right-60[
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-10-1.png" width="252" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+name: build-3
+
+# Building A Graph
+
+.pull-left-40[
+
+``` r
+ggplot(iris,aes(x=Sepal.Length,
+                y=Sepal.Width))+
+  geom_point()
+```
+]
+
+.pull-right-60[
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-12-1.png" width="252" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+name: build-4
+
+# Building A Graph
+
+.pull-left-40[
+
+``` r
+ggplot(iris,aes(x=Sepal.Length,
+                y=Sepal.Width,
+                colour=Species))+
+  geom_point()
+```
+]
+
+.pull-right-60[
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-14-1.png" width="252" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+name: data-iris
+
+# Data • `iris`
+
+* Input data is always an R `data.frame` object
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Sepal.Length &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Sepal.Width &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Petal.Length &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Petal.Width &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Species &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5.1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+``` r
+str(iris)
+```
+
+```
+## 'data.frame':	150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+```
+
+???
+
+It's a good idea to use `str()` to check the input dataframe to make sure that numbers are actually numbers and not characters, for example. Verify that factors are correctly assigned.
+
+---
+name: data-diamonds
+
+# Data • `diamonds`
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; carat &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; cut &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; color &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; clarity &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; depth &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; table &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; price &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; x &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; y &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; z &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.23 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Ideal &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; E &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; SI2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 61.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 55 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 326 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.95 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.98 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.43 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.21 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Premium &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; E &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; SI1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 59.8 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 61 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 326 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.89 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.84 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.31 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.23 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; E &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; VS1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 56.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 65 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 327 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.05 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4.07 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.31 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+``` r
+str(diamonds)
+```
+
+```
+## tibble [53,940 × 10] (S3: tbl_df/tbl/data.frame)
+##  $ carat  : num [1:53940] 0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
+##  $ cut    : Ord.factor w/ 5 levels "Fair"&lt;"Good"&lt;..: 5 4 2 4 2 3 3 3 1 3 ...
+##  $ color  : Ord.factor w/ 7 levels "D"&lt;"E"&lt;"F"&lt;"G"&lt;..: 2 2 2 6 7 7 6 5 2 5 ...
+##  $ clarity: Ord.factor w/ 8 levels "I1"&lt;"SI2"&lt;"SI1"&lt;..: 2 3 5 4 2 6 7 3 4 5 ...
+##  $ depth  : num [1:53940] 61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
+##  $ table  : num [1:53940] 55 61 65 58 58 57 57 55 61 61 ...
+##  $ price  : int [1:53940] 326 326 327 334 335 336 336 337 337 338 ...
+##  $ x      : num [1:53940] 3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
+##  $ y      : num [1:53940] 3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
+##  $ z      : num [1:53940] 2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
+```
+
+???
+
+R `data.frame` is a tabular format with rows and columns just like a spreadsheet. All items in a row or a column must be available or missing values filled in as NAs.
+
+---
+name: data-format
+
+# Data • Format
+
+* Transforming data into long or wide formats
+
+
+``` r
+iris %&gt;% head(n=4)
+```
+
+```
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+```
+
+
+``` r
+iris %&gt;% tidyr::pivot_longer(!Species,names_to="variable",values_to="value") %&gt;%
+         as.data.frame() %&gt;% head(n=5)
+```
+
+```
+  Species     variable value
+1  setosa Sepal.Length   5.1
+2  setosa  Sepal.Width   3.5
+3  setosa Petal.Length   1.4
+4  setosa  Petal.Width   0.2
+5  setosa Sepal.Length   4.9
+```
+
+???
+
+The data must be cleaned up and prepared for plotting. The data must be 'tidy'. Columns must be variables and rows must be observations. The data can then be in wide or long format depending on the variables to be plotted.
+
+---
+name: geom
+
+# Geoms
+
+![geoms](data/slide_ggplot2/geoms.png)
+--
+
+``` r
+p &lt;- ggplot(iris)
+# scatterplot
+p+geom_point(aes(x=Sepal.Length,y=Sepal.Width))
+# barplot
+p+geom_bar(aes(x=Sepal.Length))
+# boxplot
+p+geom_boxplot(aes(x=Species,y=Sepal.Width))
+# search
+help.search("^geom_",package="ggplot2")
+```
+
+???
+
+Geoms are the geometric components of a graph such as points, lines etc used to represent data. The same data can be visually represented in different geoms. For example, points or bars. Mandatory input requirements change depending on geoms.
+
+---
+name: aes
+
+# Aesthetics
+
+* Aesthetic mapping vs aesthetic parameter
+
+.pull-left-50[
+
+``` r
+ggplot(iris)+
+  geom_point(aes(x=Sepal.Length,
+                 y=Sepal.Width,
+                 size=Petal.Length,
+                 alpha=Petal.Width,
+                 shape=Species,
+                 color=Species))
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-22-1.png" width="396" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+.pull-left-50[
+
+``` r
+ggplot(iris)+
+  geom_point(aes(x=Sepal.Length,
+                 y=Sepal.Width),
+                 size=2,
+                 alpha=0.8,
+                 shape=15,
+                 color="steelblue")
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-23-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+Aesthetics are used to assign values to geometries. For example, a set of points can be a fixed size or can be different colors or sizes denoting a variable.
+
+This would be an incorrect way to do it.
+
+```
+ggplot(iris)+
+geom_point(aes(x=Sepal.Length,y=Sepal.Width,size=2)
+```
+
+---
+name: aes-2
+
+# Aesthetics
+
+
+``` r
+x1 &lt;- ggplot(iris) +
+  geom_point(aes(x=Sepal.Length,y=Sepal.Width))+
+  stat_smooth(aes(x=Sepal.Length,y=Sepal.Width))
+
+x2 &lt;- ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+
+                      geom_point() + geom_smooth()
+
+x1|x2
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-24-1.png" width="576" style="display: block; margin: auto auto auto 0;" /&gt;
+
+???
+
+If the same aesthetics are used in multiple geoms, they can be moved to `ggplot()`.
+
+---
+name: multiple-geom
+
+# Multiple Geoms
+
+
+``` r
+ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+
+      geom_point()+
+      geom_line()+
+      geom_smooth()+
+      geom_rug()+
+      geom_step()+
+      geom_text(data=subset(iris,iris$Species=="setosa"),aes(label=Species))
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-25-1.png" width="648" style="display: block; margin: auto auto auto 0;" /&gt;
+
+???
+
+Multiple geoms can be plotted one after the other. The order in which items are specified in the command dictates the plotting order on the actual plot.
+
+In this case, the points appear over the lines.
+
+```
+ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+
+      geom_point()+
+      geom_line()+
+```
+
+while here the lines appear above the points.
+
+```
+ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+
+      geom_line()+
+      geom_point()+
+```
+
+Each geom takes input from `ggplot()` inputs. If extra input is required to a geom, it can be specified additionally inside `aes()`.
+
+`data` can be changed if needed for specific geoms.
+
+---
+name: scales-discrete-color
+
+# Scales • Discrete Colors
+
+* scales: position, color, fill, size, shape, alpha, linetype
+* syntax: `scale_&lt;aesthetic&gt;_&lt;type&gt;`
+
+&lt;img src="data/slide_ggplot2/scales.png" alt="scales-syntax" style="width:50%;"&gt;
+
+--
+
+.pull-left-50[
+
+``` r
+p &lt;- ggplot(iris)+geom_point(aes(x=Sepal.Length,
+                     y=Sepal.Width,color=Species))
+p
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-26-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-right-50[
+
+``` r
+p + scale_color_manual(
+     name="Manual",
+     values=c("#5BC0EB","#FDE74C","#9BC53D"))
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-27-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+Scales are used to control the aesthetics. For example the aesthetic color is mapped to a variable `x`. The palette of colors used, the mapping of which color to which value, the upper and lower limit of the data and colors etc is controlled by scales.
+
+---
+name: scales-continuous-color
+
+# Scales • Continuous Colors
+
+* In RStudio, type `scale_`, then press **TAB**
+
+--
+
+.pull-left-50[
+
+``` r
+p &lt;- ggplot(iris)+
+      geom_point(aes(x=Sepal.Length,
+                     y=Sepal.Width,
+      shape=Species,color=Petal.Length))
+p
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-28-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-right-50[
+
+``` r
+p +
+scale_color_gradient(name="Pet Len",
+  breaks=range(iris$Petal.Length),
+  labels=c("Min","Max"),
+  low="black",high="red")
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-29-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+Continuous colours can be changed using `scale_color_gradient()` for two colour gradient. Any number of breaks and colours can be specified using `scale_color_gradientn()`.  
+
+---
+name: scales-shape
+
+# Scales • Shape
+
+.pull-left-50[
+
+``` r
+p &lt;- ggplot(iris)+
+      geom_point(aes(x=Sepal.Length,
+                     y=Sepal.Width,
+      shape=Species,color=Species))
+p
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-30-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-right-50[
+
+``` r
+p +
+scale_color_manual(name="New",
+   values=c("blue","green","red"))+
+scale_shape_manual(name="Bla",values=c(0,1,2))
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-31-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+Shape scale can be adjusted using `scale_shape_manual()`. Multiple mappings for the same variable groups legends.
+
+---
+name: scales-axis
+
+# Scales • Axes
+
+* scales: x, y
+* syntax: `scale_&lt;axis&gt;_&lt;type&gt;`
+* arguments: name, limits, breaks, labels
+
+--
+
+.pull-left-50[
+
+``` r
+p &lt;- ggplot(iris)+
+      geom_point(aes(x=Sepal.Length,
+                     y=Sepal.Width))
+p
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-32-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-right-50[
+
+``` r
+p + scale_color_manual(name="New",
+   values=c("blue","green","red"))+
+scale_x_continuous(name="Sepal Length",
+        breaks=seq(1,8),limits=c(3,5))
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-33-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+The x and y axes are also controlled by scales. The axis break points, the break point text and limits are controlled through scales.
+
+When setting limits using `scale_`, the data outside the limits are dropped. Limits can also be set using `lims(x=c(3.5))` or `xlim(c(3,5))`. When mapping, `coord_map()` or `coord_cartesian()` is recommended for setting limits.
+
+---
+name: facet-wrap
+
+# Facets • `facet_wrap`
+
+* Split to subplots based on variable(s)
+* Facetting in one dimension
+
+--
+
+.pull-left-50[
+
+``` r
+p &lt;- ggplot(iris)+
+      geom_point(aes(x=Sepal.Length,
+                     y=Sepal.Width,
+                     color=Species))
+p
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-34-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-right-50[
+
+``` r
+p + facet_wrap(~Species)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-35-1.png" width="324" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+``` r
+p + facet_wrap(~Species,nrow=3)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-36-1.png" width="324" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+`facet_wrap` is used to split a plot into subplots based on the categories in one or more variables.
+
+---
+name: facet-grid
+
+# Facets • `facet_grid`
+
+* Facetting in two dimensions
+
+.pull-left-50[
+
+``` r
+p &lt;- diamonds %&gt;%
+     ggplot(aes(carat,price))+
+     geom_point()
+p + facet_grid(~cut+clarity)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-37-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-left-50[
+
+``` r
+p + facet_grid(cut~clarity)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-38-1.png" width="374.4" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+`facet_grid` is also used to split a plot into subplots based on the categories in one or more variables. `facet_grid` can be used to create a matrix-like grid of two variables.
+
+---
+name: coordinate
+
+# Coordinate Systems
+
+![](data/slide_ggplot2/coordinate.png)
+
+* `coord_cartesian(xlim=c(2,8))` for zooming in
+* `coord_map` for controlling limits on maps
+* `coord_polar`
+
+.pull-left-50[
+
+``` r
+p &lt;- ggplot(iris,aes(x="",y=Petal.Length,fill=Species))+
+  geom_bar(stat="identity")
+p
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-39-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+The coordinate system defines the surface used to represent numbers. Most plots use the cartesian coordinate sytem. Pie charts for example, is a polar coordinate projection of a cartesian barplot. Maps for example can have numerous coordinate systems called map projections. For example; UTM coordinates.
+
+--
+
+.pull-right-50[
+
+``` r
+p+coord_polar("y",start=0)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-40-1.png" width="316.8" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+name: theme
+
+# Theme
+
+* Modify non-data plot elements/appearance
+* Axis labels, panel colors, legend appearance etc
+* Save a particular appearance for reuse
+* `?theme`
+
+--
+
+.pull-left-50[
+
+``` r
+ggplot(iris,aes(Petal.Length))+
+  geom_histogram()+
+  facet_wrap(~Species,nrow=2)+
+  theme_grey()
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-41-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-right-50[
+
+``` r
+ggplot(iris,aes(Petal.Length))+
+  geom_histogram()+
+  facet_wrap(~Species,nrow=2)+
+  theme_bw()
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-42-1.png" width="288" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+???
+
+Themes allow to modify all non-data related components of the plot. This is the visual appearance of the plot. Examples include the axes line thickness, the background color or font family.
+
+---
+name: theme-legend
+
+# Theme • Legend
+
+
+``` r
+p &lt;- ggplot(iris)+
+      geom_point(aes(x=Sepal.Length,
+                     y=Sepal.Width,
+                     color=Species))
+```
+
+.pull-left-50[
+
+``` r
+p + theme(legend.position="top")
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-44-1.png" width="309.6" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+.pull-right-50[
+
+``` r
+p + theme(legend.position="bottom")
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-45-1.png" width="309.6" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+name: theme-text
+
+# Theme • Text
+
+
+``` r
+element_text(family=NULL,face=NULL,color=NULL,size=NULL,hjust=NULL,
+             vjust=NULL, angle=NULL,lineheight=NULL,margin = NULL)
+```
+
+
+
+
+``` r
+p &lt;- p + theme(
+    axis.title=element_text(color="#e41a1c"),
+    axis.text=element_text(color="#377eb8"),
+    plot.title=element_text(color="#4daf4a"),
+    plot.subtitle=element_text(color="#984ea3"),
+    legend.text=element_text(color="#ff7f00"),
+    legend.title=element_text(color="#ffff33"),
+    strip.text=element_text(color="#a65628")
+)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-49-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+name: theme-rect
+
+# Theme • Rect
+
+
+``` r
+element_rect(fill=NULL,color=NULL,size=NULL,linetype=NULL)
+```
+
+
+
+
+``` r
+p &lt;- p + theme(
+    plot.background=element_rect(fill="#b3e2cd"),
+    panel.background=element_rect(fill="#fdcdac"),
+    panel.border=element_rect(fill=NA,color="#cbd5e8",size=3),
+    legend.background=element_rect(fill="#f4cae4"),
+    legend.box.background=element_rect(fill="#e6f5c9"),
+    strip.background=element_rect(fill="#fff2ae")
+)
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-53-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+name: theme-save
+
+# Theme • Reuse
+
+
+
+
+``` r
+newtheme &lt;- theme_bw() + theme(
+  axis.ticks=element_blank(),
+  panel.background=element_rect(fill="white"),
+  panel.grid.minor=element_blank(),
+  panel.grid.major.x=element_blank(),
+  panel.grid.major.y=element_line(size=0.3,color="grey90"),
+  panel.border=element_blank(),
+  legend.position="top",
+  legend.justification="right"
+)
+```
+
+.pull-left-50[
+
+``` r
+p
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-56-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+.pull-right-50[
+
+``` r
+p + newtheme
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-57-1.png" width="324" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+name: position
+
+# Position
+
+
+```
+##         Murder Assault UrbanPop Rape
+## Alabama   13.2     236       58 21.2
+## Alaska    10.0     263       48 44.5
+## Arizona    8.1     294       80 31.0
+```
+
+
+``` r
+us &lt;- USArrests %&gt;% mutate(state=rownames(.)) %&gt;% slice(1:4) %&gt;%
+                    gather(key=type,value=value,-state)
+p &lt;- ggplot(us,aes(x=state,y=value,fill=type))
+```
+
+--
+
+.pull-left-50[
+
+``` r
+p + geom_bar(stat="identity",position="stack")
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-60-1.png" width="324" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-right-50[
+
+``` r
+p + geom_bar(stat="identity",position="dodge")
+```
+
+&lt;img src="slide_ggplot2_files/figure-html/unnamed-chunk-61-1.png" width="324" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+---
+name: save
+
+# Saving plots
+
+
+``` r
+p &lt;- ggplot(iris,aes(Petal.Length,Sepal.Length,color=Species))+
+  geom_point()
+```
+
+* `ggplot2` plots can be saved just like base plots  
+
+
+``` r
+png("plot.png",height=5,width=7,units="cm",res=200)
+print(p)
+dev.off()
+```
+
+* `ggplot2` package offers a convenient function  
+
+
+``` r
+ggsave("plot.png",p,height=5,width=7,units="cm",dpi=200,type="cairo")
+```
+
+* Use `type="cairo"` for nicer anti-aliasing  
+* Note that default units in `png` is pixels while in `ggsave` it's inches  
+
+---
+name: extension
+class: spaced
+
+# Extensions
+
+* [**gridExtra**](https://cran.r-project.org/web/packages/gridExtra/index.html): Extends grid graphics functionality
+* [**ggpubr**](http://www.sthda.com/english/rpkgs/ggpubr/): Useful functions to prepare plots for publication  
+* [**cowplot**](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html): Combining plots  
+* [**ggthemes**](https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html): Set of extra themes  
+* [**ggthemr**](https://github.com/cttobin/ggthemr): More themes  
+* [**ggsci**](https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html): Color palettes for scales  
+* [**ggrepel**](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html): Advanced text labels including overlap control  
+* [**ggmap**](https://github.com/dkahle/ggmap): Dedicated to mapping  
+* [**ggraph**](https://github.com/thomasp85/ggraph): Network graphs  
+* [**ggiraph**](http://davidgohel.github.io/ggiraph/): Converting ggplot2 to interactive graphics  
+
+---
+name: help
+class: spaced
+
+# Help
+
+* [**ggplot2 official reference**](http://ggplot2.tidyverse.org/reference/)  
+* [**The R cookbook**](http://www.cookbook-r.com/)  
+* [**StackOverflow**](https://stackoverflow.com/)  
+* [**RStudio Cheatsheet**](https://www.rstudio.com/resources/cheatsheets/)  
+* [**r-statistics Cheatsheet**](http://r-statistics.co/ggplot2-cheatsheet.html)  
+* [**ggplot2 GUI**](https://site.shinyserver.dck.gmw.rug.nl/ggplotgui/)  
+* Numerous personal blogs, r-bloggers.com etc.  
+
+
+---
+
+name: data
+
+## Data Formats
+
+--
+
+- Wide format
+
+&lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;font-weight: bold;color: blue !important;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:right;font-weight: bold;color: blue !important;"&gt; Sample_1 &lt;/th&gt;
+   &lt;th style="text-align:right;font-weight: bold;color: blue !important;"&gt; Sample_2 &lt;/th&gt;
+   &lt;th style="text-align:right;font-weight: bold;color: blue !important;"&gt; Sample_3 &lt;/th&gt;
+   &lt;th style="text-align:right;font-weight: bold;color: blue !important;"&gt; Sample_4 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: orange !important;color: red !important;"&gt; ENSG00000000003 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 321 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 303 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 204 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 492 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: orange !important;color: red !important;"&gt; ENSG00000000005 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: orange !important;color: red !important;"&gt; ENSG00000000419 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 696 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 660 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 472 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 951 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: orange !important;color: red !important;"&gt; ENSG00000000457 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 59 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 54 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 44 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 109 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: orange !important;color: red !important;"&gt; ENSG00000000460 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 399 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 405 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 236 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 445 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: orange !important;color: red !important;"&gt; ENSG00000000938 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+* familiarity
+* conveniency
+* you see more data
+
+---
+
+name: data-2
+
+## Data Formats
+
+- Long format
+
+--
+
+
+&lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Sample_ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Gene &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; count &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000003 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 321 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000005 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000419 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 696 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000457 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 59 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000460 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 399 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000938 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+
+&lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Sample_ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sample_Name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Time &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Replicate &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Cell &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Gene &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; count &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000003 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 321 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000005 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000419 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 696 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000457 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 59 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000460 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 399 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000938 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+name: data-3
+
+## Data Formats
+
+- Long format
+
+&lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Sample_ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sample_Name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Time &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Replicate &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Cell &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Gene &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; count &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000003 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 321 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000005 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000419 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 696 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000457 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 59 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000460 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 399 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; Sample_1 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0_A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; t0 &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;color: blue !important;"&gt; A431 &lt;/td&gt;
+   &lt;td style="text-align:left;color: red !important;"&gt; ENSG00000000938 &lt;/td&gt;
+   &lt;td style="text-align:right;color: orange !important;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+* easier to add data to the existing
+* Most databases store and maintain in long-formats due to its efficiency
+* R tools **like ggplot** require data in long format.
+
+&lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
+
+---
+name: end-slide
+class: end-slide, middle
+count: false
+
+# Thank you. Questions?
+
+
+.end-text[
+&lt;p class="smaller"&gt;
+&lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
+Created: 17-Oct-2024 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+&lt;/p&gt;
+]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

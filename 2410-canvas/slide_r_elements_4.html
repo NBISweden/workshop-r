@@ -81,8 +81,7 @@ One way to repeat an action is to use the **for-loop**.
 
 This is the general syntax:
 
-
-``` r
+```
 for (var in seq) {
   expr
 }
@@ -114,7 +113,6 @@ for (i in 1:5) {
 ```
 
 --
-
 A slight modification of the above example.
 
 
@@ -131,13 +129,13 @@ for (i in c(2,4,6,8,10)) {
 ## Performing operation on no. 8 
 ## Performing operation on no. 10
 ```
-
+The variable `i` &lt;u&gt; takes values &lt;/u&gt; from the sequences.
 ---
 name: for_loop_counter
 
 # Repeating actions &amp;mdash; for loop with a counter
 
-Sometimes, we also want an external counter:
+To know the current iteration number on the loop, we can set an external counter:
 
 
 ``` r
@@ -204,7 +202,7 @@ vec + 1
 
 ---
 name: vectorization_benchmark
-
+exclude:true
 # Repeating actions &amp;mdash; vectorization
 
 Let us compare the time of execution of the vectorized version (vector with 10,000 elements):
@@ -219,10 +217,9 @@ proc.time() - ptm # vectorized
 
 ```
 ##    user  system elapsed 
-##   0.002   0.000   0.002
+##   0.003   0.000   0.003
 ```
 
---
 
 to the loop version:
 
@@ -238,7 +235,7 @@ proc.time() - ptm # for-loop
 
 ```
 ##    user  system elapsed 
-##   0.057   0.000   0.057
+##   0.053   0.004   0.057
 ```
 
 
@@ -255,6 +252,11 @@ v &lt;- c() # Initialize
 for (i in 1:100) {
   v &lt;- c(v, i)
 }
+cat(head(v), " ... ", tail(v))
+```
+
+```
+## 1 2 3 4 5 6  ...  95 96 97 98 99 100
 ```
 
 --
@@ -267,6 +269,11 @@ v &lt;- rep(NA, 100) # Initialize with length
 for (i in 1:100) {
   v[i] &lt;- i
 }
+cat(head(v), " ... ", tail(v))
+```
+
+```
+## 1 2 3 4 5 6  ...  95 96 97 98 99 100
 ```
 
 --
@@ -368,7 +375,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.006   0.000   0.006
+##   0.005   0.000   0.005
 ```
 --&gt;
 
@@ -378,7 +385,59 @@ name: if_clause
 
 # Decisions, an if-clause
 
-Often, one has to take a different course of action depending on a flow of the algorithm. Let's print only odd numbers `\([1, 10]\)`:
+Often, one has to take a different course of action depending on a flow of the algorithm. 
+
+In R, we use the `if` clause for this purpose.
+
+This is the general syntax:
+
+```
+if (condition) {
+  expr
+}
+```
+
+--
+A simple example:
+
+
+``` r
+temp&lt;- -2
+
+if (temp &lt; 0) {
+  print("It's freezing!")
+}
+```
+
+```
+## [1] "It's freezing!"
+```
+
+---
+name: if examples
+
+# Decision, an if-clause
+
+Two examples of using `if` inside of a loop:
+
+Let's display only the numbers that are greater than 5 in the sequence `\([1, 10]\)`
+
+``` r
+v &lt;- 1:10
+for (i in v) {
+  if (i &gt; 5) { # if clause
+    cat(i, ' ')
+  }
+}
+```
+
+```
+## 6  7  8  9  10
+```
+
+--
+
+Let's display only odd numbers in the sequence `\([1, 10]\)`:
 
 
 ``` r
@@ -399,9 +458,13 @@ name:if_else
 
 # Decisions &amp;mdash; if-else
 
+What if we want to perform an action when the first `if` condition is not met? 
+
 If we want to print 'o' for an odd number and 'e' for an even, we could write either of:
 
 .pull-left-50[
+
+Only `if` clauses
 
 ``` r
 v &lt;- 1:10
@@ -418,11 +481,13 @@ for (i in v) {
 ```
 ## o e o e o e o e o e
 ```
+
 ]
 
 --
 
 .pull-right-50[
+Using `if-else`:      
 
 ``` r
 v &lt;- 1:10
@@ -438,38 +503,19 @@ for (i in v) {
 ```
 ## o e o e o e o e o e
 ```
+
 ]
-
---
-
-.pull-left-50[
-
-``` r
-v &lt;- 1:10
-for (i in v) {
-  tmp &lt;- 'e ' # set default to even
-  if (i %% 2 != 0) { # if clause
-    tmp &lt;- 'o ' # change default for odd numbers
-  }
-  cat(tmp)
-}
-```
-
-```
-## o e o e o e o e o e
-```
-]
-
---
-
-Each of these three ways are equally good and are mainly the matter of style...
 
 ---
 name: elif
 
 # Decision taking &amp;mdash; more alternatives
 
-So far, so good, but we were only dealing with 3 alternatives. Let's say that we want to print '?' for zero, 'e' for even and 'o' for an odd number:
+So far, so good, but we were only dealing with 2 alternatives. 
+
+Let's say that we want to print '?' for zero, 'e' for even and 'o' for an odd number:
+
+We can use the **if-else-if** clause for this!
 
 
 ``` r
@@ -488,11 +534,11 @@ for (i in v) {
 ```
 ## ? o e o e o e o e o e
 ```
-Congratulations! You have just learned the **if-elseif-else** clause.
+
 
 ---
 name: switch
-
+exclude: true
 # Switch
 
 If-else clauses operate on logical values. What if we want to take decisions based on non-logical values? Well, if-else will still work by evaluating a number of comparisons, but we can also use **switch**:
@@ -527,6 +573,20 @@ name: fns
 
 Often, it is really handy to re-use some code we have written or to pack together the code that is doing some task. Functions are a really good way to do this in R:
 
+This is the general syntax
+
+
+``` r
+function_name &lt;- function(arg1, arg2, ...) {
+  expr
+  return(something)
+}
+```
+
+--
+
+Let's see a simple example of a function to add one to a number:
+
 
 ``` r
 add.one &lt;- function(arg1) {
@@ -534,11 +594,6 @@ add.one &lt;- function(arg1) {
   return(arg1)
 }
 add.one(1)
-add.one()
-```
-
-```
-## Error in add.one(): argument "arg1" is missing, with no default
 ```
 
 ```
@@ -622,18 +677,6 @@ args.demo(arg3=3, x=1, y=2)
 ## [1] "x = 1 y = 2 arg3 = 3"
 ```
 
-&lt;!--  
---
-
-
-``` r
-args.demo2 &lt;- function(x, arg2, arg3) {
-  print(paste('x =', x, 'arg2 =', arg2, 'arg3 =', arg3))
-}
-#args.demo2(x=1, y=2, ar=3)
-```
---&gt;
-
 ---
 name: variable_scope
 
@@ -696,9 +739,9 @@ my.plot &lt;- function(x, y, ...) { # Passing downstream
   plot(x, y, las=1, cex.axis=.8, ...)
 }
 
-{par(mfrow=c(1,2),mar=c(4,4,1,1))
+par(mfrow=c(1,2),mar=c(4,4,1,1))
 my.plot(1,1)
-my.plot(1, 1, col='red', pch=19)}
+my.plot(1, 1, col='red', pch=19)
 ```
 
 &lt;img src="slide_r_elements_4_files/figure-html/fns.3dots-1.png" width="432" style="display: block; margin: auto auto auto 0;" /&gt;
@@ -707,7 +750,7 @@ my.plot(1, 1, col='red', pch=19)}
 
 ---
 name: ellipsis_trick
-
+exclude:true
 # Functions &amp;mdash; the ellipsis argument trick
 
 What if the authors of, e.g. plot.something wrapper forgot about the `...`?
@@ -724,6 +767,7 @@ my.plot(1, 1, col='red', pch=19)
 &lt;img src="slide_r_elements_4_files/figure-html/fns.3dots.trick-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
 
 ---
+exclude:true
 &lt;!--  
 name: lazy_eval
 
@@ -793,7 +837,7 @@ rm("+")
 
 ---
 name: infix_fns
-
+exclude:true
 # Infix notation
 
 Operators like `+`, `-` or `*` are using the so-called **infix** functions, where the function name is between arguments. We can define our own:
