@@ -1,5 +1,5 @@
 ---
-title: "Introduction To Programming in R (2)"
+title: "Vectors"
 subtitle: "R Foundations for Data Analysis"
 author: "Marcin Kierczak, Sebastian DiLorenzo, Guilherme Dias"
 keywords: bioinformatics, course, scilifelab, nbis, R
@@ -45,9 +45,9 @@ name: contents
 - **numbers as vectors**
 - **strings as vectors**
 - matrices
-- lists
 - data frames
-- objects
+- lists
+<!-- - objects -->
 - repeating actions: iteration and recursion
 - decision taking: control structures
 - functions in general

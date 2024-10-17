@@ -30,23 +30,25 @@ This page contains links to different lectures (slides) and practical exercises 
 * [Intro to R (Slides)](slide_r_intro.html)  
 * [Intro to R environment (Slides)](slide_r_environment.html)
 * [Intro to programming in R (Slides)](slide_r_programming_1.html)  
-* [Variables and Operators (Slides)](slide_elements_1.pdf)  
+* [Variables and Operators (Slides)](slide_r_elements_1.html)  
 * [Data types (Lab)](lab_datatypes.html)  
-* [Vectors and Strings (Slides)](slide_elements_2.pdf)  
-* [Matrices, Lists and Dataframes (Slides)](slide_elements_3.pdf)  
+* [Vectors and Strings (Slides)](slide_r_elements_2.html)  
+* [Matrices, Lists and Dataframes (Slides)](slide_r_elements_3.html)  
 * [Working with Vectors (Lab)](lab_vectors.html)
 * [Dataframes (Lab)](lab_dataframes.html)
+* [Loops and functions (Slides)](slide_r_elements_4.html)
+* [Loops and functions (Lab)](lab_loops.html)
 
 **Data wrangling**
 
-* [Loading data (Slides)](slide_loadingdata.pdf)
+* [Loading data (Slides)](slide_loading_data.html)
 * [Loading data (Lab)](lab_loadingdata.html)  
 * [Tidyverse (Slides)](slide_tidyverse.html)  
 * [Tidyverse (Lab)](lab_tidyverse.html)  
 
 **Graphics**
 
-* [Graphics with base R (Slides)](slide_graphics.pdf)  
+* [Graphics with base R (Slides)](slide_base_graphics.html)  
 * [Graphics with base R (Lab)](lab_graphics.html)  
 * [Graphics with ggplot2 (Slides)](slide_ggplot2.html)  
 * [Working with ggplot2 (Lab)](lab_ggplot2.html)  
@@ -58,7 +60,7 @@ This page contains links to different lectures (slides) and practical exercises 
 **Useful resources**
 
 * [Data structures in R](data/common/R_data_structures_ver_1_1.pdf)  
-* [Color names in R](data/common/Rolor.pdf)  
+* [Color names in R](data/common/Rcolor.pdf)  
 * [Visualising data](data/common/rules_for_using_color.pdf)  
 * [Naming conventions in R](data/common/Rnaming.pdf)  
 * [Introduction to statistical tests in R](data/common/stats_tests.pdf)  

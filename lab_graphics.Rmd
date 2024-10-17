@@ -593,3 +593,8 @@ You task here is to use the already acquired R knowledge to plot an interesting 
 - Be creative,
 - Visualize a selected variables using boxplot and histogram on one plot (HINT: parameter mfrow),
 - Discuss the result with your colleagues and TAs.
+
+```{r}
+unlink(local_file_path)
+```
+

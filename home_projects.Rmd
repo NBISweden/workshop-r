@@ -1,0 +1,224 @@
+---
+title: "Projects"
+output:
+  bookdown::html_document2:
+    highlight: textmate
+    toc: false
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+      print: false
+    toc_depth: 4
+    number_sections: false
+    df_print: default
+    code_folding: none
+    self_contained: false
+    keep_md: false
+    encoding: 'UTF-8'
+    css: "assets/lab.css"
+    include:
+      after_body: assets/footer-lab.html
+---
+
+```{r,child="assets/header-lab.Rmd"}
+```
+
+Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you have learned in this course. For each data set, a brief description as well as download instructions are provided. 
+
+<div class="alert alert-info">
+  <strong> Try to focus on using the tools from the course to explore the data, rather than worrying about producing a perfect report with a coherent analysis workflow.</strong>
+</div>
+
+
+On the last day you will present your Rmd file (or rather, the resulting html report) and share with the class what your data was about.
+
+---
+
+## Palmer penguins 🐧
+
+- This is a data set containing a series of measurements for three species of penguins collected in the Palmer station in Antarctica.
+- Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/heplots/peng.html>
+
+<details>
+  <summary>Download instructions</summary>
+```{r, warning=F, message=F}
+penguins <- read.table("https://vincentarelbundock.github.io/Rdatasets/csv/heplots/peng.csv", header = T, sep = ",")
+str(penguins)
+```
+</details>
+
+---
+
+## Drinking habits 🍷
+
+- Data from a national survey on the drinking habits of american citizens in 2001 and 2002.
+- Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/stevedata/nesarc_drinkspd.html>
+
+<details>
+  <summary>Download instructions</summary>
+```{r}
+library(dplyr)
+# this will download the csv file directly from the web
+drinks <- read.table("https://vincentarelbundock.github.io/Rdatasets/csv/stevedata/nesarc_drinkspd.csv", header = T, sep = ",")
+# the lines below will take a sample from the full data set
+set.seed(seed = 2)
+drinks <- sample_n(drinks, size = 3000, replace = F)
+# and here we check the structure of the data
+str(drinks)
+```
+</details>
+
+---
+
+## Car crashes 🚗
+
+- Data from car accidents in the US between 1997-2002.
+- Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/DAAG/nassCDS.html>
+
+<details>
+  <summary>Download instructions</summary>
+```{r}
+library(dplyr)
+# this will download the csv file directly from the web
+crashes <- read.table("https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/nassCDS.csv", header = T, sep = ",")
+# the lines below will take a sample from the full data set
+set.seed(seed = 2)
+crashes <- sample_n(crashes, size = 3000, replace = F)
+# and here we check the structure of the data
+str(crashes)
+```
+</details>
+
+---
+
+## Gapminder health and wealth 📈
+
+- This is a collection of country indicators from the Gapminder dataset for the years 2000-2016.
+- Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/dslabs/gapminder.html>
+
+<details>
+  <summary>Download instructions</summary>
+```{r}
+library(dplyr)
+# this will download the csv file directly from the web
+gapminder <- read.table("https://vincentarelbundock.github.io/Rdatasets/csv/dslabs/gapminder.csv", header = T, sep = ",")
+# here we filter the data to remove anything before the year 2000
+gapminder <- gapminder |> filter(year >= 2000)
+# and here we check the structure of the data
+str(gapminder)
+```
+</details>
+
+---
+
+## StackOverflow survey 🖥️
+
+- This is a downsampled and modified version of one of StackOverflow's annual surveys where users respond to a series of questions related to careers in technology and coding.
+- Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/modeldata/stackoverflow.html>
+
+<details>
+  <summary>Download instructions</summary>
+```{r}
+library(dplyr)
+# this will download the csv file directly from the web
+stackoverflow <- read.table("https://vincentarelbundock.github.io/Rdatasets/csv/modeldata/stackoverflow.csv", header = T, sep = ",")
+# the lines below will take a sample from the full data set
+set.seed(2)
+stackoverflow <- sample_n(stackoverflow, size = 3000)
+# and here we check the structure of the data
+str(stackoverflow)
+```
+</details>
+
+---
+
+## Doctor visits 🤒
+
+- Data on the frequency of doctor visits in the past two weeks in Australia for the years 1977 and 1978.
+- Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/AER/DoctorVisits.html>
+
+<details>
+  <summary>Download instructions</summary>
+```{r}
+library(dplyr)
+# this will download the csv file directly from the web
+doctor <- read.table("https://vincentarelbundock.github.io/Rdatasets/csv/AER/DoctorVisits.csv", header = T, sep = ",")
+# the lines below will take a sample from the full data set
+set.seed(2)
+doctor <- sample_n(doctor, size = 3000)
+# and here we check the structure of the data
+str(doctor)
+```
+</details>
+
+---
+
+## Video Game Sales 🎮
+
+- This data set contains sales figures for video games titles released in 2001 and 2002.
+- Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=Video%20Game%20Sales> 
+  - Click on "Preview Data" and "VG Data Dictionary" to see the description for each column.
+
+<details>
+  <summary>Download instructions</summary>
+```{r, warning=F, message=F}
+library(dplyr)
+library(lubridate)
+# this will download the file to your working directory
+download.file(url = "https://maven-datasets.s3.amazonaws.com/Video+Game+Sales/Video+Game+Sales.zip", destfile = "video_game_sales.zip")
+# this will unzip the file and read it into R
+videogames <- read.table(unz(filename = "vgchartz-2024.csv", "video_game_sales.zip"), header = T, sep = ",", quote = "\"", fill = T)
+# this will select rows corresponding to years 2001 and 2002
+videogames <- filter(videogames, year(as_date(release_date)) %in% c(2001,2002))
+# and here we check the structure of the data
+str(videogames)
+```
+</details>
+
+---
+
+## LEGO Sets 🏗️
+
+- This data set contains the description of all LEGO sets released from 2000 to 2009.
+- Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=lego>
+  - Click on "Preview Data" and "VG Data Dictionary" to see the description for each column.
+
+<details>
+  <summary>Download instructions</summary>
+```{r, warning=F, message=F}
+library(dplyr)
+# this will download the file to your working directory
+download.file(url = "https://maven-datasets.s3.amazonaws.com/LEGO+Sets/LEGO+Sets.zip", destfile = "lego.csv.zip")
+# this will unzip the file and read it into R
+lego <- read.table(unz(filename = "lego_sets.csv", "lego.csv.zip"), header = T, sep = ",", quote = "\"", fill = T)
+# this will select rows corresponding to years 2000-2009
+lego <- filter(lego, year %in% seq(2000,2009,1))
+# and here we check the structure of the data
+str(lego)
+```
+</details>
+
+---
+
+## Shark attacks 🦈
+
+- This data set contains information on shark attack records from all over the world.
+- Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=shark>
+  - Click on "Preview Data" and "VG Data Dictionary" to see the description for each column.
+
+<details>
+  <summary>Download instructions</summary>
+```{r, warning=F, message=F}
+library(dplyr)
+# this will download the file to your working directory
+download.file(url = "https://maven-datasets.s3.amazonaws.com/Shark+Attacks/attacks.csv.zip", destfile = "attacks.csv.zip")
+# this will unzip the file and read it into R
+sharks <- read.table(unz(filename = "attacks.csv", "attacks.csv.zip"), header = T, sep = ",", quote = "\"", fill = T)
+# the lines below will take a sample from the full data set
+set.seed(seed = 2)
+sharks <- sample_n(sharks, size = 3000, replace = F)
+str(sharks)
+```
+</details>
+
+***

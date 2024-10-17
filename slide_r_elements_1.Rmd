@@ -1,7 +1,7 @@
 ---
 title: "Variables, Data types & Operators"
 subtitle: "Elements of the R language"
-author: "Marcin Kierczak"
+author: "Marcin Kierczak & Nima Rafati"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -210,7 +210,7 @@ class(x)
 is.integer(x)
 ```
 
-> We need **casting** because sometimes a function requires data of some type!
+> We need **casting** because sometimes a function requires data of certain type!
 
 ---
 name: casting2

@@ -1,6 +1,6 @@
 ---
 title: "Reading (and writing) data in R"
-subtitle: "R Foundations for Life Scientists"
+subtitle: "R Foundations for Data Analysis"
 author: "Marcin Kierczak"
 keywords: "bioinformatics, course, scilifelab, nbis, R"
 output:
@@ -46,15 +46,9 @@ name: reading_data
 
 # Reading data
 
---
+* Can be one of the most consuming and cumbersome aspects of data analysis.
 
-* Reading data is one of the most consuming and most cumbersome aspects of bioinformatics...
-
---
-
-* R provides a number of ways to read and write data stored on different media (file, database, url, twitter, Facebook, etc.) and in different formats.
-
---
+* R provides ways to read and write data stored on different media (e.g.: file, database, url) and in different formats.
 
 * Package `foreign` contains a number of functions to import less common data formats.
 
@@ -63,11 +57,11 @@ name: reading_tables
 
 # Reading tables
 
-Most often, we will use the `read.table()` function. It is really, really flexible and nice way to read your data into a data.frame structure with rows corresponding to observations and columns to particular variables.  
+We can use the `read.table()` function. It is a nice way to read your data into a data frame.  
 
 The function is declared in the following way:  
 
-```
+```{r, echo=T, eval=F}
 read.table(file, header = FALSE, sep = "", quote = "\"'",
            dec = ".", numerals = c("allow.loss", "warn.loss", "no.loss"),
            row.names, col.names, as.is = !stringsAsFactors,
@@ -77,28 +71,33 @@ read.table(file, header = FALSE, sep = "", quote = "\"'",
            comment.char = "#",
            allowEscapes = FALSE, flush = FALSE,
            stringsAsFactors = default.stringsAsFactors(),
-          fileEncoding = "", encoding = "unknown", text, skipNul = FALSE)*
+           fileEncoding = "", encoding = "unknown", text, skipNul = FALSE)
+
+# or just
+read.table(file)
 ```
 
 ---
 name: read_table_params
 
-# `read.table` parameters
+# `read.table()` parameters
 
-You can read more about the *read.table* function on its man page, but the most important arguments are:
+You can read all about the `read.table()` function using `?read.table`
 
-* file &ndash; the path to the file that contains data,
-* header &ndash; a logical indicating whether the first line of the file contains variable names,
-* sep &ndash; a character determining variable delimiter, e.g. comma for csv files,
-* quote &ndash; a character telling R which character surrounds strings,
-* dec &ndash; acharacter determining the decimal separator,
-* row/col.names &ndash; vectors containing row and column names,
-* na.strings &ndash; a character used for missing data,
-* nrows &ndash; how many rows should be read,
-* skip &ndash; how many rows to skip,
-* as.is &ndash; a vector of logicals or numbers indicating which columns shall not be converted to factors,
-* fill &ndash; add NA to the end of shorter rows,
-* stringsAsFactors &ndash; a logical. Rather self explanatory.
+The most important arguments are:
+
+* **file** &ndash; the path to the file that contains data, e.g. `/path/to/my/file.csv`
+* **header** &ndash; a logical indicating whether the first line of the file contains variable names,
+* **sep** &ndash; a character determining variable delimiter, e.g. `","` for csv files,
+* **quote** &ndash; a character telling R which character surrounds strings,
+* **dec** &ndash; character determining the decimal separator,
+* **row/col.names** &ndash; vectors containing row and column names,
+* **na.strings** &ndash; a character used for missing data,
+* **nrows** &ndash; how many rows should be read,
+* **skip** &ndash; how many rows to skip,
+* **as.is** &ndash; a vector of logicals or numbers indicating which columns shall not be converted to factors,
+* **fill** &ndash; add NA to the end of shorter rows,
+* **stringsAsFactors** &ndash; a logical. Rather self explanatory.
 
 ---
 name: read_table_sibs
@@ -130,36 +129,24 @@ name: handling_errors
 
 # What if you encounter errors?
 
-* StackOverflow,
+* R documentation `?` and `??`
 * Google &ndash; just type R and copy the error you got without your variable names,
-* open the file &ndash; has the header line the same number of columns as the first line?
-* in Terminal (on Linux/OsX) you can type some useful commands.
+* Open the file using a text editor and see if you can spot anything unusual &ndash; 
+  * e.g. has the header line the same number of columns as the first line?
 
 --
 
-# Useful commands for debugging
-
---
+# Useful terminal commands for debugging (Linux/OsX)
 
 * `cat phenos.txt | awk -F';' '{print NF}'` prints the number of words in each row. `-F';'` says that semicolon is the delimiter,
 
---
-
 * `head -n 5 phenos.txt` prints the 5 first lines of the file,
-
---
 
 * `tail -n 5 phenos.txt` prints the 5 last lines of the file,
 
---
-
 * `head -n 5 phenos.txt | tail -n 2` will print lines 4 and 5...
 
---
-
 * `wc -l phenos.txt` will print the number of lines in the file
-
---
 
 * `head -n 2 phenos.txt > test.txt` will write the first 2 lines to a new file
 
@@ -176,19 +163,21 @@ name: writing
 
 # Writing with `write.table()`
 
-`read.table()` has its counterpart, the `write.table()` function (as well ass its siblings, like write.csv()). You can read more about it in the documentation, let us show some examples:
+`read.table()` has its counterpart, the `write.table()` function (as well ass its siblings, like `write.csv()`). You can read more about it in the documentation, let us show some examples:
 
 ```{r write.table, echo=T, eval=F}
 vec <- rnorm(10)
 write.table(vec, '') # write to screen
 write.table(vec, file = 'vector.txt')
+
 # write to the system clipboard, handy!
-write.table(vec, 'clipboard', col.names=F,
-            row.names=F)
+write.table(vec, 'clipboard', col.names=F, row.names=F)
+
 # or on OsX
 clip <- pipe("pbcopy", "w")                       
 write.table(vec, file=clip)                               
 close(clip)
+
 # To use in a spreadsheet
 write.csv(vec, file = 'spreadsheet.csv')
 ```
@@ -213,12 +202,12 @@ name: read_xls_matlab
 
 ```{r xls, eval=F, echo=T}
 library(readxl)
-data <- readxl::read_xlsx('myfile.xlsx')
+data <- read_xlsx('myfile.xlsx')
 ```
 
 ```{r matlab, eval=F, echo=T}
 library(R.matlab)
-data <- R.matlab::readMat("mydata.mat")
+data <- readMat("mydata.mat")
 ```
 
 ---

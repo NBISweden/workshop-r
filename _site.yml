@@ -37,4 +37,6 @@ navbar:
       href: home_precourse.html
     - text: Info
       href: home_info.html
+    - text: Projects
+      href: home_projects.html
 
