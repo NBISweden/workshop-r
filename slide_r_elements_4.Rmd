@@ -286,7 +286,7 @@ In R, we use the `if` clause for this purpose.
 
 This is the general syntax:
 
-```{r if sintax, eval=F, echo=T}
+```{r if.sintax, eval=F, echo=T}
 if (condition) {
   expr
 }
