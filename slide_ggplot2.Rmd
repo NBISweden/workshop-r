@@ -1,7 +1,7 @@
 ---
 title: "Visualisation with `ggplot2`"
 subtitle: "R Foundations for Life Scientists"
-author: "Roy Francis & Lokesh Mano"
+author: "Lokesh Mano (Roy Francis)"
 keywords: r, rmarkdown, ggplot, graphics
 output:
   xaringan::moon_reader:
