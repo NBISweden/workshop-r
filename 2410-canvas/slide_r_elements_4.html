@@ -217,7 +217,7 @@ proc.time() - ptm # vectorized
 
 ```
 ##    user  system elapsed 
-##   0.002   0.000   0.002
+##   0.001   0.000   0.002
 ```
 
 
@@ -235,7 +235,7 @@ proc.time() - ptm # for-loop
 
 ```
 ##    user  system elapsed 
-##   0.053   0.004   0.057
+##   0.056   0.000   0.057
 ```
 
 
@@ -362,7 +362,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.000   0.000   0.001
+##   0.001   0.000   0.001
 ```
 And the iterative one:
 
@@ -375,7 +375,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.005   0.000   0.005
+##   0.005   0.000   0.006
 ```
 --&gt;
 
@@ -789,6 +789,7 @@ h &lt;- function(a = 1, b = d) {
 ---
 
 name: everything_is_a_fn
+exclude:true
 
 # In R everything is a function
 
@@ -803,11 +804,9 @@ Because in R everything is a function
 ## function (e1, e2)  .Primitive("+")
 ```
 
---
 
 we can re-define things like this:
 
---
 
 
 ``` r
@@ -819,11 +818,9 @@ we can re-define things like this:
 ## [1] 0
 ```
 
---
 
 and, finally, clean up the mess...
 
---
 
 
 ``` r
@@ -900,7 +897,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 17-Oct-2024 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 18-Oct-2024 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 
