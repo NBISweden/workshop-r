@@ -593,6 +593,7 @@ h <- function(a = 1, b = d) {
 ---
 
 name: everything_is_a_fn
+exclude:true
 
 # In R everything is a function
 
@@ -602,22 +603,18 @@ Because in R everything is a function
 `+`
 ```
 
---
 
 we can re-define things like this:
 
---
 
 ```{r fns.everything_2, echo=T}
 `+` <- function(e1, e2) { e1 - e2 }
 2 + 2
 ```
 
---
 
 and, finally, clean up the mess...
 
---
 
 ```{r fns.everything_3, echo=T}
 rm("+")
