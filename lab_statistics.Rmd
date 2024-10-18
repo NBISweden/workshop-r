@@ -1,0 +1,287 @@
+---
+title: "Basic statistic"
+subtitle: "R Programming Foundation for Data Analysis"
+output:
+  bookdown::html_document2:
+    highlight: textmate
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+      print: false
+    toc_depth: 4
+    number_sections: true
+    df_print: default
+    code_folding: none
+    self_contained: false
+    keep_md: false
+    encoding: 'UTF-8'
+    css: "assets/lab.css"
+    include:
+      after_body: assets/footer-lab.html
+---
+
+<br>
+
+```{r,child="assets/header-lab.Rmd"}
+```
+
+# Introduction
+
+In this lab, we will use statistics to gain a deeper understanding and insight into the dataset. Through statistical methods, we can evaluate data quality, identify patterns, and detect any outliers that may be present. You will apply several descriptive measures to explore and summarize the dataset, allowing for a more informed analysis.  
+
+# Generating the Data
+We create a dataset which consists of:  
+- Two numerical variables (Normally distributed).  
+- Three categorical. 
+
+**Note:** The following chunk has a function by which you generate a random dataset (`n` samples with `[0-100]%` **missing data**). You can also adjust these values to create a new dataset.  
+```{r generate-data, accordion = T}
+# Function to generate the data
+generate_dataset <- function(n, na_frac) {
+  
+  # Set seed for reproducibility
+  set.seed(123)
+  
+  # Gender variable
+  Gender <- sample(c('Male', 'Female'), n, replace = TRUE)
+  
+  # Continuous Variable 1 with shifted distribution between genders
+  Variable_1 <- ifelse(Gender == 'Male', rnorm(n, mean = 55, sd = 10), rnorm(n, mean = 45, sd = 10))
+  
+  # Continuous Variable 2: negative correlation with Variable_1 for one of the sexes
+  Variable_2 <- ifelse(Gender == 'Male', -0.5 * Variable_1 + rnorm(n, mean = 10, sd = 5),
+                       0.5 * Variable_1 + rnorm(n, mean = 10, sd = 5))
+  
+  # Introduce NA values (10% of the data by default)
+  Variable_1[sample(1:n, round(n*na_frac))] <- NA
+  Variable_2[sample(1:n, round(n*na_frac))] <- NA
+  
+  # Introduce outliers
+  Variable_1[c(n)] <- max(Variable_1, na.rm = T) + sd(Variable_1, na.rm = T)
+  Variable_1[c(round(n)/2)] <- min(Variable_1, na.rm = T) - sd(Variable_1, na.rm = T)
+  
+  Variable_2[c(n)] <- max(Variable_2, na.rm = T) + sd(Variable_2, na.rm = T)
+  Variable_2[c(round(n)/2)] <- min(Variable_2, na.rm = T) - sd(Variable_2, na.rm = T)   
+  
+  # Categorical variables with more levels for Spearman correlation
+  Category_1 <- sample(c('Category_A', 'Category_B', 'Category_C', 'Category_D', 'Category_E'), n, replace = TRUE)
+  Category_2 <- sample(c('Group1', 'Group2', 'Group3'), n, replace = TRUE)
+  
+  # Create data frame
+  dataset <- data.frame(Variable_1, Variable_2, Category_1, Category_2, Gender)
+  return(dataset)
+}
+
+n <- 1000 # Number of samples (observation). 
+na_frac <- 0.1 # Introducing missing values in the dataset. 
+dataset <- generate_dataset(n, na_frac = na_frac )
+```
+
+
+- Check the content of the dataset.   
+- How many rows and columns do you have?
+
+```{r head,accordion=TRUE}
+head(dataset)
+dim(dataset)
+```
+
+# Measures of Central Tendency
+## Mean 
+
+```{r mean, accordion = T}
+mean_var1 <- mean(dataset$Variable_1)
+mean_var2 <- mean(dataset$Variable_2)
+mean_var1
+mean_var2
+```
+
+- What is the `mean` value of `Variable_1` and `Variable_2`?  
+
+- Is it NA? Why?  
+
+- How many NA values do you find in your dataset?   
+
+
+```{r n-na, accordion = T}
+n_na <- sum(is.na(dataset))
+sprintf('There are %g missing values', n_na)
+```
+
+- Can you fix it?  
+<details>
+  <summary>Click to expand</summary>
+
+  To handle the `NA` values, you can set `na.rm = TRUE`, which removes the queries with `NA` values.
+
+</details>
+
+
+
+
+You can plot the distribution of the values by `hist()`. You will learn more about plots in **Basic Graphics** lecture.    
+```{r hist, accordion = T}
+hist(dataset$Variable_1, main = 'Distribution of Variable_1', xlab = 'Variable_1')
+```
+
+Can you create a separate histogram for each gender?  
+```{r gender-plot,accordion = T}
+dataset_f <- dataset[(dataset$Gender == 'Female'), ]
+dataset_m <- dataset[(dataset$Gender == 'Male'), ]
+hist(dataset_f$Variable_1, main = 'Female', xlab = 'Variable_1')
+hist(dataset_m$Variable_1, main = '', xlab = '')
+```
+
+## Median  
+```{r median, accordion = T}
+median_var1 <- median(dataset$Variable_1, na.rm = T)
+median_var2 <- median(dataset$Variable_2, na.rm = T)
+median_var1
+median_var2
+```
+
+# Measures of Spread  
+## Range  
+We can find the range of values in numerical variables.  
+```{r range, accordion = T}
+range_var1 <- range(dataset$Variable_1, na.rm = TRUE)
+range_var2 <- range(dataset$Variable_2, na.rm = TRUE)
+range_var1
+range_var2
+```
+
+For categorical variables we can count the queries.  
+```{r table-cat, accordion = T}
+table(dataset$Category_1)
+table(dataset[,c('Category_1', 'Category_2', 'Gender')])
+```
+
+
+## Interquartile. 
+Calculate the following for `Variable_1`:   
+
+- Min.  
+- Median.  
+- Max.  
+- Quantiles (q1:25% and q2:75%) by using `quantile` function.  
+- Interquartile range (q3 - q1).      
+
+**Note:** Make sure to control for missing values (`na.rm = T`)
+```{r interquartile, accordion = T}
+min_val <- min(dataset$Variable_1, na.rm = T)
+q1 <- quantile(dataset$Variable_1, 0.25, na.rm = T)
+median_val <- median(dataset$Variable_1, na.rm = T)
+q3 <- quantile(dataset$Variable_1, 0.75, na.rm = T)
+max_val <- max(dataset$Variable_1, na.rm = T)
+print('Variable_1 range:')
+c(min_val, q1, median_val, q3, max_val)
+
+# Interqurtile: 
+print('Interquartile:')
+iqr_val1 <- q3 - q1
+iqr_val1
+# or
+iqr_val1 <- IQR(dataset$Variable_1, na.rm = T)
+iqr_val1 
+```
+## Standard deviation
+- `sd` is a built-in function in R to calculate standard deviation. 
+- Calculate standard deviation of `Variable_1` for males and females separately.  
+
+**Note:** Make sure to control for missing values (`na.rm = T`)
+```{r sd, accordion = T}
+sd_var1_f <- sd(dataset_f$Variable_1, na.rm = TRUE)
+sd_var1_m <- sd(dataset_m$Variable_1, na.rm = TRUE)
+sd_var1_f
+sd_var1_m
+```
+
+## Variance
+- `var` is a built-in function in R to calculate variance.  
+- Calculate variance of `Variable_1` for males and females separately. 
+
+**Note:** Make sure to control for missing values (`na.rm = T`). 
+```{r var, accordion = T}
+var_var1_f <- var(dataset_f$Variable_1, na.rm = TRUE)
+var_var1_m <- var(dataset_m$Variable_1, na.rm = TRUE)
+var_var1_f
+var_var1_m
+```
+
+
+
+
+# Correlation  
+## Pearson's correlation  
+- Let's check the correlation of `Variable_1` and `Variable_2` by Pearson's method implemented in `cor` function. You can specify the method by `method =  'pearson'`.  
+
+**Note:** Here we handle the missing values a bit differently.  In `cor` function, you control the missing values (`NA`) by setting `use = 'complete.obs'` which means to include observations that there are values for both variables. In other words, rows with `NA` in either of the values will be excluded.   
+
+```{r pearson, accordion = T}
+pearson_correlation <- cor(dataset$Variable_1, dataset$Variable_2, use = 'complete.obs', method = "pearson")
+pearson_correlation
+```
+
+- You can also plot the values in a simple plot using `plot` function. How do you interpret the results?  
+
+```{r v1v2plot, accordion = T}
+plot(dataset$Variable_1, dataset$Variable_2, main = 'Variable_1 vs Variable_2', xlab = 'Variable_1', ylab = 'Variable_2')
+```
+
+## Spearman's correlation  
+- You can calculate Spearman's correlation using the same function (`cor`) for both numerical and categorical data.  
+- Check the result of Spearman's correlation and Pearson's correlation for `Variable_1` and `Variable_2`.  
+- Calculate the correlation between `Category_1` and `Variable_1`.  
+
+**Note:** Categorical_data cannot be directly passed to `cor`. You first need to encode the values as factors (the values are presented in form of `levels`) by `as.factor`. Then by converting the vector (e.g. `dataset$Category_1`) to numeric by `as.numeric` function, you can pass it to `cor` function.  
+```{r spearman, accordion = T}
+# Spearman correlation for numerical variables
+spearman_corr_numeric <- cor(dataset$Variable_1, dataset$Variable_2, use = "complete.obs", method = "spearman")
+
+# Spearman correlation between numeric and categorical variables
+spearman_corr_cat_var1 <- cor(as.numeric(as.factor(dataset$Category_1)), dataset$Variable_1, use = "complete.obs", method = "spearman")
+spearman_corr_cat_var2 <- cor(as.numeric(as.factor(dataset$Category_1)), dataset$Variable_2, use = "complete.obs", method = "spearman")
+
+spearman_corr_numeric
+spearman_corr_cat_var1
+spearman_corr_cat_var2
+
+```
+
+- Plot categorical data using `plot` function can be fun! If you pass the categorical as factor ( `as.factor(dataset$Category_1)`) together with a numerical values, you will generate a boxplot.  
+
+```{r boxplotcatg1var1, accordion = T}
+plot((as.factor(dataset$Category_1)), dataset$Variable_1)
+```
+
+
+
+## Optional exercise  
+- Calculate the correlation between `Gender` and `Variable_1`, `Gender` as well as `Variable_2`.  
+```{r gendervarscor}
+cor_gender_var1 <- cor(as.numeric(as.factor(dataset$Gender)), dataset$Variable_1, use = 'complete.obs', method = 'spearman')
+cor_gender_var2 <- cor(as.numeric(as.factor(dataset$Gender)), dataset$Variable_2, use = 'complete.obs', method = 'spearman')
+cor_gender_var1
+cor_gender_var2
+```
+
+- Now plot `Gender` vs `Variable_1` or `Variable_2`. How do you interpret the result?     
+```{r gendervarsplot1}
+plot((as.factor(dataset$Gender)), dataset$Variable_1)
+```
+
+```{r gendervarsplot2}
+plot(as.factor(dataset$Gender), dataset$Variable_2)
+```
+
+
+# Bonus
+You can show both histograms (males and females) in the same plot. You will learn about this in "Basic Graphics".   
+```{r bonus, accordion = T, eval = T, echo = T}
+par(mfrow = c(2,1), mar = c(5, 4, 1, 2) + 0.1)
+range_val <- c(min(dataset$Variable_2, na.rm = T), max(dataset$Variable_2, na.rm = T) )
+hist(dataset_f$Variable_2, main = 'Female', xlab = 'Variable_2', xlim = range_val, breaks = 30)
+hist(dataset_m$Variable_2, main = 'Male', xlab = 'Variable_2', xlim = range_val, breaks = 30)
+```
+
