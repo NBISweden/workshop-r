@@ -2,7 +2,7 @@
 title: "Tidy work in Tidyverse"
 subtitle: "R Foundation for Life Scientists"
 author: "Marcin Kierczak"
-keywords: r, r programming, markdown, tidyverse
+keywords: r, rstats, r programming, markdown, tidyverse
 output:
   xaringan::moon_reader:
     encoding: 'UTF-8'
@@ -45,16 +45,36 @@ library(tidyverse)
 library(ggplot2) # static graphics
 library(kableExtra)
 library(magrittr)
+library(emo)
 ```
 
+---
+name: learning_outcomes
+# Learning Outcomes
+
+<br>
+
+Upon completing this module, you will:
+
+* know what `tidyverse` is and a bit about its history
+
+* be aware of useful packages within `tidyverse`
+
+* be able to use basic pipes (including native R pipe)
+
+* know whether the data you are working with are tidy
+
+* will be able to do basic tidying of your data
+
+---
+name: tidyverse_overview
 # Tidyverse -- What is it all About?
 
-* [Tidyverse](http://www.tidyverse.org) is a collection of packages.
-* Created by [Hadley Wickham](http://hadley.nz).
-* Gains popularity, on the way to become a *de facto* standard in data analyses.
-* Knowing how to use it can increase your salary :-)
-* A philosophy of programming or a programing paradigm.
-* Everything is about the flow of *tidy data*.
+* [tidyverse](http://www.tidyverse.org) is a collection of &nbsp; `r emo::ji('package')` `r emo::ji('package')`
+* created by [Hadley Wickham](http://hadley.nz)
+* has become a *de facto* standard in data analyses
+* a philosophy of programming or a **programming paradigm**: everything is about the &nbsp;`r emo::ji('water_wave')`  &nbsp; flow of &nbsp; `r emo::ji('broom')` &nbsp; tidy data
+
 .center[
 <img src="data/slide_tidyverse/hex-tidyverse.png", style="height:200px;">
 <img src="data/slide_tidyverse/Hadley-wickham2016-02-04.jpeg", style="height:200px;">
@@ -63,15 +83,14 @@ library(magrittr)
 .vsmall[sources of images: www.tidyverse.org, Wikipedia, www.tidyverse.org]
 
 ---
-name: tidyverse_workflow
+name: tidyverse_curse
+# ?(Tidyverse OR !Tidyverse)
 
-# Typical Tidyverse Workflow
-
-The tidyverse curse?
+> `r emo::ji('skull_and_crossbones')` &nbsp;There are still some people out there talking about the tidyverse curse though...&nbsp; `r emo::ji('skull_and_crossbones')`<br>
 
 --
 
-> Navigating the balance between base R and the tidyverse is a challenge to learn. [-Robert A. Muenchen](http://r4stats.com/articles/why-r-is-hard-to-learn/)
+> Navigating the balance between base R and the tidyverse is a challenge to learn.<br>[-Robert A. Muenchen](http://r4stats.com/articles/why-r-is-hard-to-learn/)
 
 --
 
@@ -81,8 +100,7 @@ The tidyverse curse?
 
 ---
 name: intro_to_pipes
-
-# Introduction to Pipes
+# Pipes or Let my Data Flow &nbsp; `r emo::ji('water_wave')`
 
 .pull-left-50[
 
@@ -131,6 +149,21 @@ iris %>% head(n=3)
 
 ]
 
+---
+name: native_r_pipe
+# Native R Pipe
+
+From R 4.1.0, we have a native pipe operator `|>` that is a bit faster than the `magrittr` pipe `%>%`.
+It, however, differs from the `magrittr` pipe in some aspects, e.g., it does not allow for the use of the dot `.` as a placeholder (it has a simple `_` placeholder though).
+
+```{r native_pipe1}
+c(1:5) |> mean()
+```
+
+```{r native_pipe2}
+c(1:5) %>% mean()
+```
+
 
 ---
 name: tibble_intro
@@ -139,12 +172,7 @@ name: tibble_intro
 
 .pull-left-50[
 
-.center[<img src="data/slide_tidyverse/hex-tibble.png">]
-
-```{r}
-head(as_tibble(iris))
-```
-
+.center[<img src="data/slide_tidyverse/tibble_tweet.jpg">]
 ]
 
 .pull-right-50[
@@ -152,21 +180,41 @@ head(as_tibble(iris))
 * `tibble` is one of the unifying features of tidyverse,
 * it is a *better* `data.frame` realization,
 * objects `data.frame` can be coerced to `tibble` using `as_tibble()`
-
-```{r tibble_from_scratch}
-tibble(
-  x = 1,          # recycling
-  y = runif(8),
-  z = x + y^2,
-  outcome = rnorm(8)
-)
-```
-
 ]
 
 ---
-name: tibble2
+name: convert_to_tibble
+# Convert `data.frame` to `tibble`
+```{r}
+as_tibble(iris)
+```
 
+---
+name: tibble_from_scratch
+# Tibbles from scratch with `tibble()`
+
+```{r tibble_from_scratch, eval=FALSE}
+tibble(
+  x = 1,          # recycling
+  y = runif(4),
+  z = x + y^2,
+  outcome = rnorm(4)
+)
+```
+
+--
+
+```{r tibble_from_scratch_eval, echo = F, eval=TRUE}
+tibble(
+  x = 1,          # recycling
+  y = runif(4),
+  z = x + y^2,
+  outcome = rnorm(4)
+)
+```
+
+---
+name: more_on_tibbles
 # More on Tibbles
 
 * When you print a `tibble`:
@@ -175,8 +223,12 @@ name: tibble2
   + data type for each column is shown.
 
 ```{r tibble_printing}
-as_tibble(cars) %>% print(n = 5)
+as_tibble(cars)
 ```
+
+---
+name: tibble_printing_options
+# Tibble Printing Options
 
 * `my_tibble %>% print(n = 50, width = Inf)`,
 * `options(tibble.print_min = 15, tibble.print_max = 25)`,
@@ -184,27 +236,29 @@ as_tibble(cars) %>% print(n = 5)
 * `options(tibble.width = Inf)`
 
 ---
-name: tibble2
-
+name: subsetting_tibbles
 # Subsetting Tibbles
 
 ```{r tibble_subs}
 vehicles <- as_tibble(cars[1:5,])
-
-vehicles[['speed']]
-vehicles[[1]]
-vehicles$speed
-
-# Using placeholders
-
-vehicles %>% .$dist
-vehicles %>% .[['dist']]
-vehicles %>% .[[2]]
+vehicles %>% print(n = 5)
 ```
-
+  
+  
 --
 
-**Note!** Not all old R functions work with tibbles, than you have to use `as.data.frame(my_tibble)`.
+We can subset tibbles in a number of ways:
+
+```{r tibble_subs1}
+vehicles[['speed']] # try also vehicles['speed']
+vehicles[[1]]
+vehicles$speed
+```
+  
+  
+--
+
+> **Note!** Not all old R functions work with tibbles, than you have to use `as.data.frame(my_tibble)`.
 
 ---
 name: tibbles_partial_matching
@@ -244,77 +298,12 @@ In `tidyverse` you import data using `readr` package that provides a number of u
 * `read_log()` for reading Apache-style logs.
 
 --
-The most commonly used `read_csv()` has some familiar arguments like:
+
+>The most commonly used `read_csv()` has some familiar arguments like:
 * `skip` -- to specify the number of rows to skip (headers),
 * `col_names` -- to supply a vector of column names,
 * `comment` -- to specify what character designates a comment,
 * `na` -- to specify how missing values are represented.
-
----
-name: readr
-
-# Importing Data Using `readr`
-
-When reading and parsing a file, `readr` attempts to guess proper parser for each column by looking at the 1000 first rows.
-
-```{r tricky_dataset, echo=TRUE, message=TRUE, warning=T}
-tricky_dataset <- read_csv(readr_example('challenge.csv'))
-```
-
-OK, so there are some parsing failures. We can examine them more closely using `problems()` as suggested in the above output.
-
----
-name: readr_problems
-
-# Looking at Problematic Columns
-
-```{r tricky_dataset_problems}
-(p <- problems(tricky_dataset))
-```
-
-OK, let's see which columns cause trouble:
-
-```{r problems_table}
-p %$% table(col)
-```
-
-Looks like the problem occurs only in the `x` column.
-
----
-name: readr_problems_fixing
-
-# Fixing Problematic Columns
-
-So, how can we fix the problematic columns?
-
-1. We can explicitely tell what parser to use:
-
-```{r fix_problematic_explicite_parser, echo=TRUE, message=TRUE, warning=T}
-tricky_dataset <- read_csv(readr_example('challenge.csv'),
-                           col_types = cols(x = col_double(),
-                                            y = col_character()))
-tricky_dataset %>% tail(n = 5)
-```
-
-As you can see, we can still do better by parsing the `y` column as *date*, not as *character*.
-
----
-name: readr_problems_fixing2
-
-# Fixing Problematic Columns cted.
-
-But knowing that the parser is guessed based on the first 1000 lines, we can see what sits past the 1000-th line in the data:
-
-```{r}
-tricky_dataset %>% head(n = 1002) %>% tail(n = 4)
-```
-
-It seems, we were very unlucky, because up till 1000-th line there are only integers in the x column and `NA`s in the y column so the parser cannot be guessed correctly. To fix this:
-
-```{r guess_max_fix, echo=TRUE, message=TRUE, warning=T}
-tricky_dataset <- read_csv(readr_example('challenge.csv'),
-                           guess_max = 1001)
-```
 
 ---
 name: readr_writing
@@ -345,10 +334,11 @@ name: basic_data_transformations
 Let us create a tibble:
 
 ```{r}
-(bijou <- as_tibble(diamonds) %>% head(n = 10))
+bijou <- as_tibble(diamonds) %>% head()
+bijou[1:5, ]
 ```
 
-.center[<img src="data/slide_tidyverse/diamonds.png", style="height:200px">]
+.center[ <img src="data/slide_tidyverse/diamonds.png", style="height:200px"> ]
 
 ---
 name: filter
@@ -356,25 +346,37 @@ name: filter
 # Picking Observations using `filter()`
 
 ```{r}
-bijou %>% filter(cut == 'Ideal' | cut == 'Premium', carat >= 0.23) %>% head(n = 5)
+bijou %>% filter(cut == 'Ideal' | cut == 'Premium', carat >= 0.23) %>% head(n = 4)
 ```
+  
 
-Be careful with floating point comparisons! Also, rows with comparison resulting in `NA` are skipped by default!
+-- 
 
-```{r}
-bijou %>% filter(near(0.23, carat) | is.na(carat)) %>% head(n = 5)
+>`r emo::ji('boat')` &nbsp; Be careful with floating point comparisons! <br>
+`r emo::ji('pirate')` &nbsp; Also, rows with comparison resulting in `NA` are skipped by default!
+
+```{r, echo=T, eval=F}
+bijou %>% filter(near(0.23, carat) | is.na(carat)) %>% head(n = 4)
 ```
-
+  
 ---
 name: arrange
 
 # Rearranging Observations using `arrange()`
 
-```{r}
+```{r, echo=T, eval=FALSE}
 bijou %>% arrange(cut, carat, desc(price))
 ```
+  
+--
 
-The `NA`s always end up at the end of the rearranged tibble.
+```{r, echo=FALSE, eval=TRUE}
+bijou %>% arrange(cut, carat, desc(price))
+```
+  
+--
+
+>The `NA`s always end up at the end of the rearranged `tibble`!
 
 ---
 name: select
@@ -395,21 +397,34 @@ bijou %>% select(-(x:z)) %>% head(n = 4)
 ```
 
 ---
-name: select2
+name: rename
+# Renaming Variables
 
-# Selecting Variables with `select()` cted.
+>`rename` is a variant of `select`, here used with `everything()` to move `x` to the beginning and rename it to `var_x`
 
-`rename` is a variant of `select`, here used with `everything()` to move `x` to the beginning and rename it to `var_x`
-
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 bijou %>% rename(var_x = x) %>% head(n = 5)
 ```
-
+  
 --
 
-use `everything()` to bring some columns to the front:
+```{r, eval=T, echo=F}
+bijou %>% rename(var_x = x) %>% head(n = 5)
+```
+  
+---
+name: bring_to_front
+# Bring columns to front
 
-```{r}
+>use `everything()` to bring some columns to the front:
+
+```{r, echo=TRUE, eval=FALSE}
+bijou %>% select(x:z, everything()) %>% head(n = 4)
+```
+  
+--
+
+```{r, echo=FALSE, eval=TRUE}
 bijou %>% select(x:z, everything()) %>% head(n = 4)
 ```
 
@@ -418,21 +433,34 @@ name: mutate
 
 # Create/alter new Variables with `mutate`
 
-```{r}
-bijou %>% mutate(p = x + z, q = p + y) %>% select(-(depth:price)) %>% head(n = 5)
+```{r, echo=T, eval=F}
+bijou %>% mutate(p = x + z, q = p + y) %>% 
+  select(-(depth:price)) %>% 
+  head(n = 5)
 ```
-
+  
+  
 --
 
-or with `transmute` (only the transformed variables will be retained)
+```{r, echo=F, eval=T}
+bijou %>% mutate(p = x + z, q = p + y) %>% 
+  select(-(depth:price)) %>% 
+  head(n = 5)
+```
+
+---
+name: transmute
+# Create/alter new Variables with `transmute` `r emo::ji('wizard')`
+
+>Only the transformed variables will be retained.
 
 ```{r}
 bijou %>% transmute(carat, cut, sum = x + y + z) %>% head(n = 5)
 ```
+  
 
 ---
 name: grouped_summaries
-
 # Group and Summarize
 
 ```{r}
@@ -440,6 +468,7 @@ bijou %>% group_by(cut) %>% summarize(max_price = max(price),
                                       mean_price = mean(price),
                                       min_price = min(price))
 ```
+    
 
 --
 
@@ -611,8 +640,7 @@ bijou4 %>%
 ```
 
 ---
-name: tidying_data_separate
-
+name: tidying_data_unite
 # Tidying Data with `unite`
 
 If some of your columns contain more than one value, use `separate`:
@@ -626,8 +654,6 @@ bijou5
 ```{r}
 bijou5 %>% unite(clarity, clarity_prefix, clarity_suffix, sep='')
 ```
-
-**Note:** that `sep` is here interpreted as the position to split on. It can also be a *regular expression* or a delimiting string/character. Pretty flexible approach!
 
 ---
 name: missing_complete
@@ -644,7 +670,7 @@ bijou %>%
 bijou %>% head(n = 10) %>%
   select(cut, clarity, price) %>%
   mutate(continent = sample(c('AusOce', 'Eur'),
-                            size = 10,
+                            size = 6,
                             replace = T)) -> missing_stones
 ```
 ```{r}
