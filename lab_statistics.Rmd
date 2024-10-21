@@ -181,7 +181,7 @@ c(min_val, q1, median_val, q3, max_val)
 # Interqurtile: 
 print('Interquartile:')
 iqr_val1 <- q3 - q1
-iqr_val1
+unname(iqr_val1)
 # or
 iqr_val1 <- IQR(dataset$Variable_1, na.rm = T)
 iqr_val1 
