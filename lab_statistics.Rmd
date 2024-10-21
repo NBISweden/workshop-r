@@ -35,7 +35,7 @@ We create a dataset which consists of:
 - Two numerical variables (Normally distributed).  
 - Three categorical. 
 
-**Note:** The following chunk has a function by which you generate a random dataset (`n` samples with `[0-100]%` **missing data**). You can also adjust these values to create a new dataset.  
+**Note:** The following chunk has a function by which you generate a random dataset (`n` samples with `[0-100]%` **missing data**). You can also adjust these values to create a new dataset. We will talk about **functions**  tomorrow.  
 ```{r generate-data, accordion = T}
 # Function to generate the data
 generate_dataset <- function(n, na_frac) {
@@ -113,7 +113,7 @@ sprintf('There are %g missing values', n_na)
 <details>
   <summary>Click to expand</summary>
 
-  To handle the `NA` values, you can set `na.rm = TRUE`, which removes the queries with `NA` values.
+  To handle the `NA` values, you can set `na.rm = TRUE` in the function `mean(x, na.rm = T)`, which removes the queries with `NA` values.
 
 </details>
 
