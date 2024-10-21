@@ -61,6 +61,8 @@ Go to [r-project.org](https://cloud.r-project.org/) and choose the link appropri
 
 RStudio provides you with tools like code editor with highlighting, project management, version control, package building, debugger, profiler and more. Start up RStudio to check that everything has been installed correctly. If not, contact us and we can help you out.
 
+You can also watch [this video](https://youtu.be/suX6nsSUXDw?si=FbaiaCpRNvtjxt5N) for an introduction to using RStudio
+
 `r fa1("chevron-circle-right")` &nbsp; **Install R packages**
 
 Extra R packages used in the workshop exercises (if any) are listed below. It is recommended that you install this in advance. Simply copy and paste the code into R.
