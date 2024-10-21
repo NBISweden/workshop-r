@@ -85,7 +85,7 @@ head(expr.At)
 
 One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.
 
-```{r,accordion=TRUE}
+```{r,accordion=TRUE, error=T}
 url <- 'http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data'
 abalone <- read.table(url, header=FALSE , sep=',')
 head(abalone)
