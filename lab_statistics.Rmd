@@ -154,6 +154,7 @@ range_var2
 For categorical variables we can count the queries.  
 ```{r table-cat, accordion = T}
 table(dataset$Category_1)
+table(dataset[,c('Category_1', 'Category_2')])
 table(dataset[,c('Category_1', 'Category_2', 'Gender')])
 ```
 
