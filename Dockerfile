@@ -21,7 +21,7 @@ RUN apt-get update -y \
   && mkdir /rmd
 
 # add pkgs needed for labs
-RUN Rscript -e 'install.packages(c("nycflights13","vcd","patchwork","vioplot","manipulateWidget"),repos = "https://packagemanager.posit.co/cran/__linux__/jammy/latest");' \
+RUN Rscript -e 'install.packages(c("nycflights13","vcd","patchwork","vioplot","manipulateWidget", "emo"),repos = "https://packagemanager.posit.co/cran/__linux__/jammy/latest");' \
   && Rscript -e 'remotes::install_github("mkierczak/mkteachr");'
   
 WORKDIR /rmd
