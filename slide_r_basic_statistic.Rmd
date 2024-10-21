@@ -279,12 +279,12 @@ name: Stdev
 - Standard deviation (sd): is the square root of the variance and provides a more intuitive measure of spread. Despite of variance, sd has the same unit as the data (e.g. cm). 
 
 $$
-\sigma =\sqrt{\sigma2}
+\sigma =\sqrt{\sigma^2}
 $$
 
 ```{r sd-plot,echo = F, eval = T}
 var2_sd <- sd(data$var2)
-hist(data$var2,breaks = 50, main = 'var2 distribution', xlab = 'var2', col = 'skyblue', freq = TRUE, ylim = c(0,1200))
+hist(data$var2,breaks = 50, main = '', xlab = '', col = 'skyblue', freq = TRUE, ylim = c(0,1200))
 abline(v = var2_mean, col = 'red', lwd = 2)
 rect(var2_mean - var2_sd, 0, var2_mean + var2_sd, 1100, col = rgb(0.9, 0.9, 0.9, 0.5), border = NA)
 rect(var2_mean - 2*var2_sd, 0, var2_mean - var2_sd, 1100, col = rgb(0.7, 0.7, 0.7, 0.5), border = NA)
@@ -302,6 +302,22 @@ text(x = var2_mean - 2*var2_sd , y = 1100, labels = expression(bar(x) - 2*sd), p
 
 text(x = var2_mean + 3*var2_sd - 15 , y = 1100, labels = expression(bar(x) + 3*sd), pos = 4, col = 'black', cex = 0.7)
 text(x = var2_mean - 3*var2_sd , y = 1100, labels = expression(bar(x) - 3*sd), pos = 4, col = 'black', cex = 0.7)
+
+rect(xleft = var2_mean - var2_sd,
+     xright = var2_mean + var2_sd,
+     ytop = 890,
+     ybottom = 895) 
+text(x = var2_mean + 30, y = 910, col = 'black', labels = '68.27%')
+rect(xleft = var2_mean - 2*var2_sd,
+     xright = var2_mean + 2*var2_sd,
+     ytop = 590,
+     ybottom = 595)
+text(x = var2_mean + 40, y = 610, col = 'black', labels = '95.45%')
+rect(xleft = var2_mean - 3*var2_sd,
+     xright = var2_mean + 3*var2_sd,
+     ytop = 190,
+     ybottom = 195)
+text(x = var2_mean + 50, y = 210, col = 'black', labels = '99.73%')
 
 ```
 ---
