@@ -67,12 +67,12 @@ To add new packages, you need to update `Dockerfile`, rebuild the container, tes
 
 ```
 # build container and add tags
-docker build --platform=linux/amd64 -t ghcr.io/nbisweden/workshop-r:1.1.0 .
-docker tag ghcr.io/nbisweden/workshop-r:1.1.0 ghcr.io/nbisweden/workshop-r:latest
+docker build --platform=linux/amd64 -t ghcr.io/nbisweden/workshop-r:1.1.1 .
+docker tag ghcr.io/nbisweden/workshop-r:1.1.1 ghcr.io/nbisweden/workshop-r:latest
 
 # push to ghcr
 docker login ghcr.io
-docker push ghcr.io/nbisweden/workshop-r:1.1.0
+docker push ghcr.io/nbisweden/workshop-r:1.1.1
 docker push ghcr.io/nbisweden/workshop-r:latest
 ```
 
