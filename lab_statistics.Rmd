@@ -233,7 +233,7 @@ plot(dataset$Variable_1, dataset$Variable_2, main = 'Variable_1 vs Variable_2', 
 ## Spearman's correlation  
 - You can calculate Spearman's correlation using the same function (`cor`) for both numerical and categorical data.  
 - Check the result of Spearman's correlation and Pearson's correlation for `Variable_1` and `Variable_2`.  
-- Calculate the correlation between `Category_1` and `Variable_1`.  
+- Calculate the correlation between `Category_1` and `Variable_1`. Consider `Category_1` with ordinal variable such as level of satisfaction labeled as **Category_A to E**.    
 
 **Note:** Categorical_data cannot be directly passed to `cor`. You first need to encode the values as factors (the values are presented in form of `levels`) by `as.factor`. Then by converting the vector (e.g. `dataset$Category_1`) to numeric by `as.numeric` function, you can pass it to `cor` function.  
 ```{r spearman, accordion = T}
