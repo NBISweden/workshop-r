@@ -65,9 +65,22 @@ You can also watch [this video](https://youtu.be/suX6nsSUXDw?si=FbaiaCpRNvtjxt5N
 
 `r fa1("chevron-circle-right")` &nbsp; **Install R packages**
 
-Extra R packages used in the workshop exercises (if any) are listed below. It is recommended that you install this in advance. Simply copy and paste the code into R.
+Please download this [test_installation.Rmd file](../test_installation.Rmd) and Knit/Render it.   
+After rendering if everything goes well you should see this message towards end of the rendered html file:  
 
-```{r include=FALSE}
+- **Congratulations you have installed all the packages**.  
+
+If there are any missing package they will be printed at the end of the rendered html file.  
+
+
+<video width="640" height="480" controls>
+  <source src="../Test_Installation.mov" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<!-- Extra R packages used in the workshop exercises (if any) are listed below. It is recommended that you install this in advance. Simply copy and paste the code into R. -->
+
+```{r , echo = F, eval = F}
 # this first chunk runs through the root directory, finds the installed packages across the files and prints them as installation instruction.
 
 #Add to the pkg_discard object the packages you want to discard from the list
@@ -80,7 +93,7 @@ pkg_list<-pkg[!pkg %in% pkg_discard]
 
 ```
 
-```{r echo=FALSE, warning=FALSE, chunk.title=NULL, class.output="r", comment="", r,eval=TRUE}
+```{r echo=FALSE, warning=FALSE, chunk.title=NULL, class.output="r", comment="", r,eval=FALSE}
 
  cat("# install from cran\n")
  cat(paste0("install.packages(c('",paste(pkg_list,sep="",collapse="','"),"'))"))
