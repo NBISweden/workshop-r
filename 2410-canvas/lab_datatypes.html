@@ -297,12 +297,12 @@ your current R session.</p>
 ## [25] &quot;i&quot;             &quot;l&quot;             &quot;lego&quot;          &quot;letnum&quot;       
 ## [29] &quot;linkoping&quot;     &quot;list.2&quot;        &quot;list.a&quot;        &quot;loc&quot;          
 ## [33] &quot;lund&quot;          &quot;mat1&quot;          &quot;mt.merged&quot;     &quot;mtcars2&quot;      
-## [37] &quot;p1&quot;            &quot;p2&quot;            &quot;penguins&quot;      &quot;pkg&quot;          
-## [41] &quot;pkg_discard&quot;   &quot;pkg_list&quot;      &quot;r&quot;             &quot;random1&quot;      
-## [45] &quot;random2&quot;       &quot;s&quot;             &quot;sharks&quot;        &quot;stackoverflow&quot;
-## [49] &quot;u.2&quot;           &quot;umea&quot;          &quot;uppsala&quot;       &quot;uppsala2&quot;     
-## [53] &quot;vec1&quot;          &quot;vec2&quot;          &quot;vector1&quot;       &quot;vector2&quot;      
-## [57] &quot;vector3&quot;       &quot;videogames&quot;    &quot;X&quot;             &quot;X.2&quot;</code></pre>
+## [37] &quot;p1&quot;            &quot;p2&quot;            &quot;penguins&quot;      &quot;r&quot;            
+## [41] &quot;random1&quot;       &quot;random2&quot;       &quot;s&quot;             &quot;sharks&quot;       
+## [45] &quot;stackoverflow&quot; &quot;u.2&quot;           &quot;umea&quot;          &quot;uppsala&quot;      
+## [49] &quot;uppsala2&quot;      &quot;vec1&quot;          &quot;vec2&quot;          &quot;vector1&quot;      
+## [53] &quot;vector2&quot;       &quot;vector3&quot;       &quot;videogames&quot;    &quot;X&quot;            
+## [57] &quot;X.2&quot;</code></pre>
 <p>In case you have objects that you want to remove from the current session you can do so with the <code>rm()</code> function. <i class="fas fa-exclamation-circle"></i> This command will remove all objects available in your current environment.</p>
 <pre class="r"><code>rm(list = ls())</code></pre>
 <p>This command uses commands that we have not talked about yet. If you do not understand how it works now, you will do so after tomorrows lectures and exercises.</p>
@@ -310,10 +310,10 @@ your current R session.</p>
 <li>Create variables <em>var1</em> and <em>var2</em> and initialize them with two integers of choice.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208240480" aria-expanded="false" aria-controls="acc2024102208240480">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208050480" aria-expanded="false" aria-controls="acc2024102208050480">
 </button>
 </p>
-<div id="acc2024102208240480" class="collapse">
+<div id="acc2024102208050480" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>var1 &lt;- 11
 var2 &lt;- 34</code></pre>
@@ -323,10 +323,10 @@ var2 &lt;- 34</code></pre>
 <li>Add the two variables and save them as a new variable named <em>var3</em> and print the result.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208249001" aria-expanded="false" aria-controls="acc2024102208249001">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208059001" aria-expanded="false" aria-controls="acc2024102208059001">
 </button>
 </p>
-<div id="acc2024102208249001" class="collapse">
+<div id="acc2024102208059001" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>var3 &lt;- var1 + var2
 var3</code></pre>
@@ -337,10 +337,10 @@ var3</code></pre>
 <li>Check the class, mode, and type for var1, var2, var3 and π (is found under the variable name <code>pi</code> in R)</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208244469" aria-expanded="false" aria-controls="acc2024102208244469">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208054469" aria-expanded="false" aria-controls="acc2024102208054469">
 </button>
 </p>
-<div id="acc2024102208244469" class="collapse">
+<div id="acc2024102208054469" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mode(var1)
 class(var1)
@@ -351,10 +351,10 @@ typeof(var1)</code></pre>
 </div>
 </div>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208241031" aria-expanded="false" aria-controls="acc2024102208241031">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208051031" aria-expanded="false" aria-controls="acc2024102208051031">
 </button>
 </p>
-<div id="acc2024102208241031" class="collapse">
+<div id="acc2024102208051031" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mode(pi)
 class(pi)
@@ -368,10 +368,10 @@ typeof(pi)</code></pre>
 <li>Create two character variables containing a text of choice. Check the mode, class, and type of the first one.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208247511" aria-expanded="false" aria-controls="acc2024102208247511">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208057511" aria-expanded="false" aria-controls="acc2024102208057511">
 </button>
 </p>
-<div id="acc2024102208247511" class="collapse">
+<div id="acc2024102208057511" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>text1 &lt;- &quot;test1&quot;
 text2 &lt;- &quot;test2&quot;
@@ -386,10 +386,10 @@ typeof(text1)</code></pre>
 </div>
 <p>Add <strong>var1</strong> to it. What is the result and why?</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208241519" aria-expanded="false" aria-controls="acc2024102208241519">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208051519" aria-expanded="false" aria-controls="acc2024102208051519">
 </button>
 </p>
-<div id="acc2024102208241519" class="collapse">
+<div id="acc2024102208051519" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>text1+var1</code></pre>
 <pre><code>## Error in text1 + var1: non-numeric argument to binary operator</code></pre>
@@ -399,10 +399,10 @@ typeof(text1)</code></pre>
 <li>Convert <strong>var3</strong> to an integer, cast an integer variable to double, cast a string to a double.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208246002" aria-expanded="false" aria-controls="acc2024102208246002">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208056002" aria-expanded="false" aria-controls="acc2024102208056002">
 </button>
 </p>
-<div id="acc2024102208246002" class="collapse">
+<div id="acc2024102208056002" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>as.integer(var3)
 i &lt;- 175
@@ -417,10 +417,10 @@ as.double(text1)</code></pre>
 <li>Report floor and ceiling of π and round π to 3 decimal places.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208244416" aria-expanded="false" aria-controls="acc2024102208244416">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208054416" aria-expanded="false" aria-controls="acc2024102208054416">
 </button>
 </p>
-<div id="acc2024102208244416" class="collapse">
+<div id="acc2024102208054416" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>floor(pi)
 ceiling(pi)
@@ -434,10 +434,10 @@ round(pi, digits=3)</code></pre>
 <li>Is floor of π an integer?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208245773" aria-expanded="false" aria-controls="acc2024102208245773">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208055773" aria-expanded="false" aria-controls="acc2024102208055773">
 </button>
 </p>
-<div id="acc2024102208245773" class="collapse">
+<div id="acc2024102208055773" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>is.integer(floor(pi))</code></pre>
 <pre><code>## [1] FALSE</code></pre>
@@ -447,10 +447,10 @@ round(pi, digits=3)</code></pre>
 <li>Treat <code>"3.56437"</code> string as number.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208245025" aria-expanded="false" aria-controls="acc2024102208245025">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208055025" aria-expanded="false" aria-controls="acc2024102208055025">
 </button>
 </p>
-<div id="acc2024102208245025" class="collapse">
+<div id="acc2024102208055025" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>as.numeric(&#39;3.56437&#39;)</code></pre>
 <pre><code>## [1] 3.56437</code></pre>
@@ -460,10 +460,10 @@ round(pi, digits=3)</code></pre>
 <li>Divide ∞ by - ∞</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208247036" aria-expanded="false" aria-controls="acc2024102208247036">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208057036" aria-expanded="false" aria-controls="acc2024102208057036">
 </button>
 </p>
-<div id="acc2024102208247036" class="collapse">
+<div id="acc2024102208057036" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>Inf/-Inf</code></pre>
 <pre><code>## [1] NaN</code></pre>
@@ -478,10 +478,10 @@ round(pi, digits=3)</code></pre>
 <li>Add an integer to their sum.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208244091" aria-expanded="false" aria-controls="acc2024102208244091">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208054091" aria-expanded="false" aria-controls="acc2024102208054091">
 </button>
 </p>
-<div id="acc2024102208244091" class="collapse">
+<div id="acc2024102208054091" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>c1 &lt;- 23 + 4i
 c2 &lt;- -15 - 7i
@@ -501,10 +501,10 @@ c1 + c2 + 7</code></pre>
 <li>Print a truth table for OR (for three distinct logical values). Read about truth tables <a href="https://en.wikipedia.org/wiki/Truth_table" target="_blank">here</a>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208240097" aria-expanded="false" aria-controls="acc2024102208240097">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208050097" aria-expanded="false" aria-controls="acc2024102208050097">
 </button>
 </p>
-<div id="acc2024102208240097" class="collapse">
+<div id="acc2024102208050097" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>x &lt;- c(NA, FALSE, TRUE)
 names(x) &lt;- as.character(x)
@@ -519,10 +519,10 @@ outer(x, x, &quot;|&quot;)</code></pre>
 <li>Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208244879" aria-expanded="false" aria-controls="acc2024102208244879">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208054879" aria-expanded="false" aria-controls="acc2024102208054879">
 </button>
 </p>
-<div id="acc2024102208244879" class="collapse">
+<div id="acc2024102208054879" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>TRUE * FALSE
 T^7</code></pre>
@@ -545,10 +545,10 @@ T^7</code></pre>
 <li>Extract substring starting at the 5th character and 5 characters long.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208240354" aria-expanded="false" aria-controls="acc2024102208240354">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208050354" aria-expanded="false" aria-controls="acc2024102208050354">
 </button>
 </p>
-<div id="acc2024102208240354" class="collapse">
+<div id="acc2024102208050354" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>line1 &lt;- &quot;Hello darkness my old friend&quot;
 line2 &lt;- &quot;I&#39;ve come to talk to you again&quot;
