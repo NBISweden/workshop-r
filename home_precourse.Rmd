@@ -65,7 +65,7 @@ You can also watch [this video](https://youtu.be/suX6nsSUXDw?si=FbaiaCpRNvtjxt5N
 
 `r fa1("chevron-circle-right")` &nbsp; **Install R packages**
 
-Please download this [test_installation.Rmd file](../test_installation.Rmd) and Knit/Render it.   
+Please download this [test_installation.Rmd file](../test_installation.Rmd) and Knit/Render it by clicking on the knit/render icon on the upper right of R Studio or by navigating to file > knit document.   
 After rendering if everything goes well you should see this message towards end of the rendered html file:  
 
 - **Congratulations you have installed all the packages**.  
