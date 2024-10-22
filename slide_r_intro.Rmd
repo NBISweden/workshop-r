@@ -316,7 +316,7 @@ name: pkg_cran_inst
 Only a few packages are pre-installed:
 
 ```{r pkg.err.ex,eval=TRUE,error=TRUE}
-library(XLConnect)
+library(modelr)
 ```
 
 In order to install a package from command line, use:

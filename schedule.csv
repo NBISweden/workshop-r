@@ -15,7 +15,7 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;15:00;Loading data into R;Guilherme;;;lab_loadingdata.html;
 ;;15:00;15:30;Essential: Basic statistics;Nima;;slide_r_basic_statistic.html;;
-;;15:30;16:00;Essential: Basic statistics;Nima;;;;
+;;15:30;16:00;Essential: Basic statistics;Nima;;;lab_statistics.html;
 ;;16:00;17:00;Group discussion on projects;;;;;
 30/10/2024;Experimental room;09:00;10:00;Essential: Loops, Conditionals, Functions;Miguel;;slide_r_elements_4.html;;
 ;;10:00;12:00;Essential: Loops, Conditionals, Functions;Miguel;;;lab_loops.html;
