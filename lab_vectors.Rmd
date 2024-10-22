@@ -31,28 +31,29 @@ There are several different data structures that are commonly used in R. The dif
 -   What are the data types commonly used in R.
 -   What is a vector.
 -   How to create vectors in an interactive R session.
--   How one can use R functions to determine the structure and mode of an vector.
+-   How one can use R functions to determine the structure and mode of a vector.
 -   What basic operators you can find in R
 -   How to subset vector using both indexes and operators.
 -   Try some of the built-in functions in R.
 
 ## Data types
 
-From the lecture you might remember that all elements in any data stuctures found in R will be of a certain type (or have a certain mode). The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.
+From the lecture you might remember that all elements in any data structures found in R will be of a certain type (or have a certain mode). The four most commonly used data types in R are: logical, integer and double (collectively called numeric), and character. The names hints at what they are.
 
--   Logical = TRUE or FALSE (or NA)
--   Integer = Numbers that can be represented without fractional component
--   Numeric = Any number that is not a complex number
--   Character = Text
+-   **Logical** = `TRUE` or `FALSE` (or `NA`), can also be abbreviated `T` or `F`
+-   **Integer** = Numbers that can be represented without fractional component
+-   **Double** = Numbers with a fractional component, and special values like `Inf`, `-Inf`, and `NaN`
+-   **Character** = Any string of text. Special characters must be escaped with `\`
 
-In many cases the mode of an entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will by R automatically be recognised as numeric. If you instead have a text string like "hello world" it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.
+Often, the mode of an entry is automatically determined by R. For example if you save the value 5.1 as a variable, R will recognize it as numeric (double). If you instead have a text string like "hello world" it will have the mode character. Below you will also see examples of how you can specify the mode yourself, and not rely on R guessing it the right.
+
+> If you are used to tools like Microsoft Excel or Google Sheets you might think "why do I have to think of data types? Excel does everything for me!" But remember, Excel is also doing guesswork behind the scenes, and they can get it wrong. For e.g. Excel will often automatically remove leading zeros from numerical values, if your values represent post codes or other IDs this could corrupt your data. It's always best to know for sure.
 
 ## Vectors in R
 
-Depending on the type of data one needs to store in R different data structures can be used. The four most commonly used data types in R is
-vectors, lists, matrixes and data frames. We will in this exercise work only with vectors.
+Depending on the type of data one needs to store in R different data structures can be used. The four most commonly used data structures in R are: vectors, matrices, data frames, and lists. We will in this exercise work only with vectors.
 
-The most basic data structure in R are vectors. Vectors are 1-dimensional data structures that contain only one type of data (eg. all entries must have the same mode). To create a vector in R one can use the function `c()` (concatenate or combine) as seen below. This example will create a vector named example.vector with 3 entries in it.
+The most basic data structure in R are vectors. Vectors are 1-dimensional data structures that contain only one type of data (e.g. all entries must have the same mode). To create a vector in R one can use the function `c()` (combine) as seen below. This example will create a vector named `example.vector` with 3 elements in it.
 
 ```{r}
 example.vector <- c(10, 20, 30)
@@ -74,7 +75,7 @@ If we for some reason only wanted to extract the value 10 from this vector we ca
 example.vector[1]
 ```
 
-Since a vector can only contain one data type, all members need to be of the same type. If you try to combine data of different types into the same vector, R will not warn you, but instead coerce it to the most flexible type (From least to most flexible: Logical, integer, double, character). Hence, adding a number to a logical vector will turn the whole vector to a numeric vector.
+Since a vector can only contain one data type, all members need to be of the same type. If you try to combine data of different types into the same vector, R will not warn you, but instead coerce (turn) it to the most flexible type (From least to most flexible: Logical, integer, double, character). Hence, adding a number to a logical vector will turn the whole vector to a numeric vector.
 
 To check what data type an object is, run the R built-in function `class()`, with the object as the only parameter.
 
@@ -99,15 +100,15 @@ As in other programming languages there are a set of basic operators in R.
 |`x * y`|Multiplication|`2 * 3`|`6`|
 |`x / y`|Division|`1 / 2`|`0.5`|
 |`x ^ y`|Exponent|`2 ^ 2`|`4`|
-|`x %% y`|Modular arethmetic|`1 %% 2`|`1`|
+|`x %% y`|Modular arithmetic|`1 %% 2`|`1`|
 |`x %/% y`|Integer division|`1 %/% 2`|`0`|
 |`x == y`|Test for equality|`1 == 1`|`TRUE`|
 |`x <= y`|Test less or equal|`1 <= 1`|`TRUE`|
 |`x >= y`|Test for greater or equal|`1 >= 2`|`FALSE`|
-|`x && y`|Non-vectorized boolean AND|`c(T,F) && c(T,T)`|`TRUE`|
+|`x && y`|Non-vectorized boolean AND|`T && T`|`TRUE`|
 |`x & y`|Vectorized boolean AND|`c(T,F) & c(T,T)`|`TRUE FALSE`|
-|`x || y`| Non-vectorized boolean OR|`c(T,F) || c(T,T)`|`TRUE`|
-|`x | y`|Vectorized boolean OR|`c(T,F) || c(T,T)`|`TRUE TRUE`|
+|`x || y`| Non-vectorized boolean OR|`T || F`|`TRUE`|
+|`x | y`|Vectorized boolean OR|`c(T,F) | c(T,T)`|`TRUE TRUE`|
 |`!x`|Boolean not|`1 != 2`|`TRUE`|
 
 Besides these, there of course numerous more or less simple functions available in any R session. For example, if we want to add all values in our example.vector that we discussed earlier, we can do that using addition:
@@ -116,17 +117,17 @@ Besides these, there of course numerous more or less simple functions available 
 example.vector[1] + example.vector[2] + example.vector[3]
 ```
 
-But we can also use the function `sum()` that adds all numeric values present as arguments.
+But we can also use the function `sum()` that adds all numeric values inside the vector.
 
 ```{r}
 sum(example.vector)
 ```
 
-To learn more about a function use the built in R manual as described earlier. If you do not know the name of a function that you believe should be found in R, use the function `help.search()` or use google to try and identify the name of the command.
+To learn more about a function use the built in R manual as described earlier. If you do not know the name of a function that you believe should be found in R, use the function `help.search()` or use Google to try and identify the name of the command.
 
 # Exercise
 
-In all exercises on this course it is important that you prior to running the commands in R, try to figure out what you expect the result to be. You should then verify that this will indeed be the result by running the command in an R session. In case there is a discrepency between your expectations and the actual output make sure you understand why before you move forward. If you can not figure out howto, or which command to run you can click the key to reveal example code including expected output. Also note that in many cases there multiple solutions that solve the problem equally well.
+In all exercises on this course it is important that you try to figure out what you expect the result to be before you run the commands in R. You should then verify that this will indeed be the result by running the command in an R session. In case there is a discrepancy between your expectations and the actual output make sure you understand why before you move forward. If you can not figure out how to, or which command to run you can click the button to reveal example code including expected output. Also note that in many cases there are multiple solutions that solve the problem equally well.
 
 ## Create and modify vectors
 
@@ -193,14 +194,14 @@ vec.tmp <- 5:107
 vec.tmp
 ```
 
-10. Create a numeric vector with the same length as the previos one, but only containg the number 3
+10. Create a numeric vector with the same length as the previous one, but only containing the number 3
 
 ```{r,accordion=TRUE}
 vec.tmp2 <- rep(3, length(vec.tmp))  
 vec.tmp2
 ```
 
-11. Create a vector that contain all numbers from 1 to 17, where each number occurs the the same number of times as the number itself eg. 1, 2, 2, 3, 3, 3...
+11. Create a vector that contain all numbers from 1 to 17, where each number occurs the the same number of times as the number itself e.g. 1, 2, 2, 3, 3, 3...
 
 ```{r,accordion=TRUE}
 rep(1:17, 1:17) 
@@ -233,7 +234,8 @@ veggies[3]
 2. Select all fruits from the vector.
 
 ```{r,accordion=TRUE}
-veggies[-5]  
+veggies[-5]
+# or
 veggies[1:4]  
 ```
 
@@ -241,7 +243,10 @@ veggies[1:4]
 
 ```{r,accordion=TRUE}
 veggies[veggies=="apple" | veggies == "banana" | veggies == "orange" | veggies == "kiwi"]  
-veggies[veggies!="potato"]  
+# or
+veggies[veggies!="potato"]
+# or
+veggies[!(veggies %in% c("potato"))]
 ```
 
 4. Convert the character string to a numeric vector.
@@ -293,8 +298,8 @@ letters[14:19]
 10. Extract all but the last letter.
 
 ```{r,accordion=TRUE}
-letters[1:length(letters)-1]  
-
+letters[1:length(letters)-1]
+# or
 letters[-length(letters)]  
 ```
 
@@ -304,7 +309,7 @@ letters[-length(letters)]
 which(letters=="u")  
 ```
 
-12. Create a new vector of length one that holds all the alphabet a single entry.
+12. Create a new vector of length one that holds all the alphabet in a single entry.
 
 ```{r,accordion=TRUE}
 paste(letters, sep = "", collapse = "")  
@@ -319,7 +324,9 @@ norm.rand <- rnorm(100, mean = 2, sd = 4)
 14. How many of the generated values are negative?
 
 ```{r,accordion=TRUE}
-length(norm.rand[norm.rand<0])  
+length(norm.rand[norm.rand<0])
+# or
+sum(norm.rand<0)
 ```
 
 15. Calculate the standard deviation, mean, median of your random numbers.
@@ -348,7 +355,7 @@ mean(norm.rand, na.rm = TRUE)
 median(norm.rand, na.rm = TRUE)  
 ```
 
-18. In many cases one has data from multiple replicates and different treatments in such cases it can be useful to have names of the type: Geno\_a\_1, Geno\_a\_2, Geno\_a\_3, Geno\_b\_1, Geno\_b\_2&#x2026;, Geno\_s\_3. Try to create this such a vector without manually typing it all in.
+18. In many cases one has data from multiple replicates and different treatments in such cases it can be useful to have names of the type: Geno\_a\_1, Geno\_a\_2, Geno\_a\_3, Geno\_b\_1, Geno\_b\_2&#x2026;, Geno\_s\_3. Try to create a vector with such names without manually typing it all in.
 
 ```{r,accordion=TRUE}
 geno <- rep("Geno", 57)  
