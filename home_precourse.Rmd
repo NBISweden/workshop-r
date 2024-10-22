@@ -70,7 +70,7 @@ After rendering if everything goes well you should see this message towards end 
 
 - **Congratulations you have installed all the packages**.  
 
-If there are any missing package they will be printed at the end of the rendered html file.  
+If there are any missing packages they will be printed at the end of the rendered html file.  
 
 
 <video width="640" height="480" controls>
