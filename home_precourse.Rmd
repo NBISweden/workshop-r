@@ -74,7 +74,7 @@ If there are any missing packages they will be printed at the end of the rendere
 
 
 <video width="640" height="480" controls>
-  <source src="../Test_Installation.mov" type="video/mp4">
+  <source src="data/common/Test_Installation.mov" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
