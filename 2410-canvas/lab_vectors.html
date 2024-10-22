@@ -257,27 +257,29 @@ div.tocify {
 <li>What are the data types commonly used in R.</li>
 <li>What is a vector.</li>
 <li>How to create vectors in an interactive R session.</li>
-<li>How one can use R functions to determine the structure and mode of an vector.</li>
+<li>How one can use R functions to determine the structure and mode of a vector.</li>
 <li>What basic operators you can find in R</li>
 <li>How to subset vector using both indexes and operators.</li>
 <li>Try some of the built-in functions in R.</li>
 </ul>
 <div id="data-types" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Data types</h2>
-<p>From the lecture you might remember that all elements in any data stuctures found in R will be of a certain type (or have a certain mode). The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.</p>
+<p>From the lecture you might remember that all elements in any data structures found in R will be of a certain type (or have a certain mode). The four most commonly used data types in R are: logical, integer and double (collectively called numeric), and character. The names hints at what they are.</p>
 <ul>
-<li>Logical = TRUE or FALSE (or NA)</li>
-<li>Integer = Numbers that can be represented without fractional component</li>
-<li>Numeric = Any number that is not a complex number</li>
-<li>Character = Text</li>
+<li><strong>Logical</strong> = <code>TRUE</code> or <code>FALSE</code> (or <code>NA</code>), can also be abbreviated <code>T</code> or <code>F</code></li>
+<li><strong>Integer</strong> = Numbers that can be represented without fractional component</li>
+<li><strong>Double</strong> = Numbers with a fractional component, and special values like <code>Inf</code>, <code>-Inf</code>, and <code>NaN</code></li>
+<li><strong>Character</strong> = Any string of text. Special characters must be escaped with <code>\</code></li>
 </ul>
-<p>In many cases the mode of an entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will by R automatically be recognised as numeric. If you instead have a text string like “hello world” it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.</p>
+<p>Often, the mode of an entry is automatically determined by R. For example if you save the value 5.1 as a variable, R will recognize it as numeric (double). If you instead have a text string like “hello world” it will have the mode character. Below you will also see examples of how you can specify the mode yourself, and not rely on R guessing it the right.</p>
+<blockquote>
+<p>If you are used to tools like Microsoft Excel or Google Sheets you might think “why do I have to think of data types? Excel does everything for me!” But remember, Excel is also doing guesswork behind the scenes, and they can get it wrong. For e.g. Excel will often automatically remove leading zeros from numerical values, if your values represent post codes or other IDs this could corrupt your data. It’s always best to know for sure.</p>
+</blockquote>
 </div>
 <div id="vectors-in-r" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Vectors in R</h2>
-<p>Depending on the type of data one needs to store in R different data structures can be used. The four most commonly used data types in R is
-vectors, lists, matrixes and data frames. We will in this exercise work only with vectors.</p>
-<p>The most basic data structure in R are vectors. Vectors are 1-dimensional data structures that contain only one type of data (eg. all entries must have the same mode). To create a vector in R one can use the function <code>c()</code> (concatenate or combine) as seen below. This example will create a vector named example.vector with 3 entries in it.</p>
+<p>Depending on the type of data one needs to store in R different data structures can be used. The four most commonly used data structures in R are: vectors, matrices, data frames, and lists. We will in this exercise work only with vectors.</p>
+<p>The most basic data structure in R are vectors. Vectors are 1-dimensional data structures that contain only one type of data (e.g. all entries must have the same mode). To create a vector in R one can use the function <code>c()</code> (combine) as seen below. This example will create a vector named <code>example.vector</code> with 3 elements in it.</p>
 <pre class="r"><code>example.vector &lt;- c(10, 20, 30)</code></pre>
 <p><i class="fas fa-lightbulb"></i> If you need more information about the function <code>c()</code> you can always use the built-in manual in R. Typing <code>?c()</code> will bring up the documentation for the function <code>c()</code>.</p>
 <p>Once you have created this vector in R, you can access it by simply typing its name in an interactive session.</p>
@@ -287,7 +289,7 @@ vectors, lists, matrixes and data frames. We will in this exercise work only wit
 <p>If we for some reason only wanted to extract the value 10 from this vector we can use the fact that we know it is the first position to do so.</p>
 <pre class="r"><code>example.vector[1]</code></pre>
 <pre><code>## [1] 10</code></pre>
-<p>Since a vector can only contain one data type, all members need to be of the same type. If you try to combine data of different types into the same vector, R will not warn you, but instead coerce it to the most flexible type (From least to most flexible: Logical, integer, double, character). Hence, adding a number to a logical vector will turn the whole vector to a numeric vector.</p>
+<p>Since a vector can only contain one data type, all members need to be of the same type. If you try to combine data of different types into the same vector, R will not warn you, but instead coerce (turn) it to the most flexible type (From least to most flexible: Logical, integer, double, character). Hence, adding a number to a logical vector will turn the whole vector to a numeric vector.</p>
 <p>To check what data type an object is, run the R built-in function <code>class()</code>, with the object as the only parameter.</p>
 <pre class="r"><code>class(example.vector)</code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
@@ -340,7 +342,7 @@ vectors, lists, matrixes and data frames. We will in this exercise work only wit
 </tr>
 <tr class="even">
 <td><code>x %% y</code></td>
-<td>Modular arethmetic</td>
+<td>Modular arithmetic</td>
 <td><code>1 %% 2</code></td>
 <td><code>1</code></td>
 </tr>
@@ -371,7 +373,7 @@ vectors, lists, matrixes and data frames. We will in this exercise work only wit
 <tr class="odd">
 <td><code>x &amp;&amp; y</code></td>
 <td>Non-vectorized boolean AND</td>
-<td><code>c(T,F) &amp;&amp; c(T,T)</code></td>
+<td><code>T &amp;&amp; T</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="even">
@@ -383,13 +385,13 @@ vectors, lists, matrixes and data frames. We will in this exercise work only wit
 <tr class="odd">
 <td><code>x || y</code></td>
 <td>Non-vectorized boolean OR</td>
-<td><code>c(T,F) || c(T,T)</code></td>
+<td><code>T || F</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="even">
 <td><code>x | y</code></td>
 <td>Vectorized boolean OR</td>
-<td><code>c(T,F) || c(T,T)</code></td>
+<td><code>c(T,F) | c(T,T)</code></td>
 <td><code>TRUE TRUE</code></td>
 </tr>
 <tr class="odd">
@@ -403,15 +405,15 @@ vectors, lists, matrixes and data frames. We will in this exercise work only wit
 <p>Besides these, there of course numerous more or less simple functions available in any R session. For example, if we want to add all values in our example.vector that we discussed earlier, we can do that using addition:</p>
 <pre class="r"><code>example.vector[1] + example.vector[2] + example.vector[3]</code></pre>
 <pre><code>## [1] 60</code></pre>
-<p>But we can also use the function <code>sum()</code> that adds all numeric values present as arguments.</p>
+<p>But we can also use the function <code>sum()</code> that adds all numeric values inside the vector.</p>
 <pre class="r"><code>sum(example.vector)</code></pre>
 <pre><code>## [1] 60</code></pre>
-<p>To learn more about a function use the built in R manual as described earlier. If you do not know the name of a function that you believe should be found in R, use the function <code>help.search()</code> or use google to try and identify the name of the command.</p>
+<p>To learn more about a function use the built in R manual as described earlier. If you do not know the name of a function that you believe should be found in R, use the function <code>help.search()</code> or use Google to try and identify the name of the command.</p>
 </div>
 </div>
 <div id="exercise" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Exercise</h1>
-<p>In all exercises on this course it is important that you prior to running the commands in R, try to figure out what you expect the result to be. You should then verify that this will indeed be the result by running the command in an R session. In case there is a discrepency between your expectations and the actual output make sure you understand why before you move forward. If you can not figure out howto, or which command to run you can click the key to reveal example code including expected output. Also note that in many cases there multiple solutions that solve the problem equally well.</p>
+<p>In all exercises on this course it is important that you try to figure out what you expect the result to be before you run the commands in R. You should then verify that this will indeed be the result by running the command in an R session. In case there is a discrepancy between your expectations and the actual output make sure you understand why before you move forward. If you can not figure out how to, or which command to run you can click the button to reveal example code including expected output. Also note that in many cases there are multiple solutions that solve the problem equally well.</p>
 <div id="create-and-modify-vectors" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Create and modify vectors</h2>
 <p>Open R-studio and create two numeric vectors named x and y that are of equal length. Use these vectors to answer the questions below.</p>
@@ -421,10 +423,10 @@ y &lt;- c(1, 5, 11)</code></pre>
 <li>How many numbers are there in the vector x?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116199769" aria-expanded="false" aria-controls="acc2024102116199769">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208059769" aria-expanded="false" aria-controls="acc2024102208059769">
 </button>
 </p>
-<div id="acc2024102116199769" class="collapse">
+<div id="acc2024102208059769" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>length(x)</code></pre>
 <pre><code>## [1] 3</code></pre>
@@ -434,10 +436,10 @@ y &lt;- c(1, 5, 11)</code></pre>
 <li>How many numbers will x + y generate?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116198684" aria-expanded="false" aria-controls="acc2024102116198684">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208058684" aria-expanded="false" aria-controls="acc2024102208058684">
 </button>
 </p>
-<div id="acc2024102116198684" class="collapse">
+<div id="acc2024102208058684" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>length(x + y)</code></pre>
 <pre><code>## [1] 3</code></pre>
@@ -447,10 +449,10 @@ y &lt;- c(1, 5, 11)</code></pre>
 <li>What is the sum of all values in x?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116192789" aria-expanded="false" aria-controls="acc2024102116192789">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208052789" aria-expanded="false" aria-controls="acc2024102208052789">
 </button>
 </p>
-<div id="acc2024102116192789" class="collapse">
+<div id="acc2024102208052789" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sum(x)</code></pre>
 <pre><code>## [1] 13</code></pre>
@@ -460,10 +462,10 @@ y &lt;- c(1, 5, 11)</code></pre>
 <li>What is the sum of y times y?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116191692" aria-expanded="false" aria-controls="acc2024102116191692">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208051692" aria-expanded="false" aria-controls="acc2024102208051692">
 </button>
 </p>
-<div id="acc2024102116191692" class="collapse">
+<div id="acc2024102208051692" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sum(y*y)</code></pre>
 <pre><code>## [1] 147</code></pre>
@@ -473,10 +475,10 @@ y &lt;- c(1, 5, 11)</code></pre>
 <li>What do you get if you add x and y?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116196654" aria-expanded="false" aria-controls="acc2024102116196654">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208056654" aria-expanded="false" aria-controls="acc2024102208056654">
 </button>
 </p>
-<div id="acc2024102116196654" class="collapse">
+<div id="acc2024102208056654" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>x + y</code></pre>
 <pre><code>## [1]  3  9 18</code></pre>
@@ -486,10 +488,10 @@ y &lt;- c(1, 5, 11)</code></pre>
 <li>Assign x times 2 to a new vector named z</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116193882" aria-expanded="false" aria-controls="acc2024102116193882">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208053882" aria-expanded="false" aria-controls="acc2024102208053882">
 </button>
 </p>
-<div id="acc2024102116193882" class="collapse">
+<div id="acc2024102208053882" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>z &lt;- x * 2</code></pre>
 </div>
@@ -498,10 +500,10 @@ y &lt;- c(1, 5, 11)</code></pre>
 <li>How many numbers will z have, why?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116194937" aria-expanded="false" aria-controls="acc2024102116194937">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208054937" aria-expanded="false" aria-controls="acc2024102208054937">
 </button>
 </p>
-<div id="acc2024102116194937" class="collapse">
+<div id="acc2024102208054937" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>length(z)</code></pre>
 <pre><code>## [1] 3</code></pre>
@@ -511,10 +513,10 @@ y &lt;- c(1, 5, 11)</code></pre>
 <li>Assign the mean of z to a new vector named z.mean and determine the length of z.mean</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116197629" aria-expanded="false" aria-controls="acc2024102116197629">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208057629" aria-expanded="false" aria-controls="acc2024102208057629">
 </button>
 </p>
-<div id="acc2024102116197629" class="collapse">
+<div id="acc2024102208057629" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>z.mean &lt;- mean(z)  
 length(z.mean) </code></pre>
@@ -525,10 +527,10 @@ length(z.mean) </code></pre>
 <li>Create a numeric vector with all integers from 5 to 107</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116190188" aria-expanded="false" aria-controls="acc2024102116190188">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208050188" aria-expanded="false" aria-controls="acc2024102208050188">
 </button>
 </p>
-<div id="acc2024102116190188" class="collapse">
+<div id="acc2024102208050188" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vec.tmp &lt;- 5:107  
 vec.tmp</code></pre>
@@ -541,13 +543,13 @@ vec.tmp</code></pre>
 </div>
 </div>
 <ol start="10" style="list-style-type: decimal">
-<li>Create a numeric vector with the same length as the previos one, but only containg the number 3</li>
+<li>Create a numeric vector with the same length as the previous one, but only containing the number 3</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116194240" aria-expanded="false" aria-controls="acc2024102116194240">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208054240" aria-expanded="false" aria-controls="acc2024102208054240">
 </button>
 </p>
-<div id="acc2024102116194240" class="collapse">
+<div id="acc2024102208054240" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vec.tmp2 &lt;- rep(3, length(vec.tmp))  
 vec.tmp2</code></pre>
@@ -557,13 +559,13 @@ vec.tmp2</code></pre>
 </div>
 </div>
 <ol start="11" style="list-style-type: decimal">
-<li>Create a vector that contain all numbers from 1 to 17, where each number occurs the the same number of times as the number itself eg. 1, 2, 2, 3, 3, 3…</li>
+<li>Create a vector that contain all numbers from 1 to 17, where each number occurs the the same number of times as the number itself e.g. 1, 2, 2, 3, 3, 3…</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116199524" aria-expanded="false" aria-controls="acc2024102116199524">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208059524" aria-expanded="false" aria-controls="acc2024102208059524">
 </button>
 </p>
-<div id="acc2024102116199524" class="collapse">
+<div id="acc2024102208059524" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>rep(1:17, 1:17) </code></pre>
 <pre><code>##   [1]  1  2  2  3  3  3  4  4  4  4  5  5  5  5  5  6  6  6  6  6  6  7  7  7  7
@@ -590,10 +592,10 @@ vec.tmp2</code></pre>
 <p>Create a new character vector that contains the following words and save it using a suitable name:
 <code>apple, banana, orange, kiwi, potato</code>.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116190008" aria-expanded="false" aria-controls="acc2024102116190008">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208050008" aria-expanded="false" aria-controls="acc2024102208050008">
 </button>
 </p>
-<div id="acc2024102116190008" class="collapse">
+<div id="acc2024102208050008" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>veggies &lt;- c(&quot;apple&quot;, &quot;banana&quot;, &quot;orange&quot;, &quot;kiwi&quot;, &quot;potato&quot;)</code></pre>
 </div>
@@ -603,10 +605,10 @@ vec.tmp2</code></pre>
 <li>Select orange from the vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116199117" aria-expanded="false" aria-controls="acc2024102116199117">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208059117" aria-expanded="false" aria-controls="acc2024102208059117">
 </button>
 </p>
-<div id="acc2024102116199117" class="collapse">
+<div id="acc2024102208059117" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>veggies[3]</code></pre>
 <pre><code>## [1] &quot;orange&quot;</code></pre>
@@ -616,12 +618,13 @@ vec.tmp2</code></pre>
 <li>Select all fruits from the vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116190372" aria-expanded="false" aria-controls="acc2024102116190372">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208050372" aria-expanded="false" aria-controls="acc2024102208050372">
 </button>
 </p>
-<div id="acc2024102116190372" class="collapse">
+<div id="acc2024102208050372" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>veggies[-5]  
+<pre class="r"><code>veggies[-5]
+# or
 veggies[1:4]  </code></pre>
 <pre><code>## [1] &quot;apple&quot;  &quot;banana&quot; &quot;orange&quot; &quot;kiwi&quot;  
 ## [1] &quot;apple&quot;  &quot;banana&quot; &quot;orange&quot; &quot;kiwi&quot;</code></pre>
@@ -631,14 +634,18 @@ veggies[1:4]  </code></pre>
 <li>Do the same selection as in question 2 without using index positions.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116192816" aria-expanded="false" aria-controls="acc2024102116192816">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208052816" aria-expanded="false" aria-controls="acc2024102208052816">
 </button>
 </p>
-<div id="acc2024102116192816" class="collapse">
+<div id="acc2024102208052816" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>veggies[veggies==&quot;apple&quot; | veggies == &quot;banana&quot; | veggies == &quot;orange&quot; | veggies == &quot;kiwi&quot;]  
-veggies[veggies!=&quot;potato&quot;]  </code></pre>
+# or
+veggies[veggies!=&quot;potato&quot;]
+# or
+veggies[!(veggies %in% c(&quot;potato&quot;))]</code></pre>
 <pre><code>## [1] &quot;apple&quot;  &quot;banana&quot; &quot;orange&quot; &quot;kiwi&quot;  
+## [1] &quot;apple&quot;  &quot;banana&quot; &quot;orange&quot; &quot;kiwi&quot;  
 ## [1] &quot;apple&quot;  &quot;banana&quot; &quot;orange&quot; &quot;kiwi&quot;</code></pre>
 </div>
 </div>
@@ -646,10 +653,10 @@ veggies[veggies!=&quot;potato&quot;]  </code></pre>
 <li>Convert the character string to a numeric vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116198140" aria-expanded="false" aria-controls="acc2024102116198140">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208058140" aria-expanded="false" aria-controls="acc2024102208058140">
 </button>
 </p>
-<div id="acc2024102116198140" class="collapse">
+<div id="acc2024102208058140" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>as.numeric(veggies)  </code></pre>
 <pre><code>## [1] NA NA NA NA NA</code></pre>
@@ -659,10 +666,10 @@ veggies[veggies!=&quot;potato&quot;]  </code></pre>
 <li>Create a vector of logic values that can be used to extract every second value from your character vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116194355" aria-expanded="false" aria-controls="acc2024102116194355">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208054355" aria-expanded="false" aria-controls="acc2024102208054355">
 </button>
 </p>
-<div id="acc2024102116194355" class="collapse">
+<div id="acc2024102208054355" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>selection &lt;- c(FALSE, TRUE, FALSE, TRUE, FALSE)  
 veggies[selection]  </code></pre>
@@ -671,10 +678,10 @@ veggies[selection]  </code></pre>
 </div>
 <p>Alternative solution, why do this work?</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116192242" aria-expanded="false" aria-controls="acc2024102116192242">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208052242" aria-expanded="false" aria-controls="acc2024102208052242">
 </button>
 </p>
-<div id="acc2024102116192242" class="collapse">
+<div id="acc2024102208052242" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>selection2 &lt;- c(FALSE, TRUE)  
 veggies[selection2]  </code></pre>
@@ -685,10 +692,10 @@ veggies[selection2]  </code></pre>
 <li>Add the names a, b, o, k and p to the vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116192315" aria-expanded="false" aria-controls="acc2024102116192315">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208052315" aria-expanded="false" aria-controls="acc2024102208052315">
 </button>
 </p>
-<div id="acc2024102116192315" class="collapse">
+<div id="acc2024102208052315" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>names(veggies) &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;o&quot;, &quot;k&quot;, &quot;p&quot;)  </code></pre>
 </div>
@@ -697,10 +704,10 @@ veggies[selection2]  </code></pre>
 <li>Create a vector containing all the letters in the alphabet (NB! this can be done without having to type all letters). Google is your friend.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116190065" aria-expanded="false" aria-controls="acc2024102116190065">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208050065" aria-expanded="false" aria-controls="acc2024102208050065">
 </button>
 </p>
-<div id="acc2024102116190065" class="collapse">
+<div id="acc2024102208050065" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>letters  </code></pre>
 <pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;
@@ -711,10 +718,10 @@ veggies[selection2]  </code></pre>
 <li>Sample 30 values randomly with replacement from your letter vector and convert the character vector to factors. Which of the levels have most entries in the vector?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116197009" aria-expanded="false" aria-controls="acc2024102116197009">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208057009" aria-expanded="false" aria-controls="acc2024102208057009">
 </button>
 </p>
-<div id="acc2024102116197009" class="collapse">
+<div id="acc2024102208057009" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>letter.sample &lt;- sample(letters, size = 30, replace = TRUE)  
 letter.sample &lt;- factor(letter.sample)  
@@ -727,10 +734,10 @@ summary(letter.sample)  </code></pre>
 <li>Extract the letter 14 to 19 from the alphabet vector created previously.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116192788" aria-expanded="false" aria-controls="acc2024102116192788">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208052788" aria-expanded="false" aria-controls="acc2024102208052788">
 </button>
 </p>
-<div id="acc2024102116192788" class="collapse">
+<div id="acc2024102208052788" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>letters[14:19]  </code></pre>
 <pre><code>## [1] &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</code></pre>
@@ -740,13 +747,13 @@ summary(letter.sample)  </code></pre>
 <li>Extract all but the last letter.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116194002" aria-expanded="false" aria-controls="acc2024102116194002">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208054002" aria-expanded="false" aria-controls="acc2024102208054002">
 </button>
 </p>
-<div id="acc2024102116194002" class="collapse">
+<div id="acc2024102208054002" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>letters[1:length(letters)-1]  
-
+<pre class="r"><code>letters[1:length(letters)-1]
+# or
 letters[-length(letters)]  </code></pre>
 <pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;
 ## [20] &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot;
@@ -758,23 +765,23 @@ letters[-length(letters)]  </code></pre>
 <li>Which is the index position of the letter u in the vector?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116198176" aria-expanded="false" aria-controls="acc2024102116198176">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208058176" aria-expanded="false" aria-controls="acc2024102208058176">
 </button>
 </p>
-<div id="acc2024102116198176" class="collapse">
+<div id="acc2024102208058176" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>which(letters==&quot;u&quot;)  </code></pre>
 <pre><code>## [1] 21</code></pre>
 </div>
 </div>
 <ol start="12" style="list-style-type: decimal">
-<li>Create a new vector of length one that holds all the alphabet a single entry.</li>
+<li>Create a new vector of length one that holds all the alphabet in a single entry.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116199928" aria-expanded="false" aria-controls="acc2024102116199928">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208059928" aria-expanded="false" aria-controls="acc2024102208059928">
 </button>
 </p>
-<div id="acc2024102116199928" class="collapse">
+<div id="acc2024102208059928" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>paste(letters, sep = &quot;&quot;, collapse = &quot;&quot;)  </code></pre>
 <pre><code>## [1] &quot;abcdefghijklmnopqrstuvwxyz&quot;</code></pre>
@@ -784,10 +791,10 @@ letters[-length(letters)]  </code></pre>
 <li>Create a numeric vector by sampling 100 numbers from a normal distribution with mean 2 and standard deviation 4. Hint! Check the function <code>rnorm()</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116198308" aria-expanded="false" aria-controls="acc2024102116198308">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208058308" aria-expanded="false" aria-controls="acc2024102208058308">
 </button>
 </p>
-<div id="acc2024102116198308" class="collapse">
+<div id="acc2024102208058308" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>norm.rand &lt;- rnorm(100, mean = 2, sd = 4)  </code></pre>
 </div>
@@ -796,23 +803,26 @@ letters[-length(letters)]  </code></pre>
 <li>How many of the generated values are negative?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116195865" aria-expanded="false" aria-controls="acc2024102116195865">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208055865" aria-expanded="false" aria-controls="acc2024102208055865">
 </button>
 </p>
-<div id="acc2024102116195865" class="collapse">
+<div id="acc2024102208055865" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>length(norm.rand[norm.rand&lt;0])  </code></pre>
-<pre><code>## [1] 37</code></pre>
+<pre class="r"><code>length(norm.rand[norm.rand&lt;0])
+# or
+sum(norm.rand&lt;0)</code></pre>
+<pre><code>## [1] 37
+## [1] 37</code></pre>
 </div>
 </div>
 <ol start="15" style="list-style-type: decimal">
 <li>Calculate the standard deviation, mean, median of your random numbers.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116192455" aria-expanded="false" aria-controls="acc2024102116192455">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208052455" aria-expanded="false" aria-controls="acc2024102208052455">
 </button>
 </p>
-<div id="acc2024102116192455" class="collapse">
+<div id="acc2024102208052455" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sd(norm.rand)  
 mean(norm.rand)  
@@ -826,10 +836,10 @@ median(norm.rand)  </code></pre>
 <li>Replace the 11th value in your random number vector with NA and calculate the same summary statistics again.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116197407" aria-expanded="false" aria-controls="acc2024102116197407">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208057407" aria-expanded="false" aria-controls="acc2024102208057407">
 </button>
 </p>
-<div id="acc2024102116197407" class="collapse">
+<div id="acc2024102208057407" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>norm.rand[11] &lt;- NA  
 sd(norm.rand, na.rm = TRUE)  
@@ -844,10 +854,10 @@ median(norm.rand, na.rm = TRUE)  </code></pre>
 <li>Replace the last position in the vector with the letter L and calculate the same summary statistics.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116192004" aria-expanded="false" aria-controls="acc2024102116192004">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208052004" aria-expanded="false" aria-controls="acc2024102208052004">
 </button>
 </p>
-<div id="acc2024102116192004" class="collapse">
+<div id="acc2024102208052004" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>norm.rand[100] &lt;- &quot;L&quot;  
 sd(norm.rand, na.rm = TRUE)  
@@ -859,13 +869,13 @@ median(norm.rand, na.rm = TRUE)  </code></pre>
 </div>
 </div>
 <ol start="18" style="list-style-type: decimal">
-<li>In many cases one has data from multiple replicates and different treatments in such cases it can be useful to have names of the type: Geno_a_1, Geno_a_2, Geno_a_3, Geno_b_1, Geno_b_2…, Geno_s_3. Try to create this such a vector without manually typing it all in.</li>
+<li>In many cases one has data from multiple replicates and different treatments in such cases it can be useful to have names of the type: Geno_a_1, Geno_a_2, Geno_a_3, Geno_b_1, Geno_b_2…, Geno_s_3. Try to create a vector with such names without manually typing it all in.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102116190598" aria-expanded="false" aria-controls="acc2024102116190598">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102208050598" aria-expanded="false" aria-controls="acc2024102208050598">
 </button>
 </p>
-<div id="acc2024102116190598" class="collapse">
+<div id="acc2024102208050598" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>geno &lt;- rep(&quot;Geno&quot;, 57)  
 needed.letters &lt;- rep(letters[1:19], 3)  
