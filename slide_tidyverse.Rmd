@@ -678,6 +678,37 @@ missing_stones %>% complete(cut, continent)
 ```
 
 ---
+name: joins
+
+# Joining Data with `_join`
+
+```{r echo=FALSE, eval=TRUE}
+  # create two tibbles that share key column and can illustrate joins
+  tibble1 <- tibble(key = c(1, 2, 3, 4, 5), value1 = c('a', 'b', 'c', 'd', 'e'))
+  tibble2 <- tibble(key = c(1, 2, 3, 6, 7), value2 = c('A', 'B', 'C', 'F', 'G'))
+```
+
+.pull-left-50[
+    ```{r echo=FALSE}
+    print(tibble1)
+    ```
+]
+
+.pull-right-50[
+    ```{r echo=FALSE}
+    print(tibble2)
+    ```
+]
+
+**Example:**
+
+```{r}
+inner_join(tibble1, tibble2, by = 'key')
+```
+    
+`[inner, left, right, full]_join` are available. Try these!
+
+---
 name: more_tidyverse
 
 # Some Other Friends
