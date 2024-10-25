@@ -276,7 +276,7 @@ ptm &lt;- proc.time()
 vec &lt;- vec + 1
 proc.time() - ptm # vectorized</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.003   0.000   0.003</code></pre>
+##   0.002   0.000   0.002</code></pre>
 <p>–</p>
 <p>to the loop version:</p>
 <pre class="r"><code>vec &lt;- c(1:1e6)
@@ -286,7 +286,7 @@ for (i in vec) {
 }
 proc.time() - ptm # for-loop</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.054   0.004   0.059</code></pre>
+##   0.054   0.003   0.059</code></pre>
 </details>
 <p></br></p>
 <p>After this exercise you should know:</p>
@@ -303,10 +303,10 @@ proc.time() - ptm # for-loop</code></pre>
 <li>Create a 100000 by 10 matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the <code>apply()</code> function to calculate row sums as well as with the built-in <code>rowSums()</code> function. These functions were discussed in the lecture <strong>Elements of the programming language - part 2</strong>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102212553176" aria-expanded="false" aria-controls="acc2024102212553176">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102514033176" aria-expanded="false" aria-controls="acc2024102514033176">
 </button>
 </p>
-<div id="acc2024102212553176" class="collapse">
+<div id="acc2024102514033176" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X &lt;- matrix(1:1000000, nrow = 100000, ncol = 10)
 for.sum &lt;- vector()
@@ -341,10 +341,10 @@ You can use the number of rows in the matrix as a condition for the while loop.
 </details></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102212556779" aria-expanded="false" aria-controls="acc2024102212556779">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102514046779" aria-expanded="false" aria-controls="acc2024102514046779">
 </button>
 </p>
-<div id="acc2024102212556779" class="collapse">
+<div id="acc2024102514046779" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>x &lt;- 1
 while.sum &lt;- vector(&quot;integer&quot;, 100000)
@@ -369,10 +369,10 @@ To count number of characters, you can use <code>nchar</code> function.
 <li>Do it first using only if clauses</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102212557756" aria-expanded="false" aria-controls="acc2024102212557756">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102514047756" aria-expanded="false" aria-controls="acc2024102514047756">
 </button>
 </p>
-<div id="acc2024102212557756" class="collapse">
+<div id="acc2024102514047756" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vector1 &lt;- 1:10
 vector2 &lt;- c(&quot;Odd&quot;, &quot;Loop&quot;, letters[1:8])
@@ -395,10 +395,10 @@ sum.vec</code></pre>
 <li>And then modify the loop to use if-else clauses</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102212556246" aria-expanded="false" aria-controls="acc2024102212556246">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102514046246" aria-expanded="false" aria-controls="acc2024102514046246">
 </button>
 </p>
-<div id="acc2024102212556246" class="collapse">
+<div id="acc2024102514046246" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sum.vec &lt;- vector()
 for(i in 1:ncol(dfr1)) {
@@ -416,10 +416,10 @@ sum.vec</code></pre>
 <li>In question 3 you generated a loop to go over a data frame. Try to convert this code to a function in R. The function should take a single data frame name as argument.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102212552335" aria-expanded="false" aria-controls="acc2024102212552335">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102514042335" aria-expanded="false" aria-controls="acc2024102514042335">
 </button>
 </p>
-<div id="acc2024102212552335" class="collapse">
+<div id="acc2024102514042335" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr.info &lt;- function(dfr) {
   sum.vec &lt;- vector()
@@ -450,10 +450,10 @@ Inside the loop, you may want to use the if-else-if structure.<br/>
 </details></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102212552671" aria-expanded="false" aria-controls="acc2024102212552671">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102514042671" aria-expanded="false" aria-controls="acc2024102514042671">
 </button>
 </p>
-<div id="acc2024102212552671" class="collapse">
+<div id="acc2024102514042671" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vector1 &lt;- 1:10
 vector2 &lt;- c(&quot;Odd&quot;, &quot;Loop&quot;, letters[1:8])
@@ -483,10 +483,10 @@ You can read the documentation of the <code>stop()</code> function by typing <co
 </details></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102212566409" aria-expanded="false" aria-controls="acc2024102212566409">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102514046409" aria-expanded="false" aria-controls="acc2024102514046409">
 </button>
 </p>
-<div id="acc2024102212566409" class="collapse">
+<div id="acc2024102514046409" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>hours_to_mins &lt;- function(hours) {
   if (hours &lt; 0) {
