@@ -23,6 +23,9 @@ output:
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
+# &nbsp; {.tabset .tabset-fade}   
+
+# Datasets  
 Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you have learned in this course. For each data set, a brief description as well as download instructions are provided. 
 
 <div class="alert alert-info">
@@ -222,3 +225,5 @@ str(sharks)
 </details>
 
 ***
+# Sample project report  
+<p><iframe style="border: none;" title="workshop" src="https://nbisweden.github.io/workshop-r/2410/Gapminder_project.html" width="100%" height="900px"></iframe></p>   
