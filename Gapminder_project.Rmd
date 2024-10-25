@@ -59,7 +59,7 @@ gapminder[41,]
 It seems that there were some issues in the data. 
 
 We investigated the issue. First we saved the data on to disk and opened it in excel and saw that at line **41** a closing quotation is missing for the `country` field and the following lines do not have `row.names`. 
-```{r write-csv}
+```{r write-csv, eval = F}
 write.csv(gapminder, '~/Downloads/Gapminder.csv')
 ```
 
