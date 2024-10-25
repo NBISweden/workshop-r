@@ -1,0 +1,246 @@
+---
+title: "GapMinder project"
+author: "Nima Rafati"
+date: "2024-10-18"
+format: 
+  html:
+    code-fold: true  
+    toc: true
+    toc-location: left 
+    toc-depth: 6
+---
+
+# Background
+
+In this project, we would like to explore the fertility, mortality rate as well as life expectency in different countries in relation to GDP and population size from year 2000.  
+This data has been collected from GapMinder, you can read more [here](https://www.gapminder.org/).  
+
+## Downloading the data
+```{r download, warning=F, message=F}
+library(dplyr)
+# this will download the csv file directly from the web
+gapminder <- read.table("https://vincentarelbundock.github.io/Rdatasets/csv/dslabs/gapminder.csv", header = T, sep = ",")
+# here we filter the data to remove anything before the year 2000
+gapminder <- gapminder |> filter(year >= 2000)
+# and here we check the structure of the data
+str(gapminder)
+```
+
+## Description of the data 
+In this dataset there are `r nrow(gapminder)` queries and `r ncol(gapminder)` columns. 
+The following variables (columns) have numerical values:  
+- year.  
+- infant_mortality. 
+- life_expectancy. 
+- fertility. 
+- population. 
+- gdp.  
+
+While the categorical data are stored in:  
+- country.  
+-continent.  
+- region. 
+
+While processing the data, we realized that some of the lines had not the same format which lead into problem. For example, some of the lines did not have the same number of fields and incomplete quotation.  In following chunk we can show that some of the lines have very long character in `country` column (>13000 character)!!     
+```{r countries}
+summary(nchar(gapminder$country))
+```
+
+We tried to check some of the lines that have very long country name. 
+```{r country-char}
+gapminder[(nchar(gapminder$country) >= 50),]
+```
+It seemed that these lines are empty! We could see that, for example, line 41 had the following in `coutry` field: `Cote dIvoire,1960,208.4,38,7.35,3474724,2003623491`.   
+```{r line41}
+gapminder[41,]
+```
+
+
+It seems that there were some issues in the data. 
+
+We investigated the issue. First we saved the data on to disk and opened it in excel and saw that at line **41** a closing quotation is missing for the `country` field and the following lines do not have `row.names`. 
+```{r write-csv}
+write.csv(gapminder, '~/Downloads/Gapminder.csv')
+```
+
+So, before editing the file we tried to read the table again with `read.csv`. 
+```{r read-csv}
+gapminder <- read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/dslabs/gapminder.csv", header = T)
+# here we filter the data to remove anything before the year 2000
+gapminder <- as_tibble(gapminder) |> filter(year >= 2000)
+str(gapminder)
+```
+Again we checked the character number of `country`. 
+```{r summary1}
+summary(nchar(gapminder$country))
+```
+
+We again checked line 41  
+```{r line411}
+gapminder[41,]
+```
+
+Now we can see that the data has been properly loaded and continued the analysis.  
+
+
+### Statistics  
+First we createed to vectors of numeric and character vectors for descriptive statistics.  
+Then we saved  the stats in a dataframe.
+
+```{r stat1}
+numeric_vec <- c('year', 'infant_mortality', 'life_expectancy', 'fertility', 'population', 'gdp')
+char_vec <- c('country', 'continent', 'region')
+
+#Creating empty dataframe
+df <- data.frame(info = c(numeric_vec, char_vec), Count = 0, Min = 0, Max = 0, Missing = 0, Mean = 0, Variance = 0, SD = 0)
+rownames(df) <- df$info
+
+# Numeric columns
+for(cl in numeric_vec){
+  cat('Analysing ', cl, '\n')
+  tmp_df <- gapminder[[cl]]
+  tmp_min <- min(tmp_df, na.rm = T)
+  tmp_max <- max(tmp_df, na.rm = T)
+  tmp_mean <- mean(tmp_df, na.rm = T)
+  tmp_var <- var(tmp_df, na.rm = T)
+  tmp_sd <- sd(tmp_df, na.rm = T)
+  tmp_count <- length(tmp_df)
+  tmp_missing <- sum(is.na(tmp_df))
+  df[cl, 2:ncol(df)] <- format(c(tmp_count, tmp_min, tmp_max, tmp_missing, tmp_mean, tmp_var, tmp_sd), nsmall = 2)
+}
+
+# Character columns
+for(cl in char_vec){
+  cat('Analysing ', cl, '\n')
+  tmp_df <- gapminder[[cl]]
+  tmp_min <- NA
+  tmp_max <- NA
+  tmp_mean <- NA
+  tmp_var <- NA
+  tmp_sd <- NA
+  tmp_count <- length(unique(tmp_df))
+  tmp_missing <- sum(is.na(tmp_df))
+  df[cl, 2:ncol(df)] <- c(tmp_count, tmp_min, tmp_max, tmp_missing, tmp_mean, tmp_var, tmp_sd)
+}
+df
+```
+
+### Distribution
+Here we check the distribution of the data.  
+```{r distribution}
+for(cl in c('infant_mortality', 'life_expectancy', 'fertility', 'population', 'gdp')){
+  hist(as.numeric(gapminder[[cl]]), main = paste0('distribution of ', cl), xlab = cl)  
+}
+
+```
+
+### Metrics over time
+Here we checked the distribution of data over time. To have a better visualization, we log-transformed the data. In order to control for `0` values we added `1` unit to each query (`log10 + 1`).  
+```{r metrics-time}
+library(reshape2)
+library(tidyverse)
+for(cl in c('infant_mortality', 'life_expectancy', 'fertility', 'population', 'gdp')){
+  tmp_data <- gapminder |> dplyr::select(year,all_of(cl)) |> pivot_longer( cols = -year, names_to = 'variable', values_to = 'value')
+  p <- ggplot(tmp_data, aes(x = as.factor(year), y = log10(value + 1))) +
+    geom_boxplot() +
+    theme_minimal () +
+    labs(title = paste0('Distribution of ', cl, ' over years'))
+  print(p)
+}
+
+```
+### Identifying outlisers. 
+To identify outliers or countries that stand out, we calculated correlation over time for each coutrny and each metric.  
+```{r cor-metric-country}
+#country_metircs_vec <- paste0(unique(gapminder$country), '_', numeric_vec[-1])
+df <- data.frame(Country = NA, Metric = NA, Correlation = NA)[FALSE,]
+cntr <- 1
+for(cn in unique(gapminder$country)){
+  tmp_cn <- gapminder |> filter(country == cn)
+  for(cl in c('infant_mortality', 'life_expectancy', 'fertility', 'population', 'gdp')){
+    #cat('Analysing ', cn, 'cl')
+    tmp_data <- tmp_cn |> dplyr::select(year, all_of(cl)) |> pivot_longer( cols = -year, names_to = 'variable', values_to = 'value')
+    if(sum(is.na(tmp_data$value)) != nrow(tmp_data)){
+      tmp_data <- tmp_data |> filter(variable == cl)
+      cor_result = cor(tmp_data$year, tmp_data$value, use = 'complete.obs', method = 'spearman')
+    }else{
+      cor_result <- NA    
+    }
+    df[cntr, ] <- c(cn, cl, cor_result)
+    cntr <- cntr + 1
+  }
+}
+for(cl in c('infant_mortality', 'life_expectancy', 'fertility', 'population', 'gdp')){
+  tmp_data <- df |> filter(Metric == cl)
+  hist(as.numeric(tmp_data$Correlation), xlab = 'Correlation', main = paste0('Correlation of ', cl, ' and time'))
+}
+```   
+#### Infant mortaility
+
+We checked which countries have `infant_mortality` increased overtime by setting a threshold over 50% (0.5).  
+```{r investigate-infant-mortality}
+library(ggplot2)
+vars <- c('infant_mortality', 'life_expectancy', 'fertility', 'population', 'gdp')
+df <- as_tibble(df) 
+cn_vec <- df  |> filter(Correlation >= 0.5 & Metric == 'infant_mortality') |> select(Country)
+
+
+cn <- unique(cn_vec$Country)
+tmp_cn <- gapminder |> filter(country == cn)
+tmp_data <- tmp_cn |> dplyr::select(year, all_of(vars)) |> pivot_longer( cols = -year, names_to = 'variable', values_to = 'value')
+ggplot(tmp_data, aes(x = year, y = value, color = variable)) +
+  geom_point() +
+  facet_wrap(~variable, scales = "free_y") +
+  theme_minimal() +
+  labs(title = paste0("Correlation Plot between Variables over Years ", cn),
+       x = "Year", y = "Value")
+
+```
+
+As you can see in **Brunei** there seem to be a negative correlation between fertility and infant mortality; As the fertility decreases the infant mortality rate has increased around 2005 which see to coincide with drop in gdp. But gdp data seems to be incomplete.     
+
+# Life expectency  
+When we looked at the distribution of life expectancy over time we found a data point which showed lowest lofe expectancy and we further looked into it by first identifying which country it is.  
+```{r life-expectancy-outlier1}
+
+cl <- 'life_expectancy'
+tmp_data <- gapminder |> dplyr::select(year,all_of(cl)) |> pivot_longer( cols = -year, names_to = 'variable', values_to = 'value')
+p <- ggplot(tmp_data, aes(x = as.factor(year), y = log10(value + 1))) +
+  geom_boxplot() +
+  theme_minimal () +
+  labs(title = paste0('Distribution of ', cl, ' over years'))
+# Add a point for the minimum value as an outlier in 2010
+p <- p + geom_point(data = data.frame(year = as.factor(2010), value = min(tmp_data$value)),
+               aes(x = year, y = log10(value + 1)), color = 'red', size = 3)
+print(p)
+
+sel_cn <- gapminder |> filter(life_expectancy == min(life_expectancy)) |> select(country) 
+```
+
+`r sel_cn$country` has the lowest life expactancy on year 2010. Now let's look at the trend of life expectancy over years in `r sel_cn$country` . 
+```{r life-exp-outlier}
+tmp_data <- gapminder |> dplyr::filter(country == sel_cn$country) |> dplyr::select(year,all_of(cl)) |> pivot_longer( cols = -year, names_to = 'variable', values_to = 'value')
+ggplot(data = tmp_data, aes(x = as.factor(year), y = value)) + geom_point()
+```
+
+Based on the trend that we see over years, it seems there could me an error in submission of the data or the data is incomplete.  Hence, we can remove this datapoint for downstream analysis.  
+
+
+# Conclusion 
+In this project we analysed **Gapminder** dataset and generated descriptive statistics and some visualisation.  
+
+- In one example, we identified that despite of overall increase in fertility, gdp and life expectancy the infant mortality increased in **Brunei** which may coincide with drop in gdp.  
+
+- We also identified an outlier in life expectancy of `r sel_cn$country` and this datapoint should be removed for downstream analysis.   
+
+- In summary the knowledge I gained in the course helped me to characterise the data, troubleshoot, identify outliers and generate a report with basic statistics.  
+
+
+# Reproducibility
+In this project we used following packages:  
+```{r packages}
+sessionInfo()
+```
+
+
+
