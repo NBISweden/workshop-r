@@ -17,7 +17,7 @@ RUN apt-get update -y \
   && apt-get install -y ./google-chrome-stable_current_amd64.deb \
   && rm -rf google-chrome-stable_current_amd64.deb \
   && rm -rf /var/lib/apt/lists/* \
-  && Rscript -e 'install.packages(c("formattable","formatR","kableExtra","leaflet","pagedown","markdown"),repos = "https://packagemanager.posit.co/cran/__linux__/jammy/latest");' \
+  && Rscript -e 'install.packages(c("formattable","formatR","kableExtra","leaflet","pagedown","markdown", "reshape2"),repos = "https://packagemanager.posit.co/cran/__linux__/jammy/latest");' \
   && mkdir /rmd
 
 # add pkgs needed for labs
