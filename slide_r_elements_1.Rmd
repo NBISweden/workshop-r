@@ -276,27 +276,6 @@ Inf - Inf # Not a Number
 ```
 
 ---
-name: cplx_numbers
-
-# Complex number type
-
-Core R supports complex numbers.
-
-```{r cplx,echo=TRUE}
-z = 7 + 4i # create a complex number
-z
-class(z)
-typeof(z)
-is.complex(z)
-```
-
-```{r cplx2,echo=TRUE}
-sqrt(-1) # not treated as cplx number
-sqrt(-1 + 0i) # now a proper cplx number
-sqrt(as.complex(-1)) # an alternative way
-```
-
----
 name: logical_type
 
 # Logical type
