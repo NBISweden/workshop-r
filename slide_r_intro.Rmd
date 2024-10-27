@@ -43,12 +43,46 @@ class: spaced
 
 # Contents
 
+* [Why R](#whyR)
 * [About R](#about)
 * [Pros and cons of R](#pros_and_cons)
 * [Ecosystem of packages](#num_packages)
 * [Programming language](#programming_language)
 * [Packages](#packages)
 * [Package installation](#pkg_cran_inst)
+
+---
+name: whyR
+
+# WHY R?
+.pull-left-50[
+
+![](data/slide_intro/Lab_data_no_sense.png)
+
+]
+
+# With the power of R, your project can ARISE:  
+
+--
+
+ **A**utomative: Streamline your analysis
+
+--
+
+ **R**eproducible: Reproduce the results
+
+--
+
+ **I**nterpretable: Make sense  
+
+--
+
+ **S**hareable: Share with colleagues/mentors (FAIR)
+
+--
+
+ **E**xplainable: Easy to explain
+
 
 ---
 name: about
