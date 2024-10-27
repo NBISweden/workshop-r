@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Replication, Control Structures &amp; Functions</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Marcin Kierczak, Nima Rafati, Miguel Redondo" />
+    <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
+    <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+    <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Replication, Control Structures &amp; Functions
+]
+.subtitle[
+## Elements of the R language
+]
+.author[
+### Marcin Kierczak, Nima Rafati, Miguel Redondo
+]
+
+---
+
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+
+
+---
+name: contents
+
+# Contents of the lecture
+
+- variables and their types
+- operators
+- vectors
+- numbers as vectors
+- strings as vectors
+- matrices
+- lists
+- data frames
+- objects
+- **repeating actions: iteration and recursion**
+- **decision taking: control structures**
+- **functions in general**
+- **variable scope**
+- **base functions**
+
+---
+name: repeating_actions_1
+
+# Repeating actions
+
+Sometimes you want to repeat certain action several times.  
+
+There are few alternatives in R, for example:  
+- `for` loop 
+- `while` loop   
+
+---
+name: for_loop_0
+
+# Repeating actions &amp;mdash; for loop
+
+One way to repeat an action is to use the **for-loop**. 
+
+This is the general syntax:
+
+```
+for (var in seq) {
+  expr
+}
+```
+Where:
+- var = variable that will take values from the sequence
+- seq= sequence of values
+- expr = expression to be executed
+
+---
+name: for_loop_1
+# Repeating actions &amp;mdash; for loop
+
+Example. 
+
+
+``` r
+for (i in 1:5) {
+  cat(paste('Performing operation on no.', i), '\n')
+}
+```
+
+```
+## Performing operation on no. 1 
+## Performing operation on no. 2 
+## Performing operation on no. 3 
+## Performing operation on no. 4 
+## Performing operation on no. 5
+```
+
+--
+A slight modification of the above example.
+
+
+``` r
+for (i in c(2,4,6,8,10)) {
+  cat(paste('Performing operation on no.', i), '\n')
+}
+```
+
+```
+## Performing operation on no. 2 
+## Performing operation on no. 4 
+## Performing operation on no. 6 
+## Performing operation on no. 8 
+## Performing operation on no. 10
+```
+The variable `i` &lt;u&gt; takes values &lt;/u&gt; from the sequences.
+---
+name: for_loop_counter
+
+# Repeating actions &amp;mdash; for loop with a counter
+
+To know the current iteration number on the loop, we can set an external counter:
+
+
+``` r
+cnt &lt;- 1
+for (i in c(2,4,6,8,10)) {
+  cat(paste('Iteration', cnt,
+            'Performing operation on no.', i), '\n')
+  cnt &lt;- cnt + 1
+  
+}
+```
+
+```
+## Iteration 1 Performing operation on no. 2 
+## Iteration 2 Performing operation on no. 4 
+## Iteration 3 Performing operation on no. 6 
+## Iteration 4 Performing operation on no. 8 
+## Iteration 5 Performing operation on no. 10
+```
+
+---
+name: for_loop_example
+
+# Repeating actions &amp;mdash; for loop, an example
+
+Say, we want to add 1 to every element of a vector:
+
+
+``` r
+vec &lt;- c(1:5)
+vec
+```
+
+```
+## [1] 1 2 3 4 5
+```
+
+
+``` r
+for (i in vec) {
+  vec[i] &lt;- vec[i] + 1
+}
+vec
+```
+
+```
+## [1] 2 3 4 5 6
+```
+
+--
+
+The above can be achieved in R by means of **vectorization**.  
+**Vectorization** is an element-wise operation where you perform task/operation on entire vectors/matrix/data.frames.
+
+
+``` r
+vec &lt;- c(1:5)
+vec + 1  
+```
+
+```
+## [1] 2 3 4 5 6
+```
+
+---
+name: vectorization_benchmark
+exclude:true
+# Repeating actions &amp;mdash; vectorization
+
+Let us compare the time of execution of the vectorized version (vector with 10,000 elements):
+
+
+``` r
+vec &lt;- c(1:1e6)
+ptm &lt;- proc.time()
+vec &lt;- vec + 1
+proc.time() - ptm # vectorized
+```
+
+```
+##    user  system elapsed 
+##   0.003   0.000   0.003
+```
+
+
+to the loop version:
+
+
+``` r
+vec &lt;- c(1:1e6)
+ptm &lt;- proc.time()
+for (i in vec) {
+  vec[i] &lt;- vec[i] + 1
+}
+proc.time() - ptm # for-loop
+```
+
+```
+##    user  system elapsed 
+##   0.054   0.000   0.054
+```
+
+
+---
+name: loops_avoid_growing
+
+# Loops &amp;mdash; avoid growing data
+
+Avoid changing dimensions of an object inside the loop:
+
+
+``` r
+v &lt;- c() # Initialize
+for (i in 1:100) {
+  v &lt;- c(v, i)
+}
+cat(head(v), " ... ", tail(v))
+```
+
+```
+## 1 2 3 4 5 6  ...  95 96 97 98 99 100
+```
+
+--
+
+It is much better to do it like this:
+
+
+``` r
+v &lt;- rep(NA, 100) # Initialize with length
+for (i in 1:100) {
+  v[i] &lt;- i
+}
+cat(head(v), " ... ", tail(v))
+```
+
+```
+## 1 2 3 4 5 6  ...  95 96 97 98 99 100
+```
+
+--
+
+Always try to know the size of the object you are going to create!
+
+
+---
+name: while_loop
+
+# Repeating actions &amp;mdash; the while loop
+
+There is also another type of loop in R, the **while loop** which is executed as long as some condition is true.
+
+``` r
+x &lt;- 1
+while (x &lt; 5) {
+  cat("x equals",x, "\n")
+  x &lt;- x + 1
+}
+```
+
+```
+## x equals 1 
+## x equals 2 
+## x equals 3 
+## x equals 4
+```
+
+---
+name: recursion
+exclude: true
+# Any questions so far?
+&lt;!-- # Recursion
+
+When we explicitely repeat an action using a loop, we talk about **iteration**. We can also repeat actions by means of **recursion**, i.e. when a function calls itself. Let us implement a factorial `\(!\)`:
+
+
+``` r
+factorial.rec &lt;- function(x) {
+  if (x == 0 || x == 1)
+    return(1)
+  else
+    return(x * factorial.rec(x - 1)) # Recursive call!
+}
+factorial.rec(5)
+```
+
+```
+## [1] 120
+```
+
+
+# Recursion = iteration?
+Yes, every iteration can be converted to recursion (Church-Turing conjecture) and vice-versa. It is not always obvious, but theoretically it is doable. Let's see how to implement *factorial* in iterative manner:
+
+``` r
+factorial.iter &lt;- function(x) {
+  if (x == 0 || x == 1)
+    return(1)
+  else {
+    tmp &lt;- 1
+    for (i in 2:x) {
+      tmp &lt;- tmp * i
+    }
+    return(tmp)  
+  }
+}
+factorial.iter(5)
+```
+
+```
+## [1] 120
+```
+
+# Recursion == iteration, really?
+More writing for the iterative version, right? What about the time efficiency?  
+The recursive version:
+
+``` r
+ptm &lt;- proc.time()
+factorial.rec(20)
+proc.time() - ptm
+```
+
+```
+## [1] 2.432902e+18
+##    user  system elapsed 
+##   0.001   0.000   0.001
+```
+And the iterative one:
+
+``` r
+ptm &lt;- proc.time()
+factorial.iter(20)
+proc.time() - ptm
+```
+
+```
+## [1] 2.432902e+18
+##    user  system elapsed 
+##   0.006   0.000   0.005
+```
+--&gt;
+
+---
+
+name: if_clause
+
+# Decisions, an if-clause
+
+Often, one has to take a different course of action depending on a flow of the algorithm. 
+
+In R, we use the `if` clause for this purpose.
+
+This is the general syntax:
+
+```
+if (condition) {
+  expr
+}
+```
+
+--
+A simple example:
+
+
+``` r
+temp&lt;- -2
+
+if (temp &lt; 0) {
+  print("It's freezing!")
+}
+```
+
+```
+## [1] "It's freezing!"
+```
+
+---
+name: if examples
+
+# Decision, an if-clause
+
+Two examples of using `if` inside of a loop:
+
+Let's display only the numbers that are greater than 5 in the sequence `\([1, 10]\)`
+
+``` r
+v &lt;- 1:10
+for (i in v) {
+  if (i &gt; 5) { # if clause
+    cat(i, ' ')
+  }
+}
+```
+
+```
+## 6  7  8  9  10
+```
+
+--
+
+Let's display only odd numbers in the sequence `\([1, 10]\)`:
+
+
+``` r
+v &lt;- 1:10
+for (i in v) {
+  if (i %% 2 != 0) { # if clause
+    cat(i, ' ')
+  }
+}
+```
+
+```
+## 1  3  5  7  9
+```
+
+---
+name:if_else
+
+# Decisions &amp;mdash; if-else
+
+What if we want to perform an action when the first `if` condition is not met? 
+
+If we want to print 'o' for an odd number and 'e' for an even, we could write either of:
+
+.pull-left-50[
+
+Only `if` clauses
+
+``` r
+v &lt;- 1:10
+for (i in v) {
+  if (i %% 2 != 0) { # if clause
+    cat('o ')
+  }
+  if (i %% 2 == 0) { # another if-clause
+    cat('e ')
+  }
+}
+```
+
+```
+## o e o e o e o e o e
+```
+
+]
+
+--
+
+.pull-right-50[
+Using `if-else`:      
+
+``` r
+v &lt;- 1:10
+for (i in v) {
+  if (i %% 2 != 0) { # if clause
+    cat('o ')
+  } else { # another if-clause
+    cat('e ')
+  }
+}
+```
+
+```
+## o e o e o e o e o e
+```
+
+]
+
+---
+name: elif
+
+# Decision taking &amp;mdash; more alternatives
+
+So far, so good, but we were only dealing with 2 alternatives. 
+
+Let's say that we want to print '?' for zero, 'e' for even and 'o' for an odd number:
+
+We can use the **if-else-if** clause for this!
+
+
+``` r
+v &lt;- c(0:10)
+for (i in v) {
+  if (i == 0) {
+    cat('? ')
+  } else if (i %% 2 != 0) { # if clause
+    cat('o ')
+  } else { # another if-clause
+    cat('e ')
+  }
+}
+```
+
+```
+## ? o e o e o e o e o e
+```
+
+
+---
+name: switch
+exclude: true
+# Switch
+
+If-else clauses operate on logical values. What if we want to take decisions based on non-logical values? Well, if-else will still work by evaluating a number of comparisons, but we can also use **switch**:
+
+
+``` r
+switch.demo &lt;- function(x) {
+  switch(class(x),
+         logical = cat('logical\n'),
+         numeric = cat('Numeric\n'),
+         factor = cat('Factor\n'),
+         cat('Undefined\n')
+         )
+}
+switch.demo(x=TRUE)
+switch.demo(x=15)
+switch.demo(x=factor('a'))
+switch.demo(data.frame())
+```
+
+```
+## logical
+## Numeric
+## Factor
+## Undefined
+```
+
+---
+name: fns
+
+# Functions
+
+Often, it is really handy to re-use some code we have written or to pack together the code that is doing some task. Functions are a really good way to do this in R:
+
+This is the general syntax
+
+
+``` r
+function_name &lt;- function(arg1, arg2, ...) {
+  expr
+  return(something)
+}
+```
+
+--
+
+Let's see a simple example of a function to add one to a number:
+
+
+``` r
+add.one &lt;- function(arg1) {
+  arg1 &lt;- arg1 + 1
+  return(arg1)
+}
+add.one(1)
+```
+
+```
+## [1] 2
+```
+
+---
+name:anatomy_of_a_fn
+
+# Anatomy of a function
+
+A function consists of: *formal arguments*, *function body* and *environment*:
+
+
+``` r
+formals(add.one)
+body(add.one)
+environment(add.one)
+environment(sd)
+```
+
+```
+## $arg1
+## 
+## 
+## {
+##     arg1 &lt;- arg1 + 1
+##     return(arg1)
+## }
+## &lt;environment: R_GlobalEnv&gt;
+## &lt;environment: namespace:stats&gt;
+```
+
+---
+name: fns_defaults
+
+# Functions &amp;mdash; default values
+
+Sometimes, it is good to use default values for some arguments:
+
+
+``` r
+add.a.num &lt;- function(arg, num=1) {
+  arg &lt;- arg + num
+  return(arg)
+}
+add.a.num(1, 5)
+add.a.num(1) # skip the num argument
+add.a.num(num=1) # skip the first argument
+```
+
+```
+## Error in add.a.num(num = 1): argument "arg" is missing, with no default
+```
+
+```
+## [1] 6
+## [1] 2
+```
+
+---
+name:fns_args
+
+# Functions &amp;mdash; order of arguments
+
+
+``` r
+args.demo &lt;- function(x, y, arg3) {
+  print(paste('x =', x, 'y =', y, 'arg3 =', arg3))
+}
+args.demo(1,2,3)
+args.demo(x=1, y=2, arg3=3)
+args.demo(x=1, 2, 3)
+args.demo(arg3=3, x=1, y=2)
+```
+
+```
+## [1] "x = 1 y = 2 arg3 = 3"
+## [1] "x = 1 y = 2 arg3 = 3"
+## [1] "x = 1 y = 2 arg3 = 3"
+## [1] "x = 1 y = 2 arg3 = 3"
+```
+
+---
+name: variable_scope
+
+# Functions &amp;mdash; variable scope
+
+.pull-left-50[
+Functions 'see' not only what has been passed to them as arguments:
+
+``` r
+x &lt;- 7
+y &lt;- 3
+xyplus &lt;- function(x) {
+  x &lt;- x + y
+  return(x)
+}
+xyplus(x)
+x
+```
+
+```
+## [1] 10
+## [1] 7
+```
+]
+
+--
+
+.pull-right-50[
+Everything outside the function is called **global environment**. There is a special operator `&lt;&lt;-` for working on global environment:
+
+
+``` r
+x &lt;- 1
+xplus &lt;- function(x) {
+  x &lt;&lt;- x + 1
+}
+xplus(x)
+x
+xplus(x)
+x
+```
+
+```
+## [1] 2
+## [1] 3
+```
+]
+
+---
+name: fns_ellipsis
+
+# Functions &amp;mdash; the `...` argument
+
+There is a special argument **...** (ellipsis) which allows you to give any number of arguments or pass arguments downstream:
+
+
+``` r
+# Any number of arguments
+my.plot &lt;- function(x, y, ...) { # Passing downstream
+  plot(x, y, las=1, cex.axis=.8, ...)
+}
+
+par(mfrow=c(1,2),mar=c(4,4,1,1))
+my.plot(1,1)
+my.plot(1, 1, col='red', pch=19)
+```
+
+&lt;img src="slide_r_elements_4_files/figure-html/fns.3dots-1.png" width="432" style="display: block; margin: auto auto auto 0;" /&gt;
+
+- A function enclosing a function is a **wrapper function**
+
+---
+name: ellipsis_trick
+exclude:true
+# Functions &amp;mdash; the ellipsis argument trick
+
+What if the authors of, e.g. plot.something wrapper forgot about the `...`?
+
+
+``` r
+my.plot &lt;- function(x, y) { # Passing downstrem
+  plot(x, y, las=1, cex.axis=.8, ...)
+}
+formals(my.plot) &lt;- c(formals(my.plot), alist(... = ))
+my.plot(1, 1, col='red', pch=19)
+```
+
+&lt;img src="slide_r_elements_4_files/figure-html/fns.3dots.trick-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+exclude:true
+&lt;!--  
+name: lazy_eval
+
+# R is lazy!
+
+In R, arguments are evaluated as late as possible, i.e. when they are needed. This is **lazy evaluation**:
+
+
+``` r
+h &lt;- function(a = 1, b = d) {
+  d &lt;- (a + 1) ^ 2
+  c(a, b)
+}
+#h()
+```
+
+&gt; The above won't be possible in, e.g. C where values of both arguments have to be known before calling a function **eager evaluation**.  
+--&gt;
+---
+
+name: everything_is_a_fn
+exclude:true
+
+# In R everything is a function
+
+Because in R everything is a function
+
+
+``` r
+`+`
+```
+
+```
+## function (e1, e2)  .Primitive("+")
+```
+
+
+we can re-define things like this:
+
+
+
+``` r
+`+` &lt;- function(e1, e2) { e1 - e2 }
+2 + 2
+```
+
+```
+## [1] 0
+```
+
+
+and, finally, clean up the mess...
+
+
+
+``` r
+rm("+")
+2 + 2
+```
+
+```
+## [1] 4
+```
+
+---
+name: infix_fns
+exclude:true
+# Infix notation
+
+Operators like `+`, `-` or `*` are using the so-called **infix** functions, where the function name is between arguments. We can define our own:
+
+
+``` r
+`%p%` &lt;- function(x, y) {
+  paste(x,y)
+}
+'a' %p% 'b'
+```
+
+```
+## [1] "a b"
+```
+
+---
+name: base_fns
+
+# Base functions
+
+When we start R, the following packages are pre-loaded automatically:
+
+
+``` r
+# .libPaths() # get library location
+# library()   # see all packages installed
+search()    # see packages currently loaded
+```
+
+```
+##  [1] ".GlobalEnv"               "package:vcd"             
+##  [3] "package:grid"             "package:patchwork"       
+##  [5] "package:nycflights13"     "package:readxl"          
+##  [7] "package:formattable"      "package:kableExtra"      
+##  [9] "package:manipulateWidget" "package:leaflet"         
+## [11] "package:yaml"             "package:fontawesome"     
+## [13] "package:bookdown"         "package:knitr"           
+## [15] "package:lubridate"        "package:forcats"         
+## [17] "package:stringr"          "package:purrr"           
+## [19] "package:readr"            "package:tidyr"           
+## [21] "package:tibble"           "package:ggplot2"         
+## [23] "package:tidyverse"        "package:reshape2"        
+## [25] "package:dplyr"            "package:stats"           
+## [27] "package:graphics"         "package:grDevices"       
+## [29] "package:utils"            "package:datasets"        
+## [31] "package:methods"          "Autoloads"               
+## [33] "package:base"
+```
+
+Check what basic functions are offered by packages: *base*, *utils* and we will soon work with package *graphics*. If you want to see what statistical functions are in your arsenal, check out package *stats*.
+
+&lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# See you at the next lecture!
+
+
+.end-text[
+&lt;p class="smaller"&gt;
+&lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
+Created: 27-Oct-2024 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+&lt;/p&gt;
+]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
