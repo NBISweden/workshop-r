@@ -25,7 +25,7 @@ output:
 
 # &nbsp; {.tabset .tabset-fade}   
 
-# Datasets  
+## Datasets  
 Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you have learned in this course. For each data set, a brief description as well as download instructions are provided. 
 
 <div class="alert alert-info">
@@ -37,7 +37,7 @@ On the last day you will present your Rmd file (or rather, the resulting html re
 
 ---
 
-## Palmer penguins 🐧
+### Palmer penguins 🐧
 
 - This is a data set containing a series of measurements for three species of penguins collected in the Palmer station in Antarctica.
 - Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/heplots/peng.html>
@@ -52,7 +52,7 @@ str(penguins)
 
 ---
 
-## Drinking habits 🍷
+### Drinking habits 🍷
 
 - Data from a national survey on the drinking habits of american citizens in 2001 and 2002.
 - Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/stevedata/nesarc_drinkspd.html>
@@ -73,7 +73,7 @@ str(drinks)
 
 ---
 
-## Car crashes 🚗
+### Car crashes 🚗
 
 - Data from car accidents in the US between 1997-2002.
 - Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/DAAG/nassCDS.html>
@@ -94,7 +94,7 @@ str(crashes)
 
 ---
 
-## Gapminder health and wealth 📈
+### Gapminder health and wealth 📈
 
 - This is a collection of country indicators from the Gapminder dataset for the years 2000-2016.
 - Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/dslabs/gapminder.html>
@@ -114,7 +114,7 @@ str(gapminder)
 
 ---
 
-## StackOverflow survey 🖥️
+### StackOverflow survey 🖥️
 
 - This is a downsampled and modified version of one of StackOverflow's annual surveys where users respond to a series of questions related to careers in technology and coding.
 - Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/modeldata/stackoverflow.html>
@@ -135,7 +135,7 @@ str(stackoverflow)
 
 ---
 
-## Doctor visits 🤒
+### Doctor visits 🤒
 
 - Data on the frequency of doctor visits in the past two weeks in Australia for the years 1977 and 1978.
 - Data description: <https://vincentarelbundock.github.io/Rdatasets/doc/AER/DoctorVisits.html>
@@ -156,7 +156,7 @@ str(doctor)
 
 ---
 
-## Video Game Sales 🎮
+### Video Game Sales 🎮
 
 - This data set contains sales figures for video games titles released in 2001 and 2002.
 - Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=Video%20Game%20Sales> 
@@ -180,7 +180,7 @@ str(videogames)
 
 ---
 
-## LEGO Sets 🏗️
+### LEGO Sets 🏗️
 
 - This data set contains the description of all LEGO sets released from 2000 to 2009.
 - Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=lego>
@@ -203,7 +203,7 @@ str(lego)
 
 ---
 
-## Shark attacks 🦈
+### Shark attacks 🦈
 
 - This data set contains information on shark attack records from all over the world.
 - Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=shark>
@@ -225,5 +225,5 @@ str(sharks)
 </details>
 
 ***
-# Sample project report  
-<p><iframe style="border: none;" title="workshop" src="https://nbisweden.github.io/workshop-r/2410/Gapminder_project.html" width="100%" height="900px"></iframe></p>   
+## Sample project report  
+<p><iframe style="border: none;" title="workshop" src="https://nbisweden.github.io/workshop-r/2410-canvas/Gapminder_project.html" width="100%" height="900px"></iframe></p>   
