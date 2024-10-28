@@ -201,8 +201,10 @@ text(x = var2_mode - 90 , y = 600, labels = paste("Mode =", round(var2_mode, 2))
 ```
 
 ```{r mode, echoo = T, eval = T}
-mode(data$var1)
-mode(data$var2)
+density_data1 <- density(data$var1)
+density_data1$x[which.max(density_data1$y)]
+density_data2 <- density(data$var2)
+density_data2$x[which.max(density_data2$y)]
 ```
 ---
 name: Spread
