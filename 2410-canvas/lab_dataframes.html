@@ -319,10 +319,10 @@ to a vector otherwise it will still be a matrix.</p>
 <li>How do find out the length and the mode of the matrix?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820300616" aria-expanded="false" aria-controls="acc2024102820300616">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823220616" aria-expanded="false" aria-controls="acc2024102823220616">
 </button>
 </p>
-<div id="acc2024102820300616" class="collapse">
+<div id="acc2024102823220616" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mode(X)
 length(X)</code></pre>
@@ -334,10 +334,10 @@ length(X)</code></pre>
 <li>Extract all the values in the matrix that is larger than 6.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820307354" aria-expanded="false" aria-controls="acc2024102820307354">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823227354" aria-expanded="false" aria-controls="acc2024102823227354">
 </button>
 </p>
-<div id="acc2024102820307354" class="collapse">
+<div id="acc2024102823227354" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X[X&gt;6]</code></pre>
 <pre><code>## [1]  7 10  8 11  9 12</code></pre>
@@ -347,10 +347,10 @@ length(X)</code></pre>
 <li>Swap the positions of column 1 and 3 in the matrix X</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820301571" aria-expanded="false" aria-controls="acc2024102820301571">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823221571" aria-expanded="false" aria-controls="acc2024102823221571">
 </button>
 </p>
-<div id="acc2024102820301571" class="collapse">
+<div id="acc2024102823221571" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X[,c(3,2,1)]</code></pre>
 <pre><code>##      [,1] [,2] [,3]
@@ -364,10 +364,10 @@ length(X)</code></pre>
 <li>Add a vector with three zeros as a fifth row to the matrix</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820307125" aria-expanded="false" aria-controls="acc2024102820307125">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823227125" aria-expanded="false" aria-controls="acc2024102823227125">
 </button>
 </p>
-<div id="acc2024102820307125" class="collapse">
+<div id="acc2024102823227125" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X.2 &lt;- rbind(X, rep(0, 3))
 X.2</code></pre>
@@ -383,10 +383,10 @@ X.2</code></pre>
 <li>Replace all values the first two columns in your matrix with <code>NA</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820306173" aria-expanded="false" aria-controls="acc2024102820306173">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823226173" aria-expanded="false" aria-controls="acc2024102823226173">
 </button>
 </p>
-<div id="acc2024102820306173" class="collapse">
+<div id="acc2024102823226173" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X[,1:2] &lt;- NA
 X</code></pre>
@@ -401,10 +401,10 @@ X</code></pre>
 <li>Replace all values in the matrix with 0 and convert it to a vector</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820304841" aria-expanded="false" aria-controls="acc2024102820304841">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823224841" aria-expanded="false" aria-controls="acc2024102823224841">
 </button>
 </p>
-<div id="acc2024102820304841" class="collapse">
+<div id="acc2024102823224841" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>X[] &lt;- 0
 as.vector(X)</code></pre>
@@ -412,7 +412,7 @@ as.vector(X)</code></pre>
 </div>
 </div>
 <ol start="7" style="list-style-type: decimal">
-<li>In the the earlier exercises, you created a vector with the names of the type Geno_a_1, Geno_a_2, Geno_a_3, Geno_b_1, Geno_b_2…, Geno_s_3 using vectors. In today’s lecture, a function named <code>outer()</code> that generates matrices was mentioned. Try to generate the same vector as yesterday using this function instead. The <code>outer()</code> function is very powerful, but can be hard to wrap you head around, so try to follow the logic, perhaps by creating a simple example to start with.</li>
+<li>In the the earlier exercises, you created a vector with the names of the type Geno_a_1, Geno_a_2, Geno_a_3, Geno_b_1, Geno_b_2…, Geno_s_3 using vectors. In a previous lecture, a function named <code>outer()</code> that generates matrices was mentioned. Try to generate the same vector as before, but this time using <code>outer()</code>. This function is very powerful, but can be hard to wrap you head around, so try to follow the logic, perhaps by creating a simple example to start with.</li>
 </ol>
 <pre class="r"><code>letnum &lt;- outer(paste(&quot;Geno&quot;,letters[1:19], sep = &quot;_&quot;), 1:3, paste, sep = &quot;_&quot;)
 class(letnum)
@@ -438,10 +438,10 @@ D. A + B
 E. A - B
 F. A == B</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820303421" aria-expanded="false" aria-controls="acc2024102820303421">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823223421" aria-expanded="false" aria-controls="acc2024102823223421">
 </button>
 </p>
-<div id="acc2024102820303421" class="collapse">
+<div id="acc2024102823223421" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>A &lt;- matrix(1:4, ncol = 2, nrow = 2)
 B &lt;- matrix(5:8, ncol = 2, nrow = 2)
@@ -486,10 +486,10 @@ A == B</code></pre>
 <li>Generate a 10 by 10 matrix with random numbers. Add row and column names and calculate mean and median over rows and save these in a new matrix.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820306455" aria-expanded="false" aria-controls="acc2024102820306455">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823226455" aria-expanded="false" aria-controls="acc2024102823226455">
 </button>
 </p>
-<div id="acc2024102820306455" class="collapse">
+<div id="acc2024102823226455" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>e &lt;- rnorm(n = 100)
 E &lt;- matrix(e, nrow = 10, ncol = 10)
@@ -511,7 +511,7 @@ E.mm</code></pre>
 </div>
 <div id="dataframes" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Dataframes</h1>
-<p>Even though vectors are at the very base of R usage, data frames are central to R as the most common ways to import data into R (<code>read.table()</code>) will create a dataframe. Even though a dataframe can itself contain another dataframe, by far the most common dataframes consists of a set of equally long vectors. As dataframes can contain several different data types the command <code>str()</code> is very useful to run on dataframes.</p>
+<p>Even though vectors are at the very base of R usage, data frames are central to R as the most common ways to import data into R (<code>read.table()</code>) will create a data frame. A data frame consists of a set of equally long vectors. As data frames can contain several different data types the command <code>str()</code> is very useful to run on data frames.</p>
 <pre class="r"><code>vector1 &lt;- 1:10
 vector2 &lt;- letters[1:10]
 vector3 &lt;- rnorm(10, sd = 10)
@@ -525,13 +525,13 @@ str(dfr)</code></pre>
 <div id="exercise-1" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Exercise</h2>
 <ol style="list-style-type: decimal">
-<li>Figure out what is going on with the second column in <strong>dfr</strong> dataframe described above and modify the creation of the dataframe so that the second column is stored as a character vector rather than a factor. Hint: Check the help for <code>data.frame</code> to find an argument that turns off the factor conversion.</li>
+<li>Figure out what is going on with the second column in <strong>dfr</strong> data frame described above and modify the creation of the data frame so that the second column is stored as a character vector rather than a factor. Hint: Check the help for <code>data.frame</code> to find an argument that turns off the factor conversion.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820305114" aria-expanded="false" aria-controls="acc2024102820305114">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823225114" aria-expanded="false" aria-controls="acc2024102823225114">
 </button>
 </p>
-<div id="acc2024102820305114" class="collapse">
+<div id="acc2024102823225114" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr &lt;- data.frame(vector1, vector2, vector3, stringsAsFactors = FALSE)
 str(dfr)</code></pre>
@@ -545,10 +545,10 @@ str(dfr)</code></pre>
 <li>One can select columns from a data frame using either the name or the position. Use both methods to print the last two columns from the <strong>dfr</strong> data frame.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820304719" aria-expanded="false" aria-controls="acc2024102820304719">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823224719" aria-expanded="false" aria-controls="acc2024102823224719">
 </button>
 </p>
-<div id="acc2024102820304719" class="collapse">
+<div id="acc2024102823224719" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr[,2:3]
 dfr[,c(&quot;vector2&quot;, &quot;vector3&quot;)]</code></pre>
@@ -580,10 +580,10 @@ dfr[,c(&quot;vector2&quot;, &quot;vector3&quot;)]</code></pre>
 <li>Print all letters in the <strong>vector2</strong> column of the data frame where the <strong>vector3</strong> column has a positive value.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820305215" aria-expanded="false" aria-controls="acc2024102820305215">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823225215" aria-expanded="false" aria-controls="acc2024102823225215">
 </button>
 </p>
-<div id="acc2024102820305215" class="collapse">
+<div id="acc2024102823225215" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dfr[dfr$vector3&gt;0,2]
 dfr$vector2[dfr$vector3&gt;0]</code></pre>
@@ -592,13 +592,13 @@ dfr$vector2[dfr$vector3&gt;0]</code></pre>
 </div>
 </div>
 <ol start="4" style="list-style-type: decimal">
-<li>Create a new vector combining the all columns of <strong>dfr</strong> separated by a underscore.</li>
+<li>Create a new vector combining all columns of <strong>dfr</strong> and separate them by a underscore.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820302142" aria-expanded="false" aria-controls="acc2024102820302142">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823222142" aria-expanded="false" aria-controls="acc2024102823222142">
 </button>
 </p>
-<div id="acc2024102820302142" class="collapse">
+<div id="acc2024102823222142" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>paste(dfr$vector1, dfr$vector2, dfr$vector3, sep = &quot;_&quot;)</code></pre>
 <pre><code>##  [1] &quot;1_a_7.70998760905912&quot;     &quot;2_b_-5.12207148765939&quot;   
@@ -609,13 +609,13 @@ dfr$vector2[dfr$vector3&gt;0]</code></pre>
 </div>
 </div>
 <ol start="5" style="list-style-type: decimal">
-<li>There is a dataframe of car information that comes with the base installation of R. Have a look at this data by typing <code>mtcars</code>. How many rows and columns does it have?</li>
+<li>There is a data frame of car information that comes with the base installation of R. Have a look at this data by typing <code>mtcars</code>. How many rows and columns does it have?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820305816" aria-expanded="false" aria-controls="acc2024102820305816">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823225816" aria-expanded="false" aria-controls="acc2024102823225816">
 </button>
 </p>
-<div id="acc2024102820305816" class="collapse">
+<div id="acc2024102823225816" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dim(mtcars)
 ncol(mtcars)
@@ -626,25 +626,25 @@ nrow(mtcars)</code></pre>
 </div>
 </div>
 <ol start="6" style="list-style-type: decimal">
-<li>Re-arrange the row names of this dataframe and save as a vector.</li>
+<li>Re-arrange (shuffle) the row names of this data frame and save as a vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820304840" aria-expanded="false" aria-controls="acc2024102820304840">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823224840" aria-expanded="false" aria-controls="acc2024102823224840">
 </button>
 </p>
-<div id="acc2024102820304840" class="collapse">
+<div id="acc2024102823224840" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>car.names &lt;- sample(row.names(mtcars))</code></pre>
 </div>
 </div>
 <ol start="7" style="list-style-type: decimal">
-<li>Create a dataframe containing the vector from the previous question and two vectors with random numbers named random1 and random2.</li>
+<li>Create a data frame containing the vector from the previous question and two vectors with random numbers named random1 and random2.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820305268" aria-expanded="false" aria-controls="acc2024102820305268">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823225268" aria-expanded="false" aria-controls="acc2024102823225268">
 </button>
 </p>
-<div id="acc2024102820305268" class="collapse">
+<div id="acc2024102823225268" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>random1 &lt;- rnorm(length(car.names))
 random2 &lt;- rnorm(length(car.names))
@@ -686,13 +686,13 @@ mtcars2</code></pre>
 </div>
 </div>
 <ol start="8" style="list-style-type: decimal">
-<li>Now you have two dataframes that both contains information on a set of cars. A collaborator asks you to create a new dataframe with all this information combined. Create a merged dataframe ensuring that rows match correctly.</li>
+<li>Now you have two data frames that both contains information on a set of cars. A collaborator asks you to create a new data frame with all this information combined. Create a merged data frame ensuring that rows match correctly.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820305873" aria-expanded="false" aria-controls="acc2024102820305873">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823225873" aria-expanded="false" aria-controls="acc2024102823225873">
 </button>
 </p>
-<div id="acc2024102820305873" class="collapse">
+<div id="acc2024102823225873" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mt.merged &lt;- merge(mtcars, mtcars2, by.x = &quot;row.names&quot;, by.y = &quot;car.names&quot;)
 mt.merged</code></pre>
@@ -768,10 +768,10 @@ mt.merged</code></pre>
 <li>Calculate the mean value for the two columns that you added to the <strong>mtcars</strong> data frame. Check out the function <code>colMeans()</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820301068" aria-expanded="false" aria-controls="acc2024102820301068">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823221068" aria-expanded="false" aria-controls="acc2024102823221068">
 </button>
 </p>
-<div id="acc2024102820301068" class="collapse">
+<div id="acc2024102823221068" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>colMeans(mtcars2[, c(&quot;random1&quot;, &quot;random2&quot;)])</code></pre>
 <pre><code>##     random1     random2 
@@ -780,10 +780,10 @@ mt.merged</code></pre>
 </div>
 <p>Try to modify so you get the mean by cylinder instead. Check out the function <code>aggregate()</code>.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820301273" aria-expanded="false" aria-controls="acc2024102820301273">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823221273" aria-expanded="false" aria-controls="acc2024102823221273">
 </button>
 </p>
-<div id="acc2024102820301273" class="collapse">
+<div id="acc2024102823221273" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>aggregate(mtcars2$random1, by=list(mtcars$cyl), FUN=mean)</code></pre>
 <pre><code>##   Group.1           x
@@ -852,10 +852,10 @@ the list <strong>u.2</strong>.</p>
 <li>Create a list containing 1 character vector, a numeric vector, a character matrix.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820307827" aria-expanded="false" aria-controls="acc2024102820307827">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823227827" aria-expanded="false" aria-controls="acc2024102823227827">
 </button>
 </p>
-<div id="acc2024102820307827" class="collapse">
+<div id="acc2024102823227827" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>list.2 &lt;- list(vec1 = c(&quot;hi&quot;, &quot;ho&quot;, &quot;merry&quot;, &quot;christmas&quot;),
                vec2 = 4:19,
@@ -876,15 +876,15 @@ list.2</code></pre>
 </div>
 </div>
 <ol start="2" style="list-style-type: decimal">
-<li>Here is a dataframe.</li>
+<li>Here is a data frame.</li>
 </ol>
 <pre class="r"><code>dfr &lt;- data.frame(letters, LETTERS, letters == LETTERS)</code></pre>
 <p>Add this dataframe to the list created above.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820300269" aria-expanded="false" aria-controls="acc2024102820300269">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823220269" aria-expanded="false" aria-controls="acc2024102823220269">
 </button>
 </p>
-<div id="acc2024102820300269" class="collapse">
+<div id="acc2024102823220269" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>list.2[[4]] &lt;- dfr</code></pre>
 </div>
@@ -893,10 +893,10 @@ list.2</code></pre>
 <li>Remove the the second entry in your list.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820304495" aria-expanded="false" aria-controls="acc2024102820304495">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823224495" aria-expanded="false" aria-controls="acc2024102823224495">
 </button>
 </p>
-<div id="acc2024102820304495" class="collapse">
+<div id="acc2024102823224495" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>list.2[-2]</code></pre>
 <pre><code>## $vec1
@@ -943,10 +943,10 @@ list.2</code></pre>
 <li>Create a new list that contain 20 sublists, with each entry holding a numeric vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820309882" aria-expanded="false" aria-controls="acc2024102820309882">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823229882" aria-expanded="false" aria-controls="acc2024102823229882">
 </button>
 </p>
-<div id="acc2024102820309882" class="collapse">
+<div id="acc2024102823229882" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>vec1 &lt;- rnorm(1000)
 list.a &lt;- split(vec1, 1:20)</code></pre>
@@ -956,10 +956,10 @@ list.a &lt;- split(vec1, 1:20)</code></pre>
 <li>How long is your list, and how long are each of the vectors that are part of the list?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820307268" aria-expanded="false" aria-controls="acc2024102820307268">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823227268" aria-expanded="false" aria-controls="acc2024102823227268">
 </button>
 </p>
-<div id="acc2024102820307268" class="collapse">
+<div id="acc2024102823227268" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>length(list.a)
 lapply(list.a, FUN = &quot;length&quot;)</code></pre>
@@ -1029,10 +1029,10 @@ lapply(list.a, FUN = &quot;length&quot;)</code></pre>
 <li>Figure out what the main differences are between the function <code>lapply()</code> and <code>sapply</code> are and use both of them with the function summary on your newly created list. What are the pros and cons of the two approaches to calculate the same summary statistics?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102820301142" aria-expanded="false" aria-controls="acc2024102820301142">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024102823221142" aria-expanded="false" aria-controls="acc2024102823221142">
 </button>
 </p>
-<div id="acc2024102820301142" class="collapse">
+<div id="acc2024102823221142" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>lapply(X = list.a, FUN = &quot;summary&quot;)
 sapply(X = list.a, FUN = &quot;summary&quot;)</code></pre>
@@ -1147,23 +1147,6 @@ sapply(X = list.a, FUN = &quot;summary&quot;)</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div id="extras" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Extras</h1>
-<ol style="list-style-type: decimal">
-<li>Design a S3 class that should hold information on human proteins. The data needed for each protein is:</li>
-</ol>
-<ul>
-<li>The gene that encodes it</li>
-<li>The molecular weight of the protein</li>
-<li>The length of the protein sequence</li>
-<li>Information on who and when it was discovered</li>
-<li>Protein assay data</li>
-</ul>
-<p>Create this hypothetical S3 object in R.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Among the test data sets that are part of base R, there is one called <strong>iris</strong>. It contains measurements on set of plants. You can access the data using by typing <code>iris</code> in R. Explore this data set and calculate some useful summary statistics, like SD, mean and median for the parts of the data where this makes sense. Calculate the same statistics for any grouping that you can find in the data.</li>
-</ol>
 </div>
 
 
