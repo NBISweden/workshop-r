@@ -132,7 +132,7 @@ X[] <- 0
 as.vector(X)
 ```
 
-7.  In the the earlier exercises, you created a vector with the names of the type Geno\_a\_1, Geno\_a\_2, Geno\_a\_3, Geno\_b\_1, Geno\_b\_2&#x2026;, Geno\_s\_3 using vectors. In today's lecture, a function named `outer()` that generates matrices was mentioned. Try to generate the same vector as yesterday using this function instead. The `outer()` function is very powerful, but can be hard to wrap you head around, so try to follow the logic, perhaps by creating a simple example to start with.
+7.  In the the earlier exercises, you created a vector with the names of the type Geno\_a\_1, Geno\_a\_2, Geno\_a\_3, Geno\_b\_1, Geno\_b\_2&#x2026;, Geno\_s\_3 using vectors. In a previous lecture, a function named `outer()` that generates matrices was mentioned. Try to generate the same vector as before, but this time using `outer()`. This function is very powerful, but can be hard to wrap you head around, so try to follow the logic, perhaps by creating a simple example to start with.
 
 ```{r}
 letnum <- outer(paste("Geno",letters[1:19], sep = "_"), 1:3, paste, sep = "_")
@@ -180,7 +180,7 @@ E.mm
 
 # Dataframes
 
-Even though vectors are at the very base of R usage, data frames are central to R as the most common ways to import data into R (`read.table()`) will create a dataframe. Even though a dataframe can itself contain another dataframe, by far the most common dataframes consists of a set of equally long vectors. As dataframes can contain several different data types the command `str()` is very useful to run on dataframes.
+Even though vectors are at the very base of R usage, data frames are central to R as the most common ways to import data into R (`read.table()`) will create a data frame. A data frame consists of a set of equally long vectors. As data frames can contain several different data types the command `str()` is very useful to run on data frames.
 
 ```{r}
 vector1 <- 1:10
@@ -194,7 +194,7 @@ In the above example, we can see that the dataframe **dfr** contains 10 observat
 
 ## Exercise
 
-1. Figure out what is going on with the second column in **dfr** dataframe described above and modify the creation of the dataframe so that the second column is stored as a character vector rather than a factor. Hint: Check the help for `data.frame` to find an argument that turns off the factor conversion.
+1. Figure out what is going on with the second column in **dfr** data frame described above and modify the creation of the data frame so that the second column is stored as a character vector rather than a factor. Hint: Check the help for `data.frame` to find an argument that turns off the factor conversion.
 
 ```{r,accordion=TRUE}
 dfr <- data.frame(vector1, vector2, vector3, stringsAsFactors = FALSE)
@@ -215,13 +215,13 @@ dfr[dfr$vector3>0,2]
 dfr$vector2[dfr$vector3>0]
 ```
 
-4. Create a new vector combining the all columns of **dfr** separated by a underscore.
+4. Create a new vector combining all columns of **dfr** and separate them by a underscore.
 
 ```{r,accordion=TRUE}
 paste(dfr$vector1, dfr$vector2, dfr$vector3, sep = "_")
 ```
 
-5. There is a dataframe of car information that comes with the base installation of R. Have a look at this data by typing `mtcars`. How many rows and columns does it have?
+5. There is a data frame of car information that comes with the base installation of R. Have a look at this data by typing `mtcars`. How many rows and columns does it have?
 
 ```{r,accordion=TRUE}
 dim(mtcars)
@@ -229,13 +229,13 @@ ncol(mtcars)
 nrow(mtcars)
 ```
 
-6. Re-arrange the row names of this dataframe and save as a vector.
+6. Re-arrange (shuffle) the row names of this data frame and save as a vector.
 
 ```{r,accordion=TRUE}
 car.names <- sample(row.names(mtcars))
 ```
 
-7. Create a dataframe containing the vector from the previous question and two vectors with random numbers named random1 and random2.
+7. Create a data frame containing the vector from the previous question and two vectors with random numbers named random1 and random2.
 
 ```{r,accordion=TRUE}
 random1 <- rnorm(length(car.names))
@@ -244,7 +244,7 @@ mtcars2 <- data.frame(car.names, random1, random2)
 mtcars2
 ```
 
-8. Now you have two dataframes that both contains information on a set of cars. A collaborator asks you to create a new dataframe with all this information combined. Create a merged dataframe ensuring that rows match correctly.
+8. Now you have two data frames that both contains information on a set of cars. A collaborator asks you to create a new data frame with all this information combined. Create a merged data frame ensuring that rows match correctly.
 
 ```{r,accordion=TRUE}
 mt.merged <- merge(mtcars, mtcars2, by.x = "row.names", by.y = "car.names")
@@ -332,7 +332,7 @@ list.2 <- list(vec1 = c("hi", "ho", "merry", "christmas"),
 list.2
 ```
 
-2. Here is a dataframe.
+2. Here is a data frame.
 
 ```{r}
 dfr <- data.frame(letters, LETTERS, letters == LETTERS)
@@ -370,17 +370,3 @@ lapply(list.a, FUN = "length")
 lapply(X = list.a, FUN = "summary")
 sapply(X = list.a, FUN = "summary")
 ```
-
-# Extras
-
-1. Design a S3 class that should hold information on human proteins. The data needed for each protein is:
-
-- The gene that encodes it
-- The molecular weight of the protein
-- The length of the protein sequence
-- Information on who and when it was discovered
-- Protein assay data
-
-Create this hypothetical S3 object in R.
-
-2. Among the test data sets that are part of base R, there is one called **iris**. It contains measurements on set of plants. You can access the data using by typing `iris` in R. Explore this data set and calculate some useful summary statistics, like SD, mean and median for the parts of the data where this makes sense. Calculate the same statistics for any grouping that you can find in the data.
