@@ -337,7 +337,7 @@ name: data_frames_accessing
 
 # Data frames &mdash; accessing values
 
-- We can always use the `[]` notation to access values inside data frames.
+- We can always use the `[row,column]` notation to access values inside data frames.
 
 ```{r data.frame.access, echo=T}
 df[1,]  # get the first row
@@ -516,12 +516,12 @@ name: lists_nested
 We can use lists to store hierarchies of data:
 
 ```{r lists_nested, echo=T}
-ikea_lund <- list(park = 125)
+ikea_lund <- list(parking = 125)
 ikea_sweden <- list(ikea_lund = ikea_lund, 
                     ikea_uppsala = ikea_uppsala)
 # use names to navigate inside the hierarchy
-ikea_sweden$ikea_lund$park
-ikea_sweden$ikea_uppsala$park
+ikea_sweden$ikea_lund$parking
+ikea_sweden$ikea_uppsala$parking
 ```
 
 
