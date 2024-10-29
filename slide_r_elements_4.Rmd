@@ -84,7 +84,7 @@ Example.
 
 ```{r for.loop, echo=T}
 for (i in 1:5) {
-  cat(paste('Performing operation on no.', i), '\n')
+  print(paste('Performing operation on no.', i))
 }
 ```
 
@@ -93,7 +93,7 @@ A slight modification of the above example.
 
 ```{r for.loop2, echo=T}
 for (i in c(2,4,6,8,10)) {
-  cat(paste('Performing operation on no.', i), '\n')
+  print(paste('Performing operation on no.', i))
 }
 ```
 The variable `i` <u> takes values </u> from the sequences.
