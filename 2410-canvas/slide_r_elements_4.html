@@ -206,7 +206,7 @@ proc.time() - ptm # for-loop
 
 ```
 ##    user  system elapsed 
-##   0.049   0.004   0.053
+##   0.057   0.000   0.057
 ```
 
 
@@ -372,7 +372,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.006   0.000   0.005
+##   0.005   0.000   0.006
 ```
 --&gt;
 
@@ -586,8 +586,8 @@ Let's see a simple example of a function to add one to a number:
 
 ``` r
 add.one &lt;- function(arg1) {
-  arg1 &lt;- arg1 + 1
-  return(arg1)
+  result &lt;- arg1 + 1
+  return(result)
 }
 add.one(1)
 ```
@@ -607,8 +607,8 @@ Sometimes, it is good to use default values for some arguments:
 
 ``` r
 add.a.num &lt;- function(arg, num=1) {
-  arg &lt;- arg + num
-  return(arg)
+  result &lt;- arg + num
+  return(result)
 }
 add.a.num(1) # skip the num argument
 ```
@@ -889,8 +889,8 @@ body(add.one)
 
 ```
 ## {
-##     arg1 &lt;- arg1 + 1
-##     return(arg1)
+##     result &lt;- arg1 + 1
+##     return(result)
 ## }
 ```
 
