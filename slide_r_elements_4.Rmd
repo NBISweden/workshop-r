@@ -38,17 +38,13 @@ name: contents
 - variables and their types
 - operators
 - vectors
-- numbers as vectors
-- strings as vectors
 - matrices
 - lists
 - data frames
-- objects
-- **repeating actions: iteration and recursion**
-- **decision taking: control structures**
-- **functions in general**
-- **variable scope**
-- **base functions**
+- **repeating actions: loops**
+- **decision taking: `if` control structures**
+- **functions**
+
 
 ---
 name: repeating_actions_1
