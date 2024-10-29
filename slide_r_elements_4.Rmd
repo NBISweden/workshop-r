@@ -444,8 +444,8 @@ Let's see a simple example of a function to add one to a number:
 
 ```{r functions1, echo=T,error=T}
 add.one <- function(arg1) {
-  arg1 <- arg1 + 1
-  return(arg1)
+  result <- arg1 + 1
+  return(result)
 }
 add.one(1)
 ```
@@ -460,8 +460,8 @@ Sometimes, it is good to use default values for some arguments:
 
 ```{r functions2, echo=T, error=T}
 add.a.num <- function(arg, num=1) {
-  arg <- arg + num
-  return(arg)
+  result <- arg + num
+  return(result)
 }
 add.a.num(1) # skip the num argument
 
