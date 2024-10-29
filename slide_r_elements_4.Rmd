@@ -78,7 +78,7 @@ Where:
 
 ---
 name: for_loop_1
-# Repeating actions &mdash; for loop
+# Repeating actions &mdash; for loop, an example
 
 Example. 
 
@@ -97,27 +97,11 @@ for (i in c(2,4,6,8,10)) {
 }
 ```
 The variable `i` <u> takes values </u> from the sequences.
----
-name: for_loop_counter
-
-# Repeating actions &mdash; for loop with a counter
-
-To know the current iteration number on the loop, we can set an external counter:
-
-```{r for.loop.cnt, echo=T}
-cnt <- 1
-for (i in c(2,4,6,8,10)) {
-  cat(paste('Iteration', cnt,
-            'Performing operation on no.', i), '\n')
-  cnt <- cnt + 1
-  
-}
-```
 
 ---
 name: for_loop_example
 
-# Repeating actions &mdash; for loop, an example
+# Repeating actions &mdash; for loop, another example
 
 Say, we want to add 1 to every element of a vector:
 
@@ -173,9 +157,26 @@ proc.time() - ptm # for-loop
 
 
 ---
+name: for_loop_counter
+
+# Repeating actions &mdash; for loop with a counter
+
+To know the current iteration number on the loop, we can set an external counter:
+
+```{r for.loop.cnt, echo=T}
+cnt <- 1
+for (i in c(2,4,6,8,10)) {
+  cat(paste('Iteration', cnt,
+            'Performing operation on no.', i), '\n')
+  cnt <- cnt + 1
+  
+}
+```
+
+---
 name: loops_avoid_growing
 
-# Loops &mdash; avoid growing data
+# Repeating actions &mdash; avoid growing data
 
 Avoid changing dimensions of an object inside the loop:
 
@@ -274,7 +275,7 @@ proc.time() - ptm
 
 name: if_clause
 
-# Decisions, an if-clause
+# Decisions, if-clause
 
 Often, one has to take a different course of action depending on a flow of the algorithm. 
 
@@ -293,7 +294,7 @@ A simple example:
 
 ```{r example if, echo=T}
 
-temp<- -2
+temp <- -2
 
 if (temp < 0) {
   print("It's freezing!")
@@ -304,9 +305,9 @@ if (temp < 0) {
 ---
 name: if examples
 
-# Decision, an if-clause
+# Decisions, if-clause
 
-Two examples of using `if` inside of a loop:
+Two more examples of using `if` inside of a loop:
 
 Let's display only the numbers that are greater than 5 in the sequence $[1, 10]$
 ```{r simple if, echo=T}
@@ -334,7 +335,7 @@ for (i in v) {
 ---
 name:if_else
 
-# Decisions &mdash; if-else
+# Decisions, if-else
 
 What if we want to perform an action when the first `if` condition is not met? 
 
@@ -366,7 +367,7 @@ v <- 1:10
 for (i in v) {
   if (i %% 2 != 0) { # if clause
     cat('o ')
-  } else { # another if-clause
+  } else { # else clause
     cat('e ')
   }
 }
@@ -377,7 +378,7 @@ for (i in v) {
 ---
 name: elif
 
-# Decision taking &mdash; more alternatives
+# Decisions, if-else-if for more alternatives
 
 So far, so good, but we were only dealing with 2 alternatives. 
 
@@ -388,11 +389,11 @@ We can use the **if-else-if** clause for this!
 ```{r if.elseif, echo=T}
 v <- c(0:10)
 for (i in v) {
-  if (i == 0) {
+  if (i == 0) { #if clause
     cat('? ')
-  } else if (i %% 2 != 0) { # if clause
+  } else if (i %% 2 != 0) { # else-if clause
     cat('o ')
-  } else { # another if-clause
+  } else { # else clause
     cat('e ')
   }
 }
@@ -430,7 +431,7 @@ Often, it is really handy to re-use some code we have written or to pack togethe
 
 This is the general syntax
 
-```{r function syntax, eval=F, echo=T}
+```
 function_name <- function(arg1, arg2, ...) {
   expr
   return(something)
@@ -449,24 +450,11 @@ add.one <- function(arg1) {
 add.one(1)
 ```
 
----
-name:anatomy_of_a_fn
-
-# Anatomy of a function
-
-A function consists of: *formal arguments*, *function body* and *environment*:
-
-```{r fns.formalsbodyenv, echo=T}
-formals(add.one)
-body(add.one)
-environment(add.one)
-environment(sd)
-```
 
 ---
 name: fns_defaults
 
-# Functions &mdash; default values
+# Functions &mdash; arguments with default values
 
 Sometimes, it is good to use default values for some arguments:
 
@@ -475,8 +463,20 @@ add.a.num <- function(arg, num=1) {
   arg <- arg + num
   return(arg)
 }
-add.a.num(1, 5)
 add.a.num(1) # skip the num argument
+
+```
+
+--
+
+```{r functionresult, echo=T}
+add.a.num(1, 5) # overwrite the num argument
+add.a.num(1, num=5) # overwrite the num argument
+```
+
+--
+
+```{r functionsresult2, echo=T, error=T}
 add.a.num(num=1) # skip the first argument
 ```
 
@@ -490,10 +490,28 @@ args.demo <- function(x, y, arg3) {
   print(paste('x =', x, 'y =', y, 'arg3 =', arg3))
 }
 args.demo(1,2,3)
-args.demo(x=1, y=2, arg3=3)
+
+```
+--
+
+```{r functions3b, echo=T}
 args.demo(x=1, 2, 3)
+
+```
+
+--
+```{r functions3c, echo=T}
+args.demo(x=1, y=2, arg3=3)
+
+```
+
+--
+
+```{r functions3d, echo=T}
+
 args.demo(arg3=3, x=1, y=2)
 ```
+
 
 ---
 name: variable_scope
@@ -629,6 +647,29 @@ Operators like `+`, `-` or `*` are using the so-called **infix** functions, wher
   paste(x,y)
 }
 'a' %p% 'b'
+```
+
+---
+name:anatomy_of_a_fn
+
+# Anatomy of a function
+
+A function consists of: *formal arguments*, *function body* and *environment*:
+
+```{r fns.formalsbodyenv, echo=T}
+formals(add.one)
+```
+
+--
+
+```{r fns.formalsbodyenvb, echo=T}
+body(add.one)
+```
+
+--
+```{r fns.formalsbodyenvc, echo=T}
+environment(add.one)
+environment(sd)
 ```
 
 ---
