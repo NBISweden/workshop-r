@@ -122,7 +122,7 @@ vec
 --
 
 The above can be achieved in R by means of **vectorization**.  
-**Vectorization** is an element-wise operation where you perform task/operation on entire vectors/matrix/data.frames.
+**Vectorization** is an element-wise operation where you perform an operation on entire vectors.
 
 ```{r for.loop.avoid, echo=T}
 vec <- c(1:5)
