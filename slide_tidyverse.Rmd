@@ -49,6 +49,17 @@ library(emo)
 ```
 
 ---
+name: setup_livecode
+# Livecode Setup
+
+By typing:
+
+`http://livecode.kierczak.net:7777`
+
+in your browser, you can access the livecode server. 
+
+
+---
 name: learning_outcomes
 # Learning Outcomes
 
@@ -721,7 +732,7 @@ name: more_tidyverse
 name: end-slide
 class: end-slide
 
-# Thank you. Questions?
+# Thank you. Questions? [More?](https://nbisweden.github.io/raukr-2024/)
 
 ```{r,echo=FALSE,child="assets/footer-slide.Rmd"}
 ```
