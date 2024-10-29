@@ -377,6 +377,7 @@ for (i in v) {
 
 ---
 name: elif
+exclude: true
 
 # Decisions, if-else-if for more alternatives
 
