@@ -1,7 +1,7 @@
 ---
 title: "Base R graphics"
-subtitle: "R Foundations for Life Scientists"
-author: "Marcin Kierczak"
+subtitle: "R Foundations for Data Analysis"
+author: "Marcin Kierczak, Nima Rafati"
 keywords: "bioinformatics, course, scilifelab, nbis, R"
 output:
   xaringan::moon_reader:
@@ -46,34 +46,17 @@ name: ex1_graphics
 
 # Example graphics
 
-.pull-left-50[
-.size-80[![](data/slide_base_graphics/world.png)]
 
-Stability of the climate (courtesy of Dr. Mats Pettersson).
-]
+![](data/slide_base_graphics/Life_expectancy_country.png)
 
---
-
-.pull-right-50[
-.size-80[![](data/slide_base_graphics/Face_of_Asia.png)]
-]
+Life expectancy.
 
 ---
 name: ex2_graphics
-
-# Example graphics
-
-.pull-left-50[
-![](data/slide_base_graphics/airports_pl.png)
-
+# Exampel graphics
+.pull-left-70[
+![](data/slide_base_graphics/Gapminder_GDP.gif)
 ]
-
---
-
-.pull-right-50[
-![](data/slide_base_graphics/gapminder.png)
-]
-
 ---
 name: grapgical_devices
 class: spaced
@@ -83,10 +66,11 @@ class: spaced
 The concept of a **graphical device** is crucial for understanding R graphics.  
 
 --
-A device can be a screen (default) or a file. Some R packages introduce their own devices, e.g. Cairo device.
+A device can be a screen (default) or a file.  
 
 --
-Creating a plot entails:
+
+Creating a plot entails:  
 * opening a graphical device (not necessary for plotting on screen),
 
 --
@@ -97,14 +81,20 @@ Creating a plot entails:
 
 --
 
-# The most commonly used graphical devices are:
+# Common graphical devices
 
-* screen,
-* bitmap/raster devices: `png()`, `bmp()`, `tiff()`, `jpeg()`
-* vector devices: `svg()`, `pdf()`,
-* `Cairo` versions of the above devices &ndash; for Windows users they offer higher quality graphics,
+```{r device-type, echo = F, eval = T}
+devices <- data.frame(
+  `Device Type` = c("Screen", "Bitmap/Raster", "Vector", "Cairo"),
+  `Functions` = c("default device", "png(), bmp(), tiff(), jpeg()", "svg(), pdf()", "cairo_pdf(), cairo_ps()"),
+  `Notes` = c("Displays plot on screen", 
+              "Use for images with pixel data", 
+              "High-quality, scalable graphics", 
+              "Enhanced quality, especially on Windows")
+)
+kable(devices, format = "html", escape = FALSE, align = "l")
+```
 
---
 For more information visit [this link](http://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/Devices.html).
 
 ---
@@ -115,6 +105,7 @@ class: spaced
 
 ```{r graphdevex, eval=FALSE, tidy=FALSE}
 png(filename = 'myplot.png', width = 320, height = 320, antialias = T)
+# anti-aliasing, a technique that smooths the edges of shapes and text in the plot, making them appear less pixelated or jagged.
 plot(x=c(1,2,7), y=c(2,3,5))
 dev.off()
 ```
@@ -135,10 +126,14 @@ What we did was, in sequence:
 name: std_viewport
 
 # Standard graphical device viewport
-
-.size-60[![](data/slide_base_graphics/rmargins_sf.png)]
+.pull-left-50[
+.size-80[![](data/slide_base_graphics/rmargins_sf.png)]
 .small[source: rgraphics.limnology.wisc.edu]
-
+]
+--
+.pull-right-50[
+`c(bottom, left, top, righ)` 
+]
 ---
 name: plot_basics
 
@@ -164,7 +159,7 @@ name: plot_data_frame
 For convenience, we will create a data frame with our points:
 
 .pull-left-50[
-```{r plot1a, eval=TRUE, tidy=TRUE}
+```{r plot1a, eval=TRUE, echo = F}
 df <- data.frame(x=c(1,2,7), y=c(2,3,5),
 row.names=c("A","B","C"))
 df
@@ -193,6 +188,8 @@ There is many parameters one can set in `plot()`. Let's have a closer look at so
 * ylab &ndash; Y-axis label
 * las &ndash; axis labels orientation
 * cex.axis &ndash; axis lables scale
+* xlim &ndash; X-axis limits or range   
+* ylim &ndash; Y-axis limits or range  
 ]
 
 .pull-right-50[
@@ -317,7 +314,7 @@ There is a few points you should have in mind when working with plots:
 * raster or vector graphics,
 
 --
-* colors, e.g. color-blind people, warm vs. cool colors and optical illusions,
+* colors, e.g. color-blind people, warm vs. cool colors and optical illusions (check [colorbrewer2.org](https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3)),
 
 --
 * avoid complications, e.g. 3D plots, pie charts etc.,
@@ -370,11 +367,9 @@ name: layout
 .pull-left-50[
 ```{r layout, echo=TRUE, eval=TRUE, fig.show='hide'}
 M <- matrix(c(1,2,2,2,3,2,2,2), nrow = 2, ncol = 4, byrow = T)
-layout(mat = M)
-plot(1:5, pch=15, col='blue')
-hist(rnorm(100, mean = 0, sd=1))
-plot(1:5, pch=15, col='red')
 M
+layout(mat = M)
+layout.show(n = 3) #It shows the layout setup without plots
 ```
 ]
 
@@ -481,23 +476,6 @@ boxplot(count~spray, data=InsectSprays[spray %in% c("D","E"),], col="slateblue",
 detach(InsectSprays)
 ```
 ]
-
----
-name: vioplot
-
-# Violin plots
-
-Package `vioplot` empowers your graphics repertoire with a variation of box-and-whiskers plot called *violin plot*.  
-
-```{r vioplot, tidy=FALSE, message=FALSE, warning=FALSE, fig.height=4, fig.width=4}
-attach(InsectSprays)
-vioplot::vioplot(count[spray=="A"],
-count[spray=="F"],
-col="bisque",
-names=c("A","F"))
-detach(InsectSprays)
-```
-> A violin plot is very similar to a boxplot, but it also visualizes distribution of your datapoints.
 
 ---
 name: vcd
