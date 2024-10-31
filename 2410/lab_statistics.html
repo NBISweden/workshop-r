@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Basic statistic</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/lab.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+#TOC {
+  display: none !important;
+}
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="assets/logo.svg" id="logo" style="height:20px;margin:0;"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="home_schedule.html">Schedule</a>
+</li>
+<li>
+  <a href="home_content.html">Content</a>
+</li>
+<li>
+  <a href="home_precourse.html">Precourse</a>
+</li>
+<li>
+  <a href="home_info.html">Info</a>
+</li>
+<li>
+  <a href="home_projects.html">Projects</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Basic statistic</h1>
+<h3 class="subtitle">R Programming Foundation for Data Analysis</h3>
+
+</div>
+
+
+<p><br></p>
+<!-- rmd lab header -->
+<p><br></p>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>In this lab, we will use statistics to gain a deeper understanding and insight into the dataset. Through statistical methods, we can evaluate data quality, identify patterns, and detect any outliers that may be present. You will apply several descriptive measures to explore and summarize the dataset, allowing for a more informed analysis.</p>
+</div>
+<div id="generating-the-data" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Generating the Data</h1>
+<p>We create a dataset which consists of:<br />
+- Two numerical variables (Normally distributed).<br />
+- Three categorical.</p>
+<strong>Note:</strong> The following chunk has a function by which you generate a random dataset (<code>n</code> samples with <code>[0-100]%</code> <strong>missing data</strong>). You can also adjust these values to create a new dataset. We will talk about <strong>functions</strong> tomorrow.<br />
+
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109275416" aria-expanded="false" aria-controls="acc2024103109275416">
+</button>
+</p>
+<div id="acc2024103109275416" class="collapse">
+<div class="card card-body">
+<pre class="r"><code># Function to generate the data
+generate_dataset &lt;- function(n, na_frac) {
+  
+  # Set seed for reproducibility
+  set.seed(123)
+  
+  # Gender variable
+  Gender &lt;- sample(c(&#39;Male&#39;, &#39;Female&#39;), n, replace = TRUE)
+  
+  # Continuous Variable 1 with shifted distribution between genders
+  Variable_1 &lt;- ifelse(Gender == &#39;Male&#39;, rnorm(n, mean = 55, sd = 10), rnorm(n, mean = 45, sd = 10))
+  
+  # Continuous Variable 2: negative correlation with Variable_1 for one of the sexes
+  Variable_2 &lt;- ifelse(Gender == &#39;Male&#39;, -0.5 * Variable_1 + rnorm(n, mean = 10, sd = 5),
+                       0.5 * Variable_1 + rnorm(n, mean = 10, sd = 5))
+  
+  # Introduce NA values (10% of the data by default)
+  Variable_1[sample(1:n, round(n*na_frac))] &lt;- NA
+  Variable_2[sample(1:n, round(n*na_frac))] &lt;- NA
+  
+  # Introduce outliers
+  Variable_1[c(n)] &lt;- max(Variable_1, na.rm = T) + sd(Variable_1, na.rm = T)
+  Variable_1[c(round(n)/2)] &lt;- min(Variable_1, na.rm = T) - sd(Variable_1, na.rm = T)
+  
+  Variable_2[c(n)] &lt;- max(Variable_2, na.rm = T) + sd(Variable_2, na.rm = T)
+  Variable_2[c(round(n)/2)] &lt;- min(Variable_2, na.rm = T) - sd(Variable_2, na.rm = T)   
+  
+  # Categorical variables with more levels for Spearman correlation
+  Category_1 &lt;- sample(c(&#39;Category_A&#39;, &#39;Category_B&#39;, &#39;Category_C&#39;, &#39;Category_D&#39;, &#39;Category_E&#39;), n, replace = TRUE)
+  Category_2 &lt;- sample(c(&#39;Group1&#39;, &#39;Group2&#39;, &#39;Group3&#39;), n, replace = TRUE)
+  
+  # Create data frame
+  dataset &lt;- data.frame(Variable_1, Variable_2, Category_1, Category_2, Gender)
+  return(dataset)
+}
+
+n &lt;- 1000 # Number of samples (observation). 
+na_frac &lt;- 0.1 # Introducing missing values in the dataset. 
+dataset &lt;- generate_dataset(n, na_frac = na_frac )</code></pre>
+</div>
+</div>
+<ul>
+<li>Check the content of the dataset.<br />
+</li>
+<li>How many rows and columns do you have?</li>
+</ul>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109271356" aria-expanded="false" aria-controls="acc2024103109271356">
+</button>
+</p>
+<div id="acc2024103109271356" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>head(dataset)
+dim(dataset)</code></pre>
+<pre><code>##   Variable_1 Variable_2 Category_1 Category_2 Gender
+## 1   48.98107 -17.884574 Category_E     Group3   Male
+## 2   45.06301  -9.659943 Category_E     Group1   Male
+## 3         NA -26.156498 Category_C     Group2   Male
+## 4   51.27069  34.248513 Category_C     Group2 Female
+## 5   39.90833  -6.082244 Category_B     Group1   Male
+## 6   66.27214  42.492134 Category_B     Group3 Female
+## [1] 1000    5</code></pre>
+</div>
+</div>
+</div>
+<div id="measures-of-central-tendency" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Measures of Central Tendency</h1>
+<div id="mean" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Mean</h2>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109279402" aria-expanded="false" aria-controls="acc2024103109279402">
+</button>
+</p>
+<div id="acc2024103109279402" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>mean_var1 &lt;- mean(dataset$Variable_1)
+mean_var2 &lt;- mean(dataset$Variable_2)
+mean_var1
+mean_var2</code></pre>
+<pre><code>## [1] NA
+## [1] NA</code></pre>
+</div>
+</div>
+<ul>
+<li><p>What is the <code>mean</code> value of <code>Variable_1</code> and <code>Variable_2</code>?</p></li>
+<li><p>Is it NA? Why?</p></li>
+<li><p>How many NA values do you find in your dataset?</p></li>
+</ul>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109272444" aria-expanded="false" aria-controls="acc2024103109272444">
+</button>
+</p>
+<div id="acc2024103109272444" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>n_na &lt;- sum(is.na(dataset))
+sprintf(&#39;There are %g missing values&#39;, n_na)</code></pre>
+<pre><code>## [1] &quot;There are 199 missing values&quot;</code></pre>
+</div>
+</div>
+<ul>
+<li>Can you fix it?<br />
+
+<details>
+<summary>
+Click to expand
+</summary>
+To handle the <code>NA</code> values, you can set <code>na.rm = TRUE</code> in the function <code>mean(x, na.rm = T)</code>, which removes the queries with <code>NA</code> values.</li>
+</ul>
+</details>
+You can plot the distribution of the values by <code>hist()</code>. You will learn more about plots in <strong>Basic Graphics</strong> lecture.<br />
+
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109277279" aria-expanded="false" aria-controls="acc2024103109277279">
+</button>
+</p>
+<div id="acc2024103109277279" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>hist(dataset$Variable_1, main = &#39;Distribution of Variable_1&#39;, xlab = &#39;Variable_1&#39;)</code></pre>
+<img src="lab_statistics_files/figure-html/hist-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
+</div>
+</div>
+Can you create a separate histogram for each gender?<br />
+
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109273247" aria-expanded="false" aria-controls="acc2024103109273247">
+</button>
+</p>
+<div id="acc2024103109273247" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>dataset_f &lt;- dataset[(dataset$Gender == &#39;Female&#39;), ]
+dataset_m &lt;- dataset[(dataset$Gender == &#39;Male&#39;), ]
+hist(dataset_f$Variable_1, main = &#39;Female&#39;, xlab = &#39;Variable_1&#39;)
+hist(dataset_m$Variable_1, main = &#39;&#39;, xlab = &#39;&#39;)</code></pre>
+<img src="lab_statistics_files/figure-html/gender-plot-1.png" width="672" style="display: block; margin: auto auto auto 0;" /><img src="lab_statistics_files/figure-html/gender-plot-2.png" width="672" style="display: block; margin: auto auto auto 0;" />
+</div>
+</div>
+</div>
+<div id="median" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Median</h2>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109270964" aria-expanded="false" aria-controls="acc2024103109270964">
+</button>
+</p>
+<div id="acc2024103109270964" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>median_var1 &lt;- median(dataset$Variable_1, na.rm = T)
+median_var2 &lt;- median(dataset$Variable_2, na.rm = T)
+median_var1
+median_var2</code></pre>
+<pre><code>## [1] 50.004
+## [1] -4.740805</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="measures-of-spread" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Measures of Spread</h1>
+<div id="range" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Range</h2>
+We can find the range of values in numerical variables.<br />
+
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109278882" aria-expanded="false" aria-controls="acc2024103109278882">
+</button>
+</p>
+<div id="acc2024103109278882" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>range_var1 &lt;- range(dataset$Variable_1, na.rm = TRUE)
+range_var2 &lt;- range(dataset$Variable_2, na.rm = TRUE)
+range_var1
+range_var2</code></pre>
+<pre><code>## [1]   3.119354 100.190691
+## [1] -65.86148  83.70804</code></pre>
+</div>
+</div>
+For categorical variables we can count the queries.<br />
+
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109271084" aria-expanded="false" aria-controls="acc2024103109271084">
+</button>
+</p>
+<div id="acc2024103109271084" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>table(dataset$Category_1)
+table(dataset[,c(&#39;Category_1&#39;, &#39;Category_2&#39;)])
+table(dataset[,c(&#39;Category_1&#39;, &#39;Category_2&#39;, &#39;Gender&#39;)])</code></pre>
+<pre><code>## 
+## Category_A Category_B Category_C Category_D Category_E 
+##        203        201        204        194        198 
+##             Category_2
+## Category_1   Group1 Group2 Group3
+##   Category_A     80     65     58
+##   Category_B     72     62     67
+##   Category_C     73     71     60
+##   Category_D     62     63     69
+##   Category_E     64     68     66
+## , , Gender = Female
+## 
+##             Category_2
+## Category_1   Group1 Group2 Group3
+##   Category_A     41     34     27
+##   Category_B     35     31     30
+##   Category_C     33     43     28
+##   Category_D     32     32     43
+##   Category_E     23     38     24
+## 
+## , , Gender = Male
+## 
+##             Category_2
+## Category_1   Group1 Group2 Group3
+##   Category_A     39     31     31
+##   Category_B     37     31     37
+##   Category_C     40     28     32
+##   Category_D     30     31     26
+##   Category_E     41     30     42</code></pre>
+</div>
+</div>
+</div>
+<div id="interquartile." class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Interquartile.</h2>
+<p>Calculate the following for <code>Variable_1</code>:</p>
+<ul>
+<li>Min.<br />
+</li>
+<li>Median.<br />
+</li>
+<li>Max.<br />
+</li>
+<li>Quantiles (q1:25% and q2:75%) by using <code>quantile</code> function.<br />
+</li>
+<li>Interquartile range (q3 - q1).</li>
+</ul>
+<strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>)
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109273108" aria-expanded="false" aria-controls="acc2024103109273108">
+</button>
+</p>
+<div id="acc2024103109273108" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>min_val &lt;- min(dataset$Variable_1, na.rm = T)
+q1 &lt;- quantile(dataset$Variable_1, 0.25, na.rm = T)
+median_val &lt;- median(dataset$Variable_1, na.rm = T)
+q3 &lt;- quantile(dataset$Variable_1, 0.75, na.rm = T)
+max_val &lt;- max(dataset$Variable_1, na.rm = T)
+print(&#39;Variable_1 range:&#39;)
+c(min_val, q1, median_val, q3, max_val)
+
+# Interqurtile: 
+print(&#39;Interquartile:&#39;)
+iqr_val1 &lt;- q3 - q1
+unname(iqr_val1)
+# or
+iqr_val1 &lt;- IQR(dataset$Variable_1, na.rm = T)
+iqr_val1 </code></pre>
+<pre><code>## [1] &quot;Variable_1 range:&quot;
+##                   25%                   75%            
+##   3.119354  42.793157  50.003998  57.990869 100.190691 
+## [1] &quot;Interquartile:&quot;
+## [1] 15.19771
+## [1] 15.19771</code></pre>
+</div>
+</div>
+</div>
+<div id="standard-deviation" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Standard deviation</h2>
+<ul>
+<li><code>sd</code> is a built-in function in R to calculate standard deviation.</li>
+<li>Calculate standard deviation of <code>Variable_1</code> for males and females separately.</li>
+</ul>
+<strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>)
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109278064" aria-expanded="false" aria-controls="acc2024103109278064">
+</button>
+</p>
+<div id="acc2024103109278064" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>sd_var1_f &lt;- sd(dataset_f$Variable_1, na.rm = TRUE)
+sd_var1_m &lt;- sd(dataset_m$Variable_1, na.rm = TRUE)
+sd_var1_f
+sd_var1_m</code></pre>
+<pre><code>## [1] 10.21548
+## [1] 10.56616</code></pre>
+</div>
+</div>
+</div>
+<div id="variance" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Variance</h2>
+<ul>
+<li><code>var</code> is a built-in function in R to calculate variance.<br />
+</li>
+<li>Calculate variance of <code>Variable_1</code> for males and females separately.</li>
+</ul>
+<strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>).
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109279848" aria-expanded="false" aria-controls="acc2024103109279848">
+</button>
+</p>
+<div id="acc2024103109279848" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>var_var1_f &lt;- var(dataset_f$Variable_1, na.rm = TRUE)
+var_var1_m &lt;- var(dataset_m$Variable_1, na.rm = TRUE)
+var_var1_f
+var_var1_m</code></pre>
+<pre><code>## [1] 104.356
+## [1] 111.6437</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="correlation" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Correlation</h1>
+<div id="pearsons-correlation" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Pearson’s correlation</h2>
+<ul>
+<li>Let’s check the correlation of <code>Variable_1</code> and <code>Variable_2</code> by Pearson’s method implemented in <code>cor</code> function. You can specify the method by <code>method =  'pearson'</code>.</li>
+</ul>
+<p><strong>Note:</strong> Here we handle the missing values a bit differently. In <code>cor</code> function, you control the missing values (<code>NA</code>) by setting <code>use = 'complete.obs'</code> which means to include observations that there are values for both variables. In other words, rows with <code>NA</code> in either of the values will be excluded.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109274436" aria-expanded="false" aria-controls="acc2024103109274436">
+</button>
+</p>
+<div id="acc2024103109274436" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>pearson_correlation &lt;- cor(dataset$Variable_1, dataset$Variable_2, use = &#39;complete.obs&#39;, method = &quot;pearson&quot;)
+pearson_correlation</code></pre>
+<pre><code>## [1] -0.4171403</code></pre>
+</div>
+</div>
+<ul>
+<li>You can also plot the values in a simple plot using <code>plot</code> function. How do you interpret the results?</li>
+</ul>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109273651" aria-expanded="false" aria-controls="acc2024103109273651">
+</button>
+</p>
+<div id="acc2024103109273651" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>plot(dataset$Variable_1, dataset$Variable_2, main = &#39;Variable_1 vs Variable_2&#39;, xlab = &#39;Variable_1&#39;, ylab = &#39;Variable_2&#39;)</code></pre>
+<img src="lab_statistics_files/figure-html/v1v2plot-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
+</div>
+</div>
+</div>
+<div id="spearmans-correlation" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Spearman’s correlation</h2>
+<ul>
+<li>You can calculate Spearman’s correlation using the same function (<code>cor</code>) for both numerical and categorical data.<br />
+</li>
+<li>Check the result of Spearman’s correlation and Pearson’s correlation for <code>Variable_1</code> and <code>Variable_2</code>.<br />
+</li>
+<li>Calculate the correlation between <code>Category_1</code> and <code>Variable_1</code>. Consider <code>Category_1</code> with ordinal variable such as level of satisfaction labeled as <strong>Category_A to E</strong>.</li>
+</ul>
+<strong>Note:</strong> Categorical_data cannot be directly passed to <code>cor</code>. You first need to encode the values as factors (the values are presented in form of <code>levels</code>) by <code>as.factor</code>. Then by converting the vector (e.g. <code>dataset$Category_1</code>) to numeric by <code>as.numeric</code> function, you can pass it to <code>cor</code> function.<br />
+
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109274285" aria-expanded="false" aria-controls="acc2024103109274285">
+</button>
+</p>
+<div id="acc2024103109274285" class="collapse">
+<div class="card card-body">
+<pre class="r"><code># Spearman correlation for numerical variables
+spearman_corr_numeric &lt;- cor(dataset$Variable_1, dataset$Variable_2, use = &quot;complete.obs&quot;, method = &quot;spearman&quot;)
+
+# Spearman correlation between numeric and categorical variables
+spearman_corr_cat_var1 &lt;- cor(as.numeric(as.factor(dataset$Category_1)), dataset$Variable_1, use = &quot;complete.obs&quot;, method = &quot;spearman&quot;)
+spearman_corr_cat_var2 &lt;- cor(as.numeric(as.factor(dataset$Category_1)), dataset$Variable_2, use = &quot;complete.obs&quot;, method = &quot;spearman&quot;)
+
+spearman_corr_numeric
+spearman_corr_cat_var1
+spearman_corr_cat_var2</code></pre>
+<pre><code>## [1] -0.4284315
+## [1] 0.02013907
+## [1] 0.0280211</code></pre>
+</div>
+</div>
+<ul>
+<li>Plot categorical data using <code>plot</code> function can be fun! If you pass the categorical as factor ( <code>as.factor(dataset$Category_1)</code>) together with a numerical values, you will generate a boxplot.</li>
+</ul>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109276197" aria-expanded="false" aria-controls="acc2024103109276197">
+</button>
+</p>
+<div id="acc2024103109276197" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>plot((as.factor(dataset$Category_1)), dataset$Variable_1)</code></pre>
+<img src="lab_statistics_files/figure-html/boxplotcatg1var1-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
+</div>
+</div>
+</div>
+<div id="optional-exercise" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Optional exercise</h2>
+<ul>
+<li>Calculate the correlation between <code>Gender</code> and <code>Variable_1</code>, <code>Gender</code> as well as <code>Variable_2</code>.</li>
+</ul>
+<pre class="r"><code>cor_gender_var1 &lt;- cor(as.numeric(as.factor(dataset$Gender)), dataset$Variable_1, use = &#39;complete.obs&#39;, method = &#39;spearman&#39;)
+cor_gender_var2 &lt;- cor(as.numeric(as.factor(dataset$Gender)), dataset$Variable_2, use = &#39;complete.obs&#39;, method = &#39;spearman&#39;)
+cor_gender_var1
+cor_gender_var2</code></pre>
+<pre><code>## [1] 0.4465193
+## [1] -0.8657672</code></pre>
+<ul>
+<li>Now plot <code>Gender</code> vs <code>Variable_1</code> or <code>Variable_2</code>. How do you interpret the result?</li>
+</ul>
+<pre class="r"><code>plot((as.factor(dataset$Gender)), dataset$Variable_1)</code></pre>
+<p><img src="lab_statistics_files/figure-html/gendervarsplot1-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<pre class="r"><code>plot(as.factor(dataset$Gender), dataset$Variable_2)</code></pre>
+<p><img src="lab_statistics_files/figure-html/gendervarsplot2-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+</div>
+<div id="bonus" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Bonus</h1>
+You can show both histograms (males and females) in the same plot. You will learn about this in “Basic Graphics”.<br />
+
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2024103109279189" aria-expanded="false" aria-controls="acc2024103109279189">
+</button>
+</p>
+<div id="acc2024103109279189" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>par(mfrow = c(2,1), mar = c(5, 4, 1, 2) + 0.1)
+range_val &lt;- c(min(dataset$Variable_2, na.rm = T), max(dataset$Variable_2, na.rm = T) )
+hist(dataset_f$Variable_2, main = &#39;Female&#39;, xlab = &#39;Variable_2&#39;, xlim = range_val, breaks = 30)
+hist(dataset_m$Variable_2, main = &#39;Male&#39;, xlab = &#39;Variable_2&#39;, xlim = range_val, breaks = 30)</code></pre>
+<img src="lab_statistics_files/figure-html/bonus-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
+</div>
+</div>
+</div>
+
+
+<footer class="footer">
+<div class="container footer-container">
+<div class="row">
+
+<div class="footer-left col-sm-6">
+<p class="small">
+<b>2024</b> • <a href="https://nbis.se/">NBIS</a> • <a href="https://www.scilifelab.se/">SciLifeLab</a>
+</p>
+</div>
+
+<div class="footer-right col-sm-6">
+<p>
+<span>
+  <span class="footericon" style="padding-right:4px; padding-left:4px">
+    <a href="https://nbis.se/">
+      <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 496 512"><path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z"></path>
+      </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-right:4px; padding-left:4px">
+      <a href="https://twitter.com/NBISwe"><svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+    </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-left:4px">
+      <a href="https://www.linkedin.com/company/nbisweden/">
+        <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+        </svg>
+    </a>
+    </span>
+  </span>
+</p>
+</div>
+
+</div>
+</div>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
