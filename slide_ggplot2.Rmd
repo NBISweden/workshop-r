@@ -296,20 +296,104 @@ name: data-format
 
 # Data • Format
 
-* Transforming data into long or wide formats
+--
 
-```{r,comment=""}
-iris %>% head(n=4)
+- Wide format
+
+```{r, echo=FALSE}
+gc <- read.table("data/slide_ggplot2/counts_raw.txt", header = T, row.names = 1, sep = "\t")
+kable(gc[c(1:6),c(1:4)]) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F) %>%
+  row_spec(1:6, color = "orange") %>%
+  column_spec(1, color = "red") %>%
+  row_spec(0, bold = T, color = "blue")
 ```
 
-```{r,comment=""}
-iris %>% tidyr::pivot_longer(!Species,names_to="variable",values_to="value") %>%
-         as.data.frame() %>% head(n=5)
+--
+
+* familiarity
+* conveniency
+* you see more data
+
+---
+
+name: data-format-2
+
+# Data • Format
+
+- Long format
+
+--
+
+
+```{r echo=FALSE}
+md <- read.table("data/slide_ggplot2/metadata.csv", header = T, sep = ";")
+samples <- colnames(gc[,c(1:4)])
+gc[c(1:6),c(1:4)] %>%
+  rownames_to_column(var = "Gene") %>%
+  gather(Sample_ID, count, -Gene) %>%
+  select(Sample_ID, everything()) %>%   
+  head(6) %>%
+  kable() %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(1, color = "blue") %>%
+  column_spec(2, color = "red")%>%
+  column_spec(3, color = "orange")
 ```
 
-???
+--
 
-The data must be cleaned up and prepared for plotting. The data must be 'tidy'. Columns must be variables and rows must be observations. The data can then be in wide or long format depending on the variables to be plotted.
+
+```{r echo=FALSE}
+md <- read.table("data/slide_ggplot2/metadata.csv", header = T, sep = ";")
+samples <- colnames(gc[,c(1:4)])
+gc[c(1:6),c(1:4)] %>%
+  rownames_to_column(var = "Gene") %>%
+  gather(Sample_ID, count, -Gene) %>% 
+  full_join(md[c(1:4),], by = "Sample_ID") %>% 
+  select(Sample_ID, everything()) %>% 
+  select(-c(Gene,count), c(Gene,count)) %>%
+  head(6) %>%
+  kable() %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(1:5, color = "blue") %>%
+  column_spec(6, color = "red")%>%
+  column_spec(7, color = "orange")
+```
+
+---
+
+name: data-format-3
+
+# Data • Format
+
+- Long format
+
+```{r echo=FALSE}
+md <- read.table("data/slide_ggplot2/metadata.csv", header = T, sep = ";")
+samples <- colnames(gc[,c(1:4)])
+gc[c(1:6),c(1:4)] %>%
+  rownames_to_column(var = "Gene") %>%
+  gather(Sample_ID, count, -Gene) %>% 
+  full_join(md[c(1:4),], by = "Sample_ID") %>% 
+  select(Sample_ID, everything()) %>% 
+  select(-c(Gene,count), c(Gene,count)) %>%
+  head(6) %>%
+  kable() %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(1:5, color = "blue") %>%
+  column_spec(6, color = "red")%>%
+  column_spec(7, color = "orange")
+```
+
+--
+
+* easier to add data to the existing
+* Most databases store and maintain in long-formats due to its efficiency
+* R tools **like ggplot** require data in long format.
+* Functions available to change between data-formats
+  * `melt()` from **reshape2**
+  * `gather()` from **tidyverse**
 
 ---
 name: geom
@@ -955,108 +1039,6 @@ class: spaced
 * [**ggplot2 GUI**](https://site.shinyserver.dck.gmw.rug.nl/ggplotgui/)  
 * Numerous personal blogs, r-bloggers.com etc.  
 
-
----
-
-name: data
-
-## Data Formats
-
---
-
-- Wide format
-
-```{r, echo=FALSE}
-gc <- read.table("data/slide_ggplot2/counts_raw.txt", header = T, row.names = 1, sep = "\t")
-kable(gc[c(1:6),c(1:4)]) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F) %>%
-  row_spec(1:6, color = "orange") %>%
-  column_spec(1, color = "red") %>%
-  row_spec(0, bold = T, color = "blue")
-```
-
---
-
-* familiarity
-* conveniency
-* you see more data
-
----
-
-name: data-2
-
-## Data Formats
-
-- Long format
-
---
-
-
-```{r echo=FALSE}
-md <- read.table("data/slide_ggplot2/metadata.csv", header = T, sep = ";")
-samples <- colnames(gc[,c(1:4)])
-gc[c(1:6),c(1:4)] %>%
-  rownames_to_column(var = "Gene") %>%
-  gather(Sample_ID, count, -Gene) %>%
-  select(Sample_ID, everything()) %>%   
-  head(6) %>%
-  kable() %>%
-  kable_styling("striped", full_width = F) %>%
-  column_spec(1, color = "blue") %>%
-  column_spec(2, color = "red")%>%
-  column_spec(3, color = "orange")
-```
-
---
-
-
-```{r echo=FALSE}
-md <- read.table("data/slide_ggplot2/metadata.csv", header = T, sep = ";")
-samples <- colnames(gc[,c(1:4)])
-gc[c(1:6),c(1:4)] %>%
-  rownames_to_column(var = "Gene") %>%
-  gather(Sample_ID, count, -Gene) %>% 
-  full_join(md[c(1:4),], by = "Sample_ID") %>% 
-  select(Sample_ID, everything()) %>% 
-  select(-c(Gene,count), c(Gene,count)) %>%
-  head(6) %>%
-  kable() %>%
-  kable_styling("striped", full_width = F) %>%
-  column_spec(1:5, color = "blue") %>%
-  column_spec(6, color = "red")%>%
-  column_spec(7, color = "orange")
-```
-
----
-
-name: data-3
-
-## Data Formats
-
-- Long format
-
-```{r echo=FALSE}
-md <- read.table("data/slide_ggplot2/metadata.csv", header = T, sep = ";")
-samples <- colnames(gc[,c(1:4)])
-gc[c(1:6),c(1:4)] %>%
-  rownames_to_column(var = "Gene") %>%
-  gather(Sample_ID, count, -Gene) %>% 
-  full_join(md[c(1:4),], by = "Sample_ID") %>% 
-  select(Sample_ID, everything()) %>% 
-  select(-c(Gene,count), c(Gene,count)) %>%
-  head(6) %>%
-  kable() %>%
-  kable_styling("striped", full_width = F) %>%
-  column_spec(1:5, color = "blue") %>%
-  column_spec(6, color = "red")%>%
-  column_spec(7, color = "orange")
-```
-
---
-
-* easier to add data to the existing
-* Most databases store and maintain in long-formats due to its efficiency
-* R tools **like ggplot** require data in long format.
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 
