@@ -209,8 +209,8 @@ knitr::include_graphics("data/slide_programming/Data_classification.png")
   * *Colorful yellow train sleeps on a crazy wave.* &mdash; has no generally accepted meaning
   * *There is $500 on his empty bank acount.* &mdash; internal contradiction
 ```{r, echo=T, eval = F}
-height <- 180 (similar to height = 180)
-weight <- 70 (similar to weight = 70)
+height <- 180 #similar to height = 180
+weight <- 70 #similar to weight = 70
 bmi <- weight / height
 ```
 
