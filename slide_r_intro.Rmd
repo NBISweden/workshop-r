@@ -92,17 +92,19 @@ name: about
 .pull-left-50[
 
 # R is ...
+.pull-right-30[
+![](data/common/r.png)
+]
 
 * a programming language
-* a programming platform (= environment + interpreter)
 * a software project driven by the core team and the community
 * a very powerful tool for statistical computing
 * a very powerful computational tool in general
-* a catalyst between an idea and its realization  
-
 ]
 
 --
+
+
 
 .pull-right-50[
 
@@ -115,57 +117,10 @@ name: about
 
 ]
 
---
 
-.pull-left-70[
 
-# Yet ...
-
-* it is very elegant
-* it becomes more and more feature-rich
-
-]
-
-.pull-right-30[
-![](data/common/r.png)
-]
 
 ---
-name: timeline
-
----
-name: pros_and_cons
-class: spaced
-
-# Pros and cons
-
-<i class='fa fa-minus-square'></i> steep learning curve  
-
---
-<i class='fa fa-plus-square'></i> uniform, clear and clean system of documentation and help  
-
---
-<i class='fa fa-minus-square'></i> difficulties due to a limited object-oriented programming capabilities,  
-e.g. an agent-based simulation is a challenge  
-
---
-<i class='fa fa-plus-square'></i> good interconnectivity with compiled languages like Java or C    
-
---
-<i class='fa fa-minus-square'></i> cannot order a pizza for you (?)  
-
---
-<i class='fa fa-plus-square'></i> a very powerful ecosystem of packages  
-
---
-<i class='fa fa-plus-square'></i> free and open source, GNU GPL and GNU GPL 2.0  
-
---
-<i class='fa fa-plus-square'></i> easy to generate high quality graphics  
-
----
-name: programming_language
-
 # Programing Language    
 
 --
@@ -211,53 +166,53 @@ knitr::include_graphics("data/slide_programming/Data_Information_Knowledge.png")
 ---
 # Three things to think about
 
- * what *types* of data can I process?
+ 1- what *types* of data can I process?
 
 --
 
- * how do I *write* what I want?
+2- how do I *write* what I want?
 
 --
 
- * when does it *mean* anything?
+3- when does it *mean* anything?
 
 
 ---
-# Data type  
+# 1- Data type  
 
 ```{r,out.width="75%",fig.align='center',echo=FALSE}
 knitr::include_graphics("data/slide_programming/Data_classification.png")
 ```
----
-
-# Three components of a language
-
---
-
- * what *types* of data can I process &mdash; *type system*
 
 --
 
   * int &mdash; 1 2 5 9
   * double &mdash; 1.23 -5.74
   * char &mdash; a b test 7 9
-  * logical &mdash; TRUE/FALSE (T/F)
-  
+  * logical &mdash; TRUE/FALSE (T/F)  
+
+---
+# 2- How to write? 
+
+* By language *grammar* &mdash; *syntax*.  
 
 --
-
- * how do I *write* what I want &mdash; *syntax* defined by a language *grammar*
 
   `2 * 1 + 1` vs. `(+ (* 2 1) 1)`
 
---
-
- * when does it *mean* anything &mdash; *semantics*
+---
+# 3- What does it *mean* 
+* By language *semantics* 
 
 --
 
   * *Colorful yellow train sleeps on a crazy wave.* &mdash; has no generally accepted meaning
   * *There is $500 on his empty bank acount.* &mdash; internal contradiction
+```{r, echo=T, eval = F}
+height <- 180 (similar to height = 180)
+weight <- 70 (similar to weight = 70)
+bmi <- weight / height
+```
 
 ---
 name: topic2
@@ -269,6 +224,47 @@ name: topic2
 
 **Top-down approach:** define the big problem and split it into smaller ones. Assume you have solution to the small problems and continue &mdash; push the responsibility down.
 Wishful thinking!
+
+```{r top-down-approach-fig, echo = F, eval = T}
+# Set up blank plot
+plot(0, 0, type = "n", xlim = c(-4, 4), ylim = c(-5, 1),
+     axes = FALSE, xlab = "", ylab = "", main = "Top Down Approach")
+
+# Function to draw circle node
+draw_node <- function(x, y, r = 0.3, col = "darkorange") {
+  symbols(x, y, circles = r, inches = FALSE, add = TRUE, fg = col, bg = "white", lwd = 2)
+}
+
+# Coordinates of nodes
+root <- c(0, 0)
+left_child <- c(-2, -2)
+right_child <- c(2, -2)
+left_left <- c(-3, -4)
+left_right <- c(-1, -4)
+right_left <- c(1, -4)
+right_right <- c(3, -4)
+
+# Draw edges
+segments(root[1], root[2], left_child[1], left_child[2], col = "darkorange", lwd = 2)
+segments(root[1], root[2], right_child[1], right_child[2], col = "darkorange", lwd = 2)
+segments(left_child[1], left_child[2], left_left[1], left_left[2], col = "darkorange", lwd = 2)
+segments(left_child[1], left_child[2], left_right[1], left_right[2], col = "darkorange", lwd = 2)
+segments(right_child[1], right_child[2], right_left[1], right_left[2], col = "darkorange", lwd = 2)
+segments(right_child[1], right_child[2], right_right[1], right_right[2], col = "darkorange", lwd = 2)
+
+# Draw nodes
+draw_node(root[1], root[2])
+draw_node(left_child[1], left_child[2])
+draw_node(right_child[1], right_child[2])
+draw_node(left_left[1], left_left[2])
+draw_node(left_right[1], left_right[2])
+draw_node(right_left[1], right_left[2])
+draw_node(right_right[1], right_right[2])
+
+# Add title in the same style
+title(main = "Top Down Approach", col.main = "darkorange", font.main = 2)
+
+```
 
 ---
 
@@ -282,6 +278,14 @@ knitr::include_graphics("data/slide_intro/packages.jpg")
 ```
 ]
 
+.pull-right-50[
+```{r, out.width="250pt", fig.align='center', echo=FALSE}
+knitr::include_graphics("images/tidyverse-icons.png")
+```
+]
+--
+
+* ready-made functions (data & docs)
 --
 
 * developed by the community
@@ -303,38 +307,7 @@ knitr::include_graphics("data/slide_intro/packages.jpg")
     + [GitHub](https://github.com)
 
 ---
-name: num_packages
-# Ecosystem of R packages
-<br>
-
-
-```{r num_pkgs, eval=FALSE, fig.align='center', fig.height=7, fig.width=9, message=FALSE, cache=TRUE, include=FALSE}
-#I mute this chunk because it gives a readLines error in the 2024 course
-#I add the figure instead below the chunk
-#Maybe modify in the future
-data <- mkteachr::update_repos_data()
-gg <- mkteachr::plot_repos_data(data)
-gg
-```
-
-<div style="text-align: center;">
-    <img src="data/slide_intro/num_pkgs.jpg" style="width:80%;">
-</div>
-
-
----
-name: work_with_packages
-
-# Working with packages
-
-Packages are organised in repositories. The three main repositories are:
-
-* [CRAN](https://cran.r-project.org)
-* [R-Forge](http://r-forge.r-project.org)
-* [Bioconductor](http://www.bioconductor.org)
-
-We also have [GitHub](https://github.com).
-
+name: CRAN
 --
 # Working with packages -- CRAN example.
 
@@ -402,7 +375,6 @@ library('ggplot2') # always forces reloading
 require('ggplot2') # load only if not already loaded
 ```
 
-- Enjoy!
 
 ---
 name: pkg_github
@@ -411,16 +383,22 @@ name: pkg_github
 
 Nowadays, more and more developers distribute their packages via GitHub. The easiest way to install packages from the GitHub is via the *devtools* package:
 
-- Install the *devtools* package.
-- Load it.
-- Install.
-- Enjoy!
+- Install the *devtools* package  
+- Load it  
+- Install  
 
 ```{r pkg.inst.devtools.github,eval=FALSE}
 install.packages('devtools',dependencies=TRUE)
 library('devtools')
-install_github('talgalili/installr')
+install_github('talgalili/installr') # Github username/repo
 ```
+
+--
+.pull-center-50[
+```{r, out.width="750pt", fig.align='center', echo=FALSE}
+knitr::include_graphics("images/installr.png")
+```
+]
 
 ---
 name: pkg_bioconductor
@@ -449,19 +427,45 @@ Now, you can install particular packages from Bioconductor:
 BiocManager::install("GenomicRanges")
 ```
 
+.pull-center-50[
+```{r, out.width="550pt", fig.align='center', echo=FALSE}
+knitr::include_graphics("images/GenomicRanges.png")
+```
+]
+
 For more info, visit [Bioconductor website](http://www.bioconductor.org/install/).
 
 ---
 # One package to rule them all -- the magic of `renv`
 
-- first time do `renv::activate()` and `renv::init()`
-- while working: `renv::hydrate()` and `renv::snapshot()`
+✨ One package to rule them all — the magic of renv ✨
+- Start once → `renv::init()` (sets up your project’s toolbox)  
+- While working → `renv::snapshot()` (save the toolbox state)  
+- Share with a friend → send the `renv.lock` file  
+- Friend restores → `renv::restore()` (they get the exact same toolbox)  
 
-Now, send `renv.lock` to your friend to share the environment and she can:
+.pull-center-50[
+```{r, out.width="550pt", fig.align='center', echo=FALSE}
+# flowchart LR
+#     
+#         AA["CRAN"] --> A("Start once<br/>_renv::init()_")
+#         BB["GitHub"] --> A
+#         CC["Bioconductor"] --> A
+#         subgraph Local["Local machine"]
+#             A --> B["While working<br/>_renv::snapshot()_"]
+#             B --> C["Share<br/>_renv.lock_"]
+#     end
+#     
+# 
+#     C --> D["Colleague<br/>_renv::restore()_"]
+#     C --> E["Community<br/>_renv::restore()_"]
 
-- restore the environment `renv::restore()`
+knitr::include_graphics("images/renv.png")
+```
+]
 
-**Pure magic!**
+
+
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 
