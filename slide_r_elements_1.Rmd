@@ -46,9 +46,8 @@ name: intro
 
 # Introduction
 
-Today, we will talk about various elements of a programming language and see how they are realized in R.
+In this lecture we will cover the basic elements of R language:  
 
-# Contents
 
 - **variables and their types**
 - **operators**
@@ -70,17 +69,31 @@ name: variables
 
 # Variables
 
-- Creating a variable is simply assigning a name to some structure that stores data...
+Imagine that you want to manipulate some numbers in your project simple operations can be done `2 + 2` but what if you want to do more complex operations or use the same number multiple times? 
 
-```{r variables,echo=TRUE,size='Tiny'}
-7 + 9
-a <- 7
-a
-b <- 9
-b
-c <- a + b
-c
+```{r simple.addition,echo=TRUE,size='Tiny', eval=FALSE}
+2 + 2
+2 + 2 + 5
+2 + 2 + 5 +10 
+....
 ```
+--
+
+To use the same number multiple times you can use a **variable** to store the number and use the variable name instead of the number itself.  
+We assign given value to a variable using `<-` operator (aka *assignment operator*).  
+
+```{r assignment_operator,echo=TRUE,size='Tiny', eval=FALSE}
+a <- 2 + 2
+b <- 5 
+c <- 5 + 10
+sum_a_b <- a + b
+sum_all <- a + b + c
+```
+--
+
+# Is `<-` equivalent to `=`? Which one shall I use?  
+
+- `val <- 3`, `val = 3` and `3 -> val` are three equivalent ways of assigning in R, But, it's best to use only `<-` to avoid possible confusion. The equal sign `=` should be used when setting function arguments ie; `f(a = 3)`.  
 
 ---
 # Variables cted.
@@ -94,9 +107,6 @@ text1
 text2
 ```
 
-# Is `<-` equivalent to `=`? Which one shall I use?
-
-- `val <- 3`, `val = 3` and `3 -> val` are three equivalent ways of assigning in R, But, it's best to use only `<-` to avoid possible confusion. The equal sign `=` should be used when setting function arguments ie; `f(a = 3)`.
 
 ---
 name: variables_naming
@@ -177,15 +187,12 @@ name: class_type_mode
 
 - `class` what type of object is it for R,
 - `typeof()` what R thinks it is,
-- `mode()` how S language would see it (backward compatibility),
-- `storage.mode()` how is it stored in the memory; useful when talking to C or Java,
 
 ```{r class,echo=TRUE,eval=TRUE}
 x <- 1:3
+x
 class(x)
 typeof(x)
-mode(x)
-storage.mode(x)
 ```
 
 ---
@@ -196,7 +203,7 @@ name: type_casting
 By default, any *numeric* is stored as *double* !
 
 ```{r variable types2,echo=TRUE}
-y=12 # now assign an integer value to y
+y <- 12 # now assign an integer value to y
 class(y) # still numeric
 typeof(y) # an integer, but still a double!
 ```
@@ -227,6 +234,7 @@ pi
 pi <- as.double(pi) # trying to rescue the situation
 pi
 ```
+--
 
 Casting is not rounding!
 
@@ -288,18 +296,6 @@ b
 class(a)
 typeof(a)
 ```
-
-R has three logical values: TRUE, FALSE and NA.
-
-```{r logical.type2,echo=TRUE}
-x <- c(TRUE, FALSE, NA)
-names(x) <- as.character(x)
-and_truth_table <- outer(x, x, "&") # AND table
-```
-```{r logical.DT, echo=FALSE}
-kableExtra::kable(and_truth_table)
-```
-
 ---
 name: logical_cted
 
@@ -359,14 +355,22 @@ name: character_type_2
 
 # Character type
 
-```{r char.type2,echo=TRUE}
+```{r char.type2,echo=TRUE, eval = FALSE}
 number <- 3.14
 number.text <- as.character(number) # cast to char
 number.text
 class(number.text)
 as.numeric(number.text) # and the other way round
 ```
+--
 
+```{r char.type2_result,echo=FALSE, eval = TRUE}
+number <- 3.14
+number.text <- as.character(number) # cast to char
+number.text
+class(number.text)
+as.numeric(number.text) # and the other way round
+```
 ---
 name: basic_string_ops
 
