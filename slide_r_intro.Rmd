@@ -447,18 +447,24 @@ For more info, visit [Bioconductor website](http://www.bioconductor.org/install/
 .pull-center-50[
 ```{r, out.width="550pt", fig.align='center', echo=FALSE}
 # flowchart LR
-#     
-#         AA["CRAN"] --> A("Start once<br/>_renv::init()_")
-#         BB["GitHub"] --> A
-#         CC["Bioconductor"] --> A
-#         subgraph Local["Local machine"]
-#             A --> B["While working<br/>_renv::snapshot()_"]
-#             B --> C["Share<br/>_renv.lock_"]
-#     end
-#     
+#  subgraph Local["Local machine"]
+#         B["While working<br>_renv::snapshot()_"]
+#         A("Start once<br>_renv::init()_")
+#         C["Share<br>_renv.lock_"]
+#   end
+#     AA["CRAN"] --> A
+#     BB["GitHub"] --> A
+#     CC["Bioconductor"] --> A
+#     A --> B
+#     B --> C
+#     C --> D["Colleague<br>_renv::restore()_"] & E["Community<br>_renv::restore()_"]
 # 
-#     C --> D["Colleague<br/>_renv::restore()_"]
-#     C --> E["Community<br/>_renv::restore()_"]
+#     style AA fill:#BBDEFB
+#     style BB fill:#BBDEFB
+#     style CC fill:#BBDEFB
+#     style D fill:#FFD600
+#     style E fill:#FFF9C4
+#     style Local stroke:#00C853,fill:#C8E6C9
 
 knitr::include_graphics("images/renv.png")
 ```
