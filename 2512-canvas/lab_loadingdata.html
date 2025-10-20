@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Loading data into R</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/lab.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+#TOC {
+  display: none !important;
+}
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+
+
+
+</div>
+
+
+<!-- rmd lab header -->
+<p><br></p>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Up until now we have mostly created the object we worked with on the fly from within R. The most common use-case is however to read in different data sets that are stored as files, either somewhere on a server or locally on your computer. In this exercise we will test some common ways to import data in R and also how to save data from R. After this exercise you will know how to:</p>
+<ul>
+<li>Read data from txt files and save the information as a vector, data frame or a list.</li>
+<li>Identify missing data and correctly encode this at import</li>
+<li>Check that imported objects are imported correctly</li>
+<li>Read data from online resource</li>
+<li>Write data to a file</li>
+</ul>
+</div>
+<div id="scan" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> <code>scan()</code></h1>
+<p>The function <code>scan()</code> can be used both to read data from files and directly from keyboard. The function is very flexible and have many different settings that allow to read data in different formats. To read and store a set of words that you type on your keyboard try the following code that will prompt your for input. After each word press enter and R will prompt you for new input. After the last word have been typed press enter twice to get back to your R prompt and have your character vector named words available in R your session.</p>
+<pre class="r"><code>words &lt;- scan(what=character())</code></pre>
+<p>We will read in this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt" target="_blank">book chapter</a>. Read the manual for scan and read the text file named <strong>book_chapter.txt</strong> into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012292209" aria-expanded="false" aria-controls="acc2025102012292209">
+</button>
+</p>
+<div id="acc2025102012292209" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>shelley.vec &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=character())
+str(shelley.vec)
+
+shelley.list &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=list(character()))
+class(shelley.list)</code></pre>
+<pre><code>##  chr [1:420] &quot;My&quot; &quot;present&quot; &quot;situation&quot; &quot;was&quot; &quot;one&quot; &quot;in&quot; &quot;which&quot; &quot;all&quot; ...
+## [1] &quot;list&quot;</code></pre>
+</div>
+</div>
+<p>Check that your newly created objects contain the correct information and have been saved as you have intended eg. each entry of the vector or the list should contain a single word. Once your convinced that you have a sound word vector and list.</p>
+<ol style="list-style-type: decimal">
+<li>Identify the longest word in your vector.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012297212" aria-expanded="false" aria-controls="acc2025102012297212">
+</button>
+</p>
+<div id="acc2025102012297212" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>sort(nchar(shelley.vec), decreasing=TRUE)
+which(nchar(shelley.vec) == max(nchar(shelley.vec)))
+shelley.vec[381]</code></pre>
+<pre><code>##   [1] 690  12  11  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
+##  [19]   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9
+##  [37]   9   9   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8
+##  [55]   8   8   8   8   8   8   8   8   8   8   7   7   7   7   7   7   7   7
+##  [73]   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   6
+##  [91]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
+## [109]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
+## [127]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+## [145]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+## [163]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
+## [181]   5   5   5   5   5   4   4   4   4   4   4   4   4   4   4   4   4   4
+## [199]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
+## [217]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
+## [235]   4   4   4   4   4   4   4   3   3   3   3   3   3   3   3   3   3   3
+## [253]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+## [271]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+## [289]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+## [307]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
+## [325]   3   3   3   3   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+## [343]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+## [361]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+## [379]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+## [397]   2   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+## [415]   1   1   1   1   1   1
+## [1] 381
+## [1] &quot;By the sacred earth on which I kneel, by the shades that wander near me, by the deep and eternal grief that I feel, I swear; and by thee, O Night, and the spirits that preside over thee, to pursue the daemon who caused this misery, until he or I shall perish in mortal conflict. For this purpose I will preserve my life; to execute this dear revenge will I again behold the sun and tread the green herbage of earth, which otherwise should vanish from my eyes forever. And I call on you, spirits of the dead, and on you, wandering ministers of vengeance, to aid and conduct me in my work. Let the cursed and hellish monster drink deep of agony; let him feel the despair that now torments me.&quot;</code></pre>
+</div>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012294406" aria-expanded="false" aria-controls="acc2025102012294406">
+</button>
+</p>
+<div id="acc2025102012294406" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>shelley.vec2 &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=character(), sep=&#39; &#39;, quote=NULL)
+shelley.filt2 &lt;- gsub(pattern=&#39;[^[:alnum:] ]&#39;, replacement=&quot;&quot;, x=shelley.vec2)
+longest &lt;- which(nchar(shelley.filt2) == max(nchar(shelley.filt2)))
+shelley.filt2[longest]</code></pre>
+<pre><code>## [1] &quot;uninterested&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="read.table" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> <code>read.table()</code></h1>
+<p>This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.</p>
+<p>In this code block we first import the data from <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt" target="_blank">normalized.txt</a> and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012294177" aria-expanded="false" aria-controls="acc2025102012294177">
+</button>
+</p>
+<div id="acc2025102012294177" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>expr.At &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt&quot;)
+head(expr.At)</code></pre>
+<pre><code>##               bZIP29_1  bZIP29_2  bZIP29_3        WT_1      WT_2       WT_3
+## AT1G01020.1  13.572739 14.167143 12.972703  14.8181738 15.904017 11.3270623
+## AT1G01030.1   1.417234  1.201454  1.385434   0.8590246  1.096829  0.8596431
+## AT1G01040.2  41.862906 41.199853 42.696566  37.5286358 34.849241 48.6456871
+## AT1G01050.1 102.422397 98.318969 92.068406 104.2104178 97.418336 86.0654463
+## AT1G01060.1   3.216031  4.004846  3.589534   3.7045434  2.642360  6.2703380
+## AT1G01070.1   8.230858 17.871625 14.924906   7.9996663  8.824486 13.8554244</code></pre>
+</div>
+</div>
+<p>One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012302286" aria-expanded="false" aria-controls="acc2025102012302286">
+</button>
+</p>
+<div id="acc2025102012302286" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>url &lt;- &#39;http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&#39;
+abalone &lt;- read.table(url, header=FALSE , sep=&#39;,&#39;)
+head(abalone)</code></pre>
+<pre><code>##   V1    V2    V3    V4     V5     V6     V7    V8 V9
+## 1  M 0.455 0.365 0.095 0.5140 0.2245 0.1010 0.150 15
+## 2  M 0.350 0.265 0.090 0.2255 0.0995 0.0485 0.070  7
+## 3  F 0.530 0.420 0.135 0.6770 0.2565 0.1415 0.210  9
+## 4  M 0.440 0.365 0.125 0.5160 0.2155 0.1140 0.155 10
+## 5  I 0.330 0.255 0.080 0.2050 0.0895 0.0395 0.055  7
+## 6  I 0.425 0.300 0.095 0.3515 0.1410 0.0775 0.120  8</code></pre>
+</div>
+</div>
+<ol style="list-style-type: decimal">
+<li>Read this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data" target="_blank">example data</a> to R using the <code>read.table()</code> function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the <code>write.table</code> function.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012309590" aria-expanded="false" aria-controls="acc2025102012309590">
+</button>
+</p>
+<div id="acc2025102012309590" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>ed &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data&quot;, sep=&quot;:&quot;, header = T)
+head(ed)
+str(ed)</code></pre>
+<pre><code>##     bZIP29_1  bZIP29_2  bZIP29_3       WT_1      WT_2      WT_3
+## 1         NA 14.167143 12.972703  14.818174        NA        NA
+## 2   1.417234  1.201454        NA         NA  1.096829        NA
+## 3  41.862906 41.199853 42.696566  37.528636 34.849241 48.645687
+## 4 102.422397 98.318969 92.068406 104.210418 97.418336 86.065446
+## 5         NA  4.004846  3.589534   3.704543  2.642360  6.270338
+## 6   8.230858 17.871625 14.924906   7.999666        NA        NA
+## &#39;data.frame&#39;:    18945 obs. of  6 variables:
+##  $ bZIP29_1: num  NA 1.42 41.86 102.42 NA ...
+##  $ bZIP29_2: num  14.2 1.2 41.2 98.3 4 ...
+##  $ bZIP29_3: num  12.97 NA 42.7 92.07 3.59 ...
+##  $ WT_1    : num  14.8 NA 37.5 104.2 3.7 ...
+##  $ WT_2    : num  NA 1.1 34.85 97.42 2.64 ...
+##  $ WT_3    : num  NA NA 48.65 86.07 6.27 ...</code></pre>
+</div>
+</div>
+<p>Encode all NA values as “missing”, at export.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012317107" aria-expanded="false" aria-controls="acc2025102012317107">
+</button>
+</p>
+<div id="acc2025102012317107" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>write.table(x=ed, na=&quot;missing&quot;, file=&quot;example_write.txt&quot;)</code></pre>
+</div>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Read in the file you just created and double-check that you have the same data as earlier.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012312288" aria-expanded="false" aria-controls="acc2025102012312288">
+</button>
+</p>
+<div id="acc2025102012312288" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>df.test &lt;- read.table(&quot;example_write.txt&quot;, na.strings=&quot;missing&quot;)</code></pre>
+</div>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Analysing genome annotation in R using read.table</li>
+</ol>
+<p>For this exercise we will load a GTF file into R and calculate some basic summary statistics from the file. In the first part we will use basic manipulations of data frames to extract the information. In the second part you get a try out a library designed to work with annotation data, that stores the information in a more complex format, that allow for easy manipulation and calculation of summaries from genome annotation files.</p>
+<p>For those not familiar with the GTF format it is a file format containing annotation information for a genome. It does not contain the actual DNA sequence of the organism, but instead refers to positions along the genome.</p>
+<p>A valid GTF file should contain the following tab delimited fields (taken from the ensembl home page).</p>
+<ol style="list-style-type: decimal">
+<li><strong>seqname</strong> - name of the chromosome or scaffold; chromosome names can be given with or without the ‘chr’ prefix.</li>
+<li><strong>source</strong> - name of the program that generated this feature, or the data source (database or project name)</li>
+<li><strong>feature</strong> - feature type name, e.g. gene, transcript, exon, CDS, start_codon, end_codon</li>
+<li><strong>start</strong> - Start position of the feature, with sequence numbering starting at 1.</li>
+<li><strong>end</strong> - End position of the feature, with sequence numbering starting at 1.</li>
+<li><strong>score</strong> - A floating point value.</li>
+<li><strong>strand</strong> - defined as + (forward) or - (reverse).</li>
+<li><strong>frame</strong> - One of ‘0’, ‘1’ or ‘2’. ‘0’ indicates that the first base of the feature is the first base of a codon, ‘1’ that the second base is the first base of a codon, and so on..</li>
+<li><strong>attribute</strong> - A semicolon-separated list of tag-value pairs, providing additional information about each feature.</li>
+</ol>
+<table style="width:100%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>transcribed_unprocessed_pseudogene</td>
+<td>gene</td>
+<td>11869</td>
+<td>14409</td>
+<td>.</td>
+<td>+</td>
+<td>.</td>
+<td>gene_id; “ENSG00000223972”;</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>processed_transcript</td>
+<td>transcript</td>
+<td>11869</td>
+<td>14409</td>
+<td>.</td>
+<td>+</td>
+<td>.</td>
+<td>gene_id; “ENSG00000223972”;</td>
+</tr>
+</tbody>
+</table>
+<p>The last column can contain a large number of attributes that are semicolon-separated.</p>
+<p>As these files for many organisms are large we will in this exercise use the latest version of <em>Drosophila melanogaster</em> genome annotation available at <code>ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster</code> that is small enough for analysis even on a laptop.</p>
+<p>Download the file named <strong>Drosophila_melanogaster.BDGP6.86.gtf.gz</strong> to your computer. Unzip this file and keep track of where your store the file.</p>
+<p>With this done read this file into R using the function <code>read.table()</code> and add meaningful column names to the table.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012330998" aria-expanded="false" aria-controls="acc2025102012330998">
+</button>
+</p>
+<div id="acc2025102012330998" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>d.gtf &lt;- read.table(&quot;Drosophila_melanogaster.BDGP6.86.gtf&quot;, header=FALSE, comment.char=&quot;#&quot;, sep=&quot;\t&quot;)
+colnames(d.gtf) &lt;- c(&quot;Chromosome&quot;,&quot;Source&quot;,&quot;Feature&quot;, &quot;Start&quot;,&quot;End&quot;,&quot;Score&quot;,&quot;Strand&quot;,&quot;Frame&quot;,&quot;Attribute&quot;)</code></pre>
+</div>
+</div>
+<p>Prior to any analysis you should make sure that your attempt to read in the file has worked as expected. This can for example be done by having a look at the dimension of the stored object and making sure that it has the structure you expect.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012383310" aria-expanded="false" aria-controls="acc2025102012383310">
+</button>
+</p>
+<div id="acc2025102012383310" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>dim(d.gtf)
+str(d.gtf)</code></pre>
+<pre><code>## [1] 538684      9
+## &#39;data.frame&#39;:    538684 obs. of  9 variables:
+##  $ Chromosome: chr  &quot;3R&quot; &quot;3R&quot; &quot;3R&quot; &quot;3R&quot; ...
+##  $ Source    : chr  &quot;FlyBase&quot; &quot;FlyBase&quot; &quot;FlyBase&quot; &quot;FlyBase&quot; ...
+##  $ Feature   : chr  &quot;gene&quot; &quot;transcript&quot; &quot;exon&quot; &quot;gene&quot; ...
+##  $ Start     : int  722370 722370 722370 835381 835381 835381 835381 835381 869486 869486 ...
+##  $ End       : int  722621 722621 722621 2503907 2503907 835491 835491 835383 869548 869548 ...
+##  $ Score     : chr  &quot;.&quot; &quot;.&quot; &quot;.&quot; &quot;.&quot; ...
+##  $ Strand    : chr  &quot;-&quot; &quot;-&quot; &quot;-&quot; &quot;+&quot; ...
+##  $ Frame     : chr  &quot;.&quot; &quot;.&quot; &quot;.&quot; &quot;.&quot; ...
+##  $ Attribute : chr  &quot;gene_id FBgn0085804; gene_name CR41571; gene_source FlyBase; gene_biotype pseudogene;&quot; &quot;gene_id FBgn0085804; transcript_id FBtr0114258; gene_name CR41571; gene_source FlyBase; gene_biotype pseudogene&quot;| __truncated__ &quot;gene_id FBgn0085804; transcript_id FBtr0114258; exon_number 1; gene_name CR41571; gene_source FlyBase; gene_bio&quot;| __truncated__ &quot;gene_id FBgn0267431; gene_name CG45784; gene_source FlyBase; gene_biotype protein_coding;&quot; ...</code></pre>
+</div>
+</div>
+<ol style="list-style-type: decimal">
+<li>How many chromosome names can be found in the annotation file?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012382561" aria-expanded="false" aria-controls="acc2025102012382561">
+</button>
+</p>
+<div id="acc2025102012382561" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>length(levels(as.factor(d.gtf$Chromosome)))</code></pre>
+<pre><code>## [1] 57</code></pre>
+</div>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>How many <strong>exons</strong> is there in total and per chromosome? (hint: first extract lines that have <code>feature == 'exon'</code>)</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012380537" aria-expanded="false" aria-controls="acc2025102012380537">
+</button>
+</p>
+<div id="acc2025102012380537" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>d.gtf.exons &lt;- d.gtf[(d.gtf$Feature == &#39;exon&#39;),]
+nrow(d.gtf.exons)
+aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code></pre>
+<pre><code>## [1] 186414
+##                      Group.1 x.Length   x.Class    x.Mode
+## 1            211000022278158        1 character character
+## 2            211000022278279        1 character character
+## 3            211000022278282        1 character character
+## 4            211000022278298        1 character character
+## 5            211000022278307        1 character character
+## 6            211000022278309        1 character character
+## 7            211000022278436        1 character character
+## 8            211000022278449        2 character character
+## 9            211000022278498        1 character character
+## 10           211000022278522        1 character character
+## 11           211000022278603        1 character character
+## 12           211000022278604        1 character character
+## 13           211000022278664        1 character character
+## 14           211000022278724        1 character character
+## 15           211000022278750        1 character character
+## 16           211000022278760        2 character character
+## 17           211000022278875        1 character character
+## 18           211000022278877        1 character character
+## 19           211000022278878        1 character character
+## 20           211000022278879        1 character character
+## 21           211000022278880        1 character character
+## 22           211000022278985        1 character character
+## 23           211000022279055        1 character character
+## 24           211000022279108        1 character character
+## 25           211000022279132        1 character character
+## 26           211000022279134        1 character character
+## 27           211000022279165        1 character character
+## 28           211000022279188        3 character character
+## 29           211000022279222        1 character character
+## 30           211000022279264        1 character character
+## 31           211000022279342        1 character character
+## 32           211000022279392        1 character character
+## 33           211000022279446        1 character character
+## 34           211000022279528        1 character character
+## 35           211000022279529        1 character character
+## 36           211000022279531        1 character character
+## 37           211000022279555        1 character character
+## 38           211000022279681        1 character character
+## 39           211000022279708        1 character character
+## 40           211000022280133        1 character character
+## 41           211000022280328        4 character character
+## 42           211000022280341        1 character character
+## 43           211000022280347        1 character character
+## 44           211000022280481        1 character character
+## 45           211000022280494        2 character character
+## 46           211000022280645        1 character character
+## 47           211000022280703        1 character character
+## 48                        2L    32747 character character
+## 49                        2R    38551 character character
+## 50                        3L    34347 character character
+## 51                        3R    43159 character character
+## 52                         4     3165 character character
+## 53 dmel_mitochondrion_genome       37 character character
+## 54                      rDNA       21 character character
+## 55       Unmapped_Scaffold_8       14 character character
+## 56                         X    34136 character character
+## 57                         Y      182 character character</code></pre>
+</div>
+</div>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012389335" aria-expanded="false" aria-controls="acc2025102012389335">
+</button>
+</p>
+<div id="acc2025102012389335" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>by(data=d.gtf$Feature, d.gtf[,&quot;Chromosome&quot;], summary)</code></pre>
+<pre><code>## d.gtf[, &quot;Chromosome&quot;]: 211000022278158
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278279
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278282
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278298
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278307
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278309
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278436
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278449
+##    Length     Class      Mode 
+##         4 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278498
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278522
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278603
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278604
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278664
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278724
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278750
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278760
+##    Length     Class      Mode 
+##         7 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278875
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278877
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278878
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278879
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278880
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022278985
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279055
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279108
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279132
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279134
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279165
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279188
+##    Length     Class      Mode 
+##        12 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279222
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279264
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279342
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279392
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279446
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279528
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279529
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279531
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279555
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279681
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022279708
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022280133
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022280328
+##    Length     Class      Mode 
+##        14 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022280341
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022280347
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022280481
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022280494
+##    Length     Class      Mode 
+##         6 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022280645
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 211000022280703
+##    Length     Class      Mode 
+##         3 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 2L
+##    Length     Class      Mode 
+##     96740 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 2R
+##    Length     Class      Mode 
+##    110108 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 3L
+##    Length     Class      Mode 
+##    100745 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 3R
+##    Length     Class      Mode 
+##    125133 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: 4
+##    Length     Class      Mode 
+##      7844 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: dmel_mitochondrion_genome
+##    Length     Class      Mode 
+##       146 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: rDNA
+##    Length     Class      Mode 
+##        59 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: Unmapped_Scaffold_8
+##    Length     Class      Mode 
+##        43 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: X
+##    Length     Class      Mode 
+##     97193 character character 
+## ------------------------------------------------------------ 
+## d.gtf[, &quot;Chromosome&quot;]: Y
+##    Length     Class      Mode 
+##       504 character character</code></pre>
+</div>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Filter the data frame to only retain gene annotations</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012387621" aria-expanded="false" aria-controls="acc2025102012387621">
+</button>
+</p>
+<div id="acc2025102012387621" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>d.gtf.gene &lt;- d.gtf[d.gtf$Feature == &quot;gene&quot;,]</code></pre>
+</div>
+</div>
+<ol start="4" style="list-style-type: decimal">
+<li>What is the average gene length of in the Drosophila genome?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012389898" aria-expanded="false" aria-controls="acc2025102012389898">
+</button>
+</p>
+<div id="acc2025102012389898" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>mean(abs(d.gtf.gene$Start - d.gtf.gene$End))</code></pre>
+<pre><code>## [1] 5753.282</code></pre>
+</div>
+</div>
+<ol start="5" style="list-style-type: decimal">
+<li>What fraction of the genes are encoded on the plus strand of the genome.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012382717" aria-expanded="false" aria-controls="acc2025102012382717">
+</button>
+</p>
+<div id="acc2025102012382717" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>sum(d.gtf.gene$Strand == &quot;+&quot;) / length(d.gtf.gene$Strand)</code></pre>
+<pre><code>## [1] 0.5016231</code></pre>
+</div>
+</div>
+<ol start="6" style="list-style-type: decimal">
+<li>What is the median and mean length of the exons found on chromosome 3R in the data set?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012388080" aria-expanded="false" aria-controls="acc2025102012388080">
+</button>
+</p>
+<div id="acc2025102012388080" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>d.gtf3R &lt;- d.gtf[d.gtf$Chromosome == &quot;3R&quot;,]
+exon.position &lt;- d.gtf3R[d.gtf3R$Feature == &quot;exon&quot;,c(&quot;Start&quot;, &quot;End&quot;)]   
+median(abs(exon.position$Start - exon.position$End))
+mean(abs(exon.position$Start - exon.position$End))</code></pre>
+<pre><code>## [1] 251
+## [1] 468.6693</code></pre>
+</div>
+</div>
+<ol start="7" style="list-style-type: decimal">
+<li>Do the same calculations for the chromosomes 2L, 2R, 3L, 4, X and Y using a for loop.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102012385384" aria-expanded="false" aria-controls="acc2025102012385384">
+</button>
+</p>
+<div id="acc2025102012385384" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>chr &lt;- c(&quot;2L&quot;,&quot;2R&quot;,&quot;3L&quot;,&quot;4&quot;,&quot;X&quot;,&quot;Y&quot;)
+for (i in chr) {
+  d.gtf.tmp &lt;- d.gtf[d.gtf$Chromosome == i,]
+  exon.position &lt;- d.gtf.tmp[d.gtf.tmp$Feature == &quot;exon&quot;, c(&quot;Start&quot;, &quot;End&quot;)]   
+  exon.med &lt;- median(abs(exon.position$Start - exon.position$End))
+  exon.mean &lt;- mean(abs(exon.position$Start - exon.position$End))
+  txt &lt;- sprintf(&quot;The median and mean exon length for %s is %g and %g, respectively&quot;, i, exon.med, exon.mean)
+  print(txt)
+}</code></pre>
+<pre><code>## [1] &quot;The median and mean exon length for 2L is 279 and 502.617, respectively&quot;
+## [1] &quot;The median and mean exon length for 2R is 225 and 437.187, respectively&quot;
+## [1] &quot;The median and mean exon length for 3L is 255 and 502.116, respectively&quot;
+## [1] &quot;The median and mean exon length for 4 is 198 and 429.573, respectively&quot;
+## [1] &quot;The median and mean exon length for X is 257 and 526.301, respectively&quot;
+## [1] &quot;The median and mean exon length for Y is 410.5 and 657.055, respectively&quot;</code></pre>
+</div>
+</div>
+</div>
+
+
+<footer class="footer">
+<div class="container footer-container">
+<div class="row">
+
+<div class="footer-left col-sm-6">
+<p class="small">
+<b>2024</b> • <a href="https://nbis.se/" target="_blank">NBIS</a> • <a href="https://www.scilifelab.se/" target="_blank">SciLifeLab</a>
+</p>
+</div>
+
+<div class="footer-right col-sm-6">
+<p>
+<span>
+  <span class="footericon" style="padding-right:4px; padding-left:4px">
+    <a href="https://nbis.se/" target="_blank">
+      <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 496 512"><path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z"></path>
+      </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-right:4px; padding-left:4px">
+      <a href="https://twitter.com/NBISwe" target="_blank"><svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+    </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-left:4px">
+      <a href="https://www.linkedin.com/company/nbisweden/" target="_blank">
+        <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+        </svg>
+    </a>
+    </span>
+  </span>
+</p>
+</div>
+
+</div>
+</div>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
