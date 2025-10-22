@@ -42,7 +42,7 @@ knitr::opts_chunk$set(echo=TRUE, width=60)
 ```
 
 ---
-name: intro
+name: intro2
 
 # Introduction
 
@@ -67,6 +67,20 @@ name: intro
 - Predictive statistics: To make predictions about future outcomes based on collected data (Regression models, time series forecasting, machine learning,...). 
 
 - ......  
+
+
+---
+name: intro2
+
+In this lecture we will learn basic statistics concepts including:  
+
+Descriptive statistics:  
+
+- Central tendency: `mean`, `median`, `mode`.  
+- Measures of spread: `range`, `interquartile range`, `variance`, `standard deviation`.  
+- Correlation: `Pearson's correlation`, `Spearman's correlation`.  
+
+
 
 
 ---
@@ -423,7 +437,25 @@ $$
 \rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
 $$
 ---
-name: closing
+name: recap
+
+<div style="font-size:60%"> 
+# 🧮 Basic Statistics in R — Summary
+
+| Concept | What it measures | Key R function(s) | Notes / Assumptions |
+|----------|------------------|-------------------|----------------------|
+| **Mean** | Average value (center) | `mean(x)` | Sensitive to outliers |
+| **Median** | Middle value (robust center) | `median(x)` | Robust to skew/outliers |
+| **Mode** | Most frequent value | `names(sort(table(x), TRUE))[1]` | Useful for discrete or multimodal data |
+| **Range** | Full spread (max–min) | `range(x)` or `diff(range(x))` | Very sensitive to extremes |
+| **IQR** | Middle 50% spread | `IQR(x)` | Robust to outliers |
+| **Variance** | Average squared deviation from mean | `var(x)` | Units are squared; measures spread |
+| **Standard Deviation (SD)** | Typical deviation from mean | `sd(x)` | Same unit as data; intuitive measure of spread |
+| **Pearson’s r** | Linear relationship (−1 to 1) | `cor(x, y, method="pearson")` | Continuous, linear, normal assumption |
+| **Spearman’s ρ** | Monotonic relationship (ranks) | `cor(x, y, method="spearman")` | Non-parametric; works for ranked or non-normal data |
+
+<div style="font-size:100%"> 
+
 # More on statistics?
 - We discussed about very basic descriptive statistical measures.  
 - You can read more [here](https://nbisweden.github.io/workshop-mlbiostatistics/session-descriptive/docs/index.html).    
