@@ -125,15 +125,27 @@ A syntactically valid name consists of letters, numbers and the dot or underline
 
 Names such as ".2way" are not valid, and neither are the so-called *reserved words*.  
 
---
+---
+name: variables_naming_reserved
 
 # Reserved words
 
 - `if, else, repeat, while, function, for, in, next, break, TRUE, FALSE, NULL, Inf, NaN, NA, NA_integer_, NA_real_, NA_complex_, NA_character_`  
 
-- and you also **cannot** use: `c, q, t, C, D, I`
+- and you also **cannot** use: `c, q, t, C, D, I` and **SHOULD NOT** `T, F`
 
-- and you **should not** use: `T, F`
+| Symbol | Function                   | Typical Use                        | 
+| ------ | -------------------------- | ---------------------------------- | 
+| `c`    | Combine values             | Create vectors                     | 
+| `q`    | Quit session               | Exit R safely                      | 
+| `t`    | Transpose                  | Matrix operations                  | 
+| `C`    | Complex number constructor | Create complex values              | 
+| `D`    | Derivative                 | Symbolic differentiation           | 
+| `I`    | Inhibit interpretation     | Keep operators literal in formulas | 
+| `T`   | Logical TRUE                | Logical operations                  |
+| `F`   | Logical FALSE               | Logical operations                  |
+
+
 
 ---
 name: variables_good_style
@@ -167,7 +179,13 @@ name: variables_good_style
     - `cnt` for counters;
     - `i,j,k` within loops,
     - `pwd` - for password...
+--
 
+**Why to care at all, I just want to analyze my data?**
+
+- For your future self, coming back to the code after a while.  
+- For your collaborators, who will read your code. 
+- For the community, if you share your code publicly.  
 ---
 name: data_types_1
 
@@ -185,7 +203,7 @@ name: class_type_mode
 
 # Classes, types, and modes
 
-- `class` what type of object is it for R,
+- `class` what type of object is it for R; **objects can be data (variables), functions, and models**.  
 - `typeof()` what R thinks it is,
 
 ```{r class,echo=TRUE,eval=TRUE}
@@ -193,12 +211,20 @@ x <- 1:3
 x
 class(x)
 typeof(x)
+
+y <- 'hello'
+y
+class(y)
+typeof(y)
+
+lm <- lm(Sepal.Length ~ Sepal.Width, data=iris) # lm is a function for linear models. 
+class(lm)
 ```
 
 ---
 name: type_casting
 
-# Type casting
+# Type casting (Converting data types)  
 
 By default, any *numeric* is stored as *double* !
 
@@ -262,7 +288,7 @@ name: coercion
 ```{r casting.string,echo=TRUE}
 as.numeric('4.5678')
 as.double('4.5678')
-as.numeric('R course is cool!')
+as.numeric('Nima is a cool teacher :) !')
 ```
 
 ---
@@ -278,7 +304,7 @@ name: some_special_values
 and also:
 
 ```{r special.values2,echo=TRUE}
-112345^67890  # Also infinity for R
+112345^67890  # Also infinity for R;  "^" means "to the power of"; 2^2 = 4
 1/2e78996543  # Zero for R
 Inf - Inf # Not a Number
 ```
@@ -396,6 +422,32 @@ name: basic_printing
   val <- 345.78
   sprintf("The weight of a %s ball is  %g g", txt, val)
 ```
+---
+# What did we learn?
+<div style="font-size:70%"> 
+ 
+| Concept            | Key Idea                                         | Example / Tip            |
+| ------------------ | ------------------------------------------------ | ------------------------ |
+| **Variables**      | Store data using names                           | `x <- 5`                 |
+| **Assignment**     | Prefer `<-` for clarity                          | `a <- 2 + 2`             |
+| **Naming rules**   | Must start with letter/dot; avoid reserved words | ❌ `if`, `c`, `T`, `F`    |
+| **Good style**     | Use clear, consistent names                      | `gene_count`, `sampleID` |
+| **Data types**     | Numeric, character, logical, etc.                | `typeof(x)` / `class(x)` |
+| **Type casting**   | Change one type to another                       | `as.integer(3.14)`       |
+| **Special values** | `Inf`, `-Inf`, `NaN`, `NA`                       | `1/0 → Inf`              |
+| **Logical values** | TRUE/FALSE behave like 1/0                       | `TRUE + FALSE → 1`       |
+| **Strings**        | Text manipulation                                | `paste("R", "rocks!")`   |
+| **Operators**      | `+ − * / ^`  (power)                               | `2^3 → 8`                |
+| **Objects**        | Everything in R is an object                     | data, functions, models  |
+
+--
+<div style="font-size:100%"> 
+**Remember**
+- R treats everything as an **object**.  
+- Use `class()` to see what kind of object it is.  
+- Use `typeof()` to see how it’s stored internally.  
+- Code readability **>>** clever shortcuts.  
+- Naming and clarity make collaboration easier.  
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 
