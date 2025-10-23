@@ -447,10 +447,10 @@ myData &lt;-read_excel(local_file_path)</code></pre>
 <h2><span class="header-section-number">4.3</span> Build empty plot</h2>
 <p>Create an empty plot to show your and WHO data,</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025100709097709" aria-expanded="false" aria-controls="acc2025100709097709">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102314407709" aria-expanded="false" aria-controls="acc2025102314407709">
 </button>
 </p>
-<div id="acc2025100709097709" class="collapse">
+<div id="acc2025102314407709" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plot(1, xlim=c(0, max(myData$Month)), type=&#39;n&#39;, bty=&#39;n&#39;, ylim=c(0, max(myData[,c(5:19)])), las=1, xlab=&#39;Month&#39;, ylab=&#39;kg&#39;)
 grid()</code></pre>
@@ -462,10 +462,10 @@ grid()</code></pre>
 <h2><span class="header-section-number">4.4</span> Plot reference data</h2>
 <p>Plot WHO mean and percentiles: P25, P75, P0.1 and P99.9, use different colors and line types to make the plot pretty.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025100709091923" aria-expanded="false" aria-controls="acc2025100709091923">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102314401923" aria-expanded="false" aria-controls="acc2025102314401923">
 </button>
 </p>
-<div id="acc2025100709091923" class="collapse">
+<div id="acc2025102314401923" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>lines(myData$M, col=&#39;grey&#39;, lty=1)
 lines(myData$P25, col=&#39;blue&#39;, lty=2)
@@ -480,10 +480,10 @@ lines(myData$P999, col=&#39;tomato&#39;, lty=2)</code></pre>
 <p>Plot your data on top of the percentiles, mind the units so that they match with the WHO ones</p>
 <p><img src="lab_graphics_files/figure-html/unnamed-chunk-28-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025100709099365" aria-expanded="false" aria-controls="acc2025100709099365">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102314409365" aria-expanded="false" aria-controls="acc2025102314409365">
 </button>
 </p>
-<div id="acc2025100709099365" class="collapse">
+<div id="acc2025102314409365" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>points(xpoints, weight/1000, pch=3, type=&#39;l&#39;, cex=.5)
 points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
@@ -495,10 +495,10 @@ points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
 <p>Add descriptions of the confidence lines in the margins</p>
 <p><img src="lab_graphics_files/figure-html/unnamed-chunk-30-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025100709097647" aria-expanded="false" aria-controls="acc2025100709097647">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025102314407647" aria-expanded="false" aria-controls="acc2025102314407647">
 </button>
 </p>
-<div id="acc2025100709097647" class="collapse">
+<div id="acc2025102314407647" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mtext(text = c(&#39;P0.1&#39;,&#39;P25&#39;,&#39;P75&#39;,&#39;P99.9&#39;), side = 4, at=myData[dim(myData)[1], c(&#39;P01&#39;,&#39;P25&#39;,&#39;P75&#39;,&#39;P999&#39;)], las=1, cex=.8)</code></pre>
 </div>
