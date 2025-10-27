@@ -29,17 +29,17 @@ str(gapminder)
 ## Description of the data 
 In this dataset there are `r nrow(gapminder)` queries and `r ncol(gapminder)` columns. 
 The following variables (columns) have numerical values:  
-- year.  
-- infant_mortality. 
-- life_expectancy. 
-- fertility. 
-- population. 
-- gdp.  
+- year   
+- infant_mortality  
+- life_expectancy   
+- fertility   
+- population   
+- gdp    
 
 While the categorical data are stored in:  
-- country.  
--continent.  
-- region. 
+- country    
+- continent    
+- region   
 
 While processing the data, we realized that some of the lines had not the same format which lead into problem. For example, some of the lines did not have the same number of fields and incomplete quotation.  In following chunk we can show that some of the lines have very long character in `country` column (>13000 character)!!     
 ```{r countries}
@@ -50,7 +50,7 @@ We tried to check some of the lines that have very long country name.
 ```{r country-char}
 gapminder[(nchar(gapminder$country) >= 50),]
 ```
-It seemed that these lines are empty! We could see that, for example, line 41 had the following in `coutry` field: `Cote dIvoire,1960,208.4,38,7.35,3474724,2003623491`.   
+It seemed that these lines are empty! We could see that, for example, line 41 had the following in `country` field: `Cote dIvoire,1960,208.4,38,7.35,3474724,2003623491`.   
 ```{r line41}
 gapminder[41,]
 ```
@@ -84,7 +84,7 @@ Now we can see that the data has been properly loaded and continued the analysis
 
 
 ### Statistics  
-First we createed to vectors of numeric and character vectors for descriptive statistics.  
+First we created to vectors of numeric and character vectors for descriptive statistics.  
 Then we saved  the stats in a dataframe.
 
 ```{r stat1}
@@ -197,7 +197,7 @@ ggplot(tmp_data, aes(x = year, y = value, color = variable)) +
 
 ```
 
-As you can see in **Brunei** there seem to be a negative correlation between fertility and infant mortality; As the fertility decreases the infant mortality rate has increased around 2005 which see to coincide with drop in gdp. But gdp data seems to be incomplete.     
+As you can see in **Brunei** there seem to be a negative correlation between fertility and infant mortality; As the fertility decreases the infant mortality rate has increased around 2005 which seems to coincide with drop in gdp. But gdp data seems to be incomplete.     
 
 # Life expectency  
 When we looked at the distribution of life expectancy over time we found a data point which showed lowest lofe expectancy and we further looked into it by first identifying which country it is.  
