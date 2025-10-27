@@ -201,13 +201,16 @@ str(gapminder)</code></pre>
 <h2>Description of the data</h2>
 <p>In this dataset there are 1520 queries and 10 columns. The following
 variables (columns) have numerical values:<br />
-- year.<br />
-- infant_mortality. - life_expectancy. - fertility. - population. -
-gdp.</p>
+- year<br />
+- infant_mortality<br />
+- life_expectancy<br />
+- fertility<br />
+- population<br />
+- gdp</p>
 <p>While the categorical data are stored in:<br />
-- country.<br />
--continent.<br />
-- region.</p>
+- country<br />
+- continent<br />
+- region</p>
 <p>While processing the data, we realized that some of the lines had not
 the same format which lead into problem. For example, some of the lines
 did not have the same number of fields and incomplete quotation. In
@@ -256,7 +259,7 @@ name.</p>
 ## 1151    Africa Western Africa
 ## 1336    Africa Western Africa</code></pre>
 <p>It seemed that these lines are empty! We could see that, for example,
-line 41 had the following in <code>coutry</code> field:
+line 41 had the following in <code>country</code> field:
 <code>Cote dIvoire,1960,208.4,38,7.35,3474724,2003623491</code>.</p>
 <pre class="r"><code>gapminder[41,]</code></pre>
 <pre><code>##    rownames
@@ -305,7 +308,7 @@ str(gapminder)</code></pre>
 the analysis.</p>
 <div id="statistics" class="section level3">
 <h3>Statistics</h3>
-<p>First we createed to vectors of numeric and character vectors for
+<p>First we created to vectors of numeric and character vectors for
 descriptive statistics.<br />
 Then we saved the stats in a dataframe.</p>
 <pre class="r"><code>numeric_vec &lt;- c(&#39;year&#39;, &#39;infant_mortality&#39;, &#39;life_expectancy&#39;, &#39;fertility&#39;, &#39;population&#39;, &#39;gdp&#39;)
@@ -466,8 +469,9 @@ ggplot(tmp_data, aes(x = year, y = value, color = variable)) +
 <p><img src="Gapminder_project_files/figure-html/investigate-infant-mortality-1.png" width="672" /></p>
 <p>As you can see in <strong>Brunei</strong> there seem to be a negative
 correlation between fertility and infant mortality; As the fertility
-decreases the infant mortality rate has increased around 2005 which see
-to coincide with drop in gdp. But gdp data seems to be incomplete.</p>
+decreases the infant mortality rate has increased around 2005 which
+seems to coincide with drop in gdp. But gdp data seems to be
+incomplete.</p>
 </div>
 </div>
 </div>

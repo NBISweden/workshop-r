@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Projects</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/lab.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="assets/logo.svg" id="logo" style="height:20px;margin:0;"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="home_schedule.html">Schedule</a>
+</li>
+<li>
+  <a href="home_content.html">Content</a>
+</li>
+<li>
+  <a href="home_precourse.html">Precourse</a>
+</li>
+<li>
+  <a href="home_info.html">Info</a>
+</li>
+<li>
+  <a href="home_projects.html">Projects</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Projects</h1>
+
+</div>
+
+
+<!-- rmd lab header -->
+<p><br></p>
+<div id="section" class="section level1 tabset tabset-fade">
+<h1> </h1>
+<div id="datasets" class="section level2">
+<h2>Datasets</h2>
+<p>Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you have learned in this course. For each data set, a brief description as well as download instructions are provided.</p>
+<div class="alert alert-info">
+<p><strong> Try to focus on using the tools from the course to explore the data, rather than worrying about producing a perfect report with a coherent analysis workflow.</strong></p>
+</div>
+<p>On the last day you will present your Rmd file (or rather, the resulting html report) and share with the class what your data was about.</p>
+<hr />
+<div id="palmer-penguins" class="section level3">
+<h3>Palmer penguins 🐧</h3>
+<ul>
+<li>This is a data set containing a series of measurements for three species of penguins collected in the Palmer station in Antarctica.</li>
+<li>Data description: <a href="https://vincentarelbundock.github.io/Rdatasets/doc/heplots/peng.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/doc/heplots/peng.html</a></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>penguins &lt;- read.table(&quot;https://vincentarelbundock.github.io/Rdatasets/csv/heplots/peng.csv&quot;, header = T, sep = &quot;,&quot;)
+str(penguins)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    333 obs. of  9 variables:
+##  $ rownames      : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ species       : chr  &quot;Adelie&quot; &quot;Adelie&quot; &quot;Adelie&quot; &quot;Adelie&quot; ...
+##  $ island        : chr  &quot;Torgersen&quot; &quot;Torgersen&quot; &quot;Torgersen&quot; &quot;Torgersen&quot; ...
+##  $ bill_length   : num  39.1 39.5 40.3 36.7 39.3 38.9 39.2 41.1 38.6 34.6 ...
+##  $ bill_depth    : num  18.7 17.4 18 19.3 20.6 17.8 19.6 17.6 21.2 21.1 ...
+##  $ flipper_length: int  181 186 195 193 190 181 195 182 191 198 ...
+##  $ body_mass     : int  3750 3800 3250 3450 3650 3625 4675 3200 3800 4400 ...
+##  $ sex           : chr  &quot;m&quot; &quot;f&quot; &quot;f&quot; &quot;f&quot; ...
+##  $ year          : int  2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...</code></pre>
+</details>
+<hr />
+</div>
+<div id="drinking-habits" class="section level3">
+<h3>Drinking habits 🍷</h3>
+<ul>
+<li>Data from a national survey on the drinking habits of american citizens in 2001 and 2002.</li>
+<li>Data description: <a href="https://vincentarelbundock.github.io/Rdatasets/doc/stevedata/nesarc_drinkspd.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/doc/stevedata/nesarc_drinkspd.html</a></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>library(dplyr)
+# this will download the csv file directly from the web
+drinks &lt;- read.table(&quot;https://vincentarelbundock.github.io/Rdatasets/csv/stevedata/nesarc_drinkspd.csv&quot;, header = T, sep = &quot;,&quot;)
+# the lines below will take a sample from the full data set
+set.seed(seed = 2)
+drinks &lt;- sample_n(drinks, size = 3000, replace = F)
+# and here we check the structure of the data
+str(drinks)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    3000 obs. of  9 variables:
+##  $ rownames : int  11014 36044 15657 11851 14800 4914 25399 9864 32033 23401 ...
+##  $ idnum    : int  11014 36044 15657 11851 14800 4914 25399 9864 32033 23401 ...
+##  $ ethrace2a: int  5 1 1 1 1 2 1 5 1 1 ...
+##  $ region   : int  3 1 2 1 2 3 3 2 4 1 ...
+##  $ age      : int  56 55 42 84 18 42 72 39 23 61 ...
+##  $ sex      : int  1 1 1 1 1 1 1 1 0 1 ...
+##  $ marital  : int  1 4 4 3 6 1 3 6 1 5 ...
+##  $ educ     : int  4 4 3 1 2 2 2 2 2 3 ...
+##  $ s2aq8b   : int  NA 1 3 NA NA NA NA NA 4 NA ...</code></pre>
+</details>
+<hr />
+</div>
+<div id="car-crashes" class="section level3">
+<h3>Car crashes 🚗</h3>
+<ul>
+<li>Data from car accidents in the US between 1997-2002.</li>
+<li>Data description: <a href="https://vincentarelbundock.github.io/Rdatasets/doc/DAAG/nassCDS.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/doc/DAAG/nassCDS.html</a></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>library(dplyr)
+# this will download the csv file directly from the web
+crashes &lt;- read.table(&quot;https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/nassCDS.csv&quot;, header = T, sep = &quot;,&quot;)
+# the lines below will take a sample from the full data set
+set.seed(seed = 2)
+crashes &lt;- sample_n(crashes, size = 3000, replace = F)
+# and here we check the structure of the data
+str(crashes)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    3000 obs. of  16 variables:
+##  $ rownames   : int  12117 13263 4806 11014 8465 21853 3276 3453 15657 17074 ...
+##  $ dvcat      : chr  &quot;10-24&quot; &quot;25-39&quot; &quot;10-24&quot; &quot;10-24&quot; ...
+##  $ weight     : num  5363.9 29.5 107.4 194.2 98.9 ...
+##  $ dead       : chr  &quot;alive&quot; &quot;alive&quot; &quot;alive&quot; &quot;alive&quot; ...
+##  $ airbag     : chr  &quot;none&quot; &quot;none&quot; &quot;none&quot; &quot;none&quot; ...
+##  $ seatbelt   : chr  &quot;belted&quot; &quot;belted&quot; &quot;none&quot; &quot;belted&quot; ...
+##  $ frontal    : int  0 1 0 0 1 1 1 1 0 0 ...
+##  $ sex        : chr  &quot;f&quot; &quot;m&quot; &quot;f&quot; &quot;f&quot; ...
+##  $ ageOFocc   : int  20 38 20 59 40 19 30 43 39 31 ...
+##  $ yearacc    : int  1999 2000 1998 1999 1999 2002 1997 1997 2000 2000 ...
+##  $ yearVeh    : int  1984 1990 1991 1985 1996 2001 1989 1994 1990 1983 ...
+##  $ abcat      : chr  &quot;unavail&quot; &quot;unavail&quot; &quot;unavail&quot; &quot;unavail&quot; ...
+##  $ occRole    : chr  &quot;driver&quot; &quot;driver&quot; &quot;pass&quot; &quot;driver&quot; ...
+##  $ deploy     : int  0 0 0 0 1 1 0 1 0 0 ...
+##  $ injSeverity: int  0 2 0 3 1 0 3 2 3 3 ...
+##  $ caseid     : chr  &quot;75:85:2&quot; &quot;4:115:1&quot; &quot;9:1:2&quot; &quot;48:61:1&quot; ...</code></pre>
+</details>
+<hr />
+</div>
+<div id="gapminder-health-and-wealth" class="section level3">
+<h3>Gapminder health and wealth 📈</h3>
+<ul>
+<li>This is a collection of country indicators from the Gapminder dataset for the years 2000-2016.</li>
+<li>Data description: <a href="https://vincentarelbundock.github.io/Rdatasets/doc/dslabs/gapminder.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/doc/dslabs/gapminder.html</a></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>library(dplyr)
+# this will download the csv file directly from the web
+gapminder &lt;- read.table(&quot;https://vincentarelbundock.github.io/Rdatasets/csv/dslabs/gapminder.csv&quot;, header = T, sep = &quot;,&quot;)
+# here we filter the data to remove anything before the year 2000
+gapminder &lt;- gapminder |&gt; filter(year &gt;= 2000)
+# and here we check the structure of the data
+str(gapminder)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    1520 obs. of  10 variables:
+##  $ rownames        : int  7401 7402 7403 7404 7405 7406 7407 7408 7409 7410 ...
+##  $ country         : chr  &quot;Albania&quot; &quot;Algeria&quot; &quot;Angola&quot; &quot;Antigua and Barbuda&quot; ...
+##  $ year            : int  2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 ...
+##  $ infant_mortality: num  23.2 33.9 128.3 13.8 18 ...
+##  $ life_expectancy : num  74.7 73.3 52.3 73.8 74.2 ...
+##  $ fertility       : num  2.38 2.51 6.84 2.32 2.48 1.3 1.87 1.76 1.37 2.05 ...
+##  $ population      : int  3121965 31183658 15058638 77648 37057453 3076098 90858 19107251 8050884 8117742 ...
+##  $ gdp             : num  3.69e+09 5.48e+10 9.13e+09 8.03e+08 2.84e+11 ...
+##  $ continent       : chr  &quot;Europe&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Americas&quot; ...
+##  $ region          : chr  &quot;Southern Europe&quot; &quot;Northern Africa&quot; &quot;Middle Africa&quot; &quot;Caribbean&quot; ...</code></pre>
+</details>
+<hr />
+</div>
+<div id="stackoverflow-survey" class="section level3">
+<h3>StackOverflow survey 🖥️</h3>
+<ul>
+<li>This is a downsampled and modified version of one of StackOverflow’s annual surveys where users respond to a series of questions related to careers in technology and coding.</li>
+<li>Data description: <a href="https://vincentarelbundock.github.io/Rdatasets/doc/modeldata/stackoverflow.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/doc/modeldata/stackoverflow.html</a></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>library(dplyr)
+# this will download the csv file directly from the web
+stackoverflow &lt;- read.table(&quot;https://vincentarelbundock.github.io/Rdatasets/csv/modeldata/stackoverflow.csv&quot;, header = T, sep = &quot;,&quot;)
+# the lines below will take a sample from the full data set
+set.seed(2)
+stackoverflow &lt;- sample_n(stackoverflow, size = 3000)
+# and here we check the structure of the data
+str(stackoverflow)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    3000 obs. of  22 variables:
+##  $ rownames                            : int  3925 5071 4806 2822 4512 4488 273 5469 3276 3453 ...
+##  $ Country                             : chr  &quot;Germany&quot; &quot;United States&quot; &quot;United States&quot; &quot;United States&quot; ...
+##  $ Salary                              : num  80645 135000 85000 127000 4405 ...
+##  $ YearsCodedJob                       : int  19 20 5 20 2 4 3 3 5 3 ...
+##  $ OpenSource                          : int  1 1 1 1 0 0 0 1 0 0 ...
+##  $ Hobby                               : int  1 1 1 1 0 1 1 1 0 1 ...
+##  $ CompanySizeNumber                   : int  10000 10000 5000 20 1 100 1000 20 1000 10000 ...
+##  $ Remote                              : chr  &quot;Not remote&quot; &quot;Not remote&quot; &quot;Not remote&quot; &quot;Remote&quot; ...
+##  $ CareerSatisfaction                  : int  10 8 7 7 8 6 8 5 8 8 ...
+##  $ Data_scientist                      : int  1 0 0 0 0 0 0 0 0 0 ...
+##  $ Database_administrator              : int  1 0 0 0 0 0 0 0 0 0 ...
+##  $ Desktop_applications_developer      : int  0 0 0 0 0 0 0 0 1 1 ...
+##  $ Developer_with_stats_math_background: int  1 0 0 0 0 0 0 0 0 0 ...
+##  $ DevOps                              : int  0 1 0 0 0 0 0 0 0 0 ...
+##  $ Embedded_developer                  : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Graphic_designer                    : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Graphics_programming                : int  1 0 0 0 0 0 0 0 0 0 ...
+##  $ Machine_learning_specialist         : int  1 0 0 0 0 0 0 0 0 0 ...
+##  $ Mobile_developer                    : int  1 0 0 0 1 0 0 0 0 0 ...
+##  $ Quality_assurance_engineer          : int  1 0 0 0 0 0 0 0 0 0 ...
+##  $ Systems_administrator               : int  1 0 0 0 0 0 0 0 0 0 ...
+##  $ Web_developer                       : int  1 1 0 0 1 1 1 1 1 0 ...</code></pre>
+</details>
+<hr />
+</div>
+<div id="doctor-visits" class="section level3">
+<h3>Doctor visits 🤒</h3>
+<ul>
+<li>Data on the frequency of doctor visits in the past two weeks in Australia for the years 1977 and 1978.</li>
+<li>Data description: <a href="https://vincentarelbundock.github.io/Rdatasets/doc/AER/DoctorVisits.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/doc/AER/DoctorVisits.html</a></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>library(dplyr)
+# this will download the csv file directly from the web
+doctor &lt;- read.table(&quot;https://vincentarelbundock.github.io/Rdatasets/csv/AER/DoctorVisits.csv&quot;, header = T, sep = &quot;,&quot;)
+# the lines below will take a sample from the full data set
+set.seed(2)
+doctor &lt;- sample_n(doctor, size = 3000)
+# and here we check the structure of the data
+str(doctor)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    3000 obs. of  13 variables:
+##  $ rownames : int  3925 5071 4806 2822 4512 4488 273 3276 3453 690 ...
+##  $ visits   : int  0 0 0 0 0 0 1 0 0 1 ...
+##  $ gender   : chr  &quot;male&quot; &quot;female&quot; &quot;male&quot; &quot;male&quot; ...
+##  $ age      : num  0.27 0.67 0.32 0.19 0.22 0.22 0.22 0.37 0.67 0.62 ...
+##  $ income   : num  0.15 0.25 0.9 0.65 0.35 0.75 0.75 0.25 0.35 0.25 ...
+##  $ illness  : int  0 1 0 1 0 1 0 1 1 5 ...
+##  $ reduced  : int  0 0 0 0 0 0 0 14 0 2 ...
+##  $ health   : int  0 0 0 0 0 0 1 4 0 2 ...
+##  $ private  : chr  &quot;no&quot; &quot;no&quot; &quot;yes&quot; &quot;yes&quot; ...
+##  $ freepoor : chr  &quot;no&quot; &quot;no&quot; &quot;no&quot; &quot;no&quot; ...
+##  $ freerepat: chr  &quot;no&quot; &quot;yes&quot; &quot;no&quot; &quot;no&quot; ...
+##  $ nchronic : chr  &quot;yes&quot; &quot;yes&quot; &quot;no&quot; &quot;no&quot; ...
+##  $ lchronic : chr  &quot;no&quot; &quot;no&quot; &quot;no&quot; &quot;no&quot; ...</code></pre>
+</details>
+<hr />
+</div>
+<div id="video-game-sales" class="section level3">
+<h3>Video Game Sales 🎮</h3>
+<ul>
+<li>This data set contains sales figures for video games titles released in 2001 and 2002.</li>
+<li>Data description: <a href="https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=Video%20Game%20Sales" class="uri">https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=Video%20Game%20Sales</a>
+<ul>
+<li>Click on “Preview Data” and “VG Data Dictionary” to see the description for each column.</li>
+</ul></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>library(dplyr)
+library(lubridate)
+# this will download the file to your working directory
+download.file(url = &quot;https://maven-datasets.s3.amazonaws.com/Video+Game+Sales/Video+Game+Sales.zip&quot;, destfile = &quot;video_game_sales.zip&quot;)
+# this will unzip the file and read it into R
+videogames &lt;- read.table(unz(filename = &quot;vgchartz-2024.csv&quot;, &quot;video_game_sales.zip&quot;), header = T, sep = &quot;,&quot;, quote = &quot;\&quot;&quot;, fill = T)
+# this will select rows corresponding to years 2001 and 2002
+videogames &lt;- filter(videogames, year(as_date(release_date)) %in% c(2001,2002))
+# and here we check the structure of the data
+str(videogames)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    3201 obs. of  14 variables:
+##  $ img         : chr  &quot;/games/boxart/827563ccc.jpg&quot; &quot;/games/boxart/3570928ccc.jpg&quot; &quot;/games/boxart/7583871ccc.jpg&quot; &quot;/games/boxart/9261584ccc.jpg&quot; ...
+##  $ title       : chr  &quot;Grand Theft Auto: Vice City&quot; &quot;Grand Theft Auto III&quot; &quot;Medal of Honor: Frontline&quot; &quot;Crash Bandicoot: The Wrath of Cortex&quot; ...
+##  $ console     : chr  &quot;PS2&quot; &quot;PS2&quot; &quot;PS2&quot; &quot;PS2&quot; ...
+##  $ genre       : chr  &quot;Action&quot; &quot;Action&quot; &quot;Shooter&quot; &quot;Platform&quot; ...
+##  $ publisher   : chr  &quot;Rockstar Games&quot; &quot;Rockstar Games&quot; &quot;Electronic Arts&quot; &quot;Universal Interactive&quot; ...
+##  $ developer   : chr  &quot;Rockstar North&quot; &quot;DMA Design&quot; &quot;EA Los Angeles&quot; &quot;Traveller&#39;s Tales&quot; ...
+##  $ critic_score: num  9.6 9.5 9 6.9 8.3 8.2 9.1 NA 9.4 7.3 ...
+##  $ total_sales : num  16.15 13.1 6.83 5.42 4.67 ...
+##  $ na_sales    : num  8.41 6.99 2.93 2.07 1.94 2.71 2.66 3 3.36 2.03 ...
+##  $ jp_sales    : num  0.47 0.3 0.17 0.24 0.08 0.03 0.01 0.05 0.01 NA ...
+##  $ pal_sales   : num  5.49 4.51 2.75 2.29 1.95 1.51 1.29 1.11 0.21 1.56 ...
+##  $ other_sales : num  1.78 1.3 0.99 0.82 0.7 0.23 0.46 0.07 0.56 0.17 ...
+##  $ release_date: chr  &quot;2002-10-28&quot; &quot;2001-10-23&quot; &quot;2002-05-28&quot; &quot;2001-10-29&quot; ...
+##  $ last_update : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...</code></pre>
+</details>
+<hr />
+</div>
+<div id="lego-sets" class="section level3">
+<h3>LEGO Sets 🏗️</h3>
+<ul>
+<li>This data set contains the description of all LEGO sets released from 2000 to 2009.</li>
+<li>Data description: <a href="https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=lego" class="uri">https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=lego</a>
+<ul>
+<li>Click on “Preview Data” and “VG Data Dictionary” to see the description for each column.</li>
+</ul></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>library(dplyr)
+# this will download the file to your working directory
+download.file(url = &quot;https://maven-datasets.s3.amazonaws.com/LEGO+Sets/LEGO+Sets.zip&quot;, destfile = &quot;lego.csv.zip&quot;)
+# this will unzip the file and read it into R
+lego &lt;- read.table(unz(filename = &quot;lego_sets.csv&quot;, &quot;lego.csv.zip&quot;), header = T, sep = &quot;,&quot;, quote = &quot;\&quot;&quot;, fill = T)
+# this will select rows corresponding to years 2000-2009
+lego &lt;- filter(lego, year %in% seq(2000,2009,1))
+# and here we check the structure of the data
+str(lego)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    4304 obs. of  14 variables:
+##  $ set_id        : chr  &quot;1086-1&quot; &quot;1177-1&quot; &quot;1196-1&quot; &quot;1197-1&quot; ...
+##  $ name          : chr  &quot;Bulk Bucket&quot; &quot;Santa&#39;s Truck&quot; &quot;Telekom Race Cyclist&quot; &quot;Telekom Race Cyclist and Television Motorbike&quot; ...
+##  $ year          : int  2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 ...
+##  $ theme         : chr  &quot;Duplo&quot; &quot;Town&quot; &quot;Town&quot; &quot;Town&quot; ...
+##  $ subtheme      : chr  &quot;&quot; &quot;Special&quot; &quot;Telekom&quot; &quot;Telekom&quot; ...
+##  $ themeGroup    : chr  &quot;Pre-school&quot; &quot;Modern day&quot; &quot;Modern day&quot; &quot;Modern day&quot; ...
+##  $ category      : chr  &quot;Normal&quot; &quot;Normal&quot; &quot;Normal&quot; &quot;Normal&quot; ...
+##  $ pieces        : int  48 27 7 26 81 129 10 27 26 23 ...
+##  $ minifigs      : int  NA 1 1 3 3 8 2 NA NA 1 ...
+##  $ agerange_min  : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ US_retailPrice: num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ bricksetURL   : chr  &quot;https://brickset.com/sets/1086-1&quot; &quot;https://brickset.com/sets/1177-1&quot; &quot;https://brickset.com/sets/1196-1&quot; &quot;https://brickset.com/sets/1197-1&quot; ...
+##  $ thumbnailURL  : chr  &quot;https://images.brickset.com/sets/small/1086-1.jpg&quot; &quot;https://images.brickset.com/sets/small/1177-1.jpg&quot; &quot;https://images.brickset.com/sets/small/1196-1.jpg&quot; &quot;https://images.brickset.com/sets/small/1197-1.jpg&quot; ...
+##  $ imageURL      : chr  &quot;https://images.brickset.com/sets/images/1086-1.jpg&quot; &quot;https://images.brickset.com/sets/images/1177-1.jpg&quot; &quot;https://images.brickset.com/sets/images/1196-1.jpg&quot; &quot;https://images.brickset.com/sets/images/1197-1.jpg&quot; ...</code></pre>
+</details>
+<hr />
+</div>
+<div id="shark-attacks" class="section level3">
+<h3>Shark attacks 🦈</h3>
+<ul>
+<li>This data set contains information on shark attack records from all over the world.</li>
+<li>Data description: <a href="https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=shark" class="uri">https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=shark</a>
+<ul>
+<li>Click on “Preview Data” and “VG Data Dictionary” to see the description for each column.</li>
+</ul></li>
+</ul>
+<details>
+<summary>
+Download instructions
+</summary>
+<pre class="r"><code>library(dplyr)
+# this will download the file to your working directory
+download.file(url = &quot;https://maven-datasets.s3.amazonaws.com/Shark+Attacks/attacks.csv.zip&quot;, destfile = &quot;attacks.csv.zip&quot;)
+# this will unzip the file and read it into R
+sharks &lt;- read.table(unz(filename = &quot;attacks.csv&quot;, &quot;attacks.csv.zip&quot;), header = T, sep = &quot;,&quot;, quote = &quot;\&quot;&quot;, fill = T)
+# the lines below will take a sample from the full data set
+set.seed(seed = 2)
+sharks &lt;- sample_n(sharks, size = 3000, replace = F)
+str(sharks)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    3000 obs. of  22 variables:
+##  $ Case.Number           : chr  &quot;&quot; &quot;&quot; &quot;1934.01.08.R&quot; &quot;&quot; ...
+##  $ Date                  : chr  &quot;&quot; &quot;&quot; &quot;Reported 08-Feb-1934&quot; &quot;&quot; ...
+##  $ Year                  : int  NA NA 1934 NA NA NA 1969 1966 NA NA ...
+##  $ Type                  : chr  &quot;&quot; &quot;&quot; &quot;Boating&quot; &quot;&quot; ...
+##  $ Country               : chr  &quot;&quot; &quot;&quot; &quot;TURKEY&quot; &quot;&quot; ...
+##  $ Area                  : chr  &quot;&quot; &quot;&quot; &quot;Istanbul&quot; &quot;&quot; ...
+##  $ Location              : chr  &quot;&quot; &quot;&quot; &quot;Haydarpasa jetty, Istanbul&quot; &quot;&quot; ...
+##  $ Activity              : chr  &quot;&quot; &quot;&quot; &quot;Fishing&quot; &quot;&quot; ...
+##  $ Name                  : chr  &quot;&quot; &quot;&quot; &quot;2 males&quot; &quot;&quot; ...
+##  $ Sex                   : chr  &quot;&quot; &quot;&quot; &quot;M&quot; &quot;&quot; ...
+##  $ Age                   : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ Injury                : chr  &quot;&quot; &quot;&quot; &quot;No injury&quot; &quot;&quot; ...
+##  $ Fatal..Y.N.           : chr  &quot;&quot; &quot;&quot; &quot;N&quot; &quot;&quot; ...
+##  $ Time                  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ Species               : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ Investigator.or.Source: chr  &quot;&quot; &quot;&quot; &quot;C. Moore, GSAF&quot; &quot;&quot; ...
+##  $ pdf                   : chr  &quot;&quot; &quot;&quot; &quot;1924.02.08.R-Turkey.pdf&quot; &quot;&quot; ...
+##  $ href.formula          : chr  &quot;&quot; &quot;&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/1924.02.08.R-Turkey.pdf&quot; &quot;&quot; ...
+##  $ href                  : chr  &quot;&quot; &quot;&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/http://sharkattackfile.net/spreadsheets/pdf_directory/192&quot;| __truncated__ &quot;&quot; ...
+##  $ Case.Number.1         : chr  &quot;&quot; &quot;&quot; &quot;1934.02.08.R&quot; &quot;&quot; ...
+##  $ Case.Number.2         : chr  &quot;&quot; &quot;&quot; &quot;1934.02.08.R&quot; &quot;&quot; ...
+##  $ original.order        : int  NA NA 1290 NA NA NA 2820 2643 NA NA ...</code></pre>
+</details>
+<hr />
+</div>
+</div>
+<div id="sample-project-report" class="section level2">
+<h2>Sample project report</h2>
+<p>
+<iframe style="border: none;" title="workshop" src="https://nbisweden.github.io/workshop-r/2510-canvas/Gapminder_project.html" width="100%" height="900px">
+</iframe>
+</p>
+</div>
+</div>
+
+
+<footer class="footer">
+<div class="container footer-container">
+<div class="row">
+
+<div class="footer-left col-sm-6">
+<p class="small">
+<b>2024</b> • <a href="https://nbis.se/">NBIS</a> • <a href="https://www.scilifelab.se/">SciLifeLab</a>
+</p>
+</div>
+
+<div class="footer-right col-sm-6">
+<p>
+<span>
+  <span class="footericon" style="padding-right:4px; padding-left:4px">
+    <a href="https://nbis.se/">
+      <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 496 512"><path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z"></path>
+      </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-right:4px; padding-left:4px">
+      <a href="https://twitter.com/NBISwe"><svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+    </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-left:4px">
+      <a href="https://www.linkedin.com/company/nbisweden/">
+        <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+        </svg>
+    </a>
+    </span>
+  </span>
+</p>
+</div>
+
+</div>
+</div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
