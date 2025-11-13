@@ -26,6 +26,10 @@ count: false
 ```{r,echo=FALSE,child="assets/header-slide.Rmd"}
 ```
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
 <!-- ------------ Only edit title, subtitle & author above this ------------ -->
 
 ```{r,echo=FALSE,message=FALSE,warning=FALSE}
@@ -226,16 +230,13 @@ name: topic2
 Wishful thinking!
 
 ```{r top-down-approach-fig, echo = F, eval = T}
-# Set up blank plot
 plot(0, 0, type = "n", xlim = c(-4, 4), ylim = c(-5, 1),
      axes = FALSE, xlab = "", ylab = "", main = "Top Down Approach")
 
-# Function to draw circle node
 draw_node <- function(x, y, r = 0.3, col = "darkorange") {
   symbols(x, y, circles = r, inches = FALSE, add = TRUE, fg = col, bg = "white", lwd = 2)
 }
 
-# Coordinates of nodes
 root <- c(0, 0)
 left_child <- c(-2, -2)
 right_child <- c(2, -2)
@@ -244,7 +245,6 @@ left_right <- c(-1, -4)
 right_left <- c(1, -4)
 right_right <- c(3, -4)
 
-# Draw edges
 segments(root[1], root[2], left_child[1], left_child[2], col = "darkorange", lwd = 2)
 segments(root[1], root[2], right_child[1], right_child[2], col = "darkorange", lwd = 2)
 segments(left_child[1], left_child[2], left_left[1], left_left[2], col = "darkorange", lwd = 2)
@@ -252,7 +252,6 @@ segments(left_child[1], left_child[2], left_right[1], left_right[2], col = "dark
 segments(right_child[1], right_child[2], right_left[1], right_left[2], col = "darkorange", lwd = 2)
 segments(right_child[1], right_child[2], right_right[1], right_right[2], col = "darkorange", lwd = 2)
 
-# Draw nodes
 draw_node(root[1], root[2])
 draw_node(left_child[1], left_child[2])
 draw_node(right_child[1], right_child[2])
@@ -261,7 +260,6 @@ draw_node(left_right[1], left_right[2])
 draw_node(right_left[1], right_left[2])
 draw_node(right_right[1], right_right[2])
 
-# Add title in the same style
 title(main = "Top Down Approach", col.main = "darkorange", font.main = 2)
 
 ```
