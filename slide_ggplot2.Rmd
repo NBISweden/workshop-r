@@ -124,7 +124,22 @@ name: syntax
 
 ![](data/slide_ggplot2/syntax.png)
 
-![](data/slide_ggplot2/syntax_aes_data.png)
+--
+
+<div style="font-size:80%">
+
+| **Component**             | **Purpose / Description**                                          |
+|----------------------------|-------------------------------------------------------------------|
+| `data`                    | Dataset used for plotting.                                        |
+| `mapping` (inside `aes()`) | Defines aesthetic mappings (e.g., x, y, color).                  |
+| `geom_function`            | Specifies geometric object (e.g., `geom_point`, `geom_boxplot`). |
+| `stat`                     | Defines statistical transformation (e.g., `stat_bin`).           |
+| `position`                 | Adjusts object placement (e.g., `position_dodge`).               |
+| `coordinate_function`      | Sets coordinate system (e.g., `coord_flip`, `coord_polar`).      |
+| `facet_function`           | Splits data into panels (e.g., `facet_wrap`, `facet_grid`).      |
+| `scale_function`           | Controls axes and legend scaling (e.g., `scale_x_log10`).        |
+| `theme_function`           | Adjusts visual style (e.g., `theme_bw`, `theme_minimal`).        |
+
 
 ---
 name: gvb1
