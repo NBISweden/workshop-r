@@ -222,20 +222,39 @@ bmi <- weight / height
 name: topic2
 
 # Where to start?
+.pull-left-50[
+```{r simple-chain-of-throught, echo = F}
+plot(0, 0, type = "n", xlim = c(-2, 2), ylim = c(-6, 1),
+     axes = FALSE, xlab = "", ylab = "", main = "What we expect")
 
-
-*Divide et impera* &mdash; divide and rule.
-
-**Top-down approach:** define the big problem and split it into smaller ones. Assume you have solution to the small problems and continue &mdash; push the responsibility down.
-Wishful thinking!
-
-```{r top-down-approach-fig, echo = F, eval = T}
-plot(0, 0, type = "n", xlim = c(-4, 4), ylim = c(-5, 1),
-     axes = FALSE, xlab = "", ylab = "", main = "Top Down Approach")
-
-draw_node <- function(x, y, r = 0.3, col = "darkorange") {
+draw_node <- function(x, y, r = 0.2, col = "darkorange") {
   symbols(x, y, circles = r, inches = FALSE, add = TRUE, fg = col, bg = "white", lwd = 2)
 }
+
+graphics::text(0, 0.5, "Input", col = "darkorange", cex = 1.5)
+graphics::text(0, -5.5, "Output", col = "darkorange", cex = 1.5)
+
+root <- c(0, 0)
+output <- c(0, -5)
+segments(root[1], root[2], output[1], output[2], col = "darkorange", lwd = 2)
+draw_node(root[1], root[2])
+draw_node(output[1], output[2])
+```
+]
+--
+
+.pull-right-50[
+```{r top-down-approach-fig, echo = F, eval = T, fig.align='right'}
+plot(0, 0, type = "n", xlim = c(-4, 4), ylim = c(-7, 1),
+     axes = FALSE, xlab = "", ylab = "", main = "Top Down Approach")
+
+draw_node <- function(x, y, r = 0.2, col = "darkorange") {
+  symbols(x, y, circles = r, inches = FALSE, add = TRUE, fg = col, bg = "white", lwd = 2)
+}
+
+graphics::text(0, 0.5, "Input", col = "darkorange", cex = 1.5)
+graphics::text(0, -6.4, "Output", col = "darkorange", cex = 1.5)
+
 
 root <- c(0, 0)
 left_child <- c(-2, -2)
@@ -244,6 +263,8 @@ left_left <- c(-3, -4)
 left_right <- c(-1, -4)
 right_left <- c(1, -4)
 right_right <- c(3, -4)
+right_right_output <- c(0,-6)
+right_right_output <- c(0,-6)
 
 segments(root[1], root[2], left_child[1], left_child[2], col = "darkorange", lwd = 2)
 segments(root[1], root[2], right_child[1], right_child[2], col = "darkorange", lwd = 2)
@@ -252,6 +273,11 @@ segments(left_child[1], left_child[2], left_right[1], left_right[2], col = "dark
 segments(right_child[1], right_child[2], right_left[1], right_left[2], col = "darkorange", lwd = 2)
 segments(right_child[1], right_child[2], right_right[1], right_right[2], col = "darkorange", lwd = 2)
 
+segments(right_right[1], right_right[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2)
+segments(right_left[1], right_left[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2)
+segments(left_right[1], left_right[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2)
+segments(left_left[1], left_left[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2)
+
 draw_node(root[1], root[2])
 draw_node(left_child[1], left_child[2])
 draw_node(right_child[1], right_child[2])
@@ -259,10 +285,14 @@ draw_node(left_left[1], left_left[2])
 draw_node(left_right[1], left_right[2])
 draw_node(right_left[1], right_left[2])
 draw_node(right_right[1], right_right[2])
-
-title(main = "Top Down Approach", col.main = "darkorange", font.main = 2)
-
+draw_node(right_right_output[1], right_right_output[2])
 ```
+]
+
+*Divide et impera* &mdash; divide and rule.
+
+**Top-down approach (or chain of thought):** define the big problem and split it into smaller ones. Assume you have solution to the small problems and continue &mdash; push the responsibility down.
+Wishful thinking!
 
 ---
 
@@ -436,7 +466,6 @@ For more info, visit [Bioconductor website](http://www.bioconductor.org/install/
 ---
 # One package to rule them all -- the magic of `renv`
 
-✨ One package to rule them all — the magic of renv ✨
 - Start once → `renv::init()` (sets up your project’s toolbox)  
 - While working → `renv::snapshot()` (save the toolbox state)  
 - Share with a friend → send the `renv.lock` file  
