@@ -115,8 +115,11 @@ name: variables_naming
 
 - How to write variable names?
 - What is legal/valid?
-- What is a good style?
+- What is a good style?  
 
+ 
+--
+<img src="images/JimCar.png" style="width:20%;float:right; margin-left:20px;" />
 --
 
 A syntactically valid name consists of letters, numbers and the dot or underline characters and starts with a letter or the dot not followed by a number.  
