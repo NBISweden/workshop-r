@@ -67,7 +67,7 @@ ggplot(data=iris)+
 
 ## Multiple geoms
 
-Further geoms can be added. For example let's add a regression line. When multiple geoms with the same aesthetics are used, they can be specified as a common mapping. Note that the order in which geoms are plotted depends on the order in which the geoms are supplied in the code. In the code below, the points are plotted first and then the regression line. 
+Further `geoms` can be added. For example let's add a regression line. When multiple `geoms` with the same aesthetics are used, they can be specified as a common mapping. Note that the order in which `geoms` are plotted depends on the order in which the `geoms` are supplied in the code. In the code below, the **points** are plotted first and then the **regression line**.   
 
 ```{r,fig.height=4,fig.width=4}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
@@ -80,7 +80,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 We can use the categorical column `Species` to color the points. The color aesthetic is used by `geom_point` and `geom_smooth`. Three different regression lines are now drawn. Notice that a legend is automatically created.
 
 ```{r,fig.height=4,fig.width=5}
-ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width,color=Species))+
+ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width,colour=Species))+
   geom_point()+
   geom_smooth(method="lm")
 ```
@@ -161,9 +161,9 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
        y="Petal Width", caption="This is a little caption.")
 ```
 
-## Facetting
+## Faceting
 
-We can create subplots using the facetting functionality. Let's create three subplots for the three levels of Species.
+We can create subplots using the faceting functionality. Let's create three subplots for the three levels of Species.
 
 ```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
@@ -192,7 +192,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   theme_bw()
 ```
 
-All non-data related aspects of the plot can be modified through themes. Let's modify the colors of the title labels and turn off the gridlines. The various parameters for theme ca be found using `?theme`.
+All non-data related aspects of the plot can be modified through themes. Let's modify the colors of the title labels and turn off the grid lines. The various parameters for theme ca be found using `?theme`.
 
 ```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
