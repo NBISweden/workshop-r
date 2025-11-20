@@ -281,7 +281,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 
 ## Labelling
 
-Items on the plot can be labelled using the `geom_text` or `geom_label` geoms.
+Items on the plot can be labelled using the `geom_text` or `geom_label`.  
 
 ```{r,fig.height=4,fig.width=5,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
