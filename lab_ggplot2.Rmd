@@ -654,6 +654,7 @@ ggplot(d2,aes(x=date,y=countriesAndTerritories,fill=casesp))+
         panel.grid.major = element_blank(),
         legend.position = "top",
         legend.direction = "horizontal")
+#pheatmap::pheatmap(d3,cluster_cols = F,scale = "none")
 ```
 
 It would be nice to have the countries grouping together based on the trend rather than just alphabetical order. This bit of code below clusters countries based on the data. Therefore, countries with similar case patterns should cluster together.
