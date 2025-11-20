@@ -281,7 +281,7 @@ head(iris)</code></pre>
 </div>
 <div id="multiple-geoms" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Multiple geoms</h2>
-<p>Further geoms can be added. For example let’s add a regression line. When multiple geoms with the same aesthetics are used, they can be specified as a common mapping. Note that the order in which geoms are plotted depends on the order in which the geoms are supplied in the code. In the code below, the points are plotted first and then the regression line.</p>
+<p>Further <code>geoms</code> can be added. For example let’s add a regression line. When multiple <code>geoms</code> with the same aesthetics are used, they can be specified as a common mapping. Note that the order in which <code>geoms</code> are plotted depends on the order in which the <code>geoms</code> are supplied in the code. In the code below, the <strong>points</strong> are plotted first and then the <strong>regression line</strong>.</p>
 <pre class="r"><code>ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point()+
   geom_smooth(method=&quot;lm&quot;)</code></pre>
@@ -290,7 +290,7 @@ head(iris)</code></pre>
 <div id="using-colors" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Using colors</h2>
 <p>We can use the categorical column <code>Species</code> to color the points. The color aesthetic is used by <code>geom_point</code> and <code>geom_smooth</code>. Three different regression lines are now drawn. Notice that a legend is automatically created.</p>
-<pre class="r"><code>ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width,color=Species))+
+<pre class="r"><code>ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width,colour=Species))+
   geom_point()+
   geom_smooth(method=&quot;lm&quot;)</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
@@ -356,9 +356,9 @@ head(iris)</code></pre>
        y=&quot;Petal Width&quot;, caption=&quot;This is a little caption.&quot;)</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
-<div id="facetting" class="section level2" number="2.10">
-<h2><span class="header-section-number">2.10</span> Facetting</h2>
-<p>We can create subplots using the facetting functionality. Let’s create three subplots for the three levels of Species.</p>
+<div id="faceting" class="section level2" number="2.10">
+<h2><span class="header-section-number">2.10</span> Faceting</h2>
+<p>We can create subplots using the faceting functionality. Let’s create three subplots for the three levels of Species.</p>
 <pre class="r"><code>ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Sepal.Width))+
   geom_smooth(method=&quot;lm&quot;)+
@@ -382,7 +382,7 @@ head(iris)</code></pre>
   facet_wrap(~Species)+
   theme_bw()</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-17-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
-<p>All non-data related aspects of the plot can be modified through themes. Let’s modify the colors of the title labels and turn off the gridlines. The various parameters for theme ca be found using <code>?theme</code>.</p>
+<p>All non-data related aspects of the plot can be modified through themes. Let’s modify the colors of the title labels and turn off the grid lines. The various parameters for theme ca be found using <code>?theme</code>.</p>
 <pre class="r"><code>ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Sepal.Width))+
   geom_smooth(method=&quot;lm&quot;)+
@@ -394,6 +394,7 @@ head(iris)</code></pre>
   theme_bw()+
   theme(
     axis.title=element_text(color=&quot;Blue&quot;,face=&quot;bold&quot;),
+    axis.title.y=element_text(color = &quot;Purple&quot;, face =&quot;italic&quot;),
     plot.title=element_text(color=&quot;Green&quot;,face=&quot;bold&quot;),
     plot.subtitle=element_text(color=&quot;Pink&quot;),
     panel.grid=element_blank()
@@ -442,15 +443,15 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 <p>Legend rows can be controlled in a finer manner.</p>
 <pre class="r"><code>ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species,size=Sepal.Width))+
-  guides(size=guide_legend(nrow=2,byrow=TRUE),
-         color=guide_legend(nrow=3,byrow=T))+
   theme(legend.position=&quot;top&quot;,
-        legend.justification=&quot;right&quot;)</code></pre>
+        legend.justification=&quot;right&quot;)+
+  guides(size=guide_legend(nrow=1,byrow=TRUE),
+         color=guide_legend(nrow=3,byrow=T))</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-24-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="labelling" class="section level2" number="2.13">
 <h2><span class="header-section-number">2.13</span> Labelling</h2>
-<p>Items on the plot can be labelled using the <code>geom_text</code> or <code>geom_label</code> geoms.</p>
+<p>Items on the plot can be labelled using the <code>geom_text</code> or <code>geom_label</code>.</p>
 <pre class="r"><code>ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species))+
   geom_text(aes(label=Species,hjust=0),nudge_x=0.5,size=3)</code></pre>
@@ -459,7 +460,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species))+
   geom_label(aes(label=Species,hjust=0),nudge_x=0.5,size=3)</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-26-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
-<p>Check out the R package <code>ggrepel</code> allows for non-overlapping labels.</p>
+<p>Check out the R package <code>ggrepel</code> allows for non-overlapping labels (<a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html" target="_blank">here</a>).</p>
 </div>
 <div id="annotations" class="section level2" number="2.14">
 <h2><span class="header-section-number">2.14</span> Annotations</h2>
@@ -486,14 +487,22 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
 </div>
 <div id="error-bars" class="section level2" number="2.17">
 <h2><span class="header-section-number">2.17</span> Error Bars</h2>
-<p>An example of using error bars with points. The mean and standard deviation is computed. This is used to create upper and lower bounds for the error bars.</p>
+<p>An example of using error bars with points in few steps:<br />
+- The mean and standard deviation is computed.<br />
+- This is used to create upper and lower bounds for the error bars.</p>
 <pre class="r"><code>dfr &lt;- iris %&gt;% group_by(Species) %&gt;% 
   summarise(mean=mean(Sepal.Length),sd=sd(Sepal.Length)) %&gt;%
   mutate(high=mean+sd,low=mean-sd)
-
+dfr
 ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   geom_point(size=4)+
   geom_errorbar(aes(ymax=high,ymin=low),width=0.2)</code></pre>
+<pre><code>## # A tibble: 3 × 5
+##   Species     mean    sd  high   low
+##   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 setosa      5.01 0.352  5.36  4.65
+## 2 versicolor  5.94 0.516  6.45  5.42
+## 3 virginica   6.59 0.636  7.22  5.95</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-30-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 </div>
@@ -505,7 +514,26 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   filter(month&lt;=9) %&gt;%
   mutate(date=as.Date(as.character(dateRep),&quot;%d/%m/%Y&quot;),
          month=as.factor(month),
-         year=as.factor(year)) </code></pre>
+         year=as.factor(year)) 
+as_tibble(d)</code></pre>
+<pre><code>## # A tibble: 45,951 × 13
+##    dateRep      day month year  cases deaths countriesAndTerritories geoId
+##    &lt;fct&gt;      &lt;int&gt; &lt;fct&gt; &lt;fct&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;                   &lt;fct&gt;
+##  1 30/09/2020    30 9     2020     15      2 Afghanistan             AF   
+##  2 29/09/2020    29 9     2020     12      3 Afghanistan             AF   
+##  3 28/09/2020    28 9     2020      0      0 Afghanistan             AF   
+##  4 27/09/2020    27 9     2020     35      0 Afghanistan             AF   
+##  5 26/09/2020    26 9     2020      6      2 Afghanistan             AF   
+##  6 25/09/2020    25 9     2020     16      0 Afghanistan             AF   
+##  7 24/09/2020    24 9     2020     25      5 Afghanistan             AF   
+##  8 23/09/2020    23 9     2020     71      2 Afghanistan             AF   
+##  9 22/09/2020    22 9     2020     30      3 Afghanistan             AF   
+## 10 21/09/2020    21 9     2020      0      0 Afghanistan             AF   
+## # ℹ 45,941 more rows
+## # ℹ 5 more variables: countryterritoryCode &lt;fct&gt;, popData2019 &lt;int&gt;,
+## #   continentExp &lt;fct&gt;,
+## #   Cumulative_number_for_14_days_of_COVID.19_cases_per_100000 &lt;dbl&gt;,
+## #   date &lt;date&gt;</code></pre>
 <div id="histogram" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Histogram</h2>
 <p>Create a histogram showing the overall distribution of cases.</p>
@@ -525,7 +553,7 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   labs(x=&quot;Date&quot;,y=&quot;Cases&quot;,title=&quot;Sweden | COVID Cases Per Day&quot;)</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>The number of cases per day in Sweden are shown for the period from Jan to Sep. The highest peak is in June and cases were low in summer. Why do you think the line is oscillating up and down rather than being a smooth line?</p>
-<p>Similar to above, create a line plot for the following 8 countries: <code>Sweden, Denmark, Norway, Finland, United_Kingdom, France, Germany, Italy</code> where each country has a different coloured line. Set plot title and axes titles. Change theme to <code>theme_bw()</code>.</p>
+<p>Similar to above, create a line plot for the following 8 countries: <code>Sweden, Denmark, Norway, Finland, United_Kingdom, France, Germany, Italy</code> where each country has a different colored line. Set plot title and axes titles. Change theme to <code>theme_bw()</code>.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   filter(countriesAndTerritories %in% c(&quot;Sweden&quot;, &quot;Denmark&quot;, &quot;Norway&quot;, &quot;Finland&quot;, &quot;United_Kingdom&quot;, &quot;France&quot;, &quot;Germany&quot;, &quot;Italy&quot;)) %&gt;%
   ggplot(aes(x=date,y=cases,colour=countriesAndTerritories))+
@@ -555,7 +583,7 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   theme_bw()</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>This is much easier to read.</p>
-<p>Similarily, we can plot regression lines by changing arguments inside <code>geom_smooth()</code>.</p>
+<p>Similarly, we can plot regression lines by changing arguments inside <code>geom_smooth()</code>.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   filter(countriesAndTerritories %in% c(&quot;Sweden&quot;, &quot;Denmark&quot;, &quot;Norway&quot;, &quot;Finland&quot;, &quot;United_Kingdom&quot;, &quot;France&quot;, &quot;Germany&quot;, &quot;Italy&quot;)) %&gt;%
   ggplot(aes(x=date,y=cases,colour=countriesAndTerritories))+
@@ -573,7 +601,6 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   filter(countriesAndTerritories %in% c(&quot;Sweden&quot;, &quot;Denmark&quot;, &quot;Norway&quot;, &quot;Finland&quot;, &quot;United_Kingdom&quot;, &quot;France&quot;, &quot;Germany&quot;, &quot;Italy&quot;)) %&gt;%
   ggplot(aes(x=month,y=cases,colour=countriesAndTerritories))+
   geom_boxplot()+
-  #facet_wrap(~countriesAndTerritories)+
   scale_color_discrete(name=&quot;Country&quot;)+
   labs(x=&quot;Month&quot;,y=&quot;Cases&quot;,title=&quot;COVID Cases Per Month&quot;)+
   theme_bw()</code></pre>
@@ -603,18 +630,34 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   group_by(continentExp,month) %&gt;%
   summarise(sum=sum(cases,na.rm=TRUE)) %&gt;%
   ggplot(aes(x=month,y=sum,fill=continentExp))+
-  geom_bar(stat=&quot;identity&quot;)</code></pre>
+  geom_bar(stat=&quot;identity&quot;)
+as_tibble(d)</code></pre>
+<pre><code>## # A tibble: 45,951 × 13
+##    dateRep      day month year  cases deaths countriesAndTerritories geoId
+##    &lt;fct&gt;      &lt;int&gt; &lt;fct&gt; &lt;fct&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;                   &lt;fct&gt;
+##  1 30/09/2020    30 9     2020     15      2 Afghanistan             AF   
+##  2 29/09/2020    29 9     2020     12      3 Afghanistan             AF   
+##  3 28/09/2020    28 9     2020      0      0 Afghanistan             AF   
+##  4 27/09/2020    27 9     2020     35      0 Afghanistan             AF   
+##  5 26/09/2020    26 9     2020      6      2 Afghanistan             AF   
+##  6 25/09/2020    25 9     2020     16      0 Afghanistan             AF   
+##  7 24/09/2020    24 9     2020     25      5 Afghanistan             AF   
+##  8 23/09/2020    23 9     2020     71      2 Afghanistan             AF   
+##  9 22/09/2020    22 9     2020     30      3 Afghanistan             AF   
+## 10 21/09/2020    21 9     2020      0      0 Afghanistan             AF   
+## # ℹ 45,941 more rows
+## # ℹ 5 more variables: countryterritoryCode &lt;fct&gt;, popData2019 &lt;int&gt;,
+## #   continentExp &lt;fct&gt;,
+## #   Cumulative_number_for_14_days_of_COVID.19_cases_per_100000 &lt;dbl&gt;,
+## #   date &lt;date&gt;</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>This figure shows the total number of cases per month across the globe. Continent-wise information shows that a large proportion of the cases are in America followed by Asia. The more common usage of stacked barplots is to show proportion/percentage rather than absolute counts (ie; all the bars are same height).</p>
 <p>Create a stacked barplot as above showing proportion of total cases on the y-axis.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   group_by(continentExp,month) %&gt;%
   summarise(sum=sum(cases,na.rm=TRUE)) %&gt;%
-  ungroup() %&gt;%
   group_by(month) %&gt;%
-  mutate(total=sum(sum,na.rm=TRUE)) %&gt;%
-  ungroup() %&gt;%
-  mutate(frac=round(sum/total,5)) %&gt;%
+  mutate(total=sum(sum,na.rm=TRUE), frac=round(sum/total,5)) %&gt;%
   ggplot(aes(x=month,y=frac,fill=continentExp))+
   geom_bar(stat=&quot;identity&quot;)+
   scale_fill_discrete(name=&quot;Continent&quot;)+
@@ -622,7 +665,9 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   labs(x=&quot;Month&quot;,y=&quot;Proportion of Cases&quot;)</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-42-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Now, we can see that the pandemic initially started with 100% of the cases in the Asia. As we can also see the rise and fall of cases over summer.</p>
-<p>Now let’s look at barplots with error bars. First, create a barplot showing mean number of cases per continent per month. Place the bars within a group (month) next to each other rather than stack.</p>
+<p>Now let’s look at barplots with error bars.
+- First, create a barplot showing mean number of cases per continent per month.
+- Second, place the bars within a group (month) next to each other rather than stack.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   group_by(continentExp,month) %&gt;%
   summarise(mean=mean(cases,na.rm=TRUE)) %&gt;%
@@ -640,7 +685,7 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
             low=mean-sd) %&gt;%
   ggplot(aes(x=month,y=mean,fill=continentExp))+
   geom_bar(stat=&quot;identity&quot;,position=position_dodge())+
-  geom_errorbar(aes(ymax=high,ymin=low),position=position_dodge(width=0.9),colour=&quot;grey40&quot;)+
+  geom_errorbar(aes(ymax=high,ymin=low),position=position_dodge(),colour=&quot;grey40&quot;)+
   scale_fill_discrete(name=&quot;Continent&quot;)+
   labs(x=&quot;Month&quot;,y=&quot;Mean cases per Month&quot;)</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-44-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
@@ -652,7 +697,7 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   geom_point()</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-45-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Scatterplots are extremely useful in visually inspecting relationships between variables.</p>
-<p>Scatterplots can also be used with categorical variables. Create a scatterplot with month on the x-axis and cases per month on the y-axis. Colour the points by continent.</p>
+<p>Scatterplots can also be used with categorical variables. Create a scatterplot with month on the x-axis and cases per month on the y-axis. Color the points by continent.</p>
 <pre class="r blur-effect"><code>ggplot(d,aes(x=month,y=cases,colour=continentExp))+
   geom_point()+
   scale_colour_discrete(name=&quot;Continent&quot;)+
@@ -664,7 +709,7 @@ ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   scale_colour_discrete(name=&quot;Continent&quot;)+
   labs(x=&quot;Month&quot;,y=&quot;Cases per Month&quot;)</code></pre>
 <p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-47-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
-<p>Create a scatterplot with month on the x-axis and <strong>mean</strong> cases per month on the y-axis. Colour the points by continent.</p>
+<p>Create a scatterplot with month on the x-axis and <strong>mean</strong> cases per month on the y-axis. Color the points by continent.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   group_by(month,continentExp) %&gt;%
   summarise(mean=mean(cases,na.rm=TRUE)) %&gt;%
