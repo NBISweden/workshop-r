@@ -295,11 +295,11 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_label(aes(label=Species,hjust=0),nudge_x=0.5,size=3)
 ```
 
-Check out the R package `ggrepel` allows for non-overlapping labels.
+Check out the R package `ggrepel` allows for non-overlapping labels ([here](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)).
 
 ## Annotations
 
-Custom annotations of any geom can be added arbitrarily anywhere on the plot.
+Custom annotations of any geom can be added arbitrarily anywhere on the plot.  
 
 ```{r,fig.height=4,fig.width=6,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
