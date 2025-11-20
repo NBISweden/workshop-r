@@ -273,10 +273,10 @@ Legend rows can be controlled in a finer manner.
 ```{r,fig.height=4,fig.width=5,dev="png"}
 ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_point(aes(color=Species,size=Sepal.Width))+
-  guides(size=guide_legend(nrow=2,byrow=TRUE),
-         color=guide_legend(nrow=3,byrow=T))+
   theme(legend.position="top",
-        legend.justification="right")
+        legend.justification="right")+
+  guides(size=guide_legend(nrow=1,byrow=TRUE),
+         color=guide_legend(nrow=3,byrow=T))
 ```
 
 ## Labelling
