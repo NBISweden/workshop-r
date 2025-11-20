@@ -206,6 +206,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   theme_bw()+
   theme(
     axis.title=element_text(color="Blue",face="bold"),
+    axis.title.y=element_text(color = "Purple", face ="italic"),
     plot.title=element_text(color="Green",face="bold"),
     plot.subtitle=element_text(color="Pink"),
     panel.grid=element_blank()
