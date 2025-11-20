@@ -295,7 +295,7 @@ ggplot(data=iris,mapping=aes(x=Petal.Length,y=Petal.Width))+
   geom_label(aes(label=Species,hjust=0),nudge_x=0.5,size=3)
 ```
 
-Check out the R package `ggrepel` allows for non-overlapping labels ([here](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)).
+Check out the R package `ggrepel` allows for non-overlapping labels ([here](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)).  
 
 ## Annotations
 
@@ -327,13 +327,15 @@ ggplot(data=iris,mapping=aes(x=Species,y=Petal.Width))+
 
 ## Error Bars
 
-An example of using error bars with points. The mean and standard deviation is computed. This is used to create upper and lower bounds for the error bars.
+An example of using error bars with points in few steps:  
+- The mean and standard deviation is computed.  
+- This is used to create upper and lower bounds for the error bars.  
 
 ```{r,fig.height=4,fig.width=6}
 dfr <- iris %>% group_by(Species) %>% 
   summarise(mean=mean(Sepal.Length),sd=sd(Sepal.Length)) %>%
   mutate(high=mean+sd,low=mean-sd)
-
+dfr
 ggplot(data=dfr,mapping=aes(x=Species,y=mean,color=Species))+
   geom_point(size=4)+
   geom_errorbar(aes(ymax=high,ymin=low),width=0.2)
@@ -351,6 +353,7 @@ d <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/dat
   mutate(date=as.Date(as.character(dateRep),"%d/%m/%Y"),
          month=as.factor(month),
          year=as.factor(year)) 
+as_tibble(d)
 ```
 
 ## Histogram
@@ -379,7 +382,7 @@ d %>%
 
 The number of cases per day in Sweden are shown for the period from Jan to Sep. The highest peak is in June and cases were low in summer. Why do you think the line is oscillating up and down rather than being a smooth line?
 
-Similar to above, create a line plot for the following 8 countries: `Sweden, Denmark, Norway, Finland, United_Kingdom, France, Germany, Italy` where each country has a different coloured line. Set plot title and axes titles. Change theme to `theme_bw()`.
+Similar to above, create a line plot for the following 8 countries: `Sweden, Denmark, Norway, Finland, United_Kingdom, France, Germany, Italy` where each country has a different colored line. Set plot title and axes titles. Change theme to `theme_bw()`.
 
 ```{r,class.source="blur-effect"}
 d %>%
@@ -419,7 +422,7 @@ d %>%
 
 This is much easier to read.
 
-Similarily, we can plot regression lines by changing arguments inside `geom_smooth()`.
+Similarly, we can plot regression lines by changing arguments inside `geom_smooth()`.
 
 ```{r,class.source="blur-effect"}
 d %>%
@@ -441,7 +444,6 @@ d %>%
   filter(countriesAndTerritories %in% c("Sweden", "Denmark", "Norway", "Finland", "United_Kingdom", "France", "Germany", "Italy")) %>%
   ggplot(aes(x=month,y=cases,colour=countriesAndTerritories))+
   geom_boxplot()+
-  #facet_wrap(~countriesAndTerritories)+
   scale_color_discrete(name="Country")+
   labs(x="Month",y="Cases",title="COVID Cases Per Month")+
   theme_bw()
@@ -480,6 +482,7 @@ d %>%
   summarise(sum=sum(cases,na.rm=TRUE)) %>%
   ggplot(aes(x=month,y=sum,fill=continentExp))+
   geom_bar(stat="identity")
+as_tibble(d)
 ```
 
 This figure shows the total number of cases per month across the globe. Continent-wise information shows that a large proportion of the cases are in America followed by Asia. The more common usage of stacked barplots is to show proportion/percentage rather than absolute counts (ie; all the bars are same height).
@@ -490,11 +493,8 @@ Create a stacked barplot as above showing proportion of total cases on the y-axi
 d %>%
   group_by(continentExp,month) %>%
   summarise(sum=sum(cases,na.rm=TRUE)) %>%
-  ungroup() %>%
   group_by(month) %>%
-  mutate(total=sum(sum,na.rm=TRUE)) %>%
-  ungroup() %>%
-  mutate(frac=round(sum/total,5)) %>%
+  mutate(total=sum(sum,na.rm=TRUE), frac=round(sum/total,5)) %>%
   ggplot(aes(x=month,y=frac,fill=continentExp))+
   geom_bar(stat="identity")+
   scale_fill_discrete(name="Continent")+
@@ -504,7 +504,9 @@ d %>%
 
 Now, we can see that the pandemic initially started with 100% of the cases in the Asia. As we can also see the rise and fall of cases over summer.
 
-Now let's look at barplots with error bars. First, create a barplot showing mean number of cases per continent per month. Place the bars within a group (month) next to each other rather than stack.
+Now let's look at barplots with error bars. 
+- First, create a barplot showing mean number of cases per continent per month. 
+- Second, place the bars within a group (month) next to each other rather than stack.
 
 ```{r,class.source="blur-effect"}
 d %>%
@@ -527,7 +529,7 @@ d %>%
             low=mean-sd) %>%
   ggplot(aes(x=month,y=mean,fill=continentExp))+
   geom_bar(stat="identity",position=position_dodge())+
-  geom_errorbar(aes(ymax=high,ymin=low),position=position_dodge(width=0.9),colour="grey40")+
+  geom_errorbar(aes(ymax=high,ymin=low),position=position_dodge(),colour="grey40")+
   scale_fill_discrete(name="Continent")+
   labs(x="Month",y="Mean cases per Month")
 ```
@@ -543,7 +545,7 @@ ggplot(d,aes(cases,deaths))+
 
 Scatterplots are extremely useful in visually inspecting relationships between variables.
 
-Scatterplots can also be used with categorical variables. Create a scatterplot with month on the x-axis and cases per month on the y-axis. Colour the points by continent.
+Scatterplots can also be used with categorical variables. Create a scatterplot with month on the x-axis and cases per month on the y-axis. Color the points by continent.
 
 ```{r,class.source="blur-effect",dev="png"}
 ggplot(d,aes(x=month,y=cases,colour=continentExp))+
@@ -561,7 +563,7 @@ ggplot(d,aes(x=month,y=cases,colour=continentExp))+
   labs(x="Month",y="Cases per Month")
 ```
 
-Create a scatterplot with month on the x-axis and **mean** cases per month on the y-axis. Colour the points by continent.
+Create a scatterplot with month on the x-axis and **mean** cases per month on the y-axis. Color the points by continent.
 
 ```{r,class.source="blur-effect",dev="png"}
 d %>%
@@ -652,7 +654,6 @@ ggplot(d2,aes(x=date,y=countriesAndTerritories,fill=casesp))+
         panel.grid.major = element_blank(),
         legend.position = "top",
         legend.direction = "horizontal")
-#pheatmap::pheatmap(d3,cluster_cols = F,scale = "none")
 ```
 
 It would be nice to have the countries grouping together based on the trend rather than just alphabetical order. This bit of code below clusters countries based on the data. Therefore, countries with similar case patterns should cluster together.
