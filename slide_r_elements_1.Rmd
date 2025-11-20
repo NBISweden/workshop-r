@@ -46,9 +46,8 @@ name: intro
 
 # Introduction
 
-Today, we will talk about various elements of a programming language and see how they are realized in R.
+In this lecture we will cover the basic elements of R language:  
 
-# Contents
 
 - **variables and their types**
 - **operators**
@@ -70,17 +69,31 @@ name: variables
 
 # Variables
 
-- Creating a variable is simply assigning a name to some structure that stores data...
+Imagine that you want to manipulate some numbers in your project simple operations can be done `2 + 2` but what if you want to do more complex operations or use the same number multiple times? 
 
-```{r variables,echo=TRUE,size='Tiny'}
-7 + 9
-a <- 7
-a
-b <- 9
-b
-c <- a + b
-c
+```{r simple.addition,echo=TRUE,size='Tiny', eval=FALSE}
+2 + 2
+2 + 2 + 5
+2 + 2 + 5 +10 
+....
 ```
+--
+
+To use the same number multiple times you can use a **variable** to store the number and use the variable name instead of the number itself.  
+We assign given value to a variable using `<-` operator (aka *assignment operator*).  
+
+```{r assignment_operator,echo=TRUE,size='Tiny', eval=FALSE}
+a <- 2 + 2
+b <- 5 
+c <- 5 + 10
+sum_a_b <- a + b
+sum_all <- a + b + c
+```
+--
+
+# Is `<-` equivalent to `=`? Which one shall I use?  
+
+- `val <- 3`, `val = 3` and `3 -> val` are three equivalent ways of assigning in R, But, it's best to use only `<-` to avoid possible confusion. The equal sign `=` should be used when setting function arguments ie; `f(a = 3)`.  
 
 ---
 # Variables cted.
@@ -94,9 +107,6 @@ text1
 text2
 ```
 
-# Is `<-` equivalent to `=`? Which one shall I use?
-
-- `val <- 3`, `val = 3` and `3 -> val` are three equivalent ways of assigning in R, But, it's best to use only `<-` to avoid possible confusion. The equal sign `=` should be used when setting function arguments ie; `f(a = 3)`.
 
 ---
 name: variables_naming
@@ -105,8 +115,11 @@ name: variables_naming
 
 - How to write variable names?
 - What is legal/valid?
-- What is a good style?
+- What is a good style?  
 
+ 
+--
+<img src="images/JimCar.png" style="width:20%;float:right; margin-left:20px;" />
 --
 
 A syntactically valid name consists of letters, numbers and the dot or underline characters and starts with a letter or the dot not followed by a number.  
@@ -115,15 +128,27 @@ A syntactically valid name consists of letters, numbers and the dot or underline
 
 Names such as ".2way" are not valid, and neither are the so-called *reserved words*.  
 
---
+---
+name: variables_naming_reserved
 
 # Reserved words
 
 - `if, else, repeat, while, function, for, in, next, break, TRUE, FALSE, NULL, Inf, NaN, NA, NA_integer_, NA_real_, NA_complex_, NA_character_`  
 
-- and you also **cannot** use: `c, q, t, C, D, I`
+- and you also **cannot** use: `c, q, t, C, D, I` and **SHOULD NOT** `T, F`
 
-- and you **should not** use: `T, F`
+| Symbol | Function                   | Typical Use                        | 
+| ------ | -------------------------- | ---------------------------------- | 
+| `c`    | Combine values             | Create vectors                     | 
+| `q`    | Quit session               | Exit R safely                      | 
+| `t`    | Transpose                  | Matrix operations                  | 
+| `C`    | Complex number constructor | Create complex values              | 
+| `D`    | Derivative                 | Symbolic differentiation           | 
+| `I`    | Inhibit interpretation     | Keep operators literal in formulas | 
+| `T`   | Logical TRUE                | Logical operations                  |
+| `F`   | Logical FALSE               | Logical operations                  |
+
+
 
 ---
 name: variables_good_style
@@ -157,7 +182,13 @@ name: variables_good_style
     - `cnt` for counters;
     - `i,j,k` within loops,
     - `pwd` - for password...
+--
 
+**Why to care at all, I just want to analyze my data?**
+
+- For your future self, coming back to the code after a while.  
+- For your collaborators, who will read your code. 
+- For the community, if you share your code publicly.  
 ---
 name: data_types_1
 
@@ -175,28 +206,33 @@ name: class_type_mode
 
 # Classes, types, and modes
 
-- `class` what type of object is it for R,
+- `class` what type of object is it for R; **objects can be data (variables), functions, and models**.  
 - `typeof()` what R thinks it is,
-- `mode()` how S language would see it (backward compatibility),
-- `storage.mode()` how is it stored in the memory; useful when talking to C or Java,
 
 ```{r class,echo=TRUE,eval=TRUE}
 x <- 1:3
+x
 class(x)
 typeof(x)
-mode(x)
-storage.mode(x)
+
+y <- 'hello'
+y
+class(y)
+typeof(y)
+
+lm <- lm(Sepal.Length ~ Sepal.Width, data=iris) # lm is a function for linear models. 
+class(lm)
 ```
 
 ---
 name: type_casting
 
-# Type casting
+# Type casting (Converting data types)  
 
 By default, any *numeric* is stored as *double* !
 
 ```{r variable types2,echo=TRUE}
-y=12 # now assign an integer value to y
+y <- 12 # now assign an integer value to y
 class(y) # still numeric
 typeof(y) # an integer, but still a double!
 ```
@@ -227,6 +263,7 @@ pi
 pi <- as.double(pi) # trying to rescue the situation
 pi
 ```
+--
 
 Casting is not rounding!
 
@@ -254,7 +291,7 @@ name: coercion
 ```{r casting.string,echo=TRUE}
 as.numeric('4.5678')
 as.double('4.5678')
-as.numeric('R course is cool!')
+as.numeric('Nima is a cool teacher :) !')
 ```
 
 ---
@@ -270,7 +307,7 @@ name: some_special_values
 and also:
 
 ```{r special.values2,echo=TRUE}
-112345^67890  # Also infinity for R
+112345^67890  # Also infinity for R;  "^" means "to the power of"; 2^2 = 4
 1/2e78996543  # Zero for R
 Inf - Inf # Not a Number
 ```
@@ -288,18 +325,6 @@ b
 class(a)
 typeof(a)
 ```
-
-R has three logical values: TRUE, FALSE and NA.
-
-```{r logical.type2,echo=TRUE}
-x <- c(TRUE, FALSE, NA)
-names(x) <- as.character(x)
-and_truth_table <- outer(x, x, "&") # AND table
-```
-```{r logical.DT, echo=FALSE}
-kableExtra::kable(and_truth_table)
-```
-
 ---
 name: logical_cted
 
@@ -359,14 +384,22 @@ name: character_type_2
 
 # Character type
 
-```{r char.type2,echo=TRUE}
+```{r char.type2,echo=TRUE, eval = FALSE}
 number <- 3.14
 number.text <- as.character(number) # cast to char
 number.text
 class(number.text)
 as.numeric(number.text) # and the other way round
 ```
+--
 
+```{r char.type2_result,echo=FALSE, eval = TRUE}
+number <- 3.14
+number.text <- as.character(number) # cast to char
+number.text
+class(number.text)
+as.numeric(number.text) # and the other way round
+```
 ---
 name: basic_string_ops
 
@@ -392,6 +425,32 @@ name: basic_printing
   val <- 345.78
   sprintf("The weight of a %s ball is  %g g", txt, val)
 ```
+---
+# What did we learn?
+<div style="font-size:70%"> 
+ 
+| Concept            | Key Idea                                         | Example / Tip            |
+| ------------------ | ------------------------------------------------ | ------------------------ |
+| **Variables**      | Store data using names                           | `x <- 5`                 |
+| **Assignment**     | Prefer `<-` for clarity                          | `a <- 2 + 2`             |
+| **Naming rules**   | Must start with letter/dot; avoid reserved words | ❌ `if`, `c`, `T`, `F`    |
+| **Good style**     | Use clear, consistent names                      | `gene_count`, `sampleID` |
+| **Data types**     | Numeric, character, logical, etc.                | `typeof(x)` / `class(x)` |
+| **Type casting**   | Change one type to another                       | `as.integer(3.14)`       |
+| **Special values** | `Inf`, `-Inf`, `NaN`, `NA`                       | `1/0 → Inf`              |
+| **Logical values** | TRUE/FALSE behave like 1/0                       | `TRUE + FALSE → 1`       |
+| **Strings**        | Text manipulation                                | `paste("R", "rocks!")`   |
+| **Operators**      | `+ − * / ^`  (power)                               | `2^3 → 8`                |
+| **Objects**        | Everything in R is an object                     | data, functions, models  |
+
+--
+<div style="font-size:100%"> 
+**Remember**
+- R treats everything as an **object**.  
+- Use `class()` to see what kind of object it is.  
+- Use `typeof()` to see how it’s stored internally.  
+- Code readability **>>** clever shortcuts.  
+- Naming and clarity make collaboration easier.  
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 

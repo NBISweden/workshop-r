@@ -39,26 +39,17 @@ knitr::opts_chunk$set(echo = TRUE, width=60, fig.align = 'center')
 #library(stringr)
 #library(ggplot2)
 #library(mkteachr)
+#library(vcd)
 ```
 
 ---
-name: ex1_graphics
-
-# Example graphics
-
-
-![](data/slide_base_graphics/Life_expectancy_country.png)
-
-Life expectancy.
-
----
 name: ex2_graphics
-# Exampel graphics
+# Example graphics
 .pull-left-70[
 ![](data/slide_base_graphics/Gapminder_GDP.gif)
 ]
 ---
-name: grapgical_devices
+name: graphical_devices
 class: spaced
 
 # Graphical devices
@@ -105,7 +96,8 @@ class: spaced
 
 ```{r graphdevex, eval=FALSE, tidy=FALSE}
 png(filename = 'myplot.png', width = 320, height = 320, antialias = T)
-# anti-aliasing, a technique that smooths the edges of shapes and text in the plot, making them appear less pixelated or jagged.
+# anti-aliasing, a technique that smooths the edges of shapes and text in the plot, 
+# making them appear less pixelated or jagged.
 plot(x=c(1,2,7), y=c(2,3,5))
 dev.off()
 ```
@@ -178,27 +170,27 @@ name: plot_anatomy_2
 # Anatomy of a plot &mdash; episode 2
 
 .pull-left-50[
-There is many parameters one can set in `plot()`. Let's have a closer look at some of them:
-* pch &ndash; type of the plotting symbol
-* col &ndash; color of the points
-* cex &ndash; scale for points
-* main &ndash; main title of the plot
-* sub &ndash; subtitle of the plot
-* xlab &ndash; X-axis label
-* ylab &ndash; Y-axis label
-* las &ndash; axis labels orientation
-* cex.axis &ndash; axis lables scale
-* xlim &ndash; X-axis limits or range   
-* ylim &ndash; Y-axis limits or range  
+There are many parameters one can set in `plot()`. Let's have a closer look at some of them:
+* `pch` &ndash; type of the plotting symbol
+* `col` &ndash; color of the points
+* `cex` &ndash; scale for points
+* `main` &ndash; main title of the plot
+* `sub` &ndash; subtitle of the plot
+* `xlab` &ndash; X-axis label
+* `ylab` &ndash; Y-axis label
+* `las` &ndash; axis labels orientation
+* `cex.axis` &ndash; axis lables scale
+* `xlim` &ndash; X-axis limits or range   
+* `ylim` &ndash; Y-axis limits or range  
 ]
 
 .pull-right-50[
 Let's make our plot a bit fancier...
-```{r plot2, eval=TRUE, tidy=TRUE}
+```{r plot2, eval=TRUE}
 # recycling rule in action!
-plot(df, pch=c(15,17,19),
-col=c("tomato", "slateblue"),
-main="Three points", sub="Stage 1")
+plot(df, pch=c(15,17,19), 
+     col=c("tomato", "slateblue"),
+     main="Three points", sub="Stage 1")
 ```
 ]
 
@@ -311,7 +303,7 @@ class: spaced
 There is a few points you should have in mind when working with plots:
 
 --
-* raster or vector graphics,
+* raster (png, jpegm tiff) or vector graphics (svg, pdf, eps),
 
 --
 * colors, e.g. color-blind people, warm vs. cool colors and optical illusions (check [colorbrewer2.org](https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3)),
@@ -323,8 +315,13 @@ There is a few points you should have in mind when working with plots:
 * use black and shades of grey for things you do not need to emphasize, i.e. basically everything except your main result,
 
 --
-* avoid 3 axes on one figure.
+* avoid 3 axes on one figure.  
 
+???
+Raster graphics are made of pixels (tiny colored squares). They are resolution-dependent — zooming in makes them blurry. Common formats: PNG, JPEG, TIFF.
+Vector graphics are made of mathematical paths (lines, curves, shapes). They are resolution-independent — can be scaled without losing quality. Common formats: SVG, PDF, EPS.
+
+A bonus note about tiff; tiff is a high-quality raster format — great for preserving detail, but still resolution-dependent (unlike vector graphics).
 ---
 name: many_plots_on_one_fig
 
