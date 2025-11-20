@@ -43,23 +43,13 @@ knitr::opts_chunk$set(echo = TRUE, width=60, fig.align = 'center')
 ```
 
 ---
-name: ex1_graphics
-
-# Example graphics
-
-
-![](data/slide_base_graphics/Life_expectancy_country.png)
-
-Life expectancy.
-
----
 name: ex2_graphics
-# Exampel graphics
+# Example graphics
 .pull-left-70[
 ![](data/slide_base_graphics/Gapminder_GDP.gif)
 ]
 ---
-name: grapgical_devices
+name: graphical_devices
 class: spaced
 
 # Graphical devices
