@@ -1,6 +1,6 @@
 ---
 title: "Matrices, Lists and Dataframes"
-subtitle: "R Programming Foundation for Life Scientists"
+subtitle: "R Programming Foundations for Data Analysis"
 output:
   bookdown::html_document2:
     highlight: textmate
@@ -26,42 +26,28 @@ output:
 
 # Introduction
 
-A data set that have more than one dimension is conceptually hard to
-store as a vector. For two-dimensional data set the solution to this
-is to instead use matrices or data frames. As with vectors all values
-in a matrix has to be of the same type (eg. you can not mix for
-example characters and numerics in the same matrix). For data frames
-this is not a requirement and different columns can have different
-modes, but all columns in a data frame have the same number of
-entries. In addition to these R also have objects named lists that can
-store any type of data set and are not restricted by types or dimensions.
+A data set that has more than one dimension is conceptually hard to
+store as a vector. For these two-dimensional data sets the solution is to instead use matrices or data frames. As with vectors, all values
+in a matrix have to be of the same type (e.g. you cannot mix characters and numerics in the same matrix. I mean, you can, but they will get coerced to characters). For data frames this homogeneity is not a requirement and different columns can have different data types, but all columns in a data frame must have the same number of entries. In addition to these, R also have objects named lists that can store any type of data set and are not restricted by types or dimensions.
 
 In this exercise you will learn how to:
 
 - Create and work with matrices, data frames and lists  
-- Perform basic math operator on matrices  
+- Perform basic math on matrices  
 - Use functions to summarize information from data frames  
 - Extract subsets of data from matrices, data frames and lists  
-- Create S3 object from a list  
 
 
 # Matrices
 
-The command to create a matrix in R is `matrix()`.
-As input it takes a vector of values, the number of
-rows and the number of columns.
+The command to create a matrix in R is `matrix()`. As input it takes a vector of values, the number of rows and/or the number of columns.
 
 ```{r}
 X <- matrix(1:12, nrow = 4, ncol = 3)
 X
 ```
 
-Note that if one only specify the number of rows or columns the it
-will infer the size of the matrix automatically using the size of
-vector and the option given. The default way of filling the matrix is
-column-wise, so the first values from the vector ends up in column 1
-of the matrix. If you instead wants to fill the matrix row by row you
-can set the byrow flag to TRUE.
+Note that if you only specify the number of rows or the number of columns, but not both, R will infer the size of the matrix automatically using the size of the input vector and the option given. The default way of filling the matrix is column-wise, so the first values from the vector ends up in column 1 of the matrix. If you instead wants to fill the matrix row by row you can set the byrow flag to TRUE.
 
 ```{r}
 X <- matrix(1:12, nrow = 4, ncol = 3, byrow = TRUE)
@@ -69,15 +55,15 @@ X
 ```
 
 Subsetting a matrix is done the same way as for vectors, but you have
-more than one dimension to work with. So you specify the rows and
-column needed.
+two dimensions to specify. So you specify the rows and
+columns you want.
 
 ```{r}
 X[1,2]
 ```
 
 If one wants all values in a column or a row this can be specified by
-leaving the other dimension empty, hence this code will print all
+leaving the other dimension empty. For e.g. this code will print all
 values in the second column.
 
 ```{r}
@@ -85,21 +71,20 @@ X[,2]
 ```
 
 Note that if the retrieved part of a matrix can be represented as a
-vector (eg one of the dimension have the length 1) R will convert it
-to a vector otherwise it will still be a matrix.
+vector (e.g. has a single dimension) R will convert it
+to a vector. Otherwise it will still be a matrix.
 
 ## Exercise
 
-<i class="fas fa-clipboard-list"></i> Create a matrix containing 1:12 as shown similar to the matrix X above.
+<i class="fas fa-clipboard-list"></i> Create a matrix containing the numbers 1 through 12 with 4 rows and 3 columns, similar to the matrix X shown above.
 
-1.  How do find out the length and the mode of the matrix?
+1.  How do you find out the length of the matrix?
 
 ```{r,accordion=TRUE}
-mode(X)
 length(X)
 ```
 
-2.  Extract all the values in the matrix that is larger than 6.
+2.  Extract/subset all the values in the matrix that are larger than 6.
 
 ```{r,accordion=TRUE}
 X[X>6]
@@ -111,14 +96,14 @@ X[X>6]
 X[,c(3,2,1)]
 ```
 
-4.  Add a vector with three zeros as a fifth row to the matrix
+4.  We can use `rbind` to add rows to a matrix, or `cbind` to add columns. How would you add a vector with three zeros as a fifth row to the matrix?
 
 ```{r,accordion=TRUE}
 X.2 <- rbind(X, rep(0, 3))
 X.2
 ```
 
-5.  Replace all values the first two columns in your matrix with `NA`.
+5.  Replace all values in the first two columns in your matrix with `NA`.
 
 ```{r,accordion=TRUE}
 X[,1:2] <- NA
@@ -132,23 +117,22 @@ X[] <- 0
 as.vector(X)
 ```
 
-7.  In the the earlier exercises, you created a vector with the names of the type Geno\_a\_1, Geno\_a\_2, Geno\_a\_3, Geno\_b\_1, Geno\_b\_2&#x2026;, Geno\_s\_3 using vectors. In a previous lecture, a function named `outer()` that generates matrices was mentioned. Try to generate the same vector as before, but this time using `outer()`. This function is very powerful, but can be hard to wrap you head around, so try to follow the logic, perhaps by creating a simple example to start with.
+7.  In the the vector exercises, you created a vector with the names of the type Geno\_a\_1, Geno\_a\_2, Geno\_a\_3, Geno\_b\_1, Geno\_b\_2&#x2026;, Geno\_s\_3 using vectors. We have previously mentioned a function named `outer()` that generates matrices based on the combination of two datasets. Try to generate the same vector as before, but this time using `outer()`. This function is very powerful, but can be hard to wrap your head around, so try to follow the logic, perhaps by creating a simple example to start with.
 
-```{r}
+```{r, accordion=TRUE}
 letnum <- outer(paste("Geno",letters[1:19], sep = "_"), 1:3, paste, sep = "_")
 class(letnum)
 sort(as.vector(letnum))
 ```
 
-8.  Create two different 2 by 2 matrices named A and B. A should contain the values 1-4 and B the values 5-8. Try out the following commands and by looking at the results see if you can figure out what is going on.
+8.  Create two different 2 by 2 matrices named A and B. **A** should contain the values 1-4 and **B** the values 5-8. Try out the following commands and by looking at the results see if you can figure out what is going on.
 
 ```
 A. A * B
 B. A / B
-C. A %x% B
-D. A + B
-E. A - B
-F. A == B
+C. A + B
+D. A - B
+E. A == B
 ```
 
 ```{r,accordion=TRUE}
@@ -180,7 +164,7 @@ E.mm
 
 # Dataframes
 
-Even though vectors are at the very base of R usage, data frames are central to R as the most common ways to import data into R (`read.table()`) will create a data frame. A data frame consists of a set of equally long vectors. As data frames can contain several different data types the command `str()` is very useful to run on data frames.
+Even though vectors are the basic data structures of R, data frames are very central as they are the most common way to import data into R (e.g. `read.table()` will create a data frame). A data frame consists of a set of equally long vectors. As data frames can contain several different data types the command `str()` is very useful to get an overview of data frames.
 
 ```{r}
 vector1 <- 1:10
@@ -190,15 +174,17 @@ dfr <- data.frame(vector1, vector2, vector3)
 str(dfr)
 ```
 
-In the above example, we can see that the dataframe **dfr** contains 10 observations for three variables that all have different modes, column 1 is an integer vector, column 2 a vector with **factors** and column 3 a numeric vector. It is noteworthy that the second column is a factor even though we just gave it a character vector.
+In the above example, we can see that the dataframe **dfr** contains 10 observations for three variables that all have different classes, column 1 is an integer vector, column 2 a character vector, and column 3 a numeric vector.
 
 ## Exercise
 
-1. Figure out what is going on with the second column in **dfr** data frame described above and modify the creation of the data frame so that the second column is stored as a character vector rather than a factor. Hint: Check the help for `data.frame` to find an argument that turns off the factor conversion.
+1. Figure out how many columns and rows are present in the data frame.
 
 ```{r,accordion=TRUE}
-dfr <- data.frame(vector1, vector2, vector3, stringsAsFactors = FALSE)
-str(dfr)
+dim(dfr)
+# or
+ncol(dfr)
+nrow(dfr)
 ```
 
 2. One can select columns from a data frame using either the name or the position. Use both methods to print the last two columns from the **dfr** data frame.
@@ -229,7 +215,7 @@ ncol(mtcars)
 nrow(mtcars)
 ```
 
-6. Re-arrange (shuffle) the row names of this data frame and save as a vector.
+6. Re-arrange (shuffle) the **row names** of this data frame and save the result as a vector.
 
 ```{r,accordion=TRUE}
 car.names <- sample(row.names(mtcars))
@@ -257,16 +243,9 @@ mt.merged
 colMeans(mtcars2[, c("random1", "random2")])
 ```
 
-Try to modify so you get the mean by cylinder instead. Check out the function `aggregate()`.
-
-```{r,accordion=TRUE}
-aggregate(mtcars2$random1, by=list(mtcars$cyl), FUN=mean)
-```
-
 # Lists
 
-The last data structure that we will explore are lists, which is a very flexible structure. Lists can combine different data structures and they do not have to be of equal dimensions or have
-other restrictions. The drawback with a flexible structure is that it requires a bit more work to interact with.
+The last data structure that we will explore are **lists**, which are very flexible data structures. Lists can combine elements of different types and they do not have to be of equal dimensions. The elements of a list can be pretty much anything, including vectors, matrices, data frames, and even other lists.  The drawback with a flexible structure is that it requires a bit more work to interact with.
 
 The syntax to create a list is similar to creation of the other data structures in R.
 
@@ -280,14 +259,14 @@ As with the data frames the `str()` command is very useful for the sometimes fai
 str(l)
 ```
 
-This example containing only numeric vector is not very exciting example given the flexibility a list structure offers so let's create a more complex example.
+This example of a list containing only a numeric vector is not very exciting, so let's create a more complex example.
 
 ```{r}
 vec1 <- letters
 vec2 <- 1:4
 mat1 <- matrix(1:100, nrow = 5)
 df1 <- as.data.frame(cbind(10:1, 91:100))
-u.2 <- list(vec1, vec2, mat1, df1, l)
+mylist <- list(vec1, vec2, mat1, df1, l)
 ```
 
 As you can see a list can not only contain other data structures, but can also contain other lists.
@@ -295,35 +274,49 @@ As you can see a list can not only contain other data structures, but can also c
 Looking at the `str()` command reveals much of the details of a list
 
 ```{r}
-str(u.2)
+str(mylist)
 ```
 
-With this more complex object, subsetting is slightly trickier than with more the more homogenous objects we have looked at so far.
+With this more complex object, subsetting/selecting is slightly trickier than with the other more homogeneous objects we have looked at so far.
 
-To look at the first entry of a list one can use the same syntax as for the simpler structures, but note that this will give you a list of length 1 irrespective of the actual type of data structure found.
+You can think of the R **List** as a **Pea Pod**.
+
+* Each **individual pea** inside the pod represents one **element** of the list.
+* The **position** of the pea (1st, 2nd, 3rd) is its **index**.
+* Any **label** on a pea (e.g., "Sweet") is the element's **name**. Just like we can name vector elements.
+
+The core of list subsetting is understanding the difference between the two operators, `[]` and `[[]]`. The single square bracket operator `[]` is like using a **kitchen knife to cut a piece off the pod**.
+
+`[]` always returns a **new, smaller pea pod** (a **new list**) containing the elements you selected. The integrity of the container is preserved.
+
+| R Code | Analogy | Result |
+| :--- | :--- | :--- |
+| `my_list[c(1, 3)]` | **Cutting out** the 1st and 3rd sections of the pod. | A **new list** containing only the 1st and 3rd elements. |
+| `my_list["B"]` | Cutting out the section labeled "B". | A **new list** containing just the element named "B". |
+
+The output of this operation is still a list, which means it retains the structure and associated attributes of the original list.
 
 ```{r}
-u.2[1]
-str(u.2[1])
+mylist[1]
+str(mylist[1])
 ```
 
-If one instead wants to extract the list entry as the structure that is stored, one needs to "dig" deeper in the object.
+The double square bracket operator `[[]]` (or the dollar sign `$`) is like opening the pod and taking the pea out with your hand. `[[]]` allows you to access the contents of a single element, returning the pea itself (the actual data stored in that element).
 
 ```{r}
-u.2[[1]]
-str(u.2[[1]])
+mylist[[1]]
+str(mylist[[1]])
 ```
 
-This means that the syntax to extract a specific value from a data structure stored in a list can be daunting. Below we extract the second column of a dataframe stored at position 4 in
-the list **u.2**.  
+This means that the syntax to extract a specific value from a data structure stored in a list can be daunting. Below we extract the second column of a data frame stored at position 4 in the list **mylist**.  
 
 ```{r}
-u.2[[4]][,2]
+mylist[[4]][,2]
 ```
 
 ## Exercise
 
-1. Create a list containing 1 character vector, a numeric vector, a character matrix.
+1. Create a list containing 1 character vector, a numeric vector, and a character matrix.
 
 ```{r,accordion=TRUE}
 list.2 <- list(vec1 = c("hi", "ho", "merry", "christmas"),
@@ -338,7 +331,7 @@ list.2
 dfr <- data.frame(letters, LETTERS, letters == LETTERS)
 ```
 
-Add this dataframe to the list created above.
+Add this data frame to the list created above.
 
 ```{r,accordion=TRUE}
 list.2[[4]] <- dfr
@@ -350,23 +343,15 @@ list.2[[4]] <- dfr
 list.2[-2]
 ```
 
-4. Create a new list that contain 20 sublists, with each entry holding a numeric vector.
+4. Create a new list that contains: a numeric vector, a character vector, and a logical vector.
 
 ```{r,accordion=TRUE}
-vec1 <- rnorm(1000)
-list.a <- split(vec1, 1:20)
+list.a <- list(1:10, letters[1:5], c(T,F,T,F))
 ```
 
-5. How long is your list, and how long are each of the vectors that are part of the list?
+5. How long is your list, and how long are each of the elements in the list? Tip: remember you can apply a function on all elements of a matrix using the `apply` function. You can do the same for lists using `lapply`.
 
 ```{r,accordion=TRUE}
 length(list.a)
 lapply(list.a, FUN = "length")
-```
-
-6. Figure out what the main differences are between the function `lapply()` and `sapply` are and use both of them with the function summary on your newly created list. What are the pros and cons of the two approaches to calculate the same summary statistics?
-
-```{r,accordion=TRUE}
-lapply(X = list.a, FUN = "summary")
-sapply(X = list.a, FUN = "summary")
 ```
