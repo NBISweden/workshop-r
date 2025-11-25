@@ -1,6 +1,6 @@
 ---
 title: "Working with Vectors"
-subtitle: "R Programming Foundation for Life Scientists"
+subtitle: "R Programming Foundations for Data Analysis"
 output:
   bookdown::html_document2:
     highlight: textmate
@@ -26,34 +26,32 @@ output:
 
 # Introduction
 
-There are several different data structures that are commonly used in R. The different data structures can be seen as different ways to organise data. In this exercise we will focus on vectors, which are the base data structure in R, and will also get an overview of the key data types (modes) that are found in R. At the end of this exercise you should know:
+There are several different data structures that are commonly used in R. The different data structures can be seen as different ways to organise data. In this exercise we will focus on vectors, which are the base data structure in R, and will also get an overview of the key data types (classes) that are found in R. At the end of this exercise you should know:
 
 -   What are the data types commonly used in R.
 -   What is a vector.
 -   How to create vectors in an interactive R session.
--   How one can use R functions to determine the structure and mode of a vector.
+-   How one can use R functions to determine the structure and class of a vector.
 -   What basic operators you can find in R
 -   How to subset vector using both indexes and operators.
 -   Try some of the built-in functions in R.
 
 ## Data types
 
-From the lecture you might remember that all elements in any data structures found in R will be of a certain type (or have a certain mode). The four most commonly used data types in R are: logical, integer and double (collectively called numeric), and character. The names hints at what they are.
+From the lecture you might remember that all elements in any data structures found in R will be of a certain type (or have a certain class). The four most commonly used data types in R are: logical, integer and double (collectively called numeric), and character. The names hint at what they are.
 
 -   **Logical** = `TRUE` or `FALSE` (or `NA`), can also be abbreviated `T` or `F`
 -   **Integer** = Numbers that can be represented without fractional component
 -   **Double** = Numbers with a fractional component, and special values like `Inf`, `-Inf`, and `NaN`
 -   **Character** = Any string of text. Special characters must be escaped with `\`
 
-Often, the mode of an entry is automatically determined by R. For example if you save the value 5.1 as a variable, R will recognize it as numeric (double). If you instead have a text string like "hello world" it will have the mode character. Below you will also see examples of how you can specify the mode yourself, and not rely on R guessing it the right.
+Often, the class of an entry is automatically determined by R. For example if you save the value 5.1 as a variable, R will recognize it as numeric (double). If you instead have a text string like "hello world" it will have the class character. Below you will also see examples of how you can specify the class yourself, and not rely on R guessing it correctly.
 
 > If you are used to tools like Microsoft Excel or Google Sheets you might think "why do I have to think of data types? Excel does everything for me!" But remember, Excel is also doing guesswork behind the scenes, and they can get it wrong. For e.g. Excel will often automatically remove leading zeros from numerical values, if your values represent post codes or other IDs this could corrupt your data. It's always best to know for sure.
 
 ## Vectors in R
 
-Depending on the type of data one needs to store in R different data structures can be used. The four most commonly used data structures in R are: vectors, matrices, data frames, and lists. We will in this exercise work only with vectors.
-
-The most basic data structure in R are vectors. Vectors are 1-dimensional data structures that contain only one type of data (e.g. all entries must have the same mode). To create a vector in R one can use the function `c()` (combine) as seen below. This example will create a vector named `example.vector` with 3 elements in it.
+The most basic data structure in R are vectors. Vectors are 1-dimensional data structures that contain only one type of data (e.g. all entries must have the same class). To create a vector in R one can use the function `c()` (combine) as seen below. This example will create a vector named `example.vector` with 3 elements in it.
 
 ```{r}
 example.vector <- c(10, 20, 30)
@@ -61,13 +59,11 @@ example.vector <- c(10, 20, 30)
 
 <i class="fas fa-lightbulb"></i> If you need more information about the function `c()` you can always use the built-in manual in R. Typing `?c()` will bring up the documentation for the function `c()`.
 
-Once you have created this vector in R, you can access it by simply typing its name in an interactive session.
+Once you have created this vector in R, you can see its contents by simply typing its name in the R console and pressing return/enter.
 
 ```{r}
 example.vector
 ```
-
-The output generate on screen shows the entries in your vector and the 1 in squared brackets indicates what position in the vector the entry to the right of it has. In this case 10 is the first entry of the vector.
 
 If we for some reason only wanted to extract the value 10 from this vector we can use the fact that we know it is the first position to do so.
 
@@ -75,7 +71,16 @@ If we for some reason only wanted to extract the value 10 from this vector we ca
 example.vector[1]
 ```
 
-Since a vector can only contain one data type, all members need to be of the same type. If you try to combine data of different types into the same vector, R will not warn you, but instead coerce (turn) it to the most flexible type (From least to most flexible: Logical, integer, double, character). Hence, adding a number to a logical vector will turn the whole vector to a numeric vector.
+Since a vector can only contain one data type, all members need to be of the same type. If you try to combine data of different types into the same vector, R will not warn you, but instead coerce (transform) all values to the most flexible type (From least to most flexible: Logical, integer, double, character). For e.g., adding a number to a logical vector will turn the whole vector to a numeric vector.
+
+```{r}
+vec <- c(T,F,T,T)
+vec
+class(vec)
+vec <- c(vec,2)
+vec
+class(vec)
+```
 
 To check what data type an object is, run the R built-in function `class()`, with the object as the only parameter.
 
@@ -105,13 +110,11 @@ As in other programming languages there are a set of basic operators in R.
 |`x == y`|Test for equality|`1 == 1`|`TRUE`|
 |`x <= y`|Test less or equal|`1 <= 1`|`TRUE`|
 |`x >= y`|Test for greater or equal|`1 >= 2`|`FALSE`|
-|`x && y`|Non-vectorized boolean AND|`T && T`|`TRUE`|
 |`x & y`|Vectorized boolean AND|`c(T,F) & c(T,T)`|`TRUE FALSE`|
-|`x || y`| Non-vectorized boolean OR|`T || F`|`TRUE`|
 |`x | y`|Vectorized boolean OR|`c(T,F) | c(T,T)`|`TRUE TRUE`|
 |`!x`|Boolean not|`1 != 2`|`TRUE`|
 
-Besides these, there of course numerous more or less simple functions available in any R session. For example, if we want to add all values in our example.vector that we discussed earlier, we can do that using addition:
+Besides these, there are of course numerous more or less simple functions available in any R session. For example, if we want to **sum** all values in our example.vector that we discussed earlier, we can do that using addition:
 
 ```{r}
 example.vector[1] + example.vector[2] + example.vector[3]
@@ -212,7 +215,7 @@ rep(1:17, 1:17)
 	- `c(1, 3, 5) + c(2, 4, 6, 8)`
 	- `c(1, 3) - c(2, 4, 6 ,8)`
 
-13. Create two numeric vectors of length 4 and test run all the basic operators (as seen in the table earlier) with these two as arguments. Make sure you understand the output generated by R.
+13. Create two numeric vectors of length 4 and test run all the basic operators (as seen in the table earlier) with these two vectors as arguments. Make sure you understand the output generated by R.
 
 ## Modify and subset vectors
 
@@ -231,7 +234,7 @@ Do the following on your newly created vector.
 veggies[3]
 ```
 
-2. Select all fruits from the vector.
+2. Select all **fruits** from the vector.
 
 ```{r,accordion=TRUE}
 veggies[-5]
@@ -249,7 +252,7 @@ veggies[veggies!="potato"]
 veggies[!(veggies %in% c("potato"))]
 ```
 
-4. Convert the character string to a numeric vector.
+4. Convert the character string to a **numeric** vector.
 
 ```{r,accordion=TRUE}
 as.numeric(veggies)  
@@ -269,7 +272,7 @@ selection2 <- c(FALSE, TRUE)
 veggies[selection2]  
 ```
 
-6.  Add the names a, b, o, k and p to the vector.
+6.  Add the names a, b, o, k and p to elements of the vector.
 
 ```{r,accordion=TRUE}
 names(veggies) <- c("a", "b", "o", "k", "p")  
@@ -364,7 +367,7 @@ needed.numbers <- rep(1:3, 19)
 temp <- paste(geno, needed.letters, needed.numbers, sep = "_")  
 sort(temp)  
 
-# One line solution that avoids need of knowing length(geno) and sorting
+# One line solution that avoids need of knowing the length(geno) and sorting
 # Find s position in alphabet
 which(letters == "s")
 paste("Geno",rep(letters[1:19],rep(3,19)),1:3,sep="_")

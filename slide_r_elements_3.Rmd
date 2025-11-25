@@ -36,29 +36,19 @@ name: contents
 
 # Contents of the lecture
 
-- variables and their types
-- operators
-- vectors
-- numbers as vectors
-- strings as vectors
 - **matrices**
 - **data frames**
 - **lists**
-<!-- - **objects** -->
-- repeating actions: iteration and recursion
-- decision taking: control structures
-- functions in general
-- variable scope
-- core functions
 
 ---
 name: matrices
 
 # Matrices
 
-A **matrix** is a 2-dimensional data structure. Like vectors, it consists of elements of the same type. A matrix has *rows* and *columns*.  
+A **matrix** has 2 dimensions: rows and columns.
+Like vectors, elements must be of the same type.
 
-Say, we want to construct this matrix in R:
+Say, we want to build this matrix in R:
 $$\mathbf{X} = \left[\begin{array}
 {rrr}
 1 & 2 & 3 \\
@@ -66,9 +56,10 @@ $$\mathbf{X} = \left[\begin{array}
 7 & 8 & 9
 \end{array}\right]$$
 ```{r matrix, echo=T}
-X <- matrix(1:9, # a sequence of numbers to fill in
-       nrow=3, # three rows (alt. ncol=3)
-       byrow=T) # populate matrix by row
+X <- matrix(1:9,
+       nrow=3, 
+       ncol=3,
+       byrow=T)
 X
 ```
 
@@ -79,7 +70,6 @@ name: matrices_dim
 
 To check the dimensions of a matrix, use `dim()`:
 ```{r matrix.dim, echo=T}
-X
 dim(X) # 3 rows and 3 columns
 ```
 
@@ -100,9 +90,9 @@ $$\mathbf{X} = \left[\begin{array}
 \end{array}\right]$$
 
 ```{r matrix.ind, echo=T}
-X[1,2] # Retrieve element from the 1st row, 2nd column
-X[3,] # Retrieve the entire 3rd row
-X[,2] # Retrieve the 2nd column
+X[1,2] # 1st row, 2nd column
+X[3,] # entire 3rd row
+X[,2] # entire 2nd column
 ```
 
 ---
@@ -128,10 +118,10 @@ name: matrices_oper_1
 
 # Matrices &mdash; operations
 
-Usually the functions that work for a vector also work for matrices.
-To order a matrix with respect to, say, 2nd column:
+To order a matrix using the 2nd column:
 ```{r matrix.oper2, echo=T}
 X <- matrix(sample(1:9,size = 9), nrow = 3)
+X
 ord <- order(X[,2])
 X[ord,]
 ```
@@ -143,6 +133,12 @@ name: matrices_t
 
 To **transpose** a matrix use `t()`:
 
+```{r, echo=F}
+X <- matrix(c(10, 20, 30, 40, 50, 60), 
+  nrow = 2, 
+  ncol = 3, 
+  byrow = TRUE)
+```
 ```{r matrix.t, echo=T}
 X
 t(X)
@@ -169,7 +165,7 @@ exclude: true
 
 To get the upper or the lower triangle use `upper.tri()` and `lower.tri()` respectively:
 
-```{r matrix.tri, echo=T}
+```{r matrix.tri, eval=F, echo=T}
 X # print X
 upper.tri(X) # which elements form the upper triangle
 X[upper.tri(X)] <- 0 # set them to 0
@@ -186,18 +182,20 @@ Different types of matrix multiplication exist:
 A <- matrix(1:4, nrow = 2, byrow=T)
 B <- matrix(5:8, nrow = 2, byrow=T)
 A * B # Hadamard product
+```
+--
+```{r matrix.multi2, echo=T, eval=F}
 A %*% B # Matrix multiplication
-# A %x% B # Kronecker product
-# A %o% B # Outer product (tensor product)
+A %x% B # Kronecker product
+A %o% B # Outer product (tensor product)
 ```
 
 ---
 name: matrices_outer
-exclude: true
 
 # Matrices &mdash; outer
 
-Outer product can be useful for generating names
+Outer product can be useful for generating combinations
 ```{r matrix.outer1, echo=T}
 outer(letters[1:4], LETTERS[1:4], paste, sep="-")
 ```
@@ -220,13 +218,21 @@ name: matrices_apply
 
 # Matrices &mdash; apply
 
-Function `apply` is a very useful function that applies a given function to either each value of the matrix or in a column/row-wise manner. Say, we want to have mean of values by column:
+If we want to have mean of each column:
 
 ```{r matrix.apply, echo=T}
 X
-apply(X, MARGIN=2, mean) # MARGIN=1 would do it for rows
+apply(X, MARGIN=2, mean) # 1 = rows, 2 = columns
 ```
 
+--
+And we can use any function
+```{r, echo=T}
+myfunction <- function(x){
+  sum(x) + mean(x) + sqrt(sum(x))
+}
+apply(X, MARGIN=2, myfunction)
+```
 ---
 name: matrices_apply_2
 exclude: true
@@ -247,10 +253,11 @@ name: matrices_colSums
 
 # Matrices &mdash; useful fns.
 
-While `apply()` is handy, it is a bit slow and for the most common statistics, there are special functions col/row Sums/Means:
+There are pre-made functions for common operations:
 
 ```{r matrix.colSums, echo=T}
 X
+# instead of apply(X, MARGIN=2, mean)
 colMeans(X)
 ```
 These functions are faster!
@@ -258,7 +265,7 @@ These functions are faster!
 ---
 name: matrices_add_row_col
 
-# Matrices &mdash; adding rows/columns
+# Matrices &mdash; inserting rows/columns
 
 To add rows or columns to a matrix; or to make a matrix out of two or more vectors of equal length:
 
@@ -311,10 +318,10 @@ name: data_frames_create
 # Data frames &mdash; creating a data frame
 
 ```{r data.frame.create, echo=T}
-df <- data.frame(c(1:5),
+dfr <- data.frame(c(1:5),
                  LETTERS[1:5],
                  c(T,F,F,T,T))
-df
+dfr
 ```
 
 
@@ -326,10 +333,10 @@ name: data_frames_columns
 - Always try to give meaningful names to your columns
 
 ```{r data.frame.name, echo=T}
-df <- data.frame(numbers=c(1:5),
-                 letters=c('a','b','c','d','e'),
+dfr <- data.frame(numbers=c(1:5),
+                 letters=LETTERS[1:5],
                  logical=c(T,F,F,T,T))
-df
+dfr
 ```
 
 ---
@@ -340,9 +347,9 @@ name: data_frames_accessing
 - We can always use the `[row,column]` notation to access values inside data frames.
 
 ```{r data.frame.access, echo=T}
-df[1,]  # get the first row
-df[,2]  # the second column
-df[2:3, 'letters'] # get rows 2-3 from the 'letters' column
+dfr[1,]  # get the first row
+dfr[,2]  # the second column
+dfr[2:3, 'letters'] # get rows 2-3 from the 'letters' column
 ```
 
 ---
@@ -353,8 +360,8 @@ name: data_frames_dollar
 - We can also use dollar sign `$` to access columns
 
 ```{r data.frame.dollar, echo=T}
-df$letters # get the column named 'letters'
-df$letters[2:3] # get the second and third elements of the column named 'letters'
+dfr$letters # get the column named 'letters'
+dfr$letters[2:3] # get the second and third elements of the column named 'letters'
 ```
 
 
@@ -367,9 +374,9 @@ exclude: true
 An interesting observation:
 
 ```{r data.frame.factor, echo=T, eval=F}
-df$letter
-df$letter <- as.character(df$letter)
-df$letter
+dfr$letter
+dfr$letter <- as.character(dfr$letter)
+dfr$letter
 ```
 ---
 name: data_frames_factors_2
@@ -380,13 +387,13 @@ exclude: true
 To treat characters as characters at data frame creation time, one can use the **stringsAsFactors** option set to TRUE:
 
 ```{r data.frame.factor2, echo=T, eval=F}
-df <- data.frame(no=c(1:5),
+dfr <- data.frame(no=c(1:5),
                  letter=c("a","b","c","d","e"),
                  isBrown=sample(c(TRUE, FALSE),
                         size = 5,
                         replace=T),
                  stringsAsFactors = TRUE)
-df$letter
+dfr$letter
 ```
 Well, as you see, it did not work as expected...
 
@@ -398,12 +405,12 @@ name: data_frames_names
 To get or change row/column names:
 
 ```{r data.frame.names, echo=T}
-colnames(df) # get column names
-colnames(df) <- c('num','let','logi') # assign column names
-colnames(df)
-rownames(df) # get row names
-rownames(df) <- letters[1:5] # assign row names
-rownames(df)
+colnames(dfr) # get column names
+colnames(dfr) <- c('num','let','logi') # assign column names
+colnames(dfr)
+rownames(dfr) # get row names
+rownames(dfr) <- letters[1:5] # assign row names
+rownames(dfr)
 ```
 
 ---
@@ -442,7 +449,13 @@ We can use functions to deal with missing values:
 
 ```{r data.frame.missing, echo=T}
 is.na(patients) # check where the NAs are
+```
+--
+```{r data.frame.missing2, echo=T}
 na.omit(patients) # remove all rows containing NAs
+```
+--
+```{r data.frame.missing3, echo=T}
 patients[rowSums(is.na(patients)) > 0,] # select rows containing NAs
 ```
 
@@ -452,7 +465,7 @@ name: lists_1
 
 # Lists  &mdash; collections of various data types
 
-A list is a collection of elements:
+A **list** is a special type of vector. It can hold any data type. 
 
 ```{r lists, echo=T}
 bedr <- data.frame(product = c("POANG", "MALM", "RENS"),
@@ -461,10 +474,17 @@ bedr <- data.frame(product = c("POANG", "MALM", "RENS"),
 rest <- data.frame(dish = c("kottbullar", "daimtarta"),
                          price = c(89, 32))
 park <- 162
-
+opn <- FALSE
+```
+--
+```{r lists2, echo=T}
 ikea_uppsala <- list(bedroom = bedr, 
              restaurant = rest, 
-             parking = park)
+             parking = park,
+             open = opn)
+```
+--
+```{r lists3, echo=T}
 str(ikea_uppsala) # str (structure) of an object
 ```
 
@@ -492,9 +512,12 @@ ikea_uppsala[2]
 class(ikea_uppsala[2])
 ```
 
---
+---
+# Subsetting lists &mdash; .cted
 
 - A piece of a list is still a list! Use `[[]]` to pull out the actual data.
+
+![](images/salt_list.png)
 
 ---
 name: lists_subsetting_names
