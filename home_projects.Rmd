@@ -226,4 +226,4 @@ str(sharks)
 
 ***
 ## Sample project report  
-<p><iframe style="border: none;" title="workshop" src="https://nbisweden.github.io/workshop-r/2510-canvas/Gapminder_project.html" width="100%" height="900px"></iframe></p>   
+<p><iframe style="border: none;" title="workshop" src="https://nbisweden.github.io/workshop-r/2512-canvas/Gapminder_project.html" width="100%" height="900px"></iframe></p>   
