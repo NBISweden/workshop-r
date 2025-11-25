@@ -263,10 +263,10 @@ div.tocify {
 <strong>Note:</strong> The following chunk has a function by which you generate a random dataset (<code>n</code> samples with <code>[0-100]%</code> <strong>missing data</strong>). You can also adjust these values to create a new dataset. We will talk about <strong>functions</strong> tomorrow.<br />
 
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516293202" aria-expanded="false" aria-controls="acc2025112516293202">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516359523" aria-expanded="false" aria-controls="acc2025112516359523">
 </button>
 </p>
-<div id="acc2025112516293202" class="collapse">
+<div id="acc2025112516359523" class="collapse">
 <div class="card card-body">
 <pre class="r"><code># Function to generate the data
 generate_dataset &lt;- function(n, na_frac) {
@@ -315,10 +315,10 @@ dataset &lt;- generate_dataset(n, na_frac = na_frac )</code></pre>
 <li>How many rows and columns do you have?</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516291356" aria-expanded="false" aria-controls="acc2025112516291356">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516351356" aria-expanded="false" aria-controls="acc2025112516351356">
 </button>
 </p>
-<div id="acc2025112516291356" class="collapse">
+<div id="acc2025112516351356" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>head(dataset)
 dim(dataset)</code></pre>
@@ -338,10 +338,10 @@ dim(dataset)</code></pre>
 <div id="mean" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Mean</h2>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516299402" aria-expanded="false" aria-controls="acc2025112516299402">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516359402" aria-expanded="false" aria-controls="acc2025112516359402">
 </button>
 </p>
-<div id="acc2025112516299402" class="collapse">
+<div id="acc2025112516359402" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mean_var1 &lt;- mean(dataset$Variable_1)
 mean_var2 &lt;- mean(dataset$Variable_2)
@@ -357,10 +357,10 @@ mean_var2</code></pre>
 <li><p>How many NA values do you find in your dataset?</p></li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516292444" aria-expanded="false" aria-controls="acc2025112516292444">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516352444" aria-expanded="false" aria-controls="acc2025112516352444">
 </button>
 </p>
-<div id="acc2025112516292444" class="collapse">
+<div id="acc2025112516352444" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>n_na &lt;- sum(is.na(dataset))
 sprintf(&#39;There are %g missing values&#39;, n_na)</code></pre>
@@ -380,10 +380,10 @@ To handle the <code>NA</code> values, you can set <code>na.rm = TRUE</code> in t
 You can plot the distribution of the values by <code>hist()</code>. You will learn more about plots in <strong>Basic Graphics</strong> lecture.<br />
 
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516297279" aria-expanded="false" aria-controls="acc2025112516297279">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516357279" aria-expanded="false" aria-controls="acc2025112516357279">
 </button>
 </p>
-<div id="acc2025112516297279" class="collapse">
+<div id="acc2025112516357279" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>hist(dataset$Variable_1, main = &#39;Distribution of Variable_1&#39;, xlab = &#39;Variable_1&#39;)</code></pre>
 <img src="lab_statistics_files/figure-html/hist-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
@@ -392,10 +392,10 @@ You can plot the distribution of the values by <code>hist()</code>. You will lea
 Can you create a separate histogram for each gender?<br />
 
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516293247" aria-expanded="false" aria-controls="acc2025112516293247">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516353247" aria-expanded="false" aria-controls="acc2025112516353247">
 </button>
 </p>
-<div id="acc2025112516293247" class="collapse">
+<div id="acc2025112516353247" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dataset_f &lt;- dataset[(dataset$Gender == &#39;Female&#39;), ]
 dataset_m &lt;- dataset[(dataset$Gender == &#39;Male&#39;), ]
@@ -408,10 +408,10 @@ hist(dataset_m$Variable_1, main = &#39;&#39;, xlab = &#39;&#39;)</code></pre>
 <div id="median" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Median</h2>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516290964" aria-expanded="false" aria-controls="acc2025112516290964">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516350964" aria-expanded="false" aria-controls="acc2025112516350964">
 </button>
 </p>
-<div id="acc2025112516290964" class="collapse">
+<div id="acc2025112516350964" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>median_var1 &lt;- median(dataset$Variable_1, na.rm = T)
 median_var2 &lt;- median(dataset$Variable_2, na.rm = T)
@@ -430,10 +430,10 @@ median_var2</code></pre>
 We can find the range of values in numerical variables.<br />
 
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516298882" aria-expanded="false" aria-controls="acc2025112516298882">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516358882" aria-expanded="false" aria-controls="acc2025112516358882">
 </button>
 </p>
-<div id="acc2025112516298882" class="collapse">
+<div id="acc2025112516358882" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>range_var1 &lt;- range(dataset$Variable_1, na.rm = TRUE)
 range_var2 &lt;- range(dataset$Variable_2, na.rm = TRUE)
@@ -446,10 +446,10 @@ range_var2</code></pre>
 For categorical variables we can count the queries.<br />
 
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516291084" aria-expanded="false" aria-controls="acc2025112516291084">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516351084" aria-expanded="false" aria-controls="acc2025112516351084">
 </button>
 </p>
-<div id="acc2025112516291084" class="collapse">
+<div id="acc2025112516351084" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>table(dataset$Category_1)
 table(dataset[,c(&#39;Category_1&#39;, &#39;Category_2&#39;)])
@@ -502,10 +502,10 @@ table(dataset[,c(&#39;Category_1&#39;, &#39;Category_2&#39;, &#39;Gender&#39;)])
 </ul>
 <strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>)
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516293108" aria-expanded="false" aria-controls="acc2025112516293108">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516353108" aria-expanded="false" aria-controls="acc2025112516353108">
 </button>
 </p>
-<div id="acc2025112516293108" class="collapse">
+<div id="acc2025112516353108" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>min_val &lt;- min(dataset$Variable_1, na.rm = T)
 q1 &lt;- quantile(dataset$Variable_1, 0.25, na.rm = T)
@@ -539,10 +539,10 @@ iqr_val1 </code></pre>
 </ul>
 <strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>)
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516298064" aria-expanded="false" aria-controls="acc2025112516298064">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516358064" aria-expanded="false" aria-controls="acc2025112516358064">
 </button>
 </p>
-<div id="acc2025112516298064" class="collapse">
+<div id="acc2025112516358064" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sd_var1_f &lt;- sd(dataset_f$Variable_1, na.rm = TRUE)
 sd_var1_m &lt;- sd(dataset_m$Variable_1, na.rm = TRUE)
@@ -562,10 +562,10 @@ sd_var1_m</code></pre>
 </ul>
 <strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>).
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516299848" aria-expanded="false" aria-controls="acc2025112516299848">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516359848" aria-expanded="false" aria-controls="acc2025112516359848">
 </button>
 </p>
-<div id="acc2025112516299848" class="collapse">
+<div id="acc2025112516359848" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>var_var1_f &lt;- var(dataset_f$Variable_1, na.rm = TRUE)
 var_var1_m &lt;- var(dataset_m$Variable_1, na.rm = TRUE)
@@ -586,10 +586,10 @@ var_var1_m</code></pre>
 </ul>
 <p><strong>Note:</strong> Here we handle the missing values a bit differently. In <code>cor</code> function, you control the missing values (<code>NA</code>) by setting <code>use = 'complete.obs'</code> which means to include observations that there are values for both variables. In other words, rows with <code>NA</code> in either of the values will be excluded.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516294436" aria-expanded="false" aria-controls="acc2025112516294436">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516354436" aria-expanded="false" aria-controls="acc2025112516354436">
 </button>
 </p>
-<div id="acc2025112516294436" class="collapse">
+<div id="acc2025112516354436" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>pearson_correlation &lt;- cor(dataset$Variable_1, dataset$Variable_2, use = &#39;complete.obs&#39;, method = &quot;pearson&quot;)
 pearson_correlation</code></pre>
@@ -600,10 +600,10 @@ pearson_correlation</code></pre>
 <li>You can also plot the values in a simple plot using <code>plot</code> function. How do you interpret the results?</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516293651" aria-expanded="false" aria-controls="acc2025112516293651">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516353651" aria-expanded="false" aria-controls="acc2025112516353651">
 </button>
 </p>
-<div id="acc2025112516293651" class="collapse">
+<div id="acc2025112516353651" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plot(dataset$Variable_1, dataset$Variable_2, main = &#39;Variable_1 vs Variable_2&#39;, xlab = &#39;Variable_1&#39;, ylab = &#39;Variable_2&#39;)</code></pre>
 <img src="lab_statistics_files/figure-html/v1v2plot-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
@@ -622,10 +622,10 @@ pearson_correlation</code></pre>
 <strong>Note:</strong> Categorical_data cannot be directly passed to <code>cor</code>. You first need to encode the values as factors (the values are presented in form of <code>levels</code>) by <code>as.factor</code>. Then by converting the vector (e.g. <code>dataset$Category_1</code>) to numeric by <code>as.numeric</code> function, you can pass it to <code>cor</code> function.<br />
 
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516294285" aria-expanded="false" aria-controls="acc2025112516294285">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516354285" aria-expanded="false" aria-controls="acc2025112516354285">
 </button>
 </p>
-<div id="acc2025112516294285" class="collapse">
+<div id="acc2025112516354285" class="collapse">
 <div class="card card-body">
 <pre class="r"><code># Spearman correlation for numerical variables
 spearman_corr_numeric &lt;- cor(dataset$Variable_1, dataset$Variable_2, use = &quot;complete.obs&quot;, method = &quot;spearman&quot;)
@@ -646,10 +646,10 @@ spearman_corr_cat_var2</code></pre>
 <li>Plot categorical data using <code>plot</code> function can be fun! If you pass the categorical as factor ( <code>as.factor(dataset$Category_1)</code>) together with a numerical values, you will generate a boxplot.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516296197" aria-expanded="false" aria-controls="acc2025112516296197">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516356197" aria-expanded="false" aria-controls="acc2025112516356197">
 </button>
 </p>
-<div id="acc2025112516296197" class="collapse">
+<div id="acc2025112516356197" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plot((as.factor(dataset$Category_1)), dataset$Variable_1)</code></pre>
 <img src="lab_statistics_files/figure-html/boxplotcatg1var1-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
@@ -681,10 +681,10 @@ cor_gender_var2</code></pre>
 You can show both histograms (males and females) in the same plot. You will learn about this in “Basic Graphics”.<br />
 
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516299189" aria-expanded="false" aria-controls="acc2025112516299189">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025112516369189" aria-expanded="false" aria-controls="acc2025112516369189">
 </button>
 </p>
-<div id="acc2025112516299189" class="collapse">
+<div id="acc2025112516369189" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>par(mfrow = c(2,1), mar = c(5, 4, 1, 2) + 0.1)
 range_val &lt;- c(min(dataset$Variable_2, na.rm = T), max(dataset$Variable_2, na.rm = T) )
