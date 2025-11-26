@@ -445,6 +445,16 @@ name: basic_printing
   val <- 345.78
   sprintf("The weight of a %s ball is  %g g", txt, val)
 ```
+
+--
+| Placeholder | Meaning                  | Example Use                            |
+|-------------|---------------------------|------------------------------------------|
+| `%s`        | String                    | `sprintf("Here we %s", "R")` → Here we R |
+| `%d`        | Integer                   | `sprintf("Count: %d", 5)` → Count: 5       |
+| `%f`        | Floating-point (fixed)    | `sprintf("Value: %f", 3.14)` → Value: 3.140000 |
+| `%g`        | Numeric (compact double)  | `sprintf("Weight: %g g", 7.5)` → Weight: 7.5 |
+| `%e`        | Scientific notation       | `sprintf("%e", 0.00123)` → 1.23e-03        |
+
 ---
 # What did we learn?
 <div style="font-size:70%"> 
