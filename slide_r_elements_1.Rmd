@@ -428,7 +428,7 @@ name: basic_string_ops
 ```{r basic.string,echo=TRUE}
   text1 <- "John had a yellow "
   text2 <- "submarine"
-  result <- paste(text1, text2, ".", sep='')
+  result <- paste(text1, text2, "!", sep='')
   result
   sub("submarine", "cab", result)
   substr(result, start=1, stop=5)
@@ -469,8 +469,8 @@ name: basic_printing
 - R treats everything as an **object**.  
 - Use `class()` to see what kind of object it is.  
 - Use `typeof()` to see how it’s stored internally.  
-- Code readability **>>** clever shortcuts.  
-- Naming and clarity make collaboration easier.  
+- Code readability **is more important than** clever shortcuts.  
+- Naming and clarity make collaboration (and life) easier!  
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 
