@@ -206,8 +206,8 @@ name: class_type_mode
 
 # Classes, types, and modes
 
-- `class` what type of object is it for R; **objects can be data (variables), functions, and models**.  
-- `typeof()` what R thinks it is,
+- `typeof()` Low-level, how the variable is stored in memory;   
+- `class`  High-level, what kind of object it is;
 
 ```{r class,echo=TRUE,eval=TRUE}
 x <- 1:3
@@ -221,9 +221,12 @@ class(y)
 typeof(y)
 
 lm <- lm(Sepal.Length ~ Sepal.Width, data=iris) # lm is a function for linear models. 
+typeof(lm)
 class(lm)
 ```
 
+**list**: an object that can contain elements of different types.  
+**lm**: an object of class "lm" (linear model).  
 ---
 name: type_casting
 
