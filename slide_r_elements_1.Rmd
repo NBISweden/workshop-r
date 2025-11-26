@@ -320,7 +320,7 @@ name: logical_type
 
 # Logical type
 
-```{r logical.type,echo=TRUE}
+```{r logical.type,echo=TRUE, eval = F}
 a <- 7 > 2
 b <- 2 >= 7
 a
@@ -328,6 +328,16 @@ b
 class(a)
 typeof(a)
 ```
+--
+```{r logical.type.output,echo=F, eval = T}
+a <- 7 > 2
+b <- 2 >= 7
+a
+b
+class(a)
+typeof(a)
+```
+
 ---
 name: logical_cted
 
@@ -344,14 +354,21 @@ typeof(x)
 
 - Observe that in R the logical type is also a numeric!
 
-```{r logical.as.number,echo=TRUE}
+```{r logical.as.number,echo=TRUE, eval = F}
 x <- TRUE
 y <- FALSE
 x + y
 2 * x
 x * y
 ```
-
+--
+```{r logical.as.number.outptu,echo=F, eval = T}
+x <- TRUE
+y <- FALSE
+x + y
+2 * x
+x * y
+```
 ---
 name: logical_joke
 
