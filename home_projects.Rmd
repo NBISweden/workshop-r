@@ -28,7 +28,11 @@ output:
 ## Datasets  
 Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you are learning in this course as well as new things you might want to try. For each data set, a brief description, as well as download instructions, are provided. We have included some suggestions of analysis you could do with each data set, but you can do whatever you want with the data. The only goal is to exercise your R muscles!
 
-If your group decides so, you are welcome to use a different data set not included in this page. It's up to you!
+
+
+<div class="alert alert-success" role="alert">
+  <strong>If your group decides so, you are welcome to use a different data set not included in this page. It's up to you! (for e.g. there are more data sets at <https://mavenanalytics.io/data-playground>) </strong>
+</div>
 
 <div class="alert alert-info">
   <strong> Try to focus on using the tools from the course to explore the data, rather than worrying about producing a perfect report.</strong>
@@ -215,7 +219,7 @@ str(doctor)
 ### Video Game Sales 🎮
 
 - This data set contains sales figures for video games titles released in 2001 and 2002.
-- Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=Video%20Game%20Sales> 
+- Data description: <https://mavenanalytics.io/data-playground/video-game-sales> 
   - Click on "Preview Data" and "VG Data Dictionary" to see the description for each column.
 
 <details>
@@ -248,7 +252,7 @@ str(videogames)
 ### LEGO Sets 🏗️
 
 - This data set contains the description of all LEGO sets released from 2000 to 2009.
-- Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=lego>
+- Data description: <https://mavenanalytics.io/data-playground/lego-sets>
   - Click on "Preview Data" and "VG Data Dictionary" to see the description for each column.
 
 <details>
@@ -280,7 +284,7 @@ str(lego)
 ### Shark attacks 🦈
 
 - This data set contains information on shark attack records from all over the world.
-- Data description: <https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&search=shark>
+- Data description: <https://mavenanalytics.io/data-playground/shark-attacks>
   - Click on "Preview Data" and "VG Data Dictionary" to see the description for each column.
 
 <details>
@@ -291,9 +295,6 @@ library(dplyr)
 download.file(url = "https://maven-datasets.s3.amazonaws.com/Shark+Attacks/attacks.csv.zip", destfile = "attacks.csv.zip")
 # this will unzip the file and read it into R
 sharks <- read.table(unz(filename = "attacks.csv", "attacks.csv.zip"), header = T, sep = ",", quote = "\"", fill = T)
-# the lines below will take a sample from the full data set
-set.seed(seed = 2)
-sharks <- sample_n(sharks, size = 3000, replace = F)
 str(sharks)
 ```
 </details>

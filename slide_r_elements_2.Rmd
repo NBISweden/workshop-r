@@ -565,30 +565,6 @@ factor(vec, levels = c('tiny', 'small', 'medium', 'large'),
        ordered=TRUE) # ordered as provided in the levels argument
 ```
 
----
-name: recap_single_slide
-
-### 🧱 Core Concepts & Types
-
-| Concept | Description | Example |
-| :--- | :--- | :--- |
-| **Atomic Vector** | The fundamental 1D structure. **All elements must be the same type.** | `v <- c(10, 20)` |
-| **Types** | `numeric`, `integer`, `character`, `logical`. (A single number is a vector.) | `c(TRUE, FALSE)` |
-| **Coercion** | R converts elements to the **most flexible type** when mixing them. | `c(1, 'a')` $\to$ `"1"`, `"a"` (Character) |
-| **Factors** | For **categorical data** (nominal/ordinal). Stored as integers with levels. | `factor(c('low', 'high'))` |
-
-### ⚙️ Operations, Indexing, and Sequences
-
-| Action/Function | Syntax | Purpose & Notes |
-| :--- | :--- | :--- |
-| **Access/Exclude** | `v[2]`, `v[-2]` | 1-indexed. Use `v[c(1, 3)]` for multiple elements. |
-| **Logical Indexing** | `v[v > 5]` | Selects elements where the condition is TRUE. |
-| **Arithmetic** | `v1 * v2` | **Element-wise** operations. |
-| **Recycling** | Implicit | Shorter vector repeats to match the length of the longer one. |
-| **Length** | `length(v)` | Returns the number of elements. |
-| **Sorting** | `sort(v)`, `rev(v)` | Sorts values / reverses the order. |
-| **Frequency** | `table(v)` | Counts the occurrences of unique values. |
-| **Sequences** | `1:5`, `seq(1, 10, by=2)`, `rep('a', 3)` | Colon operator, sequential generation, and repetition. |
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 

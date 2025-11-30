@@ -35,12 +35,6 @@ name: contents
 
 # Contents of the lecture
 
-- variables and their types
-- operators
-- vectors
-- matrices
-- data frames
-- lists
 - **repeating actions: loops**
 - **decision taking: `if` control structures**
 - **functions**
@@ -106,14 +100,14 @@ name: for_loop_example
 Say, we want to add 1 to every element of a vector:
 
 ```{r for.loop.ex1, echo=T}
-vec <- c(1:5)
+vec <- c(10,20,30,40,50)
 vec
 
 ```
 
 ```{r for.loop.ex2, echo=T}
 
-for (i in vec) {
+for (i in 1:length(vec)) {
   vec[i] <- vec[i] + 1
 }
 vec
@@ -125,7 +119,7 @@ The above can be achieved in R by means of **vectorization**.
 **Vectorization** is an element-wise operation where you perform an operation on entire vectors.
 
 ```{r for.loop.avoid, echo=T}
-vec <- c(1:5)
+vec <- c(10,20,30,40,50)
 vec + 1  
 ```
 
@@ -165,13 +159,39 @@ To know the current iteration number on the loop, we can set an external counter
 
 ```{r for.loop.cnt, echo=T}
 cnt <- 1
-for (i in c(2,4,6,8,10)) {
+vec <- letters[1:5]
+for (i in vec) {
   cat(paste('Iteration', cnt,
-            'Performing operation on no.', i), '\n')
+            'Reading letter:', i), '\n')
   cnt <- cnt + 1
-  
 }
 ```
+--
+Be careful with counters
+```{r, echo=T}
+# now it has the value of the last loop cycle 
+cnt
+```
+
+---
+name: for_loop_counter2
+
+# Repeating actions &mdash; for loop with an implicit counter
+
+To safest way to loop and to know the current iteration number is using the function `seq_along`.
+
+```{r for.loop.cnt2, echo=T}
+vec <- letters[1:5]
+for (i in seq_along(vec)) {
+  cat(paste('Iteration', i,
+            'Reading letter:', vec[i]), '\n')
+}
+```
+--
+```{r, echo=T}
+seq_along(vec)
+```
+
 
 ---
 name: loops_avoid_growing
@@ -193,7 +213,8 @@ cat(head(v), " ... ", tail(v))
 It is much better to do it like this:
 
 ```{r avoid.growing3, echo=T}
-v <- rep(NA, 100) # Initialize with length
+# Initialize with the desired with length
+v <- rep(NA, 100)
 for (i in 1:100) {
   v[i] <- i
 }
@@ -210,7 +231,7 @@ name: while_loop
 
 # Repeating actions &mdash; the while loop
 
-There is also another type of loop in R, the **while loop** which is executed as long as some condition is true.
+The **while loop** is only executed as long as some condition is true.
 ```{r loop.while, echo=T}
 x <- 1
 while (x < 5) {
@@ -460,25 +481,25 @@ name: fns_defaults
 Sometimes, it is good to use default values for some arguments:
 
 ```{r functions2, echo=T, error=T}
-add.a.num <- function(arg, num=1) {
-  result <- arg + num
+add.a.num <- function(arg1, arg2=1) {
+  result <- arg1 + arg2
   return(result)
 }
-add.a.num(1) # skip the num argument
+add.a.num(1) # you can skip the arg2 argument
 
 ```
 
 --
 
 ```{r functionresult, echo=T}
-add.a.num(1, 5) # overwrite the num argument
-add.a.num(1, num=5) # overwrite the num argument
+add.a.num(1, arg2=5) # overwrite the arg2 default
+add.a.num(1, 5)
 ```
 
 --
 
 ```{r functionsresult2, echo=T, error=T}
-add.a.num(num=1) # skip the first argument
+add.a.num(arg2=1) # arg1 is missing
 ```
 
 ---
@@ -487,30 +508,34 @@ name:fns_args
 # Functions &mdash; order of arguments
 
 ```{r functions3, echo=T}
-args.demo <- function(x, y, arg3) {
-  print(paste('x =', x, 'y =', y, 'arg3 =', arg3))
+args.demo <- function(arg1, arg2, arg3) {
+  print(paste('arg1 =', arg1, 'arg2 =', arg2, 'arg3 =', arg3))
 }
-args.demo(1,2,3)
 
 ```
 --
 
 ```{r functions3b, echo=T}
-args.demo(x=1, 2, 3)
+args.demo(arg1='a', arg2='b', arg3='c')
 
 ```
 
 --
 ```{r functions3c, echo=T}
-args.demo(x=1, y=2, arg3=3)
+args.demo('a','b','c')
 
 ```
 
 --
-
 ```{r functions3d, echo=T}
+args.demo('b','a','c')
 
-args.demo(arg3=3, x=1, y=2)
+```
+--
+
+```{r functions3e, echo=T}
+
+args.demo(arg3='c', arg2='b', arg1='a')
 ```
 
 
@@ -652,7 +677,7 @@ Operators like `+`, `-` or `*` are using the so-called **infix** functions, wher
 
 ---
 name:anatomy_of_a_fn
-
+exclude: true
 # Anatomy of a function
 
 A function consists of: *formal arguments*, *function body* and *environment*:
@@ -661,13 +686,10 @@ A function consists of: *formal arguments*, *function body* and *environment*:
 formals(add.one)
 ```
 
---
-
 ```{r fns.formalsbodyenvb, echo=T}
 body(add.one)
 ```
 
---
 ```{r fns.formalsbodyenvc, echo=T}
 environment(add.one)
 environment(sd)
