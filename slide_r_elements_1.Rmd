@@ -456,6 +456,26 @@ name: basic_printing
 | `%e`        | Scientific notation       | `sprintf("%e", 0.00123)` → 1.23e-03        |
 
 ---
+name: demos
+# `demo()`  
+- R has built-in demos for various topics.  
+- To see a list of available demos, run `demo()`.  
+```{r demo_example, echo=TRUE, eval=TRUE}
+demo()
+# Demos in package ‘base’:
+# error.catching                               More examples on catching and handling errors
+# ...
+# Demos in package ‘graphics’:
+# graphics                                     A show of some of R's graphics capabilities
+# ....
+# Demos in package ‘grDevices’:
+# colors                                       A show of R's predefined colors()
+# Demos in package ‘stats’:
+# smooth                                       `Visualize' steps in Tukey's smoothers
+```
+- To run a specific demo pass the package name, use `demo("smooth")`.  
+
+---
 # What did we learn?
 <div style="font-size:70%"> 
  
