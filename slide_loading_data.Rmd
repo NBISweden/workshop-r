@@ -70,7 +70,7 @@ read.table(file, header = FALSE, sep = "", quote = "\"'",
            strip.white = FALSE, blank.lines.skip = TRUE,
            comment.char = "#",
            allowEscapes = FALSE, flush = FALSE,
-           stringsAsFactors = default.stringsAsFactors(),
+           stringsAsFactors = FALSE,
            fileEncoding = "", encoding = "unknown", text, skipNul = FALSE)
 
 # or just
@@ -104,12 +104,11 @@ name: read_table_sibs
 
 # `read.table` and its siblings  
 
-The `read.table` function has some siblings, functions with particular arguments pre-set to a specific value to spare some time:
+`read.table` has some variants with presets to specific file types:
 
-* `read.csv()` and `read.csv2()` with comma and semicolon as default `sep` and dot and comma as `dec` respectively,
+* `read.csv()` and `read.csv2()` with comma and semicolon as default `sep`, and dot and comma as `dec` respectively,
 * `read.delim()` and `read.delim2()` for reading tab-delimited files.
 
-We, however, most often use the canonical `read.table()` as it is the most flexible one.
 
 ---
 name: read_table_example
@@ -132,7 +131,7 @@ name: handling_errors
 * R documentation `?` and `??`
 * Google &ndash; just type R and copy the error you got without your variable names,
 * Open the file using a text editor and see if you can spot anything unusual &ndash; 
-  * e.g. has the header line the same number of columns as the first line?
+  * e.g. does the header line have the same number of columns as the first line?
 
 --
 
@@ -169,7 +168,9 @@ name: writing
 vec <- rnorm(10)
 write.table(vec, '') # write to screen
 write.table(vec, file = 'vector.txt')
+```
 
+```{r, echo=F,eval=F}
 # write to the system clipboard, handy!
 write.table(vec, 'clipboard', col.names=F, row.names=F)
 

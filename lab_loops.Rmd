@@ -26,8 +26,7 @@ output:
 
 # Introduction
 
-In programming languages loop structures, either with or without conditions, are used to repeat commands over multiple entities. For
-and while loops as well as if-else statements are also often used in R, but not as often as in many other programming languages. The reason for this is that many needs of the loops are addressed using vectorization or via apply functions.
+In programming languages loop structures, either with or without conditions, are used to repeat commands over multiple entities. `for` and `while` loops as well as `if-else` statements are also often used in R, but not as often as in many other programming languages. The reason for this is that many needs of the loops are already addressed using vectorization or via apply functions.
 
 This means that we can multiply all values in a vector in R by two by calling
 
@@ -39,7 +38,7 @@ vec.a * 2
 In many other and languages as well as in R, you can also create this with a loop instead
 
 ```{r}
-for (i in vec.a) {
+for (i in seq_along(vec.a)) {
   vec.a[i] <- vec.a[i] * 2
 }
 
@@ -54,7 +53,7 @@ This is far less efficient and not by any means easier to type and we hence tend
 Let us compare the time of execution of the vectorized version (vector with 10,000 elements):
 
 ```{r for.loop.avoid.timing, echo=T}
-vec <- c(1:1e6)
+vec <- c(1:1000000)
 ptm <- proc.time()
 vec <- vec + 1
 proc.time() - ptm # vectorized
@@ -65,9 +64,9 @@ proc.time() - ptm # vectorized
 to the loop version:
 
 ```{r for.loop.avoid.timing2, echo=T}
-vec <- c(1:1e6)
+vec <- c(1:1000000)
 ptm <- proc.time()
-for (i in vec) {
+for (i in seq_along(vec)) {
   vec[i] <- vec[i] + 1
 }
 proc.time() - ptm # for-loop
@@ -86,13 +85,13 @@ After this exercise you should know:
 
 # Exercises
 
-1. Create a 100000 by 10 matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the `apply()` function to calculate row sums as well as with the built-in `rowSums()` function. These functions were discussed in the lecture **Elements of the programming language - part 2**.
+1. Create a 100000 by 10 matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the `apply()` function to calculate row sums as well as with the built-in `rowSums()` function. These functions were discussed in the lecture **Matrices, data frames, and lists**.
 
 ```{r,accordion=TRUE,results='markup'}
 X <- matrix(1:1000000, nrow = 100000, ncol = 10)
-for.sum <- vector()
+for.sum <- vector(mode = 'numeric')
 # Note that this loop is much faster if you outside the loop create an empty vector of the right size.
-# rwmeans <- vector('integer', 100000)
+# rwmeans <- vector('numeric', 100000)
 for (i in 1:nrow(X)) {
     for.sum[i] <- sum(X[i,])
 }
@@ -117,15 +116,15 @@ identical(for.sum, as.integer(rowSums.sum))
 
 ```{r,accordion=TRUE}
 x <- 1
-while.sum <- vector("integer", 100000)
-while (x < 100000) {
+while.sum <- vector("numeric", 100000)
+while (x <= 100000) {
   while.sum[x] <- sum(X[x,])
   x <- x + 1
 }
 head(while.sum)
 ```
 
-3. Create a data frame with two numeric and one character vector. Write a loop that loops over the columns and reports the sum of the column values if it is numeric and the total number of characters if it is a character vector.
+3. Create a data frame with two numeric and one character columns. Write a loop that loops over the columns and reports the sum of the column values if it is numeric and the total number of characters if it is a character vector.
 <details>
   <summary><strong>Tip?</strong></summary>
   To count number of characters, you can use `nchar` function.
@@ -270,6 +269,7 @@ switch.demo(data.frame())
 my.plot <- function(x, y) { # Passing downstrem
   plot(x, y, las=1, cex.axis=.8, ...)
 }
+# you can update the function adding the ellipsis like this
 formals(my.plot) <- c(formals(my.plot), alist(... = ))
 my.plot(1, 1, col='red', pch=19)
 ```
