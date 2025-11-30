@@ -28,7 +28,7 @@ output:
 
 # Introduction
 
-There are different data modes used in R. The mode of a variable will
+There are different data types used in R. The type of a variable will
 for example determine what kind of operators that can be done on it. At the end of
 this exercise you should know:
 
@@ -39,30 +39,32 @@ this exercise you should know:
 
 ## Data types
 
-From the lecture you might remember that all elements in any data stuctures found in R will be of a certain type (or have a certain mode). The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.
+From the lecture you might remember that all elements in any data structures found in R will be of a certain type. The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.
 
 - Logical = TRUE or FALSE (or NA)
-- Integer = Numbers that can be represented without fractional component
-- Numeric = Any number that is not a complex number.
-- Character = Text
+- Integer = Numbers that can be represented without fractional component  
+- Numeric = Any number that is not a complex number   
+- Character = Text  
 
-In many cases the mode of on entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like "hello world" it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.
+**Bonus:** Complex numbers have both a real and imaginary part (e.g. 3 + 4i); `i`s a special number defined as the square root of –1., for example. We normally cannot take √(–1), so mathematicians introduced a new idea:  of using `i`, in this example`. It is mostly used in engineering and physics.    
+
+In many cases the type of on entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like "hello world" it will have the type character. Below you will also see examples of how you can specify the type and not rely on R inferring the right type based on content.
 
 # Exercises
 
 <div class="boxy boxy-lightbulb">
 In all exercises during this course, it is important that you try to figure out what the expected result would be, prior to running the commands. You should then verify that this will indeed be the
-result by running the command. In case there is a discrepency between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
-how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or your someone sitting next to you who might have wrapped their head around the issue.
+result by running the command. In case there is a discrepancy between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
+how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or someone sitting next to you who might have wrapped their head around the issue.
 
-Also note that in many cases there multiple solutions that solve the problem equally well.
+Also note that in many cases there are multiple solutions that solve the problem equally well.
 
 We do recommend to write all code in a Rmarkdown document in R-studio as that will at the end of the course be your own R tutorial with comments and code solutions.
 </div>
 
 ## Working with variables
 
-Open Rstudio and make sure to set your working directory. Double check that you do not have stored objects in your current session with the following command. This will list all objects that you have in
+Open Rstudio and make sure to set your working directory (either in console or in Rmd `setwd("path/to/my/folder/")`. Double check that you do not have stored objects in your current session with the following command. This will list all objects that you have in
 your current R session.
 
 ```{r}
@@ -84,34 +86,31 @@ var1 <- 11
 var2 <- 34
 ```
 
-2. Add the two variables and save them as a new variable named *var3* and print the result.
+2. Sum the two variables and save them as a new variable named *var3* and print the result.
 
 ```{r,accordion=TRUE}
 var3 <- var1 + var2
 var3
 ```
 
-3. Check the class, mode, and type for var1, var2, var3 and &pi; (is found under the variable name `pi` in R)
+3. Check the class and type for var1, var2, var3 and &pi; (is found under the variable name `pi` in R)
 
 ```{r,accordion=TRUE}
-mode(var1)
 class(var1)
 typeof(var1)
 ```
 
 ```{r,accordion=TRUE}
-mode(pi)
 class(pi)
 typeof(pi)
 ```
 
-4. Create two character variables containing a text of choice. Check the mode, class, and type of the first one.
+4. Create two character variables containing a text of choice. Check the class, and type of the first one.
 
 ```{r,accordion=TRUE}
 text1 <- "test1"
 text2 <- "test2"
 
-mode(text1)
 class(text1)
 typeof(text1)
 ```
@@ -157,42 +156,19 @@ as.numeric('3.56437')
 Inf/-Inf
 ```
 
-10. Create two freely chosen complex numbers.
 
-- Check that they are complex indeed.
-- Add, multiply and divide one by another.
-- Add an integer to their sum.
-
-```{r,accordion=TRUE}
-c1 <- 23 + 4i
-c2 <- -15 - 7i
-is.complex(c1)
-is.complex(c2)
-c1 + c2
-c1 / c2
-c1 + c2 + 7
-```
-
-11. Print a truth table for OR (for three distinct logical values). Read about truth tables [here](https://en.wikipedia.org/wiki/Truth_table).
-
-```{r,accordion=TRUE}
-x <- c(NA, FALSE, TRUE)
-names(x) <- as.character(x)
-outer(x, x, "|")
-```
-
-12. Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.
+10. Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.
 
 ```{r,accordion=TRUE}
 TRUE * FALSE
 T^7
 ```
 
-13. Create two character variables containing two verses of your favorite song.
+11. Create two character variables containing two verses of your favorite song.
 
 - Concatenate the two variables,  
 - Paste the variables with '\*' as separator.  
-- Find if 'and' occurs in the second line,  
+- Find if 'and' occurs in the second line (use `grep` check the help and learn how to use it by `?grep`),  
 - Substitute a word for another,  
 - Extract substring starting at the 5th character and 5 characters long.  
 
@@ -208,15 +184,19 @@ substr(line1, 5, 5 + 5)
 
 ## R Environment
 
-- Get help for the *t.test*, *table*, *locator* and *identify* functions,
-- Check for all occurences of *fisher.test* in the docs,
+- Get help for the *t.test*, *table*, *locator* and *identify* functions (use `?function_name`),
 - Which package contains the *plot.ecdf* function. What does it do?
-- Find package 'reshape'-related questions on StackOverflow,
-- Search on the internet on how to load an XML file into R,
+- Ask ChatGPT (or AI of your choice) on how to load an XML file into R,
 - Install the 'cgmisc' package from GitHub,
-- Look up the 'cgmisc' vignette,
+- Look up the 'cgmisc' vignette (`vignette("cgmisc")`),
+  - vignettes are long-form documentation that often include examples and explanations,  
+  <details>
+  <summary><strong>Did you get a `Warning`</strong></summary>
+    - Because the GitHub version of `cgmisc` does not ship any vignettes. 
+    - Try `help(package="cgmisc")`. What do you see?  
+  </details>
 - See all the demos available for you and run one you like,
-- Run examples for the *fisher.test*,
-- Check out CRANs view for genetics,
-- Install a CRAN package of choice,
-- Install the R-Forge package 'bigRR'
+- Run examples for the *mean* (`example(function, package="package_name")`),
+- Check out CRANs view for `genetics` (search CRAN genetics),
+- Install a CRAN package of choice (e.g. genetics),
+
