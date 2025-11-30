@@ -221,70 +221,70 @@ bmi <- weight / height
 ---
 name: topic2
 
-```{r chain-of-throught, echo = F, eval = F}
-png("data/slide_intro/simple-chain-of-thought.png", width = 800, height = 600)
-plot(0, 0, type = "n", xlim = c(-2, 2), ylim = c(-6, 1),
-     axes = FALSE, xlab = "", ylab = "", main = "What we expect")
+<!-- ```{r chain-of-throught, echo = F, eval = F} -->
+<!-- png("data/slide_intro/simple-chain-of-thought.png", width = 800, height = 600) -->
+<!-- plot(0, 0, type = "n", xlim = c(-2, 2), ylim = c(-6, 1), -->
+<!--      axes = FALSE, xlab = "", ylab = "", main = "What we expect") -->
 
-draw_node <- function(x, y, r = 0.2, col = "darkorange") {
-  symbols(x, y, circles = r, inches = FALSE, add = TRUE, fg = col, bg = "white", lwd = 2)
-}
+<!-- draw_node <- function(x, y, r = 0.2, col = "darkorange") { -->
+<!--   symbols(x, y, circles = r, inches = FALSE, add = TRUE, fg = col, bg = "white", lwd = 2) -->
+<!-- } -->
 
-graphics::text(0, 1, "Input", col = "darkorange", cex = 1.5)
-graphics::text(0, -6, "Output", col = "darkorange", cex = 1.5)
+<!-- graphics::text(0, 1, "Input", col = "darkorange", cex = 1.5) -->
+<!-- graphics::text(0, -6, "Output", col = "darkorange", cex = 1.5) -->
 
-root <- c(0, 0)
-output <- c(0, -5)
-segments(root[1], root[2], output[1], output[2], col = "darkorange", lwd = 2)
-draw_node(root[1], root[2])
-draw_node(output[1], output[2])
-dev.off()
+<!-- root <- c(0, 0) -->
+<!-- output <- c(0, -5) -->
+<!-- segments(root[1], root[2], output[1], output[2], col = "darkorange", lwd = 2) -->
+<!-- draw_node(root[1], root[2]) -->
+<!-- draw_node(output[1], output[2]) -->
+<!-- dev.off() -->
 
-png("data/slide_intro/top-down-chain-of-thought.png", width = 800, height = 600)
-plot(0, 0, type = "n", xlim = c(-4, 4), ylim = c(-7, 1),
-     axes = FALSE, xlab = "", ylab = "", main = "Top Down Approach")
+<!-- png("data/slide_intro/top-down-chain-of-thought.png", width = 800, height = 600) -->
+<!-- plot(0, 0, type = "n", xlim = c(-4, 4), ylim = c(-7, 1), -->
+<!--      axes = FALSE, xlab = "", ylab = "", main = "Top Down Approach") -->
 
-draw_node <- function(x, y, r = 0.2, col = "darkorange") {
-  symbols(x, y, circles = r, inches = FALSE, add = TRUE, fg = col, bg = "white", lwd = 2)
-}
+<!-- draw_node <- function(x, y, r = 0.2, col = "darkorange") { -->
+<!--   symbols(x, y, circles = r, inches = FALSE, add = TRUE, fg = col, bg = "white", lwd = 2) -->
+<!-- } -->
 
-graphics::text(0, 1, "Input", col = "darkorange", cex = 1.5)
-graphics::text(0, -7, "Output", col = "darkorange", cex = 1.5)
+<!-- graphics::text(0, 1, "Input", col = "darkorange", cex = 1.5) -->
+<!-- graphics::text(0, -7, "Output", col = "darkorange", cex = 1.5) -->
 
 
-root <- c(0, 0)
-left_child <- c(-2, -2)
-right_child <- c(2, -2)
-left_left <- c(-3, -4)
-left_right <- c(-1, -4)
-right_left <- c(1, -4)
-right_right <- c(3, -4)
-right_right_output <- c(0,-6)
-right_right_output <- c(0,-6)
+<!-- root <- c(0, 0) -->
+<!-- left_child <- c(-2, -2) -->
+<!-- right_child <- c(2, -2) -->
+<!-- left_left <- c(-3, -4) -->
+<!-- left_right <- c(-1, -4) -->
+<!-- right_left <- c(1, -4) -->
+<!-- right_right <- c(3, -4) -->
+<!-- right_right_output <- c(0,-6) -->
+<!-- right_right_output <- c(0,-6) -->
 
-segments(root[1], root[2], left_child[1], left_child[2], col = "darkorange", lwd = 2)
-segments(root[1], root[2], right_child[1], right_child[2], col = "darkorange", lwd = 2)
-segments(left_child[1], left_child[2], left_left[1], left_left[2], col = "darkorange", lwd = 2)
-segments(left_child[1], left_child[2], left_right[1], left_right[2], col = "darkorange", lwd = 2)
-segments(right_child[1], right_child[2], right_left[1], right_left[2], col = "darkorange", lwd = 2)
-segments(right_child[1], right_child[2], right_right[1], right_right[2], col = "darkorange", lwd = 2)
+<!-- segments(root[1], root[2], left_child[1], left_child[2], col = "darkorange", lwd = 2) -->
+<!-- segments(root[1], root[2], right_child[1], right_child[2], col = "darkorange", lwd = 2) -->
+<!-- segments(left_child[1], left_child[2], left_left[1], left_left[2], col = "darkorange", lwd = 2) -->
+<!-- segments(left_child[1], left_child[2], left_right[1], left_right[2], col = "darkorange", lwd = 2) -->
+<!-- segments(right_child[1], right_child[2], right_left[1], right_left[2], col = "darkorange", lwd = 2) -->
+<!-- segments(right_child[1], right_child[2], right_right[1], right_right[2], col = "darkorange", lwd = 2) -->
 
-segments(right_right[1], right_right[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2)
-segments(right_left[1], right_left[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2)
-segments(left_right[1], left_right[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2)
-segments(left_left[1], left_left[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2)
+<!-- segments(right_right[1], right_right[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2) -->
+<!-- segments(right_left[1], right_left[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2) -->
+<!-- segments(left_right[1], left_right[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2) -->
+<!-- segments(left_left[1], left_left[2], right_right_output[1], right_right_output[2], col = "darkorange", lwd = 2) -->
 
-draw_node(root[1], root[2])
-draw_node(left_child[1], left_child[2])
-draw_node(right_child[1], right_child[2])
-draw_node(left_left[1], left_left[2])
-draw_node(left_right[1], left_right[2])
-draw_node(right_left[1], right_left[2])
-draw_node(right_right[1], right_right[2])
-draw_node(right_right_output[1], right_right_output[2])
-dev.off()
+<!-- draw_node(root[1], root[2]) -->
+<!-- draw_node(left_child[1], left_child[2]) -->
+<!-- draw_node(right_child[1], right_child[2]) -->
+<!-- draw_node(left_left[1], left_left[2]) -->
+<!-- draw_node(left_right[1], left_right[2]) -->
+<!-- draw_node(right_left[1], right_left[2]) -->
+<!-- draw_node(right_right[1], right_right[2]) -->
+<!-- draw_node(right_right_output[1], right_right_output[2]) -->
+<!-- dev.off() -->
 
-```
+<!-- ``` -->
 
 # Where to start?
 .pull-left-50[
