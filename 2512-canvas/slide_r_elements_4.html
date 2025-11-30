@@ -46,12 +46,6 @@ name: contents
 
 # Contents of the lecture
 
-- variables and their types
-- operators
-- vectors
-- matrices
-- data frames
-- lists
 - **repeating actions: loops**
 - **decision taking: `if` control structures**
 - **functions**
@@ -136,24 +130,24 @@ Say, we want to add 1 to every element of a vector:
 
 
 ``` r
-vec &lt;- c(1:5)
+vec &lt;- c(10,20,30,40,50)
 vec
 ```
 
 ```
-## [1] 1 2 3 4 5
+## [1] 10 20 30 40 50
 ```
 
 
 ``` r
-for (i in vec) {
+for (i in 1:length(vec)) {
   vec[i] &lt;- vec[i] + 1
 }
 vec
 ```
 
 ```
-## [1] 2 3 4 5 6
+## [1] 11 21 31 41 51
 ```
 
 --
@@ -163,12 +157,12 @@ The above can be achieved in R by means of **vectorization**.
 
 
 ``` r
-vec &lt;- c(1:5)
+vec &lt;- c(10,20,30,40,50)
 vec + 1  
 ```
 
 ```
-## [1] 2 3 4 5 6
+## [1] 11 21 31 41 51
 ```
 
 ---
@@ -188,7 +182,7 @@ proc.time() - ptm # vectorized
 
 ```
 ##    user  system elapsed 
-##   0.002   0.000   0.002
+##   0.002   0.000   0.001
 ```
 
 
@@ -206,7 +200,7 @@ proc.time() - ptm # for-loop
 
 ```
 ##    user  system elapsed 
-##   0.056   0.003   0.059
+##   0.058   0.000   0.058
 ```
 
 
@@ -220,21 +214,66 @@ To know the current iteration number on the loop, we can set an external counter
 
 ``` r
 cnt &lt;- 1
-for (i in c(2,4,6,8,10)) {
+vec &lt;- letters[1:5]
+for (i in vec) {
   cat(paste('Iteration', cnt,
-            'Performing operation on no.', i), '\n')
+            'Reading letter:', i), '\n')
   cnt &lt;- cnt + 1
-  
 }
 ```
 
 ```
-## Iteration 1 Performing operation on no. 2 
-## Iteration 2 Performing operation on no. 4 
-## Iteration 3 Performing operation on no. 6 
-## Iteration 4 Performing operation on no. 8 
-## Iteration 5 Performing operation on no. 10
+## Iteration 1 Reading letter: a 
+## Iteration 2 Reading letter: b 
+## Iteration 3 Reading letter: c 
+## Iteration 4 Reading letter: d 
+## Iteration 5 Reading letter: e
 ```
+--
+Be careful with counters
+
+``` r
+# now it has the value of the last loop cycle 
+cnt
+```
+
+```
+## [1] 6
+```
+
+---
+name: for_loop_counter2
+
+# Repeating actions &amp;mdash; for loop with an implicit counter
+
+To safest way to loop and to know the current iteration number is using the function `seq_along`.
+
+
+``` r
+vec &lt;- letters[1:5]
+for (i in seq_along(vec)) {
+  cat(paste('Iteration', i,
+            'Reading letter:', vec[i]), '\n')
+}
+```
+
+```
+## Iteration 1 Reading letter: a 
+## Iteration 2 Reading letter: b 
+## Iteration 3 Reading letter: c 
+## Iteration 4 Reading letter: d 
+## Iteration 5 Reading letter: e
+```
+--
+
+``` r
+seq_along(vec)
+```
+
+```
+## [1] 1 2 3 4 5
+```
+
 
 ---
 name: loops_avoid_growing
@@ -262,7 +301,8 @@ It is much better to do it like this:
 
 
 ``` r
-v &lt;- rep(NA, 100) # Initialize with length
+# Initialize with the desired with length
+v &lt;- rep(NA, 100)
 for (i in 1:100) {
   v[i] &lt;- i
 }
@@ -283,7 +323,7 @@ name: while_loop
 
 # Repeating actions &amp;mdash; the while loop
 
-There is also another type of loop in R, the **while loop** which is executed as long as some condition is true.
+The **while loop** is only executed as long as some condition is true.
 
 ``` r
 x &lt;- 1
@@ -372,7 +412,7 @@ proc.time() - ptm
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.007   0.000   0.006
+##   0.006   0.000   0.005
 ```
 --&gt;
 
@@ -607,11 +647,11 @@ Sometimes, it is good to use default values for some arguments:
 
 
 ``` r
-add.a.num &lt;- function(arg, num=1) {
-  result &lt;- arg + num
+add.a.num &lt;- function(arg1, arg2=1) {
+  result &lt;- arg1 + arg2
   return(result)
 }
-add.a.num(1) # skip the num argument
+add.a.num(1) # you can skip the arg2 argument
 ```
 
 ```
@@ -622,8 +662,8 @@ add.a.num(1) # skip the num argument
 
 
 ``` r
-add.a.num(1, 5) # overwrite the num argument
-add.a.num(1, num=5) # overwrite the num argument
+add.a.num(1, arg2=5) # overwrite the arg2 default
+add.a.num(1, 5)
 ```
 
 ```
@@ -635,11 +675,11 @@ add.a.num(1, num=5) # overwrite the num argument
 
 
 ``` r
-add.a.num(num=1) # skip the first argument
+add.a.num(arg2=1) # arg1 is missing
 ```
 
 ```
-## Error in add.a.num(num = 1): argument "arg" is missing, with no default
+## Error in add.a.num(arg2 = 1): argument "arg1" is missing, with no default
 ```
 
 ---
@@ -649,45 +689,49 @@ name:fns_args
 
 
 ``` r
-args.demo &lt;- function(x, y, arg3) {
-  print(paste('x =', x, 'y =', y, 'arg3 =', arg3))
+args.demo &lt;- function(arg1, arg2, arg3) {
+  print(paste('arg1 =', arg1, 'arg2 =', arg2, 'arg3 =', arg3))
 }
-args.demo(1,2,3)
-```
-
-```
-## [1] "x = 1 y = 2 arg3 = 3"
 ```
 --
 
 
 ``` r
-args.demo(x=1, 2, 3)
+args.demo(arg1='a', arg2='b', arg3='c')
 ```
 
 ```
-## [1] "x = 1 y = 2 arg3 = 3"
+## [1] "arg1 = a arg2 = b arg3 = c"
 ```
 
 --
 
 ``` r
-args.demo(x=1, y=2, arg3=3)
+args.demo('a','b','c')
 ```
 
 ```
-## [1] "x = 1 y = 2 arg3 = 3"
+## [1] "arg1 = a arg2 = b arg3 = c"
 ```
 
 --
 
+``` r
+args.demo('b','a','c')
+```
+
+```
+## [1] "arg1 = b arg2 = a arg3 = c"
+```
+--
+
 
 ``` r
-args.demo(arg3=3, x=1, y=2)
+args.demo(arg3='c', arg2='b', arg1='a')
 ```
 
 ```
-## [1] "x = 1 y = 2 arg3 = 3"
+## [1] "arg1 = a arg2 = b arg3 = c"
 ```
 
 
@@ -867,7 +911,7 @@ Operators like `+`, `-` or `*` are using the so-called **infix** functions, wher
 
 ---
 name:anatomy_of_a_fn
-
+exclude: true
 # Anatomy of a function
 
 A function consists of: *formal arguments*, *function body* and *environment*:
@@ -881,8 +925,6 @@ formals(add.one)
 ## $arg1
 ```
 
---
-
 
 ``` r
 body(add.one)
@@ -895,7 +937,6 @@ body(add.one)
 ## }
 ```
 
---
 
 ``` r
 environment(add.one)
@@ -956,7 +997,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 26-Nov-2025 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 30-Nov-2025 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 
