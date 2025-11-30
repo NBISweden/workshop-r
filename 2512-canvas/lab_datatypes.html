@@ -253,7 +253,7 @@ div.tocify {
 <p><br></p>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>There are different data modes used in R. The mode of a variable will
+<p>There are different data types used in R. The type of a variable will
 for example determine what kind of operators that can be done on it. At the end of
 this exercise you should know:</p>
 <ul>
@@ -264,28 +264,31 @@ this exercise you should know:</p>
 </ul>
 <div id="data-types" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Data types</h2>
-<p>From the lecture you might remember that all elements in any data stuctures found in R will be of a certain type (or have a certain mode). The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.</p>
+<p>From the lecture you might remember that all elements in any data structures found in R will be of a certain type. The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.</p>
 <ul>
 <li>Logical = TRUE or FALSE (or NA)</li>
-<li>Integer = Numbers that can be represented without fractional component</li>
-<li>Numeric = Any number that is not a complex number.</li>
+<li>Integer = Numbers that can be represented without fractional component<br />
+</li>
+<li>Numeric = Any number that is not a complex number<br />
+</li>
 <li>Character = Text</li>
 </ul>
-<p>In many cases the mode of on entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like “hello world” it will have the mode character. Below you will also see examples of how you can specify the mode and not rely on R inferring the right mode based on content.</p>
+<p><strong>Bonus:</strong> Complex numbers have both a real and imaginary part (e.g. 3 + 4i); <code>i</code>s a special number defined as the square root of –1., for example. We normally cannot take √(–1), so mathematicians introduced a new idea: of using <code>i</code>, in this example`. It is mostly used in engineering and physics.</p>
+<p>In many cases the type of on entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like “hello world” it will have the type character. Below you will also see examples of how you can specify the type and not rely on R inferring the right type based on content.</p>
 </div>
 </div>
 <div id="exercises" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Exercises</h1>
 <div class="boxy boxy-lightbulb">
 <p>In all exercises during this course, it is important that you try to figure out what the expected result would be, prior to running the commands. You should then verify that this will indeed be the
-result by running the command. In case there is a discrepency between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
-how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or your someone sitting next to you who might have wrapped their head around the issue.</p>
-<p>Also note that in many cases there multiple solutions that solve the problem equally well.</p>
+result by running the command. In case there is a discrepancy between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
+how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or someone sitting next to you who might have wrapped their head around the issue.</p>
+<p>Also note that in many cases there are multiple solutions that solve the problem equally well.</p>
 <p>We do recommend to write all code in a Rmarkdown document in R-studio as that will at the end of the course be your own R tutorial with comments and code solutions.</p>
 </div>
 <div id="working-with-variables" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Working with variables</h2>
-<p>Open Rstudio and make sure to set your working directory. Double check that you do not have stored objects in your current session with the following command. This will list all objects that you have in
+<p>Open Rstudio and make sure to set your working directory (either in console or in Rmd <code>setwd("path/to/my/folder/")</code>. Double check that you do not have stored objects in your current session with the following command. This will list all objects that you have in
 your current R session.</p>
 <pre class="r"><code>ls()</code></pre>
 <pre><code>##  [1] &quot;A&quot;             &quot;address&quot;       &quot;asst&quot;          &quot;B&quot;            
@@ -298,13 +301,13 @@ your current R session.</p>
 ## [29] &quot;fa1&quot;           &quot;fa2&quot;           &quot;gapminder&quot;     &quot;i&quot;            
 ## [33] &quot;l&quot;             &quot;lego&quot;          &quot;letnum&quot;        &quot;linkoping&quot;    
 ## [37] &quot;list.2&quot;        &quot;list.a&quot;        &quot;loc&quot;           &quot;lund&quot;         
-## [41] &quot;mat1&quot;          &quot;mt.merged&quot;     &quot;mtcars2&quot;       &quot;mylist&quot;       
-## [45] &quot;numeric_vec&quot;   &quot;p&quot;             &quot;p1&quot;            &quot;p2&quot;           
-## [49] &quot;penguins&quot;      &quot;r&quot;             &quot;random1&quot;       &quot;random2&quot;      
-## [53] &quot;s&quot;             &quot;sel_cn&quot;        &quot;sharks&quot;        &quot;stackoverflow&quot;
-## [57] &quot;tmp_cn&quot;        &quot;tmp_count&quot;     &quot;tmp_data&quot;      &quot;tmp_df&quot;       
-## [61] &quot;tmp_max&quot;       &quot;tmp_mean&quot;      &quot;tmp_min&quot;       &quot;tmp_missing&quot;  
-## [65] &quot;tmp_sd&quot;        &quot;tmp_var&quot;       &quot;umea&quot;          &quot;uppsala&quot;      
+## [41] &quot;mat1&quot;          &quot;mt.merged&quot;     &quot;mtcars2&quot;       &quot;numeric_vec&quot;  
+## [45] &quot;p&quot;             &quot;p1&quot;            &quot;p2&quot;            &quot;penguins&quot;     
+## [49] &quot;r&quot;             &quot;random1&quot;       &quot;random2&quot;       &quot;s&quot;            
+## [53] &quot;sel_cn&quot;        &quot;sharks&quot;        &quot;stackoverflow&quot; &quot;tmp_cn&quot;       
+## [57] &quot;tmp_count&quot;     &quot;tmp_data&quot;      &quot;tmp_df&quot;        &quot;tmp_max&quot;      
+## [61] &quot;tmp_mean&quot;      &quot;tmp_min&quot;       &quot;tmp_missing&quot;   &quot;tmp_sd&quot;       
+## [65] &quot;tmp_var&quot;       &quot;u.2&quot;           &quot;umea&quot;          &quot;uppsala&quot;      
 ## [69] &quot;uppsala2&quot;      &quot;vars&quot;          &quot;vec1&quot;          &quot;vec2&quot;         
 ## [73] &quot;vector1&quot;       &quot;vector2&quot;       &quot;vector3&quot;       &quot;videogames&quot;   
 ## [77] &quot;X&quot;             &quot;X.2&quot;</code></pre>
@@ -315,23 +318,23 @@ your current R session.</p>
 <li>Create variables <em>var1</em> and <em>var2</em> and initialize them with two integers of choice.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019067221" aria-expanded="false" aria-controls="acc2025113019067221">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020400480" aria-expanded="false" aria-controls="acc2025113020400480">
 </button>
 </p>
-<div id="acc2025113019067221" class="collapse">
+<div id="acc2025113020400480" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>var1 &lt;- 11
 var2 &lt;- 34</code></pre>
 </div>
 </div>
 <ol start="2" style="list-style-type: decimal">
-<li>Add the two variables and save them as a new variable named <em>var3</em> and print the result.</li>
+<li>Sum the two variables and save them as a new variable named <em>var3</em> and print the result.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019061761" aria-expanded="false" aria-controls="acc2025113019061761">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020409001" aria-expanded="false" aria-controls="acc2025113020409001">
 </button>
 </p>
-<div id="acc2025113019061761" class="collapse">
+<div id="acc2025113020409001" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>var3 &lt;- var1 + var2
 var3</code></pre>
@@ -339,62 +342,56 @@ var3</code></pre>
 </div>
 </div>
 <ol start="3" style="list-style-type: decimal">
-<li>Check the class, mode, and type for var1, var2, var3 and π (is found under the variable name <code>pi</code> in R)</li>
+<li>Check the class and type for var1, var2, var3 and π (is found under the variable name <code>pi</code> in R)</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019063240" aria-expanded="false" aria-controls="acc2025113019063240">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020404469" aria-expanded="false" aria-controls="acc2025113020404469">
 </button>
 </p>
-<div id="acc2025113019063240" class="collapse">
+<div id="acc2025113020404469" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>mode(var1)
-class(var1)
+<pre class="r"><code>class(var1)
 typeof(var1)</code></pre>
 <pre><code>## [1] &quot;numeric&quot;
-## [1] &quot;numeric&quot;
 ## [1] &quot;double&quot;</code></pre>
 </div>
 </div>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019060007" aria-expanded="false" aria-controls="acc2025113019060007">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020401031" aria-expanded="false" aria-controls="acc2025113020401031">
 </button>
 </p>
-<div id="acc2025113019060007" class="collapse">
+<div id="acc2025113020401031" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>mode(pi)
-class(pi)
+<pre class="r"><code>class(pi)
 typeof(pi)</code></pre>
 <pre><code>## [1] &quot;numeric&quot;
-## [1] &quot;numeric&quot;
 ## [1] &quot;double&quot;</code></pre>
 </div>
 </div>
 <ol start="4" style="list-style-type: decimal">
-<li>Create two character variables containing a text of choice. Check the mode, class, and type of the first one.</li>
+<li>Create two character variables containing a text of choice. Check the class, and type of the first one.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019065080" aria-expanded="false" aria-controls="acc2025113019065080">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020407511" aria-expanded="false" aria-controls="acc2025113020407511">
 </button>
 </p>
-<div id="acc2025113019065080" class="collapse">
+<div id="acc2025113020407511" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>text1 &lt;- &quot;test1&quot;
 text2 &lt;- &quot;test2&quot;
 
-mode(text1)
 class(text1)
 typeof(text1)</code></pre>
 <pre><code>## [1] &quot;character&quot;
-## [1] &quot;character&quot;
 ## [1] &quot;character&quot;</code></pre>
 </div>
 </div>
 <p>Add <strong>var1</strong> to it. What is the result and why?</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019060958" aria-expanded="false" aria-controls="acc2025113019060958">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020401519" aria-expanded="false" aria-controls="acc2025113020401519">
 </button>
 </p>
-<div id="acc2025113019060958" class="collapse">
+<div id="acc2025113020401519" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>text1+var1</code></pre>
 <pre><code>## Error in text1 + var1: non-numeric argument to binary operator</code></pre>
@@ -404,10 +401,10 @@ typeof(text1)</code></pre>
 <li>Convert <strong>var3</strong> to an integer, cast an integer variable to double, cast a string to a double.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019068460" aria-expanded="false" aria-controls="acc2025113019068460">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020406002" aria-expanded="false" aria-controls="acc2025113020406002">
 </button>
 </p>
-<div id="acc2025113019068460" class="collapse">
+<div id="acc2025113020406002" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>as.integer(var3)
 i &lt;- 175
@@ -422,10 +419,10 @@ as.double(text1)</code></pre>
 <li>Report floor and ceiling of π and round π to 3 decimal places.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019069486" aria-expanded="false" aria-controls="acc2025113019069486">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020404416" aria-expanded="false" aria-controls="acc2025113020404416">
 </button>
 </p>
-<div id="acc2025113019069486" class="collapse">
+<div id="acc2025113020404416" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>floor(pi)
 ceiling(pi)
@@ -439,10 +436,10 @@ round(pi, digits=3)</code></pre>
 <li>Is floor of π an integer?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019062672" aria-expanded="false" aria-controls="acc2025113019062672">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020405773" aria-expanded="false" aria-controls="acc2025113020405773">
 </button>
 </p>
-<div id="acc2025113019062672" class="collapse">
+<div id="acc2025113020405773" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>is.integer(floor(pi))</code></pre>
 <pre><code>## [1] FALSE</code></pre>
@@ -452,10 +449,10 @@ round(pi, digits=3)</code></pre>
 <li>Treat <code>"3.56437"</code> string as number.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019062816" aria-expanded="false" aria-controls="acc2025113019062816">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020405025" aria-expanded="false" aria-controls="acc2025113020405025">
 </button>
 </p>
-<div id="acc2025113019062816" class="collapse">
+<div id="acc2025113020405025" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>as.numeric(&#39;3.56437&#39;)</code></pre>
 <pre><code>## [1] 3.56437</code></pre>
@@ -465,69 +462,23 @@ round(pi, digits=3)</code></pre>
 <li>Divide ∞ by - ∞</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019061166" aria-expanded="false" aria-controls="acc2025113019061166">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020407036" aria-expanded="false" aria-controls="acc2025113020407036">
 </button>
 </p>
-<div id="acc2025113019061166" class="collapse">
+<div id="acc2025113020407036" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>Inf/-Inf</code></pre>
 <pre><code>## [1] NaN</code></pre>
 </div>
 </div>
 <ol start="10" style="list-style-type: decimal">
-<li>Create two freely chosen complex numbers.</li>
-</ol>
-<ul>
-<li>Check that they are complex indeed.</li>
-<li>Add, multiply and divide one by another.</li>
-<li>Add an integer to their sum.</li>
-</ul>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019066070" aria-expanded="false" aria-controls="acc2025113019066070">
-</button>
-</p>
-<div id="acc2025113019066070" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>c1 &lt;- 23 + 4i
-c2 &lt;- -15 - 7i
-is.complex(c1)
-is.complex(c2)
-c1 + c2
-c1 / c2
-c1 + c2 + 7</code></pre>
-<pre><code>## [1] TRUE
-## [1] TRUE
-## [1] 8-3i
-## [1] -1.361314+0.3686131i
-## [1] 15-3i</code></pre>
-</div>
-</div>
-<ol start="11" style="list-style-type: decimal">
-<li>Print a truth table for OR (for three distinct logical values). Read about truth tables <a href="https://en.wikipedia.org/wiki/Truth_table" target="_blank">here</a>.</li>
-</ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019068460" aria-expanded="false" aria-controls="acc2025113019068460">
-</button>
-</p>
-<div id="acc2025113019068460" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>x &lt;- c(NA, FALSE, TRUE)
-names(x) &lt;- as.character(x)
-outer(x, x, &quot;|&quot;)</code></pre>
-<pre><code>##       &lt;NA&gt; FALSE TRUE
-## &lt;NA&gt;    NA    NA TRUE
-## FALSE   NA FALSE TRUE
-## TRUE  TRUE  TRUE TRUE</code></pre>
-</div>
-</div>
-<ol start="12" style="list-style-type: decimal">
 <li>Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019066741" aria-expanded="false" aria-controls="acc2025113019066741">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020404091" aria-expanded="false" aria-controls="acc2025113020404091">
 </button>
 </p>
-<div id="acc2025113019066741" class="collapse">
+<div id="acc2025113020404091" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>TRUE * FALSE
 T^7</code></pre>
@@ -535,7 +486,7 @@ T^7</code></pre>
 ## [1] 1</code></pre>
 </div>
 </div>
-<ol start="13" style="list-style-type: decimal">
+<ol start="11" style="list-style-type: decimal">
 <li>Create two character variables containing two verses of your favorite song.</li>
 </ol>
 <ul>
@@ -543,17 +494,17 @@ T^7</code></pre>
 </li>
 <li>Paste the variables with ‘*’ as separator.<br />
 </li>
-<li>Find if ‘and’ occurs in the second line,<br />
+<li>Find if ‘and’ occurs in the second line (use <code>grep</code> check the help and learn how to use it by <code>?grep</code>),<br />
 </li>
 <li>Substitute a word for another,<br />
 </li>
 <li>Extract substring starting at the 5th character and 5 characters long.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113019067764" aria-expanded="false" aria-controls="acc2025113019067764">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025113020400097" aria-expanded="false" aria-controls="acc2025113020400097">
 </button>
 </p>
-<div id="acc2025113019067764" class="collapse">
+<div id="acc2025113020400097" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>line1 &lt;- &quot;Hello darkness my old friend&quot;
 line2 &lt;- &quot;I&#39;ve come to talk to you again&quot;
@@ -573,18 +524,29 @@ substr(line1, 5, 5 + 5)</code></pre>
 <div id="r-environment" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> R Environment</h2>
 <ul>
-<li>Get help for the <em>t.test</em>, <em>table</em>, <em>locator</em> and <em>identify</em> functions,</li>
-<li>Check for all occurences of <em>fisher.test</em> in the docs,</li>
+<li>Get help for the <em>t.test</em>, <em>table</em>, <em>locator</em> and <em>identify</em> functions (use <code>?function_name</code>),</li>
 <li>Which package contains the <em>plot.ecdf</em> function. What does it do?</li>
-<li>Find package ‘reshape’-related questions on StackOverflow,</li>
-<li>Search on the internet on how to load an XML file into R,</li>
+<li>Ask ChatGPT (or AI of your choice) on how to load an XML file into R,</li>
 <li>Install the ‘cgmisc’ package from GitHub,</li>
-<li>Look up the ‘cgmisc’ vignette,</li>
+<li>Look up the ‘cgmisc’ vignette (<code>vignette("cgmisc")</code>),
+<ul>
+<li>vignettes are long-form documentation that often include examples and explanations,<br />
+
+<details>
+<summary>
+<strong>Did you get a <code>Warning</code></strong>
+</summary>
+<ul>
+<li>Because the GitHub version of <code>cgmisc</code> does not ship any vignettes.</li>
+<li>Try <code>help(package="cgmisc")</code>. What do you see?<br />
+</li>
+</ul>
+</details></li>
+</ul></li>
 <li>See all the demos available for you and run one you like,</li>
-<li>Run examples for the <em>fisher.test</em>,</li>
-<li>Check out CRANs view for genetics,</li>
-<li>Install a CRAN package of choice,</li>
-<li>Install the R-Forge package ‘bigRR’</li>
+<li>Run examples for the <em>mean</em> (<code>example(function, package="package_name")</code>),</li>
+<li>Check out CRANs view for <code>genetics</code> (search CRAN genetics),</li>
+<li>Install a CRAN package of choice (e.g. genetics),</li>
 </ul>
 </div>
 </div>
