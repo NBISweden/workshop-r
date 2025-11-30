@@ -351,7 +351,7 @@ name: CRAN
 --
 # Working with packages -- CRAN example.
 
-```{r,out.width="80%",fig.align='center',echo=FALSE}
+```{r,out.width="200%",fig.align='center',echo=FALSE}
 knitr::include_graphics("data/slide_r_environment/ggplot2_CRAN.png")
 ```
 
@@ -384,14 +384,6 @@ install.packages('ggplot2',dependencies=TRUE,repos="http://cran.se.r-project.org
 ```
 
 But, sometimes, this does not work either because the package is not available for your platform. In such case, you need to *compile* it from its *source code*.
-
----
-name: work_pkg_details2
-
-# Working with packages -- details cted.
-```{r,out.width="150%",fig.align='center',echo=FALSE}
-knitr::include_graphics("data/slide_r_environment/ggplot2_CRAN.png")
-```
 
 ---
 name: source_pkg_inst
@@ -508,6 +500,16 @@ For more info, visit [Bioconductor website](http://www.bioconductor.org/install/
 knitr::include_graphics("images/renv.png")
 ```
 ]
+
+---
+name: recap
+# Recap
+* Why R?  
+* About R.   
+* R is a programming language for statistical computing and data analysis.  
+* Packages and repositories.   
+* Installing packages from CRAN, Bioconductor, GitHub. 
+* Managing project environment with `renv`. 
 
 
 
