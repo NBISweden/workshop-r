@@ -213,6 +213,7 @@ data <- readMat("mydata.mat")
 
 ---
 name: remote_data
+exclude: true
 
 # Working with remote data
 
@@ -235,6 +236,7 @@ data[1:5, ]
 
 ---
 name: databases
+exclude: true
 
 # Working with databases
 
