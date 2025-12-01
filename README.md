@@ -10,7 +10,7 @@ To add or update contents of this repo (for collaborators), first clone the repo
 git clone https://github.com/nbisweden/workshop-r.git
 ```
 
-Make changes/updates as needed. Add the changed files. Commit it. Then push the repo back.
+Create a new branch. Make changes/updates as needed. Add the changed files. Commit it. Then push the repo back.
 
 ```
 git add .
@@ -18,7 +18,7 @@ git commit -m "I did this and that"
 git push origin
 ```
 
-If you are not added as a collaborator, first fork this repo to your account, then clone it locally, make changes, commit, push to your repo, then submit a pull request to this repo.
+If you are not added as a collaborator, first fork this repo to your account, then clone it locally, make changes, commit, push to your repo, then submit a pull request to this repo/master branch.
 
 :exclamation: When updating repo for a new course, change `output_dir: XXXX` in `_site.yml` as the first thing, so that old rendered files are not overwritten.
 
@@ -78,4 +78,4 @@ docker push ghcr.io/nbisweden/workshop-r:latest
 
 ---
 
-**2024** NBIS • SciLifeLab
+**2025** NBIS • SciLifeLab
