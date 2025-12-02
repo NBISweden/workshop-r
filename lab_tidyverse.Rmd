@@ -24,6 +24,7 @@ output:
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
+**Note perhaps you may need to load package `magrittr`.**   
 ```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 library(dplyr)
 library(nycflights13)
@@ -62,6 +63,10 @@ cor(mtcars)
 mtcars %>% cor()
 ```
 
+<details>
+  <summary><strong>Tip?</strong></summary>
+  You need to use different pipe for  this one. (Check the cheatsheet at the end of the lab). 
+</details>
 ```{r,eval=FALSE}
 cor(mtcars$gear, mtcars$mpg)
 ```
@@ -89,8 +94,40 @@ vehicles[[2]]
 vehicles$cyl
 ```
 
-- Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).
+- Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).  
 
+<details>
+  <summary><strong>Tip?</strong></summary>
+  1 - Which pipe allows you to print something but still pass **the original data forward**?  
+  A. `%>%`  
+  B. `%T>%`  
+  C. `%$%`  
+  D. `|>`  
+  
+  2 — Inside a pipe, which symbol refers to the current dataset?  
+  A.` $`  
+  B. `{}`  
+  C. `.`  
+  D. `_`  
+  
+  3 — Which structure lets you group multiple commands inside a pipe step?  
+  A. `()` 
+  B. `{ ... }`  
+  C. `[]` 
+  D. `<>`  
+  
+  4 — Which extraction matches `vehicles[['cyl']]`?  
+  A. `.[2]`  
+  B. `.$cyl`  
+  C. `.[['cyl']]`  
+  D. `[[2]]`  
+  
+  5 — Which pipeline ending would extract the `cyl` column from the data?  
+  A. `%>% .$cyl`  
+  B. `%T>% cyl`   
+  C. `%>% cyl(.)`  
+  D. `%$% cyl`  
+</details>
 ```{r,accordion=TRUE}
 vehicles %T>%
   {print(.[['cyl']])} %T>%
@@ -122,11 +159,14 @@ options(tibble.print_min = 15, tibble.print_max = 30)
 automobiles <- as.data.frame(vehicles)
 ```
 
-Do you think tibbles are lazy? Try to create a tibble that tests whether *lazy evaluation* applies to tibbles too.
+Do you think tibbles are lazy? Try to create a tibble that tests whether *lazy evaluation* (!= *eager evaluation*) applies to tibbles too.  
 
 ```{r eval=FALSE}
 tibble(x = sample(1:10, size = 10, replace = T), y = log10(x))
 ```
+
+**Because y uses x right away and works, we know tibble() computes each column immediately as it creates the tibble.**. 
+
 
 # NYC flights Challenge
 
@@ -171,7 +211,7 @@ flights %>% select(carrier, tailnum, origin)
 flights %>% select(-(day:carrier))
 ```
 
-- Select all columns that have to do with `arr`_ival (hint: `?tidyselect`)
+- Select all columns that have to do with `arr`_ival (hint: `contains`, `start_with`, `matches`, `ends_with`; more details [here](https://dplyr.tidyverse.org/reference/select.html))  
 
 ```{r,accordion=TRUE}
 flights %>% select(contains('arr_'))
@@ -250,12 +290,13 @@ flights %>%
 - Which is the most frequent route?
 
 ```{r,accordion=TRUE}
-# JFK - LAX
 flights %>%
   mutate(route=paste(origin,"-",dest)) %>% 
   group_by(route) %>%
   count() %>%
   arrange(-n)
+
+# JFK - LAX
 ```
 
 ## Trans(mutations)
@@ -326,3 +367,63 @@ flights %>%
 ```
 
 **Note on `ungroup`** Depending on the version of `dplyr` you may or may need to use the `ungroup()` if you want to group your data on some other variables. In the newer versions, `summarise` and `mutate` drop one aggregation level.
+
+
+# Cheatsheet  
+## Pipe 
+**Make sure to load the relevant libraries**. 
+
+| Operator | Package | Short Explanation | Example |
+|----------|------|-------------------|---------|
+| `%>%` | **magrittr / tidyverse** | Forward pipe: passes the LHS as the **first argument** of the RHS function. Improves readability. | `mtcars %>% head(3)` |
+| `%$%` | **magrittr** | Exposition pipe: **unpacks columns** of a data frame so they can be used directly inside a function. | `mtcars %$% cor(mpg, hp)` |
+| `%T>%` | **magrittr** | Tee pipe: runs a function **for side effects** (e.g., plotting) but **returns the original data**. | `mtcars %T>% print() %>% summary()` |
+| `|>` | **base R** (R 4.1+) | Base pipe: similar to `%>%` but **stricter and simpler**. LHS is inserted into `_` placeholder if used. | `mtcars |> head(3)` or `mtcars |> (\(x) x[1:3, ])` |
+
+
+## Placeholder  
+
+| Placeholder | Package | Used With | Short Explanation | Example |
+|-------------|------|-----------|-------------------|---------|
+| `.` | magrittr | `%>%` pipes | Insert LHS **anywhere** inside the RHS expression. | `mtcars %>% filter(mpg > mean(.$mpg))` |
+| `.x` | purrr | `map()`, `walk()`, etc. | Represents the **current element** in purrr mapping. | `map(1:3, ~ .x^2)` |
+| `.y` | purrr | `imap()` | Represents the **index/name** of the current element. | `imap(letters[1:3], ~ paste(.y, .x))` |
+| `_` | base R | `|>` | Base-R placeholder: places the LHS at **specific argument position**. | `mtcars |> lm(mpg ~ hp, data = _)` |
+
+
+
+## Common dplyr, tidyr and tibble functions  
+
+| Package | Function                      | What it does (short)                                                   | Tiny example                                                        |
+| ------- | ----------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| dplyr   | `filter()`                    | Keep **rows** that satisfy one or more logical conditions.             | `flights %>% filter(dep_delay > 60)`                                |
+| dplyr   | `select()`                    | Select or reorder **columns** by name, range, or helper functions.     | `flights %>% select(year, month, day, dep_delay)`                   |
+| dplyr   | `mutate()`                    | Add or modify columns while keeping all existing columns.              | `flights %>% mutate(speed = distance / (air_time / 60))`            |
+| dplyr   | `transmute()`                 | Like `mutate()`, but **drops all other columns**, keeps only new ones. | `flights %>% transmute(speed = distance / (air_time / 60))`         |
+| dplyr   | `arrange()`                   | Reorder rows by one or more columns.                                   | `flights %>% arrange(dep_delay)`                                    |
+| dplyr   | `arrange()` + `desc()`        | Sort rows in **descending** order of a variable.                       | `flights %>% arrange(desc(dep_delay))`                              |
+| dplyr   | `group_by()`                  | Define groups of rows for grouped operations (e.g. summarise).         | `flights %>% group_by(carrier)`                                     |
+| dplyr   | `summarise()` / `summarize()` | Collapse each group to **one row** with summary stats.                 | `flights %>% summarise(mean_delay = mean(dep_delay, na.rm = TRUE))` |
+| dplyr   | `distinct()`                  | Return unique rows based on selected columns.                          | `flights %>% distinct(carrier)`                                     |
+| dplyr   | `count()`                     | Shortcut for `group_by(...) %>% summarise(n = n())`.                   | `flights %>% count(carrier)`                                        |
+| dplyr   | `slice()`                     | Select rows by position (row numbers).                                 | `flights %>% slice(1:5)`                                            |
+| dplyr   | `sample_n()`                  | Randomly sample a fixed number of rows.                                | `flights %>% sample_n(10)`                                          |
+| dplyr   | `top_n()`                     | Keep the top *n* rows per group based on a column.                     | `flights %>% top_n(5, dep_delay)`                                   |
+| dplyr   | `rename()`                    | Rename columns while keeping all data.                                 | `flights %>% rename(delay = dep_delay)`                             |
+| dplyr   | `desc()`         | Marks a variable for descending order in `arrange()` or `top_n()`.       | `flights %>% arrange(desc(dep_delay))`                                                      |
+| dplyr   | `between()`      | Test if values lie between two endpoints (inclusive).                    | `flights %>% filter(between(dep_delay, 10, 30))`                                            |
+| dplyr   | `everything()`   | Helper to select all remaining columns after those named.                | `flights %>% select(year, month, day, everything())`                                        |
+| dplyr   | `contains()`     | Select columns whose names contain a given string.                       | `flights %>% select(contains("delay"))`                                                     |
+| dplyr   | `one_of()`       | Select columns using a character vector of column names.                 | `vars <- c("year", "month"); flights %>% select(one_of(vars))`                              |
+| dplyr   | `group_size()`   | Returns the size (row count) of each group for a grouped data frame.     | `flights %>% group_by(carrier) %>% group_size()`                                            |
+| dplyr   | `n_groups()`     | Number of groups in a grouped data frame.                                | `flights %>% group_by(carrier) %>% n_groups()`                                              |
+| dplyr   | `inner_join()`   | Join two data frames, keeping rows that match in both tables.            | `inner_join(df1, df2, by = "id")`                                                           |
+| tidyr   | `gather()`       | (Superseded) Convert wide columns into key–value **long** format.        | `flights %>% gather(type, delay, dep_delay, arr_delay)`                                     |
+| tidyr   | `pivot_longer()` | Modern replacement for `gather()`: wide → long.                          | `flights %>% pivot_longer(c(dep_delay, arr_delay), names_to = "type", values_to = "delay")` |
+| tidyr   | `pivot_wider()`  | Long → wide, turning values of a column into new columns.                | `delays %>% pivot_wider(names_from = type, values_from = delay)`                            |
+| tidyr   | `separate()`     | Split one column into multiple columns.                                  | `df %>% separate(col = "x_y", into = c("x","y"), sep = "_")`                                |
+| tidyr   | `unite()`        | Combine multiple columns into a single one.                              | `df %>% unite("x_y", x, y, sep = "_")`                                                      |
+| tidyr   | `complete()`     | Ensure all combinations of given variables exist (fill in missing rows). | `df %>% complete(year, month)`                                                              |
+| tibble  | `as_tibble()`    | Convert an existing object (e.g. data.frame) into a tibble.              | `as_tibble(df)`                                                                             |
+| tibble  | `tibble()`       | Create a tibble (modern data frame) from scratch.                        | `tibble(x = 1:3, y = letters[1:3])`                                                         |
+

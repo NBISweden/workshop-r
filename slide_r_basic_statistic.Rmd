@@ -98,17 +98,6 @@ Descriptive statistics helps to:
 - Provide insights for downstream-analysis. 
 
 ---
-name: SomeStats
-# Some of the basic descriptive statistics   
-
-1. **Measures of Central Tendency**
-    - Mean, Median, Mode.
-2. **Measures of Spread**
-    - Range, Interquartile Range, Standard Deviation, Variance.
-3. **Correlation**
-    - Relation between two variables (e.g. Pearson's correlation).
-
----
 name: Mean 
 # Central Tendency: Mean
 - Mean: The average value of data.  
