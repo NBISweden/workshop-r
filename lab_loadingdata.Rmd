@@ -169,7 +169,7 @@ str(d.gtf)
 length(levels(as.factor(d.gtf$Chromosome)))
 ```
 
-2.  How many **exons** is there in total and per chromosome? (hint: first extract lines that have `feature == 'exon'`)   
+2.  How many **exons** is there in total and per chromosome? (hint: first extract lines that have `feature == 'exon'`, and then use either `aggregate` or `by` or `table` function to summarize the data per chromosome).    
 
 ```{r,accordion=TRUE}
 d.gtf.exons <- d.gtf[(d.gtf$Feature == 'exon'),]
