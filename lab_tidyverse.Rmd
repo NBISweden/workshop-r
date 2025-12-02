@@ -24,6 +24,7 @@ output:
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
+**Note perhaps you may need to load package `magrittr`.**   
 ```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
 library(dplyr)
 library(nycflights13)
@@ -62,6 +63,7 @@ cor(mtcars)
 mtcars %>% cor()
 ```
 
+Hint: You need to use different pipe for  this one. (Check the cheatsheet at the end of the lab). 
 ```{r,eval=FALSE}
 cor(mtcars$gear, mtcars$mpg)
 ```
@@ -89,7 +91,38 @@ vehicles[[2]]
 vehicles$cyl
 ```
 
-- Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).
+- Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).  
+
+
+Hint1 - Which pipe allows you to print something but still pass **the original data forward**?  
+A. `%>%`  
+B. `%T>%`  
+C. `%$%`  
+D. `|>`  
+
+Hint 2 — Inside a pipe, which symbol refers to the current dataset?  
+A.` $`  
+B. `{}`  
+C. `.`  
+D. `_`  
+
+Hint 3 — Which structure lets you group multiple commands inside a pipe step?  
+A. `()` 
+B. `{ ... }`  
+C. `[]` 
+D. `<>`  
+
+Hint 4 — Which extraction matches `vehicles[['cyl']]`?  
+A. `.[2]`  
+B. `.$cyl`  
+C. `.[['cyl']]`  
+D. `[[2]]`  
+
+Hint 5 — Which pipeline ending would extract the `cyl` column from the data?  
+A. `%>% .$cyl`  
+B. `%T>% cyl`   
+C. `%>% cyl(.)`  
+D. `%$% cyl`  
 
 ```{r,accordion=TRUE}
 vehicles %T>%
@@ -122,11 +155,14 @@ options(tibble.print_min = 15, tibble.print_max = 30)
 automobiles <- as.data.frame(vehicles)
 ```
 
-Do you think tibbles are lazy? Try to create a tibble that tests whether *lazy evaluation* applies to tibbles too.
+Do you think tibbles are lazy? Try to create a tibble that tests whether *lazy evaluation* (!= *eager evaluation*) applies to tibbles too.  
 
 ```{r eval=FALSE}
 tibble(x = sample(1:10, size = 10, replace = T), y = log10(x))
 ```
+
+**Because y uses x right away and works, we know tibble() computes each column immediately as it creates the tibble.**. 
+
 
 # NYC flights Challenge
 
@@ -171,7 +207,7 @@ flights %>% select(carrier, tailnum, origin)
 flights %>% select(-(day:carrier))
 ```
 
-- Select all columns that have to do with `arr`_ival (hint: `?tidyselect`)
+- Select all columns that have to do with `arr`_ival (hint: `contains`, `start_with`, `matches`, `ends_with`; more details [here](https://dplyr.tidyverse.org/reference/select.html))  
 
 ```{r,accordion=TRUE}
 flights %>% select(contains('arr_'))
@@ -250,12 +286,13 @@ flights %>%
 - Which is the most frequent route?
 
 ```{r,accordion=TRUE}
-# JFK - LAX
 flights %>%
   mutate(route=paste(origin,"-",dest)) %>% 
   group_by(route) %>%
   count() %>%
   arrange(-n)
+
+# JFK - LAX
 ```
 
 ## Trans(mutations)
@@ -328,7 +365,31 @@ flights %>%
 **Note on `ungroup`** Depending on the version of `dplyr` you may or may need to use the `ungroup()` if you want to group your data on some other variables. In the newer versions, `summarise` and `mutate` drop one aggregation level.
 
 
-# Cheetsheet  
+# Cheatsheet  
+## Pipe 
+**Make sure to load the relevant libraries**. 
+
+| Operator | Package | Short Explanation | Example |
+|----------|------|-------------------|---------|
+| `%>%` | **magrittr / tidyverse** | Forward pipe: passes the LHS as the **first argument** of the RHS function. Improves readability. | `mtcars %>% head(3)` |
+| `%$%` | **magrittr** | Exposition pipe: **unpacks columns** of a data frame so they can be used directly inside a function. | `mtcars %$% cor(mpg, hp)` |
+| `%T>%` | **magrittr** | Tee pipe: runs a function **for side effects** (e.g., plotting) but **returns the original data**. | `mtcars %T>% print() %>% summary()` |
+| `|>` | **base R** (R 4.1+) | Base pipe: similar to `%>%` but **stricter and simpler**. LHS is inserted into `_` placeholder if used. | `mtcars |> head(3)` or `mtcars |> (\(x) x[1:3, ])` |
+
+
+## Placeholder  
+
+| Placeholder | Package | Used With | Short Explanation | Example |
+|-------------|------|-----------|-------------------|---------|
+| `.` | magrittr | `%>%` pipes | Insert LHS **anywhere** inside the RHS expression. | `mtcars %>% filter(mpg > mean(.$mpg))` |
+| `.x` | purrr | `map()`, `walk()`, etc. | Represents the **current element** in purrr mapping. | `map(1:3, ~ .x^2)` |
+| `.y` | purrr | `imap()` | Represents the **index/name** of the current element. | `imap(letters[1:3], ~ paste(.y, .x))` |
+| `_` | base R | `|>` | Base-R placeholder: places the LHS at **specific argument position**. | `mtcars |> lm(mpg ~ hp, data = _)` |
+
+
+
+## Common dplyr, tidyr and tibble functions  
+
 | Package | Function                      | What it does (short)                                                   | Tiny example                                                        |
 | ------- | ----------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | dplyr   | `filter()`                    | Keep **rows** that satisfy one or more logical conditions.             | `flights %>% filter(dep_delay > 60)`                                |
