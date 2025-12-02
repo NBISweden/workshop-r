@@ -267,10 +267,10 @@ div.tocify {
 <pre class="r"><code>words &lt;- scan(what=character())</code></pre>
 <p>We will read in this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt" target="_blank">book chapter</a>. Read the manual for scan and read the text file named <strong>book_chapter.txt</strong> into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216079365" aria-expanded="false" aria-controls="acc2025120216079365">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222299365" aria-expanded="false" aria-controls="acc2025120222299365">
 </button>
 </p>
-<div id="acc2025120216079365" class="collapse">
+<div id="acc2025120222299365" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>shelley.vec &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=character())
 str(shelley.vec)
@@ -286,10 +286,10 @@ class(shelley.list)</code></pre>
 <li>Identify the longest word in your vector.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216077647" aria-expanded="false" aria-controls="acc2025120216077647">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222297647" aria-expanded="false" aria-controls="acc2025120222297647">
 </button>
 </p>
-<div id="acc2025120216077647" class="collapse">
+<div id="acc2025120222297647" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sort(nchar(shelley.vec), decreasing=TRUE)
 which(nchar(shelley.vec) == max(nchar(shelley.vec)))
@@ -326,10 +326,10 @@ shelley.vec[381]</code></pre>
 <li>Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216072209" aria-expanded="false" aria-controls="acc2025120216072209">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222292209" aria-expanded="false" aria-controls="acc2025120222292209">
 </button>
 </p>
-<div id="acc2025120216072209" class="collapse">
+<div id="acc2025120222292209" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>shelley.vec2 &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=character(), sep=&#39; &#39;, quote=NULL)
 shelley.filt2 &lt;- gsub(pattern=&#39;[^[:alnum:] ]&#39;, replacement=&quot;&quot;, x=shelley.vec2)
@@ -344,10 +344,10 @@ shelley.filt2[longest]</code></pre>
 <p>This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.</p>
 <p>In this code block we first import the data from <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt" target="_blank">normalized.txt</a> and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216077212" aria-expanded="false" aria-controls="acc2025120216077212">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222297212" aria-expanded="false" aria-controls="acc2025120222297212">
 </button>
 </p>
-<div id="acc2025120216077212" class="collapse">
+<div id="acc2025120222297212" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>expr.At &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt&quot;)
 head(expr.At)</code></pre>
@@ -362,10 +362,10 @@ head(expr.At)</code></pre>
 </div>
 <p>One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216084406" aria-expanded="false" aria-controls="acc2025120216084406">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222304406" aria-expanded="false" aria-controls="acc2025120222304406">
 </button>
 </p>
-<div id="acc2025120216084406" class="collapse">
+<div id="acc2025120222304406" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>url &lt;- &#39;http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&#39;
 abalone &lt;- read.table(url, header=FALSE , sep=&#39;,&#39;)
@@ -383,10 +383,10 @@ head(abalone)</code></pre>
 <li>Read this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data" target="_blank">example data</a> to R using the <code>read.table()</code> function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the <code>write.table</code> function.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216084177" aria-expanded="false" aria-controls="acc2025120216084177">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222304177" aria-expanded="false" aria-controls="acc2025120222304177">
 </button>
 </p>
-<div id="acc2025120216084177" class="collapse">
+<div id="acc2025120222304177" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>ed &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data&quot;, sep=&quot;:&quot;, header = T)
 head(ed)
@@ -409,10 +409,10 @@ str(ed)</code></pre>
 </div>
 <p>Encode all NA values as “missing”, at export.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216082286" aria-expanded="false" aria-controls="acc2025120216082286">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222302286" aria-expanded="false" aria-controls="acc2025120222302286">
 </button>
 </p>
-<div id="acc2025120216082286" class="collapse">
+<div id="acc2025120222302286" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>write.table(x=ed, na=&quot;missing&quot;, file=&quot;example_write.txt&quot;)</code></pre>
 </div>
@@ -421,10 +421,10 @@ str(ed)</code></pre>
 <li>Read in the file you just created and double-check that you have the same data as earlier.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216089590" aria-expanded="false" aria-controls="acc2025120216089590">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222309590" aria-expanded="false" aria-controls="acc2025120222309590">
 </button>
 </p>
-<div id="acc2025120216089590" class="collapse">
+<div id="acc2025120222309590" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>df.test &lt;- read.table(&quot;example_write.txt&quot;, na.strings=&quot;missing&quot;)</code></pre>
 </div>
@@ -501,10 +501,10 @@ str(ed)</code></pre>
 <p>Download the file named <strong>Drosophila_melanogaster.BDGP6.86.gtf.gz</strong> to your computer. Unzip this file and keep track of where your store the file.</p>
 <p>With this done read this file into R using the function <code>read.table()</code> and add meaningful column names to the table.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216127107" aria-expanded="false" aria-controls="acc2025120216127107">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222357107" aria-expanded="false" aria-controls="acc2025120222357107">
 </button>
 </p>
-<div id="acc2025120216127107" class="collapse">
+<div id="acc2025120222357107" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf &lt;- read.table(&quot;Drosophila_melanogaster.BDGP6.86.gtf&quot;, header=FALSE, comment.char=&quot;#&quot;, sep=&quot;\t&quot;)
 colnames(d.gtf) &lt;- c(&quot;Chromosome&quot;,&quot;Source&quot;,&quot;Feature&quot;, &quot;Start&quot;,&quot;End&quot;,&quot;Score&quot;,&quot;Strand&quot;,&quot;Frame&quot;,&quot;Attribute&quot;)</code></pre>
@@ -512,10 +512,10 @@ colnames(d.gtf) &lt;- c(&quot;Chromosome&quot;,&quot;Source&quot;,&quot;Feature&
 </div>
 <p>Prior to any analysis you should make sure that your attempt to read in the file has worked as expected. This can for example be done by having a look at the dimension of the stored object and making sure that it has the structure you expect.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216172288" aria-expanded="false" aria-controls="acc2025120216172288">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222402288" aria-expanded="false" aria-controls="acc2025120222402288">
 </button>
 </p>
-<div id="acc2025120216172288" class="collapse">
+<div id="acc2025120222402288" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dim(d.gtf)
 str(d.gtf)</code></pre>
@@ -536,23 +536,23 @@ str(d.gtf)</code></pre>
 <li>How many chromosome names can be found in the annotation file?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216170998" aria-expanded="false" aria-controls="acc2025120216170998">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222400998" aria-expanded="false" aria-controls="acc2025120222400998">
 </button>
 </p>
-<div id="acc2025120216170998" class="collapse">
+<div id="acc2025120222400998" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>length(levels(as.factor(d.gtf$Chromosome)))</code></pre>
 <pre><code>## [1] 57</code></pre>
 </div>
 </div>
 <ol start="2" style="list-style-type: decimal">
-<li>How many <strong>exons</strong> is there in total and per chromosome? (hint: first extract lines that have <code>feature == 'exon'</code>)</li>
+<li>How many <strong>exons</strong> is there in total and per chromosome? (hint: first extract lines that have <code>feature == 'exon'</code>, and then use either <code>aggregate</code> or <code>by</code> or <code>table</code> function to summarize the data per chromosome).</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216173310" aria-expanded="false" aria-controls="acc2025120216173310">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222403310" aria-expanded="false" aria-controls="acc2025120222403310">
 </button>
 </p>
-<div id="acc2025120216173310" class="collapse">
+<div id="acc2025120222403310" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf.exons &lt;- d.gtf[(d.gtf$Feature == &#39;exon&#39;),]
 nrow(d.gtf.exons)
@@ -619,10 +619,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 </div>
 </div>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216172561" aria-expanded="false" aria-controls="acc2025120216172561">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222402561" aria-expanded="false" aria-controls="acc2025120222402561">
 </button>
 </p>
-<div id="acc2025120216172561" class="collapse">
+<div id="acc2025120222402561" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>by(data=d.gtf$Feature, d.gtf[,&quot;Chromosome&quot;], summary)</code></pre>
 <pre><code>## d.gtf[, &quot;Chromosome&quot;]: 211000022278158
@@ -858,10 +858,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 <li>Filter the data frame to only retain gene annotations</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216170537" aria-expanded="false" aria-controls="acc2025120216170537">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222400537" aria-expanded="false" aria-controls="acc2025120222400537">
 </button>
 </p>
-<div id="acc2025120216170537" class="collapse">
+<div id="acc2025120222400537" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf.gene &lt;- d.gtf[d.gtf$Feature == &quot;gene&quot;,]</code></pre>
 </div>
@@ -870,10 +870,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 <li>What is the average gene length of in the Drosophila genome?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216179335" aria-expanded="false" aria-controls="acc2025120216179335">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222409335" aria-expanded="false" aria-controls="acc2025120222409335">
 </button>
 </p>
-<div id="acc2025120216179335" class="collapse">
+<div id="acc2025120222409335" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mean(abs(d.gtf.gene$Start - d.gtf.gene$End))</code></pre>
 <pre><code>## [1] 5753.282</code></pre>
@@ -883,10 +883,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 <li>What fraction of the genes are encoded on the plus strand of the genome.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216177621" aria-expanded="false" aria-controls="acc2025120216177621">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222407621" aria-expanded="false" aria-controls="acc2025120222407621">
 </button>
 </p>
-<div id="acc2025120216177621" class="collapse">
+<div id="acc2025120222407621" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sum(d.gtf.gene$Strand == &quot;+&quot;) / length(d.gtf.gene$Strand)</code></pre>
 <pre><code>## [1] 0.5016231</code></pre>
@@ -896,10 +896,10 @@ aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code><
 <li>What is the median and mean length of the exons found on chromosome 3R in the data set?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216179898" aria-expanded="false" aria-controls="acc2025120216179898">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222409898" aria-expanded="false" aria-controls="acc2025120222409898">
 </button>
 </p>
-<div id="acc2025120216179898" class="collapse">
+<div id="acc2025120222409898" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>d.gtf3R &lt;- d.gtf[d.gtf$Chromosome == &quot;3R&quot;,]
 exon.position &lt;- d.gtf3R[d.gtf3R$Feature == &quot;exon&quot;,c(&quot;Start&quot;, &quot;End&quot;)]   
@@ -955,10 +955,10 @@ mean(abs(exon.position$Start - exon.position$End))</code></pre>
 </tbody>
 </table>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120216172717" aria-expanded="false" aria-controls="acc2025120216172717">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120222402717" aria-expanded="false" aria-controls="acc2025120222402717">
 </button>
 </p>
-<div id="acc2025120216172717" class="collapse">
+<div id="acc2025120222402717" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>chr &lt;- c(&quot;2L&quot;,&quot;2R&quot;,&quot;3L&quot;,&quot;4&quot;,&quot;X&quot;,&quot;Y&quot;)
 for (i in chr) {
@@ -976,6 +976,243 @@ for (i in chr) {
 ## [1] &quot;The median and mean exon length for X is 257 and 526.301, respectively&quot;
 ## [1] &quot;The median and mean exon length for Y is 410.5 and 657.055, respectively&quot;</code></pre>
 </div>
+</div>
+</div>
+<div id="cheatsheet" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Cheatsheet</h1>
+<div id="general-helpers" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> General Helpers</h2>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="17%" />
+<col width="46%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Purpose</th>
+<th>Key Points / Arguments</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>which()</code></td>
+<td>Indices of TRUE values</td>
+<td>Returns <strong>positions</strong>, not values.</td>
+<td><code>which(c(TRUE, FALSE, TRUE))  # 1 3</code></td>
+</tr>
+<tr class="even">
+<td><code>sort()</code></td>
+<td>Sort a vector</td>
+<td><code>decreasing = FALSE/TRUE</code>, <code>na.last = TRUE/FALSE/NA</code>.</td>
+<td><code>sort(c(3, 1, 2), decreasing = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td><code>abs()</code></td>
+<td>Absolute value</td>
+<td>Works on numeric vectors.</td>
+<td><code>abs(c(-3, 5, -1))  # 3 5 1</code></td>
+</tr>
+<tr class="even">
+<td><code>colnames()</code></td>
+<td>Get or set column names of a data frame, matrix, or tibble</td>
+<td>- <code>colnames(x)</code> returns the column names<br>- <code>colnames(x) &lt;- c(...)</code> sets new names<br>- Must match the number of columns</td>
+<td><code>colnames(df)</code><br><code>colnames(df) &lt;- c("id", "age", "score")</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="strings" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Strings</h2>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="17%" />
+<col width="46%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Purpose</th>
+<th>Key Points / Arguments</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sub()</code></td>
+<td>Replace <strong>first</strong> match in each string</td>
+<td><code>pattern</code>, <code>replacement</code>, <code>x</code>.</td>
+<td><code>sub("cat", "dog", "catcat")  # "dogcat"</code></td>
+</tr>
+<tr class="even">
+<td><code>gsub()</code></td>
+<td>Replace <strong>all</strong> matches in each string</td>
+<td>Same args as <code>sub()</code>.</td>
+<td><code>gsub("cat", "dog", "catcat") # "dogdog"</code></td>
+</tr>
+<tr class="odd">
+<td><code>sprintf()</code></td>
+<td>Build formatted strings</td>
+<td>Use <strong>format codes</strong> like <code>%s</code> (string), <code>%d</code> (integer), <code>%f</code> (float), <code>%g</code> (general number).</td>
+<td><code>sprintf("Mean = %.2f", 3.14159)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="reading-writing-tables" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Reading &amp; Writing Tables</h2>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="17%" />
+<col width="46%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Purpose</th>
+<th>Key Points / Arguments</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>read.table()</code></td>
+<td>Read data from text file into a data frame</td>
+<td>Common args: <code>file</code>, <code>sep</code> (column separator, e.g. <code>","</code> or <code>"\t"</code>), <code>header</code> (first row has names?), <code>na.strings</code> (what to treat as NA), <code>stringsAsFactors</code> (old R &lt; 4.0).</td>
+<td><code>df &lt;- read.table("data.txt", sep = "\t", header = TRUE, na.strings = "NA")</code></td>
+</tr>
+<tr class="even">
+<td><code>write.table()</code></td>
+<td>Write data frame to text file</td>
+<td>Common args: <code>x</code> (data), <code>file</code>, <code>sep</code>, <code>row.names</code>, <code>col.names</code>, <code>quote</code>.</td>
+<td><code>write.table(df, "out.txt", sep = "\t", row.names = FALSE)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="factors" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Factors</h2>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="17%" />
+<col width="46%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Purpose</th>
+<th>Key Points / Arguments</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>as.factor()</code></td>
+<td>Convert to factor (categorical)</td>
+<td>Useful for groupings, modelling, plotting.</td>
+<td><code>group &lt;- as.factor(c("A", "B", "A"))</code></td>
+</tr>
+<tr class="even">
+<td><code>levels()</code></td>
+<td>Get or set factor levels</td>
+<td><code>levels(x)</code> or <code>levels(x) &lt;- ...</code>.</td>
+<td><code>levels(group)  # "A" "B"</code><br><code>levels(group) &lt;- c("ctrl", "treat")</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="aggregation-summary" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Aggregation &amp; Summary</h2>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="17%" />
+<col width="46%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Purpose</th>
+<th>Key Points / Arguments</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aggregate()</code></td>
+<td>Apply a function by group(s)</td>
+<td><code>aggregate(x ~ group, data, FUN)</code> or <code>aggregate(x, by = list(g1, g2), FUN)</code>.</td>
+<td><code>aggregate(mpg ~ cyl, data = mtcars, mean)</code></td>
+</tr>
+<tr class="even">
+<td><code>mean()</code></td>
+<td>Average</td>
+<td><code>na.rm = TRUE</code> to ignore NA.</td>
+<td><code>mean(c(1, 2, NA), na.rm = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td><code>median()</code></td>
+<td>Median</td>
+<td>Also has <code>na.rm = TRUE</code>.</td>
+<td><code>median(c(1, 100, 2))</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="loops" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Loops</h2>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="47%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Keyword</th>
+<th>Purpose</th>
+<th>Key Points / Arguments</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>for</code></td>
+<td>Repeat code for each element in a sequence</td>
+<td>Syntax: <code>for (name in sequence) { ... }</code>.</td>
+<td><code>for (i in 1:3) { print(i) }</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="small-combined-example" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Small Combined Example</h2>
+<pre class="r"><code># Read data
+df &lt;- read.table(&quot;data.txt&quot;, sep = &quot;,&quot;, header = TRUE, na.strings = &quot;&quot;)
+
+# Convert a column to factor and inspect levels
+df$group &lt;- as.factor(df$group)
+levels(df$group)
+
+# Aggregate mean by group
+agg &lt;- aggregate(value ~ group, data = df, mean)
+
+# Print a formatted summary line
+sprintf(&quot;Group %s has mean value %.2f&quot;, agg$group[1], agg$value[1])
+
+# Write results
+write.table(agg, &quot;summary.txt&quot;, sep = &quot;\t&quot;, row.names = FALSE)</code></pre>
 </div>
 </div>
 
