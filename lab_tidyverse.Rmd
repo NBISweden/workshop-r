@@ -63,7 +63,10 @@ cor(mtcars)
 mtcars %>% cor()
 ```
 
-Hint: You need to use different pipe for  this one. (Check the cheatsheet at the end of the lab). 
+<details>
+  <summary><strong>Tip?</strong></summary>
+  You need to use different pipe for  this one. (Check the cheatsheet at the end of the lab). 
+</details>
 ```{r,eval=FALSE}
 cor(mtcars$gear, mtcars$mpg)
 ```
@@ -93,37 +96,38 @@ vehicles$cyl
 
 - Do the same selection as above, but using pipe and placeholders (use all three ways of accessing a variable).  
 
-
-Hint1 - Which pipe allows you to print something but still pass **the original data forward**?  
-A. `%>%`  
-B. `%T>%`  
-C. `%$%`  
-D. `|>`  
-
-Hint 2 — Inside a pipe, which symbol refers to the current dataset?  
-A.` $`  
-B. `{}`  
-C. `.`  
-D. `_`  
-
-Hint 3 — Which structure lets you group multiple commands inside a pipe step?  
-A. `()` 
-B. `{ ... }`  
-C. `[]` 
-D. `<>`  
-
-Hint 4 — Which extraction matches `vehicles[['cyl']]`?  
-A. `.[2]`  
-B. `.$cyl`  
-C. `.[['cyl']]`  
-D. `[[2]]`  
-
-Hint 5 — Which pipeline ending would extract the `cyl` column from the data?  
-A. `%>% .$cyl`  
-B. `%T>% cyl`   
-C. `%>% cyl(.)`  
-D. `%$% cyl`  
-
+<details>
+  <summary><strong>Tip?</strong></summary>
+  1 - Which pipe allows you to print something but still pass **the original data forward**?  
+  A. `%>%`  
+  B. `%T>%`  
+  C. `%$%`  
+  D. `|>`  
+  
+  2 — Inside a pipe, which symbol refers to the current dataset?  
+  A.` $`  
+  B. `{}`  
+  C. `.`  
+  D. `_`  
+  
+  3 — Which structure lets you group multiple commands inside a pipe step?  
+  A. `()` 
+  B. `{ ... }`  
+  C. `[]` 
+  D. `<>`  
+  
+  4 — Which extraction matches `vehicles[['cyl']]`?  
+  A. `.[2]`  
+  B. `.$cyl`  
+  C. `.[['cyl']]`  
+  D. `[[2]]`  
+  
+  5 — Which pipeline ending would extract the `cyl` column from the data?  
+  A. `%>% .$cyl`  
+  B. `%T>% cyl`   
+  C. `%>% cyl(.)`  
+  D. `%$% cyl`  
+</details>
 ```{r,accordion=TRUE}
 vehicles %T>%
   {print(.[['cyl']])} %T>%
