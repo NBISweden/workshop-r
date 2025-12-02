@@ -238,3 +238,75 @@ for (i in chr) {
 if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf")
 if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf.gz")
 ```
+
+# Cheatsheet  
+## General Helpers
+
+| Function | Purpose | Key Points / Arguments | Example |
+|----------|---------|------------------------|---------|
+| `which()` | Indices of TRUE values | Returns **positions**, not values. | `which(c(TRUE, FALSE, TRUE))  # 1 3` |
+| `sort()` | Sort a vector | `decreasing = FALSE/TRUE`, `na.last = TRUE/FALSE/NA`. | `sort(c(3, 1, 2), decreasing = TRUE)` |
+| `abs()` | Absolute value | Works on numeric vectors. | `abs(c(-3, 5, -1))  # 3 5 1` |
+| `colnames()` | Get or set column names of a data frame, matrix, or tibble | - `colnames(x)` returns the column names<br>- `colnames(x) <- c(...)` sets new names<br>- Must match the number of columns | `colnames(df)`<br>`colnames(df) <- c("id", "age", "score")` |
+
+
+## Strings
+
+| Function | Purpose | Key Points / Arguments | Example |
+|----------|---------|------------------------|---------|
+| `sub()` | Replace **first** match in each string | `pattern`, `replacement`, `x`. | `sub("cat", "dog", "catcat")  # "dogcat"` |
+| `gsub()` | Replace **all** matches in each string | Same args as `sub()`. | `gsub("cat", "dog", "catcat") # "dogdog"` |
+| `sprintf()` | Build formatted strings | Use **format codes** like `%s` (string), `%d` (integer), `%f` (float), `%g` (general number). | `sprintf("Mean = %.2f", 3.14159)` |
+
+
+## Reading & Writing Tables
+
+| Function | Purpose | Key Points / Arguments | Example |
+|----------|---------|------------------------|---------|
+| `read.table()` | Read data from text file into a data frame | Common args: `file`, `sep` (column separator, e.g. `","` or `"\t"`), `header` (first row has names?), `na.strings` (what to treat as NA), `stringsAsFactors` (old R < 4.0). | `df <- read.table("data.txt", sep = "\t", header = TRUE, na.strings = "NA")` |
+| `write.table()` | Write data frame to text file | Common args: `x` (data), `file`, `sep`, `row.names`, `col.names`, `quote`. | `write.table(df, "out.txt", sep = "\t", row.names = FALSE)` |
+
+
+## Factors
+
+| Function | Purpose | Key Points / Arguments | Example |
+|----------|---------|------------------------|---------|
+| `as.factor()` | Convert to factor (categorical) | Useful for groupings, modelling, plotting. | `group <- as.factor(c("A", "B", "A"))` |
+| `levels()` | Get or set factor levels | `levels(x)` or `levels(x) <- ...`. | `levels(group)  # "A" "B"`<br>`levels(group) <- c("ctrl", "treat")` |
+
+
+## Aggregation & Summary
+
+| Function | Purpose | Key Points / Arguments | Example |
+|----------|---------|------------------------|---------|
+| `aggregate()` | Apply a function by group(s) | `aggregate(x ~ group, data, FUN)` or `aggregate(x, by = list(g1, g2), FUN)`. | `aggregate(mpg ~ cyl, data = mtcars, mean)` |
+| `mean()` | Average | `na.rm = TRUE` to ignore NA. | `mean(c(1, 2, NA), na.rm = TRUE)` |
+| `median()` | Median | Also has `na.rm = TRUE`. | `median(c(1, 100, 2))` |
+
+
+## Loops
+
+| Keyword | Purpose | Key Points / Arguments | Example |
+|---------|---------|------------------------|---------|
+| `for` | Repeat code for each element in a sequence | Syntax: `for (name in sequence) { ... }`. | `for (i in 1:3) { print(i) }` |
+
+
+## Small Combined Example
+
+```{r, echo = T, eval = F}
+# Read data
+df <- read.table("data.txt", sep = ",", header = TRUE, na.strings = "")
+
+# Convert a column to factor and inspect levels
+df$group <- as.factor(df$group)
+levels(df$group)
+
+# Aggregate mean by group
+agg <- aggregate(value ~ group, data = df, mean)
+
+# Print a formatted summary line
+sprintf("Group %s has mean value %.2f", agg$group[1], agg$value[1])
+
+# Write results
+write.table(agg, "summary.txt", sep = "\t", row.names = FALSE)
+```
