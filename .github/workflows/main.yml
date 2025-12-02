@@ -2,8 +2,8 @@ name: build
 on:
   workflow_dispatch:
   push:
-    branches-ignore:
-      - gh-pages
+    branches:
+      - master
 env:
   REGISTRY: ghcr.io
   ORG: nbisweden
@@ -35,7 +35,7 @@ jobs:
           echo "GITHUB_ACTOR: ${GITHUB_ACTOR}"
           echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
           echo "REPO: ${REPO}"
-          echo "env.PATH_REPO: ${{ env.PATH_REPO }}"
+          echo "env.PATH_REPO: ${PATH_REPO}"
           echo "PATH_EXPORT: ${PATH_EXPORT}"
           echo "PATH_EXPORT_CANVAS: ${PATH_EXPORT_CANVAS}"
           echo "GITHUB_REPOSITORY_OWNER: ${GITHUB_REPOSITORY_OWNER}"
