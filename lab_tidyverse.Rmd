@@ -362,8 +362,8 @@ flights %>%
 
 ```{r,accordion=TRUE}
 flights %>%
-    group_by(carrier) %>%
-    n_groups()
+    group_by(carrier, origin) %>% 
+  n_groups()
 ```
 
 **Note on `ungroup`** Depending on the version of `dplyr` you may or may need to use the `ungroup()` if you want to group your data on some other variables. In the newer versions, `summarise` and `mutate` drop one aggregation level.
