@@ -97,7 +97,7 @@ plot(data[,1:2], type='n',xaxt='n', yaxt='n',xlab="", ylab="", frame.plot=F)
 
 #Create X axis
 coords.x <- seq(min(data$X),max(data$X), by=1)
-axis(side=1, # 1-left, 2-top, 3-right, 4-bottom
+axis(side=1, # 1=below, 2=left, 3=above and 4=right
   at=coords.x # coordinates for tickmarks
 )
 
@@ -598,3 +598,30 @@ You task here is to use the already acquired R knowledge to plot an interesting 
 unlink(local_file_path)
 ```
 
+# Cheatsheet  
+
+| Argument / Function | Full Name | Purpose | Example |
+|----------------------|-----------|---------|---------|
+| `pch` | **Plotting Character** | Symbol type for points (0–25). | `plot(x, y, pch = 16)` |
+| `col` | **Color** | Point/line color. | `plot(x, y, col = "blue")` |
+| `cex` | **Character Expansion** | Scales point/symbol size. | `plot(x, y, cex = 1.5)` |
+| `main` | **Main Title** | Title at top of plot. | `plot(x, y, main = "My Plot")` |
+| `sub` | **Subtitle** | Subtitle under the plot. | `plot(x, y, sub = "Data source: X")` |
+| `xlab` | **X Label** | Label for x-axis. | `plot(x, y, xlab = "Time")` |
+| `ylab` | **Y Label** | Label for y-axis. | `plot(x, y, ylab = "Value")` |
+| `las` | **Label Axis Style** | Axis text orientation: 0=parallel, 1=horizontal, 2=perpendicular, 3=vertical. | `plot(x, y, las = 1)` |
+| `cex.axis` | **Axis Text Expansion** | Scale axis text size. | `plot(x, y, cex.axis = 0.8)` |
+| `xlim` | **X Limits** | Range of x-axis. | `plot(x, y, xlim = c(0, 10))` |
+| `ylim` | **Y Limits** | Range of y-axis. | `plot(x, y, ylim = c(0, 100))` |
+| `type` | **Plot Type** | `"p"` points, `"l"` lines, `"b"` both, `"h"` histogram-like lines. | `plot(x, y, type="b")` |
+| `bty` | **Box Type** | Plot border: `"o"`, `"n"`, `"l"`, `"7"`, `"c"`, `"u"`. | `plot(x, y, bty="n")` |
+| `par(mar)` | **Margins** | Margin sizes: bottom, left, top, right. | `par(mar = c(5,4,2,1))` |
+| `par(oma)` | **Outer Margins** | Outer margin area for multi-plots. | `par(oma = c(2,2,2,2))` |
+| `par(mfrow)` | **Multi-Frame Row** | Rows and columns layout for multiple plots. | `par(mfrow = c(2,2))` |
+| `layout()` | **Layout Manager** | Define custom multi-plot layout. | `layout(matrix(c(1,2,3,3),2,2))` |
+| `rnorm()` | **Random Normal** | Generate random normal numbers. | `rnorm(100, mean=0, sd=1)` |
+| `matrix()` | **Matrix Constructor** | Create a matrix from numbers. | `matrix(1:6, nrow=2)` |
+| `seq()` | **Sequence** | Generate number sequences. | `seq(0, 1, length=5)` |
+| `rgb()` | **Red-Green-Blue Color** | Create colors using RGB values. | `rgb(1,0,0,0.5)` |
+| `colorRampPalette()` | **Color Gradient Function** | Creates a function to generate color gradients. | `cols <- colorRampPalette(c("red","yellow"))(10)` |
+| `%in%` | **Set Membership** | Check if values are in a set. | `x %in% c("a","b")` |
