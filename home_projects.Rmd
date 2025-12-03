@@ -26,7 +26,7 @@ output:
 # &nbsp; {.tabset .tabset-fade}   
 
 ## Datasets  
-Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you are learning in this course as well as new things you might want to try. For each data set, a brief description, as well as download instructions, are provided. We have included some suggestions of analysis you could do with each data set, but you can do whatever you want with the data. The only goal is to exercise your R muscles!
+Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you are learning in this course as well as new things you might want to try. For each data set, a brief description, as well as download instructions, are provided. We have included some suggestions of analysis you could do with each data set, but you can do whatever you want with the data. The goal is to exercise your R muscles!
 
 
 
