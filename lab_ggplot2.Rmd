@@ -702,7 +702,7 @@ ggplot(d2,aes(x=date,y=countriesAndTerritories,fill=casesp))+
 ```
 
 # Cheatsheet  
-
+## General  
 | Function / Layer | Purpose | Example |
 |------------------|---------|---------|
 | `ggplot()` | Initialize a plot; specify data + aesthetics. | `ggplot(df, aes(x, y))` |
@@ -734,3 +734,15 @@ ggplot(d2,aes(x=date,y=countriesAndTerritories,fill=casesp))+
 | `element_text()` | Modify text inside a theme. | `theme(axis.text.x = element_text(angle=45))` |
 | `guides()` | Control legends. | `guides(color = "none")` |
 | `ggsave()` | Save a plot to file. | `ggsave("plot.png", width=5, height=4)` |
+
+
+## Coordinate Systems
+
+| **Function**        | **What it does**                                    | **Common use / Example**                                  |
+| ------------------- | --------------------------------------------------- | --------------------------------------------------------- |
+| `coord_cartesian()` | Adjusts the visible region without removing data    | `coord_cartesian(xlim = c(2, 8))` → zoom into x-range 2–8 |
+| `coord_fixed()`     | Keeps equal aspect ratio for x and y                | Useful for maps or shapes where scale should be equal     |
+| `coord_flip()`      | Swaps x and y axes                                  | Great for horizontal bar plots                            |
+| `coord_trans()`     | Transforms axes (e.g., log, sqrt)                   | `coord_trans(y = "log10")`                                |
+| `coord_polar()`     | Converts to polar coordinates                       | Create pie charts or circular plots                       |
+| `coord_map()`       | Uses map projection (scales adjusted for geography) | Plot geographic data with correct proportions             |
