@@ -124,7 +124,7 @@ name: std_viewport
 ]
 --
 .pull-right-50[
-`c(bottom, left, top, righ)` 
+`c(bottom, left, top, right)` 
 ]
 ---
 name: plot_basics
@@ -303,7 +303,7 @@ class: spaced
 There is a few points you should have in mind when working with plots:
 
 --
-* raster (png, jpegm tiff) or vector graphics (svg, pdf, eps),
+* raster (png, jpeg, tiff) or vector graphics (svg, pdf, eps),
 
 --
 * colors, e.g. color-blind people, warm vs. cool colors and optical illusions (check [colorbrewer2.org](https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3)),
@@ -495,6 +495,11 @@ name: heatmaps
 heatmap(matrix(rnorm(100, mean = 0, sd = 1), nrow = 10),
 col=terrain.colors(10))
 ```
+
+Other heatmaps with more features:  
+- `heatmap.2()` from [´gplots´ package](https://biocorecrg.github.io/CRG_RIntroduction/heatmap-2-function-from-gplots-package).  
+- `pheatmap()` from [´pheatmap´ package](https://davetang.github.io/muse/pheatmap.html). 
+- `Heatmap()` from [´ComplexHeatmap´ package](https://jokergoo.github.io/ComplexHeatmap-reference/book/). 
 
 ---
 name: graph_gallery

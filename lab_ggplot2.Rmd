@@ -701,3 +701,48 @@ ggplot(d2,aes(x=date,y=countriesAndTerritories,fill=casesp))+
         legend.direction = "horizontal")
 ```
 
+# Cheatsheet  
+## General  
+| Function / Layer | Purpose | Example |
+|------------------|---------|---------|
+| `ggplot()` | Initialize a plot; specify data + aesthetics. | `ggplot(df, aes(x, y))` |
+| `aes()` | Map variables to visual properties (x, y, color…). | `aes(x = age, y = height, color = group)` |
+| `geom_point()` | Scatterplot points. | `geom_point(size = 3)` |
+| `geom_line()` | Line plot. | `geom_line()` |
+| `geom_col()` | Bar plot with heights from data. | `geom_col()` |
+| `geom_bar()` | Bar count plot. | `geom_bar()` |
+| `geom_histogram()` | Histogram of one numeric variable. | `geom_histogram(bins = 30)` |
+| `geom_boxplot()` | Boxplot. | `geom_boxplot()` |
+| `geom_violin()` | Violin plot. | `geom_violin()` |
+| `geom_smooth()` | Add trend line (linear, loess…). | `geom_smooth(method = "lm")` |
+| `geom_text()` | Add text labels. | `geom_text(aes(label = name))` |
+| `geom_label()` | Text labels with a box. | `geom_label(aes(label = value))` |
+| `labs()` | Titles and axis labels. | `labs(title="Title", x="Time", y="Value")` |
+| `ggtitle()` | Add a main title. | `ggtitle("My Plot")` |
+| `xlab()`, `ylab()` | Axis labels. | `xlab("Time")` |
+| `scale_x_continuous()` | Custom x-axis scale. | `scale_x_continuous(limits = c(0, 10))` |
+| `scale_y_continuous()` | Custom y-axis scale. | `scale_y_continuous(trans = "log10")` |
+| `scale_color_manual()` | Custom colors for categories. | `scale_color_manual(values = c("red","blue"))` |
+| `facet_wrap()` | Split plot into multiple panels (1 variable). | `facet_wrap(~ species)` |
+| `facet_grid()` | Grid of panels (2 variables). | `facet_grid(sex ~ species)` |
+| `theme()` | Modify plot appearance. | `theme_minimal()` |
+| `theme_minimal()` | Minimal white theme. | `+ theme_minimal()` |
+| `theme_bw()` | Black-and-white theme. | `+ theme_bw()` |
+| `theme_classic()` | Classic theme. | `+ theme_classic()` |
+| `coord_flip()` | Flip axes. | `coord_flip()` |
+| `coord_cartesian()` | Zoom in without removing data. | `coord_cartesian(xlim=c(0,10))` |
+| `element_text()` | Modify text inside a theme. | `theme(axis.text.x = element_text(angle=45))` |
+| `guides()` | Control legends. | `guides(color = "none")` |
+| `ggsave()` | Save a plot to file. | `ggsave("plot.png", width=5, height=4)` |
+
+
+## Coordinate Systems
+
+| **Function**        | **What it does**                                    | **Common use / Example**                                  |
+| ------------------- | --------------------------------------------------- | --------------------------------------------------------- |
+| `coord_cartesian()` | Adjusts the visible region without removing data    | `coord_cartesian(xlim = c(2, 8))` → zoom into x-range 2–8 |
+| `coord_fixed()`     | Keeps equal aspect ratio for x and y                | Useful for maps or shapes where scale should be equal     |
+| `coord_flip()`      | Swaps x and y axes                                  | Great for horizontal bar plots                            |
+| `coord_trans()`     | Transforms axes (e.g., log, sqrt)                   | `coord_trans(y = "log10")`                                |
+| `coord_polar()`     | Converts to polar coordinates                       | Create pie charts or circular plots                       |
+| `coord_map()`       | Uses map projection (scales adjusted for geography) | Plot geographic data with correct proportions             |

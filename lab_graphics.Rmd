@@ -97,7 +97,7 @@ plot(data[,1:2], type='n',xaxt='n', yaxt='n',xlab="", ylab="", frame.plot=F)
 
 #Create X axis
 coords.x <- seq(min(data$X),max(data$X), by=1)
-axis(side=1, # 1-left, 2-top, 3-right, 4-bottom
+axis(side=1, # 1=below, 2=left, 3=above and 4=right
   at=coords.x # coordinates for tickmarks
 )
 
@@ -256,18 +256,18 @@ abline(h=coords.y, col="darkgrey", lty=3)
 points(data[data$X%%2 == 0,], pch=19, cex=exp(r), col=mycol("slateblue", .5))
 points(data[data$X%%2 != 0,], pch=15, cex=exp(r), col=mycol("grey", .5))
 
-points(data[data$X%%2 == 0,], pch=3, cex=1, col="darkgrey")
+points(data[data$X%%2 == 0,], pch=3, cex=1, col="green")
 points(data[data$X%%2 != 0,], pch=3, cex=1, col="red")
 ```
 
 ```{r,fig.height=6,fig.width=10,eval=FALSE}
-points(data[data$X%%2 == 0,], pch=3, cex=1, col="darkgrey")
+points(data[data$X%%2 == 0,], pch=3, cex=1, col="green")
 points(data[data$X%%2 != 0,], pch=3, cex=1, col="red")
 ```
 
 ## Annotation
 
-Add grey text 'Center' at the center of the plot.
+Add black text 'Center' at the center of the plot.
 
 ```{r,fig.height=6,fig.width=10,echo=FALSE}
 ## CODE EVALUATED BUT HIDDEN FROM OUTPUT ##
@@ -298,18 +298,18 @@ abline(h=coords.y, col="darkgrey", lty=3)
 points(data[data$X%%2 == 0,], pch=19, cex=exp(r), col=mycol("slateblue", .5))
 points(data[data$X%%2 != 0,], pch=15, cex=exp(r), col=mycol("grey", .5))
 
-points(data[data$X%%2 == 0,], pch=3, cex=1, col="darkgrey")
+points(data[data$X%%2 == 0,], pch=3, cex=1, col="green")
 points(data[data$X%%2 != 0,], pch=3, cex=1, col="red")
 
 center.x <- mean(range(data[,1]))
 center.y <- mean(range(data[,2]))
-text(x=center.x, y=center.y, "Center", col="lightgrey")
+text(x=center.x, y=center.y, "Center", col="black")
 ```
 
 ```{r,fig.height=6,fig.width=10,eval=FALSE}
 center.x <- mean(range(data[,1]))
 center.y <- mean(range(data[,2]))
-text(x=center.x, y=center.y, "Center", col="lightgrey")
+text(x=center.x, y=center.y, "Center", col="black")
 ```
 
 ## Titles
@@ -345,12 +345,12 @@ abline(h=coords.y, col="darkgrey", lty=3)
 points(data[data$X%%2 == 0,], pch=19, cex=exp(r), col=mycol("slateblue", .5))
 points(data[data$X%%2 != 0,], pch=15, cex=exp(r), col=mycol("grey", .5))
 
-points(data[data$X%%2 == 0,], pch=3, cex=1, col="darkgrey")
+points(data[data$X%%2 == 0,], pch=3, cex=1, col="green")
 points(data[data$X%%2 != 0,], pch=3, cex=1, col="red")
 
 center.x <- mean(range(data[,1]))
 center.y <- mean(range(data[,2]))
-text(x=center.x, y=center.y, "Center", col="lightgrey")
+text(x=center.x, y=center.y, "Center", col="black")
 
 title("Odds and Ends")
 mtext("Y", side=2, line=3, cex.lab=1,las=2, col="blue")
@@ -396,12 +396,12 @@ abline(h=coords.y, col="darkgrey", lty=3)
 points(data[data$X%%2 == 0,], pch=19, cex=exp(r), col=mycol("slateblue", .5))
 points(data[data$X%%2 != 0,], pch=15, cex=exp(r), col=mycol("grey", .5))
 
-points(data[data$X%%2 == 0,], pch=3, cex=1, col="darkgrey")
+points(data[data$X%%2 == 0,], pch=3, cex=1, col="green")
 points(data[data$X%%2 != 0,], pch=3, cex=1, col="red")
 
 center.x <- mean(range(data[,1]))
 center.y <- mean(range(data[,2]))
-text(x=center.x, y=center.y, "Center", col="lightgrey")
+text(x=center.x, y=center.y, "Center", col="black")
 
 title("Odds and Ends")
 mtext("Y", side=2, line=3, cex.lab=1,las=2, col="blue")
@@ -597,4 +597,37 @@ You task here is to use the already acquired R knowledge to plot an interesting 
 ```{r}
 unlink(local_file_path)
 ```
+
+# Cheatsheet  
+
+| Function / Argument | Full Name | Purpose | Example |
+|----------------------|-----------|---------|---------|
+| `pch` | Plotting Character | Controls symbol type (0–25). | `plot(x, y, pch = 16)` |
+| `col` | Color | Color for points/lines. | `plot(x, y, col = "red")` |
+| `cex` | Character Expansion | Scales size of points. | `plot(x, y, cex = 1.5)` |
+| `main` | Main Title | Title at top of plot. | `plot(x, y, main = "Title")` |
+| `sub` | Subtitle | Subtitle under plot. | `plot(x, y, sub = "Source: X")` |
+| `xlab` | X Label | Label for x-axis. | `plot(x, y, xlab = "Time")` |
+| `ylab` | Y Label | Label for y-axis. | `plot(x, y, ylab = "Value")` |
+| `las` | Label Axis Style | Axis label orientation (0–3). | `plot(x, y, las = 1)` |
+| `cex.axis` | Character Expansion (Axis) | Scale axis text size. | `plot(x, y, cex.axis = 0.8)` |
+| `xlim` | X Limits | Range of x-axis. | `plot(x, y, xlim = c(0,10))` |
+| `ylim` | Y Limits | Range of y-axis. | `plot(x, y, ylim = c(0,100))` |
+| `type` | Plot Type | `"p"` points, `"l"` lines, `"b"` both, `"h"` vertical lines. | `plot(x, y, type="b")` |
+| `bty` | Box Type | Border type: `"o"`, `"n"`, `"l"`, `"7"`, `"c"`, `"u"`. | `plot(x, y, bty="n")` |
+| `par(mar)` | Margin | Plot margins (bottom, left, top, right). | `par(mar = c(5,4,2,1))` |
+| `par(oma)` | Outer Margin Area | Outer margins around all plots. | `par(oma = c(1,1,1,1))` |
+| `par(mfrow)` | Multi-Frame Row | Layout: number of rows/cols for multiple plots. | `par(mfrow = c(2,2))` |
+| `layout()` | Layout Manager | Custom plot layout matrix. | `layout(matrix(c(1,2,3,3), 2,2))` |
+| `mtext()` | Margin Text | Adds text to plot margins. | `mtext("Outer Text", side = 3, line = 1)` |
+| `text()` | Text Annotation | Add text inside plotting region. | `text(x=5, y=10, labels="Here")` |
+| `rnorm()` | Random Normal | Random numbers from normal distribution. | `rnorm(100)` |
+| `matrix()` | Matrix Constructor | Create matrix from vector. | `matrix(1:6, nrow=2)` |
+| `seq()` | Sequence | Generates sequences of numbers. | `seq(1, 10, by = 2)` |
+| `rgb()` | Red-Green-Blue Color | Create colors using RGB + alpha. | `rgb(1, 0, 0, 0.5)` |
+| `colorRampPalette()` | Color Gradient Function | Creates smooth color gradients. | `cols <- colorRampPalette(c("blue","red"))(20)` |
+| `%in%` | Set Membership | Check membership in a vector. | `x %in% c("a","b")` |
+| `%--%` | Interval Operator (lubridate) | Create a time interval between two dates/times. | `as.Date("2020-01-01") %--% as.Date("2020-12-31")` |
+| `as.Date()` | Convert to Date | Converts strings → Date objects. | `as.Date("2024-05-01")` |
+| `dmy()` | Day-Month-Year Parser (lubridate) | Parse dates in `"d-m-y"` format. | `dmy("31-12-2024")` |
 

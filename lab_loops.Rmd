@@ -289,6 +289,25 @@ Operators like `+`, `-` or `*` are using the so-called **infix** functions, wher
 ```
 
 </details>
+
+# Cheatsheet
+
+| Function | Purpose | Key Points | Example |
+|----------|---------|------------|---------|
+| `nrow()` | Number of rows | Works on data frames, matrices | `nrow(df)` |
+| `ncol()` | Number of columns | Works on data frames, matrices | `ncol(df)` |
+| `dim()` | Dimensions (rows, cols) | Returns vector `c(nrow, ncol)` | `dim(df)` |
+| `nchar()` | Number of characters in strings | Vectorised over character vectors | `nchar(c("abc", "hello"))` |
+| `sum()` | Sum of values | `na.rm = TRUE` to ignore NA | `sum(c(1, 2, NA), na.rm = TRUE)` |
+| `rowSums()` | Sum of each row | Works on numeric matrices/data frames | `rowSums(df)` |
+| `apply()` | Apply function over rows/columns | `apply(X, MARGIN, FUN)` where `MARGIN = 1` (rows) or `2` (cols) | `apply(df, 2, mean)` |
+| `sapply()` | Simplifying lapply output | Returns vector/matrix if possible | `sapply(df, class)` |
+| `lapply()` | Apply function to each element of a list | Returns a list | `lapply(df, mean)` |
+| `identical()` | Check exact equality | Stricter than `==`, checks type + value | `identical(1, 1L)` |
+| `is.numeric()` | Check if an object is numeric | Returns TRUE/FALSE | `is.numeric(3.14)` |
+| `data.frame()` | Create a data frame | `stringsAsFactors=FALSE` for R < 4.0 | `data.frame(x=1:3, y=c("a","b","c"))` |
+
+
 <!--
 7. <i class="fas fa-exclamation-circle"></i> **Advanced:** At the lecture an approach to calculate factorials were implemented using recursion (function calling itself). Here we instead will have a go at generating Fibonacci numbers. A fibonacci number is part of a series of number with the following properties:
 
