@@ -956,7 +956,9 @@ USArrests %>% head(n=3)
 
 ```{r}
 us <- USArrests %>% mutate(state=rownames(.)) %>% slice(1:4) %>%
-                    gather(key=type,value=value,-state)
+      pivot_longer(c('Murder', 'Assault', 'UrbanPop', 'Rape'), 
+                   names_to = 'type', 
+                   values_to = 'value')
 p <- ggplot(us,aes(x=state,y=value,fill=type))
 ```
 
@@ -1156,7 +1158,7 @@ gc[c(1:6),c(1:4)] %>%
 * R tools **like ggplot** require data in long format.
 * Functions available to change between data-formats
   * `melt()` from **reshape2**
-  * `gather()` from **tidyverse**
+  * `pivot_longer()` from **tidyverse**
 
 
 ---
