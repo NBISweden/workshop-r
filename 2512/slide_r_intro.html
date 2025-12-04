@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Marcin Kierczak and Nima Rafati" />
+    <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
+    <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+    <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Introduction to R
+]
+.subtitle[
+## R Foundations for Data Analysis
+]
+.author[
+### Marcin Kierczak and Nima Rafati
+]
+
+---
+
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+
+
+&lt;!-- ------------ Only edit title, subtitle &amp; author above this ------------ --&gt;
+
+
+
+---
+name: content
+class: spaced
+
+# Contents
+
+* [Why R](#whyR)
+* [About R](#about)
+* [Pros and cons of R](#pros_and_cons)
+* [Ecosystem of packages](#num_packages)
+* [Programming language](#programming_language)
+* [Packages](#packages)
+* [Package installation](#pkg_cran_inst)
+
+---
+name: whyR
+
+# WHY R?
+.pull-left-50[
+
+![](data/slide_intro/Lab_data_no_sense.png)
+
+]
+
+# With the power of R, your project can ARISE:  
+
+--
+
+ **A**utomative: Streamline your analysis
+
+--
+
+ **R**eproducible: Reproduce the results
+
+--
+
+ **I**nterpretable: Make sense  
+
+--
+
+ **S**hareable: Share with colleagues/mentors (FAIR)
+
+--
+
+ **E**xplainable: Easy to explain
+
+
+---
+name: about
+
+# Briefly about R
+
+.pull-left-50[
+
+# R is ...
+.pull-right-30[
+![](data/common/r.png)
+]
+
+* a programming language
+* a software project driven by the core team and the community
+* a very powerful tool for statistical computing
+* a very powerful computational tool in general
+]
+
+--
+
+
+
+.pull-right-50[
+
+# R is not ...
+
+* a tool to replace a statistician
+* the very best programming language
+* the most elegant programming solution
+* the most efficient programming language  
+
+]
+
+
+
+
+---
+# Programing Language    
+
+--
+&gt; Programming is a process of instructing a computer to perform a specific task. We write these instructions by **programming language**. It can be as simple as calculation (like a calculator) or complex applications. 
+
+--
+
+ * flow of _data_ 
+--
+
+    * Data is collected information which qualitatively and/or quantitatively describe an entity.  
+--
+
+    * Data is collected from quite diverse sources (data types).  
+--
+
+    * Data processing.  
+--
+
+    * Data cleaning.  
+
+--
+
+&lt;img src="data/slide_programming/Data_Information_Knowledge.png" width="75%" style="display: block; margin: auto;" /&gt;
+---
+# Programing Language cted.   
+
+--
+
+ * from one _function_ to another
+--
+
+    * Function is a **reusable** chunk of code that performs a task. It takes **inputs** as well as **arguments** to process. 
+--
+
+ * each function does something to the data and return output(s)
+--
+   
+   * For example `mean()`, `min()`   
+--
+---
+# Three things to think about
+
+ 1- what *types* of data can I process?
+
+--
+
+2- how do I *write* what I want?
+
+--
+
+3- when does it *mean* anything?
+
+
+---
+# 1- Data type  
+
+&lt;img src="data/slide_programming/Data_classification.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+--
+
+  * int &amp;mdash; 1 2 5 9
+  * double &amp;mdash; 1.23 -5.74
+  * char &amp;mdash; a b test 7 9
+  * logical &amp;mdash; TRUE/FALSE (T/F)  
+
+---
+# 2- How to write? 
+
+* By language *grammar* &amp;mdash; *syntax*.  
+
+--
+
+  `2 * 1 + 1` vs. `(+ (* 2 1) 1)`
+
+---
+# 3- What does it *mean* 
+* By language *semantics* 
+
+--
+
+  * *Colorful yellow train sleeps on a crazy wave.* &amp;mdash; has no generally accepted meaning
+  * *There is $500 on his empty bank acount.* &amp;mdash; internal contradiction
+
+``` r
+height &lt;- 180 #similar to height = 180
+weight &lt;- 70 #similar to weight = 70
+bmi &lt;- weight / height
+```
+
+---
+name: topic2
+
+# Where to start?
+.pull-left-50[
+
+``` r
+knitr::include_graphics("data/slide_intro/simple-chain-of-thought.png")
+```
+
+&lt;img src="data/slide_intro/simple-chain-of-thought.png" width="533" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+--
+
+.pull-right-50[
+
+``` r
+knitr::include_graphics("data/slide_intro/top-down-chain-of-thought.png")
+```
+
+&lt;img src="data/slide_intro/top-down-chain-of-thought.png" width="533" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+*Divide et impera* &amp;mdash; divide and rule.
+
+**Top-down approach (or chain of thought):** define the big problem and split it into smaller ones. Assume you have solution to the small problems and continue &amp;mdash; push the responsibility down.
+Wishful thinking!
+
+---
+
+name: packages
+
+# Packages
+
+.pull-right-50[
+&lt;img src="data/slide_intro/packages.jpg" width="250pt" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-50[
+&lt;img src="images/tidyverse-icons.png" width="250pt" style="display: block; margin: auto;" /&gt;
+]
+--
+
+* ready-made functions (data &amp; docs)
+
+--
+
+* developed by the community
+
+--
+
+* cover several very diverse areas of science/life
+
+--
+
+* uniformly structured and documented
+
+--
+
+* organised in repositiries:
+    + [CRAN](https://cran.r-project.org)
+    + [R-Forge](https://r-forge.r-project.org)
+    + [Bioconductor](http://www.bioconductor.org)
+    + [GitHub](https://github.com)
+
+---
+name: CRAN
+--
+# Working with packages -- CRAN example.
+
+&lt;img src="data/slide_r_environment/ggplot2_CRAN.png" width="200%" style="display: block; margin: auto;" /&gt;
+
+---
+name: pkg_cran_inst
+
+# Working with packages -- installation
+
+Only a few packages are pre-installed:
+
+
+``` r
+library(modelr)
+```
+
+In order to install a package from command line, use:
+
+
+``` r
+install.packages("ggplot2",dependencies=TRUE)
+```
+
+---
+name: work_pkg_details
+
+# Working with packages -- details
+
+It may happen that you want to also specify the repository, e.g. because it is geographically closer to you or because your default mirror is down:
+
+
+``` r
+install.packages('ggplot2',dependencies=TRUE,repos="http://cran.se.r-project.org")
+```
+
+But, sometimes, this does not work either because the package is not available for your platform. In such case, you need to *compile* it from its *source code*.
+
+---
+name: source_pkg_inst
+
+# Working with packages -- installing from source.
+
+- Download the source file, in our example *ggplot2_3.4.3.tar.gz*.
+- Install it:
+
+
+``` r
+install.packages("path/to/ggplot2_3.4.3.tar.gz",
+                 repos=NULL,
+                 type='source',
+                 dependencies=TRUE)
+```
+
+- Load it:
+
+
+``` r
+library('ggplot2') # always forces reloading
+require('ggplot2') # load only if not already loaded
+```
+
+
+---
+name: pkg_github
+
+# Packages -- GitHub
+
+Nowadays, more and more developers distribute their packages via GitHub. The easiest way to install packages from the GitHub is via the `devtools` package:
+
+- Install the *devtools* package  
+- Load it  
+- Install  
+
+
+``` r
+install.packages('devtools',dependencies=TRUE)
+library('devtools')
+install_github('talgalili/installr') # Github username/repo
+```
+
+--
+.pull-center-50[
+&lt;img src="images/installr.png" width="750pt" style="display: block; margin: auto;" /&gt;
+]
+
+---
+name: pkg_bioconductor
+
+# Packages -- Bioconductor
+
+&lt;img src="data/slide_r_environment/logo_bioconductor.png" width="200pt" style="display: block; margin: auto;" /&gt;
+
+First install Bioconductor Manager:
+
+
+``` r
+if (!requireNamespace("BiocManager",quietly = TRUE))
+    install.packages("BiocManager")
+```
+
+---
+name: pkg_bioconductor2
+
+# Packages -- Bioconductor cted.
+
+Now, you can install particular packages from Bioconductor:
+
+
+``` r
+BiocManager::install("GenomicRanges")
+```
+
+.pull-center-50[
+&lt;img src="images/GenomicRanges.png" width="550pt" style="display: block; margin: auto;" /&gt;
+]
+
+For more info, visit [Bioconductor website](http://www.bioconductor.org/install/).
+
+---
+# One package to rule them all -- the magic of `renv`
+
+- Start once → `renv::init()` (sets up your project’s toolbox)  
+- While working → `renv::snapshot()` (save the toolbox state)  
+- Share with a friend → send the `renv.lock` file  
+- Friend restores → `renv::restore()` (they get the exact same toolbox)  
+
+.pull-center-50[
+&lt;img src="images/renv.png" width="750pt" style="display: block; margin: auto;" /&gt;
+]
+
+---
+name: recap
+# Recap
+* Why R?  
+* About R.   
+* R is a programming language for statistical computing and data analysis.  
+* Packages and repositories.   
+* Installing packages from CRAN, Bioconductor, GitHub. 
+* Managing project environment with `renv`. 
+
+
+
+
+&lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# Thank you! Questions?
+
+.end-text[
+&lt;p class="smaller"&gt;
+&lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
+Created: 04-Dec-2025 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+&lt;/p&gt;
+]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

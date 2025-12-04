@@ -174,11 +174,14 @@ pre code {
 <h1> </h1>
 <div id="datasets" class="section level2">
 <h2>Datasets</h2>
-<p>Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you have learned in this course. For each data set, a brief description as well as download instructions are provided.</p>
-<div class="alert alert-info">
-<p><strong> Try to focus on using the tools from the course to explore the data, rather than worrying about producing a perfect report with a coherent analysis workflow.</strong></p>
+<p>Hands-on analysis of actual data is the best way to learn R programming. This page contains some data sets that you can use to explore what you are learning in this course as well as new things you might want to try. For each data set, a brief description as well as download instructions, are provided. We have included some suggestions of analysis you could do with each data set, but you can do whatever you want with the data. The goal is to exercise your R muscles!</p>
+<div class="alert alert-success" role="alert">
+<p><strong>If your group decides so, you are welcome to use a different data set not included in this page. It’s up to you! (for e.g. there are more data sets at <a href="https://mavenanalytics.io/data-playground" class="uri">https://mavenanalytics.io/data-playground</a>) </strong></p>
 </div>
-<p>On the last day you will present your Rmd file (or rather, the resulting html report) and share with the class what your data was about.</p>
+<div class="alert alert-info">
+<p><strong> Try to focus on using the tools from the course to explore the data, rather than worrying about producing a perfect report.</strong></p>
+</div>
+<p>On the last day you will share your Rmd file (or rather, the resulting html report) with the class so we can discuss what your data was about.</p>
 <hr />
 <div id="palmer-penguins" class="section level3">
 <h3>Palmer penguins 🐧</h3>
@@ -202,6 +205,16 @@ str(penguins)</code></pre>
 ##  $ body_mass     : int  3750 3800 3250 3450 3650 3625 4675 3200 3800 4400 ...
 ##  $ sex           : chr  &quot;m&quot; &quot;f&quot; &quot;f&quot; &quot;f&quot; ...
 ##  $ year          : int  2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...</code></pre>
+</details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Species Differentiation: How do the mean and distribution of the three key body measurements (culmen length, flipper length, and body mass) compare across the three different penguin species? (Focus on boxplots and descriptive statistics).</p></li>
+<li><p>Bivariate Relationships: Is there a linear relationship (correlation) between flipper length and body mass? Does the strength or direction of this relationship appear to be different for male versus female penguins?</p></li>
+<li><p>Grouping/Summary: What is the average body mass for each combination of species and island? Which species/island combination has the largest or smallest average mass?</p></li>
+</ul>
 </details>
 <hr />
 </div>
@@ -233,6 +246,16 @@ str(drinks)</code></pre>
 ##  $ marital  : int  1 4 4 3 6 1 3 6 1 5 ...
 ##  $ educ     : int  4 4 3 1 2 2 2 2 2 3 ...
 ##  $ s2aq8b   : int  NA 1 3 NA NA NA NA NA 4 NA ...</code></pre>
+</details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Drinking Frequency: What is the distribution of drinking frequency (or a similar intensity measure) across major demographic categories like sex, age group, or race/ethnicity? (Focus on bar charts or grouped histograms).</p></li>
+<li><p>Comparison of Years: Has the proportion of heavy drinkers (or a specific drinking pattern) changed significantly between the 2001 and 2002 survey years?</p></li>
+<li><p>Socioeconomic Factors: Are specific socioeconomic indicators (e.g., income, education level—if available) associated with a higher likelihood of being a drinker or a heavy drinker?</p></li>
+</ul>
 </details>
 <hr />
 </div>
@@ -272,6 +295,16 @@ str(crashes)</code></pre>
 ##  $ injSeverity: int  0 2 0 3 1 0 3 2 3 3 ...
 ##  $ caseid     : chr  &quot;75:85:2&quot; &quot;4:115:1&quot; &quot;9:1:2&quot; &quot;48:61:1&quot; ...</code></pre>
 </details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Trend Analysis: How has the total number of sampled car accidents or fatalities (if severity is recorded) changed year-over-year from 1997 to 2002?</p></li>
+<li><p>Causal Factors: What is the relationship between seatbelt use and the severity of injury (if available)? Does this relationship hold true across different driver age groups?</p></li>
+<li><p>Temporal Patterns: Are there specific days of the week or times of day (if available) that have a disproportionately high number of accidents or fatalities?</p></li>
+</ul>
+</details>
 <hr />
 </div>
 <div id="gapminder-health-and-wealth" class="section level3">
@@ -302,6 +335,16 @@ str(gapminder)</code></pre>
 ##  $ gdp             : num  3.69e+09 5.48e+10 9.13e+09 8.03e+08 2.84e+11 ...
 ##  $ continent       : chr  &quot;Europe&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Americas&quot; ...
 ##  $ region          : chr  &quot;Southern Europe&quot; &quot;Northern Africa&quot; &quot;Middle Africa&quot; &quot;Caribbean&quot; ...</code></pre>
+</details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Wealth and Health Correlation: What is the nature and strength of the relationship between a country’s GDP per capita and its life expectancy? Visualize this relationship, perhaps grouping or coloring by continent.</p></li>
+<li><p>Regional Change Over Time: Which continent has seen the most significant average increase in life expectancy between the years 2000 and 2016?</p></li>
+<li><p>Outlier Identification: Identify the top 5 countries with the highest life expectancy and the top 5 countries with the lowest GDP per capita in the most recent year (2016).</p></li>
+</ul>
 </details>
 <hr />
 </div>
@@ -347,6 +390,16 @@ str(stackoverflow)</code></pre>
 ##  $ Systems_administrator               : int  1 0 0 0 0 0 0 0 0 0 ...
 ##  $ Web_developer                       : int  1 1 0 0 1 1 1 1 1 0 ...</code></pre>
 </details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Salary Determinants: How does the distribution of salary vary based on the respondent’s years of professional coding experience and/or their highest level of formal education?</p></li>
+<li><p>Language Popularity: Which primary programming languages (if listed) are most commonly used by the respondents? Do the salaries earned by developers who use these languages differ significantly?</p></li>
+<li><p>Job Satisfaction: Is there a correlation between job satisfaction/happiness (if available) and company size or the amount of remote work (if available)?</p></li>
+</ul>
+</details>
 <hr />
 </div>
 <div id="doctor-visits" class="section level3">
@@ -382,13 +435,23 @@ str(doctor)</code></pre>
 ##  $ nchronic : chr  &quot;yes&quot; &quot;yes&quot; &quot;no&quot; &quot;no&quot; ...
 ##  $ lchronic : chr  &quot;no&quot; &quot;no&quot; &quot;no&quot; &quot;no&quot; ...</code></pre>
 </details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Frequency and Demographics: What is the average number of doctor visits and how does this average compare across different income levels or health insurance statuses (if available)?</p></li>
+<li><p>Predictive Factors: What demographic and health-related variables (e.g., chronic conditions, age, sex) appear to be the strongest predictors of a higher frequency of doctor visits?</p></li>
+<li><p>Time Comparison: Was there a noticeable change in the average number of doctor visits or the proportion of people who visited a doctor between the survey years 1977 and 1978?</p></li>
+</ul>
+</details>
 <hr />
 </div>
 <div id="video-game-sales" class="section level3">
 <h3>Video Game Sales 🎮</h3>
 <ul>
 <li>This data set contains sales figures for video games titles released in 2001 and 2002.</li>
-<li>Data description: <a href="https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=Video%20Game%20Sales" class="uri">https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=Video%20Game%20Sales</a>
+<li>Data description: <a href="https://mavenanalytics.io/data-playground/video-game-sales" class="uri">https://mavenanalytics.io/data-playground/video-game-sales</a>
 <ul>
 <li>Click on “Preview Data” and “VG Data Dictionary” to see the description for each column.</li>
 </ul></li>
@@ -423,13 +486,23 @@ str(videogames)</code></pre>
 ##  $ release_date: chr  &quot;2002-10-28&quot; &quot;2001-10-23&quot; &quot;2002-05-28&quot; &quot;2001-10-29&quot; ...
 ##  $ last_update : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...</code></pre>
 </details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Genre/Platform Dominance: Which video game genre and which console platform had the highest global sales across 2001 and 2002? Was there a significant shift in the leading genre/platform from 2001 to 2002?</p></li>
+<li><p>Performance Metrics: Is there a correlation between a game’s sales and its user/critic score? Visualize this relationship with a scatter plot.</p></li>
+<li><p>Publisher Success: Which publishers released the most games in the 2001-2002 period, and which publisher generated the highest total global sales?</p></li>
+</ul>
+</details>
 <hr />
 </div>
 <div id="lego-sets" class="section level3">
 <h3>LEGO Sets 🏗️</h3>
 <ul>
 <li>This data set contains the description of all LEGO sets released from 2000 to 2009.</li>
-<li>Data description: <a href="https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=lego" class="uri">https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=lego</a>
+<li>Data description: <a href="https://mavenanalytics.io/data-playground/lego-sets" class="uri">https://mavenanalytics.io/data-playground/lego-sets</a>
 <ul>
 <li>Click on “Preview Data” and “VG Data Dictionary” to see the description for each column.</li>
 </ul></li>
@@ -463,13 +536,23 @@ str(lego)</code></pre>
 ##  $ thumbnailURL  : chr  &quot;https://images.brickset.com/sets/small/1086-1.jpg&quot; &quot;https://images.brickset.com/sets/small/1177-1.jpg&quot; &quot;https://images.brickset.com/sets/small/1196-1.jpg&quot; &quot;https://images.brickset.com/sets/small/1197-1.jpg&quot; ...
 ##  $ imageURL      : chr  &quot;https://images.brickset.com/sets/images/1086-1.jpg&quot; &quot;https://images.brickset.com/sets/images/1177-1.jpg&quot; &quot;https://images.brickset.com/sets/images/1196-1.jpg&quot; &quot;https://images.brickset.com/sets/images/1197-1.jpg&quot; ...</code></pre>
 </details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Product Trends: How has the average price and average number of pieces of LEGO sets changed over the decade, year-by-year, from 2000 to 2009?</p></li>
+<li><p>Price-to-Piece Ratio: What is the average price-per-piece (a measure of value) for sets within the different LEGO Themes? Which themes represent the highest and lowest value?</p></li>
+<li><p>Theme Popularity: Which LEGO Themes (e.g., Star Wars, City) were the most popular (released the highest number of unique sets) during this 10-year period?</p></li>
+</ul>
+</details>
 <hr />
 </div>
 <div id="shark-attacks" class="section level3">
 <h3>Shark attacks 🦈</h3>
 <ul>
 <li>This data set contains information on shark attack records from all over the world.</li>
-<li>Data description: <a href="https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=shark" class="uri">https://mavenanalytics.io/data-playground?order=date_added%2Cdesc&amp;search=shark</a>
+<li>Data description: <a href="https://mavenanalytics.io/data-playground/shark-attacks" class="uri">https://mavenanalytics.io/data-playground/shark-attacks</a>
 <ul>
 <li>Click on “Preview Data” and “VG Data Dictionary” to see the description for each column.</li>
 </ul></li>
@@ -483,33 +566,40 @@ Download instructions
 download.file(url = &quot;https://maven-datasets.s3.amazonaws.com/Shark+Attacks/attacks.csv.zip&quot;, destfile = &quot;attacks.csv.zip&quot;)
 # this will unzip the file and read it into R
 sharks &lt;- read.table(unz(filename = &quot;attacks.csv&quot;, &quot;attacks.csv.zip&quot;), header = T, sep = &quot;,&quot;, quote = &quot;\&quot;&quot;, fill = T)
-# the lines below will take a sample from the full data set
-set.seed(seed = 2)
-sharks &lt;- sample_n(sharks, size = 3000, replace = F)
 str(sharks)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    3000 obs. of  22 variables:
-##  $ Case.Number           : chr  &quot;&quot; &quot;&quot; &quot;1934.01.08.R&quot; &quot;&quot; ...
-##  $ Date                  : chr  &quot;&quot; &quot;&quot; &quot;Reported 08-Feb-1934&quot; &quot;&quot; ...
-##  $ Year                  : int  NA NA 1934 NA NA NA 1969 1966 NA NA ...
-##  $ Type                  : chr  &quot;&quot; &quot;&quot; &quot;Boating&quot; &quot;&quot; ...
-##  $ Country               : chr  &quot;&quot; &quot;&quot; &quot;TURKEY&quot; &quot;&quot; ...
-##  $ Area                  : chr  &quot;&quot; &quot;&quot; &quot;Istanbul&quot; &quot;&quot; ...
-##  $ Location              : chr  &quot;&quot; &quot;&quot; &quot;Haydarpasa jetty, Istanbul&quot; &quot;&quot; ...
-##  $ Activity              : chr  &quot;&quot; &quot;&quot; &quot;Fishing&quot; &quot;&quot; ...
-##  $ Name                  : chr  &quot;&quot; &quot;&quot; &quot;2 males&quot; &quot;&quot; ...
-##  $ Sex                   : chr  &quot;&quot; &quot;&quot; &quot;M&quot; &quot;&quot; ...
-##  $ Age                   : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
-##  $ Injury                : chr  &quot;&quot; &quot;&quot; &quot;No injury&quot; &quot;&quot; ...
-##  $ Fatal..Y.N.           : chr  &quot;&quot; &quot;&quot; &quot;N&quot; &quot;&quot; ...
-##  $ Time                  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
-##  $ Species               : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
-##  $ Investigator.or.Source: chr  &quot;&quot; &quot;&quot; &quot;C. Moore, GSAF&quot; &quot;&quot; ...
-##  $ pdf                   : chr  &quot;&quot; &quot;&quot; &quot;1924.02.08.R-Turkey.pdf&quot; &quot;&quot; ...
-##  $ href.formula          : chr  &quot;&quot; &quot;&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/1924.02.08.R-Turkey.pdf&quot; &quot;&quot; ...
-##  $ href                  : chr  &quot;&quot; &quot;&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/http://sharkattackfile.net/spreadsheets/pdf_directory/192&quot;| __truncated__ &quot;&quot; ...
-##  $ Case.Number.1         : chr  &quot;&quot; &quot;&quot; &quot;1934.02.08.R&quot; &quot;&quot; ...
-##  $ Case.Number.2         : chr  &quot;&quot; &quot;&quot; &quot;1934.02.08.R&quot; &quot;&quot; ...
-##  $ original.order        : int  NA NA 1290 NA NA NA 2820 2643 NA NA ...</code></pre>
+<pre><code>## &#39;data.frame&#39;:    25614 obs. of  22 variables:
+##  $ Case.Number           : chr  &quot;2017.06.11&quot; &quot;2017.06.10.b&quot; &quot;2017.06.10.a&quot; &quot;2017.06.07.R&quot; ...
+##  $ Date                  : chr  &quot;2017-06-11&quot; &quot;2017-06-10&quot; &quot;2017-06-10&quot; &quot;Reported 07-Jun-2017&quot; ...
+##  $ Year                  : int  2017 2017 2017 2017 2017 2017 2017 2017 2017 2017 ...
+##  $ Type                  : chr  &quot;Unprovoked&quot; &quot;Unprovoked&quot; &quot;Unprovoked&quot; &quot;Unprovoked&quot; ...
+##  $ Country               : chr  &quot;AUSTRALIA&quot; &quot;AUSTRALIA&quot; &quot;USA&quot; &quot;UNITED KINGDOM&quot; ...
+##  $ Area                  : chr  &quot;Western Australia&quot; &quot;Victoria&quot; &quot;Florida&quot; &quot;South Devon&quot; ...
+##  $ Location              : chr  &quot;Point Casuarina, Bunbury&quot; &quot;Flinders, Mornington Penisula&quot; &quot;Ponce Inlet, Volusia County&quot; &quot;Bantham Beach&quot; ...
+##  $ Activity              : chr  &quot;Body boarding&quot; &quot;Surfing&quot; &quot;Surfing&quot; &quot;Surfing &quot; ...
+##  $ Name                  : chr  &quot;Paul Goff&quot; &quot;female&quot; &quot;Bryan Brock&quot; &quot;Rich Thomson&quot; ...
+##  $ Sex                   : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; ...
+##  $ Age                   : chr  &quot;48&quot; &quot;&quot; &quot;19&quot; &quot;30&quot; ...
+##  $ Injury                : chr  &quot;No injury, board bitten&quot; &quot;No injury, knocke off board&quot; &quot;Laceration to left foot&quot; &quot;Bruise to leg, cuts to hand sustained when he hit the shark&quot; ...
+##  $ Fatal..Y.N.           : chr  &quot;N&quot; &quot;N&quot; &quot;N&quot; &quot;N&quot; ...
+##  $ Time                  : chr  &quot;08h30&quot; &quot;15h45&quot; &quot;10h00&quot; &quot;&quot; ...
+##  $ Species               : chr  &quot;White shark, 4 m&quot; &quot;7 gill shark&quot; &quot;&quot; &quot;3m shark, probably a smooth hound&quot; ...
+##  $ Investigator.or.Source: chr  &quot;WA Today, 6/11/2017&quot; &quot;&quot; &quot;Daytona Beach News-Journal, 6/10/2017&quot; &quot;C. Moore, GSAF&quot; ...
+##  $ pdf                   : chr  &quot;2017.06.11-Goff.pdf&quot; &quot;2017.06.10.b-Flinders.pdf&quot; &quot;2017.06.10.a-Brock.pdf&quot; &quot;2017.06.07.R-Thomson.pdf&quot; ...
+##  $ href.formula          : chr  &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/2017.06.11-Goff.pdf&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/2017.06.10.b-Flinders.pdf&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/2017.06.10.a-Brock.pdf&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/2017.06.07.R-Thomson.pdf&quot; ...
+##  $ href                  : chr  &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/http://sharkattackfile.net/spreadsheets/pdf_directory/201&quot;| __truncated__ &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/2017.06.10.b-Flinders.pdf&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/2017.06.10.a-Brock.pdf&quot; &quot;http://sharkattackfile.net/spreadsheets/pdf_directory/2017.06.07.R-Thomson.pdf&quot; ...
+##  $ Case.Number.1         : chr  &quot;2017.06.11&quot; &quot;2017.06.10.b&quot; &quot;2017.06.10.a&quot; &quot;2017.06.07.R&quot; ...
+##  $ Case.Number.2         : chr  &quot;2017.06.11&quot; &quot;2017.06.10.b&quot; &quot;2017.06.10.a&quot; &quot;2017.06.07.R&quot; ...
+##  $ original.order        : int  6095 6094 6093 6092 6091 6090 6089 6088 6087 6086 ...</code></pre>
+</details>
+<details>
+<summary>
+Analysis suggestions
+</summary>
+<ul>
+<li><p>Geographical Hotspots: Which countries or regions have the highest recorded number of shark attacks? Visualize the top 10 locations.</p></li>
+<li><p>Context and Activity: What are the most common activities being performed by victims at the time of the attack (e.g., swimming, surfing)? Do the outcomes/severity of the attack differ based on the victim’s activity?</p></li>
+<li><p>Temporal Patterns: Is there a noticeable pattern in the number of attacks across the months or seasons (e.g., is there a “shark season”)?</p></li>
+</ul>
 </details>
 <hr />
 </div>
