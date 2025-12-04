@@ -341,7 +341,7 @@ name: aes
 
 # Aesthetics
 
-* Aesthetic mapping vs aesthetic parameter
+* Mapped vs Fixed Aesthetics  
 
 .pull-left-50[
 ```{r,fig.height=4,fig.width=5.5}
@@ -617,7 +617,7 @@ When setting limits using `scale_`, the data outside the limits are dropped. Lim
 name: exercise
 # Exercise
 
-Exercise 1-2.10 **Axes modification**.  
+Exercise 1-2.8 **Continuous colors**.  
 
 ---
 name: facet-wrap
