@@ -617,7 +617,7 @@ When setting limits using `scale_`, the data outside the limits are dropped. Lim
 name: exercise
 # Exercise
 
-Exercise 1-2.8 **Continuous colors**.  
+Exercise 1-2.8 **Continuous colors**.   
 
 ---
 name: facet-wrap
