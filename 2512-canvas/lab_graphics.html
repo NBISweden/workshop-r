@@ -361,16 +361,16 @@ points(data[data$X%%2 == 0,], pch=19, cex=exp(r), col=mycol(&quot;slateblue&quot
 points(data[data$X%%2 != 0,], pch=15, cex=exp(r), col=mycol(&quot;grey&quot;, .5))</code></pre>
 <p>Plot centers of the points as a cross: grey for blue/even points and red for grey/odd points.</p>
 <p><img src="lab_graphics_files/figure-html/unnamed-chunk-13-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
-<pre class="r"><code>points(data[data$X%%2 == 0,], pch=3, cex=1, col=&quot;darkgrey&quot;)
+<pre class="r"><code>points(data[data$X%%2 == 0,], pch=3, cex=1, col=&quot;green&quot;)
 points(data[data$X%%2 != 0,], pch=3, cex=1, col=&quot;red&quot;)</code></pre>
 </div>
 <div id="annotation" class="section level2" number="3.6">
 <h2><span class="header-section-number">3.6</span> Annotation</h2>
-<p>Add grey text ‘Center’ at the center of the plot.</p>
+<p>Add black text ‘Center’ at the center of the plot.</p>
 <p><img src="lab_graphics_files/figure-html/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
 <pre class="r"><code>center.x &lt;- mean(range(data[,1]))
 center.y &lt;- mean(range(data[,2]))
-text(x=center.x, y=center.y, &quot;Center&quot;, col=&quot;lightgrey&quot;)</code></pre>
+text(x=center.x, y=center.y, &quot;Center&quot;, col=&quot;black&quot;)</code></pre>
 </div>
 <div id="titles" class="section level2" number="3.7">
 <h2><span class="header-section-number">3.7</span> Titles</h2>
@@ -447,10 +447,10 @@ myData &lt;-read_excel(local_file_path)</code></pre>
 <h2><span class="header-section-number">4.3</span> Build empty plot</h2>
 <p>Create an empty plot to show your and WHO data,</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120407404031" aria-expanded="false" aria-controls="acc2025120407404031">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120410311576" aria-expanded="false" aria-controls="acc2025120410311576">
 </button>
 </p>
-<div id="acc2025120407404031" class="collapse">
+<div id="acc2025120410311576" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plot(1, xlim=c(0, max(myData$Month)), type=&#39;n&#39;, bty=&#39;n&#39;, ylim=c(0, max(myData[,c(5:19)])), las=1, xlab=&#39;Month&#39;, ylab=&#39;kg&#39;)
 grid()</code></pre>
@@ -462,10 +462,10 @@ grid()</code></pre>
 <h2><span class="header-section-number">4.4</span> Plot reference data</h2>
 <p>Plot WHO mean and percentiles: P25, P75, P0.1 and P99.9, use different colors and line types to make the plot pretty.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120407418814" aria-expanded="false" aria-controls="acc2025120407418814">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120410317620" aria-expanded="false" aria-controls="acc2025120410317620">
 </button>
 </p>
-<div id="acc2025120407418814" class="collapse">
+<div id="acc2025120410317620" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>lines(myData$M, col=&#39;grey&#39;, lty=1)
 lines(myData$P25, col=&#39;blue&#39;, lty=2)
@@ -480,10 +480,10 @@ lines(myData$P999, col=&#39;tomato&#39;, lty=2)</code></pre>
 <p>Plot your data on top of the percentiles, mind the units so that they match with the WHO ones</p>
 <p><img src="lab_graphics_files/figure-html/unnamed-chunk-28-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120407412413" aria-expanded="false" aria-controls="acc2025120407412413">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120410317709" aria-expanded="false" aria-controls="acc2025120410317709">
 </button>
 </p>
-<div id="acc2025120407412413" class="collapse">
+<div id="acc2025120410317709" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>points(xpoints, weight/1000, pch=3, type=&#39;l&#39;, cex=.5)
 points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
@@ -495,10 +495,10 @@ points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
 <p>Add descriptions of the confidence lines in the margins</p>
 <p><img src="lab_graphics_files/figure-html/unnamed-chunk-30-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120407417515" aria-expanded="false" aria-controls="acc2025120407417515">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2025120410321923" aria-expanded="false" aria-controls="acc2025120410321923">
 </button>
 </p>
-<div id="acc2025120407417515" class="collapse">
+<div id="acc2025120410321923" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mtext(text = c(&#39;P0.1&#39;,&#39;P25&#39;,&#39;P75&#39;,&#39;P99.9&#39;), side = 4, at=myData[dim(myData)[1], c(&#39;P01&#39;,&#39;P25&#39;,&#39;P75&#39;,&#39;P999&#39;)], las=1, cex=.8)</code></pre>
 </div>
@@ -519,6 +519,195 @@ points(xpoints, weight/1000, pch=3, type=&#39;p&#39;, cex=.5)</code></pre>
 <li>Discuss the result with your colleagues and TAs.</li>
 </ul>
 <pre class="r"><code>unlink(local_file_path)</code></pre>
+</div>
+<div id="cheatsheet" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Cheatsheet</h1>
+<table>
+<colgroup>
+<col width="43%" />
+<col width="21%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / Argument</th>
+<th>Full Name</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pch</code></td>
+<td>Plotting Character</td>
+<td>Controls symbol type (0–25).</td>
+<td><code>plot(x, y, pch = 16)</code></td>
+</tr>
+<tr class="even">
+<td><code>col</code></td>
+<td>Color</td>
+<td>Color for points/lines.</td>
+<td><code>plot(x, y, col = "red")</code></td>
+</tr>
+<tr class="odd">
+<td><code>cex</code></td>
+<td>Character Expansion</td>
+<td>Scales size of points.</td>
+<td><code>plot(x, y, cex = 1.5)</code></td>
+</tr>
+<tr class="even">
+<td><code>main</code></td>
+<td>Main Title</td>
+<td>Title at top of plot.</td>
+<td><code>plot(x, y, main = "Title")</code></td>
+</tr>
+<tr class="odd">
+<td><code>sub</code></td>
+<td>Subtitle</td>
+<td>Subtitle under plot.</td>
+<td><code>plot(x, y, sub = "Source: X")</code></td>
+</tr>
+<tr class="even">
+<td><code>xlab</code></td>
+<td>X Label</td>
+<td>Label for x-axis.</td>
+<td><code>plot(x, y, xlab = "Time")</code></td>
+</tr>
+<tr class="odd">
+<td><code>ylab</code></td>
+<td>Y Label</td>
+<td>Label for y-axis.</td>
+<td><code>plot(x, y, ylab = "Value")</code></td>
+</tr>
+<tr class="even">
+<td><code>las</code></td>
+<td>Label Axis Style</td>
+<td>Axis label orientation (0–3).</td>
+<td><code>plot(x, y, las = 1)</code></td>
+</tr>
+<tr class="odd">
+<td><code>cex.axis</code></td>
+<td>Character Expansion (Axis)</td>
+<td>Scale axis text size.</td>
+<td><code>plot(x, y, cex.axis = 0.8)</code></td>
+</tr>
+<tr class="even">
+<td><code>xlim</code></td>
+<td>X Limits</td>
+<td>Range of x-axis.</td>
+<td><code>plot(x, y, xlim = c(0,10))</code></td>
+</tr>
+<tr class="odd">
+<td><code>ylim</code></td>
+<td>Y Limits</td>
+<td>Range of y-axis.</td>
+<td><code>plot(x, y, ylim = c(0,100))</code></td>
+</tr>
+<tr class="even">
+<td><code>type</code></td>
+<td>Plot Type</td>
+<td><code>"p"</code> points, <code>"l"</code> lines, <code>"b"</code> both, <code>"h"</code> vertical lines.</td>
+<td><code>plot(x, y, type="b")</code></td>
+</tr>
+<tr class="odd">
+<td><code>bty</code></td>
+<td>Box Type</td>
+<td>Border type: <code>"o"</code>, <code>"n"</code>, <code>"l"</code>, <code>"7"</code>, <code>"c"</code>, <code>"u"</code>.</td>
+<td><code>plot(x, y, bty="n")</code></td>
+</tr>
+<tr class="even">
+<td><code>par(mar)</code></td>
+<td>Margin</td>
+<td>Plot margins (bottom, left, top, right).</td>
+<td><code>par(mar = c(5,4,2,1))</code></td>
+</tr>
+<tr class="odd">
+<td><code>par(oma)</code></td>
+<td>Outer Margin Area</td>
+<td>Outer margins around all plots.</td>
+<td><code>par(oma = c(1,1,1,1))</code></td>
+</tr>
+<tr class="even">
+<td><code>par(mfrow)</code></td>
+<td>Multi-Frame Row</td>
+<td>Layout: number of rows/cols for multiple plots.</td>
+<td><code>par(mfrow = c(2,2))</code></td>
+</tr>
+<tr class="odd">
+<td><code>layout()</code></td>
+<td>Layout Manager</td>
+<td>Custom plot layout matrix.</td>
+<td><code>layout(matrix(c(1,2,3,3), 2,2))</code></td>
+</tr>
+<tr class="even">
+<td><code>mtext()</code></td>
+<td>Margin Text</td>
+<td>Adds text to plot margins.</td>
+<td><code>mtext("Outer Text", side = 3, line = 1)</code></td>
+</tr>
+<tr class="odd">
+<td><code>text()</code></td>
+<td>Text Annotation</td>
+<td>Add text inside plotting region.</td>
+<td><code>text(x=5, y=10, labels="Here")</code></td>
+</tr>
+<tr class="even">
+<td><code>rnorm()</code></td>
+<td>Random Normal</td>
+<td>Random numbers from normal distribution.</td>
+<td><code>rnorm(100)</code></td>
+</tr>
+<tr class="odd">
+<td><code>matrix()</code></td>
+<td>Matrix Constructor</td>
+<td>Create matrix from vector.</td>
+<td><code>matrix(1:6, nrow=2)</code></td>
+</tr>
+<tr class="even">
+<td><code>seq()</code></td>
+<td>Sequence</td>
+<td>Generates sequences of numbers.</td>
+<td><code>seq(1, 10, by = 2)</code></td>
+</tr>
+<tr class="odd">
+<td><code>rgb()</code></td>
+<td>Red-Green-Blue Color</td>
+<td>Create colors using RGB + alpha.</td>
+<td><code>rgb(1, 0, 0, 0.5)</code></td>
+</tr>
+<tr class="even">
+<td><code>colorRampPalette()</code></td>
+<td>Color Gradient Function</td>
+<td>Creates smooth color gradients.</td>
+<td><code>cols &lt;- colorRampPalette(c("blue","red"))(20)</code></td>
+</tr>
+<tr class="odd">
+<td><code>%in%</code></td>
+<td>Set Membership</td>
+<td>Check membership in a vector.</td>
+<td><code>x %in% c("a","b")</code></td>
+</tr>
+<tr class="even">
+<td><code>%--%</code></td>
+<td>Interval Operator (lubridate)</td>
+<td>Create a time interval between two dates/times.</td>
+<td><code>as.Date("2020-01-01") %--% as.Date("2020-12-31")</code></td>
+</tr>
+<tr class="odd">
+<td><code>as.Date()</code></td>
+<td>Convert to Date</td>
+<td>Converts strings → Date objects.</td>
+<td><code>as.Date("2024-05-01")</code></td>
+</tr>
+<tr class="even">
+<td><code>dmy()</code></td>
+<td>Day-Month-Year Parser (lubridate)</td>
+<td>Parse dates in <code>"d-m-y"</code> format.</td>
+<td><code>dmy("31-12-2024")</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
