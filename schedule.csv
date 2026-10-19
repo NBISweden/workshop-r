@@ -2,7 +2,7 @@
 9/11/2026;Linn√©rummet;09:00;09:15;Welcome;;;;;
 ;;09:15;10:00;Introduction to R;Guilherme;;slide_r_intro.html;;
 ;;10:00;10:30;Fika;;;;;
-;;10:30;11:00;Lab: Using Rstudio;;;https://www.youtube.com/watch?v=kfcX5DEMAp4&t=107s;lab_rstudio.html;
+;;10:30;11:00;Lab: Using Rstudio;;;https://www.youtube.com/watch?v=kfcX5DEMAp4&t;lab_rstudio.html;
 ;;11:00;12:00;Variables, Data types & Operators;Guilherme;;slide_r_elements_1.html;;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;14:00;Lab: Variables, Data types & Operators;;;;lab_datatypes.html;

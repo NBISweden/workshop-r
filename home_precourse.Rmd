@@ -23,55 +23,52 @@ output:
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
-This workshop is aimed towards biologists, and other life sciences researchers with none or limited experience with R programming or even programming in general.
+<div class="boxy boxy-lightbulb">
+If you already have R and RStudio up and running on your laptop you can skip the **Preparation** steps.
+</div>
 
 # &nbsp; {.tabset .tabset-fade}
 
 ## Preparation
 
-### Tools
-
-`r fa1("chevron-circle-right")` &nbsp; **Install R statistical software**
-
-<div class="boxy boxy-exclamation boxy-yellow">
-
-If you have an old version of R and you do not use it, uninstall it and then install a newer version. If you prefer to keep your old R version, then you can still install a newer version for this workshop. This is easy on Windows, but can be tricky on Linux.
-
-</div>
+### Install R statistical software
 
 Go to [r-project.org](https://cloud.r-project.org/) and choose the link appropriate for your operating system.
 
 <img src="data/common/r-download.png" class="fancyimage">
 
-<div class="boxy boxy-lightbulb">
-
-**Installation details**
+---
 
 <i class="fab fa-windows"></i> **Windows:** Click **Download R for Windows** > **base** > **Download R X.X.X for Windows**. This should download an .exe file. It is recommended that you DO NOT install to `C:\Program Files\R\`. Instead, install to `C:\R\`. It is also recommended that you install Rtools for building R packages from source code. Click **Download R for Windows** > **Rtools**.
 
+---
+
 <i class="fab fa-apple"></i> **Mac:** Click **Download R for (Mac) OS X** > **R-X.X.X.pkg** that will download R to your computer. If you are not sure what version of Mac OS you are running, click the apple on the top left of your screen and select **About this mac** (Om den här datorn). In case you are running something older than 10.9, you should instead pick the “R-X.X.X-snowleopard.pkg” to install. Note that this will not give you the latest version of R, but it will be sufficient for most sections of the course. You can then double-click the downloaded package that will prompt you with some questions for installation details. Stick with the default settings and you should be fine.
+
+---
 
 <i class="fab fa-linux"></i> **Linux:** Click **Download R for Linux** then pick your distribution of Linux. On most distributions, this will be via a software install system like `yum` or `apt-get`. If you run this make sure that you update your information to the installer first, otherwise you might end up installing at outdated version of R. For some systems you might need to install not only **r-base**, but also **r-devel** or you will lack important features of your R installation. When installing R packages, you might need to install OS specific packages before. These are displayed during R package installation.
 
-</div>
 
-`r fa1("chevron-circle-right")` &nbsp; **Install [RStudio](https://rstudio.com/products/rstudio/download/#download)**. Choose based on your OS.
 
-[![](data/common/rstudio.png)](https://rstudio.com/products/rstudio/download/#download)
 
-RStudio provides you with tools like code editor with highlighting, project management, version control, package building, debugger, profiler and more. Start up RStudio to check that everything has been installed correctly. If not, contact us and we can help you out.
+### Install RStudio
 
-You can also watch [this video](https://youtu.be/suX6nsSUXDw?si=FbaiaCpRNvtjxt5N) for an introduction to using RStudio
+Go to [this page](https://docs.posit.co/ide/user/download.html) and download the appropriate version of RStudio for your system.
 
-`r fa1("chevron-circle-right")` &nbsp; **Install R packages**
+RStudio is one of the best IDEs (Integrated Development Environments) to learn R. It provides you with tools like code editor with syntax highlighting, project management, version control, package building, debugger, profiler and more. Start up RStudio to check that everything has been installed correctly. If any issues arise we can help you fix it on the first day of the course.
 
-Please download this [test_installation.Rmd file](data/common/test_installation.Rmd) and Knit/Render it by clicking on the knit/render icon on the upper right of R Studio or by navigating to file > knit document.   
-After rendering if everything goes well you should see this message towards end of the rendered html file:  
+You can also watch [this video](https://www.youtube.com/watch?v=kfcX5DEMAp4) for an short introduction to using RStudio.
+
+### Install R packages
+
+Please download this [test_installation.Rmd file](data/common/test_installation.Rmd). You don't need to understand the contents of this file yet. Open it on RStudio, and render it by clicking on the knit/render icon on the document toolbar, or by navigating to `File` > `Knit Document`.
+
+After rendering, if everything goes well you should see this message towards end of the rendered html file:  
 
 - **Congratulations you have installed all the packages**.  
 
 If there are any missing packages they will be printed at the end of the rendered html file.  
-
 
 <video width="640" height="480" controls>
   <source src="data/common/Test_Installation.mov" type="video/mp4">
