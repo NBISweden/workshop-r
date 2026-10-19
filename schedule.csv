@@ -1,8 +1,8 @@
 ﻿date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_room
-9/11/2026;Linn√©rummet;09:00;09:15;Welcome;;;;;
+9/11/2026;Linnérummet;09:00;09:15;Welcome;;;;;
 ;;09:15;10:00;Introduction to R;Guilherme;;slide_r_intro.html;;
 ;;10:00;10:30;Fika;;;;;
-;;10:30;11:00;Lab: Using Rstudio;;;https://www.youtube.com/watch?v=kfcX5DEMAp4&t=107s;lab_rstudio.html;
+;;10:30;11:00;Lab: Using Rstudio;;;https://www.youtube.com/watch?v=kfcX5DEMAp4&t;lab_rstudio.html;
 ;;11:00;12:00;Variables, Data types & Operators;Guilherme;;slide_r_elements_1.html;;
 ;;12:00;13:00;Lunch;;;;;
 ;;13:00;14:00;Lab: Variables, Data types & Operators;;;;lab_datatypes.html;
@@ -10,7 +10,7 @@
 ;;15:00;15:30;Fika;;;;;
 ;;15:30;16:00;Lab: Vectors;;;;lab_vectors.html;
 ;;16:00;17:00;Project work;;;;;
-10/11/2026;Linn√©rummet;09:00;10:00;Matrices, Data frames, and Lists;Guilherme;;slide_r_elements_3.html;;
+10/11/2026;Linnérummet;09:00;10:00;Matrices, Data frames, and Lists;Guilherme;;slide_r_elements_3.html;;
 ;;10:00;10:30;Fika;;;;;
 ;;10:30;11:00;Lab: Matrices, Data frames, and Lists;;;;lab_dataframes.html;
 ;;11:00;12:00;Loading data into R;Guilherme;;slide_loading_data.html;;
@@ -20,7 +20,7 @@
 ;;15:30;16:00;Basic statistics;Guilherme;;slide_r_basic_statistic.html;;
 ;;16:00;16:30;Lab: Basic statistics;;;;lab_statistics.html;
 ;;16:30;17:00;Project work;;;;;
-11/11/2026;Linn√©rummet;09:00;10:00;Loops and Functions;Guilherme;;slide_r_elements_4.html;;
+11/11/2026;Linnérummet;09:00;10:00;Loops and Functions;Guilherme;;slide_r_elements_4.html;;
 ;;10:00;10:30;Fika;;;;;
 ;;10:30;12:00;Lab: Loops and Functions;;;;lab_loops.html;
 ;;12:00;13:00;Lunch;;;;;
@@ -29,7 +29,7 @@
 ;;15:00;15:30;Fika;;;;;
 ;;15:30;16:00;Lab: Intro to Tidyverse;;;;;
 ;;16:00;17:00;Project work;;;;;
-12/11/2026;Linn√©rummet;09:00;10:00;Base graphics;Lokesh;;slide_base_graphics.html;;
+12/11/2026;Linnérummet;09:00;10:00;Base graphics;Lokesh;;slide_base_graphics.html;;
 ;;10:00;10:30;Fika;;;;;
 ;;10:30;12:00;Lab: Base graphics;;;;lab_graphics.html;
 ;;12:00;13:00;Lunch;;;;;
@@ -38,7 +38,7 @@
 ;;15:00;15:30;Fika;;;;;
 ;;15:30;16:00;Lab: Graphics using ggplot2;;;;;
 ;;16:00;17:00;Project work;;;;;
-13/11/2026;Linn√©rummet;09:00;10:00;Project work;;;;;
+13/11/2026;Linnérummet;09:00;10:00;Project work;;;;;
 ;;10:00;10:30;Fika;;;;;
 ;;10:30;12:00;Project work;;;;;
 ;;12:00;13:00;Lunch;;;;;
