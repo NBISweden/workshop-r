@@ -75,7 +75,7 @@ jobs:
           # removes footer
 
           echo "Removing lab and slide links from schedule for canvas ..."
-          docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }} Rscript -e 'x <- read.csv("schedule.csv",sep=";",header=T,stringsAsFactors=F);x$link_youtube <- x$link_lab <- x$link_slide <- NA;write.table(x,"schedule.csv",sep=";",col.names=T,row.names=F,quote=FALSE,na="")'
+          docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }} Rscript -e 'x <- read.csv("schedule.csv",sep=",",header=T,stringsAsFactors=F);x$link_youtube <- x$link_lab <- x$link_slide <- NA;write.table(x,"schedule.csv",sep=",",col.names=T,row.names=F,na="")'
           echo "Fixing _site.yml for canvas ..."
           docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v ${PWD}:/rmd ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }} Rscript -e 'y <- yaml::read_yaml("_site.yml"); y$exclude <- append(y$exclude,y$output_dir); y$output_dir <- paste0(y$output_dir,"-canvas"); y$navbar <- NULL; yaml::write_yaml(y,"_site.yml");'
 
