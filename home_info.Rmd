@@ -67,6 +67,13 @@ uppsala2 <- data.frame(
   stringsAsFactors = F
 )
 
+uppsala3 <- data.frame(
+  venue_lat = 59.841589,
+  venue_lon = 17.634606,
+  venue_address = "<b>Biomedicinskt Centrum (BMC)</b>, Linnérummet C6:323a, Entrance from Husargatan, Uppsala University,75237 Uppsala,Sweden",
+  description = "[Building map](https://link.mazemap.com/eRzrPqU7). Enter directly through Hursagatan on Block C6 (indicated on the map), the door is on the right side where bikes and motorcicles are parked. Go up one flight of stairs and turn right. It is the first room on your right, with the DNA motif on the windows. Use the [UL website](www.ul.se) or the [UL app](https://www.ul.se/en/tickets/how-to-buy-a-ticket/the-UL-app/) for bus and train services around Uppsala. From the Centralstation (Train/Bus) take bus 3, 4, 8, 11, or 100/101 (towards Rosendal, Vårdsatra, Gottsunda, Ultuna) and get off at the stop *Uppsala Science Park*. Bus tickets can be purchased in the app, ticket machines at Centralstation, or directly from the driver using a credit card.",
+  stringsAsFactors = F
+)
 
 linkoping <- data.frame(
   venue_lat = 58.402748,

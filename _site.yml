@@ -2,7 +2,7 @@ name: R Programming Foundations for Data Analysis
 # output directory used on gh-pages branch. format: YYMM
 output_dir: 2611
 # location options are linkoping, lund, umea, uppsala (ScilifeLab) or uppsala2 (Blåsenhus)
-location: uppsala
+location: uppsala3
 assistants:
   - "MK: Marcin Kierczak"
   - "SDL: Sebastian DiLorenzo"
