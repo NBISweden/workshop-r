@@ -39,4 +39,6 @@ navbar:
       href: home_info.html
     - text: Projects
       href: home_projects.html
+    - icon: "github"
+      href: "https://github.com/NBISweden/workshop-r/"
 
