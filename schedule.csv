@@ -23,11 +23,11 @@ date;room;start_time;end_time;topic;teacher;assistant;link_slide;link_lab;link_r
 ;;13:00;14:00;Intro to Tidyverse;Marcin;;slide_tidyverse.html;;
 ;;14:00;16:00;Intro to Tidyverse;Marcin;;;lab_tidyverse.html;
 ;;16:00;17:00;Group discussion on projects;;;;;
-12/11/2026;Linnérummet;9:00;10:00;Base graphics;;;slide_base_graphics.html;;
-;;10:00;12:00;Base graphics;;;;lab_graphics.html;
+12/11/2026;Linnérummet;9:00;10:00;Base graphics;Lokesh;;slide_base_graphics.html;;
+;;10:00;12:00;Base graphics;Lokesh;;;lab_graphics.html;
 ;;12:00;13:00;Lunch;;;;;
-;;13:00;14:00;Graphics using ggplot2;;;slide_ggplot2.html;;
-;;14:00;16:00;Working with ggplot2;;;;lab_ggplot2.html;
+;;13:00;14:00;Graphics using ggplot2;Lokesh;;slide_ggplot2.html;;
+;;14:00;16:00;Working with ggplot2;Lokesh;;;lab_ggplot2.html;
 ;;16:00;17:00;Group discussion on projects;;;;;
 13/11/2026;Linnérummet;9:00;10:00;Group discussion on projects;;;;;
 ;;10:00;12:00;Group discussion on projects;;;;;
