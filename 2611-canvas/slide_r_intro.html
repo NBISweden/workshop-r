@@ -3,7 +3,7 @@
   <head>
     <title>Introduction to R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Marcin Kierczak and Nima Rafati" />
+    <meta name="author" content="Guilherme Dias" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
     <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -22,7 +22,7 @@ class: center, middle, inverse, title-slide
 ## R Foundations for Data Analysis
 ]
 .author[
-### Marcin Kierczak and Nima Rafati
+### Guilherme Dias
 ]
 
 ---
@@ -51,173 +51,259 @@ class: spaced
 
 # Contents
 
-* [Why R](#whyR)
-* [About R](#about)
-* [Pros and cons of R](#pros_and_cons)
-* [Ecosystem of packages](#num_packages)
-* [Programming language](#programming_language)
-* [Packages](#packages)
-* [Package installation](#pkg_cran_inst)
+1. [The problem: life in spreadsheets](#whyR) 🧨
+2. [What R is (and isn't)](#about) 🧭
+3. [How R compares](#compare) ⚖️
+4. [Thinking like a programmer](#programming_language) 🧠
+5. [Packages: standing on giants' shoulders](#packages) 📦
+6. [Coding in the age of AI](#ai) 🤖
+
+
+---
+.pull-left-50[
+Have you ever...
+
+* lost track of which Excel file made a figure?
+* redone an analysis by hand because data changed?
+* had a gene name silently turned into a date?
+* asked ChatGPT/Claude/Copilot to write code for you?
+]
+
+.pull-right-50[
+&lt;br&gt;
+### If you answered **yes** to any of these...
+
+#### ...this course is for you.
+]
 
 ---
 name: whyR
 
-# WHY R?
-.pull-left-50[
+# The GUI trap 🧨
 
-![](data/slide_intro/Lab_data_no_sense.png)
+* Manual copy-pasting across Excel files
+* "Which version of `data_final_v3_REAL.xlsx` was this graph made from?"
+* No record of *what you clicked*
+* Silent gene name conversions (`SEPT9` `\(\rightarrow\)` `Sept-09`, `MARCH1` `\(\rightarrow\)` `1-Mar`)
 
-]
+&lt;br&gt;&lt;/br&gt;
 
-# With the power of R, your project can ARISE:  
-
---
-
- **A**utomative: Streamline your analysis
+&lt;img src="images/excel-microsoft2.gif" width="35%" style="display: block; margin: auto;" /&gt;
 
 --
-
- **R**eproducible: Reproduce the results
-
---
-
- **I**nterpretable: Make sense  
-
---
-
- **S**hareable: Share with colleagues/mentors (FAIR)
-
---
-
- **E**xplainable: Easy to explain
+&lt;br&gt;&lt;/br&gt;
+Gene-name autocorrection errors were found in roughly **1 in 5** genomics papers with Excel supplements (Ziemann *et al.*, *Genome Biology*, 2016). The HGNC eventually **renamed the genes** to stop it.
 
 
 ---
 name: about
 
-# Briefly about R
+# Briefly about R 🧭
 
 .pull-left-50[
+### R is ...
 
-# R is ...
-.pull-right-30[
-![](data/common/r.png)
-]
-
-* a programming language
-* a software project driven by the core team and the community
-* a very powerful tool for statistical computing
-* a very powerful computational tool in general
+* a programming language **built for data &amp; statistics**
+* free, open-source, and runs everywhere
+* driven by a core team **and** a huge community
+* the home of cutting-edge statistics and bioinformatics
+* a powerful computational tool in general
 ]
 
 --
-
-
 
 .pull-right-50[
+### R is not ...
 
-# R is not ...
-
-* a tool to replace a statistician
-* the very best programming language
-* the most elegant programming solution
-* the most efficient programming language  
+* the fastest language
+* the most elegant language
+* the best tool for *every* job (e.g. building games or phone apps)
 
 ]
 
+---
+name: compare
 
+# How does R compare? ⚖️
+
+&lt;img src="slide_r_intro_files/figure-html/tool-comparison-1.png" width="2550" style="display: block; margin: auto;" /&gt;
 
 
 ---
-# Programing Language    
+# Cost &amp; licensing 💸
 
---
-&gt; Programming is a process of instructing a computer to perform a specific task. We write these instructions by **programming language**. It can be as simple as calculation (like a calculator) or complex applications. 
+| Tool | Academic / Student | Commercial | Licensing Model |
+| :--- | :---: | :---: | :--- |
+| **R / Python** | **$0** | **$0** | **Open-source** |
+| **MS Excel** | ~$100 / yr (M365) | ~$150 / yr | Subscription |
+| **GraphPad Prism** | ~$140 – $260 / yr | ~$520 / yr | Per seat |
+| **Stata** | ~$125 – $250 / yr | ~$1,000 – $3,700 / yr | Per user / core |
+| **SPSS** | ~$100 – $300 / yr | ~$1,200 – $3,800 / yr | Per user / module |
+| **SAS** | Free (OnDemand, limited) | $10,000s+ / yr | Enterprise |
 
---
 
- * flow of _data_ 
---
+&lt;br&gt;
 
-    * Data is collected information which qualitatively and/or quantitatively describe an entity.  
---
-
-    * Data is collected from quite diverse sources (data types).  
---
-
-    * Data processing.  
---
-
-    * Data cleaning.  
-
---
-
-&lt;img src="data/slide_programming/Data_Information_Knowledge.png" width="75%" style="display: block; margin: auto;" /&gt;
----
-# Programing Language cted.   
-
---
-
- * from one _function_ to another
---
-
-    * Function is a **reusable** chunk of code that performs a task. It takes **inputs** as well as **arguments** to process. 
---
-
- * each function does something to the data and return output(s)
---
-   
-   * For example `mean()`, `min()`   
---
----
-# Three things to think about
-
- 1- what *types* of data can I process?
-
---
-
-2- how do I *write* what I want?
-
---
-
-3- when does it *mean* anything?
-
+* Your code keeps working when you **change jobs, institutions or countries**. 🔓
+* Reviewers and collaborators can **re-run your analysis** without buying anything.
 
 ---
-# 1- Data type  
+# R vs. Python 🐍
 
-&lt;img src="data/slide_programming/Data_classification.png" width="75%" style="display: block; margin: auto;" /&gt;
+&gt; **Python** is a general-purpose language that *can* do data analysis.  
+&gt; **R** was built *specifically* for data and statistics.
+
+--
+### Where R shines
+
+* **Data wrangling:** the `tidyverse` (`dplyr`, `tidyr`) reads almost like English.
+* **Plots:** `ggplot2` publication-quality figures with sensible defaults.
+* **Statistics &amp; biology:** new methods often appear in R/Bioconductor first.
+* **Reporting:** **R Markdown**, **Quarto** and **Shiny** turn your code into reports, slides (like these!) and web apps.
 
 --
 
-  * int &amp;mdash; 1 2 5 9
-  * double &amp;mdash; 1.23 -5.74
-  * char &amp;mdash; a b test 7 9
-  * logical &amp;mdash; TRUE/FALSE (T/F)  
+.content-box-green[
+**It's not a war.** The concepts you learn here (variables, functions, data frames, loops) transfer directly to Python.
+]
 
 ---
-# 2- How to write? 
+name: demo
+class: middle
 
-* By language *grammar* &amp;mdash; *syntax*.  
+# Three lines of R 🪄
 
---
-
-  `2 * 1 + 1` vs. `(+ (* 2 1) 1)`
-
----
-# 3- What does it *mean* 
-* By language *semantics* 
-
---
-
-  * *Colorful yellow train sleeps on a crazy wave.* &amp;mdash; has no generally accepted meaning
-  * *There is $500 on his empty bank acount.* &amp;mdash; internal contradiction
 
 ``` r
-height &lt;- 180 #similar to height = 180
-weight &lt;- 70 #similar to weight = 70
-bmi &lt;- weight / height
+ggplot(iris, aes(x = Petal.Length, y = Petal.Width, colour = Species)) +
+  geom_point(size = 2, alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE)
 ```
+
+&lt;img src="slide_r_intro_files/figure-html/five-lines-1.png" width="1200" style="display: block; margin: auto;" /&gt;
+
+New data? Change **one word** (`iris`) and press **Run**. Try that in Excel.
+
+---
+
+# Why programming matters
+
+Point-and-click is easy for **today**.  
+`coding` is a superpower for **tomorrow**.
+
+&lt;div style="height: 40px;"&gt;&lt;/div&gt;
+
+&lt;img src="images/homer.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Why programming matters
+
+- **Self-documenting:** code records every step — no guessing how you got your results.
+- **Instant re-runs:** new data? Press **Run** instead of remaking charts by hand.
+- **Fewer silent errors:** no hidden formulas, shifted cells or forgotten menu clicks.
+- **Scales effortlessly:** the same script handles 10 rows or 10 million.
+- **Shareable:** a script is a recipe anyone can follow.
+
+&lt;img src="data/slide_programming/Data_Information_Knowledge.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+name: programming_language
+
+# Thinking like a programmer 🧠
+
+Every programming language has three ingredients:
+
+.pull-left-50[
+1. **Data types** — *what* are we working with?
+2. **Syntax** — *how* do we write it?
+3. **Semantics** — what does it *mean*?
+]
+
+.pull-right-50[
+Just like a natural language:
+
+* words (nouns, numbers...)
+* grammar
+* meaning
+]
+
+---
+# 1- Data types in R 🧱
+
+.pull-left-50[
+| Type | Example | `typeof()` |
+| :--- | :--- | :--- |
+| double | `3.14`, `-2` | `"double"` |
+| integer | `5L` | `"integer"` |
+| character | `"BRCA1"` | `"character"` |
+| logical | `TRUE`, `FALSE` | `"logical"` |
+| complex | `2+3i` | `"complex"` |
+
+Missing values: `NA` (fits any type)
+]
+
+
+---
+# 2 — Syntax: how do we write it?
+
+The rules of the language's *grammar*.
+
+--
+
+The same calculation in two languages:
+
+```
+2 * 1 + 1        # R, Python, most languages
+(+ (* 2 1) 1)    # Lisp
+```
+
+--
+
+Break the grammar and the computer **refuses** to run:
+
+
+``` r
+2 * (1 + 1
+```
+
+```
+## Error in parse(text = input): &lt;text&gt;:2:0: unexpected end of input
+## 1: 2 * (1 + 1
+##    ^
+```
+
+**Good news:** syntax errors are loud and easy to fix.
+
+---
+# 3 — Semantics: what does it *mean*?
+
+Grammatically correct ≠ meaningful:
+
+* *Colorful yellow sleeps on a crazy wave.* — no meaning
+* *There is $500 on his empty bank account.* — internal contradiction
+
+--
+
+The same is true for code:
+
+
+``` r
+height &lt;- 180   # cm
+weight &lt;- 70    # kg
+bmi &lt;- weight / height   # runs fine... but is it right?
+bmi
+```
+
+```
+## [1] 0.3888889
+```
+
+--
+
+.content-box-yellow[
+BMI = weight (kg) / height (m)². R happily computed **nonsense**.  
+**Semantic errors are silent.** Only *you* can catch them. Remember this when using AI!
+]
 
 ---
 name: topic2
@@ -226,196 +312,268 @@ name: topic2
 .pull-left-50[
 
 ``` r
-knitr::include_graphics("data/slide_intro/simple-chain-of-thought.png")
+knitr::include_graphics("images/breakit.jpeg")
 ```
 
-&lt;img src="data/slide_intro/simple-chain-of-thought.png" width="533" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;img src="images/breakit.jpeg" width="395" style="display: block; margin: auto auto auto 0;" /&gt;
 ]
 --
+&lt;br&gt;&lt;/br&gt;
 
-.pull-right-50[
+*Decomposition* — divide and rule.
 
-``` r
-knitr::include_graphics("data/slide_intro/top-down-chain-of-thought.png")
-```
+**Top-down approach:** define the big problem and split it into smaller ones. 
 
-&lt;img src="data/slide_intro/top-down-chain-of-thought.png" width="533" style="display: block; margin: auto 0 auto auto;" /&gt;
-]
-
-*Divide et impera* &amp;mdash; divide and rule.
-
-**Top-down approach (or chain of thought):** define the big problem and split it into smaller ones. Assume you have solution to the small problems and continue &amp;mdash; push the responsibility down.
-Wishful thinking!
+This is exactly how to work well with an AI assistant: break the problem into small, verifiable pieces.
 
 ---
-
 name: packages
 
-# Packages
+# Packages 📦
 
-.pull-right-50[
-&lt;img src="data/slide_intro/packages.jpg" width="250pt" style="display: block; margin: auto;" /&gt;
-]
-
-.pull-right-50[
-&lt;img src="images/tidyverse-icons.png" width="250pt" style="display: block; margin: auto;" /&gt;
-]
---
-
-* ready-made functions (data &amp; docs)
-
---
-
+.pull-left-50[
+* ready-made functions, data &amp; documentation
 * developed by the community
-
---
-
-* cover several very diverse areas of science/life
-
---
-
+* cover very diverse areas of science
 * uniformly structured and documented
+* organised in repositories:
+    + [CRAN](https://cran.r-project.org) — general purpose, 20,000+ packages
+    + [Bioconductor](https://www.bioconductor.org) — bioinformatics, 2,000+ packages
+    + [GitHub](https://github.com) — development versions
+    + [R-universe](https://r-universe.dev) — browse it all
+]
 
---
+.pull-right-50[
+&lt;img src="data/slide_intro/packages.jpg" width="220pt" style="display: block; margin: auto;" /&gt;
 
-* organised in repositiries:
-    + [CRAN](https://cran.r-project.org)
-    + [R-Forge](https://r-forge.r-project.org)
-    + [Bioconductor](http://www.bioconductor.org)
-    + [GitHub](https://github.com)
+&lt;img src="images/tidyverse-icons.png" width="220pt" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 name: CRAN
---
-# Working with packages -- CRAN example.
 
-&lt;img src="data/slide_r_environment/ggplot2_CRAN.png" width="200%" style="display: block; margin: auto;" /&gt;
+# Working with packages — a CRAN page
+
+&lt;img src="data/slide_r_environment/ggplot2_CRAN.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+**Tip:** the *Reference manual* and *Vignettes* are your best friends (and great context to give an AI assistant!).
 
 ---
 name: pkg_cran_inst
 
-# Working with packages -- installation
+# Installing packages
 
-Only a few packages are pre-installed:
+Only a few packages come pre-installed:
 
 
 ``` r
 library(modelr)
 ```
 
-In order to install a package from command line, use:
+Install **once** per computer:
 
 
 ``` r
-install.packages("ggplot2",dependencies=TRUE)
+install.packages("ggplot2")
 ```
+
+Load **every** session:
+
+
+``` r
+library(ggplot2)   # stops with an error if the package is missing
+require(ggplot2)   # only warns, returns FALSE — handy inside functions
+```
+
+.footnote[Analogy: `install.packages()` = buying a book. `library()` = taking it off the shelf.]
 
 ---
 name: work_pkg_details
+exclude: true
 
-# Working with packages -- details
+# Installing packages — details
 
-It may happen that you want to also specify the repository, e.g. because it is geographically closer to you or because your default mirror is down:
-
-
-``` r
-install.packages('ggplot2',dependencies=TRUE,repos="http://cran.se.r-project.org")
-```
-
-But, sometimes, this does not work either because the package is not available for your platform. In such case, you need to *compile* it from its *source code*.
-
----
-name: source_pkg_inst
-
-# Working with packages -- installing from source.
-
-- Download the source file, in our example *ggplot2_3.4.3.tar.gz*.
-- Install it:
+Choose a specific mirror (e.g. if your default one is down):
 
 
 ``` r
-install.packages("path/to/ggplot2_3.4.3.tar.gz",
-                 repos=NULL,
-                 type='source',
-                 dependencies=TRUE)
+install.packages("ggplot2", repos = "https://cloud.r-project.org")
 ```
 
-- Load it:
+Sometimes no pre-built version exists for your platform, so you install from **source code**:
 
 
 ``` r
-library('ggplot2') # always forces reloading
-require('ggplot2') # load only if not already loaded
+install.packages("path/to/ggplot2_3.5.1.tar.gz",
+                 repos = NULL,
+                 type  = "source")
 ```
-
 
 ---
 name: pkg_github
 
-# Packages -- GitHub
+# Packages — GitHub
 
-Nowadays, more and more developers distribute their packages via GitHub. The easiest way to install packages from the GitHub is via the `devtools` package:
-
-- Install the *devtools* package  
-- Load it  
-- Install  
+More and more developers share packages via GitHub. Use `remotes` (or `devtools`, which includes it):
 
 
 ``` r
-install.packages('devtools',dependencies=TRUE)
-library('devtools')
-install_github('talgalili/installr') # Github username/repo
+install.packages("remotes")
+remotes::install_github("talgalili/installr")  # "username/repo"
 ```
 
---
 .pull-center-50[
-&lt;img src="images/installr.png" width="750pt" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/installr.png" width="650pt" style="display: block; margin: auto;" /&gt;
 ]
+
+.footnote[⚠️ GitHub packages are not reviewed like CRAN/Bioconductor ones. Check who wrote it and whether it's maintained.]
 
 ---
 name: pkg_bioconductor
 
-# Packages -- Bioconductor
+# Packages — Bioconductor
 
 &lt;img src="data/slide_r_environment/logo_bioconductor.png" width="200pt" style="display: block; margin: auto;" /&gt;
 
-First install Bioconductor Manager:
+First install the Bioconductor manager (once):
 
 
 ``` r
-if (!requireNamespace("BiocManager",quietly = TRUE))
+if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 ```
 
----
-name: pkg_bioconductor2
-
-# Packages -- Bioconductor cted.
-
-Now, you can install particular packages from Bioconductor:
+Then install Bioconductor packages:
 
 
 ``` r
 BiocManager::install("GenomicRanges")
 ```
 
-.pull-center-50[
-&lt;img src="images/GenomicRanges.png" width="550pt" style="display: block; margin: auto;" /&gt;
-]
-
-For more info, visit [Bioconductor website](http://www.bioconductor.org/install/).
+For more info, visit the [Bioconductor website](https://www.bioconductor.org/install/).
 
 ---
-# One package to rule them all -- the magic of `renv`
 
-- Start once → `renv::init()` (sets up your project’s toolbox)  
-- While working → `renv::snapshot()` (save the toolbox state)  
-- Share with a friend → send the `renv.lock` file  
-- Friend restores → `renv::restore()` (they get the exact same toolbox)  
+# One tool to install them all: `pak` 🚀
 
-.pull-center-50[
-&lt;img src="images/renv.png" width="750pt" style="display: block; margin: auto;" /&gt;
+`pak` installs from **CRAN, Bioconductor and GitHub** with one function — and it's fast.
+
+
+``` r
+install.packages("pak")
+
+pak::pak("ggplot2")              # CRAN
+pak::pak("GenomicRanges")        # Bioconductor
+pak::pak("talgalili/installr")   # GitHub
+```
+
+
+---
+
+name: ai
+class: middle, center
+
+# Coding in the age of AI 🤖
+
+### "If AI can write code, why should I learn R?"
+
+---
+
+# AI is a great assistant...
+
+AI tools (ChatGPT, Claude, GitHub Copilot, Positron Assistant...) can:
+
+* write a first draft of a script in seconds
+* explain cryptic error messages
+* translate code (Excel formula → R, Python → R)
+* suggest packages and functions you didn't know about
+* comment and document your code
+
+--
+
+There are even R packages to call language models **from R**, e.g. `ellmer` (from the Posit / tidyverse team).
+
+--
+
+.content-box-green[
+Used well, AI makes learning R **faster**, not unnecessary.
 ]
+
+---
+
+# ...but you are still the scientist 🔬
+
+.pull-left-50[
+### AI can
+
+* produce code that **runs**
+* sound **very** confident
+* write a lot, fast
+]
+
+.pull-right-50[
+### AI can also
+
+* invent functions or packages that **don't exist**
+* use the **wrong statistical test**
+* silently drop `NA`s, rows or samples
+* be wrong in ways that *look* right
+]
+
+
+---
+exclude: true
+# Spot the bug 🕵️ (an "AI-generated" snippet)
+
+&gt; *Prompt: "Compare mean expression between treated and control samples."*
+
+
+``` r
+expr &lt;- data.frame(
+  sample = paste0("S", 1:6),
+  group  = c("control", "control", "control", "treated", "treated", "treated"),
+  value  = c(5.1, 4.8, NA, 7.9, 8.4, 8.1)
+)
+
+tapply(expr$value, expr$group, mean)
+```
+
+```
+##  control  treated 
+##       NA 8.133333
+```
+
+* Why is `control` `NA`? What should we do about the missing value?
+* Is dropping it OK? Should we *report* it?
+* With n = 3 per group, which test is appropriate — and why?
+
+These are **scientific** decisions. AI can't make them for you.
+
+---
+
+# Working well with AI: a checklist ✅
+
+1. **Understand first, then prompt.** Know roughly what the answer should look like.
+2. **Ask for small pieces**, not a whole analysis (*divide et impera* again!).
+3. **Read every line.** If you can't explain it, don't run it on real data.
+4. **Test on tiny data** where you already know the answer.
+5. **Check that functions &amp; packages actually exist** (`?function_name`).
+6. **Save the code, not the chat.** A script is reproducible; a conversation is not.
+7. **Never paste sensitive data** (e.g. patient data) into public AI tools.
+
+--
+
+.content-box-green[
+**AI writes the draft. You own the analysis.** That's why this course matters more now, not less.
+]
+
+---
+# A suggestion:
+
+- Try **not** to use AI agents
+- Instead, use AI chatbots to:
+  - fix syntax errors
+  - learn more about concepts
 
 ---
 name: recap
@@ -425,8 +583,7 @@ name: recap
 * R is a programming language for statistical computing and data analysis.  
 * Packages and repositories.   
 * Installing packages from CRAN, Bioconductor, GitHub. 
-* Managing project environment with `renv`. 
-
+* AI and coding
 
 
 
@@ -442,7 +599,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 19-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 21-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 
