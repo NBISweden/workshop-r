@@ -1,6 +1,6 @@
 ---
-title: "Hello R Markdown: Tell Your Research Story"
-author: "Nima Rafati"
+title: "RStudio and R Markdown: Tell Your Research Story"
+author: "Guilherme Dias"
 output:
   bookdown::html_document2:
     highlight: textmate
@@ -27,181 +27,357 @@ output:
 
 <!-- ------------ Only edit title, subtitle & author above this ------------ -->
 
-# introduction
-R markdown is a file format for making dynamic documents with R. It combines plain text with embedded chunks of R code that are run when you *knit* (render) the document to HTML, PDF, or Word.  
-R Markdown is great for reproducible science because it keeps code, results, and narrative together in one file. You can share the Rmd file or the rendered output.  
+# Introduction
 
-Here we overview some of the basic features that you can use creating your own report.
+In this lab you will:
 
-# Create an R Markdown file
-In RStudio:
-1. File → New File → R Markdown… → *Document* → Title = "`My R learning journal`". Choose HTML. Save as `learning_journal.Rmd`.
-```{r, eval=TRUE, echo = FALSE}
-knitr::include_graphics("images/rstudio_new_rmd_1.png")
+1. find your way around **RStudio**,
+2. install and load your first **package**,
+3. start an **R Markdown** document, your *R learning journal*, that you can keep adding to during the whole course.
+
+R Markdown is a file format for making dynamic documents with R. It combines plain text with chunks of R code that are run when you *knit* (render) the document to HTML, PDF or Word. Because code, results and narrative live together in one file, R Markdown is a great tool for reproducible science: anyone with the `.Rmd` file can rebuild your report.
+
+# Part 1: A quick tour of RStudio
+
+## The four panes
+
+When you open RStudio you will see four panes:
+
+| Pane | What it is for |
+|:-----|:---------------|
+| **Source** (top left) | Writing scripts and R Markdown files. Your work is saved here. |
+| **Console** (bottom left) | Where R actually runs code. Good for quick tests, but nothing is saved. |
+| **Environment / History** (top right) | The objects (variables, data) you have created. |
+| **Files / Plots / Packages / Help** (bottom right) | Your files, your plots, installed packages and help pages. |
+
+**Try it:** type `2 + 2` in the Console and press Enter. Then type `?mean` and look at the Help pane.
+
+## Console vs. script
+
+Code typed in the Console is gone when you close RStudio. Code written in a script or R Markdown file is **saved** and can be re-run at any time. Use the Console for quick experiments, and files for anything you want to keep.
+
+## Create an RStudio Project
+
+A Project keeps all files for one piece of work in one folder and sets the working directory for you, so file paths just work.
+
+1. **File → New Project… → New Directory → New Project**.
+2. Name the directory `r-course` and choose where to save it.
+3. Click **Create Project**.
+
+Check where R is "looking" for files:
+
+```{r getwd, eval=FALSE}
+getwd()
 ```
 
-```{r, eval=TRUE, echo = FALSE}
-knitr::include_graphics("images/rstudio_new_rmd_2.png")
+The path should end with `r-course`.
+
+# Part 2: Install and load a package
+
+Install `ggplot2` (you only need to do this **once** per computer):
+
+```{r install, eval=FALSE}
+install.packages("ggplot2")
 ```
 
-# Anatomy of an Rmd
-- **YAML header** (between `---`) controls output settings.
+Load it (you need to do this **every** time you start R):
+
+```{r load}
+library(ggplot2)
+```
+
+If `library()` gives an error saying there is no package called `ggplot2`, the installation did not work. Ask a teacher!
+
+# Part 3: Create an R Markdown file
+
+In RStudio: **File → New File → R Markdown… → Document**. Set the title to "`My R learning journal`", choose **HTML**, click **OK**, and save the file as `learning_journal.Rmd` in your `r-course` project folder.
+
+![](images/rstudio_new_rmd_1.png)
+
+![](images/rstudio_new_rmd_2.png)
+
+RStudio fills the new file with example content. Delete everything below the YAML header (the part between the two `---` lines) so you can start fresh.
+
+# Anatomy of an R Markdown file
+
+An `.Rmd` file has three kinds of content:
+
+- **YAML header** (between `---`): controls output settings.
 - **Markdown text**: headings, lists, links, images.
-- **Code chunks**: run R (or bash, python, etc.).
-
+- **Code chunks**: R code (or bash, Python, etc.) that is run when you knit.
 
 ## YAML header
-The YAML header is between the `---` at the top of the file. It controls output settings like title, author, output format, table of contents, and more.  
-For example:
+
+The YAML header sits between the `---` lines at the top of the file. It controls settings like title, author, date, output format and table of contents. For example:
+
 ```yaml
 ---
 title: "My R learning journal"
 author: "Your Name"
-date: "`r Sys.Date()`" # calls system date
+date: "`r knitr::inline_expr('Sys.Date()')`" # today's date, filled in when you knit
 output:
   html_document:
-    toc: true #table of contents
-    toc_depth: 3 #levels of headers in toc
-    number_sections: true #number headers
+    toc: true            # table of contents
+    toc_depth: 3         # header levels shown in the toc
+    number_sections: true # number the headers
 ---
 ```
 
-# Markdown text
-Markdown is a lightweight markup language for adding structure to plain text. It’s easy to learn and widely used.  
-Common elements include:
-## Headers 
-In markdown headers is done with `#` symbols. The number of `#` indicates the level of the header.  
-For example:
+Writing `date: "2026-11-02"` would fix the date forever. Using `` `r knitr::inline_expr('Sys.Date()')` `` asks R for today's date every time you knit.
+
+## Markdown text
+
+Markdown is a lightweight way to add structure to plain text. It is easy to learn and used in many places (GitHub, forums, note-taking apps).
+
+### Headers
+
+Headers are made with `#` symbols. The number of `#` sets the level:
+
 ```markdown
 # Header 1
 ## Header 2
 ### Header 3
 ```
 
-## Common formatting 
+Leave a **blank line** before and after a header, otherwise it may be shown as plain text.
+
+### Common formatting
+
 ```markdown
 Bold text: **bold**
 Italic text: *italic*
-`inline code` `1 + 1`
+Inline code: `1 + 1`
 
-Lists:
+Lists (leave a blank line before the list):
+
 - item one
 - item two
+
 1. first
 2. second
 
-Links:
-[NBIS](https://nbis.se)
+Links: [NBIS](https://nbis.se)
 
-Inserting an image:
-![alt text](path/to/image.png)
+Images: ![alt text](path/to/image.png)
 ```
 
+## Code chunks
 
+Insert an R chunk by clicking the green **+C** button and choosing **R**, or with the keyboard shortcut **Cmd + Option + I** (Mac) or **Ctrl + Alt + I** (Windows/Linux).
 
-# Coding chunks
-You can insert an R chunk by clicking the green button with `+` and then selecting `R`. 
-```{r, echo = F, eval = T}
-knitr::include_graphics("images/rstudio_insert_chunk.png")
+![](images/rstudio_insert_chunk.png)
+
+A chunk looks like this in your file:
+
+````markdown
+`r ''````{r}
+1 + 1
 ```
-Or by _ctrl + option + i_ (Mac) or _ctrl + alt + i_ (Windows).  
+````
 
-For example open a new R Markdown file and insert a chunk with the code `1 + 1`:  
-```{r, accordion=TRUE}
-1 + 1 
-```
+and like this when knitted:
 
-In code chunks you can specify certain behaviors with chunk options.  
-Common chunk options include:  
-
-| Option      | Description                                       | Example |
-|--------------|---------------------------------------------------|----------|
-| `eval`       | Whether to evaluate (run) the code                | `eval = TRUE` |
-| `echo`       | Whether to show the code in the output            | `echo = FALSE` |
-| `fig.width`  | Width of figures in inches                        | `fig.width = 7` |
-| `fig.height` | Height of figures in inches                       | `fig.height = 5` |
-| `message`    | Whether to show messages generated by the code    | `message = FALSE` |
-| `warning`    | Whether to show warnings generated by the code    | `warning = FALSE` |
-| `results`    | How to display results: `markup` (default), `asis`, `hold`, `hide` | `results = 'hide'` |
-
-
-For example, this chunk will run the code and show the code and results, but hide messages and warnings based on this option settings `eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE` :
-```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
-summary(cars) # shows summary statistics of the built-in cars dataset
+```{r one-plus-one}
+1 + 1
 ```
 
+Run a single chunk while you work by clicking the green ▶ in its top-right corner.
 
+### Chunk options
 
-# Story starter 
-Write about yourself and project that you are working on.
+Chunk options go inside the curly braces, e.g. `{r, echo=FALSE}`, and control how a chunk behaves:
 
-# What do you want to learn in this course?     
+| Option | Description | Example |
+|:-------|:------------|:--------|
+| `eval` | Whether to run the code | `eval = FALSE` |
+| `echo` | Whether to show the code in the output | `echo = FALSE` |
+| `include` | Whether to show anything (code *and* results) | `include = FALSE` |
+| `fig.width` | Width of figures in inches | `fig.width = 7` |
+| `fig.height` | Height of figures in inches | `fig.height = 5` |
+| `message` | Whether to show messages | `message = FALSE` |
+| `warning` | Whether to show warnings | `warning = FALSE` |
+| `results` | How to show results: `markup` (default), `asis`, `hold`, `hide` | `results = 'hide'` |
 
-- I would like to learn.....
-- .....
+For example, this chunk uses `eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE`, so it shows the code and the results but hides messages and warnings:
 
-# A simple math example
-Write a simple calculation in a code chunk. This chunk will run the code and show both the code and results based on this option settings `eval=TRUE, echo=TRUE` :
-```{r, eval=TRUE, echo=TRUE}
-# Calculate the sum of two numbers
-
+```{r summary-cars, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+summary(cars) # summary statistics of the built-in cars dataset
 ```
 
+## Inline code
 
-# Insert an image 
-You can insert an image using markdown syntax. For example, to insert an image located at `images/my_image.png`, you would write:
-`![My Image](images/my_image.png)`  
+You can put R results directly into a sentence. Writing
 
-You can also insert the image in an R chunk using `knitr::include_graphics()` function:  
+```markdown
+The cars dataset has `r knitr::inline_expr('nrow(cars)')` rows.
+```
 
-```{r, eval=FALSE, echo = TRUE}
-knitr::include_graphics("images/my_image.png")
+gives: The cars dataset has `r nrow(cars)` rows.
+
+If the data changes, the number in your text updates automatically when you re-knit.
+
+# Part 4: Your learning journal
+
+Now fill in `learning_journal.Rmd`. Add each section below as a header, write a few sentences, and add code chunks where asked. **Knit often** to check your work.
+
+## About me
+
+Write a few sentences about yourself and the project you are working on.
+
+## What do I want to learn in this course?
+
+Make a bulleted list:
+
+- I would like to learn…
+- …
+
+## A simple calculation
+
+Insert a chunk and write a calculation of your own, for example your age in days or the number of samples in your project. Use `eval=TRUE, echo=TRUE` so both the code and the result are shown.
+
+## My first plot
+
+Add this chunk and knit. Five lines of R give you a publication-style figure:
+
+```{r first-plot, fig.width=7, fig.height=4}
+ggplot(iris, aes(x = Petal.Length, y = Petal.Width, colour = Species)) +
+  geom_point(size = 2.5, alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Petal length (cm)", y = "Petal width (cm)") +
+  theme_minimal(base_size = 14)
+```
+
+**Try it:** change `Petal.Length` to `Sepal.Length` and knit again. How long would that take to redo in Excel?
+
+## Spot the bug
+
+Copy this chunk into your journal and knit:
+
+```{r spot-bug}
+expr <- data.frame(
+  sample = paste0("S", 1:6),
+  group  = c("control", "control", "control", "treated", "treated", "treated"),
+  value  = c(5.1, 4.8, NA, 7.9, 8.4, 8.1)
+)
+
+tapply(expr$value, expr$group, mean)
+```
+
+Why is the mean for `control` `NA`? One fix is to ignore missing values:
+
+```{r spot-bug-fix}
+tapply(expr$value, expr$group, mean, na.rm = TRUE)
+```
+
+In your journal, write one or two sentences: is it OK to simply drop the missing value? What would you report in a paper?
+
+## Insert an image
+
+Insert an image with Markdown syntax:
+
+```markdown
+![The R logo](https://www.r-project.org/logo/Rlogo.png)
+```
+
+or from a code chunk, which lets you control the size:
+
+```{r include-image, eval=FALSE}
+knitr::include_graphics("https://www.r-project.org/logo/Rlogo.png")
+```
+
+To use your own image instead, save it inside your project folder (e.g. in a subfolder `images/`) and use a path like `images/my_figure.png`. If the file does not exist, knitting will stop with an error.
+
+## Optional: working with AI
+
+Ask an AI assistant to write a chunk that, for example, calculates the mean `Petal.Length` for each `Species` in `iris`. Paste the code into your journal, then write down:
+
+- Did it run?
+- Is the result correct? How did you check?
+- Was there anything in the code you did not understand?
+
+## Session info
+
+End your journal with this chunk. It records your R version and loaded packages, so others (and future you) know exactly what was used:
+
+```{r session-info, eval=FALSE}
+sessionInfo()
 ```
 
 # Knit (render) to HTML
-Click the **Knit** button.
 
-```{r, eval=TRUE, echo = FALSE}
-knitr::include_graphics("images/rstudio_knit_button.png")
+Click the **Knit** button. RStudio renders your file and opens the HTML report.
+
+![](images/rstudio_knit_button.png)
+
+You can also render from the Console:
+
+```{r render, eval=FALSE}
+rmarkdown::render("learning_journal.Rmd")
 ```
-
 
 # Command overview
-| Command / Action               | What it does                                    | Example |
-|---|---|---|
-| File → New File → R Markdown   | Creates a new Rmd template                      | Create `learning_journal.Rmd` |
-| `rmarkdown::render()`          | Renders (knits) to HTML/PDF/Word                | `rmarkdown::render("learning_journal.Rmd")` |
-| Markdown headings/lists        | Structures your narrative                       | `## Project idea` |
-| Code chunk fences              | Runs R code reproducibly                        | <code>```{r} ... ```</code> |
-| Chunk options                  | Controls code chunk behavior                    | `echo=FALSE`, `fig.width=7` |
-| Inline R code                  | Embeds R results in text                        | &#96;r  2 + 2 &#96; |
 
+| Command / action | What it does | Example |
+|:-----------------|:-------------|:--------|
+| File → New Project | Creates an RStudio Project | `r-course` |
+| `install.packages()` | Installs a package (once) | `install.packages("ggplot2")` |
+| `library()` | Loads a package (every session) | `library(ggplot2)` |
+| File → New File → R Markdown | Creates a new Rmd template | `learning_journal.Rmd` |
+| Markdown headings / lists | Structure your narrative | `## Project idea` |
+| Code chunk | Runs R code reproducibly | ```` ```{r} ```` … ```` ``` ```` |
+| Chunk options | Control chunk behaviour | `echo=FALSE`, `fig.width=7` |
+| Inline R code | Puts R results in your text | `` `r knitr::inline_expr('2 + 2')` `` |
+| `rmarkdown::render()` | Knits from the Console | `rmarkdown::render("learning_journal.Rmd")` |
+| `sessionInfo()` | Records R and package versions | `sessionInfo()` |
 
 # Quiz time!
-Mini challenges to lock in learning. Hints are inline. Click to reveal answers.
 
-**Q1.** Predict: If you press **Knit** but the file is unsaved, what happens?  
-*Hint: What does Knit need to know about file location?*
+Mini challenges to lock in what you learned. Hints are inline; click to reveal the answers.
 
-```{r, eval=FALSE, accordion=TRUE}
-# Answer:
-# RStudio will prompt you to save the file because knitting needs a file on disk
-# to determine paths and create the output in the same directory.
-```
+**Q1.** If you press **Knit** but the file has never been saved, what happens?  
+*Hint: what does Knit need to know about the file's location?*
 
-**Q2.** Your report shows raw code but no formatted headings. Why?  
-*Hint: Are you using Markdown symbols correctly?*
+<details>
+<summary>Answer</summary>
 
-```{r, eval=FALSE, accordion=TRUE}
-# Answer:
-# You likely forgot Markdown syntax (e.g., start headings with #, use blank lines).
-# Fix by adding proper Markdown markers.
-```
+RStudio asks you to save the file first. Knitting needs a file on disk to work out paths and to know where to write the output, which is saved in the same folder as the `.Rmd`.
 
-**Q3.** Your code chunk is not performing calculations, just displaying code. Why?  
-*Hint: Check chunk options.*
+</details>
 
-```{r, eval=FALSE, accordion=TRUE}
-# Answer:
-# Use head(), dplyr::glimpse(), or tibble::view() to preview without flooding output.
-```
+**Q2.** Your knitted report shows `## Results` as plain text instead of a heading. Why?  
+*Hint: look at the lines around it.*
+
+<details>
+<summary>Answer</summary>
+
+Most likely there is no blank line before the heading (or no space after the `#` symbols). Markdown needs a blank line before a heading and a space between `#` and the text: `## Results`.
+
+</details>
+
+**Q3.** Your code chunk shows the code but no result. Why?  
+*Hint: check the chunk options.*
+
+<details>
+<summary>Answer</summary>
+
+The chunk probably has `eval = FALSE`, which shows the code without running it. Change it to `eval = TRUE` (or remove the option, since `TRUE` is the default). Also check that the chunk starts with ```` ```{r} ```` and is closed with ```` ``` ````; otherwise it is treated as plain text.
+
+</details>
+
+**Q4.** Your report knits, but the code is hidden and only the results are shown. Which chunk option causes this?
+
+<details>
+<summary>Answer</summary>
+
+`echo = FALSE`. It runs the code and shows the results, but hides the code itself.
+
+</details>
+
+**Q5.** You run `library(ggplot2)` and get *"there is no package called 'ggplot2'"*. What do you do?
+
+<details>
+<summary>Answer</summary>
+
+Install it first with `install.packages("ggplot2")`, then run `library(ggplot2)` again. Installing is needed once per computer; loading is needed in every session.
+
+</details>

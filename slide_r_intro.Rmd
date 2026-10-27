@@ -52,7 +52,8 @@ class: spaced
 3. [How R compares](#compare) ⚖️
 4. [Thinking like a programmer](#programming_language) 🧠
 5. [Packages: standing on giants' shoulders](#packages) 📦
-6. [Coding in the age of AI](#ai) 🤖
+6. [R Markdown](#rmarkdown)
+7. [Coding in the age of AI](#ai) 🤖
 
 
 ---
@@ -481,6 +482,72 @@ pak::pak("talgalili/installr")   # GitHub
 
 
 ---
+name: rmarkdown
+
+# From R Markdown to report 📝
+
+.pull-left-50[
+**You write** (`report.Rmd`)
+
+<pre style="font-size: 70%; line-height: 1.35;">
+<span style="background:#d6eaf8;">&#45;&#45;&#45;
+title: "Iris report"
+&#45;&#45;&#45;</span>
+&nbsp;
+<span style="background:#e8daef;">&#35;&#35; Petal size</span>
+&nbsp;
+<span style="background:#d5f5e3;">&#96;&#96;&#96;{r}
+ggplot(iris, aes(Petal.Length,
+                 Petal.Width)) +
+  geom_point()
+&#96;&#96;&#96;</span>
+&nbsp;
+We measured <span style="background:#fdebd0;">&#96;r nrow(iris)&#96;</span> flowers.
+</pre>
+]
+
+.pull-right-50[
+**You get** (`report.html`)
+
+### Iris report
+
+#### Petal size
+
+```{r rmd-demo-plot, echo=FALSE, fig.width=4, fig.height=2.4, dpi=150, out.width="100%"}
+ggplot(iris, aes(Petal.Length, Petal.Width)) +
+  geom_point() +
+  theme_minimal(base_size = 11)
+```
+
+We measured `r nrow(iris)` flowers.
+]
+
+<div style="clear: both;"></div>
+
+<span style="background:#d6eaf8;">&nbsp;**YAML header**&nbsp;</span> title & output format &nbsp;
+<span style="background:#e8daef;">&nbsp;**Text**&nbsp;</span> headings, lists, links  
+<span style="background:#d5f5e3;">&nbsp;**Code chunk**&nbsp;</span> runs, result inserted &nbsp;
+<span style="background:#fdebd0;">&nbsp;**Inline code**&nbsp;</span> number in a sentence
+
+---
+
+# Why write reports in R Markdown?
+
+**Code, text and results live in one file.** Press **Knit** to rebuild the whole report.
+
+* **New data?** Knit again: every figure, table and number updates.
+* **No copy-paste errors:** numbers in the text come straight from the code.
+* **One file, many formats:** HTML, PDF, Word, slides (these slides are an `.Rmd` file!).
+* **A reproducible record:** *"save the code, not the chat"*. The `.Rmd` is that record.
+
+<br>
+
+.content-box-green[
+**Quarto** (`.qmd`) is the newer version of R Markdown. It works the same way, so what you learn today carries over.
+]
+
+👉 **In the lab** you will start your own *R learning journal* in R Markdown.
+---
 
 name: ai
 class: middle, center
@@ -588,7 +655,8 @@ name: recap
 * About R.   
 * R is a programming language for statistical computing and data analysis.  
 * Packages and repositories.   
-* Installing packages from CRAN, Bioconductor, GitHub. 
+* Installing packages from CRAN, Bioconductor, GitHub.
+* R Markdown: your research journal!
 * AI and coding
 
 
