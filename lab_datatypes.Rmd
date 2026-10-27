@@ -1,6 +1,6 @@
 ---
-title: "Data Type"
-subtitle: "R Programming Foundation for Life Scientists"
+title: "Variables, Data types & Operators"
+subtitle: "R Programming Foundations for Data Analysis"
 output:
   bookdown::html_document2:
     highlight: textmate
@@ -28,175 +28,289 @@ output:
 
 # Introduction
 
-There are different data types used in R. The type of a variable will
-for example determine what kind of operators that can be done on it. At the end of
-this exercise you should know:
+Every value in R has a **type**, and the type decides what you can do with it: you can add two read counts, but not a read count and a gene name. In this lab you will practise the lecture's topics using small examples from the lab bench. By the end you should be able to:
 
--   What are the data types commonly used in R and how to create them
--   Use some basic operators in R
--   Understand how R coerces data if needed
--   Basic text manipulations
+-   create values of the common data types and check their type,
+-   convert between types on purpose (casting), and know that casting is not rounding,
+-   recognise when R converts types for you (coercion), and why that can cause silent errors,
+-   handle the special values `Inf`, `NaN` and `NA`,
+-   use arithmetic, comparison and logical operators,
+-   do basic text manipulation on gene names, sample IDs and DNA sequences.
 
 ## Data types
 
-From the lecture you might remember that all elements in any data structures found in R will be of a certain type. The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.
+The four data types you will use every day:
 
-- Logical = TRUE or FALSE (or NA)
-- Integer = Numbers that can be represented without fractional component  
-- Numeric = Any number that is not a complex number   
-- Character = Text  
+| Type | What it holds | Lab example |
+|:-----|:--------------|:------------|
+| double | any number | Ct value `24.1`, temperature `37.5` |
+| integer | whole numbers | read count `1523L` |
+| character | text | gene `"BRCA1"`, sample `"S01"` |
+| logical | `TRUE` or `FALSE` | treated? `TRUE` |
 
-**Bonus:** Complex numbers have both a real and imaginary part (e.g. 3 + 4i); `i`s a special number defined as the square root of –1., for example. We normally cannot take √(–1), so mathematicians introduced a new idea:  of using `i`, in this example`. It is mostly used in engineering and physics.    
-
-In many cases the type of on entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like "hello world" it will have the type character. Below you will also see examples of how you can specify the type and not rely on R inferring the right type based on content.
+Numbers are stored as **doubles** by default, even whole numbers like `1523`. Add `L` to get an integer: `1523L`.
 
 # Exercises
 
 <div class="boxy boxy-lightbulb">
-In all exercises during this course, it is important that you try to figure out what the expected result would be, prior to running the commands. You should then verify that this will indeed be the
-result by running the command. In case there is a discrepancy between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
-how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or someone sitting next to you who might have wrapped their head around the issue.
+In all exercises in this course, first try to work out what the result **should** be, then run the code to check. If the output surprises you, make sure you understand why before you move on. If you get stuck, click the key to reveal example code and output, or ask a TA or the person next to you.
 
-Also note that in many cases there are multiple solutions that solve the problem equally well.
+There are often several equally good solutions.
 
-We do recommend to write all code in a Rmarkdown document in R-studio as that will at the end of the course be your own R tutorial with comments and code solutions.
+We recommend writing all your code in your **R Markdown learning journal** (from the first lab). By the end of the course it will be your own R tutorial, with your notes and solutions.
 </div>
 
-## Working with variables
+## Getting started
 
-Open Rstudio and make sure to set your working directory (either in console or in Rmd `setwd("path/to/my/folder/")`. Double check that you do not have stored objects in your current session with the following command. This will list all objects that you have in
-your current R session.
+Open RStudio and open your `r-course` **Project** (File → Open Project…), so that R works in the right folder. You do not need `setwd()` when you use a Project.
+
+List all objects in your current R session:
 
 ```{r}
 ls()
 ```
 
-In case you have objects that you want to remove from the current session you can do so with the `rm()` function. <i class="fas fa-exclamation-circle"></i> This command will remove all objects available in your current environment.
+If you want a clean start, the safest option is **Session → Restart R**. You can also remove all objects with:
 
 ```{r,eval=FALSE}
 rm(list = ls())
 ```
 
-This command uses commands that we have not talked about yet. If you do not understand how it works now, you will do so after tomorrows lectures and exercises.
+<i class="fas fa-exclamation-circle"></i> This deletes everything in your environment. It uses functions we have not covered yet; it will make sense after the next lectures.
 
-1. Create variables *var1* and *var2* and initialize them with two integers of choice.
+## Variables and data types
 
-```{r,accordion=TRUE}
-var1 <- 11
-var2 <- 34
-```
-
-2. Sum the two variables and save them as a new variable named *var3* and print the result.
+1. You are recording data for one mouse: its ID is **M07**, it weighs **23.4** g, it had **6** pups, and it is a **knockout** (`TRUE`). Store each value in a well-named variable and check its type with `typeof()`. Is the number of pups an integer? If not, make it one.
 
 ```{r,accordion=TRUE}
-var3 <- var1 + var2
-var3
+mouse_id <- "M07"
+weight_g <- 23.4
+n_pups <- 6
+knockout <- TRUE
+
+typeof(mouse_id)
+typeof(weight_g)
+typeof(n_pups)    # "double": plain numbers are doubles
+typeof(knockout)
+
+n_pups <- 6L      # the L suffix makes an integer
+typeof(n_pups)
 ```
 
-3. Check the class and type for var1, var2, var3 and &pi; (is found under the variable name `pi` in R)
-
-```{r,accordion=TRUE}
-class(var1)
-typeof(var1)
-```
-
-```{r,accordion=TRUE}
-class(pi)
-typeof(pi)
-```
-
-4. Create two character variables containing a text of choice. Check the class, and type of the first one.
-
-```{r,accordion=TRUE}
-text1 <- "test1"
-text2 <- "test2"
-
-class(text1)
-typeof(text1)
-```
-
-Add **var1** to it. What is the result and why?
+A colleague stored the weight as `"23.4"` (in quotes). What happens if you add 1.5 g to it? How do you fix it?
 
 ```{r,accordion=TRUE,error=TRUE}
-text1+var1
+weight_text <- "23.4"
+weight_text + 1.5               # error: you cannot do arithmetic on text
+as.numeric(weight_text) + 1.5   # convert first
 ```
 
-5. Convert **var3** to an integer, cast an integer variable to double, cast a string to a double.
+2. You have a DNA stock at **250** ng/µL and need **20** µL of a **10** ng/µL dilution. Using variables, calculate how many µL of stock and how many µL of water to mix. (Volume of stock = target concentration × final volume / stock concentration.)
 
 ```{r,accordion=TRUE}
-as.integer(var3)
-i <- 175
-as.double(i)
-as.double(text1)
+stock_conc <- 250
+target_conc <- 10
+final_volume <- 20
+
+stock_volume <- target_conc * final_volume / stock_conc
+water_volume <- final_volume - stock_volume
+stock_volume
+water_volume
 ```
 
-6. Report floor and ceiling of &pi; and round &pi; to 3 decimal places.
+## Casting is not rounding
+
+3. You have **250** samples and each plate holds **96**. How many plates do you need? Try `as.integer()`, `round()`, `floor()` and `ceiling()` on `250 / 96`. Which one gives the right answer here, and why are the others wrong?
 
 ```{r,accordion=TRUE}
-floor(pi)
-ceiling(pi)
-round(pi, digits=3)
+250 / 96
+as.integer(250 / 96)   # 2: cuts off decimals, 58 samples have no plate!
+round(250 / 96)        # 3, but only by luck: try 200 / 96
+floor(250 / 96)        # 2: same problem as as.integer()
+ceiling(250 / 96)      # 3: always rounds up, which is what we need
 ```
 
-7. Is floor of &pi; an integer?
+## Text, numbers and coercion
+
+4. A plate reader exported these absorbance values. One well was too bright to measure (`"OVER"`) and one was left empty:
+
+```{r}
+absorbance <- c("0.84", "1.02", "OVER", "0.77", "")
+```
+
+What is the type of `absorbance`? Convert it to numbers and count how many values became `NA`. Then calculate the mean absorbance of the wells that were measured.
 
 ```{r,accordion=TRUE}
-is.integer(floor(pi))
+typeof(absorbance)
+abs_num <- as.numeric(absorbance)   # warning: NAs introduced by coercion
+abs_num
+sum(is.na(abs_num))                 # 2
+mean(abs_num, na.rm = TRUE)
 ```
 
-8. Treat `"3.56437"` string as number.
+Write a sentence in your journal: `"OVER"` and `""` both became `NA`, but do they mean the same thing? Would dropping the `"OVER"` well bias your result?
+
+5. Predict the type of each result, then check with `typeof()`:
+
+```{r,eval=FALSE}
+c(TRUE, 2L)
+c("37", 5)
+c(NA, 1L)
+c(NA, "control")
+```
 
 ```{r,accordion=TRUE}
-as.numeric('3.56437')
+typeof(c(TRUE, 2L))         # integer
+typeof(c("37", 5))          # character: the number 5 becomes the text "5"
+typeof(c(NA, 1L))           # integer: NA fits into any type
+typeof(c(NA, "control"))    # character
 ```
 
-9. Divide &infin; by - &infin;
+## Special values
+
+6. Three wells were imaged. Calculate the fraction of infected cells in each well, predicting the result first:
+
+| Well | Infected cells | Total cells |
+|:-----|---------------:|------------:|
+| A1 | 12 | 40 |
+| A2 | 0 | 35 |
+| A3 | 0 | 0 |
+
+Then calculate the log10 of these viral titres: 1,000,000, 1,000 and 0.
 
 ```{r,accordion=TRUE}
-Inf/-Inf
+12 / 40   # 0.3
+0 / 35    # 0
+0 / 0     # NaN: an empty well has no infection rate
+
+log10(1e6)   # 6
+log10(1e3)   # 3
+log10(0)     # -Inf
 ```
 
+7. Plant heights (cm) were measured, but two plants died before measurement:
 
-10. Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.
+```{r}
+heights <- c(12.5, NA, 9.8, 15.1, 11.0, NA)
+```
+
+How many values are missing? What is the tallest plant? How many plants are taller than 10 cm? Why do you need `na.rm = TRUE` in all of them?
 
 ```{r,accordion=TRUE}
-TRUE * FALSE
-T^7
+sum(is.na(heights))
+max(heights)                       # NA
+max(heights, na.rm = TRUE)
+sum(heights > 10)                  # NA: we don't know about the missing plants
+sum(heights > 10, na.rm = TRUE)
 ```
 
-11. Create two character variables containing two verses of your favorite song.
+## Operators
 
-- Concatenate the two variables,  
-- Paste the variables with '\*' as separator.  
-- Find if 'and' occurs in the second line (use `grep` check the help and learn how to use it by `?grep`),  
-- Substitute a word for another,  
-- Extract substring starting at the 5th character and 5 characters long.  
+8. In a population with allele frequencies `p = 0.65` and `q = 1 - p`, the Hardy–Weinberg genotype frequencies are p², 2pq and q². Calculate them, then check that they add up to 1, first with `==` and then with `all.equal()`. What happened?
 
 ```{r,accordion=TRUE}
-line1 <- "Hello darkness my old friend"
-line2 <- "I've come to talk to you again"
-paste(line1, line2, sep = "")
-paste(line1, line2, sep = "*")
-grep('and', line2)
-sub('Hello', 'Goodbye', line1)
-substr(line1, 5, 5 + 5)
+p <- 0.65
+q <- 1 - p
+p^2
+2 * p * q
+q^2
+p^2 + 2 * p * q + q^2 == 1                    # FALSE: rounding errors in decimals
+isTRUE(all.equal(p^2 + 2 * p * q + q^2, 1))   # TRUE
 ```
 
-## R Environment
+9. You seed **100,000** cells that double every **20** hours. How many cells will you have after **72** hours? Use the formula cells = start × 2^(time / doubling time). Then use `sprintf()` or `round()` to report it as a whole number.
 
-- Get help for the *t.test*, *table*, *locator* and *identify* functions (use `?function_name`),
-- Which package contains the *plot.ecdf* function. What does it do?
-- Ask ChatGPT (or AI of your choice) on how to load an XML file into R,
-- Install the 'cgmisc' package from GitHub,
-- Look up the 'cgmisc' vignette (`vignette("cgmisc")`),
-  - vignettes are long-form documentation that often include examples and explanations,  
-  <details>
-  <summary><strong>Did you get a `Warning`</strong></summary>
-    - Because the GitHub version of `cgmisc` does not ship any vignettes. 
-    - Try `help(package="cgmisc")`. What do you see?  
-  </details>
-- See all the demos available for you and run one you like,
-- Run examples for the *mean* (`example(function, package="package_name")`),
-- Check out CRANs view for `genetics` (search CRAN genetics),
-- Install a CRAN package of choice (e.g. genetics),
+```{r,accordion=TRUE}
+start_cells <- 1e5
+doubling_time <- 20
+hours <- 72
+cells <- start_cells * 2^(hours / doubling_time)
+cells
+round(cells)
+```
 
+10. A study includes patients who are **between 18 and 65 years old** (inclusive) **and** have **either** a BMI above 30 **or** diabetes. Write one expression that checks this for the patient below. Then change the values to test a few other patients. Why are the brackets important?
+
+```{r}
+age <- 52
+bmi <- 27.4
+diabetic <- TRUE
+```
+
+```{r,accordion=TRUE}
+age >= 18 & age <= 65 & (bmi > 30 | diabetic)   # TRUE
+
+# A 70-year-old diabetic patient should NOT be included:
+age <- 70
+age >= 18 & age <= 65 & (bmi > 30 | diabetic)   # FALSE: correct
+age >= 18 & age <= 65 & bmi > 30 | diabetic     # TRUE: wrong! & is evaluated before |,
+                                                # so every diabetic patient passes
+```
+
+11. These are the quality scores of eight sequencing reads. How many reads have a quality of at least 30? What **fraction** of the reads is that? Hint: what does `mean()` of `TRUE`/`FALSE` values give you?
+
+```{r}
+quality <- c(35, 28, 40, 31, 19, 38, 33, 25)
+```
+
+```{r,accordion=TRUE}
+quality >= 30
+sum(quality >= 30)    # 5 reads
+mean(quality >= 30)   # 0.625: the fraction of TRUE values
+```
+
+12. Predict, then run. Explain each surprising result in your journal.
+
+```{r,eval=FALSE}
+sort(c("S1", "S2", "S10", "S11", "S3"))
+"Control" == "control"
+sqrt(2)^2 == 2
+```
+
+```{r,accordion=TRUE}
+sort(c("S1", "S2", "S10", "S11", "S3"))   # "S10" and "S11" come before "S2"
+"Control" == "control"                    # FALSE: comparisons are case-sensitive
+sqrt(2)^2 == 2                            # FALSE: decimals are not stored exactly
+isTRUE(all.equal(sqrt(2)^2, 2))           # TRUE
+```
+
+## Working with text
+
+13. Here is a PCR primer:
+
+```{r}
+primer <- "ACGTTGCAGGCT"
+```
+
+- How long is it?
+- Convert it to lower case (hint: `?toupper`).
+- Does it start with `"ACG"`? (Extract the first three bases and compare.)
+- Convert it to RNA by replacing every `T` with `U`. Try `sub()` first, then `gsub()`. What is the difference?
+
+```{r,accordion=TRUE}
+nchar(primer)
+tolower(primer)
+substr(primer, start = 1, stop = 3) == "ACG"
+sub("T", "U", primer)    # replaces only the first T
+gsub("T", "U", primer)   # replaces every T
+```
+
+14. Build these names with `paste()`, `paste0()` and `sub()`:
+
+- the well names of the first row of a 96-well plate: `"A1"`, `"A2"`, …, `"A12"`,
+- the file names `"mouse_1.fastq"`, `"mouse_2.fastq"`, `"mouse_3.fastq"`,
+- the sample name `"S3"` from the file name `"S3_R1.fastq.gz"`.
+
+```{r,accordion=TRUE}
+paste0("A", 1:12)
+paste0("mouse_", 1:3, ".fastq")
+sub("_R1.fastq.gz", "", "S3_R1.fastq.gz")
+```
+
+15. Using `sprintf()` and your variables from exercise 2, print this pipetting instruction:
+
+`Mix 0.80 uL stock with 19.20 uL water`
+
+```{r,accordion=TRUE}
+sprintf("Mix %.2f uL stock with %.2f uL water", stock_volume, water_volume)
+```
