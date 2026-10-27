@@ -258,23 +258,14 @@ tibble(
 --
 
 
-``` r
-tibble(
-  x = 1,          # recycling
-  y = runif(4),
-  z = x + y^2,
-  outcome = rnorm(4)
-)
-```
-
 ```
 ## # A tibble: 4 × 4
 ##       x     y     z outcome
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-## 1     1 0.725  1.53  1.02  
-## 2     1 0.903  1.82  1.09  
-## 3     1 0.700  1.49 -0.535 
-## 4     1 0.288  1.08  0.0533
+## 1     1 0.300  1.09  -0.409
+## 2     1 0.688  1.47   1.30 
+## 3     1 0.885  1.78  -0.560
+## 4     1 0.997  1.99   0.322
 ```
 
 ---
@@ -372,9 +363,6 @@ name: tibbles_partial_matching
 # Tibbles are Stricter than `data.frames`
 
 
-``` r
-cars &lt;- cars[1:5,]
-```
 
 ``` r
 cars$spe      # partial matching
@@ -508,20 +496,12 @@ bijou %&gt;% filter(cut == 'Ideal' | cut == 'Premium', carat &gt;= 0.23) %&gt;% 
 
 -- 
 
-&gt;🛥 &amp;nbsp; Be careful with floating point comparisons! &lt;br&gt;
-🦜 &amp;nbsp; Also, rows with comparison resulting in `NA` are skipped by default!
+&gt;⛵ &amp;nbsp; Be careful with floating point comparisons! &lt;br&gt;
+☠️ &amp;nbsp; Also, rows with comparison resulting in `NA` are skipped by default!
 
 
 ``` r
 bijou %&gt;% filter(near(0.23, carat) | is.na(carat)) %&gt;% head(n = 4)
-```
-
-```
-## # A tibble: 2 × 10
-##   carat cut   color clarity depth table price     x     y     z
-##   &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23 Ideal E     SI2      61.5    55   326  3.95  3.98  2.43
-## 2  0.23 Good  E     VS1      56.9    65   327  4.05  4.07  2.31
 ```
   
 ---
@@ -607,10 +587,6 @@ bijou %&gt;% rename(var_x = x) %&gt;% head(n = 5)
 --
 
 
-``` r
-bijou %&gt;% rename(var_x = x) %&gt;% head(n = 5)
-```
-
 ```
 ## # A tibble: 5 × 10
 ##   carat cut     color clarity depth table price var_x     y     z
@@ -657,27 +633,10 @@ bijou %&gt;% mutate(p = x + z, q = p + y) %&gt;%
   select(-(depth:price)) %&gt;% 
   head(n = 5)
 ```
-
-```
-## # A tibble: 5 × 9
-##   carat cut     color clarity     x     y     z     p     q
-##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23 Ideal   E     SI2      3.95  3.98  2.43  6.38  10.4
-## 2  0.21 Premium E     SI1      3.89  3.84  2.31  6.2   10.0
-## 3  0.23 Good    E     VS1      4.05  4.07  2.31  6.36  10.4
-## 4  0.29 Premium I     VS2      4.2   4.23  2.63  6.83  11.1
-## 5  0.31 Good    J     SI2      4.34  4.35  2.75  7.09  11.4
-```
   
   
 --
 
-
-``` r
-bijou %&gt;% mutate(p = x + z, q = p + y) %&gt;% 
-  select(-(depth:price)) %&gt;% 
-  head(n = 5)
-```
 
 ```
 ## # A tibble: 5 × 9
@@ -805,7 +764,7 @@ name: tidy_data
 .center[**Are these data tidy?**]
 
 .pull-left-70[
-&lt;table class="table table-striped table-hover table-responsive table-condensed" style=""&gt;
+&lt;table class="table table-striped table-hover table-responsive table-condensed" style="width: auto !important; "&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:center;"&gt; Sepal.Length &lt;/th&gt;
@@ -845,7 +804,7 @@ name: tidy_data
 
 .pull-right-30[
 
-&lt;table class="table table-striped table-hover table-responsive table-condensed" style=""&gt;
+&lt;table class="table table-striped table-hover table-responsive table-condensed" style="width: auto !important; "&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:center;"&gt; Species &lt;/th&gt;
@@ -879,7 +838,7 @@ name: tidy_data
 --
 .pull-left-50[
 
-&lt;table class="table table-striped table-hover table-responsive table-condensed" style=""&gt;
+&lt;table class="table table-striped table-hover table-responsive table-condensed" style="width: auto !important; "&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:center;"&gt; Sepal.L.W &lt;/th&gt;
@@ -911,7 +870,7 @@ name: tidy_data
 --
 
 .pull-right-50[
-&lt;table class="table table-striped table-hover table-responsive table-condensed" style=""&gt;
+&lt;table class="table table-striped table-hover table-responsive table-condensed" style="width: auto !important; "&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Sepal.Length &lt;/td&gt;
@@ -970,11 +929,11 @@ bijou2 %&gt;% head(n = 5)
 ## # A tibble: 5 × 3
 ##   cut     `2008` `2009`
 ##   &lt;ord&gt;    &lt;int&gt;  &lt;dbl&gt;
-## 1 Ideal      326   329.
-## 2 Premium    326   329.
-## 3 Good       327   330.
-## 4 Premium    334   337.
-## 5 Good       335   338.
+## 1 Ideal      326   328.
+## 2 Premium    326   328.
+## 3 Good       327   329.
+## 4 Premium    334   336.
+## 5 Good       335   337.
 ```
 
 ``` r
@@ -988,9 +947,9 @@ bijou2 %&gt;%
 ##   cut     year  price
 ##   &lt;ord&gt;   &lt;chr&gt; &lt;dbl&gt;
 ## 1 Ideal   2008   326 
-## 2 Ideal   2009   329.
+## 2 Ideal   2009   328.
 ## 3 Premium 2008   326 
-## 4 Premium 2009   329.
+## 4 Premium 2009   328.
 ## 5 Good    2008   327
 ```
 
@@ -1142,13 +1101,13 @@ missing_stones %&gt;% complete(cut, continent)
 ##    &lt;ord&gt;     &lt;chr&gt;     &lt;ord&gt;   &lt;int&gt;
 ##  1 Fair      AusOce    &lt;NA&gt;       NA
 ##  2 Fair      Eur       &lt;NA&gt;       NA
-##  3 Good      AusOce    VS1       327
-##  4 Good      AusOce    SI2       335
-##  5 Good      Eur       &lt;NA&gt;       NA
-##  6 Very Good AusOce    &lt;NA&gt;       NA
-##  7 Very Good Eur       VVS2      336
+##  3 Good      AusOce    SI2       335
+##  4 Good      Eur       VS1       327
+##  5 Very Good AusOce    &lt;NA&gt;       NA
+##  6 Very Good Eur       VVS2      336
+##  7 Premium   AusOce    SI1       326
 ##  8 Premium   AusOce    VS2       334
-##  9 Premium   Eur       SI1       326
+##  9 Premium   Eur       &lt;NA&gt;       NA
 ## 10 Ideal     AusOce    SI2       326
 ## 11 Ideal     Eur       &lt;NA&gt;       NA
 ```
@@ -1225,7 +1184,7 @@ class: end-slide
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 21-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 27-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
     </textarea>

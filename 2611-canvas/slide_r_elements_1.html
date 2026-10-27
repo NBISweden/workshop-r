@@ -3,7 +3,7 @@
   <head>
     <title>Variables, Data types &amp; Operators</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Marcin Kierczak &amp; Nima Rafati" />
+    <meta name="author" content="Guilherme Dias" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
     <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -22,7 +22,7 @@ class: center, middle, inverse, title-slide
 ## Elements of the R language
 ]
 .author[
-### Marcin Kierczak &amp; Nima Rafati
+### Guilherme Dias
 ]
 
 ---
@@ -48,577 +48,534 @@ count: false
 ---
 name: intro
 
-# Introduction
+# Today 🧱
 
-In this lecture we will cover the basic elements of R language:  
+The **building blocks** of every R script:
 
+1. **Variables** &amp;mdash; giving names to values
+2. **Data types** &amp;mdash; numbers, text and `TRUE`/`FALSE`
+3. **Converting types** &amp;mdash; on purpose, and by accident
+4. **Special values** &amp;mdash; `Inf`, `NaN`, `NA`
+5. **Operators** &amp;mdash; calculating and comparing
 
-- **variables and their types**
-- **operators**
-- vectors
-- numbers as vectors
-- strings as vectors
-- matrices
-- lists
-- data frames
-- objects
-- repeating actions: iteration and recursion
-- decision taking: control structures
-- functions in general
-- variable scope
-- core functions
+&lt;br&gt;
+
+.content-box-green[
+Throughout, we'll use small examples from the lab: sample IDs, gene names, Ct values, read counts and p-values.
+]
 
 ---
 name: variables
 
 # Variables
 
-Imagine that you want to manipulate some numbers in your project simple operations can be done `2 + 2` but what if you want to do more complex operations or use the same number multiple times? 
+A **variable** stores a value under a name, using the *assignment operator* `&lt;-`:
 
 
 ``` r
-2 + 2
-2 + 2 + 5
-2 + 2 + 5 +10 
-....
+sample_id &lt;- "S01"
+gene &lt;- "BRCA1"
+read_count &lt;- 1523
+read_count
 ```
+
+```
+## [1] 1523
+```
+
 --
 
-To use the same number multiple times you can use a **variable** to store the number and use the variable name instead of the number itself.  
-We assign given value to a variable using `&lt;-` operator (aka *assignment operator*).  
+Once stored, you can reuse and combine values:
 
 
 ``` r
-a &lt;- 2 + 2
-b &lt;- 5 
-c &lt;- 5 + 10
-sum_a_b &lt;- a + b
-sum_all &lt;- a + b + c
+total_reads &lt;- 2000
+read_count / total_reads * 100   # % of reads mapped to BRCA1
 ```
+
+```
+## [1] 76.15
+```
+
 --
 
-# Is `&lt;-` equivalent to `=`? Which one shall I use?  
-
-- `val &lt;- 3`, `val = 3` and `3 -&gt; val` are three equivalent ways of assigning in R, But, it's best to use only `&lt;-` to avoid possible confusion. The equal sign `=` should be used when setting function arguments ie; `f(a = 3)`.  
-
----
-# Variables cted.
-
-We are not constrained to numbers...
-
-
-``` r
-text1 &lt;- 'a'
-text2 &lt;- 'qwerty'
-text1  
-text2
-```
-
-```
-## [1] "a"
-## [1] "qwerty"
-```
-
+.content-box-yellow[
+**Use `&lt;-` to assign** and keep `=` for function arguments, e.g. `round(x, digits = 2)`.  
+**Shortcut:** **Alt + -** (Windows/Linux) or **Option + -** (Mac).
+]
 
 ---
 name: variables_naming
 
-# Variables &amp;mdash; naming conventions
+# Naming variables
 
-- How to write variable names?
-- What is legal/valid?
-- What is a good style?  
+A valid name contains letters, numbers, `.` and `_`, and starts with a letter.
 
- 
---
-&lt;img src="images/JimCar.png" style="width:20%;float:right; margin-left:20px;" /&gt;
---
-
-A syntactically valid name consists of letters, numbers and the dot or underline characters and starts with a letter or the dot not followed by a number.  
+| Name | Valid? |
+|:-----|:-------|
+| `ct_value`, `sample2`, `brca1_expr` | ✅ |
+| `2samples` | ❌ starts with a number |
+| `gene-count` | ❌ `-` means minus |
+| `if`, `TRUE`, `NA` | ❌ reserved words |
 
 --
 
-Names such as ".2way" are not valid, and neither are the so-called *reserved words*.  
+**Good style**
+
+* **Informative:** `ct_value`, not `x7`
+* **Consistent:** pick one style, e.g. `snake_case` (recommended)
+* **Avoid existing names** such as `c`, `t`, `T`, `F`, `mean`, `data`: legal, but confusing
+
+Your future self, your collaborators and your reviewers will thank you.
 
 ---
-name: variables_naming_reserved
+name: data_types
 
-# Reserved words
+# Four data types you'll use every day
 
-- `if, else, repeat, while, function, for, in, next, break, TRUE, FALSE, NULL, Inf, NaN, NA, NA_integer_, NA_real_, NA_complex_, NA_character_`  
-
-- and you also **cannot** use: `c, q, t, C, D, I` and **SHOULD NOT** `T, F`
-
-| Symbol | Function                   | Typical Use                        | 
-| ------ | -------------------------- | ---------------------------------- | 
-| `c`    | Combine values             | Create vectors                     | 
-| `q`    | Quit session               | Exit R safely                      | 
-| `t`    | Transpose                  | Matrix operations                  | 
-| `C`    | Complex number constructor | Create complex values              | 
-| `D`    | Derivative                 | Symbolic differentiation           | 
-| `I`    | Inhibit interpretation     | Keep operators literal in formulas | 
-| `T`   | Logical TRUE                | Logical operations                  |
-| `F`   | Logical FALSE               | Logical operations                  |
-
-
-
----
-name: variables_good_style
-
-# Variables &amp;mdash; good style
-
-- So, how to name variables?
-
-- make them informative, e.g. `genotypes` instead of `fsjht45jkhsdf4`,
-
---
-
-- use consistent notation across your code &amp;ndash; the same *naming convention*,
-
---
-
-- camelNotation vs. dot.notation vs. dash_notation,
-
---
-
-- do not `give_them_too_long_names`,
-
---
-
-- in the dot notation avoid `my.variable.2`, use `my.variable2` instead,
-
---
-
-- there are certain customary names:
-    - `tmp` - for temporary variables;
-    - `cnt` for counters;
-    - `i,j,k` within loops,
-    - `pwd` - for password...
---
-
-**Why to care at all, I just want to analyze my data?**
-
-- For your future self, coming back to the code after a while.  
-- For your collaborators, who will read your code. 
-- For the community, if you share your code publicly.  
----
-name: data_types_1
-
-# Variables have types
-
-A *numeric* stores numbers of different *types*:
+| Type | Lab example | `typeof()` |
+|:-----|:------------|:-----------|
+| **double** | body temperature `37.5`, Ct value `24.1` | `"double"` |
+| **integer** | read count `1523L` | `"integer"` |
+| **character** | gene `"BRCA1"`, sample `"S01"`, sequence `"ATGC"` | `"character"` |
+| **logical** | treated? `TRUE` / `FALSE` | `"logical"` |
 
 
 ``` r
-x &lt;- 41.99 # assign 41.99 to x
-typeof(x)
+typeof(37.5)
+typeof("BRCA1")
+typeof(TRUE)
 ```
 
 ```
 ## [1] "double"
-```
-
----
-name: class_type_mode
-
-# Classes, types, and modes
-
-- `typeof()` Low-level, how the variable is stored in memory;   
-- `class`  High-level, what kind of object it is;
-
-
-``` r
-x &lt;- 1:3
-x
-class(x)
-typeof(x)
-
-y &lt;- 'hello'
-y
-class(y)
-typeof(y)
-
-lm &lt;- lm(Sepal.Length ~ Sepal.Width, data=iris) # lm is a function for linear models. 
-typeof(lm)
-class(lm)
-```
-
-```
-## [1] 1 2 3
-## [1] "integer"
-## [1] "integer"
-## [1] "hello"
 ## [1] "character"
-## [1] "character"
-## [1] "list"
-## [1] "lm"
+## [1] "logical"
 ```
 
-**list**: an object that can contain elements of different types.  
-**lm**: an object of class "lm" (linear model).  
----
-name: type_casting
-
-# Type casting (Converting data types)  
-
-By default, any *numeric* is stored as *double* !
-
-
-``` r
-y &lt;- 12 # now assign an integer value to y
-class(y) # still numeric
-typeof(y) # an integer, but still a double!
-```
-
-```
-## [1] "numeric"
-## [1] "double"
-```
-
-But we can explicitly **cast it** to integer:
-
-
-``` r
-x &lt;- as.integer(x) # type conversion, casting
-typeof(x)
-class(x)
-is.integer(x)
-```
-
-```
-## [1] "integer"
-## [1] "integer"
-## [1] TRUE
-```
-
-&gt; We need **casting** because sometimes a function requires data of certain type!
+.footnote[Numbers are **doubles** by default, even `1523`. Add `L` for an integer: `1523L`.]
 
 ---
-name: casting2
+name: casting
 
-# More on type casting
+# Converting types: casting
 
-Be careful when casting!
+Use `as.integer()`, `as.numeric()`, `as.character()` to convert on purpose.
+
+**Casting is not rounding!** An average of 152.7 cells per well:
 
 
 ``` r
-pi &lt;- 3.1415926536 # assign approximation of pi to pi
-pi
-pi &lt;- as.integer(pi) # not-so-careful casting
-pi
-pi &lt;- as.double(pi) # trying to rescue the situation
-pi
+cells &lt;- 152.7
+as.integer(cells)   # cuts off the decimals
+round(cells)        # rounds to the nearest number
 ```
 
 ```
-## [1] 3.141593
-## [1] 3
-## [1] 3
+## [1] 152
+## [1] 153
 ```
+
 --
 
-Casting is not rounding!
+Other ways to round:
 
 
 ``` r
-as.integer(3.14)
-as.integer(3.51)
+floor(cells)        # always down
+ceiling(cells)      # always up
+round(3.14159, digits = 2)
 ```
 
 ```
-## [1] 3
-## [1] 3
+## [1] 152
+## [1] 153
+## [1] 3.14
 ```
 
 ---
-name: ceiling_floor
+name: text_to_numbers
 
-# Ceiling, floor and a round corner
+# Turning text into numbers
+
+Values exported from instruments or spreadsheets often arrive as **text**:
 
 
 ``` r
-floor(3.51) # floor of 3.51
-ceiling(3.51) # ceiling of 3.51
-round(3.51, digits=1) # round to one decimal
+as.numeric("24.1")
 ```
 
 ```
-## [1] 3
-## [1] 4
-## [1] 3.5
+## [1] 24.1
 ```
+
+--
+
+But not every text is a number:
+
+
+``` r
+ct_values &lt;- c("24.1", "25.3", "Undetermined", "23.8")
+as.numeric(ct_values)
+```
+
+```
+## Warning: NAs introduced by coercion
+```
+
+```
+## [1] 24.1 25.3   NA 23.8
+```
+
+--
+
+.content-box-yellow[
+**"NAs introduced by coercion"** means values were lost. 
+&lt;br&gt;&lt;br&gt;
+Make sure those values were not important. Never ignore this warning!
+]
 
 ---
-name: coercion
+name: implicit_coercion
 
-# What happens if we cast a string to a number
+# R converts for you (coercion)
+
+`c()` combines values, but they must all be the **same type**. 
+&lt;br&gt;
+When you mix types, R **converts** everything to the most flexible type:
+
+![](images/R-Type-Coercion-hierarchy.webp)
 
 
 ``` r
-as.numeric('4.5678')
-as.double('4.5678')
-as.numeric('Nima is a cool teacher :) !')
+c(24.1, 25.3, 23.8)             # all numbers
+c(24.1, 25.3, "failed", 23.8)   # one word: everything becomes text!
 ```
 
 ```
-## [1] 4.5678
-## [1] 4.5678
-## [1] NA
+## [1] 24.1 25.3 23.8
+## [1] "24.1"   "25.3"   "failed" "23.8"
 ```
+
+--
+
+.content-box-green[
+One word in a column of numbers turns the whole column into text.
+&lt;br&gt;&lt;br&gt;
+**Always check the type of your data after importing it.**
+]
 
 ---
-name: some_special_values
+name: special_values
 
-# Special values
+# Special values: `Inf`, `NaN`, `NA`
+
+**log2 fold change** of a gene, treated vs. control:
 
 
 ``` r
--1/0  # Minus infinity
-1/0 # Infinity
+log2(40 / 10)   # 4x higher: log2 FC = 2
+log2(10 / 0)    # no reads in control: Inf
+log2(0 / 10)    # no reads in treated: -Inf
+0 / 0           # no reads anywhere: NaN (Not a Number)
 ```
 
 ```
+## [1] 2
+## [1] Inf
 ## [1] -Inf
-## [1] Inf
+## [1] NaN
 ```
 
-and also:
+--
+
+`NA` means **missing**: a value exists but is unknown, e.g. a failed sample. It is **contagious**:
 
 
 ``` r
-112345^67890  # Also infinity for R;  "^" means "to the power of"; 2^2 = 4
-1/2e78996543  # Zero for R
-Inf - Inf # Not a Number
+glucose &lt;- c(5.1, 4.8, NA)
+mean(glucose)
+mean(glucose, na.rm = TRUE)   # ignore missing values
 ```
 
 ```
-## [1] Inf
-## [1] 0
-## [1] NaN
+## [1] NA
+## [1] 4.95
 ```
 
 ---
 name: logical_type
 
-# Logical type
+# Logical values: `TRUE` and `FALSE`
+
+Comparisons give `TRUE` or `FALSE`:
 
 
 ``` r
-a &lt;- 7 &gt; 2
-b &lt;- 2 &gt;= 7
-a
-b
-class(a)
-typeof(a)
+p_value &lt;- 0.03
+p_value &lt; 0.05
 ```
+
+```
+## [1] TRUE
+```
+
 --
 
-```
-## [1] TRUE
-## [1] FALSE
-## [1] "logical"
-## [1] "logical"
-```
-
----
-name: logical_cted
-
-# Logical type cted.
+In calculations, `TRUE` counts as `1` and `FALSE` as `0`. So `sum()` **counts** how many are `TRUE`:
 
 
 ``` r
-x &lt;- TRUE
-x
-x &lt;- T # also valid
-x
-is.logical(x)
-typeof(x)
+p_values &lt;- c(0.001, 0.2, 0.04, 0.5, 0.03)
+p_values &lt; 0.05
+sum(p_values &lt; 0.05)   # number of significant genes
 ```
 
 ```
-## [1] TRUE
-## [1] TRUE
-## [1] TRUE
-## [1] "logical"
+## [1]  TRUE FALSE  TRUE FALSE  TRUE
+## [1] 3
 ```
 
-- Observe that in R the logical type is also a numeric!
-
-
-``` r
-x &lt;- TRUE
-y &lt;- FALSE
-x + y
-2 * x
-x * y
-```
---
-
-```
-## [1] 1
-## [1] 2
-## [1] 0
-```
----
-name: logical_joke
-
-# A trap set up for you
-
-Never ever use variable names as T or F. Why?
-
-
-``` r
-F &lt;- T
-T
-F
-```
-
-```
-## [1] TRUE
-## [1] TRUE
-```
-Maybe applicable in politics, but not really in science...
+.footnote[Always write `TRUE` and `FALSE` in full: `T` and `F` can be overwritten.]
 
 ---
 name: character_type
 
-# Character type
+# Working with text
 
-It is easy to work with characters and strings:
+Text (*character*) goes in quotes: `"..."` or `'...'`.
 
 
 ``` r
-character &lt;- 'c'
-text &lt;- 'This is my first sentence in R.'
-text
-character
-class(character)
-typeof(text) # also of 'character' type
+dna &lt;- "atgcgtacgtta"
+nchar(dna)                        # sequence length
+toupper(dna)                      # upper case
+substr(dna, start = 1, stop = 3)  # first codon
 ```
 
 ```
-## [1] "This is my first sentence in R."
-## [1] "c"
-## [1] "character"
-## [1] "character"
+## [1] 12
+## [1] "ATGCGTACGTTA"
+## [1] "atg"
+```
+
+--
+
+
+``` r
+paste("BRCA1", "exon", 3, sep = "_")   # build an ID
+paste0("S", 1:3)                       # sample names
+sub("chr", "", "chr17")                # remove a prefix
+```
+
+```
+## [1] "BRCA1_exon_3"
+## [1] "S1" "S2" "S3"
+## [1] "17"
 ```
 
 ---
-name: character_type_2
+name: sprintf
 
-# Character type
+# Putting values into sentences
+
+`sprintf()` fills placeholders with values:
 
 
 ``` r
-number &lt;- 3.14
-number.text &lt;- as.character(number) # cast to char
-number.text
-class(number.text)
-as.numeric(number.text) # and the other way round
+sample_id &lt;- "S01"
+n_reads &lt;- 1523L
+gc &lt;- 41.2734
+sprintf("Sample %s has %d reads (GC = %.1f%%)", sample_id, n_reads, gc)
 ```
+
+```
+## [1] "Sample S01 has 1523 reads (GC = 41.3%)"
+```
+
+| Placeholder | Fills in | Example |
+|:------------|:---------|:--------|
+| `%s` | text | `"S01"` |
+| `%d` | integer | `1523` |
+| `%.1f` | number with 1 decimal | `41.3` |
+| `%%` | a literal `%` sign | `%` |
+
+---
+name: operators_arithmetic
+
+# Arithmetic operators
+
+| Operator | Meaning | Example | Result |
+|:---------|:--------|:--------|:------:|
+| `+` `-` `*` `/` | the usual | `7 / 2` | 3.5 |
+| `^` | power | `2^3` | 8 |
+| `%%` | remainder | `7 %% 3` | 1 |
+
+--
+
+**qPCR relative expression** (the ΔΔCt method):
+
+
+``` r
+delta_ct_treated &lt;- 24.1 - 18.0   # target Ct - reference Ct
+delta_ct_control &lt;- 26.3 - 18.2
+delta_delta_ct &lt;- delta_ct_treated - delta_ct_control
+2^(-delta_delta_ct)               # fold change
+```
+
+```
+## [1] 4
+```
+
+The gene is about **4x higher** in treated samples. Use brackets when in doubt: `2^-x` and `2^(-x)` are the same, but brackets make it clear.
+
+---
+name: operators_comparison
+
+# Comparison and logical operators
+
+.pull-left-50[
+**Compare** → `TRUE`/`FALSE`
+
+| | |
+|:--|:--|
+| `==` | equal |
+| `!=` | not equal |
+| `&lt;`, `&gt;` | less, greater |
+| `&lt;=`, `&gt;=` | or equal |
+]
+
+.pull-right-50[
+**Combine conditions**
+
+| | |
+|:--|:--|
+| `&amp;` | AND |
+| &lt;code&gt;&amp;#124;&lt;/code&gt; | OR |
+| `!` | NOT |
+]
+
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
+
+Is this gene **differentially expressed**?
+
+
+``` r
+p_value &lt;- 0.03
+log2_fc &lt;- 1.4
+p_value &lt; 0.05 &amp; abs(log2_fc) &gt; 1
+```
+
+```
+## [1] TRUE
+```
+
+.footnote[Don't mix up `=` (assign an argument) and `==` (compare).]
+
+---
+name: pitfalls
+
+# Two classic pitfalls 🕳️
+
+**1. Text is compared letter by letter, not as numbers**
+
+
+``` r
+"10" &lt; "9"
+sort(c("chr1", "chr2", "chr10", "chr9"))
+```
+
+```
+## [1] TRUE
+## [1] "chr1"  "chr10" "chr2"  "chr9"
+```
+
+That's why chromosome lists often come out in the "wrong" order.
+
+--
+
+**2. Decimals are not stored exactly**
+
+
+``` r
+0.1 + 0.2 == 0.3
+isTRUE(all.equal(0.1 + 0.2, 0.3))   # compare with a small tolerance
+```
+
+```
+## [1] FALSE
+## [1] TRUE
+```
+
+---
+name: quiz
+
+# Predict the output 🤔
+
+Write down your answers **before** the reveal:
+
+
+``` r
+typeof(1523)
+as.integer(24.9)
+c(24.1, "Undetermined")
+sum(c(0.01, 0.2, 0.04) &lt; 0.05)
+log2(0)
+NA == NA
+```
+
 --
 
 
 ```
-## [1] "3.14"
-## [1] "character"
-## [1] 3.14
+## [1] "double"
+## [1] 24
+## [1] "24.1"         "Undetermined"
+## [1] 2
+## [1] -Inf
+## [1] NA
 ```
----
-name: basic_string_ops
 
-# Basic string operations
+???
+NA == NA is NA: two unknown values cannot be known to be equal. Use is.na() instead.
+
+---
+name: help
+
+# Getting help
 
 
 ``` r
-  text1 &lt;- "John had a yellow "
-  text2 &lt;- "submarine"
-  result &lt;- paste(text1, text2, "!", sep='')
-  result
-  sub("submarine", "cab", result)
-  substr(result, start=1, stop=5)
+?round                  # help page for a function
+example(round)          # run the examples from the help page
+help.search("median")   # search all help pages
 ```
 
-```
-## [1] "John had a yellow submarine!"
-## [1] "John had a yellow cab!"
-## [1] "John "
-```
+&lt;br&gt;
+
+.content-box-green[
+**Tip:** the *Examples* section at the bottom of every help page is often the fastest way to learn a function. It's also a good way to check code an AI assistant suggested.
+]
 
 ---
-name: basic_printing
 
-# Basic printing
-
-
-``` r
-  txt &lt;- "blue"
-  (txt &lt;- 'red')
-  val &lt;- 345.78
-  sprintf("The weight of a %s ball is  %g g", txt, val)
-```
-
-```
-## [1] "red"
-## [1] "The weight of a red ball is  345.78 g"
-```
-
---
-| Placeholder | Meaning                  | Example Use                            |
-|-------------|---------------------------|------------------------------------------|
-| `%s`        | String                    | `sprintf("Here we %s", "R")` → Here we R |
-| `%d`        | Integer                   | `sprintf("Count: %d", 5)` → Count: 5       |
-| `%f`        | Floating-point (fixed)    | `sprintf("Value: %f", 3.14)` → Value: 3.140000 |
-| `%g`        | Numeric (compact double)  | `sprintf("Weight: %g g", 7.5)` → Weight: 7.5 |
-| `%e`        | Scientific notation       | `sprintf("%e", 0.00123)` → 1.23e-03        |
-
----
-name: demos
-# `demo()`  
-- R has built-in demos for various topics.  
-- To see a list of available demos, run `demo()`.  
-
-``` r
-demo()
-# Demos in package ‘base’:
-# error.catching                               More examples on catching and handling errors
-# ...
-# Demos in package ‘graphics’:
-# graphics                                     A show of some of R's graphics capabilities
-# ....
-# Demos in package ‘grDevices’:
-# colors                                       A show of R's predefined colors()
-# Demos in package ‘stats’:
-# smooth                                       `Visualize' steps in Tukey's smoothers
-```
-- To run a specific demo pass the package name, use `demo("smooth")`.  
-
----
 # What did we learn?
-&lt;div style="font-size:70%"&gt; 
- 
-| Concept            | Key Idea                                         | Example / Tip            |
-| ------------------ | ------------------------------------------------ | ------------------------ |
-| **Variables**      | Store data using names                           | `x &lt;- 5`                 |
-| **Assignment**     | Prefer `&lt;-` for clarity                          | `a &lt;- 2 + 2`             |
-| **Naming rules**   | Must start with letter/dot; avoid reserved words | ❌ `if`, `c`, `T`, `F`    |
-| **Good style**     | Use clear, consistent names                      | `gene_count`, `sampleID` |
-| **Data types**     | Numeric, character, logical, etc.                | `typeof(x)` / `class(x)` |
-| **Type casting**   | Change one type to another                       | `as.integer(3.14)`       |
-| **Special values** | `Inf`, `-Inf`, `NaN`, `NA`                       | `1/0 → Inf`              |
-| **Logical values** | TRUE/FALSE behave like 1/0                       | `TRUE + FALSE → 1`       |
-| **Strings**        | Text manipulation                                | `paste("R", "rocks!")`   |
-| **Operators**      | `+ − * / ^`  (power)                               | `2^3 → 8`                |
-| **Objects**        | Everything in R is an object                     | data, functions, models  |
+
+| Concept | Key idea | Example |
+|:--------|:---------|:--------|
+| **Variables** | Store values with `&lt;-` | `gene &lt;- "BRCA1"` |
+| **Types** | double, integer, character, logical | `typeof(37.5)` |
+| **Casting** | Convert on purpose; ≠ rounding | `as.integer(152.7)` → 152 |
+| **Coercion** | One word turns numbers into text | `c(24.1, "failed")` |
+| **Special values** | `Inf`, `NaN`, `NA` | `mean(x, na.rm = TRUE)` |
+| **Logical** | `TRUE` counts as 1 | `sum(p &lt; 0.05)` |
+| **Operators** | Calculate, compare, combine | `2^(-ddct)`, `&amp;`, &lt;code&gt;&amp;#124;&lt;/code&gt; |
 
 --
-&lt;div style="font-size:100%"&gt; 
-**Remember**
-- R treats everything as an **object**.  
-- Use `class()` to see what kind of object it is.  
-- Use `typeof()` to see how it’s stored internally.  
-- Code readability **is more important than** clever shortcuts.  
-- Naming and clarity make collaboration (and life) easier!  
+
+&lt;br&gt;
+
+**Remember:** after importing data, **check the types**. Most silent errors start there.
 
 &lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
 
@@ -633,7 +590,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 21-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 27-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 

@@ -182,7 +182,7 @@ proc.time() - ptm # vectorized
 
 ```
 ##    user  system elapsed 
-##   0.002   0.000   0.002
+##   0.003   0.001   0.004
 ```
 
 
@@ -200,7 +200,7 @@ proc.time() - ptm # for-loop
 
 ```
 ##    user  system elapsed 
-##   0.035   0.000   0.035
+##   0.026   0.004   0.030
 ```
 
 
@@ -349,16 +349,6 @@ exclude: true
 When we explicitely repeat an action using a loop, we talk about **iteration**. We can also repeat actions by means of **recursion**, i.e. when a function calls itself. Let us implement a factorial `\(!\)`:
 
 
-``` r
-factorial.rec &lt;- function(x) {
-  if (x == 0 || x == 1)
-    return(1)
-  else
-    return(x * factorial.rec(x - 1)) # Recursive call!
-}
-factorial.rec(5)
-```
-
 ```
 ## [1] 120
 ```
@@ -390,29 +380,17 @@ factorial.iter(5)
 More writing for the iterative version, right? What about the time efficiency?  
 The recursive version:
 
-``` r
-ptm &lt;- proc.time()
-factorial.rec(20)
-proc.time() - ptm
-```
-
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.000   0.000   0.001
+##   0.001   0.000   0.001
 ```
 And the iterative one:
 
-``` r
-ptm &lt;- proc.time()
-factorial.iter(20)
-proc.time() - ptm
-```
-
 ```
 ## [1] 2.432902e+18
 ##    user  system elapsed 
-##   0.005   0.000   0.005
+##   0.004   0.000   0.004
 ```
 --&gt;
 
@@ -834,13 +812,6 @@ name: lazy_eval
 In R, arguments are evaluated as late as possible, i.e. when they are needed. This is **lazy evaluation**:
 
 
-``` r
-h &lt;- function(a = 1, b = d) {
-  d &lt;- (a + 1) ^ 2
-  c(a, b)
-}
-#h()
-```
 
 &gt; The above won't be possible in, e.g. C where values of both arguments have to be known before calling a function **eager evaluation**.  
 --&gt;
@@ -997,7 +968,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 21-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 27-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 

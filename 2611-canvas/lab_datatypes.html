@@ -11,7 +11,7 @@
 
 
 
-<title>Data Type</title>
+<title>Variables, Data types &amp; Operators</title>
 
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -253,43 +253,63 @@ div.tocify {
 <p><br></p>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>There are different data types used in R. The type of a variable will
-for example determine what kind of operators that can be done on it. At the end of
-this exercise you should know:</p>
+<p>Every value in R has a <strong>type</strong>, and the type decides what you can do with it: you can add two read counts, but not a read count and a gene name. In this lab you will practise the lecture’s topics using small examples from the lab bench. By the end you should be able to:</p>
 <ul>
-<li>What are the data types commonly used in R and how to create them</li>
-<li>Use some basic operators in R</li>
-<li>Understand how R coerces data if needed</li>
-<li>Basic text manipulations</li>
+<li>create values of the common data types and check their type,</li>
+<li>convert between types on purpose (casting), and know that casting is not rounding,</li>
+<li>recognise when R converts types for you (coercion), and why that can cause silent errors,</li>
+<li>handle the special values <code>Inf</code>, <code>NaN</code> and <code>NA</code>,</li>
+<li>use arithmetic, comparison and logical operators,</li>
+<li>do basic text manipulation on gene names, sample IDs and DNA sequences.</li>
 </ul>
 <div id="data-types" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Data types</h2>
-<p>From the lecture you might remember that all elements in any data structures found in R will be of a certain type. The four most commonly used data types in R are: logical, integer, double (often called numeric), and character. The names hints at what they are.</p>
-<ul>
-<li>Logical = TRUE or FALSE (or NA)</li>
-<li>Integer = Numbers that can be represented without fractional component<br />
-</li>
-<li>Numeric = Any number that is not a complex number<br />
-</li>
-<li>Character = Text</li>
-</ul>
-<p><strong>Bonus:</strong> Complex numbers have both a real and imaginary part (e.g. 3 + 4i); <code>i</code>s a special number defined as the square root of –1., for example. We normally cannot take √(–1), so mathematicians introduced a new idea: of using <code>i</code>, in this example`. It is mostly used in engineering and physics.</p>
-<p>In many cases the type of on entry is determined by the content so if you save the value 5.1 as a variable in R, the variable will automatically be recognised as numeric. If you instead have a text string like “hello world” it will have the type character. Below you will also see examples of how you can specify the type and not rely on R inferring the right type based on content.</p>
+<p>The four data types you will use every day:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Type</th>
+<th align="left">What it holds</th>
+<th align="left">Lab example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">double</td>
+<td align="left">any number</td>
+<td align="left">Ct value <code>24.1</code>, temperature <code>37.5</code></td>
+</tr>
+<tr class="even">
+<td align="left">integer</td>
+<td align="left">whole numbers</td>
+<td align="left">read count <code>1523L</code></td>
+</tr>
+<tr class="odd">
+<td align="left">character</td>
+<td align="left">text</td>
+<td align="left">gene <code>"BRCA1"</code>, sample <code>"S01"</code></td>
+</tr>
+<tr class="even">
+<td align="left">logical</td>
+<td align="left"><code>TRUE</code> or <code>FALSE</code></td>
+<td align="left">treated? <code>TRUE</code></td>
+</tr>
+</tbody>
+</table>
+<p>Numbers are stored as <strong>doubles</strong> by default, even whole numbers like <code>1523</code>. Add <code>L</code> to get an integer: <code>1523L</code>.</p>
 </div>
 </div>
 <div id="exercises" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Exercises</h1>
 <div class="boxy boxy-lightbulb">
-<p>In all exercises during this course, it is important that you try to figure out what the expected result would be, prior to running the commands. You should then verify that this will indeed be the
-result by running the command. In case there is a discrepancy between your expectations and the actual output make sure you understand why before you move forward. If you cannot figure out
-how to, or which command to run you can click the key to reveal example code including expected output. If you are trying out things on your own have a hard time understanding what is going on, ask the TAs or someone sitting next to you who might have wrapped their head around the issue.</p>
-<p>Also note that in many cases there are multiple solutions that solve the problem equally well.</p>
-<p>We do recommend to write all code in a Rmarkdown document in R-studio as that will at the end of the course be your own R tutorial with comments and code solutions.</p>
+<p>In all exercises in this course, first try to work out what the result <strong>should</strong> be, then run the code to check. If the output surprises you, make sure you understand why before you move on. If you get stuck, click the key to reveal example code and output, or ask a TA or the person next to you.</p>
+<p>There are often several equally good solutions.</p>
+<p>We recommend writing all your code in your <strong>R Markdown learning journal</strong> (from the first lab). By the end of the course it will be your own R tutorial, with your notes and solutions.</p>
 </div>
-<div id="working-with-variables" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Working with variables</h2>
-<p>Open Rstudio and make sure to set your working directory (either in console or in Rmd <code>setwd("path/to/my/folder/")</code>. Double check that you do not have stored objects in your current session with the following command. This will list all objects that you have in
-your current R session.</p>
+<div id="getting-started" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Getting started</h2>
+<p>Open RStudio and open your <code>r-course</code> <strong>Project</strong> (File → Open Project…), so that R works in the right folder. You do not need <code>setwd()</code> when you use a Project.</p>
+<p>List all objects in your current R session:</p>
 <pre class="r"><code>ls()</code></pre>
 <pre><code>##  [1] &quot;A&quot;             &quot;address&quot;       &quot;asst&quot;          &quot;B&quot;            
 ##  [5] &quot;car.names&quot;     &quot;char_vec&quot;      &quot;cl&quot;            &quot;cn&quot;           
@@ -310,243 +330,401 @@ your current R session.</p>
 ## [65] &quot;uppsala2&quot;      &quot;uppsala3&quot;      &quot;vars&quot;          &quot;vec1&quot;         
 ## [69] &quot;vec2&quot;          &quot;vector1&quot;       &quot;vector2&quot;       &quot;vector3&quot;      
 ## [73] &quot;videogames&quot;    &quot;X&quot;             &quot;X.2&quot;</code></pre>
-<p>In case you have objects that you want to remove from the current session you can do so with the <code>rm()</code> function. <i class="fas fa-exclamation-circle"></i> This command will remove all objects available in your current environment.</p>
+<p>If you want a clean start, the safest option is <strong>Session → Restart R</strong>. You can also remove all objects with:</p>
 <pre class="r"><code>rm(list = ls())</code></pre>
-<p>This command uses commands that we have not talked about yet. If you do not understand how it works now, you will do so after tomorrows lectures and exercises.</p>
+<p><i class="fas fa-exclamation-circle"></i> This deletes everything in your environment. It uses functions we have not covered yet; it will make sense after the next lectures.</p>
+</div>
+<div id="variables-and-data-types" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Variables and data types</h2>
 <ol style="list-style-type: decimal">
-<li>Create variables <em>var1</em> and <em>var2</em> and initialize them with two integers of choice.</li>
+<li>You are recording data for one mouse: its ID is <strong>M07</strong>, it weighs <strong>23.4</strong> g, it had <strong>6</strong> pups, and it is a <strong>knockout</strong> (<code>TRUE</code>). Store each value in a well-named variable and check its type with <code>typeof()</code>. Is the number of pups an integer? If not, make it one.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117247221" aria-expanded="false" aria-controls="acc2026102117247221">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716197221" aria-expanded="false" aria-controls="acc2026102716197221">
 </button>
 </p>
-<div id="acc2026102117247221" class="collapse">
+<div id="acc2026102716197221" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>var1 &lt;- 11
-var2 &lt;- 34</code></pre>
+<pre class="r"><code>mouse_id &lt;- &quot;M07&quot;
+weight_g &lt;- 23.4
+n_pups &lt;- 6
+knockout &lt;- TRUE
+
+typeof(mouse_id)
+typeof(weight_g)
+typeof(n_pups)    # &quot;double&quot;: plain numbers are doubles
+typeof(knockout)
+
+n_pups &lt;- 6L      # the L suffix makes an integer
+typeof(n_pups)</code></pre>
+<pre><code>## [1] &quot;character&quot;
+## [1] &quot;double&quot;
+## [1] &quot;double&quot;
+## [1] &quot;logical&quot;
+## [1] &quot;integer&quot;</code></pre>
+</div>
+</div>
+<p>A colleague stored the weight as <code>"23.4"</code> (in quotes). What happens if you add 1.5 g to it? How do you fix it?</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716191761" aria-expanded="false" aria-controls="acc2026102716191761">
+</button>
+</p>
+<div id="acc2026102716191761" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>weight_text &lt;- &quot;23.4&quot;
+weight_text + 1.5               # error: you cannot do arithmetic on text</code></pre>
+<pre><code>## Error in weight_text + 1.5: non-numeric argument to binary operator</code></pre>
+<pre class="r"><code>as.numeric(weight_text) + 1.5   # convert first</code></pre>
+<pre><code>## [1] 24.9</code></pre>
 </div>
 </div>
 <ol start="2" style="list-style-type: decimal">
-<li>Sum the two variables and save them as a new variable named <em>var3</em> and print the result.</li>
+<li>You have a DNA stock at <strong>250</strong> ng/µL and need <strong>20</strong> µL of a <strong>10</strong> ng/µL dilution. Using variables, calculate how many µL of stock and how many µL of water to mix. (Volume of stock = target concentration × final volume / stock concentration.)</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117241761" aria-expanded="false" aria-controls="acc2026102117241761">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716193240" aria-expanded="false" aria-controls="acc2026102716193240">
 </button>
 </p>
-<div id="acc2026102117241761" class="collapse">
+<div id="acc2026102716193240" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>var3 &lt;- var1 + var2
-var3</code></pre>
-<pre><code>## [1] 45</code></pre>
-</div>
-</div>
-<ol start="3" style="list-style-type: decimal">
-<li>Check the class and type for var1, var2, var3 and π (is found under the variable name <code>pi</code> in R)</li>
-</ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117243240" aria-expanded="false" aria-controls="acc2026102117243240">
-</button>
-</p>
-<div id="acc2026102117243240" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>class(var1)
-typeof(var1)</code></pre>
-<pre><code>## [1] &quot;numeric&quot;
-## [1] &quot;double&quot;</code></pre>
-</div>
-</div>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117240007" aria-expanded="false" aria-controls="acc2026102117240007">
-</button>
-</p>
-<div id="acc2026102117240007" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>class(pi)
-typeof(pi)</code></pre>
-<pre><code>## [1] &quot;numeric&quot;
-## [1] &quot;double&quot;</code></pre>
-</div>
-</div>
-<ol start="4" style="list-style-type: decimal">
-<li>Create two character variables containing a text of choice. Check the class, and type of the first one.</li>
-</ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117245080" aria-expanded="false" aria-controls="acc2026102117245080">
-</button>
-</p>
-<div id="acc2026102117245080" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>text1 &lt;- &quot;test1&quot;
-text2 &lt;- &quot;test2&quot;
+<pre class="r"><code>stock_conc &lt;- 250
+target_conc &lt;- 10
+final_volume &lt;- 20
 
-class(text1)
-typeof(text1)</code></pre>
+stock_volume &lt;- target_conc * final_volume / stock_conc
+water_volume &lt;- final_volume - stock_volume
+stock_volume
+water_volume</code></pre>
+<pre><code>## [1] 0.8
+## [1] 19.2</code></pre>
+</div>
+</div>
+</div>
+<div id="casting-is-not-rounding" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Casting is not rounding</h2>
+<ol start="3" style="list-style-type: decimal">
+<li>You have <strong>250</strong> samples and each plate holds <strong>96</strong>. How many plates do you need? Try <code>as.integer()</code>, <code>round()</code>, <code>floor()</code> and <code>ceiling()</code> on <code>250 / 96</code>. Which one gives the right answer here, and why are the others wrong?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716190007" aria-expanded="false" aria-controls="acc2026102716190007">
+</button>
+</p>
+<div id="acc2026102716190007" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>250 / 96
+as.integer(250 / 96)   # 2: cuts off decimals, 58 samples have no plate!
+round(250 / 96)        # 3, but only by luck: try 200 / 96
+floor(250 / 96)        # 2: same problem as as.integer()
+ceiling(250 / 96)      # 3: always rounds up, which is what we need</code></pre>
+<pre><code>## [1] 2.604167
+## [1] 2
+## [1] 3
+## [1] 2
+## [1] 3</code></pre>
+</div>
+</div>
+</div>
+<div id="text-numbers-and-coercion" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Text, numbers and coercion</h2>
+<ol start="4" style="list-style-type: decimal">
+<li>A plate reader exported these absorbance values. One well was too bright to measure (<code>"OVER"</code>) and one was left empty:</li>
+</ol>
+<pre class="r"><code>absorbance &lt;- c(&quot;0.84&quot;, &quot;1.02&quot;, &quot;OVER&quot;, &quot;0.77&quot;, &quot;&quot;)</code></pre>
+<p>What is the type of <code>absorbance</code>? Convert it to numbers and count how many values became <code>NA</code>. Then calculate the mean absorbance of the wells that were measured.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716195080" aria-expanded="false" aria-controls="acc2026102716195080">
+</button>
+</p>
+<div id="acc2026102716195080" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>typeof(absorbance)
+abs_num &lt;- as.numeric(absorbance)   # warning: NAs introduced by coercion
+abs_num
+sum(is.na(abs_num))                 # 2
+mean(abs_num, na.rm = TRUE)</code></pre>
 <pre><code>## [1] &quot;character&quot;
+## [1] 0.84 1.02   NA 0.77   NA
+## [1] 2
+## [1] 0.8766667</code></pre>
+</div>
+</div>
+<p>Write a sentence in your journal: <code>"OVER"</code> and <code>""</code> both became <code>NA</code>, but do they mean the same thing? Would dropping the <code>"OVER"</code> well bias your result?</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Predict the type of each result, then check with <code>typeof()</code>:</li>
+</ol>
+<pre class="r"><code>c(TRUE, 2L)
+c(&quot;37&quot;, 5)
+c(NA, 1L)
+c(NA, &quot;control&quot;)</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716190958" aria-expanded="false" aria-controls="acc2026102716190958">
+</button>
+</p>
+<div id="acc2026102716190958" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>typeof(c(TRUE, 2L))         # integer
+typeof(c(&quot;37&quot;, 5))          # character: the number 5 becomes the text &quot;5&quot;
+typeof(c(NA, 1L))           # integer: NA fits into any type
+typeof(c(NA, &quot;control&quot;))    # character</code></pre>
+<pre><code>## [1] &quot;integer&quot;
+## [1] &quot;character&quot;
+## [1] &quot;integer&quot;
 ## [1] &quot;character&quot;</code></pre>
 </div>
 </div>
-<p>Add <strong>var1</strong> to it. What is the result and why?</p>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117240958" aria-expanded="false" aria-controls="acc2026102117240958">
-</button>
-</p>
-<div id="acc2026102117240958" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>text1+var1</code></pre>
-<pre><code>## Error in text1 + var1: non-numeric argument to binary operator</code></pre>
 </div>
-</div>
-<ol start="5" style="list-style-type: decimal">
-<li>Convert <strong>var3</strong> to an integer, cast an integer variable to double, cast a string to a double.</li>
-</ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117248460" aria-expanded="false" aria-controls="acc2026102117248460">
-</button>
-</p>
-<div id="acc2026102117248460" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>as.integer(var3)
-i &lt;- 175
-as.double(i)
-as.double(text1)</code></pre>
-<pre><code>## [1] 45
-## [1] 175
-## [1] NA</code></pre>
-</div>
-</div>
+<div id="special-values" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Special values</h2>
 <ol start="6" style="list-style-type: decimal">
-<li>Report floor and ceiling of π and round π to 3 decimal places.</li>
+<li>Three wells were imaged. Calculate the fraction of infected cells in each well, predicting the result first:</li>
 </ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Well</th>
+<th align="right">Infected cells</th>
+<th align="right">Total cells</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A1</td>
+<td align="right">12</td>
+<td align="right">40</td>
+</tr>
+<tr class="even">
+<td align="left">A2</td>
+<td align="right">0</td>
+<td align="right">35</td>
+</tr>
+<tr class="odd">
+<td align="left">A3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Then calculate the log10 of these viral titres: 1,000,000, 1,000 and 0.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117249486" aria-expanded="false" aria-controls="acc2026102117249486">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716198460" aria-expanded="false" aria-controls="acc2026102716198460">
 </button>
 </p>
-<div id="acc2026102117249486" class="collapse">
+<div id="acc2026102716198460" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>floor(pi)
-ceiling(pi)
-round(pi, digits=3)</code></pre>
-<pre><code>## [1] 3
-## [1] 4
-## [1] 3.142</code></pre>
+<pre class="r"><code>12 / 40   # 0.3
+0 / 35    # 0
+0 / 0     # NaN: an empty well has no infection rate
+
+log10(1e6)   # 6
+log10(1e3)   # 3
+log10(0)     # -Inf</code></pre>
+<pre><code>## [1] 0.3
+## [1] 0
+## [1] NaN
+## [1] 6
+## [1] 3
+## [1] -Inf</code></pre>
 </div>
 </div>
 <ol start="7" style="list-style-type: decimal">
-<li>Is floor of π an integer?</li>
+<li>Plant heights (cm) were measured, but two plants died before measurement:</li>
 </ol>
+<pre class="r"><code>heights &lt;- c(12.5, NA, 9.8, 15.1, 11.0, NA)</code></pre>
+<p>How many values are missing? What is the tallest plant? How many plants are taller than 10 cm? Why do you need <code>na.rm = TRUE</code> in all of them?</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117242672" aria-expanded="false" aria-controls="acc2026102117242672">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716199486" aria-expanded="false" aria-controls="acc2026102716199486">
 </button>
 </p>
-<div id="acc2026102117242672" class="collapse">
+<div id="acc2026102716199486" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>is.integer(floor(pi))</code></pre>
-<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>sum(is.na(heights))
+max(heights)                       # NA
+max(heights, na.rm = TRUE)
+sum(heights &gt; 10)                  # NA: we don&#39;t know about the missing plants
+sum(heights &gt; 10, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 2
+## [1] NA
+## [1] 15.1
+## [1] NA
+## [1] 3</code></pre>
 </div>
 </div>
+</div>
+<div id="operators" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> Operators</h2>
 <ol start="8" style="list-style-type: decimal">
-<li>Treat <code>"3.56437"</code> string as number.</li>
+<li>In a population with allele frequencies <code>p = 0.65</code> and <code>q = 1 - p</code>, the Hardy–Weinberg genotype frequencies are p², 2pq and q². Calculate them, then check that they add up to 1, first with <code>==</code> and then with <code>all.equal()</code>. What happened?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117242816" aria-expanded="false" aria-controls="acc2026102117242816">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716192672" aria-expanded="false" aria-controls="acc2026102716192672">
 </button>
 </p>
-<div id="acc2026102117242816" class="collapse">
+<div id="acc2026102716192672" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>as.numeric(&#39;3.56437&#39;)</code></pre>
-<pre><code>## [1] 3.56437</code></pre>
+<pre class="r"><code>p &lt;- 0.65
+q &lt;- 1 - p
+p^2
+2 * p * q
+q^2
+p^2 + 2 * p * q + q^2 == 1                    # FALSE: rounding errors in decimals
+isTRUE(all.equal(p^2 + 2 * p * q + q^2, 1))   # TRUE</code></pre>
+<pre><code>## [1] 0.4225
+## [1] 0.455
+## [1] 0.1225
+## [1] FALSE
+## [1] TRUE</code></pre>
 </div>
 </div>
 <ol start="9" style="list-style-type: decimal">
-<li>Divide ∞ by - ∞</li>
+<li>You seed <strong>100,000</strong> cells that double every <strong>20</strong> hours. How many cells will you have after <strong>72</strong> hours? Use the formula cells = start × 2^(time / doubling time). Then use <code>sprintf()</code> or <code>round()</code> to report it as a whole number.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117241166" aria-expanded="false" aria-controls="acc2026102117241166">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716192816" aria-expanded="false" aria-controls="acc2026102716192816">
 </button>
 </p>
-<div id="acc2026102117241166" class="collapse">
+<div id="acc2026102716192816" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>Inf/-Inf</code></pre>
-<pre><code>## [1] NaN</code></pre>
+<pre class="r"><code>start_cells &lt;- 1e5
+doubling_time &lt;- 20
+hours &lt;- 72
+cells &lt;- start_cells * 2^(hours / doubling_time)
+cells
+round(cells)</code></pre>
+<pre><code>## [1] 1212573
+## [1] 1212573</code></pre>
 </div>
 </div>
 <ol start="10" style="list-style-type: decimal">
-<li>Multiply a logical TRUE by a logical FALSE. Rise the logical true to the 7-th power.</li>
+<li>A study includes patients who are <strong>between 18 and 65 years old</strong> (inclusive) <strong>and</strong> have <strong>either</strong> a BMI above 30 <strong>or</strong> diabetes. Write one expression that checks this for the patient below. Then change the values to test a few other patients. Why are the brackets important?</li>
 </ol>
+<pre class="r"><code>age &lt;- 52
+bmi &lt;- 27.4
+diabetic &lt;- TRUE</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117246070" aria-expanded="false" aria-controls="acc2026102117246070">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716191166" aria-expanded="false" aria-controls="acc2026102716191166">
 </button>
 </p>
-<div id="acc2026102117246070" class="collapse">
+<div id="acc2026102716191166" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>TRUE * FALSE
-T^7</code></pre>
-<pre><code>## [1] 0
-## [1] 1</code></pre>
+<pre class="r"><code>age &gt;= 18 &amp; age &lt;= 65 &amp; (bmi &gt; 30 | diabetic)   # TRUE
+
+# A 70-year-old diabetic patient should NOT be included:
+age &lt;- 70
+age &gt;= 18 &amp; age &lt;= 65 &amp; (bmi &gt; 30 | diabetic)   # FALSE: correct
+age &gt;= 18 &amp; age &lt;= 65 &amp; bmi &gt; 30 | diabetic     # TRUE: wrong! &amp; is evaluated before |,
+                                                # so every diabetic patient passes</code></pre>
+<pre><code>## [1] TRUE
+## [1] FALSE
+## [1] TRUE</code></pre>
 </div>
 </div>
 <ol start="11" style="list-style-type: decimal">
-<li>Create two character variables containing two verses of your favorite song.</li>
+<li>These are the quality scores of eight sequencing reads. How many reads have a quality of at least 30? What <strong>fraction</strong> of the reads is that? Hint: what does <code>mean()</code> of <code>TRUE</code>/<code>FALSE</code> values give you?</li>
 </ol>
-<ul>
-<li>Concatenate the two variables,<br />
-</li>
-<li>Paste the variables with ‘*’ as separator.<br />
-</li>
-<li>Find if ‘and’ occurs in the second line (use <code>grep</code> check the help and learn how to use it by <code>?grep</code>),<br />
-</li>
-<li>Substitute a word for another,<br />
-</li>
-<li>Extract substring starting at the 5th character and 5 characters long.</li>
-</ul>
+<pre class="r"><code>quality &lt;- c(35, 28, 40, 31, 19, 38, 33, 25)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102117248460" aria-expanded="false" aria-controls="acc2026102117248460">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716196070" aria-expanded="false" aria-controls="acc2026102716196070">
 </button>
 </p>
-<div id="acc2026102117248460" class="collapse">
+<div id="acc2026102716196070" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>line1 &lt;- &quot;Hello darkness my old friend&quot;
-line2 &lt;- &quot;I&#39;ve come to talk to you again&quot;
-paste(line1, line2, sep = &quot;&quot;)
-paste(line1, line2, sep = &quot;*&quot;)
-grep(&#39;and&#39;, line2)
-sub(&#39;Hello&#39;, &#39;Goodbye&#39;, line1)
-substr(line1, 5, 5 + 5)</code></pre>
-<pre><code>## [1] &quot;Hello darkness my old friendI&#39;ve come to talk to you again&quot;
-## [1] &quot;Hello darkness my old friend*I&#39;ve come to talk to you again&quot;
-## integer(0)
-## [1] &quot;Goodbye darkness my old friend&quot;
-## [1] &quot;o dark&quot;</code></pre>
+<pre class="r"><code>quality &gt;= 30
+sum(quality &gt;= 30)    # 5 reads
+mean(quality &gt;= 30)   # 0.625: the fraction of TRUE values</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE
+## [1] 5
+## [1] 0.625</code></pre>
+</div>
+</div>
+<ol start="12" style="list-style-type: decimal">
+<li>Predict, then run. Explain each surprising result in your journal.</li>
+</ol>
+<pre class="r"><code>sort(c(&quot;S1&quot;, &quot;S2&quot;, &quot;S10&quot;, &quot;S11&quot;, &quot;S3&quot;))
+&quot;Control&quot; == &quot;control&quot;
+sqrt(2)^2 == 2</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716198460" aria-expanded="false" aria-controls="acc2026102716198460">
+</button>
+</p>
+<div id="acc2026102716198460" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>sort(c(&quot;S1&quot;, &quot;S2&quot;, &quot;S10&quot;, &quot;S11&quot;, &quot;S3&quot;))   # &quot;S10&quot; and &quot;S11&quot; come before &quot;S2&quot;
+&quot;Control&quot; == &quot;control&quot;                    # FALSE: comparisons are case-sensitive
+sqrt(2)^2 == 2                            # FALSE: decimals are not stored exactly
+isTRUE(all.equal(sqrt(2)^2, 2))           # TRUE</code></pre>
+<pre><code>## [1] &quot;S1&quot;  &quot;S10&quot; &quot;S11&quot; &quot;S2&quot;  &quot;S3&quot; 
+## [1] FALSE
+## [1] FALSE
+## [1] TRUE</code></pre>
 </div>
 </div>
 </div>
-<div id="r-environment" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> R Environment</h2>
+<div id="working-with-text" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Working with text</h2>
+<ol start="13" style="list-style-type: decimal">
+<li>Here is a PCR primer:</li>
+</ol>
+<pre class="r"><code>primer &lt;- &quot;ACGTTGCAGGCT&quot;</code></pre>
 <ul>
-<li>Get help for the <em>t.test</em>, <em>table</em>, <em>locator</em> and <em>identify</em> functions (use <code>?function_name</code>),</li>
-<li>Which package contains the <em>plot.ecdf</em> function. What does it do?</li>
-<li>Ask ChatGPT (or AI of your choice) on how to load an XML file into R,</li>
-<li>Install the ‘cgmisc’ package from GitHub,</li>
-<li>Look up the ‘cgmisc’ vignette (<code>vignette("cgmisc")</code>),
-<ul>
-<li>vignettes are long-form documentation that often include examples and explanations,<br />
-
-<details>
-<summary>
-<strong>Did you get a <code>Warning</code></strong>
-</summary>
-<ul>
-<li>Because the GitHub version of <code>cgmisc</code> does not ship any vignettes.</li>
-<li>Try <code>help(package="cgmisc")</code>. What do you see?<br />
-</li>
+<li>How long is it?</li>
+<li>Convert it to lower case (hint: <code>?toupper</code>).</li>
+<li>Does it start with <code>"ACG"</code>? (Extract the first three bases and compare.)</li>
+<li>Convert it to RNA by replacing every <code>T</code> with <code>U</code>. Try <code>sub()</code> first, then <code>gsub()</code>. What is the difference?</li>
 </ul>
-</details></li>
-</ul></li>
-<li>See all the demos available for you and run one you like,</li>
-<li>Run examples for the <em>mean</em> (<code>example(function, package="package_name")</code>),</li>
-<li>Check out CRANs view for <code>genetics</code> (search CRAN genetics),</li>
-<li>Install a CRAN package of choice (e.g. genetics),</li>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716196741" aria-expanded="false" aria-controls="acc2026102716196741">
+</button>
+</p>
+<div id="acc2026102716196741" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>nchar(primer)
+tolower(primer)
+substr(primer, start = 1, stop = 3) == &quot;ACG&quot;
+sub(&quot;T&quot;, &quot;U&quot;, primer)    # replaces only the first T
+gsub(&quot;T&quot;, &quot;U&quot;, primer)   # replaces every T</code></pre>
+<pre><code>## [1] 12
+## [1] &quot;acgttgcaggct&quot;
+## [1] TRUE
+## [1] &quot;ACGUTGCAGGCT&quot;
+## [1] &quot;ACGUUGCAGGCU&quot;</code></pre>
+</div>
+</div>
+<ol start="14" style="list-style-type: decimal">
+<li>Build these names with <code>paste()</code>, <code>paste0()</code> and <code>sub()</code>:</li>
+</ol>
+<ul>
+<li>the well names of the first row of a 96-well plate: <code>"A1"</code>, <code>"A2"</code>, …, <code>"A12"</code>,</li>
+<li>the file names <code>"mouse_1.fastq"</code>, <code>"mouse_2.fastq"</code>, <code>"mouse_3.fastq"</code>,</li>
+<li>the sample name <code>"S3"</code> from the file name <code>"S3_R1.fastq.gz"</code>.</li>
 </ul>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716197764" aria-expanded="false" aria-controls="acc2026102716197764">
+</button>
+</p>
+<div id="acc2026102716197764" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>paste0(&quot;A&quot;, 1:12)
+paste0(&quot;mouse_&quot;, 1:3, &quot;.fastq&quot;)
+sub(&quot;_R1.fastq.gz&quot;, &quot;&quot;, &quot;S3_R1.fastq.gz&quot;)</code></pre>
+<pre><code>##  [1] &quot;A1&quot;  &quot;A2&quot;  &quot;A3&quot;  &quot;A4&quot;  &quot;A5&quot;  &quot;A6&quot;  &quot;A7&quot;  &quot;A8&quot;  &quot;A9&quot;  &quot;A10&quot; &quot;A11&quot; &quot;A12&quot;
+## [1] &quot;mouse_1.fastq&quot; &quot;mouse_2.fastq&quot; &quot;mouse_3.fastq&quot;
+## [1] &quot;S3&quot;</code></pre>
+</div>
+</div>
+<ol start="15" style="list-style-type: decimal">
+<li>Using <code>sprintf()</code> and your variables from exercise 2, print this pipetting instruction:</li>
+</ol>
+<p><code>Mix 0.80 uL stock with 19.20 uL water</code></p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102716194826" aria-expanded="false" aria-controls="acc2026102716194826">
+</button>
+</p>
+<div id="acc2026102716194826" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>sprintf(&quot;Mix %.2f uL stock with %.2f uL water&quot;, stock_volume, water_volume)</code></pre>
+<pre><code>## [1] &quot;Mix 0.80 uL stock with 19.20 uL water&quot;</code></pre>
+</div>
+</div>
 </div>
 </div>
 

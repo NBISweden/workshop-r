@@ -607,17 +607,6 @@ name: simulate_dice2
 
 ## Fair vs. loaded dice &amp;ndash; the result
 
-``` r
-t1 &lt;- table(fair)/length(fair)
-t2 &lt;- table(unfair)/length(unfair)
-plot(0,0,type="b",xlim=c(1,6.0),ylim=c(0,.3),xlab="x",ylab="freq",bty='n', las=1)
-grid()
-points(1:6, t1, col="olivedrab", pch = 19)
-points(1:6, t2, col="slateblue", pch = 19)
-legend('topleft', legend = c('fair','unfair'), col = c('olivedrab', 'slateblue'), pch = 19, border = NULL, bty='n')
-```
-
-&lt;img src="slide_r_elements_2_files/figure-html/dices.pic-1.png" width="504" style="display: block; margin: auto auto auto 0;" /&gt;
 
 
 ``` r
@@ -852,7 +841,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 21-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 27-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 

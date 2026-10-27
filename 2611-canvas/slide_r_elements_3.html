@@ -187,12 +187,6 @@ name: matrices_t
 To **transpose** a matrix use `t()`:
 
 
-``` r
-X &lt;- matrix(c(10, 20, 30, 40, 50, 60), 
-  nrow = 2, 
-  ncol = 3, 
-  byrow = TRUE)
-```
 
 ``` r
 X
@@ -246,18 +240,6 @@ X[upper.tri(X)] &lt;- 0 # set them to 0
 X # print the new matrix
 ```
 
-```
-##      [,1] [,2] [,3]
-## [1,]   10   20   30
-## [2,]   40   50   60
-##       [,1]  [,2] [,3]
-## [1,] FALSE  TRUE TRUE
-## [2,] FALSE FALSE TRUE
-##      [,1] [,2] [,3]
-## [1,]   10    0    0
-## [2,]   40   50    0
-```
-
 ---
 name: matrices_multi
 
@@ -282,40 +264,6 @@ A * B # Hadamard product
 A %*% B # Matrix multiplication
 A %x% B # Kronecker product
 A %o% B # Outer product (tensor product)
-```
-
-```
-##      [,1] [,2]
-## [1,]   19   22
-## [2,]   43   50
-##      [,1] [,2] [,3] [,4]
-## [1,]    5    6   10   12
-## [2,]    7    8   14   16
-## [3,]   15   18   20   24
-## [4,]   21   24   28   32
-## , , 1, 1
-## 
-##      [,1] [,2]
-## [1,]    5   10
-## [2,]   15   20
-## 
-## , , 2, 1
-## 
-##      [,1] [,2]
-## [1,]    7   14
-## [2,]   21   28
-## 
-## , , 1, 2
-## 
-##      [,1] [,2]
-## [1,]    6   12
-## [2,]   18   24
-## 
-## , , 2, 2
-## 
-##      [,1] [,2]
-## [1,]    8   16
-## [2,]   24   32
 ```
 
 ---
@@ -378,9 +326,9 @@ apply(X, MARGIN=2, mean) # 1 = rows, 2 = columns
 
 ```
 ##      [,1] [,2] [,3]
-## [1,]   10    0    0
-## [2,]   40   50    0
-## [1] 25 25  0
+## [1,]   10   20   30
+## [2,]   40   50   60
+## [1] 25 35 45
 ```
 
 --
@@ -394,7 +342,7 @@ apply(X, MARGIN=2, myfunction)
 ```
 
 ```
-## [1] 82.07107 82.07107  0.00000
+## [1]  82.07107 113.36660 144.48683
 ```
 ---
 name: matrices_apply_2
@@ -414,11 +362,11 @@ apply(X, MARGIN=c(1,2),
 
 ```
 ##      [,1] [,2] [,3]
-## [1,]   10    0    0
-## [2,]   40   50    0
-##           [,1]      [,2]     [,3]
-## [1,]  44.44444  277.7778 277.7778
-## [2,] 544.44444 1111.1111 277.7778
+## [1,]   10   20   30
+## [2,]   40   50   60
+##      [,1] [,2] [,3]
+## [1,]  625  225   25
+## [2,]   25  225  625
 ```
 
 ---
@@ -437,9 +385,9 @@ colMeans(X)
 
 ```
 ##      [,1] [,2] [,3]
-## [1,]   10    0    0
-## [2,]   40   50    0
-## [1] 25 25  0
+## [1,]   10   20   30
+## [2,]   40   50   60
+## [1] 25 35 45
 ```
 These functions are faster!
 
@@ -486,19 +434,6 @@ dim(Titanic)
 --
 exclude: true
 
-
-``` r
-library(vcd)
-```
-
-```
-## Loading required package: grid
-```
-
-``` r
-mosaic(Titanic, gp_labels=gpar(fontsize=7))
-```
-
 &lt;img src="slide_r_elements_3_files/figure-html/matrix.Titanic.plot-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
 
 ---
@@ -535,8 +470,8 @@ dfr
 ```
 ##   c.1.5. LETTERS.1.5. c.T..F..F..T..T.
 ## 1      1            A             TRUE
-## 2      2            B             TRUE
-## 3      3            C             TRUE
+## 2      2            B            FALSE
+## 3      3            C            FALSE
 ## 4      4            D             TRUE
 ## 5      5            E             TRUE
 ```
@@ -560,8 +495,8 @@ dfr
 ```
 ##   numbers letters logical
 ## 1       1       A    TRUE
-## 2       2       B    TRUE
-## 3       3       C    TRUE
+## 2       2       B   FALSE
+## 3       3       C   FALSE
 ## 4       4       D    TRUE
 ## 5       5       E    TRUE
 ```
@@ -620,11 +555,6 @@ dfr$letter
 dfr$letter &lt;- as.character(dfr$letter)
 dfr$letter
 ```
-
-```
-## [1] "A" "B" "C" "D" "E"
-## [1] "A" "B" "C" "D" "E"
-```
 ---
 name: data_frames_factors_2
 exclude: true
@@ -642,11 +572,6 @@ dfr &lt;- data.frame(no=c(1:5),
                         replace=T),
                  stringsAsFactors = TRUE)
 dfr$letter
-```
-
-```
-## [1] a b c d e
-## Levels: a b c d e
 ```
 Well, as you see, it did not work as expected...
 
@@ -668,7 +593,7 @@ rownames(dfr)
 ```
 
 ```
-## [1] "no"      "letter"  "isBrown"
+## [1] "numbers" "letters" "logical"
 ## [1] "num"  "let"  "logi"
 ## [1] "1" "2" "3" "4" "5"
 ## [1] "a" "b" "c" "d" "e"
@@ -917,12 +842,6 @@ mode(size) # Is represented by 'numeric'
 typeof(size) # Of integer type
 ```
 
-```
-## [1] "factor"
-## [1] "numeric"
-## [1] "integer"
-```
-
 ---
 name: objects_str
 exclude: true
@@ -950,8 +869,6 @@ object.size(hist) # How much memory the object consumes
 ## 1240 bytes
 ```
 
-&lt;img src="slide_r_elements_3_files/figure-html/obj.str-1.png" width="216" style="display: block; margin: auto auto auto 0;" /&gt;
-
 ---
 name: objects_fix
 exclude: true
@@ -965,16 +882,6 @@ We can easily modify values of object's **attributes**:
 attributes(his)
 attr(his, "names")
 #fix(his) # Opens an object editor
-```
-
-```
-## $names
-## [1] "breaks"   "counts"   "density"  "mids"     "xname"    "equidist"
-## 
-## $class
-## [1] "histogram"
-## 
-## [1] "breaks"   "counts"   "density"  "mids"     "xname"    "equidist"
 ```
 
 ---
@@ -991,11 +898,6 @@ my.list &lt;- list(numbers = c(1:5),
 class(my.list)
 class(my.list) &lt;- 'my.list.class'
 class(my.list) # Now the list is of S3 class
-```
-
-```
-## [1] "list"
-## [1] "my.list.class"
 ```
 
 However, that was it. We cannot enforce that *numbers* will contain numeric values and that *letters* will contain only characters. S3 is a very primitive class.
@@ -1016,22 +918,12 @@ print.my.list.class &lt;- function(x) {
 print(my.list)
 ```
 
-```
-## Numbers: 1 2 3 4 5 
-## Letters: a b c d e
-```
-
 But here, we have no error-proofing. If the object will lack *numbers*, the function will still be called:
 
 
 ``` r
 class(his) &lt;- 'my.list.class' # alter class
 print(his) # Gibberish but no error...
-```
-
-```
-## Numbers: 
-## Letters:
 ```
 
 ---
@@ -1073,11 +965,6 @@ my.gene@name # access using @ operator
 my.gene@coords[2] # access the 2nd element in slot coords
 ```
 
-```
-## [1] "ANK3"
-## [1] 1412000
-```
-
 ---
 name: objects_S4_methods
 exclude: true
@@ -1096,10 +983,6 @@ setMethod('print', 'gene',
 print(my.gene) # and we use the newly defined print
 ```
 
-```
-## GENE:  ANK3  --&gt; [ 1400000 1412000 ]
-```
-
 &lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
 
 ---
@@ -1113,7 +996,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 21-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 27-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 

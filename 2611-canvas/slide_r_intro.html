@@ -56,7 +56,8 @@ class: spaced
 3. [How R compares](#compare) ⚖️
 4. [Thinking like a programmer](#programming_language) 🧠
 5. [Packages: standing on giants' shoulders](#packages) 📦
-6. [Coding in the age of AI](#ai) 🤖
+6. [R Markdown](#rmarkdown)
+7. [Coding in the age of AI](#ai) 🤖
 
 
 ---
@@ -310,11 +311,6 @@ name: topic2
 
 # Where to start?
 .pull-left-50[
-
-``` r
-knitr::include_graphics("images/breakit.jpeg")
-```
-
 &lt;img src="images/breakit.jpeg" width="395" style="display: block; margin: auto auto auto 0;" /&gt;
 ]
 --
@@ -469,6 +465,68 @@ pak::pak("talgalili/installr")   # GitHub
 
 
 ---
+name: rmarkdown
+
+# From R Markdown to report 📝
+
+.pull-left-50[
+**You write** (`report.Rmd`)
+
+&lt;pre style="font-size: 70%; line-height: 1.35;"&gt;
+&lt;span style="background:#d6eaf8;"&gt;&amp;#45;&amp;#45;&amp;#45;
+title: "Iris report"
+&amp;#45;&amp;#45;&amp;#45;&lt;/span&gt;
+&amp;nbsp;
+&lt;span style="background:#e8daef;"&gt;&amp;#35;&amp;#35; Petal size&lt;/span&gt;
+&amp;nbsp;
+&lt;span style="background:#d5f5e3;"&gt;&amp;#96;&amp;#96;&amp;#96;{r}
+ggplot(iris, aes(Petal.Length,
+                 Petal.Width)) +
+  geom_point()
+&amp;#96;&amp;#96;&amp;#96;&lt;/span&gt;
+&amp;nbsp;
+We measured &lt;span style="background:#fdebd0;"&gt;&amp;#96;r nrow(iris)&amp;#96;&lt;/span&gt; flowers.
+&lt;/pre&gt;
+]
+
+.pull-right-50[
+**You get** (`report.html`)
+
+### Iris report
+
+#### Petal size
+
+&lt;img src="slide_r_intro_files/figure-html/rmd-demo-plot-1.png" width="100%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+We measured 150 flowers.
+]
+
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
+
+&lt;span style="background:#d6eaf8;"&gt;&amp;nbsp;**YAML header**&amp;nbsp;&lt;/span&gt; title &amp; output format &amp;nbsp;
+&lt;span style="background:#e8daef;"&gt;&amp;nbsp;**Text**&amp;nbsp;&lt;/span&gt; headings, lists, links  
+&lt;span style="background:#d5f5e3;"&gt;&amp;nbsp;**Code chunk**&amp;nbsp;&lt;/span&gt; runs, result inserted &amp;nbsp;
+&lt;span style="background:#fdebd0;"&gt;&amp;nbsp;**Inline code**&amp;nbsp;&lt;/span&gt; number in a sentence
+
+---
+
+# Why write reports in R Markdown?
+
+**Code, text and results live in one file.** Press **Knit** to rebuild the whole report.
+
+* **New data?** Knit again: every figure, table and number updates.
+* **No copy-paste errors:** numbers in the text come straight from the code.
+* **One file, many formats:** HTML, PDF, Word, slides (these slides are an `.Rmd` file!).
+* **A reproducible record:** *"save the code, not the chat"*. The `.Rmd` is that record.
+
+&lt;br&gt;
+
+.content-box-green[
+**Quarto** (`.qmd`) is the newer version of R Markdown. It works the same way, so what you learn today carries over.
+]
+
+👉 **In the lab** you will start your own *R learning journal* in R Markdown.
+---
 
 name: ai
 class: middle, center
@@ -582,7 +640,8 @@ name: recap
 * About R.   
 * R is a programming language for statistical computing and data analysis.  
 * Packages and repositories.   
-* Installing packages from CRAN, Bioconductor, GitHub. 
+* Installing packages from CRAN, Bioconductor, GitHub.
+* R Markdown: your research journal!
 * AI and coding
 
 
@@ -599,7 +658,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 21-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 27-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 
