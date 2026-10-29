@@ -1,6 +1,5 @@
 ---
 title: "Variables, Data types & Operators"
-subtitle: "Elements of the R language"
 author: "Guilherme Dias"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:

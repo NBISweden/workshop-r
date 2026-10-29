@@ -5,18 +5,20 @@ output_dir: 2611
 location: uppsala3
 assistants:
   - "MK: Marcin Kierczak"
-  - "SDL: Sebastian DiLorenzo"
+#  - "SDL: Sebastian DiLorenzo"
   - "RF: Roy Francis"
-  - "JOW: Jakub Orzechowski Westholm"
+#  - "JOW: Jakub Orzechowski Westholm"
   - "LM: Lokeshwaran Manoharan"
-  - "DB: Dimitris Bampalikis"
-  - "PU: Per Unneberg"
-  - "M-GH: Mun-Gwan Hong"
-  - "LS: Lucile Soler"
-  - "NR: Nima Rafati"
-  - "GD: Guilherme Dias"
+#  - "DB: Dimitris Bampalikis"
+#  - "PU: Per Unneberg"
+#  - "M-GH: Mun-Gwan Hong"
+#  - "LS: Lucile Soler"
+#  - "NR: Nima Rafati"
+#  - "GD: Guilherme Dias"
   - "MR: Miguel Redondo"
-  - "LV: Louella Vasquez"
+#  - "LV: Louella Vasquez"
+  - "MP: Martin Pippel"
+  - "SS: Snaevar Sigurdsson"
 
 favicon: assets/favicon.png
 exclude: ["docs","README.md","schedule.csv","LICENSE","LICENSE.md","scripts","tmprepo"]

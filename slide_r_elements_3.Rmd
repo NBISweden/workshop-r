@@ -1,7 +1,6 @@
 ---
 title: "Matrices, Data Frames, and Lists"
-subtitle: "R Foundations for Data Analysis"
-author: "Marcin Kierczak, Guilherme Dias"
+author: "Guilherme Dias"
 keywords: bioinformatics, course, scilifelab, nbis, R
 output:
   xaringan::moon_reader:
@@ -32,279 +31,135 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ---
-name: contents
+name: puzzle
 
-# Contents of the lecture
+# Where would you store...
 
-- **matrices**
-- **data frames**
-- **lists**
+.pull-left-50[
+### 1. A count table
+20,000 genes × 6 samples.  
+All numbers.
+
+### 2. A sample sheet
+ID, strain, sex, weight, treated?  
+Text, numbers, `TRUE`/`FALSE`.
+
+### 3. Your whole experiment
+Both tables, the date, your notes, your plots.
+]
+
+--
+
+.pull-right-50[
+<br>
+
+### A vector? ❌
+
+One type. One dimension.
+
+<br>
+
+### We need bigger boxes 📦
+]
+
+---
+name: containers
+
+# Three containers
+
+<br><br>
+
+| | Container | Like a... | 
+|:-:|:----------|:----------|
+| 🧊 | **matrix** | ice-cube tray |
+| 📋 | **data frame** | spreadsheet |
+| 🎒 | **list** | backpack |
+
 
 ---
 name: matrices
 
-# Matrices
+# 🧊 Matrices
 
-A **matrix** has 2 dimensions: rows and columns.
-Like vectors, elements must be of the same type.
+Rows × columns, **one type**. A count table:
 
-Say, we want to build this matrix in R:
-$$\mathbf{X} = \left[\begin{array}
-{rrr}
-1 & 2 & 3 \\
-4 & 5 & 6 \\
-7 & 8 & 9
-\end{array}\right]$$
-```{r matrix, echo=T}
-X <- matrix(1:9,
-       nrow=3, 
-       ncol=3,
-       byrow=T)
-X
+```{r matrix}
+counts <- matrix(c( 120,  135,   40,   52,
+                    300,  280,  310,  295,
+                     15,   22,  180,  165,
+                   2100, 1950, 2240, 2010),
+                 nrow = 4, byrow = TRUE)
+rownames(counts) <- c("BRCA1", "TP53", "MYC", "GAPDH")
+colnames(counts) <- c("WT1", "WT2", "KO1", "KO2")
+counts
+dim(counts)
 ```
-
----
-name: matrices_dim
-
-# Matrices &mdash; dimensions
-
-To check the dimensions of a matrix, use `dim()`:
-```{r matrix.dim, echo=T}
-dim(X) # 3 rows and 3 columns
-```
-
 
 ---
 name: matrices_indexing
 
-# Matrices &mdash; indexing
+# Matrices: indexing
 
-Elements of a matrix are retrieved using the `[]` notation.
-We have to specify 2 dimensions -- the rows and the columns:
+`[row, column]`. Leave one empty to get everything.
 
-$$\mathbf{X} = \left[\begin{array}
-{rrr}
-1 & 2 & 3 \\
-4 & 5 & 6 \\
-7 & 8 & 9
-\end{array}\right]$$
-
-```{r matrix.ind, echo=T}
-X[1,2] # 1st row, 2nd column
-X[3,] # entire 3rd row
-X[,2] # entire 2nd column
-```
-
----
-name: matrices_indexing_2
-exclude: true
-
-# Matrices &mdash; indexing cted.
-
-$$\mathbf{X} = \left[\begin{array}
-{rrr}
-1 & 2 & 3 \\
-4 & 5 & 6 \\
-7 & 8 & 9
-\end{array}\right]$$
-
-```{r matrix.ind2, echo=T}
-X[c(1,3),] # Retrieve rows 1 and 3
-X[c(1,3),c(3,1)]
-```
-
----
-name: matrices_oper_1
-
-# Matrices &mdash; operations
-
-To order a matrix using the 2nd column:
-```{r matrix.oper2, echo=T}
-X <- matrix(sample(1:9,size = 9), nrow = 3)
-X
-ord <- order(X[,2])
-X[ord,]
-```
-
----
-name: matrices_t
-
-# Matrices &mdash; transposition
-
-To **transpose** a matrix use `t()`:
-
-```{r, echo=F}
-X <- matrix(c(10, 20, 30, 40, 50, 60), 
-  nrow = 2, 
-  ncol = 3, 
-  byrow = TRUE)
-```
-```{r matrix.t, echo=T}
-X
-t(X)
-```
-
-
----
-name: matrices_oper_2
-exclude: true
-
-# Matrices &mdash; operations 2
-
-To get the diagonal of the matrix:
-```{r matrix.diag, echo=T}
-X
-diag(X) # get values on the diagonal
-```
-
----
-name: matrices_tri
-exclude: true
-
-# Matrices &mdash; operations, triangles
-
-To get the upper or the lower triangle use `upper.tri()` and `lower.tri()` respectively:
-
-```{r matrix.tri, eval=F, echo=T}
-X # print X
-upper.tri(X) # which elements form the upper triangle
-X[upper.tri(X)] <- 0 # set them to 0
-X # print the new matrix
-```
-
----
-name: matrices_multi
-
-# Matrices &mdash; multiplication
-
-Different types of matrix multiplication exist:
-```{r matrix.multi, echo=T}
-A <- matrix(1:4, nrow = 2, byrow=T)
-B <- matrix(5:8, nrow = 2, byrow=T)
-A * B # Hadamard product
-```
---
-```{r matrix.multi2, echo=T, eval=F}
-A %*% B # Matrix multiplication
-A %x% B # Kronecker product
-A %o% B # Outer product (tensor product)
-```
-
----
-name: matrices_outer
-
-# Matrices &mdash; outer
-
-Outer product can be useful for generating combinations
-```{r matrix.outer1, echo=T}
-outer(letters[1:4], LETTERS[1:4], paste, sep="-")
-```
-
----
-name: matrices_expand_grid
-exclude: true
-
-# Expand grid
-
-But `expand.grid()` is more convenient when you want, e.g. generate combinations of variable values:
-```{r matrix.expand.grid, echo=T}
-expand.grid(height = seq(120, 121),
-            weight = c('1-50', '51+'),
-            sex = c("Male","Female"))
-```
-
----
-name: matrices_apply
-
-# Matrices &mdash; apply
-
-If we want to have mean of each column:
-
-```{r matrix.apply, echo=T}
-X
-apply(X, MARGIN=2, mean) # 1 = rows, 2 = columns
+```{r matrix.ind}
+counts["MYC", "KO1"]     # one value
+counts["MYC", ]          # one gene, all samples
+counts[, c("KO1", "KO2")]
 ```
 
 --
-And we can use any function
-```{r, echo=T}
-myfunction <- function(x){
-  sum(x) + mean(x) + sqrt(sum(x))
-}
-apply(X, MARGIN=2, myfunction)
-```
----
-name: matrices_apply_2
-exclude: true
 
-# Matrices &mdash; apply cted.
+Conditions work too:
 
-And now we will use `apply()` to calculate for each element in a matrix its deviation from the mean squared:
-
-```{r matrix.apply2, echo=T}
-X
-my.mean <- mean(X)
-apply(X, MARGIN=c(1,2),
-      function(x, my.mean) (x - my.mean)^2, my.mean)
+```{r matrix.cond}
+counts[counts[, "KO1"] > 100, ]   # genes with > 100 counts in KO1
 ```
 
 ---
-name: matrices_colSums
+name: matrices_calc
 
-# Matrices &mdash; useful fns.
+# Matrices: calculating
 
-There are pre-made functions for common operations:
+Operations work on every element:
 
-```{r matrix.colSums, echo=T}
-X
-# instead of apply(X, MARGIN=2, mean)
-colMeans(X)
-```
-These functions are faster!
-
----
-name: matrices_add_row_col
-
-# Matrices &mdash; inserting rows/columns
-
-To add rows or columns to a matrix; or to make a matrix out of two or more vectors of equal length:
-
-```{r matrix.binding, echo=T}
-x <- c(1,1,1)
-y <- c(2,2,2)
-cbind(x,y)
-rbind(x,y)
-```
-
----
-name: matrices_arrays
-exclude: true
-
-# Matrices &mdash; more dimensions
-
-```{r matrix.multidim, echo=T}
-dim(Titanic)
+```{r matrix.log}
+log2(counts + 1)
 ```
 
 --
-exclude: true
 
-```{r matrix.Titanic.plot, echo=F, message=F, fig.width = 6, fig.height = 3.5, dpi=120}
-library(vcd)
-mosaic(Titanic, gp_labels=gpar(fontsize=7))
+Sums and means per row or column:
+
+```{r matrix.sums}
+colSums(counts)          # library size per sample
+rowMeans(counts)         # mean per gene
+apply(counts, 1, max)    # any function: 1 = rows, 2 = columns
+```
+
+---
+name: matrices_combine
+
+# Matrices: combining and flipping
+
+```{r matrix.bind}
+cbind(counts, KO3 = c(48, 305, 171, 2150))   # add a sample (column)
+```
+
+--
+
+```{r matrix.t}
+t(counts)    # transpose: samples become rows
 ```
 
 ---
 name: data_frames_1
 
-# Data frames  
+# 📋 Data frames
 
-- **Data frames** are also two-dimensional data structures.
-- Different columns can have different data types!
-- Technically, a data frame is just a list of vectors.
-
---
-<br/><br/>
+- A **table**: like a spreadsheet.
+- Each column is a vector, with **its own type**.
+- All columns have the **same length**.
 
 <center>
 .size-70[
@@ -315,374 +170,230 @@ name: data_frames_1
 ---
 name: data_frames_create
 
-# Data frames &mdash; creating a data frame
+# Data frames: creating
 
-```{r data.frame.create, echo=T}
-dfr <- data.frame(c(1:5),
-                 LETTERS[1:5],
-                 c(T,F,F,T,T))
-dfr
+A sample sheet. **Name your columns!**
+
+```{r df.create}
+samples <- data.frame(
+  sample  = c("WT1", "WT2", "KO1", "KO2"),
+  strain  = c("WT", "WT", "KO", "KO"),
+  sex     = c("F", "M", "F", "M"),
+  weight  = c(22.1, 25.4, 21.8, 26.3),
+  treated = c(FALSE, TRUE, FALSE, TRUE)
+)
+samples
 ```
-
 
 ---
-name: data_frames_columns
+name: data_frames_inspect
 
-# Data frames &mdash; name your columns!
+# Data frames: a first look
 
-- Always try to give meaningful names to your columns
-
-```{r data.frame.name, echo=T}
-dfr <- data.frame(numbers=c(1:5),
-                 letters=LETTERS[1:5],
-                 logical=c(T,F,F,T,T))
-dfr
+```{r df.str}
+str(samples)         # structure: columns and types
 ```
+
+--
+
+```{r df.summary}
+summary(samples)
+```
+
+.footnote[Also useful: `head()`, `nrow()`, `ncol()`, `dim()`, `colnames()`.]
 
 ---
 name: data_frames_accessing
 
-# Data frames &mdash; accessing values
+# Data frames: accessing
 
-- We can always use the `[row,column]` notation to access values inside data frames.
+`$` gets a column (a vector):
 
-```{r data.frame.access, echo=T}
-dfr[1,]  # get the first row
-dfr[,2]  # the second column
-dfr[2:3, 'letters'] # get rows 2-3 from the 'letters' column
+```{r df.dollar}
+samples$weight
+mean(samples$weight)
+```
+
+--
+
+`[row, column]` works like a matrix:
+
+```{r df.bracket}
+samples[2, ]                          # second row
+samples[, c("sample", "weight")]      # two columns
+samples[3, "weight"]                  # one value
 ```
 
 ---
-name: data_frames_dollar
+name: data_frames_filter
 
-# Data frames &mdash; accessing values
+# Data frames: filtering rows
 
-- We can also use dollar sign `$` to access columns
+A condition picks the rows:
 
-```{r data.frame.dollar, echo=T}
-dfr$letters # get the column named 'letters'
-dfr$letters[2:3] # get the second and third elements of the column named 'letters'
+```{r df.filter}
+samples[samples$strain == "KO", ]
+samples[samples$strain == "KO" & samples$weight > 25, ]
+samples$sample[samples$treated]       # just the names
 ```
 
+This is your Excel filter. In one line, and it's saved in your script.
 
 ---
-name: data_frames_factors_1
-exclude: true
+name: data_frames_add
 
-# Data frames &mdash; factors
+# Data frames: adding columns
 
-An interesting observation:
-
-```{r data.frame.factor, echo=T, eval=F}
-dfr$letter
-dfr$letter <- as.character(dfr$letter)
-dfr$letter
+```{r df.add}
+samples$heavy <- samples$weight > 24      # a new logical column
+samples$strain <- factor(samples$strain, levels = c("WT", "KO"))
+samples
 ```
----
-name: data_frames_factors_2
-exclude: true
 
-# Data frames &mdash; factors cted.
+--
 
-To treat characters as characters at data frame creation time, one can use the **stringsAsFactors** option set to TRUE:
-
-```{r data.frame.factor2, echo=T, eval=F}
-dfr <- data.frame(no=c(1:5),
-                 letter=c("a","b","c","d","e"),
-                 isBrown=sample(c(TRUE, FALSE),
-                        size = 5,
-                        replace=T),
-                 stringsAsFactors = TRUE)
-dfr$letter
-```
-Well, as you see, it did not work as expected...
-
----
-name: data_frames_names
-
-# Data frames &mdash; names
-
-To get or change row/column names:
-
-```{r data.frame.names, echo=T}
-colnames(dfr) # get column names
-colnames(dfr) <- c('num','let','logi') # assign column names
-colnames(dfr)
-rownames(dfr) # get row names
-rownames(dfr) <- letters[1:5] # assign row names
-rownames(dfr)
-```
+Calculations on columns work on all rows at once, just like vectors.
 
 ---
 name: data_frames_merging
 
-# Data frames &mdash; merging
+# Data frames: merging
 
-We can merge two data frames on certain a key using  `merge()`:
+Another table, **in a different order**:
 
-```{r data.frame.merge, echo=T}
-age <- data.frame(ID=c(1:4),
-                  age=c(37,48,22,NA))
-clinical <- data.frame(ID=c(1:4),
-                       status=c("sick","healthy","healthy","sick"))
-patients <- merge(age, clinical, by='ID')
-patients
+```{r df.merge1}
+batches <- data.frame(sample = c("KO1", "WT1", "KO2", "WT2"),
+                      batch  = c(1, 1, 2, 2))
 ```
 
----
-name: data_frames_summarizing
+--
 
-# Data frames &mdash; summarising
+`merge()` matches rows by a **key** column, not by position:
 
-To get an overview of the data in each column, use `summary()`:
-
-```{r data.frame.summary, echo=T}
-summary(patients)
+```{r df.merge2}
+merge(samples[, c("sample", "strain")], batches, by = "sample")
 ```
+
+.content-box-yellow[
+Never paste tables side by side and hope the rows line up. Merge by ID.
+]
 
 ---
 name: data_frames_missing
 
-# Data frames &mdash; missing data
+# Data frames: missing values
 
-We can use functions to deal with missing values:
-
-```{r data.frame.missing, echo=T}
-is.na(patients) # check where the NAs are
+```{r df.na}
+samples$weight[2] <- NA      # a lost measurement
+colSums(is.na(samples))      # NAs per column
+na.omit(samples)             # drop rows with any NA
 ```
---
-```{r data.frame.missing2, echo=T}
-na.omit(patients) # remove all rows containing NAs
-```
---
-```{r data.frame.missing3, echo=T}
-patients[rowSums(is.na(patients)) > 0,] # select rows containing NAs
-```
-
 
 ---
 name: lists_1
 
-# Lists  &mdash; collections of various data types
+# 🎒 Lists
 
-A **list** is a special type of vector. It can hold any data type. 
+A list holds **anything**: vectors, tables, other lists.
 
-```{r lists, echo=T}
-bedr <- data.frame(product = c("POANG", "MALM", "RENS"),
-                      type = c("chair", "bed", "rug"),
-                      price = c(1200, 2300, 899))
-rest <- data.frame(dish = c("kottbullar", "daimtarta"),
-                         price = c(89, 32))
-park <- 162
-opn <- FALSE
+```{r lists}
+experiment <- list(
+  name    = "MYC knockout pilot",
+  date    = "2026-03-14",
+  samples = samples,
+  counts  = counts
+)
+str(experiment, max.level = 1)
 ```
+
+---
+name: lists_subsetting
+
+# Lists: `[[ ]]` vs `[ ]`
+
+.pull-left-50[
+```{r lists.double}
+experiment[["name"]]
+class(experiment[["name"]])
+```
+
+`[[ ]]` takes the thing **out**.
+]
+
+.pull-right-50[
+```{r lists.single}
+experiment["name"]
+class(experiment["name"])
+```
+
+`[ ]` gives a **smaller list**.
+]
+
+<div style="clear: both;"></div>
+
+```{r, echo=F, out.width="60%"}
+knitr::include_graphics("images/salt_list.png")
+```
+
+---
+name: lists_dollar
+
+# Lists: `$` and digging deeper
+
+`$` works like `[[ ]]` for named elements:
+
+```{r lists.dollar}
+experiment$name
+experiment$samples$sample            # a column inside a data frame inside a list
+experiment$counts["MYC", ]
+```
+
 --
-```{r lists2, echo=T}
-ikea_uppsala <- list(bedroom = bedr, 
-             restaurant = rest, 
-             parking = park,
-             open = opn)
-```
---
-```{r lists3, echo=T}
-str(ikea_uppsala) # str (structure) of an object
+
+Add or remove elements:
+
+```{r lists.add}
+experiment$notes <- "KO2 was sluggish on day 3"
+experiment$date  <- NULL             # remove
+names(experiment)
 ```
 
 ---
-name: lists_subsetting_double
+name: lists_results
 
-# Subsetting lists
+# Lists are everywhere
 
-We can access elements of a list using the `[[]]` notation. 
+Many functions return a list. A t-test, for example:
 
-```{r lists_subsetting_double, echo=T}
-ikea_uppsala[[2]]
-class(ikea_uppsala[[2]])
+```{r ttest}
+wt <- c(22.1, 25.4, 23.0, 24.2)
+ko <- c(21.8, 26.3, 27.1, 26.0)
+res <- t.test(ko, wt)
+is.list(res)
+names(res)
+res$p.value
 ```
 
----
-name: lists_subsetting_single
-
-# Subsetting lists &mdash; .cted
-
-What if we use `[]`? We get a list back!
-
-```{r lists_subsetting_single, echo=T}
-ikea_uppsala[2]
-class(ikea_uppsala[2])
-```
+Knowing lists = knowing how to get your results out.
 
 ---
-# Subsetting lists &mdash; .cted
+name: recap
 
-- A piece of a list is still a list! Use `[[]]` to pull out the actual data.
+# Recap
 
-![](images/salt_list.png)
+| | Shape | Types | Get things out |
+|:--|:------|:------|:---------------|
+| 🧊 **matrix** | rows × columns | one | `m["MYC", ]`, `m[, 2]` |
+| 📋 **data frame** | rows × columns | one per column | `df$weight`, `df[df$x > 1, ]` |
+| 🎒 **list** | anything | anything | `l$samples`, `l[["name"]]` |
 
----
-name: lists_subsetting_names
+<br>
 
-# Subsetting lists &mdash; using names
+**Remember:**
 
-If the elements of a list are named, we can also use the `$` notation:
-
-```{r lists_subsetting_names, echo=T}
-ikea_uppsala$restaurant
-ikea_uppsala$restaurant$price
-```
-
----
-name: lists_nested
-
-# Lists inside lists
-
-We can use lists to store hierarchies of data:
-
-```{r lists_nested, echo=T}
-ikea_lund <- list(parking = 125)
-ikea_sweden <- list(ikea_lund = ikea_lund, 
-                    ikea_uppsala = ikea_uppsala)
-# use names to navigate inside the hierarchy
-ikea_sweden$ikea_lund$parking
-ikea_sweden$ikea_uppsala$parking
-```
-
-
----
-name: objects_type_class
-exclude: true
-
-# Objects &mdash; type vs. class
-
-An object of class **factor** is internally represented by numbers:
-
-```{r obj.type.class, echo=T, eval=F}
-size <- factor('small')
-class(size) # Class 'factor'
-mode(size) # Is represented by 'numeric'
-typeof(size) # Of integer type
-```
-
----
-name: objects_str
-exclude: true
-
-# Objects &mdash; structure
-
-Many functions return **objects**. We can easily examine their **structure**:
-
-```{r obj.str, echo=T, fig.height=3.7, fig.width=3}
-his <- hist(1:5, plot=F)
-str(his)
-object.size(hist) # How much memory the object consumes
-```
-
----
-name: objects_fix
-exclude: true
-
-# Objects &mdash; fix
-
-We can easily modify values of object's **attributes**:
-
-```{r obj.fix, echo=T, eval=F}
-attributes(his)
-attr(his, "names")
-#fix(his) # Opens an object editor
-```
-
----
-name: objects_lists_as_S3
-exclude: true
-
-# Lists as S3 classes
-
-A list that has been named, becomes an S3 class:
-```{r obj.S3.list, echo=T, eval=F}
-my.list <- list(numbers = c(1:5),
-                letters = letters[1:5])
-class(my.list)
-class(my.list) <- 'my.list.class'
-class(my.list) # Now the list is of S3 class
-```
-
-However, that was it. We cannot enforce that *numbers* will contain numeric values and that *letters* will contain only characters. S3 is a very primitive class.
-
----
-name: objects_S3
-exclude: true
-
-# S3 classes
-
-For an S3 class we can define a *generic function* applicable to all objects of this class.
-```{r obj.S3, echo=T, eval=F}
-print.my.list.class <- function(x) {
-  cat('Numbers:', x$numbers, '\n')
-  cat('Letters:', x$letters)
-}
-print(my.list)
-```
-
-But here, we have no error-proofing. If the object will lack *numbers*, the function will still be called:
-
-```{r obj.S3.error, echo=T, eval=F}
-class(his) <- 'my.list.class' # alter class
-print(his) # Gibberish but no error...
-```
-
----
-name: objects_generics
-exclude: true
-
-# S3 classes &mdash; still useful?
-
-Well, S3 class mechanism is still in use, esp. when writing **generic** functions, most common examples being *print* and *plot*. For example, if you plot an object of a Manhattan.plot class, you write *plot(gwas.result)* but the true call is: *plot.manhattan(gwas.result)*. This makes life easier as it requires less writing, but it is up to the function developers to make sure everything works!
-
----
-name: objects_S4
-exclude: true
-
-# S4 class mechanism
-
-S4 classes are more advanced as you actually define the structure of the data within the object of your particular class:
-```{r S4, echo=T, eval=F}
-setClass('gene',
-         representation(name='character',
-                        coords='numeric')
-         )
-my.gene <- new('gene', name='ANK3',
-               coords=c(1.4e6, 1.412e6))
-```
-
----
-name: objects_S4_slots
-exclude: true
-
-# S4 class &mdash; slots
-
-The variables within an S4 class are stored in the so-called **slots**. In the above example, we have 2 such slots: *name* and *coords*. Here is how to access them:
-
-```{r S4.slots, echo=T, eval=F}
-my.gene@name # access using @ operator
-my.gene@coords[2] # access the 2nd element in slot coords
-```
-
----
-name: objects_S4_methods
-exclude: true
-
-# S4 class &mdash; methods
-
-The power of classes lies in the fact that they define both the data types in particular slots and operations (functions) we can perform on them. Let us define a *generic print function* for an S4 class:
-
-```{r S4.methods, echo=T, eval=F}
-setMethod('print', 'gene',
-          function(x) {
-              cat('GENE: ', x@name, ' --> ')
-              cat('[', x@coords, ']')
-          })
-print(my.gene) # and we use the newly defined print
-```
+- Filter rows with conditions, not by hand.
+- Merge tables by ID, not by position.
+- `[[ ]]` takes out, `[ ]` keeps a list.
 
 <!-- --------------------- Do not edit this and below --------------------- -->
 
