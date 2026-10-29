@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Working with Vectors</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/lab.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+#TOC {
+  display: none !important;
+}
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="assets/logo.svg" id="logo" style="height:20px;margin:0;"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="home_schedule.html">Schedule</a>
+</li>
+<li>
+  <a href="home_content.html">Content</a>
+</li>
+<li>
+  <a href="home_precourse.html">Precourse</a>
+</li>
+<li>
+  <a href="home_info.html">Info</a>
+</li>
+<li>
+  <a href="home_projects.html">Projects</a>
+</li>
+<li>
+  <a href="https://github.com/NBISweden/workshop-r/">GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Working with Vectors</h1>
+
+</div>
+
+
+<!-- rmd lab header -->
+<p><br></p>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>A <strong>vector</strong> is a sequence of values of the same type, and it is the most basic data structure in R. Most of what you will do in R, from normalising counts to filtering genes, is done with vectors. At the end of this lab you should be able to:</p>
+<ul>
+<li>create vectors and calculate with them, element by element,</li>
+<li>predict what happens when vectors of different lengths are combined (recycling),</li>
+<li>select elements by position, by name and by condition,</li>
+<li>modify, summarise, count and sort vectors,</li>
+<li>generate sequences, repeated values, sample names and random samples,</li>
+<li>store categories as factors and control their order.</li>
+</ul>
+<div id="functions-you-will-need" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Functions you will need</h2>
+<table>
+<colgroup>
+<col width="35%" />
+<col width="64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Task</th>
+<th align="left">Functions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Create and inspect</td>
+<td align="left"><code>c()</code>, <code>length()</code>, <code>typeof()</code>, <code>names()</code></td>
+</tr>
+<tr class="even">
+<td align="left">Select</td>
+<td align="left"><code>x[ ]</code>, <code>which()</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Summarise</td>
+<td align="left"><code>mean()</code>, <code>median()</code>, <code>sd()</code>, <code>range()</code>, <code>max()</code>, <code>min()</code>, <code>sum()</code></td>
+</tr>
+<tr class="even">
+<td align="left">Count and sort</td>
+<td align="left"><code>table()</code>, <code>unique()</code>, <code>sort()</code>, <code>order()</code>, <code>rev()</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Generate</td>
+<td align="left"><code>:</code>, <code>seq()</code>, <code>rep()</code>, <code>paste0()</code>, <code>sample()</code>, <code>rnorm()</code></td>
+</tr>
+<tr class="even">
+<td align="left">Categories</td>
+<td align="left"><code>factor()</code>, <code>levels()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Use <code>?function_name</code> to read the help page of any function.</p>
+</div>
+</div>
+<div id="exercises" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Exercises</h1>
+<div class="boxy boxy-lightbulb">
+<p>In all exercises, first try to work out what the result <strong>should</strong> be, then run the code to check. If the output surprises you, make sure you understand why before you move on. If you get stuck, click the key to reveal example code and output. There are often several equally good solutions.</p>
+<p>Keep writing your code and notes in your <strong>R Markdown learning journal</strong>.</p>
+</div>
+<div id="create-and-calculate" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Create and calculate</h2>
+<p>You weighed eight mice (in grams) at the start of an experiment and again after four weeks:</p>
+<pre class="r"><code>weight_start &lt;- c(21.3, 23.8, 19.9, 25.1, 22.4, 24.0, 20.7, 23.3)
+weight_end   &lt;- c(22.9, 23.1, 21.5, 27.0, 22.0, 26.2, 22.4, 23.9)</code></pre>
+<ol style="list-style-type: decimal">
+<li>How many mice are there? What type of vector is <code>weight_start</code>? What is the mean starting weight?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914589769" aria-expanded="false" aria-controls="acc2026102914589769">
+</button>
+</p>
+<div id="acc2026102914589769" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>length(weight_start)
+typeof(weight_start)
+mean(weight_start)</code></pre>
+<pre><code>## [1] 8
+## [1] &quot;double&quot;
+## [1] 22.5625</code></pre>
+</div>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Calculate the weight change of every mouse, and the change in percent of the starting weight. How many vectors (and how many lines of code) did you need?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914588684" aria-expanded="false" aria-controls="acc2026102914588684">
+</button>
+</p>
+<div id="acc2026102914588684" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>change &lt;- weight_end - weight_start
+change
+percent_change &lt;- change / weight_start * 100
+round(percent_change, digits = 1)</code></pre>
+<pre><code>## [1]  1.6 -0.7  1.6  1.9 -0.4  2.2  1.7  0.6
+## [1]  7.5 -2.9  8.0  7.6 -1.8  9.2  8.2  2.6</code></pre>
+</div>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>How many mice lost weight? Use the fact that <code>TRUE</code> counts as 1.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914582789" aria-expanded="false" aria-controls="acc2026102914582789">
+</button>
+</p>
+<div id="acc2026102914582789" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>change &lt; 0
+sum(change &lt; 0)   # 2 mice</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE
+## [1] 2</code></pre>
+</div>
+</div>
+<ol start="4" style="list-style-type: decimal">
+<li>You measured bacterial growth as optical density (OD600) in five cultures. A blank well read 0.05. Subtract the blank from every culture, then convert to cells/mL, assuming 1 OD unit ≈ 8 × 10^8 cells/mL (write it as <code>8e8</code>).</li>
+</ol>
+<pre class="r"><code>od &lt;- c(0.45, 0.82, 0.31, 1.10, 0.67)</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914581692" aria-expanded="false" aria-controls="acc2026102914581692">
+</button>
+</p>
+<div id="acc2026102914581692" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>od_corrected &lt;- od - 0.05     # 0.05 is recycled for every culture
+cells_per_ml &lt;- od_corrected * 8e8
+cells_per_ml</code></pre>
+<pre><code>## [1] 3.20e+08 6.16e+08 2.08e+08 8.40e+08 4.96e+08</code></pre>
+</div>
+</div>
+<ol start="5" style="list-style-type: decimal">
+<li>Predict the result of each line, then run it. Which one gives a warning, and why?</li>
+</ol>
+<pre class="r"><code>c(1, 3, 5) + c(2, 4, 6)
+c(1, 3, 5, 7) + c(10, 20)
+c(1, 3, 5) + c(10, 20)</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914586654" aria-expanded="false" aria-controls="acc2026102914586654">
+</button>
+</p>
+<div id="acc2026102914586654" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>c(1, 3, 5) + c(2, 4, 6)        # element by element
+c(1, 3, 5, 7) + c(10, 20)      # c(10, 20) is recycled to c(10, 20, 10, 20)
+c(1, 3, 5) + c(10, 20)         # warning: 3 is not a multiple of 2</code></pre>
+<pre><code>## Warning in c(1, 3, 5) + c(10, 20): longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## [1]  3  7 11
+## [1] 11 23 15 27
+## [1] 11 23 15</code></pre>
+</div>
+</div>
+</div>
+<div id="select-elements" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Select elements</h2>
+<p>The first eight amino acids of a protein:</p>
+<pre class="r"><code>protein &lt;- c(&quot;Met&quot;, &quot;Ala&quot;, &quot;Gly&quot;, &quot;Leu&quot;, &quot;Ser&quot;, &quot;Lys&quot;, &quot;Pro&quot;, &quot;Trp&quot;)</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Select:
+<ul>
+<li>the third amino acid,</li>
+<li>the first and the last (without typing the number 8),</li>
+<li>amino acids 2 to 5,</li>
+<li>all except the first (the start methionine).</li>
+</ul>
+What do you get with <code>protein[20]</code>?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914583882" aria-expanded="false" aria-controls="acc2026102914583882">
+</button>
+</p>
+<div id="acc2026102914583882" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>protein[3]
+protein[c(1, length(protein))]
+protein[2:5]
+protein[-1]
+protein[20]   # NA: there is no 20th element</code></pre>
+<pre><code>## [1] &quot;Gly&quot;
+## [1] &quot;Met&quot; &quot;Trp&quot;
+## [1] &quot;Ala&quot; &quot;Gly&quot; &quot;Leu&quot; &quot;Ser&quot;
+## [1] &quot;Ala&quot; &quot;Gly&quot; &quot;Leu&quot; &quot;Ser&quot; &quot;Lys&quot; &quot;Pro&quot; &quot;Trp&quot;
+## [1] NA</code></pre>
+</div>
+</div>
+<ol start="7" style="list-style-type: decimal">
+<li>Give the mouse weights the names <code>"M1"</code>, <code>"M2"</code>, …, <code>"M8"</code> (without typing all of them). Then extract the starting weights of mice M3 and M7 by name.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914584937" aria-expanded="false" aria-controls="acc2026102914584937">
+</button>
+</p>
+<div id="acc2026102914584937" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>names(weight_start) &lt;- paste0(&quot;M&quot;, 1:8)
+weight_start
+weight_start[c(&quot;M3&quot;, &quot;M7&quot;)]</code></pre>
+<pre><code>##   M1   M2   M3   M4   M5   M6   M7   M8 
+## 21.3 23.8 19.9 25.1 22.4 24.0 20.7 23.3 
+##   M3   M7 
+## 19.9 20.7</code></pre>
+</div>
+</div>
+<ol start="8" style="list-style-type: decimal">
+<li>Which mice weighed more than 23 g at the start? Give their weights, their names and their positions. How many mice weighed between 21 and 24 g?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914587629" aria-expanded="false" aria-controls="acc2026102914587629">
+</button>
+</p>
+<div id="acc2026102914587629" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>weight_start[weight_start &gt; 23]
+names(weight_start)[weight_start &gt; 23]
+which(weight_start &gt; 23)
+sum(weight_start &gt; 21 &amp; weight_start &lt; 24)</code></pre>
+<pre><code>##   M2   M4   M6   M8 
+## 23.8 25.1 24.0 23.3 
+## [1] &quot;M2&quot; &quot;M4&quot; &quot;M6&quot; &quot;M8&quot;
+## M2 M4 M6 M8 
+##  2  4  6  8 
+## [1] 4</code></pre>
+</div>
+</div>
+</div>
+<div id="modify-and-summarise" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Modify and summarise</h2>
+<ol start="9" style="list-style-type: decimal">
+<li>You discover that the scale was not calibrated when M5 was weighed. Replace its starting weight with <code>NA</code>. Then add a ninth mouse, M9, that weighed 22.8 g.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914580188" aria-expanded="false" aria-controls="acc2026102914580188">
+</button>
+</p>
+<div id="acc2026102914580188" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>weight_start[&quot;M5&quot;] &lt;- NA
+weight_start &lt;- c(weight_start, M9 = 22.8)
+weight_start</code></pre>
+<pre><code>##   M1   M2   M3   M4   M5   M6   M7   M8   M9 
+## 21.3 23.8 19.9 25.1   NA 24.0 20.7 23.3 22.8</code></pre>
+</div>
+</div>
+<ol start="10" style="list-style-type: decimal">
+<li>Calculate the mean, median, standard deviation and range of <code>weight_start</code>. Which mouse was the heaviest? (Hint: <code>?which.max</code>.)</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914584240" aria-expanded="false" aria-controls="acc2026102914584240">
+</button>
+</p>
+<div id="acc2026102914584240" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>mean(weight_start, na.rm = TRUE)
+median(weight_start, na.rm = TRUE)
+sd(weight_start, na.rm = TRUE)
+range(weight_start, na.rm = TRUE)
+names(which.max(weight_start))</code></pre>
+<pre><code>## [1] 22.6125
+## [1] 23.05
+## [1] 1.803518
+## [1] 19.9 25.1
+## [1] &quot;M4&quot;</code></pre>
+</div>
+</div>
+<ol start="11" style="list-style-type: decimal">
+<li>A colleague types <code>"missing"</code> instead of <code>NA</code> for mouse M2. What happens to the vector? What happens when you calculate the mean?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914589524" aria-expanded="false" aria-controls="acc2026102914589524">
+</button>
+</p>
+<div id="acc2026102914589524" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>weight_bad &lt;- weight_start
+weight_bad[&quot;M2&quot;] &lt;- &quot;missing&quot;
+weight_bad                      # every value is now text!
+typeof(weight_bad)
+mean(weight_bad, na.rm = TRUE)  # warning and NA: you cannot average text</code></pre>
+<pre><code>## Warning in mean.default(weight_bad, na.rm = TRUE): argument is not numeric or
+## logical: returning NA</code></pre>
+<pre><code>##        M1        M2        M3        M4        M5        M6        M7        M8 
+##    &quot;21.3&quot; &quot;missing&quot;    &quot;19.9&quot;    &quot;25.1&quot;        NA      &quot;24&quot;    &quot;20.7&quot;    &quot;23.3&quot; 
+##        M9 
+##    &quot;22.8&quot; 
+## [1] &quot;character&quot;
+## [1] NA</code></pre>
+</div>
+</div>
+</div>
+<div id="count-and-sort" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Count and sort</h2>
+<p>The blood groups of 20 blood donors:</p>
+<pre class="r"><code>blood &lt;- c(&quot;O&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;O&quot;, &quot;AB&quot;, &quot;O&quot;, &quot;A&quot;, &quot;O&quot;, &quot;B&quot;,
+           &quot;A&quot;, &quot;O&quot;, &quot;O&quot;, &quot;A&quot;, &quot;B&quot;, &quot;O&quot;, &quot;A&quot;, &quot;AB&quot;, &quot;O&quot;, &quot;A&quot;)</code></pre>
+<ol start="12" style="list-style-type: decimal">
+<li>Which blood groups occur? How many donors have each group, and what proportion is that? Which group is the most common?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914580008" aria-expanded="false" aria-controls="acc2026102914580008">
+</button>
+</p>
+<div id="acc2026102914580008" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>unique(blood)
+table(blood)
+table(blood) / length(blood)
+names(which.max(table(blood)))</code></pre>
+<pre><code>## [1] &quot;O&quot;  &quot;A&quot;  &quot;B&quot;  &quot;AB&quot;
+## blood
+##  A AB  B  O 
+##  7  2  3  8 
+## blood
+##    A   AB    B    O 
+## 0.35 0.10 0.15 0.40 
+## [1] &quot;O&quot;</code></pre>
+</div>
+</div>
+<ol start="13" style="list-style-type: decimal">
+<li>Sort the mouse starting weights from heaviest to lightest. Then give the <strong>names</strong> of the three heaviest mice. What happened to the <code>NA</code>?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914589117" aria-expanded="false" aria-controls="acc2026102914589117">
+</button>
+</p>
+<div id="acc2026102914589117" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>sort(weight_start, decreasing = TRUE)               # NA is dropped
+names(sort(weight_start, decreasing = TRUE))[1:3]
+# or, with order():
+names(weight_start)[order(weight_start, decreasing = TRUE)][1:3]</code></pre>
+<pre><code>##   M4   M6   M2   M8   M9   M1   M7   M3 
+## 25.1 24.0 23.8 23.3 22.8 21.3 20.7 19.9 
+## [1] &quot;M4&quot; &quot;M6&quot; &quot;M2&quot;
+## [1] &quot;M4&quot; &quot;M6&quot; &quot;M2&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="generate-vectors" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Generate vectors</h2>
+<ol start="14" style="list-style-type: decimal">
+<li>Create:
+<ul>
+<li>sampling time points every 12 hours from 0 to 48 hours,</li>
+<li>the sample names <code>"WT_rep1"</code>, <code>"WT_rep2"</code>, <code>"WT_rep3"</code>, <code>"KO_rep1"</code>, <code>"KO_rep2"</code>, <code>"KO_rep3"</code>,</li>
+<li>all 96 well names of a plate, from <code>"A1"</code> to <code>"H12"</code>. (Hint: <code>LETTERS</code> holds the alphabet.)</li>
+</ul></li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914580372" aria-expanded="false" aria-controls="acc2026102914580372">
+</button>
+</p>
+<div id="acc2026102914580372" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>seq(from = 0, to = 48, by = 12)
+paste0(rep(c(&quot;WT&quot;, &quot;KO&quot;), each = 3), &quot;_rep&quot;, 1:3)   # 1:3 is recycled!
+wells &lt;- paste0(rep(LETTERS[1:8], each = 12), 1:12)
+length(wells)
+head(wells, 14)</code></pre>
+<pre><code>## [1]  0 12 24 36 48
+## [1] &quot;WT_rep1&quot; &quot;WT_rep2&quot; &quot;WT_rep3&quot; &quot;KO_rep1&quot; &quot;KO_rep2&quot; &quot;KO_rep3&quot;
+## [1] 96
+##  [1] &quot;A1&quot;  &quot;A2&quot;  &quot;A3&quot;  &quot;A4&quot;  &quot;A5&quot;  &quot;A6&quot;  &quot;A7&quot;  &quot;A8&quot;  &quot;A9&quot;  &quot;A10&quot; &quot;A11&quot; &quot;A12&quot;
+## [13] &quot;B1&quot;  &quot;B2&quot;</code></pre>
+</div>
+</div>
+<ol start="15" style="list-style-type: decimal">
+<li>Join all eight amino acids of <code>protein</code> into a single string, separated by <code>"-"</code>.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914582816" aria-expanded="false" aria-controls="acc2026102914582816">
+</button>
+</p>
+<div id="acc2026102914582816" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>paste(protein, collapse = &quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;Met-Ala-Gly-Leu-Ser-Lys-Pro-Trp&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="random-sampling" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> Random sampling</h2>
+<ol start="16" style="list-style-type: decimal">
+<li>You have 12 patients, <code>"P01"</code> to <code>"P12"</code>. Randomly choose 4 of them for a pilot study. Use <code>set.seed(2026)</code> first and compare your answer with your neighbour. Why do you get the same result?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914588140" aria-expanded="false" aria-controls="acc2026102914588140">
+</button>
+</p>
+<div id="acc2026102914588140" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>patients &lt;- sprintf(&quot;P%02d&quot;, 1:12)   # %02d pads numbers with a leading zero
+set.seed(2026)
+sample(patients, size = 4)</code></pre>
+<pre><code>## [1] &quot;P09&quot; &quot;P01&quot; &quot;P06&quot; &quot;P04&quot;</code></pre>
+</div>
+</div>
+<ol start="17" style="list-style-type: decimal">
+<li>Simulate 100 offspring of an <code>Aa × Aa</code> cross, where the genotypes <code>AA</code>, <code>Aa</code> and <code>aa</code> are expected in a 1:2:1 ratio. Count the genotypes. How close are they to the expected 25, 50 and 25? Try again with 1,000 offspring.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914584917" aria-expanded="false" aria-controls="acc2026102914584917">
+</button>
+</p>
+<div id="acc2026102914584917" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>offspring &lt;- sample(c(&quot;AA&quot;, &quot;Aa&quot;, &quot;aa&quot;), size = 100, replace = TRUE,
+                    prob = c(0.25, 0.5, 0.25))
+table(offspring)
+
+offspring_big &lt;- sample(c(&quot;AA&quot;, &quot;Aa&quot;, &quot;aa&quot;), size = 1000, replace = TRUE,
+                        prob = c(0.25, 0.5, 0.25))
+table(offspring_big) / 1000</code></pre>
+<pre><code>## offspring
+## aa Aa AA 
+## 23 55 22 
+## offspring_big
+##    aa    Aa    AA 
+## 0.271 0.484 0.245</code></pre>
+</div>
+</div>
+<ol start="18" style="list-style-type: decimal">
+<li>Simulate the heights of 100 adults with <code>rnorm()</code>, using a mean of 170 cm and a standard deviation of 10 cm. How many are taller than 190 cm? What are the mean and standard deviation of your simulated heights?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914582191" aria-expanded="false" aria-controls="acc2026102914582191">
+</button>
+</p>
+<div id="acc2026102914582191" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>heights &lt;- rnorm(100, mean = 170, sd = 10)
+sum(heights &gt; 190)
+mean(heights)
+sd(heights)</code></pre>
+<pre><code>## [1] 2
+## [1] 170.0652
+## [1] 8.756789</code></pre>
+</div>
+</div>
+</div>
+<div id="factors" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Factors</h2>
+<ol start="19" style="list-style-type: decimal">
+<li>Store the tissue types of these biopsies as a factor. What are its levels, and how many biopsies are there of each type? Then change the order of the levels so that <code>"healthy"</code> comes first.</li>
+</ol>
+<pre class="r"><code>tissue &lt;- c(&quot;tumour&quot;, &quot;healthy&quot;, &quot;tumour&quot;, &quot;inflamed&quot;, &quot;healthy&quot;, &quot;tumour&quot;)</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914586969" aria-expanded="false" aria-controls="acc2026102914586969">
+</button>
+</p>
+<div id="acc2026102914586969" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>tissue &lt;- factor(tissue)
+levels(tissue)      # alphabetical
+table(tissue)
+tissue &lt;- factor(tissue, levels = c(&quot;healthy&quot;, &quot;inflamed&quot;, &quot;tumour&quot;))
+levels(tissue)</code></pre>
+<pre><code>## [1] &quot;healthy&quot;  &quot;inflamed&quot; &quot;tumour&quot;  
+## tissue
+##  healthy inflamed   tumour 
+##        2        1        3 
+## [1] &quot;healthy&quot;  &quot;inflamed&quot; &quot;tumour&quot;</code></pre>
+</div>
+</div>
+<ol start="20" style="list-style-type: decimal">
+<li>Pain was scored as <code>"none"</code>, <code>"mild"</code>, <code>"moderate"</code> or <code>"severe"</code>. Create an <strong>ordered</strong> factor from the scores below. How many patients had more than mild pain? What was the most severe score?</li>
+</ol>
+<pre class="r"><code>pain &lt;- c(&quot;mild&quot;, &quot;none&quot;, &quot;severe&quot;, &quot;moderate&quot;, &quot;mild&quot;, &quot;moderate&quot;, &quot;none&quot;)</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914583779" aria-expanded="false" aria-controls="acc2026102914583779">
+</button>
+</p>
+<div id="acc2026102914583779" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>pain &lt;- factor(pain, levels = c(&quot;none&quot;, &quot;mild&quot;, &quot;moderate&quot;, &quot;severe&quot;),
+               ordered = TRUE)
+pain
+sum(pain &gt; &quot;mild&quot;)
+max(pain)</code></pre>
+<pre><code>## [1] mild     none     severe   moderate mild     moderate none    
+## Levels: none &lt; mild &lt; moderate &lt; severe
+## [1] 3
+## [1] severe
+## Levels: none &lt; mild &lt; moderate &lt; severe</code></pre>
+</div>
+</div>
+<ol start="21" style="list-style-type: decimal">
+<li><strong>A factor trap.</strong> Drug doses were read in as a factor. Convert them to numbers with <code>as.numeric()</code>. What went wrong, and how can you fix it?</li>
+</ol>
+<pre class="r"><code>dose &lt;- factor(c(&quot;10&quot;, &quot;5&quot;, &quot;20&quot;, &quot;5&quot;, &quot;10&quot;))</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914586445" aria-expanded="false" aria-controls="acc2026102914586445">
+</button>
+</p>
+<div id="acc2026102914586445" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>as.numeric(dose)                 # wrong! these are the level codes 1, 2, 3
+levels(dose)                     # levels are sorted as text: &quot;10&quot; &quot;20&quot; &quot;5&quot;
+as.numeric(as.character(dose))   # convert to text first, then to numbers</code></pre>
+<pre><code>## [1] 1 3 2 3 1
+## [1] &quot;10&quot; &quot;20&quot; &quot;5&quot; 
+## [1] 10  5 20  5 10</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<footer class="footer">
+<div class="container footer-container">
+<div class="row">
+
+<div class="footer-left col-sm-6">
+<p class="small">
+<b>2026</b> • <a href="https://nbis.se/">NBIS</a> • <a href="https://www.scilifelab.se/">SciLifeLab</a>
+</p>
+</div>
+
+<div class="footer-right col-sm-6">
+<p>
+<span>
+  <span class="footericon" style="padding-right:4px; padding-left:4px">
+    <a href="https://nbis.se/">
+      <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 496 512"><path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z"></path>
+      </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-right:4px; padding-left:4px">
+      <a href="https://twitter.com/NBISwe"><svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+    </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-left:4px">
+      <a href="https://www.linkedin.com/company/nbisweden/">
+        <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+        </svg>
+    </a>
+    </span>
+  </span>
+</p>
+</div>
+
+</div>
+</div>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

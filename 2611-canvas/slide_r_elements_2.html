@@ -3,7 +3,7 @@
   <head>
     <title>Vectors</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Marcin Kierczak, Sebastian DiLorenzo, Guilherme Dias" />
+    <meta name="author" content="Guilherme Dias" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
     <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -18,11 +18,8 @@ class: center, middle, inverse, title-slide
 .title[
 # Vectors
 ]
-.subtitle[
-## R Foundations for Data Analysis
-]
 .author[
-### Marcin Kierczak, Sebastian DiLorenzo, Guilherme Dias
+### Guilherme Dias
 ]
 
 ---
@@ -45,788 +42,422 @@ count: false
 ---
 name: contents
 
-## Contents of the lecture
+## Contents
 
-- **vectors**
-- **numbers as vectors**
-- **strings as vectors**
+- Creating vectors
+- Calculating with vectors
+- Indexing: by position, name, condition
+- Modifying, summarising, counting, sorting
+- Generating vectors
+- Factors
 
+&lt;img src="images/scooby_vectors.png" width="35%" style="display: block; margin: auto auto auto 0;" /&gt;
 
----
-name: cplx_data_str
-exclude: true
-
-## Complex data structures
-
-Using the basic data types (`numeric`, `logical` and `character`) we can build more complex data structures:
-
-&lt;br&gt;
-&lt;br&gt;
--- 
-
-.pull-left-50[
-![](images/data_structures.png)
-]
-
-.pull-right-50[
-
-dimensions | Homogenous | Heterogenous
-----|------------|-----------------
-0  | n/a        | n/a
-1  | vectors    | list
-2  | matrices   | data frame
-n  | arrays     | n/a  
-
-
-]
 ---
 name: atomic_vectors
 
 ## Vectors
-A *vector*, or *atomic vector*, is a sequence of elements of the same data type.
 
-We build vectors using the function `c()` (combine).
+A **vector** holds values of **one type**. Create it with `c()`:
+
 
 ``` r
-vec &lt;- c(1, 2, 3)
-vec
+genes &lt;- c("BRCA1", "TP53", "EGFR", "MYC", "GAPDH")
+expression &lt;- c(5.2, 7.8, 6.1, 9.4, 12.3)
+length(expression)
 ```
 
 ```
-## [1] 1 2 3
+## [1] 5
 ```
-In R, even a single number is a one-element vector. Get used to think in terms of vectors...
+
+A single value is a vector of length 1.
 
 ---
-name: atomic_vectors2
+name: vec_arithmetic
 
-## Vectors cted.
-You can also create empty/zero vectors of a given type and length:
+## Calculating with vectors
 
-``` r
-vector('integer', 5) # a vector of 5 integers
-vector('character', 5)
-character(5) # does the same
-logical(5) # same as vector('logical', 5)
-```
+Operations work on **every element**.
 
-```
-## [1] 0 0 0 0 0
-## [1] "" "" "" "" ""
-## [1] "" "" "" "" ""
-## [1] FALSE FALSE FALSE FALSE FALSE
-```
-
----
-name: combining_vectors
-
-## Combining two or more vectors
-Vectors can easily be combined:
-
-``` r
-v1 &lt;- c(1,2,3)
-v2 &lt;- c('a','b','c')
-v3 &lt;- c('do','re','mi')
-c(v1, v2, v3)
-```
-
-```
-## [1] "1"  "2"  "3"  "a"  "b"  "c"  "do" "re" "mi"
-```
-Note that after combining numbers with characters, all elements became character. 
-
-This is called a **coercion**.
-
----
-name: basic_vect_arithm
-
-## Basic vector arithmetics
-We can perform operations on **numeric** vectors:
-
-``` r
-v1 &lt;- c(1, 2, 3, 4)
-v2 &lt;- c(7, -9, 15.2, 4)
-v1 + v2 # addition
-```
-
-```
-## [1]  8.0 -7.0 18.2  8.0
-```
-
---
+Read counts in four samples, normalized to **counts per million (CPM)**:
 
 
 ``` r
-v1 - v2 # subtraction
+counts   &lt;- c(1520, 830, 2210, 1105)
+lib_size &lt;- c(20e6, 15e6, 25e6, 18e6)   # total reads per sample
+cpm &lt;- counts / lib_size * 1e6
+cpm
+log2(cpm + 1)
 ```
 
 ```
-## [1]  -6.0  11.0 -12.2   0.0
+## [1] 76.00000 55.33333 88.40000 61.38889
+## [1] 6.266787 5.815917 6.482203 5.963217
 ```
 
---
-
-
-``` r
-v1 * v2 # multiplication
-```
-
-```
-## [1]   7.0 -18.0  45.6  16.0
-```
-
---
-
-
-``` r
-v1 / v2 # division
-```
-
-```
-## [1]  0.1428571 -0.2222222  0.1973684  1.0000000
-```
+Same length → **element by element**: sample 1 with sample 1, and so on.
 
 ---
 name: recycling_rule
 
-## Vectors &amp;ndash; recycling rule
+## Recycling
+
+Different lengths → the shorter vector is **repeated**:
+
 
 ``` r
-v1 &lt;- c(1, 2, 3, 4, 5)
-v2 &lt;- c(0, 1)
-v1 + v2
+counts * 2                   # 2 is used for every element
+c(1, 2, 3, 4) + c(0, 100)    # c(0, 100) becomes c(0, 100, 0, 100)
 ```
 
 ```
-## [1] 1 3 3 5 5
+## [1] 3040 1660 4420 2210
+## [1]   1 102   3 104
 ```
-Values in the shorter vector will be **recycled** (repeated) to match the length of the longer one.
 
-In this case, `v2 &lt;- c(0, 1)` becomes `v2 &lt;- c(0, 1, 0, 1, 0)` so that it can be added to v1.
+--
+
+Lengths don't fit → **warning**:
+
+
+``` r
+c(1, 2, 3, 4, 5) + c(0, 100)
+```
+
+```
+## Warning in c(1, 2, 3, 4, 5) + c(0, 100): longer object length is not a multiple
+## of shorter object length
+```
+
+```
+## [1]   1 102   3 104   5
+```
+
+.content-box-yellow[
+Recycling one number: useful. Anything else: usually a bug.
+]
 
 ---
 name: vec_indexing
 
-## Vectors &amp;ndash; indexing
-We can access or retrieve particular elements of a vector by using the [] notation:
+## Indexing by position
+
+`[ ]` picks elements. R counts from **1**.
+
 
 ``` r
-vec &lt;- c('a', 'b', 'c', 'd', 'e')
-vec[1] # the first element
-vec[5] # the fifth element
-vec[-1] # remove the first element
+genes[2]           # second
+genes[c(1, 3)]     # first and third
+genes[2:4]         # second to fourth
+genes[-5]          # all except the fifth
+genes[10]          # beyond the end: NA
 ```
 
 ```
-## [1] "a"
-## [1] "e"
-## [1] "b" "c" "d" "e"
-```
-
----
-name: vec_indexing2
-
-## Vectors &amp;ndash; indexing cted.
-And what happens if we want to retrieve elements outside the vector?
-
-``` r
-vec &lt;- c('a', 'b', 'c', 'd', 'e')
-vec[0] # R counts elements from 1
-vec[10] # Positive index past the length of the vector
-vec[-6] # Negative index past the length of the vector
-```
-
-```
-## character(0)
+## [1] "TP53"
+## [1] "BRCA1" "EGFR" 
+## [1] "TP53" "EGFR" "MYC" 
+## [1] "BRCA1" "TP53"  "EGFR"  "MYC"  
 ## [1] NA
-## [1] "a" "b" "c" "d" "e"
-```
-
---
-
-An index of **zero** will result in an empty vector of the same type as the original vector.
-
-A **positive** index beyond the vector's length will result in an `NA` value.
-
-A **negative** index beyond the vector's length will result in the full unchanged vector. Basically, R ignores your request.
-
----
-name: vec_indexing3
-
-## Vectors &amp;ndash; indexing cted.
-You can also retrieve elements of a vector using a vector of indices:
-
-``` r
-vec &lt;- c('a', 'b', 'c', 'd', 'e')
-vec.ind &lt;- c(1,3,5)
-vec[vec.ind]
-```
-
-```
-## [1] "a" "c" "e"
-```
-
---
-
-Or even a logical vector:
-
-``` r
-vec &lt;- c('a', 'b', 'c', 'd', 'e')
-vec.ind &lt;- c(TRUE, FALSE, TRUE, FALSE, TRUE)
-vec[vec.ind]
-```
-
-```
-## [1] "a" "c" "e"
 ```
 
 ---
 name: vec_indexing_names
 
-## Vectors &amp;ndash; indexing using names
-You can name elements of your vector:
+## Indexing by name
+
 
 ``` r
-vec &lt;- c(23.7, 54.5, 22.7)
-names(vec) # by default there are no names
-names(vec) &lt;- c('sample1', 'sample2', 'sample3')
-vec
-vec[c('sample2', 'sample1')]
+names(expression) &lt;- genes
+expression
+expression["TP53"]
+expression[c("MYC", "GAPDH")]
 ```
 
 ```
-## NULL
-## sample1 sample2 sample3 
-##    23.7    54.5    22.7 
-## sample2 sample1 
-##    54.5    23.7
+## BRCA1  TP53  EGFR   MYC GAPDH 
+##   5.2   7.8   6.1   9.4  12.3 
+## TP53 
+##  7.8 
+##   MYC GAPDH 
+##   9.4  12.3
 ```
 
----
-name: vec_rem_elem
-
-## Vectors &amp;ndash; removing elements
-You can return a vector without certain elements:
-
-``` r
-vec &lt;- c(1, 2, 3, 4, 5)
-vec[-5] # without the 5-th element
-vec[-(c(1,3,5))] # without elements 1, 3, 5
-```
-
-```
-## [1] 1 2 3 4
-## [1] 2 4
-```
+Names survive reordering. Positions don't.
 
 ---
 name: vec_conditions
 
-## Vectors indexing &amp;ndash; conditions
-Also logical expressions are allowed in indexing:
+## Indexing by condition
+
+Keep elements where the condition is `TRUE`:
+
 
 ``` r
-vec &lt;- c(1, 2, 3, 4, 5)
-vec &lt; 3 # we can use the value of this logical comparison
-vec[vec &lt; 3]# Et voila!
+expression &gt; 7
+expression[expression &gt; 7]          # values
+names(expression)[expression &gt; 7]   # names
+which(expression &gt; 7)               # positions
 ```
 
 ```
-## [1]  TRUE  TRUE FALSE FALSE FALSE
-## [1] 1 2
+## BRCA1  TP53  EGFR   MYC GAPDH 
+## FALSE  TRUE FALSE  TRUE  TRUE 
+##  TP53   MYC GAPDH 
+##   7.8   9.4  12.3 
+## [1] "TP53"  "MYC"   "GAPDH"
+##  TP53   MYC GAPDH 
+##     2     4     5
 ```
+
+This is **filtering**. You'll use it all the time.
 
 ---
-name: vec_more_ops
+name: vec_modify
 
-## Vectors &amp;ndash; more operations
-You can easily reverse a vector:
+## Modifying vectors
+
 
 ``` r
-vec &lt;- c(1, 2, 3, 4, 5)
-rev(vec)
+expr2 &lt;- expression
+expr2["MYC"] &lt;- NA          # failed measurement
+expr2[expr2 &gt; 10] &lt;- 10     # cap at 10
+c(expr2, ACTB = 11.1)       # add an element
 ```
 
 ```
-## [1] 5 4 3 2 1
+## BRCA1  TP53  EGFR   MYC GAPDH  ACTB 
+##   5.2   7.8   6.1    NA  10.0  11.1
+```
+
+.footnote[Assigning past the end (`x[9] &lt;- 1`) fills the gap with `NA`.]
+
+---
+name: vec_summaries
+
+## Summarising
+
+Ct values of five replicates:
+
+
+``` r
+ct &lt;- c(24.1, 25.3, 23.8, 26.0, 24.7)
+mean(ct)
+sd(ct)
+range(ct)
+```
+
+```
+## [1] 24.78
+## [1] 0.8927486
+## [1] 23.8 26.0
 ```
 
 --
 
-You can generate vectors of subsequent numbers using `:`, e.g.:
+`NA` is contagious:
+
 
 ``` r
-v &lt;- c(5:7)
-v
-v2 &lt;- c(3:-4)
-v2
+ct_missing &lt;- c(24.1, 25.3, NA, 26.0)
+mean(ct_missing)
+mean(ct_missing, na.rm = TRUE)
 ```
 
 ```
-## [1] 5 6 7
-## [1]  3  2  1  0 -1 -2 -3 -4
+## [1] NA
+## [1] 25.13333
 ```
 
 ---
-name: vec_size
+name: vec_count
 
-## Vectors &amp;ndash; size
-To get the size of a vector, use `length()`:
+## Counting
 
-``` r
-vec &lt;- c(1:78)
-length(vec)
-```
+Genotypes of 10 individuals at one SNP:
 
-```
-## [1] 78
-```
-
----
-name: vec_subst_elem
-
-## Vectors &amp;ndash; substitute element
-To substitute an element in a vector simply:
 
 ``` r
-vec &lt;- c(1:5)
-vec
-vec[3] &lt;- 'a' # Note the coercion!
-vec 
+genotype &lt;- c("AA", "AG", "GG", "AG", "AA",
+              "AG", "AA", "AA", "GG", "AG")
+unique(genotype)
+table(genotype)
+table(genotype) / length(genotype)   # frequencies
 ```
 
 ```
-## [1] 1 2 3 4 5
-## [1] "1" "2" "a" "4" "5"
-```
-
---
-
-To insert 'a' at the 2nd position:
-
-``` r
-vec &lt;- c(1:5)
-vec
-c(vec[1], 'a', vec[2:length(vec)])
-```
-
-```
-## [1] 1 2 3 4 5
-## [1] "1" "a" "2" "3" "4" "5"
-```
-
----
-name: vec_alter_len
-
-## Vectors &amp;ndash; changing the length
-What if we write past the vectors last element?
-
-``` r
-vec &lt;- c(1:5)
-vec
-vec[9] &lt;- 9
-vec 
-```
-
-```
-## [1] 1 2 3 4 5
-## [1]  1  2  3  4  5 NA NA NA  9
-```
-
----
-name: vec_count_vals
-
-## Vectors &amp;ndash; counting values
-One may be interested in the count of particular values:
-
-``` r
-vec &lt;- c(1:5, 1:4, 1:3) # a vector with repeating values
-table(vec) # table of counts
-tab &lt;- table(vec)/length(vec) # table of freqs.
-round(tab, digits=3) # and let's round it
-```
-
-```
-## vec
-## 1 2 3 4 5 
-## 3 3 3 2 1 
-## vec
-##     1     2     3     4     5 
-## 0.250 0.250 0.250 0.167 0.083
+## [1] "AA" "AG" "GG"
+## genotype
+## AA AG GG 
+##  4  4  2 
+## genotype
+##  AA  AG  GG 
+## 0.4 0.4 0.2
 ```
 
 ---
 name: vec_sorting
 
-## Vectors &amp;ndash; sorting
-To sort values of a vector:
+## Sorting
+
 
 ``` r
-vec &lt;- c(1:5, NA, NA, 1:3)
-sort(vec) # oops, NAs got lost
-sort(vec, na.last = TRUE)
-sort(vec, decreasing = TRUE) # in a decreasing order
+sort(expression)                     # lowest first
+sort(expression, decreasing = TRUE)  # highest first
 ```
 
 ```
-## [1] 1 1 2 2 3 3 4 5
-##  [1]  1  1  2  2  3  3  4  5 NA NA
-## [1] 5 4 3 3 2 2 1 1
+## BRCA1  EGFR  TP53   MYC GAPDH 
+##   5.2   6.1   7.8   9.4  12.3 
+## GAPDH   MYC  TP53  EGFR BRCA1 
+##  12.3   9.4   7.8   6.1   5.2
 ```
+
+--
+
+`order()` gives positions. Use it to sort one vector by another:
+
+
+``` r
+genes[order(expression, decreasing = TRUE)]   # genes ranked by expression
+```
+
+```
+## [1] "GAPDH" "MYC"   "TP53"  "EGFR"  "BRCA1"
+```
+
+.footnote[`sort()` drops `NA`s.]
 
 ---
 name: seq
 
-## Sequences of numbers
-R provides also a few handy functions to generate sequences of numbers:
+## Generating vectors
+
 
 ``` r
-seq(from=1, to=10, by=2)
-seq(from=21, to=23, by=0.25)
-seq(from=10, to=1, by=-2)
+1:6
+seq(from = 0, to = 24, by = 6)           # time points (hours)
+rep(c("control", "treated"), each = 3)   # group labels
+paste0("S", 1:6)                         # sample names
+paste(genes, collapse = ", ")            # many strings → one
 ```
 
 ```
-## [1] 1 3 5 7 9
-## [1] 21.00 21.25 21.50 21.75 22.00 22.25 22.50 22.75 23.00
-## [1] 10  8  6  4  2
+## [1] 1 2 3 4 5 6
+## [1]  0  6 12 18 24
+## [1] "control" "control" "control" "treated" "treated" "treated"
+## [1] "S1" "S2" "S3" "S4" "S5" "S6"
+## [1] "BRCA1, TP53, EGFR, MYC, GAPDH"
 ```
 
 ---
-exclude: true
-name: printing_brackets
+name: random_sample
 
-## A detour &amp;ndash; printing with `()`
-Note what we did here, if you enclose the expression in `()`, the result of assignment will be also printed:
+## Random sampling
 
-
-``` r
-seq1 &lt;- seq(from = 1, to = 5)
-seq1 # has to be printed explicitly
-```
-
-```
-## [1] 1 2 3 4 5
-```
-while:
+Randomly assign six mice to groups:
 
 
 ``` r
-(seq2 &lt;- seq(from = 5, to = 1)) # will print automatically
+mice &lt;- paste0("M", 1:6)
+set.seed(42)     # same random result every time
+sample(mice)     # first 3 treated, last 3 control
 ```
 
 ```
-## [1] 5 4 3 2 1
+## [1] "M1" "M5" "M6" "M4" "M2" "M3"
 ```
 
----
-name: seq2
-
-## Repeating sequences
-One may also wish to repeat a value or a vector n times:
-
-``` r
-rep('a', times=5)
-rep(1:5, times=3)
-rep(seq(from=1, to=3, by=2), times=2)
-```
-
-```
-## [1] "a" "a" "a" "a" "a"
-##  [1] 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5
-## [1] 1 3 1 3
-```
-
----
-name: paste
-
-## Pasting things together
-We can **concatenate** character vectors together using `paste()`
-
-``` r
-firstname &lt;- c('Pedro','Maria','Ana')
-lastname &lt;- c('Silva','Andersson','Smith')
-paste(firstname, lastname, sep = ' ')
-```
-
-```
-## [1] "Pedro Silva"     "Maria Andersson" "Ana Smith"
-```
 --
-Optionally, we can provide the collapse argument:
 
-``` r
-paste(firstname, lastname, sep = ' ', collapse = '; ')
-```
-
-```
-## [1] "Pedro Silva; Maria Andersson; Ana Smith"
-```
-
----
-name: random_seq
-
-## Sequences of random numbers
-We can use `sample()` to generate sequences of random numbers:
+With replacement:
 
 
 ``` r
-# simulate casting a fair dice 10x
-sample(x = c(1:6), size=10, replace = T) 
-# make it unfair, it is loaded on '3'
-myprobs = rep(0.15, times = 6)
-myprobs[3] &lt;- 0.25 # a bit higher probability for '3'
-sample(x = c(1:6), size = 10, replace = T, prob=myprobs)
+sample(c("AA", "AG", "GG"), size = 10, replace = TRUE)
 ```
 
 ```
-##  [1] 4 6 1 3 3 3 6 5 2 5
-##  [1] 3 1 5 2 1 2 1 3 1 1
-```
-
----
-name: simulate_dice
-
-## Fair vs. loaded dice
-Now, let us see how this can be useful. We need more than 10 results. Let's cast our dices 10,000 times and plot the freq. distribution.
-
-``` r
-# simulate casting a fair dice 10x
-fair &lt;- sample(x = c(1:6), size=100000, replace = T) 
-unfair &lt;- sample(x = c(1:6), size=100000, replace = T, prob = myprobs)
-
-# calculate frequency
-t1 &lt;- table(fair)/length(fair)
-t2 &lt;- table(unfair)/length(unfair)
-dice_matrix &lt;- rbind(t1, t2)
-rownames(dice_matrix) &lt;- c("Fair", "Unfair")
-```
-
----
-name: simulate_dice2
-
-## Fair vs. loaded dice &amp;ndash; the result
-
-
-
-``` r
-barplot(
-  height = dice_matrix, beside = TRUE,
-  xlab = "Dice Face Value", ylab = "Relative Frequency",
-  col = c("olivedrab", "slateblue"),
-  legend.text = rownames(dice_matrix),
-  args.legend = list(x = "topright", bty = 'n'),
-  ylim = c(0, 0.30)
-)
-```
-
-&lt;img src="slide_r_elements_2_files/figure-html/dicex-1.png" width="648" style="display: block; margin: auto auto auto 0;" /&gt;
-
----
-name: more_on_sample
-
-## Sample &amp;ndash; one more use
-The sample function has one more interesting feature, it can be used to randomize order of already created vectors:
-
-``` r
-mychars &lt;- c('a', 'b', 'c', 'd', 'e', 'f')
-mychars
-sample(mychars)
-sample(mychars)
-```
-
-```
-## [1] "a" "b" "c" "d" "e" "f"
-## [1] "c" "f" "b" "e" "d" "a"
-## [1] "d" "a" "f" "b" "e" "c"
-```
-
----
-name: vec_adv
-
-## Vectors/sequences &amp;ndash; more advanced operations
-
-``` r
-v1 &lt;- sample(1:5, size = 4)
-v1
-max(v1) # max value of the vector
-min(v1) # min value
-sum(v1) # sum all the elements
-mean(v1) # mean of all elements
-```
-
-```
-## [1] 5 2 3 4
-## [1] 5
-## [1] 2
-## [1] 14
-## [1] 3.5
-```
-
----
-exclude: true
-name: vec_adv2
-
-## Vectors/sequences &amp;ndash; more advanced operations 2
-
-``` r
-v1
-diff(v1) # diff. of element pairs
-cumsum(v1) # cumulative sum
-prod(v1) # product of all elements
-```
-
-```
-## [1] 5 2 3 4
-## [1] -3  1  1
-## [1]  5  7 10 14
-## [1] 120
-```
-
----
-name: vec_adv3
-exclude: true
-
-## Vectors/sequences &amp;ndash; more advanced operations 3
-
-``` r
-v1
-cumprod(v1) # cumulative product
-cummin(v1) # minimum so far (up to i-th el.)
-cummax(v1) # maximum up to i-th element
-```
-
-```
-## [1] 5 2 3 4
-## [1]   5  10  30 120
-## [1] 5 2 2 2
-## [1] 5 5 5 5
-```
-
----
-exclude: true
-name: vec_pairwise_comp
-
-## Vectors/sequences &amp;ndash; pairwise comparisons
-
-``` r
-v2 &lt;- sample(1:5, size=4)
-```
-
-``` r
-v1
-v2
-v1 &lt;= v2 # direct comparison
-pmin(v1, v2) # pairwise min
-pmax(v1, v2) # pairwise max
-```
-
-```
-## [1] 5 2 3 4
-## [1] 3 1 4 2
-## [1] FALSE FALSE  TRUE FALSE
-## [1] 3 1 3 2
-## [1] 5 2 4 4
-```
-
----
-name: vec_order_rank
-
-## Vectors/sequences &amp;ndash; ordering
-Ordering can be dealt with in many ways.
-
-``` r
-v1 &lt;- c(1, 3, 4, 5, 3, 2)
-rank(v1) # show rank of each value (min has rank 1)
-order(v1) # order of indices for a sorted vector
-v1[order(v1)]
-sort(v1)
-```
-
-```
-## [1] 1.0 3.5 5.0 6.0 3.5 2.0
-## [1] 1 6 2 5 3 4
-## [1] 1 2 3 3 4 5
-## [1] 1 2 3 3 4 5
+##  [1] "AG" "AG" "AA" "GG" "GG" "AA" "AA" "AG" "AG" "AG"
 ```
 
 ---
 name: factors
 
 ## Factors
-To work with **nominal** values, R offers a special data type, a *factor*:
+
+Categories, such as groups. Possible values = **levels**.
+
 
 ``` r
-vec &lt;- c('blue', 'yellow', 'purple', 
-         'yellow', 'yellow', 'blue')
-vec.f &lt;- factor(vec)
-summary(vec.f)
+strain &lt;- factor(c("WT", "KO", "WT", "KO", "KO", "WT"))
+levels(strain)      # alphabetical: KO first
+table(strain)
 ```
 
 ```
-##   blue purple yellow 
-##      2      1      3
-```
-The levels of a factor are coded alphabetically by default. So blue is coded as 1, purple as 2 and yellow as 3.
-
-Factors are really just a special type of integer vectors.
-
-``` r
-as.numeric(vec.f)
+## [1] "KO" "WT"
+## strain
+## KO WT 
+##  3  3
 ```
 
-```
-## [1] 1 3 2 3 3 1
-```
+--
 
----
-name: factors2
+The first level is the **reference** (plots, models). Set it yourself:
 
-## Factors
-You can manually control the coding/mapping of factors and their labels:
 
 ``` r
-vec &lt;- c('blue', 'yellow', 'purple', 
-         'yellow', 'yellow', 'blue')
-vec.f &lt;- factor(vec, levels=c('blue', 'purple', 'yellow', 'white'), 
-                labels=c('sea','flower','sun','snow'))
-summary(vec.f)
+strain &lt;- factor(strain, levels = c("WT", "KO"))
+levels(strain)
 ```
 
 ```
-##    sea flower    sun   snow 
-##      2      1      3      0
+## [1] "WT" "KO"
 ```
-
 
 ---
 name: ordered_fac
 
-## Ordered
-To work with ordinal scale (ordered) variables, one can also use factors:
+## Ordered factors
+
+For categories with a natural order:
+
 
 ``` r
-vec &lt;- c('small', 'tiny', 'large', 'medium')
-factor(vec) # rearranged alphabetically
+severity &lt;- c("mild", "severe", "moderate", "mild", "severe")
+severity &lt;- factor(severity, levels = c("mild", "moderate", "severe"),
+                   ordered = TRUE)
+severity
+severity &gt; "mild"
 ```
 
 ```
-## [1] small  tiny   large  medium
-## Levels: large medium small tiny
-```
---
-We can control the order:
-
-``` r
-factor(vec, levels = c('tiny', 'small', 'medium', 'large'),
-       ordered=TRUE) # ordered as provided in the levels argument
+## [1] mild     severe   moderate mild     severe  
+## Levels: mild &lt; moderate &lt; severe
+## [1] FALSE  TRUE  TRUE FALSE  TRUE
 ```
 
-```
-## [1] small  tiny   large  medium
-## Levels: tiny &lt; small &lt; medium &lt; large
-```
+---
+name: recap
 
+## Recap
+
+| Task | Example |
+|:-----|:--------|
+| Create | `c(5.2, 7.8, 6.1)` |
+| Calculate | `counts / lib_size * 1e6` |
+| Index | `x[2]`, `x["TP53"]`, `x[x &gt; 7]` |
+| Modify | `x["MYC"] &lt;- NA` |
+| Summarise | `mean(x, na.rm = TRUE)`, `table(x)` |
+| Sort | `sort(x)`, `genes[order(x)]` |
+| Generate | `seq()`, `rep()`, `paste0()`, `sample()` |
+| Categories | `factor(x, levels = ...)` |
+
+&lt;br&gt;
+
+**Remember:** one type per vector. Element by element. Short vectors get recycled.
 
 &lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
 
@@ -841,7 +472,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 27-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 29-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 

@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Matrices, Lists and Dataframes</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/lab.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+#TOC {
+  display: none !important;
+}
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="assets/logo.svg" id="logo" style="height:20px;margin:0;"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="home_schedule.html">Schedule</a>
+</li>
+<li>
+  <a href="home_content.html">Content</a>
+</li>
+<li>
+  <a href="home_precourse.html">Precourse</a>
+</li>
+<li>
+  <a href="home_info.html">Info</a>
+</li>
+<li>
+  <a href="home_projects.html">Projects</a>
+</li>
+<li>
+  <a href="https://github.com/NBISweden/workshop-r/">GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Matrices, Lists and Dataframes</h1>
+
+</div>
+
+
+<!-- rmd lab header -->
+<p><br></p>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Vectors hold one type in one dimension. Real data needs bigger containers:</p>
+<table>
+<colgroup>
+<col width="40%" />
+<col width="25%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Container</th>
+<th align="left">Holds</th>
+<th align="left">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>matrix</strong></td>
+<td align="left">one type, rows × columns</td>
+<td align="left">a plate of absorbance readings</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>data frame</strong></td>
+<td align="left">one type <em>per column</em></td>
+<td align="left">a patient table</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>list</strong></td>
+<td align="left">anything</td>
+<td align="left">everything about one gene</td>
+</tr>
+</tbody>
+</table>
+<p>In this lab you will:</p>
+<ul>
+<li>create matrices, data frames and lists,</li>
+<li>select values by position, name and condition,</li>
+<li>calculate on rows and columns,</li>
+<li>filter, extend and merge data frames,</li>
+<li>deal with missing values,</li>
+<li>get results out of lists.</li>
+</ul>
+<div class="boxy boxy-lightbulb">
+<p>As always: predict first, then run. If the output surprises you, find out why. Click the key to reveal example code. Keep your code and notes in your <strong>R Markdown learning journal</strong>.</p>
+</div>
+</div>
+<div id="matrices" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Matrices</h1>
+<p>A 96-well plate is a matrix: rows A–H, columns 1–12. Here is a small part of one, with absorbance readings for 3 rows and 4 columns, read <strong>row by row</strong>:</p>
+<pre class="r"><code>readings &lt;- c(0.12, 0.45, 0.88, 0.05,
+              0.15, 0.51, 0.93, 0.06,
+              0.11, 0.48, 0.85, 0.05)</code></pre>
+<ol style="list-style-type: decimal">
+<li>Create a matrix <code>plate</code> from <code>readings</code> with 3 rows, filled row by row. Name the rows <code>"A"</code>, <code>"B"</code>, <code>"C"</code> and the columns <code>"1"</code> to <code>"4"</code>. What are its dimensions? What does <code>length()</code> return?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914165025" aria-expanded="false" aria-controls="acc2026102914165025">
+</button>
+</p>
+<div id="acc2026102914165025" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>plate &lt;- matrix(readings, nrow = 3, byrow = TRUE)
+rownames(plate) &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)
+colnames(plate) &lt;- 1:4
+plate
+dim(plate)
+length(plate)   # total number of values</code></pre>
+<pre><code>##      1    2    3    4
+## A 0.12 0.45 0.88 0.05
+## B 0.15 0.51 0.93 0.06
+## C 0.11 0.48 0.85 0.05
+## [1] 3 4
+## [1] 12</code></pre>
+</div>
+</div>
+<p>What happens if you leave out <code>byrow = TRUE</code>?</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914164375" aria-expanded="false" aria-controls="acc2026102914164375">
+</button>
+</p>
+<div id="acc2026102914164375" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>matrix(readings, nrow = 3)   # filled column by column: the values end up in the wrong wells</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,] 0.12 0.05 0.93 0.48
+## [2,] 0.45 0.15 0.06 0.85
+## [3,] 0.88 0.51 0.11 0.05</code></pre>
+</div>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Select:
+<ul>
+<li>the reading in well B3,</li>
+<li>all of row C,</li>
+<li>all of column 2,</li>
+<li>all readings above 0.5.</li>
+</ul></li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914162464" aria-expanded="false" aria-controls="acc2026102914162464">
+</button>
+</p>
+<div id="acc2026102914162464" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>plate[&quot;B&quot;, &quot;3&quot;]
+plate[&quot;C&quot;, ]
+plate[, &quot;2&quot;]
+plate[plate &gt; 0.5]</code></pre>
+<pre><code>## [1] 0.93
+##    1    2    3    4 
+## 0.11 0.48 0.85 0.05 
+##    A    B    C 
+## 0.45 0.51 0.48 
+## [1] 0.51 0.88 0.93 0.85</code></pre>
+</div>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Column 4 is the blank. Subtract the mean of the blank wells from every reading. Then calculate the mean of each column and the maximum of each row.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914165258" aria-expanded="false" aria-controls="acc2026102914165258">
+</button>
+</p>
+<div id="acc2026102914165258" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>blank &lt;- mean(plate[, &quot;4&quot;])
+plate_corrected &lt;- plate - blank
+round(plate_corrected, 3)
+colMeans(plate_corrected)
+apply(plate_corrected, 1, max)</code></pre>
+<pre><code>##       1     2     3      4
+## A 0.067 0.397 0.827 -0.003
+## B 0.097 0.457 0.877  0.007
+## C 0.057 0.427 0.797 -0.003
+##             1             2             3             4 
+##  7.333333e-02  4.266667e-01  8.333333e-01 -2.312965e-18 
+##         A         B         C 
+## 0.8266667 0.8766667 0.7966667</code></pre>
+</div>
+</div>
+<ol start="4" style="list-style-type: decimal">
+<li>Add a row <code>"D"</code> with the readings <code>0.13, 0.47, 0.90, 0.05</code>. Then transpose the plate. What happened to the row and column names?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914167310" aria-expanded="false" aria-controls="acc2026102914167310">
+</button>
+</p>
+<div id="acc2026102914167310" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>plate &lt;- rbind(plate, D = c(0.13, 0.47, 0.90, 0.05))
+plate
+t(plate)   # rows and columns, including their names, swap places</code></pre>
+<pre><code>##      1    2    3    4
+## A 0.12 0.45 0.88 0.05
+## B 0.15 0.51 0.93 0.06
+## C 0.11 0.48 0.85 0.05
+## D 0.13 0.47 0.90 0.05
+##      A    B    C    D
+## 1 0.12 0.15 0.11 0.13
+## 2 0.45 0.51 0.48 0.47
+## 3 0.88 0.93 0.85 0.90
+## 4 0.05 0.06 0.05 0.05</code></pre>
+</div>
+</div>
+<ol start="5" style="list-style-type: decimal">
+<li>Try to put the text <code>"empty"</code> in well A4. What happens to the whole matrix?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914166812" aria-expanded="false" aria-controls="acc2026102914166812">
+</button>
+</p>
+<div id="acc2026102914166812" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>plate_test &lt;- plate
+plate_test[&quot;A&quot;, &quot;4&quot;] &lt;- &quot;empty&quot;
+plate_test       # every value becomes text: a matrix holds one type</code></pre>
+<pre><code>##   1      2      3      4      
+## A &quot;0.12&quot; &quot;0.45&quot; &quot;0.88&quot; &quot;empty&quot;
+## B &quot;0.15&quot; &quot;0.51&quot; &quot;0.93&quot; &quot;0.06&quot; 
+## C &quot;0.11&quot; &quot;0.48&quot; &quot;0.85&quot; &quot;0.05&quot; 
+## D &quot;0.13&quot; &quot;0.47&quot; &quot;0.9&quot;  &quot;0.05&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="data-frames" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Data frames</h1>
+<p>A small clinical study:</p>
+<pre class="r"><code>patients &lt;- data.frame(
+  id     = c(&quot;P01&quot;, &quot;P02&quot;, &quot;P03&quot;, &quot;P04&quot;, &quot;P05&quot;, &quot;P06&quot;),
+  age    = c(34, 58, 47, 62, 29, 51),
+  sex    = c(&quot;F&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;),
+  bmi    = c(22.4, 31.2, 27.8, 29.5, 21.0, 33.1),
+  smoker = c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE),
+  group  = c(&quot;drug&quot;, &quot;placebo&quot;, &quot;drug&quot;, &quot;placebo&quot;, &quot;placebo&quot;, &quot;drug&quot;)
+)</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>How many rows and columns does <code>patients</code> have? What type is each column? Get a summary of every column.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914167378" aria-expanded="false" aria-controls="acc2026102914167378">
+</button>
+</p>
+<div id="acc2026102914167378" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>dim(patients)
+str(patients)
+summary(patients)</code></pre>
+<pre><code>## [1] 6 6
+## &#39;data.frame&#39;:    6 obs. of  6 variables:
+##  $ id    : chr  &quot;P01&quot; &quot;P02&quot; &quot;P03&quot; &quot;P04&quot; ...
+##  $ age   : num  34 58 47 62 29 51
+##  $ sex   : chr  &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; ...
+##  $ bmi   : num  22.4 31.2 27.8 29.5 21 33.1
+##  $ smoker: logi  FALSE TRUE FALSE TRUE FALSE FALSE
+##  $ group : chr  &quot;drug&quot; &quot;placebo&quot; &quot;drug&quot; &quot;placebo&quot; ...
+##       id                 age            sex                 bmi       
+##  Length:6           Min.   :29.00   Length:6           Min.   :21.00  
+##  Class :character   1st Qu.:37.25   Class :character   1st Qu.:23.75  
+##  Mode  :character   Median :49.00   Mode  :character   Median :28.65  
+##                     Mean   :46.83                      Mean   :27.50  
+##                     3rd Qu.:56.25                      3rd Qu.:30.77  
+##                     Max.   :62.00                      Max.   :33.10  
+##    smoker           group          
+##  Mode :logical   Length:6          
+##  FALSE:4         Class :character  
+##  TRUE :2         Mode  :character  
+##                                    
+##                                    
+## </code></pre>
+</div>
+</div>
+<ol start="7" style="list-style-type: decimal">
+<li>Get:
+<ul>
+<li>the <code>bmi</code> column, with <code>$</code> and with <code>[ , ]</code>,</li>
+<li>the rows of patients 2 to 4,</li>
+<li>the age of the third patient,</li>
+<li>the mean age.</li>
+</ul></li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914162702" aria-expanded="false" aria-controls="acc2026102914162702">
+</button>
+</p>
+<div id="acc2026102914162702" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>patients$bmi
+patients[, &quot;bmi&quot;]
+patients[2:4, ]
+patients[3, &quot;age&quot;]
+mean(patients$age)</code></pre>
+<pre><code>## [1] 22.4 31.2 27.8 29.5 21.0 33.1
+## [1] 22.4 31.2 27.8 29.5 21.0 33.1
+##    id age sex  bmi smoker   group
+## 2 P02  58   M 31.2   TRUE placebo
+## 3 P03  47   M 27.8  FALSE    drug
+## 4 P04  62   F 29.5   TRUE placebo
+## [1] 47
+## [1] 46.83333</code></pre>
+</div>
+</div>
+<ol start="8" style="list-style-type: decimal">
+<li>Filter the table:
+<ul>
+<li>all smokers,</li>
+<li>patients in the drug group who are older than 45,</li>
+<li>the IDs of patients with a BMI of 30 or more.</li>
+</ul></li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914166944" aria-expanded="false" aria-controls="acc2026102914166944">
+</button>
+</p>
+<div id="acc2026102914166944" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>patients[patients$smoker, ]
+patients[patients$group == &quot;drug&quot; &amp; patients$age &gt; 45, ]
+patients$id[patients$bmi &gt;= 30]</code></pre>
+<pre><code>##    id age sex  bmi smoker   group
+## 2 P02  58   M 31.2   TRUE placebo
+## 4 P04  62   F 29.5   TRUE placebo
+##    id age sex  bmi smoker group
+## 3 P03  47   M 27.8  FALSE  drug
+## 6 P06  51   M 33.1  FALSE  drug
+## [1] &quot;P02&quot; &quot;P06&quot;</code></pre>
+</div>
+</div>
+<ol start="9" style="list-style-type: decimal">
+<li>What is the mean BMI in the drug group? And in the placebo group?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914169598" aria-expanded="false" aria-controls="acc2026102914169598">
+</button>
+</p>
+<div id="acc2026102914169598" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>mean(patients$bmi[patients$group == &quot;drug&quot;])
+mean(patients$bmi[patients$group == &quot;placebo&quot;])</code></pre>
+<pre><code>## [1] 27.76667
+## [1] 27.23333</code></pre>
+</div>
+</div>
+<ol start="10" style="list-style-type: decimal">
+<li>Add two columns:
+<ul>
+<li><code>obese</code>: <code>TRUE</code> if the BMI is 30 or more,</li>
+<li><code>age_months</code>: the age in months.</li>
+</ul>
+Then make <code>group</code> a factor with <code>"placebo"</code> as the first level.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914168252" aria-expanded="false" aria-controls="acc2026102914168252">
+</button>
+</p>
+<div id="acc2026102914168252" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>patients$obese &lt;- patients$bmi &gt;= 30
+patients$age_months &lt;- patients$age * 12
+patients$group &lt;- factor(patients$group, levels = c(&quot;placebo&quot;, &quot;drug&quot;))
+levels(patients$group)
+patients</code></pre>
+<pre><code>## [1] &quot;placebo&quot; &quot;drug&quot;   
+##    id age sex  bmi smoker   group obese age_months
+## 1 P01  34   F 22.4  FALSE    drug FALSE        408
+## 2 P02  58   M 31.2   TRUE placebo  TRUE        696
+## 3 P03  47   M 27.8  FALSE    drug FALSE        564
+## 4 P04  62   F 29.5   TRUE placebo FALSE        744
+## 5 P05  29   F 21.0  FALSE placebo FALSE        348
+## 6 P06  51   M 33.1  FALSE    drug  TRUE        612</code></pre>
+</div>
+</div>
+<ol start="11" style="list-style-type: decimal">
+<li>Blood glucose was measured in a separate lab. Their table is <strong>in a different order</strong>, is missing one patient, and has one patient who is not in your study:</li>
+</ol>
+<pre class="r"><code>glucose &lt;- data.frame(id = c(&quot;P04&quot;, &quot;P01&quot;, &quot;P06&quot;, &quot;P02&quot;, &quot;P03&quot;, &quot;P07&quot;),
+                      glucose = c(6.1, 5.2, 7.4, 5.9, NA, 5.5))</code></pre>
+<p>Merge it with <code>patients</code>. Which patients are in the result? Then look up the <code>all.x</code> argument in <code>?merge</code> to keep all your patients.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914160576" aria-expanded="false" aria-controls="acc2026102914160576">
+</button>
+</p>
+<div id="acc2026102914160576" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>merge(patients, glucose, by = &quot;id&quot;)                # only patients in both tables
+combined &lt;- merge(patients, glucose, by = &quot;id&quot;, all.x = TRUE)
+combined                                           # P05 is kept, with glucose NA</code></pre>
+<pre><code>##    id age sex  bmi smoker   group obese age_months glucose
+## 1 P01  34   F 22.4  FALSE    drug FALSE        408     5.2
+## 2 P02  58   M 31.2   TRUE placebo  TRUE        696     5.9
+## 3 P03  47   M 27.8  FALSE    drug FALSE        564      NA
+## 4 P04  62   F 29.5   TRUE placebo FALSE        744     6.1
+## 5 P06  51   M 33.1  FALSE    drug  TRUE        612     7.4
+##    id age sex  bmi smoker   group obese age_months glucose
+## 1 P01  34   F 22.4  FALSE    drug FALSE        408     5.2
+## 2 P02  58   M 31.2   TRUE placebo  TRUE        696     5.9
+## 3 P03  47   M 27.8  FALSE    drug FALSE        564      NA
+## 4 P04  62   F 29.5   TRUE placebo FALSE        744     6.1
+## 5 P05  29   F 21.0  FALSE placebo FALSE        348      NA
+## 6 P06  51   M 33.1  FALSE    drug  TRUE        612     7.4</code></pre>
+</div>
+</div>
+<ol start="12" style="list-style-type: decimal">
+<li>In <code>combined</code>, how many values are missing in each column? How many complete rows are left after <code>na.omit()</code>? What is the mean glucose of the patients who have a value?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914164748" aria-expanded="false" aria-controls="acc2026102914164748">
+</button>
+</p>
+<div id="acc2026102914164748" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>colSums(is.na(combined))
+nrow(na.omit(combined))
+mean(combined$glucose, na.rm = TRUE)</code></pre>
+<pre><code>##         id        age        sex        bmi     smoker      group      obese 
+##          0          0          0          0          0          0          0 
+## age_months    glucose 
+##          0          2 
+## [1] 4
+## [1] 6.15</code></pre>
+</div>
+</div>
+<ol start="13" style="list-style-type: decimal">
+<li>R comes with a real life-science data set, <code>ToothGrowth</code>: tooth length in 60 guinea pigs given vitamin C as orange juice (<code>OJ</code>) or ascorbic acid (<code>VC</code>), at three doses. Explore it:
+<ul>
+<li>How many rows and columns? What are the column types?</li>
+<li>What is the mean tooth length for each supplement?</li>
+<li>Show only the rows with the highest dose (2 mg/day).</li>
+</ul></li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914166377" aria-expanded="false" aria-controls="acc2026102914166377">
+</button>
+</p>
+<div id="acc2026102914166377" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>dim(ToothGrowth)
+str(ToothGrowth)
+mean(ToothGrowth$len[ToothGrowth$supp == &quot;OJ&quot;])
+mean(ToothGrowth$len[ToothGrowth$supp == &quot;VC&quot;])
+ToothGrowth[ToothGrowth$dose == 2, ]</code></pre>
+<pre><code>## [1] 60  3
+## &#39;data.frame&#39;:    60 obs. of  3 variables:
+##  $ len : num  4.2 11.5 7.3 5.8 6.4 10 11.2 11.2 5.2 7 ...
+##  $ supp: Factor w/ 2 levels &quot;OJ&quot;,&quot;VC&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ dose: num  0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 ...
+## [1] 20.66333
+## [1] 16.96333
+##     len supp dose
+## 21 23.6   VC    2
+## 22 18.5   VC    2
+## 23 33.9   VC    2
+## 24 25.5   VC    2
+## 25 26.4   VC    2
+## 26 32.5   VC    2
+## 27 26.7   VC    2
+## 28 21.5   VC    2
+## 29 23.3   VC    2
+## 30 29.5   VC    2
+## 51 25.5   OJ    2
+## 52 26.4   OJ    2
+## 53 22.4   OJ    2
+## 54 24.5   OJ    2
+## 55 24.8   OJ    2
+## 56 30.9   OJ    2
+## 57 26.4   OJ    2
+## 58 27.3   OJ    2
+## 59 29.4   OJ    2
+## 60 23.0   OJ    2</code></pre>
+</div>
+</div>
+</div>
+<div id="lists" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Lists</h1>
+<ol start="14" style="list-style-type: decimal">
+<li>Create a list <code>gene</code> with everything you know about one gene:
+<ul>
+<li><code>symbol</code>: <code>"TP53"</code>,</li>
+<li><code>chromosome</code>: <code>17</code>,</li>
+<li><code>exon_lengths</code>: <code>c(103, 22, 279, 184, 113, 110, 137)</code>,</li>
+<li><code>functions</code>: <code>c("DNA repair", "apoptosis", "cell cycle arrest")</code>,</li>
+<li><code>expression</code>: a data frame with the columns <code>tissue</code> (<code>"liver"</code>, <code>"lung"</code>, <code>"skin"</code>) and <code>tpm</code> (<code>45.2</code>, <code>61.8</code>, <code>30.1</code>).</li>
+</ul>
+Look at it with <code>str()</code>.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914168450" aria-expanded="false" aria-controls="acc2026102914168450">
+</button>
+</p>
+<div id="acc2026102914168450" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>gene &lt;- list(
+  symbol       = &quot;TP53&quot;,
+  chromosome   = 17,
+  exon_lengths = c(103, 22, 279, 184, 113, 110, 137),
+  functions    = c(&quot;DNA repair&quot;, &quot;apoptosis&quot;, &quot;cell cycle arrest&quot;),
+  expression   = data.frame(tissue = c(&quot;liver&quot;, &quot;lung&quot;, &quot;skin&quot;),
+                            tpm    = c(45.2, 61.8, 30.1))
+)
+str(gene)</code></pre>
+<pre><code>## List of 5
+##  $ symbol      : chr &quot;TP53&quot;
+##  $ chromosome  : num 17
+##  $ exon_lengths: num [1:7] 103 22 279 184 113 110 137
+##  $ functions   : chr [1:3] &quot;DNA repair&quot; &quot;apoptosis&quot; &quot;cell cycle arrest&quot;
+##  $ expression  :&#39;data.frame&#39;:    3 obs. of  2 variables:
+##   ..$ tissue: chr [1:3] &quot;liver&quot; &quot;lung&quot; &quot;skin&quot;
+##   ..$ tpm   : num [1:3] 45.2 61.8 30.1</code></pre>
+</div>
+</div>
+<ol start="15" style="list-style-type: decimal">
+<li>Compare <code>gene["symbol"]</code> and <code>gene[["symbol"]]</code>. What is the class of each?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914160741" aria-expanded="false" aria-controls="acc2026102914160741">
+</button>
+</p>
+<div id="acc2026102914160741" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>gene[&quot;symbol&quot;]
+class(gene[&quot;symbol&quot;])     # a list
+gene[[&quot;symbol&quot;]]
+class(gene[[&quot;symbol&quot;]])   # the value itself</code></pre>
+<pre><code>## $symbol
+## [1] &quot;TP53&quot;
+## 
+## [1] &quot;list&quot;
+## [1] &quot;TP53&quot;
+## [1] &quot;character&quot;</code></pre>
+</div>
+</div>
+<ol start="16" style="list-style-type: decimal">
+<li>Get:
+<ul>
+<li>the length of the third exon,</li>
+<li>the total length of all exons,</li>
+<li>the number of known functions,</li>
+<li>the TPM in lung.</li>
+</ul></li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914160107" aria-expanded="false" aria-controls="acc2026102914160107">
+</button>
+</p>
+<div id="acc2026102914160107" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>gene$exon_lengths[3]
+sum(gene$exon_lengths)
+length(gene$functions)
+gene$expression$tpm[gene$expression$tissue == &quot;lung&quot;]</code></pre>
+<pre><code>## [1] 279
+## [1] 948
+## [1] 3
+## [1] 61.8</code></pre>
+</div>
+</div>
+<ol start="17" style="list-style-type: decimal">
+<li>Add an element <code>aliases</code> with the value <code>c("p53", "LFS1")</code>. Then remove <code>chromosome</code>. Check the names of the list.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914168214" aria-expanded="false" aria-controls="acc2026102914168214">
+</button>
+</p>
+<div id="acc2026102914168214" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>gene$aliases &lt;- c(&quot;p53&quot;, &quot;LFS1&quot;)
+gene$chromosome &lt;- NULL
+names(gene)</code></pre>
+<pre><code>## [1] &quot;symbol&quot;       &quot;exon_lengths&quot; &quot;functions&quot;    &quot;expression&quot;   &quot;aliases&quot;</code></pre>
+</div>
+</div>
+<ol start="18" style="list-style-type: decimal">
+<li>Use <code>t.test()</code> to compare tooth length between the two supplements in <code>ToothGrowth</code>. The result is a list. What are its elements? Get the p-value and the 95% confidence interval.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914169531" aria-expanded="false" aria-controls="acc2026102914169531">
+</button>
+</p>
+<div id="acc2026102914169531" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>res &lt;- t.test(len ~ supp, data = ToothGrowth)
+is.list(res)
+names(res)
+res$p.value
+res$conf.int</code></pre>
+<pre><code>## [1] TRUE
+##  [1] &quot;statistic&quot;   &quot;parameter&quot;   &quot;p.value&quot;     &quot;conf.int&quot;    &quot;estimate&quot;   
+##  [6] &quot;null.value&quot;  &quot;stderr&quot;      &quot;alternative&quot; &quot;method&quot;      &quot;data.name&quot;  
+## [1] 0.06063451
+## [1] -0.1710156  7.5710156
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+</div>
+</div>
+</div>
+
+
+<footer class="footer">
+<div class="container footer-container">
+<div class="row">
+
+<div class="footer-left col-sm-6">
+<p class="small">
+<b>2026</b> • <a href="https://nbis.se/">NBIS</a> • <a href="https://www.scilifelab.se/">SciLifeLab</a>
+</p>
+</div>
+
+<div class="footer-right col-sm-6">
+<p>
+<span>
+  <span class="footericon" style="padding-right:4px; padding-left:4px">
+    <a href="https://nbis.se/">
+      <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 496 512"><path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z"></path>
+      </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-right:4px; padding-left:4px">
+      <a href="https://twitter.com/NBISwe"><svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+    </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-left:4px">
+      <a href="https://www.linkedin.com/company/nbisweden/">
+        <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+        </svg>
+    </a>
+    </span>
+  </span>
+</p>
+</div>
+
+</div>
+</div>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

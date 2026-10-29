@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Vectors</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Guilherme Dias" />
+    <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
+    <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+    <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Vectors
+]
+.author[
+### Guilherme Dias
+]
+
+---
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+&lt;!-- ------------ Only edit title, subtitle &amp; author above this ------------ --&gt;
+
+
+
+---
+name: contents
+
+## Contents
+
+- Creating vectors
+- Calculating with vectors
+- Indexing: by position, name, condition
+- Modifying, summarising, counting, sorting
+- Generating vectors
+- Factors
+
+&lt;img src="images/scooby_vectors.png" width="35%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+name: atomic_vectors
+
+## Vectors
+
+A **vector** holds values of **one type**. Create it with `c()`:
+
+
+``` r
+genes &lt;- c("BRCA1", "TP53", "EGFR", "MYC", "GAPDH")
+expression &lt;- c(5.2, 7.8, 6.1, 9.4, 12.3)
+length(expression)
+```
+
+```
+## [1] 5
+```
+
+A single value is a vector of length 1.
+
+---
+name: vec_arithmetic
+
+## Calculating with vectors
+
+Operations work on **every element**.
+
+Read counts in four samples, normalized to **counts per million (CPM)**:
+
+
+``` r
+counts   &lt;- c(1520, 830, 2210, 1105)
+lib_size &lt;- c(20e6, 15e6, 25e6, 18e6)   # total reads per sample
+cpm &lt;- counts / lib_size * 1e6
+cpm
+log2(cpm + 1)
+```
+
+```
+## [1] 76.00000 55.33333 88.40000 61.38889
+## [1] 6.266787 5.815917 6.482203 5.963217
+```
+
+Same length → **element by element**: sample 1 with sample 1, and so on.
+
+---
+name: recycling_rule
+
+## Recycling
+
+Different lengths → the shorter vector is **repeated**:
+
+
+``` r
+counts * 2                   # 2 is used for every element
+c(1, 2, 3, 4) + c(0, 100)    # c(0, 100) becomes c(0, 100, 0, 100)
+```
+
+```
+## [1] 3040 1660 4420 2210
+## [1]   1 102   3 104
+```
+
+--
+
+Lengths don't fit → **warning**:
+
+
+``` r
+c(1, 2, 3, 4, 5) + c(0, 100)
+```
+
+```
+## Warning in c(1, 2, 3, 4, 5) + c(0, 100): longer object length is not a multiple
+## of shorter object length
+```
+
+```
+## [1]   1 102   3 104   5
+```
+
+.content-box-yellow[
+Recycling one number: useful. Anything else: usually a bug.
+]
+
+---
+name: vec_indexing
+
+## Indexing by position
+
+`[ ]` picks elements. R counts from **1**.
+
+
+``` r
+genes[2]           # second
+genes[c(1, 3)]     # first and third
+genes[2:4]         # second to fourth
+genes[-5]          # all except the fifth
+genes[10]          # beyond the end: NA
+```
+
+```
+## [1] "TP53"
+## [1] "BRCA1" "EGFR" 
+## [1] "TP53" "EGFR" "MYC" 
+## [1] "BRCA1" "TP53"  "EGFR"  "MYC"  
+## [1] NA
+```
+
+---
+name: vec_indexing_names
+
+## Indexing by name
+
+
+``` r
+names(expression) &lt;- genes
+expression
+expression["TP53"]
+expression[c("MYC", "GAPDH")]
+```
+
+```
+## BRCA1  TP53  EGFR   MYC GAPDH 
+##   5.2   7.8   6.1   9.4  12.3 
+## TP53 
+##  7.8 
+##   MYC GAPDH 
+##   9.4  12.3
+```
+
+Names survive reordering. Positions don't.
+
+---
+name: vec_conditions
+
+## Indexing by condition
+
+Keep elements where the condition is `TRUE`:
+
+
+``` r
+expression &gt; 7
+expression[expression &gt; 7]          # values
+names(expression)[expression &gt; 7]   # names
+which(expression &gt; 7)               # positions
+```
+
+```
+## BRCA1  TP53  EGFR   MYC GAPDH 
+## FALSE  TRUE FALSE  TRUE  TRUE 
+##  TP53   MYC GAPDH 
+##   7.8   9.4  12.3 
+## [1] "TP53"  "MYC"   "GAPDH"
+##  TP53   MYC GAPDH 
+##     2     4     5
+```
+
+This is **filtering**. You'll use it all the time.
+
+---
+name: vec_modify
+
+## Modifying vectors
+
+
+``` r
+expr2 &lt;- expression
+expr2["MYC"] &lt;- NA          # failed measurement
+expr2[expr2 &gt; 10] &lt;- 10     # cap at 10
+c(expr2, ACTB = 11.1)       # add an element
+```
+
+```
+## BRCA1  TP53  EGFR   MYC GAPDH  ACTB 
+##   5.2   7.8   6.1    NA  10.0  11.1
+```
+
+.footnote[Assigning past the end (`x[9] &lt;- 1`) fills the gap with `NA`.]
+
+---
+name: vec_summaries
+
+## Summarising
+
+Ct values of five replicates:
+
+
+``` r
+ct &lt;- c(24.1, 25.3, 23.8, 26.0, 24.7)
+mean(ct)
+sd(ct)
+range(ct)
+```
+
+```
+## [1] 24.78
+## [1] 0.8927486
+## [1] 23.8 26.0
+```
+
+--
+
+`NA` is contagious:
+
+
+``` r
+ct_missing &lt;- c(24.1, 25.3, NA, 26.0)
+mean(ct_missing)
+mean(ct_missing, na.rm = TRUE)
+```
+
+```
+## [1] NA
+## [1] 25.13333
+```
+
+---
+name: vec_count
+
+## Counting
+
+Genotypes of 10 individuals at one SNP:
+
+
+``` r
+genotype &lt;- c("AA", "AG", "GG", "AG", "AA",
+              "AG", "AA", "AA", "GG", "AG")
+unique(genotype)
+table(genotype)
+table(genotype) / length(genotype)   # frequencies
+```
+
+```
+## [1] "AA" "AG" "GG"
+## genotype
+## AA AG GG 
+##  4  4  2 
+## genotype
+##  AA  AG  GG 
+## 0.4 0.4 0.2
+```
+
+---
+name: vec_sorting
+
+## Sorting
+
+
+``` r
+sort(expression)                     # lowest first
+sort(expression, decreasing = TRUE)  # highest first
+```
+
+```
+## BRCA1  EGFR  TP53   MYC GAPDH 
+##   5.2   6.1   7.8   9.4  12.3 
+## GAPDH   MYC  TP53  EGFR BRCA1 
+##  12.3   9.4   7.8   6.1   5.2
+```
+
+--
+
+`order()` gives positions. Use it to sort one vector by another:
+
+
+``` r
+genes[order(expression, decreasing = TRUE)]   # genes ranked by expression
+```
+
+```
+## [1] "GAPDH" "MYC"   "TP53"  "EGFR"  "BRCA1"
+```
+
+.footnote[`sort()` drops `NA`s.]
+
+---
+name: seq
+
+## Generating vectors
+
+
+``` r
+1:6
+seq(from = 0, to = 24, by = 6)           # time points (hours)
+rep(c("control", "treated"), each = 3)   # group labels
+paste0("S", 1:6)                         # sample names
+paste(genes, collapse = ", ")            # many strings → one
+```
+
+```
+## [1] 1 2 3 4 5 6
+## [1]  0  6 12 18 24
+## [1] "control" "control" "control" "treated" "treated" "treated"
+## [1] "S1" "S2" "S3" "S4" "S5" "S6"
+## [1] "BRCA1, TP53, EGFR, MYC, GAPDH"
+```
+
+---
+name: random_sample
+
+## Random sampling
+
+Randomly assign six mice to groups:
+
+
+``` r
+mice &lt;- paste0("M", 1:6)
+set.seed(42)     # same random result every time
+sample(mice)     # first 3 treated, last 3 control
+```
+
+```
+## [1] "M1" "M5" "M6" "M4" "M2" "M3"
+```
+
+--
+
+With replacement:
+
+
+``` r
+sample(c("AA", "AG", "GG"), size = 10, replace = TRUE)
+```
+
+```
+##  [1] "AG" "AG" "AA" "GG" "GG" "AA" "AA" "AG" "AG" "AG"
+```
+
+---
+name: factors
+
+## Factors
+
+Categories, such as groups. Possible values = **levels**.
+
+
+``` r
+strain &lt;- factor(c("WT", "KO", "WT", "KO", "KO", "WT"))
+levels(strain)      # alphabetical: KO first
+table(strain)
+```
+
+```
+## [1] "KO" "WT"
+## strain
+## KO WT 
+##  3  3
+```
+
+--
+
+The first level is the **reference** (plots, models). Set it yourself:
+
+
+``` r
+strain &lt;- factor(strain, levels = c("WT", "KO"))
+levels(strain)
+```
+
+```
+## [1] "WT" "KO"
+```
+
+---
+name: ordered_fac
+
+## Ordered factors
+
+For categories with a natural order:
+
+
+``` r
+severity &lt;- c("mild", "severe", "moderate", "mild", "severe")
+severity &lt;- factor(severity, levels = c("mild", "moderate", "severe"),
+                   ordered = TRUE)
+severity
+severity &gt; "mild"
+```
+
+```
+## [1] mild     severe   moderate mild     severe  
+## Levels: mild &lt; moderate &lt; severe
+## [1] FALSE  TRUE  TRUE FALSE  TRUE
+```
+
+---
+name: recap
+
+## Recap
+
+| Task | Example |
+|:-----|:--------|
+| Create | `c(5.2, 7.8, 6.1)` |
+| Calculate | `counts / lib_size * 1e6` |
+| Index | `x[2]`, `x["TP53"]`, `x[x &gt; 7]` |
+| Modify | `x["MYC"] &lt;- NA` |
+| Summarise | `mean(x, na.rm = TRUE)`, `table(x)` |
+| Sort | `sort(x)`, `genes[order(x)]` |
+| Generate | `seq()`, `rep()`, `paste0()`, `sample()` |
+| Categories | `factor(x, levels = ...)` |
+
+&lt;br&gt;
+
+**Remember:** one type per vector. Element by element. Short vectors get recycled.
+
+&lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# We will talk about matrices in the next lecture!
+
+
+.end-text[
+&lt;p class="smaller"&gt;
+&lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
+Created: 29-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+&lt;/p&gt;
+]
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

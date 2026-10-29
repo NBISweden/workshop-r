@@ -3,7 +3,7 @@
   <head>
     <title>Matrices, Data Frames, and Lists</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Marcin Kierczak, Guilherme Dias" />
+    <meta name="author" content="Guilherme Dias" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
     <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -18,11 +18,8 @@ class: center, middle, inverse, title-slide
 .title[
 # Matrices, Data Frames, and Lists
 ]
-.subtitle[
-## R Foundations for Data Analysis
-]
 .author[
-### Marcin Kierczak, Guilherme Dias
+### Guilherme Dias
 ]
 
 ---
@@ -43,410 +40,162 @@ count: false
 
 
 ---
-name: contents
+name: puzzle
 
-# Contents of the lecture
+# Where would you store...
 
-- **matrices**
-- **data frames**
-- **lists**
+.pull-left-50[
+### 1. A count table
+20,000 genes × 6 samples.  
+All numbers.
+
+### 2. A sample sheet
+ID, strain, sex, weight, treated?  
+Text, numbers, `TRUE`/`FALSE`.
+
+### 3. Your whole experiment
+Both tables, the date, your notes, your plots.
+]
+
+--
+
+.pull-right-50[
+&lt;br&gt;
+
+### A vector? ❌
+
+One type. One dimension.
+
+&lt;br&gt;
+
+### We need bigger boxes 📦
+]
+
+---
+name: containers
+
+# Three containers
+
+&lt;br&gt;&lt;br&gt;
+
+| | Container | Like a... | 
+|:-:|:----------|:----------|
+| 🧊 | **matrix** | ice-cube tray |
+| 📋 | **data frame** | spreadsheet |
+| 🎒 | **list** | backpack |
+
 
 ---
 name: matrices
 
-# Matrices
+# 🧊 Matrices
 
-A **matrix** has 2 dimensions: rows and columns.
-Like vectors, elements must be of the same type.
+Rows × columns, **one type**. A count table:
 
-Say, we want to build this matrix in R:
-`$$\mathbf{X} = \left[\begin{array}
-{rrr}
-1 &amp; 2 &amp; 3 \\
-4 &amp; 5 &amp; 6 \\
-7 &amp; 8 &amp; 9
-\end{array}\right]$$`
-
-``` r
-X &lt;- matrix(1:9,
-       nrow=3, 
-       ncol=3,
-       byrow=T)
-X
-```
 
 ```
-##      [,1] [,2] [,3]
-## [1,]    1    2    3
-## [2,]    4    5    6
-## [3,]    7    8    9
+##        WT1  WT2  KO1  KO2
+## BRCA1  120  135   40   52
+## TP53   300  280  310  295
+## MYC     15   22  180  165
+## GAPDH 2100 1950 2240 2010
+## [1] 4 4
 ```
-
----
-name: matrices_dim
-
-# Matrices &amp;mdash; dimensions
-
-To check the dimensions of a matrix, use `dim()`:
-
-``` r
-dim(X) # 3 rows and 3 columns
-```
-
-```
-## [1] 3 3
-```
-
 
 ---
 name: matrices_indexing
 
-# Matrices &amp;mdash; indexing
+# Matrices: indexing
 
-Elements of a matrix are retrieved using the `[]` notation.
-We have to specify 2 dimensions -- the rows and the columns:
+`[row, column]`. Leave one empty to get everything.
 
-`$$\mathbf{X} = \left[\begin{array}
-{rrr}
-1 &amp; 2 &amp; 3 \\
-4 &amp; 5 &amp; 6 \\
-7 &amp; 8 &amp; 9
-\end{array}\right]$$`
-
-
-``` r
-X[1,2] # 1st row, 2nd column
-X[3,] # entire 3rd row
-X[,2] # entire 2nd column
-```
 
 ```
-## [1] 2
-## [1] 7 8 9
-## [1] 2 5 8
-```
-
----
-name: matrices_indexing_2
-exclude: true
-
-# Matrices &amp;mdash; indexing cted.
-
-`$$\mathbf{X} = \left[\begin{array}
-{rrr}
-1 &amp; 2 &amp; 3 \\
-4 &amp; 5 &amp; 6 \\
-7 &amp; 8 &amp; 9
-\end{array}\right]$$`
-
-
-``` r
-X[c(1,3),] # Retrieve rows 1 and 3
-X[c(1,3),c(3,1)]
-```
-
-```
-##      [,1] [,2] [,3]
-## [1,]    1    2    3
-## [2,]    7    8    9
-##      [,1] [,2]
-## [1,]    3    1
-## [2,]    9    7
-```
-
----
-name: matrices_oper_1
-
-# Matrices &amp;mdash; operations
-
-To order a matrix using the 2nd column:
-
-``` r
-X &lt;- matrix(sample(1:9,size = 9), nrow = 3)
-X
-ord &lt;- order(X[,2])
-X[ord,]
-```
-
-```
-##      [,1] [,2] [,3]
-## [1,]    6    9    1
-## [2,]    7    2    4
-## [3,]    8    3    5
-##      [,1] [,2] [,3]
-## [1,]    7    2    4
-## [2,]    8    3    5
-## [3,]    6    9    1
-```
-
----
-name: matrices_t
-
-# Matrices &amp;mdash; transposition
-
-To **transpose** a matrix use `t()`:
-
-
-
-``` r
-X
-t(X)
-```
-
-```
-##      [,1] [,2] [,3]
-## [1,]   10   20   30
-## [2,]   40   50   60
-##      [,1] [,2]
-## [1,]   10   40
-## [2,]   20   50
-## [3,]   30   60
-```
-
-
----
-name: matrices_oper_2
-exclude: true
-
-# Matrices &amp;mdash; operations 2
-
-To get the diagonal of the matrix:
-
-``` r
-X
-diag(X) # get values on the diagonal
-```
-
-```
-##      [,1] [,2] [,3]
-## [1,]   10   20   30
-## [2,]   40   50   60
-## [1] 10 50
-```
-
----
-name: matrices_tri
-exclude: true
-
-# Matrices &amp;mdash; operations, triangles
-
-To get the upper or the lower triangle use `upper.tri()` and `lower.tri()` respectively:
-
-
-``` r
-X # print X
-upper.tri(X) # which elements form the upper triangle
-X[upper.tri(X)] &lt;- 0 # set them to 0
-X # print the new matrix
-```
-
----
-name: matrices_multi
-
-# Matrices &amp;mdash; multiplication
-
-Different types of matrix multiplication exist:
-
-``` r
-A &lt;- matrix(1:4, nrow = 2, byrow=T)
-B &lt;- matrix(5:8, nrow = 2, byrow=T)
-A * B # Hadamard product
-```
-
-```
-##      [,1] [,2]
-## [1,]    5   12
-## [2,]   21   32
-```
---
-
-``` r
-A %*% B # Matrix multiplication
-A %x% B # Kronecker product
-A %o% B # Outer product (tensor product)
-```
-
----
-name: matrices_outer
-
-# Matrices &amp;mdash; outer
-
-Outer product can be useful for generating combinations
-
-``` r
-outer(letters[1:4], LETTERS[1:4], paste, sep="-")
-```
-
-```
-##      [,1]  [,2]  [,3]  [,4] 
-## [1,] "a-A" "a-B" "a-C" "a-D"
-## [2,] "b-A" "b-B" "b-C" "b-D"
-## [3,] "c-A" "c-B" "c-C" "c-D"
-## [4,] "d-A" "d-B" "d-C" "d-D"
-```
-
----
-name: matrices_expand_grid
-exclude: true
-
-# Expand grid
-
-But `expand.grid()` is more convenient when you want, e.g. generate combinations of variable values:
-
-``` r
-expand.grid(height = seq(120, 121),
-            weight = c('1-50', '51+'),
-            sex = c("Male","Female"))
-```
-
-```
-##   height weight    sex
-## 1    120   1-50   Male
-## 2    121   1-50   Male
-## 3    120    51+   Male
-## 4    121    51+   Male
-## 5    120   1-50 Female
-## 6    121   1-50 Female
-## 7    120    51+ Female
-## 8    121    51+ Female
-```
-
----
-name: matrices_apply
-
-# Matrices &amp;mdash; apply
-
-If we want to have mean of each column:
-
-
-``` r
-X
-apply(X, MARGIN=2, mean) # 1 = rows, 2 = columns
-```
-
-```
-##      [,1] [,2] [,3]
-## [1,]   10   20   30
-## [2,]   40   50   60
-## [1] 25 35 45
+## [1] 180
+## WT1 WT2 KO1 KO2 
+##  15  22 180 165 
+##        KO1  KO2
+## BRCA1   40   52
+## TP53   310  295
+## MYC    180  165
+## GAPDH 2240 2010
 ```
 
 --
-And we can use any function
 
-``` r
-myfunction &lt;- function(x){
-  sum(x) + mean(x) + sqrt(sum(x))
-}
-apply(X, MARGIN=2, myfunction)
-```
+Conditions work too:
+
 
 ```
-## [1]  82.07107 113.36660 144.48683
-```
----
-name: matrices_apply_2
-exclude: true
-
-# Matrices &amp;mdash; apply cted.
-
-And now we will use `apply()` to calculate for each element in a matrix its deviation from the mean squared:
-
-
-``` r
-X
-my.mean &lt;- mean(X)
-apply(X, MARGIN=c(1,2),
-      function(x, my.mean) (x - my.mean)^2, my.mean)
-```
-
-```
-##      [,1] [,2] [,3]
-## [1,]   10   20   30
-## [2,]   40   50   60
-##      [,1] [,2] [,3]
-## [1,]  625  225   25
-## [2,]   25  225  625
+##        WT1  WT2  KO1  KO2
+## TP53   300  280  310  295
+## MYC     15   22  180  165
+## GAPDH 2100 1950 2240 2010
 ```
 
 ---
-name: matrices_colSums
+name: matrices_calc
 
-# Matrices &amp;mdash; useful fns.
+# Matrices: calculating
 
-There are pre-made functions for common operations:
+Operations work on every element:
 
-
-``` r
-X
-# instead of apply(X, MARGIN=2, mean)
-colMeans(X)
-```
 
 ```
-##      [,1] [,2] [,3]
-## [1,]   10   20   30
-## [2,]   40   50   60
-## [1] 25 35 45
-```
-These functions are faster!
-
----
-name: matrices_add_row_col
-
-# Matrices &amp;mdash; inserting rows/columns
-
-To add rows or columns to a matrix; or to make a matrix out of two or more vectors of equal length:
-
-
-``` r
-x &lt;- c(1,1,1)
-y &lt;- c(2,2,2)
-cbind(x,y)
-rbind(x,y)
-```
-
-```
-##      x y
-## [1,] 1 2
-## [2,] 1 2
-## [3,] 1 2
-##   [,1] [,2] [,3]
-## x    1    1    1
-## y    2    2    2
-```
-
----
-name: matrices_arrays
-exclude: true
-
-# Matrices &amp;mdash; more dimensions
-
-
-``` r
-dim(Titanic)
-```
-
-```
-## [1] 4 2 2 2
+##             WT1       WT2       KO1       KO2
+## BRCA1  6.918863  7.087463  5.357552  5.727920
+## TP53   8.233620  8.134426  8.280771  8.209453
+## MYC    4.000000  4.523562  7.499846  7.375039
+## GAPDH 11.036860 10.929998 11.129927 10.973697
 ```
 
 --
-exclude: true
 
-&lt;img src="slide_r_elements_3_files/figure-html/matrix.Titanic.plot-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+Sums and means per row or column:
+
+
+```
+##  WT1  WT2  KO1  KO2 
+## 2535 2387 2770 2522 
+##   BRCA1    TP53     MYC   GAPDH 
+##   86.75  296.25   95.50 2075.00 
+## BRCA1  TP53   MYC GAPDH 
+##   135   310   180  2240
+```
+
+---
+name: matrices_combine
+
+# Matrices: combining and flipping
+
+
+```
+##        WT1  WT2  KO1  KO2  KO3
+## BRCA1  120  135   40   52   48
+## TP53   300  280  310  295  305
+## MYC     15   22  180  165  171
+## GAPDH 2100 1950 2240 2010 2150
+```
+
+--
+
+
+```
+##     BRCA1 TP53 MYC GAPDH
+## WT1   120  300  15  2100
+## WT2   135  280  22  1950
+## KO1    40  310 180  2240
+## KO2    52  295 165  2010
+```
 
 ---
 name: data_frames_1
 
-# Data frames  
+# 📋 Data frames
 
-- **Data frames** are also two-dimensional data structures.
-- Different columns can have different data types!
-- Technically, a data frame is just a list of vectors.
-
---
-&lt;br/&gt;&lt;br/&gt;
+- A **table**: like a spreadsheet.
+- Each column is a vector, with **its own type**.
+- All columns have the **same length**.
 
 &lt;center&gt;
 .size-70[
@@ -457,531 +206,270 @@ name: data_frames_1
 ---
 name: data_frames_create
 
-# Data frames &amp;mdash; creating a data frame
+# Data frames: creating
 
+A sample sheet. **Name your columns!**
 
-``` r
-dfr &lt;- data.frame(c(1:5),
-                 LETTERS[1:5],
-                 c(T,F,F,T,T))
-dfr
-```
 
 ```
-##   c.1.5. LETTERS.1.5. c.T..F..F..T..T.
-## 1      1            A             TRUE
-## 2      2            B            FALSE
-## 3      3            C            FALSE
-## 4      4            D             TRUE
-## 5      5            E             TRUE
+##   sample strain sex weight treated
+## 1    WT1     WT   F   22.1   FALSE
+## 2    WT2     WT   M   25.4    TRUE
+## 3    KO1     KO   F   21.8   FALSE
+## 4    KO2     KO   M   26.3    TRUE
 ```
-
 
 ---
-name: data_frames_columns
+name: data_frames_inspect
 
-# Data frames &amp;mdash; name your columns!
+# Data frames: a first look
 
-- Always try to give meaningful names to your columns
-
-
-``` r
-dfr &lt;- data.frame(numbers=c(1:5),
-                 letters=LETTERS[1:5],
-                 logical=c(T,F,F,T,T))
-dfr
-```
 
 ```
-##   numbers letters logical
-## 1       1       A    TRUE
-## 2       2       B   FALSE
-## 3       3       C   FALSE
-## 4       4       D    TRUE
-## 5       5       E    TRUE
+## 'data.frame':	4 obs. of  5 variables:
+##  $ sample : chr  "WT1" "WT2" "KO1" "KO2"
+##  $ strain : chr  "WT" "WT" "KO" "KO"
+##  $ sex    : chr  "F" "M" "F" "M"
+##  $ weight : num  22.1 25.4 21.8 26.3
+##  $ treated: logi  FALSE TRUE FALSE TRUE
 ```
+
+--
+
+
+```
+##     sample             strain              sex                weight     
+##  Length:4           Length:4           Length:4           Min.   :21.80  
+##  Class :character   Class :character   Class :character   1st Qu.:22.02  
+##  Mode  :character   Mode  :character   Mode  :character   Median :23.75  
+##                                                           Mean   :23.90  
+##                                                           3rd Qu.:25.62  
+##                                                           Max.   :26.30  
+##   treated       
+##  Mode :logical  
+##  FALSE:2        
+##  TRUE :2        
+##                 
+##                 
+## 
+```
+
+.footnote[Also useful: `head()`, `nrow()`, `ncol()`, `dim()`, `colnames()`.]
 
 ---
 name: data_frames_accessing
 
-# Data frames &amp;mdash; accessing values
+# Data frames: accessing
 
-- We can always use the `[row,column]` notation to access values inside data frames.
+`$` gets a column (a vector):
 
-
-``` r
-dfr[1,]  # get the first row
-dfr[,2]  # the second column
-dfr[2:3, 'letters'] # get rows 2-3 from the 'letters' column
-```
 
 ```
-##   numbers letters logical
-## 1       1       A    TRUE
-## [1] "A" "B" "C" "D" "E"
-## [1] "B" "C"
+## [1] 22.1 25.4 21.8 26.3
+## [1] 23.9
+```
+
+--
+
+`[row, column]` works like a matrix:
+
+
+```
+##   sample strain sex weight treated
+## 2    WT2     WT   M   25.4    TRUE
+##   sample weight
+## 1    WT1   22.1
+## 2    WT2   25.4
+## 3    KO1   21.8
+## 4    KO2   26.3
+## [1] 21.8
 ```
 
 ---
-name: data_frames_dollar
+name: data_frames_filter
 
-# Data frames &amp;mdash; accessing values
+# Data frames: filtering rows
 
-- We can also use dollar sign `$` to access columns
+A condition picks the rows:
 
-
-``` r
-dfr$letters # get the column named 'letters'
-dfr$letters[2:3] # get the second and third elements of the column named 'letters'
-```
 
 ```
-## [1] "A" "B" "C" "D" "E"
-## [1] "B" "C"
+##   sample strain sex weight treated
+## 3    KO1     KO   F   21.8   FALSE
+## 4    KO2     KO   M   26.3    TRUE
+##   sample strain sex weight treated
+## 4    KO2     KO   M   26.3    TRUE
+## [1] "WT2" "KO2"
 ```
 
+This is your Excel filter. In one line, and it's saved in your script.
 
 ---
-name: data_frames_factors_1
-exclude: true
+name: data_frames_add
 
-# Data frames &amp;mdash; factors
+# Data frames: adding columns
 
-An interesting observation:
-
-
-``` r
-dfr$letter
-dfr$letter &lt;- as.character(dfr$letter)
-dfr$letter
-```
----
-name: data_frames_factors_2
-exclude: true
-
-# Data frames &amp;mdash; factors cted.
-
-To treat characters as characters at data frame creation time, one can use the **stringsAsFactors** option set to TRUE:
-
-
-``` r
-dfr &lt;- data.frame(no=c(1:5),
-                 letter=c("a","b","c","d","e"),
-                 isBrown=sample(c(TRUE, FALSE),
-                        size = 5,
-                        replace=T),
-                 stringsAsFactors = TRUE)
-dfr$letter
-```
-Well, as you see, it did not work as expected...
-
----
-name: data_frames_names
-
-# Data frames &amp;mdash; names
-
-To get or change row/column names:
-
-
-``` r
-colnames(dfr) # get column names
-colnames(dfr) &lt;- c('num','let','logi') # assign column names
-colnames(dfr)
-rownames(dfr) # get row names
-rownames(dfr) &lt;- letters[1:5] # assign row names
-rownames(dfr)
-```
 
 ```
-## [1] "numbers" "letters" "logical"
-## [1] "num"  "let"  "logi"
-## [1] "1" "2" "3" "4" "5"
-## [1] "a" "b" "c" "d" "e"
+##   sample strain sex weight treated heavy
+## 1    WT1     WT   F   22.1   FALSE FALSE
+## 2    WT2     WT   M   25.4    TRUE  TRUE
+## 3    KO1     KO   F   21.8   FALSE FALSE
+## 4    KO2     KO   M   26.3    TRUE  TRUE
 ```
+
+--
+
+Calculations on columns work on all rows at once, just like vectors.
 
 ---
 name: data_frames_merging
 
-# Data frames &amp;mdash; merging
+# Data frames: merging
 
-We can merge two data frames on certain a key using  `merge()`:
+Another table, **in a different order**:
 
 
-``` r
-age &lt;- data.frame(ID=c(1:4),
-                  age=c(37,48,22,NA))
-clinical &lt;- data.frame(ID=c(1:4),
-                       status=c("sick","healthy","healthy","sick"))
-patients &lt;- merge(age, clinical, by='ID')
-patients
-```
+
+--
+
+`merge()` matches rows by a **key** column, not by position:
+
 
 ```
-##   ID age  status
-## 1  1  37    sick
-## 2  2  48 healthy
-## 3  3  22 healthy
-## 4  4  NA    sick
+##   sample strain batch
+## 1    KO1     KO     1
+## 2    KO2     KO     2
+## 3    WT1     WT     1
+## 4    WT2     WT     2
 ```
 
----
-name: data_frames_summarizing
-
-# Data frames &amp;mdash; summarising
-
-To get an overview of the data in each column, use `summary()`:
-
-
-``` r
-summary(patients)
-```
-
-```
-##        ID            age           status         
-##  Min.   :1.00   Min.   :22.00   Length:4          
-##  1st Qu.:1.75   1st Qu.:29.50   Class :character  
-##  Median :2.50   Median :37.00   Mode  :character  
-##  Mean   :2.50   Mean   :35.67                     
-##  3rd Qu.:3.25   3rd Qu.:42.50                     
-##  Max.   :4.00   Max.   :48.00                     
-##                 NA's   :1
-```
+.content-box-yellow[
+Never paste tables side by side and hope the rows line up. Merge by ID.
+]
 
 ---
 name: data_frames_missing
 
-# Data frames &amp;mdash; missing data
-
-We can use functions to deal with missing values:
+# Data frames: missing values
 
 
-``` r
-is.na(patients) # check where the NAs are
 ```
-
+##  sample  strain     sex  weight treated   heavy 
+##       0       0       0       1       0       0 
+##   sample strain sex weight treated heavy
+## 1    WT1     WT   F   22.1   FALSE FALSE
+## 3    KO1     KO   F   21.8   FALSE FALSE
+## 4    KO2     KO   M   26.3    TRUE  TRUE
 ```
-##         ID   age status
-## [1,] FALSE FALSE  FALSE
-## [2,] FALSE FALSE  FALSE
-## [3,] FALSE FALSE  FALSE
-## [4,] FALSE  TRUE  FALSE
-```
---
-
-``` r
-na.omit(patients) # remove all rows containing NAs
-```
-
-```
-##   ID age  status
-## 1  1  37    sick
-## 2  2  48 healthy
-## 3  3  22 healthy
-```
---
-
-``` r
-patients[rowSums(is.na(patients)) &gt; 0,] # select rows containing NAs
-```
-
-```
-##   ID age status
-## 4  4  NA   sick
-```
-
 
 ---
 name: lists_1
 
-# Lists  &amp;mdash; collections of various data types
+# 🎒 Lists
 
-A **list** is a special type of vector. It can hold any data type. 
+A list holds **anything**: vectors, tables, other lists.
 
-
-``` r
-bedr &lt;- data.frame(product = c("POANG", "MALM", "RENS"),
-                      type = c("chair", "bed", "rug"),
-                      price = c(1200, 2300, 899))
-rest &lt;- data.frame(dish = c("kottbullar", "daimtarta"),
-                         price = c(89, 32))
-park &lt;- 162
-opn &lt;- FALSE
-```
---
-
-``` r
-ikea_uppsala &lt;- list(bedroom = bedr, 
-             restaurant = rest, 
-             parking = park,
-             open = opn)
-```
---
-
-``` r
-str(ikea_uppsala) # str (structure) of an object
-```
 
 ```
 ## List of 4
-##  $ bedroom   :'data.frame':	3 obs. of  3 variables:
-##   ..$ product: chr [1:3] "POANG" "MALM" "RENS"
-##   ..$ type   : chr [1:3] "chair" "bed" "rug"
-##   ..$ price  : num [1:3] 1200 2300 899
-##  $ restaurant:'data.frame':	2 obs. of  2 variables:
-##   ..$ dish : chr [1:2] "kottbullar" "daimtarta"
-##   ..$ price: num [1:2] 89 32
-##  $ parking   : num 162
-##  $ open      : logi FALSE
+##  $ name   : chr "MYC knockout pilot"
+##  $ date   : chr "2026-03-14"
+##  $ samples:'data.frame':	4 obs. of  6 variables:
+##  $ counts : num [1:4, 1:4] 120 300 15 2100 135 280 22 1950 40 310 ...
+##   ..- attr(*, "dimnames")=List of 2
 ```
 
 ---
-name: lists_subsetting_double
+name: lists_subsetting
 
-# Subsetting lists
+# Lists: `[[ ]]` vs `[ ]`
 
-We can access elements of a list using the `[[]]` notation. 
-
-
-``` r
-ikea_uppsala[[2]]
-class(ikea_uppsala[[2]])
-```
+.pull-left-50[
 
 ```
-##         dish price
-## 1 kottbullar    89
-## 2  daimtarta    32
-## [1] "data.frame"
+## [1] "MYC knockout pilot"
+## [1] "character"
 ```
 
----
-name: lists_subsetting_single
+`[[ ]]` takes the thing **out**.
+]
 
-# Subsetting lists &amp;mdash; .cted
-
-What if we use `[]`? We get a list back!
-
-
-``` r
-ikea_uppsala[2]
-class(ikea_uppsala[2])
-```
+.pull-right-50[
 
 ```
-## $restaurant
-##         dish price
-## 1 kottbullar    89
-## 2  daimtarta    32
+## $name
+## [1] "MYC knockout pilot"
 ## 
 ## [1] "list"
 ```
 
----
-# Subsetting lists &amp;mdash; .cted
+`[ ]` gives a **smaller list**.
+]
 
-- A piece of a list is still a list! Use `[[]]` to pull out the actual data.
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
 
-![](images/salt_list.png)
-
----
-name: lists_subsetting_names
-
-# Subsetting lists &amp;mdash; using names
-
-If the elements of a list are named, we can also use the `$` notation:
-
-
-``` r
-ikea_uppsala$restaurant
-ikea_uppsala$restaurant$price
-```
-
-```
-##         dish price
-## 1 kottbullar    89
-## 2  daimtarta    32
-## [1] 89 32
-```
+&lt;img src="images/salt_list.png" width="60%" style="display: block; margin: auto auto auto 0;" /&gt;
 
 ---
-name: lists_nested
+name: lists_dollar
 
-# Lists inside lists
+# Lists: `$` and digging deeper
 
-We can use lists to store hierarchies of data:
+`$` works like `[[ ]]` for named elements:
 
-
-``` r
-ikea_lund &lt;- list(parking = 125)
-ikea_sweden &lt;- list(ikea_lund = ikea_lund, 
-                    ikea_uppsala = ikea_uppsala)
-# use names to navigate inside the hierarchy
-ikea_sweden$ikea_lund$parking
-ikea_sweden$ikea_uppsala$parking
-```
 
 ```
-## [1] 125
-## [1] 162
+## [1] "MYC knockout pilot"
+## [1] "WT1" "WT2" "KO1" "KO2"
+## WT1 WT2 KO1 KO2 
+##  15  22 180 165
 ```
 
+--
 
----
-name: objects_type_class
-exclude: true
-
-# Objects &amp;mdash; type vs. class
-
-An object of class **factor** is internally represented by numbers:
+Add or remove elements:
 
 
-``` r
-size &lt;- factor('small')
-class(size) # Class 'factor'
-mode(size) # Is represented by 'numeric'
-typeof(size) # Of integer type
+```
+## [1] "name"    "samples" "counts"  "notes"
 ```
 
 ---
-name: objects_str
-exclude: true
+name: lists_results
 
-# Objects &amp;mdash; structure
+# Lists are everywhere
 
-Many functions return **objects**. We can easily examine their **structure**:
+Many functions return a list. A t-test, for example:
 
-
-``` r
-his &lt;- hist(1:5, plot=F)
-str(his)
-object.size(hist) # How much memory the object consumes
-```
 
 ```
-## List of 6
-##  $ breaks  : int [1:5] 1 2 3 4 5
-##  $ counts  : int [1:4] 2 1 1 1
-##  $ density : num [1:4] 0.4 0.2 0.2 0.2
-##  $ mids    : num [1:4] 1.5 2.5 3.5 4.5
-##  $ xname   : chr "1:5"
-##  $ equidist: logi TRUE
-##  - attr(*, "class")= chr "histogram"
-## 1240 bytes
+## [1] TRUE
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"   
+##  [6] "null.value"  "stderr"      "alternative" "method"      "data.name"  
+## [1] 0.2956134
 ```
+
+Knowing lists = knowing how to get your results out.
 
 ---
-name: objects_fix
-exclude: true
+name: recap
 
-# Objects &amp;mdash; fix
+# Recap
 
-We can easily modify values of object's **attributes**:
+| | Shape | Types | Get things out |
+|:--|:------|:------|:---------------|
+| 🧊 **matrix** | rows × columns | one | `m["MYC", ]`, `m[, 2]` |
+| 📋 **data frame** | rows × columns | one per column | `df$weight`, `df[df$x &gt; 1, ]` |
+| 🎒 **list** | anything | anything | `l$samples`, `l[["name"]]` |
 
+&lt;br&gt;
 
-``` r
-attributes(his)
-attr(his, "names")
-#fix(his) # Opens an object editor
-```
+**Remember:**
 
----
-name: objects_lists_as_S3
-exclude: true
-
-# Lists as S3 classes
-
-A list that has been named, becomes an S3 class:
-
-``` r
-my.list &lt;- list(numbers = c(1:5),
-                letters = letters[1:5])
-class(my.list)
-class(my.list) &lt;- 'my.list.class'
-class(my.list) # Now the list is of S3 class
-```
-
-However, that was it. We cannot enforce that *numbers* will contain numeric values and that *letters* will contain only characters. S3 is a very primitive class.
-
----
-name: objects_S3
-exclude: true
-
-# S3 classes
-
-For an S3 class we can define a *generic function* applicable to all objects of this class.
-
-``` r
-print.my.list.class &lt;- function(x) {
-  cat('Numbers:', x$numbers, '\n')
-  cat('Letters:', x$letters)
-}
-print(my.list)
-```
-
-But here, we have no error-proofing. If the object will lack *numbers*, the function will still be called:
-
-
-``` r
-class(his) &lt;- 'my.list.class' # alter class
-print(his) # Gibberish but no error...
-```
-
----
-name: objects_generics
-exclude: true
-
-# S3 classes &amp;mdash; still useful?
-
-Well, S3 class mechanism is still in use, esp. when writing **generic** functions, most common examples being *print* and *plot*. For example, if you plot an object of a Manhattan.plot class, you write *plot(gwas.result)* but the true call is: *plot.manhattan(gwas.result)*. This makes life easier as it requires less writing, but it is up to the function developers to make sure everything works!
-
----
-name: objects_S4
-exclude: true
-
-# S4 class mechanism
-
-S4 classes are more advanced as you actually define the structure of the data within the object of your particular class:
-
-``` r
-setClass('gene',
-         representation(name='character',
-                        coords='numeric')
-         )
-my.gene &lt;- new('gene', name='ANK3',
-               coords=c(1.4e6, 1.412e6))
-```
-
----
-name: objects_S4_slots
-exclude: true
-
-# S4 class &amp;mdash; slots
-
-The variables within an S4 class are stored in the so-called **slots**. In the above example, we have 2 such slots: *name* and *coords*. Here is how to access them:
-
-
-``` r
-my.gene@name # access using @ operator
-my.gene@coords[2] # access the 2nd element in slot coords
-```
-
----
-name: objects_S4_methods
-exclude: true
-
-# S4 class &amp;mdash; methods
-
-The power of classes lies in the fact that they define both the data types in particular slots and operations (functions) we can perform on them. Let us define a *generic print function* for an S4 class:
-
-
-``` r
-setMethod('print', 'gene',
-          function(x) {
-              cat('GENE: ', x@name, ' --&gt; ')
-              cat('[', x@coords, ']')
-          })
-print(my.gene) # and we use the newly defined print
-```
+- Filter rows with conditions, not by hand.
+- Merge tables by ID, not by position.
+- `[[ ]]` takes out, `[ ]` keeps a list.
 
 &lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
 
@@ -996,7 +484,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 27-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 29-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 
