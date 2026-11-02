@@ -33,14 +33,14 @@ navbar:
       href: index.html
     - text: Schedule
       href: home_schedule.html
-    - text: Content
-      href: home_content.html
+#    - text: Content
+#      href: home_content.html
     - text: Precourse
       href: home_precourse.html
     - text: Info
       href: home_info.html
-    - text: Projects
-      href: home_projects.html
+    - text: Challenges
+      href: home_challenges.html
     - text: GitHub
       href: "https://github.com/NBISweden/workshop-r/"
 
