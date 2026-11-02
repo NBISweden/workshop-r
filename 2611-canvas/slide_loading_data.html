@@ -3,7 +3,7 @@
   <head>
     <title>Reading (and writing) data in R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Marcin Kierczak" />
+    <meta name="author" content="Guilherme Dias" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
     <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -18,11 +18,8 @@ class: center, middle, inverse, title-slide
 .title[
 # Reading (and writing) data in R
 ]
-.subtitle[
-## R Foundations for Data Analysis
-]
 .author[
-### Marcin Kierczak
+### Guilherme Dias
 ]
 
 ---
@@ -46,243 +43,326 @@ count: false
 
 
 ---
-name: reading_data
+name: spot
 
-# Reading data
+# Spot the problems 🔍
 
-* Can be one of the most consuming and cumbersome aspects of data analysis.
+A collaborator sends you `messy_samples.csv`:
 
-* R provides ways to read and write data stored on different media (e.g.: file, database, url) and in different formats.
-
-* Package `foreign` contains a number of functions to import less common data formats.
-
----
-name: reading_tables
-
-# Reading tables
-
-We can use the `read.table()` function. It is a nice way to read your data into a data frame.  
-
-The function is declared in the following way:  
-
-
-``` r
-read.table(file, header = FALSE, sep = "", quote = "\"'",
-           dec = ".", numerals = c("allow.loss", "warn.loss", "no.loss"),
-           row.names, col.names, as.is = !stringsAsFactors,
-           na.strings = "NA", colClasses = NA, nrows = -1,
-           skip = 0, check.names = TRUE, fill = !blank.lines.skip,
-           strip.white = FALSE, blank.lines.skip = TRUE,
-           comment.char = "#",
-           allowEscapes = FALSE, flush = FALSE,
-           stringsAsFactors = FALSE,
-           fileEncoding = "", encoding = "unknown", text, skipNul = FALSE)
-
-# or just
-read.table(file)
-```
-
----
-name: read_table_params
-
-# `read.table()` parameters
-
-You can read all about the `read.table()` function using `?read.table`
-
-The most important arguments are:
-
-* **file** &amp;ndash; the path to the file that contains data, e.g. `/path/to/my/file.csv`
-* **header** &amp;ndash; a logical indicating whether the first line of the file contains variable names,
-* **sep** &amp;ndash; a character determining variable delimiter, e.g. `","` for csv files,
-* **quote** &amp;ndash; a character telling R which character surrounds strings,
-* **dec** &amp;ndash; character determining the decimal separator,
-* **row/col.names** &amp;ndash; vectors containing row and column names,
-* **na.strings** &amp;ndash; a character used for missing data,
-* **nrows** &amp;ndash; how many rows should be read,
-* **skip** &amp;ndash; how many rows to skip,
-* **as.is** &amp;ndash; a vector of logicals or numbers indicating which columns shall not be converted to factors,
-* **fill** &amp;ndash; add NA to the end of shorter rows,
-* **stringsAsFactors** &amp;ndash; a logical. Rather self explanatory.
-
----
-name: read_table_sibs
-
-# `read.table` and its siblings  
-
-`read.table` has some variants with presets to specific file types:
-
-* `read.csv()` and `read.csv2()` with comma and semicolon as default `sep`, and dot and comma as `dec` respectively,
-* `read.delim()` and `read.delim2()` for reading tab-delimited files.
-
-
----
-name: read_table_example
-
-# `read.table` &amp;mdash; example use
-
-
-``` r
-tab &lt;- read.table(file = 'data/slide_loading_data/2014-04-07_phenos2.csv',
-                  sep = ' ',
-                  header = T)
-tab[1:5, 1:3]
-class(tab$reg_no)
-```
 
 ```
-##            id              uid      reg_no
-## 1 S11799-2007  S11799/2007_621 S11799/2007
-## 2 S14189-2008 S14189/2008_1237 S14189/2008
-## 3 S15108-2008 S15108/2008_1224 S15108/2008
-## 4 S15299-2007  S15299/2007_515 S15299/2007
-## 5 S16860-2009  S16860/2009_849 S16860/2009
-## [1] "character"
+# Exported from PlateReader v2.1 on 2026-03-14
+sample;gene;ct;conc_ng_ul;treated
+S01;BRCA1;24,1;12,5;yes
+S02;2-Sep;25,3;n/a;no
+S03;TP53;Undetermined;10,2;yes
+S04;MYC;23,8;-;no
 ```
 
+**How many problems can you find?**
+
+???
+Give the class a minute. Ask for shouts.
+
 ---
-name: handling_errors
+name: spot_answers
 
-# What if you encounter errors?
+# Spot the problems 🔍
 
-* R documentation `?` and `??`
-* Google &amp;ndash; just type R and copy the error you got without your variable names,
-* Open the file using a text editor and see if you can spot anything unusual &amp;ndash; 
-  * e.g. does the header line have the same number of columns as the first line?
+
+```
+# Exported from PlateReader v2.1 on 2026-03-14
+sample;gene;ct;conc_ng_ul;treated
+S01;BRCA1;24,1;12,5;yes
+S02;2-Sep;25,3;n/a;no
+S03;TP53;Undetermined;10,2;yes
+S04;MYC;23,8;-;no
+```
 
 --
 
-# Useful terminal commands for debugging (Linux/OsX)
-
-* `cat phenos.txt | awk -F';' '{print NF}'` prints the number of words in each row. `-F';'` says that semicolon is the delimiter,
-
-* `head -n 5 phenos.txt` prints the 5 first lines of the file,
-
-* `tail -n 5 phenos.txt` prints the 5 last lines of the file,
-
-* `head -n 5 phenos.txt | tail -n 2` will print lines 4 and 5...
-
-* `wc -l phenos.txt` will print the number of lines in the file
-
-* `head -n 2 phenos.txt &gt; test.txt` will write the first 2 lines to a new file
-
---
-
-If it still does not give you a clue &amp;mdash; just try to load first line of the file.  
-
---
-
-If this still did not help, split the file in two equal-size parts. Check which part gives the error. Split this part into halves and check which 1/4 gives the error... It is faster than you think!
+1. A **comment line** above the header
+2. Columns separated by **`;`**, not `,`
+3. **Decimal commas**: `24,1`
+4. Three ways to say "missing": `n/a`, `-`, `Undetermined`
+5. **`yes`/`no`** instead of `TRUE`/`FALSE`
+6. `2-Sep`: a gene name **eaten by Excel** (SEPT2)
 
 ---
-name: writing
+name: naive
 
-# Writing with `write.table()`
-
-`read.table()` has its counterpart, the `write.table()` function (as well ass its siblings, like `write.csv()`). You can read more about it in the documentation, let us show some examples:
+# Just read it?
 
 
 ``` r
-vec &lt;- rnorm(10)
-write.table(vec, '') # write to screen
-write.table(vec, file = 'vector.txt')
+read.csv("data/slide_loading_data/messy_samples.csv")
 ```
 
+```
+## Error in read.table(file = file, header = header, sep = sep, quote = quote, : more columns than column names
+```
 
+--
 
----
-name: write_big_data
+R isn't being difficult. It's following the defaults: commas between columns, the first line is the header.
 
-# Writing big data
-
-* HINT: `write.table()` is rather slow on big data &amp;ndash; it checks types for every column and row and does separate formatting to each. If your data consists of only one type of data, convert it to a matrix using `as.matrix` before you write it!  
-
-* You may want to use function `scan()` that reads files as vectors. The content does not have to be in the tabular form. You can also use scan to read data from keyboard: `typed.data &lt;- scan()`
-
-* If data are written as fixed-width fields, use the `read.fwf()` function.
-
-* Also check out the `readLines()` function that enables you to read data from any stream.
+**We need to tell R what the file looks like.**
 
 ---
-name: read_xls_matlab
+name: fixed
 
-# Read data in xls/xlsx and Matlab
+# Tell R how
+
+
+``` r
+samples &lt;- read.csv2("data/slide_loading_data/messy_samples.csv",   # ; and ,
+                     comment.char = "#",                            # skip comments
+                     na.strings = c("n/a", "-", "Undetermined"))    # missing
+samples$treated &lt;- samples$treated == "yes"                         # TRUE/FALSE
+str(samples)
+```
+
+```
+## 'data.frame':	4 obs. of  5 variables:
+##  $ sample    : chr  "S01" "S02" "S03" "S04"
+##  $ gene      : chr  "BRCA1" "2-Sep" "TP53" "MYC"
+##  $ ct        : num  24.1 25.3 NA 23.8
+##  $ conc_ng_ul: num  12.5 NA 10.2 NA
+##  $ treated   : logi  TRUE FALSE TRUE FALSE
+```
+
+--
+
+5 of 6 fixed. `2-Sep` can't be fixed by R: **fix it at the source**.
+
+---
+name: today
+
+# Today
+
+- Where is my file? **Paths**
+- Reading text files: **`read.csv()`** and friends
+- **Check** what you read
+- **Excel** and other formats
+- **Writing** data
+- When reading **fails**
+
+---
+name: paths
+
+# Where is my file?
+
+R looks for files in the **working directory**:
+
+
+``` r
+getwd()                          # where am I?
+file.exists("data/samples.csv")  # is the file there?
+```
+
+--
+
+.pull-left-50[
+**Do**
+
+- Use an RStudio **Project**
+- Keep data in a `data/` folder
+- Use **relative** paths:  
+  `"data/samples.csv"`
+]
+
+.pull-right-50[
+**Don't**
+
+- `setwd()` in your script
+- Absolute paths:  
+  `"C:/Users/me/Desktop/..."`  
+  They only work on your computer.
+]
+
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
+
+.footnote[Error `cannot open file ... No such file or directory`? Check `getwd()` and the spelling.]
+.footnote[https://tidyverse.org/blog/2017/12/workflow-vs-script/]
+
+---
+name: read_family
+
+# Text files: pick the right reader
+
+| File looks like | Function | Separator | Decimal |
+|:----------------|:---------|:---------:|:-------:|
+| `24.1,12.5` | `read.csv()` | `,` | `.` |
+| `24,1;12,5` | `read.csv2()` | `;` | `,` |
+| `24.1⇥12.5` | `read.delim()` | tab | `.` |
+| anything else | `read.table(sep = ...)` | you choose | `dec = ...` |
+
+&lt;br&gt;
+
+All return a **data frame**. All are `read.table()` with different defaults.
+
+.footnote[Not sure? Open the file in a **text editor** (not Excel) and look.]
+
+---
+name: arguments
+
+# The arguments you'll need
+
+| Argument | Fixes | Example |
+|:---------|:------|:--------|
+| `header` | is line 1 column names? | `header = TRUE` |
+| `sep` | column separator | `sep = "\t"` |
+| `dec` | decimal mark | `dec = ","` |
+| `na.strings` | how missing is written | `na.strings = c("", "NA", "n/a")` |
+| `skip` | lines to ignore at the top | `skip = 3` |
+| `comment.char` | comment lines | `comment.char = "#"` |
+
+&lt;br&gt;
+
+Everything else: `?read.table`
+
+---
+name: check
+
+# Always check what you read
+
+
+``` r
+dim(samples)              # expected number of rows and columns?
+head(samples, 3)          # does it look right?
+colSums(is.na(samples))   # where are the NAs?
+```
+
+```
+## [1] 4 5
+##   sample  gene   ct conc_ng_ul treated
+## 1    S01 BRCA1 24.1       12.5    TRUE
+## 2    S02 2-Sep 25.3         NA   FALSE
+## 3    S03  TP53   NA       10.2    TRUE
+##     sample       gene         ct conc_ng_ul    treated 
+##          0          0          1          2          0
+```
+
+.footnote[Also: `str()` (are numbers numbers?), `summary()` (any odd values?).]
+
+---
+name: excel
+
+# Excel files
 
 
 ``` r
 library(readxl)
-data &lt;- read_xlsx('myfile.xlsx')
+excel_sheets("data/results.xlsx")                 # which sheets?
+results &lt;- read_excel("data/results.xlsx",
+                      sheet = "qpcr",             # sheet by name or number
+                      skip = 1,                   # skip a title row
+                      na = c("", "n/a"))
 ```
+
+--
+
+.content-box-yellow[
+Excel silently changes gene names into dates (`SEPT2` → `2-Sep`, `MARCH1` → `1-Mar`). It happened so often that the genes were **renamed** (`SEPTIN2`, `MARCHF1`). Don't open gene lists in Excel.
+]
+
+---
+name: other_formats
+
+# Other formats
+
+| Data | Package | Function |
+|:-----|:--------|:---------|
+| big CSV/TSV, fast | `readr`, `data.table` | `read_csv()`, `fread()` |
+| Excel | `readxl` | `read_excel()` |
+| GTF, GFF, BED | `rtracklayer` | `import()` |
+| FASTA | `Biostrings` | `readDNAStringSet()` |
+| SPSS, Stata, SAS | `haven` | `read_sav()`, `read_dta()` |
+
+&lt;br&gt;
+
+Files on the web: give the **URL** instead of a path.
 
 
 ``` r
-library(R.matlab)
-data &lt;- readMat("mydata.mat")
+read.csv("https://example.org/data/samples.csv")
 ```
 
 ---
-name: remote_data
-exclude: true
+name: writing
 
-# Working with remote data
+# Writing data
 
-
-``` r
-url &lt;- 'https://en.wikipedia.org/wiki/List_of_countries_by_average_wage'
-conn &lt;- url(url, 'r')
-raw.data &lt;- readLines(conn)
-raw.data[1:3]
-```
-
-But data is often tabularized...
+A table for colleagues, Excel or other programs:
 
 
 ``` r
-library(rvest)
-html &lt;- read_html(url)
-tables &lt;- html_nodes(html, 'table')
-data &lt;- html_table(tables[4])[[1]]
-data[1:5, ]
+write.csv(samples, "results/samples_clean.csv", row.names = FALSE)
+write.table(samples, "results/samples_clean.tsv", sep = "\t",
+            row.names = FALSE, quote = FALSE)
 ```
+
+--
+
+An R object, to read back into R later:
+
+
+``` r
+saveRDS(samples, "results/samples_clean.rds")
+samples &lt;- readRDS("results/samples_clean.rds")
+```
+
+`.rds` keeps everything: types, factor levels, attributes. A CSV keeps only text.
 
 ---
-name: databases
-exclude: true
+name: broken
 
-# Working with databases
+# When reading fails
 
-It is also relatively easy to work with different databases. We will focus on MySQL and present only one example that uses the *RMySQL* package (check also *RODBC* and *RPostgreSQL*).
 
 ``` r
-library(RMySQL)
-db.conn &lt;- dbConnect(MySQL(), user='me',
-                     password='qwerty123',
-                     dbname='genes',
-                     host='127.0.0.237')
-query &lt;- dbSendQuery(db.conn, 'SELECT * FROM table7')
-data &lt;- fetch(query, n = - 1)
+read.table("data/slide_loading_data/broken_genes.tsv", header = TRUE)
 ```
+
+```
+## Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 2 did not have 4 elements
+```
+
+--
+
+Which line? Count the fields:
+
+
+``` r
+count.fields("data/slide_loading_data/broken_genes.tsv", sep = "\t")
+readLines("data/slide_loading_data/broken_genes.tsv")[3]
+```
+
+```
+## [1] 4 4 3 4
+## [1] "TP53\t17\t7668402"
+```
+
+TP53 has no `end`. Fix the file, or use `fill = TRUE` to get an `NA`.
+
+.footnote[Careful: `read.csv()` and `read.delim()` use `fill = TRUE` by default, so short rows are padded **silently**.]
 
 ---
-name: capabilities
+name: recap
 
-# Capabilities
+# Recap
 
-If you are getting some errors, e.g. trying to connect to a url, you may check whether your system (and R) support particular type of file or connection:
+| Step | How |
+|:-----|:----|
+| 1. Look at the file | text editor, `readLines(file, n = 5)` |
+| 2. Pick the reader | `read.csv()`, `read.csv2()`, `read.delim()`, `read_excel()` |
+| 3. Describe the file | `sep`, `dec`, `na.strings`, `skip`, `comment.char` |
+| 4. Check | `dim()`, `str()`, `head()`, `colSums(is.na())` |
+| 5. Save | `write.csv(row.names = FALSE)`, `saveRDS()` |
 
-``` r
-capabilities()
-```
+&lt;br&gt;
 
-```
-##        jpeg         png        tiff       tcltk         X11        aqua 
-##        TRUE        TRUE        TRUE        TRUE       FALSE       FALSE 
-##    http/ftp     sockets      libxml        fifo      cledit       iconv 
-##        TRUE        TRUE       FALSE        TRUE       FALSE        TRUE 
-##         NLS       Rprof     profmem       cairo         ICU long.double 
-##        TRUE        TRUE        TRUE        TRUE        TRUE        TRUE 
-##     libcurl 
-##        TRUE
-```
+**Remember:** R reads exactly what you tell it to. Look first, then read, then check.
 
 &lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
 
@@ -297,7 +377,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 29-Oct-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 02-Nov-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 

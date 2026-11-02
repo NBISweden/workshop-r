@@ -306,10 +306,10 @@ div.tocify {
 <li>Create a matrix <code>plate</code> from <code>readings</code> with 3 rows, filled row by row. Name the rows <code>"A"</code>, <code>"B"</code>, <code>"C"</code> and the columns <code>"1"</code> to <code>"4"</code>. What are its dimensions? What does <code>length()</code> return?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914365025" aria-expanded="false" aria-controls="acc2026102914365025">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213125025" aria-expanded="false" aria-controls="acc2026110213125025">
 </button>
 </p>
-<div id="acc2026102914365025" class="collapse">
+<div id="acc2026110213125025" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plate &lt;- matrix(readings, nrow = 3, byrow = TRUE)
 rownames(plate) &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)
@@ -327,10 +327,10 @@ length(plate)   # total number of values</code></pre>
 </div>
 <p>What happens if you leave out <code>byrow = TRUE</code>?</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914364375" aria-expanded="false" aria-controls="acc2026102914364375">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213124375" aria-expanded="false" aria-controls="acc2026110213124375">
 </button>
 </p>
-<div id="acc2026102914364375" class="collapse">
+<div id="acc2026110213124375" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>matrix(readings, nrow = 3)   # filled column by column: the values end up in the wrong wells</code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4]
@@ -349,10 +349,10 @@ length(plate)   # total number of values</code></pre>
 </ul></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914362464" aria-expanded="false" aria-controls="acc2026102914362464">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213122464" aria-expanded="false" aria-controls="acc2026110213122464">
 </button>
 </p>
-<div id="acc2026102914362464" class="collapse">
+<div id="acc2026110213122464" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plate[&quot;B&quot;, &quot;3&quot;]
 plate[&quot;C&quot;, ]
@@ -370,10 +370,10 @@ plate[plate &gt; 0.5]</code></pre>
 <li>Column 4 is the blank. Subtract the mean of the blank wells from every reading. Then calculate the mean of each column and the maximum of each row.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914365258" aria-expanded="false" aria-controls="acc2026102914365258">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213125258" aria-expanded="false" aria-controls="acc2026110213125258">
 </button>
 </p>
-<div id="acc2026102914365258" class="collapse">
+<div id="acc2026110213125258" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>blank &lt;- mean(plate[, &quot;4&quot;])
 plate_corrected &lt;- plate - blank
@@ -394,10 +394,10 @@ apply(plate_corrected, 1, max)</code></pre>
 <li>Add a row <code>"D"</code> with the readings <code>0.13, 0.47, 0.90, 0.05</code>. Then transpose the plate. What happened to the row and column names?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914367310" aria-expanded="false" aria-controls="acc2026102914367310">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213127310" aria-expanded="false" aria-controls="acc2026110213127310">
 </button>
 </p>
-<div id="acc2026102914367310" class="collapse">
+<div id="acc2026110213127310" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plate &lt;- rbind(plate, D = c(0.13, 0.47, 0.90, 0.05))
 plate
@@ -418,10 +418,10 @@ t(plate)   # rows and columns, including their names, swap places</code></pre>
 <li>Try to put the text <code>"empty"</code> in well A4. What happens to the whole matrix?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914366812" aria-expanded="false" aria-controls="acc2026102914366812">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213126812" aria-expanded="false" aria-controls="acc2026110213126812">
 </button>
 </p>
-<div id="acc2026102914366812" class="collapse">
+<div id="acc2026110213126812" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plate_test &lt;- plate
 plate_test[&quot;A&quot;, &quot;4&quot;] &lt;- &quot;empty&quot;
@@ -449,10 +449,10 @@ plate_test       # every value becomes text: a matrix holds one type</code></pre
 <li>How many rows and columns does <code>patients</code> have? What type is each column? Get a summary of every column.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914367378" aria-expanded="false" aria-controls="acc2026102914367378">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213127378" aria-expanded="false" aria-controls="acc2026110213127378">
 </button>
 </p>
-<div id="acc2026102914367378" class="collapse">
+<div id="acc2026110213127378" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dim(patients)
 str(patients)
@@ -491,10 +491,10 @@ summary(patients)</code></pre>
 </ul></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914372702" aria-expanded="false" aria-controls="acc2026102914372702">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213122702" aria-expanded="false" aria-controls="acc2026110213122702">
 </button>
 </p>
-<div id="acc2026102914372702" class="collapse">
+<div id="acc2026110213122702" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>patients$bmi
 patients[, &quot;bmi&quot;]
@@ -520,10 +520,10 @@ mean(patients$age)</code></pre>
 </ul></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914376944" aria-expanded="false" aria-controls="acc2026102914376944">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213126944" aria-expanded="false" aria-controls="acc2026110213126944">
 </button>
 </p>
-<div id="acc2026102914376944" class="collapse">
+<div id="acc2026110213126944" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>patients[patients$smoker, ]
 patients[patients$group == &quot;drug&quot; &amp; patients$age &gt; 45, ]
@@ -541,10 +541,10 @@ patients$id[patients$bmi &gt;= 30]</code></pre>
 <li>What is the mean BMI in the drug group? And in the placebo group?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914379598" aria-expanded="false" aria-controls="acc2026102914379598">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213129598" aria-expanded="false" aria-controls="acc2026110213129598">
 </button>
 </p>
-<div id="acc2026102914379598" class="collapse">
+<div id="acc2026110213129598" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mean(patients$bmi[patients$group == &quot;drug&quot;])
 mean(patients$bmi[patients$group == &quot;placebo&quot;])</code></pre>
@@ -561,10 +561,10 @@ mean(patients$bmi[patients$group == &quot;placebo&quot;])</code></pre>
 Then make <code>group</code> a factor with <code>"placebo"</code> as the first level.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914378252" aria-expanded="false" aria-controls="acc2026102914378252">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213128252" aria-expanded="false" aria-controls="acc2026110213128252">
 </button>
 </p>
-<div id="acc2026102914378252" class="collapse">
+<div id="acc2026110213128252" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>patients$obese &lt;- patients$bmi &gt;= 30
 patients$age_months &lt;- patients$age * 12
@@ -588,10 +588,10 @@ patients</code></pre>
                       glucose = c(6.1, 5.2, 7.4, 5.9, NA, 5.5))</code></pre>
 <p>Merge it with <code>patients</code>. Which patients are in the result? Then look up the <code>all.x</code> argument in <code>?merge</code> to keep all your patients.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914370576" aria-expanded="false" aria-controls="acc2026102914370576">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213120576" aria-expanded="false" aria-controls="acc2026110213120576">
 </button>
 </p>
-<div id="acc2026102914370576" class="collapse">
+<div id="acc2026110213120576" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>merge(patients, glucose, by = &quot;id&quot;)                # only patients in both tables
 combined &lt;- merge(patients, glucose, by = &quot;id&quot;, all.x = TRUE)
@@ -615,10 +615,10 @@ combined                                           # P05 is kept, with glucose N
 <li>In <code>combined</code>, how many values are missing in each column? How many complete rows are left after <code>na.omit()</code>? What is the mean glucose of the patients who have a value?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914374748" aria-expanded="false" aria-controls="acc2026102914374748">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213124748" aria-expanded="false" aria-controls="acc2026110213124748">
 </button>
 </p>
-<div id="acc2026102914374748" class="collapse">
+<div id="acc2026110213124748" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>colSums(is.na(combined))
 nrow(na.omit(combined))
@@ -640,10 +640,10 @@ mean(combined$glucose, na.rm = TRUE)</code></pre>
 </ul></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914376377" aria-expanded="false" aria-controls="acc2026102914376377">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213126377" aria-expanded="false" aria-controls="acc2026110213126377">
 </button>
 </p>
-<div id="acc2026102914376377" class="collapse">
+<div id="acc2026110213126377" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dim(ToothGrowth)
 str(ToothGrowth)
@@ -695,10 +695,10 @@ ToothGrowth[ToothGrowth$dose == 2, ]</code></pre>
 Look at it with <code>str()</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914378450" aria-expanded="false" aria-controls="acc2026102914378450">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213128450" aria-expanded="false" aria-controls="acc2026110213128450">
 </button>
 </p>
-<div id="acc2026102914378450" class="collapse">
+<div id="acc2026110213128450" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>gene &lt;- list(
   symbol       = &quot;TP53&quot;,
@@ -723,10 +723,10 @@ str(gene)</code></pre>
 <li>Compare <code>gene["symbol"]</code> and <code>gene[["symbol"]]</code>. What is the class of each?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914370741" aria-expanded="false" aria-controls="acc2026102914370741">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213120741" aria-expanded="false" aria-controls="acc2026110213120741">
 </button>
 </p>
-<div id="acc2026102914370741" class="collapse">
+<div id="acc2026110213120741" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>gene[&quot;symbol&quot;]
 class(gene[&quot;symbol&quot;])     # a list
@@ -750,10 +750,10 @@ class(gene[[&quot;symbol&quot;]])   # the value itself</code></pre>
 </ul></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914370107" aria-expanded="false" aria-controls="acc2026102914370107">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213120107" aria-expanded="false" aria-controls="acc2026110213120107">
 </button>
 </p>
-<div id="acc2026102914370107" class="collapse">
+<div id="acc2026110213120107" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>gene$exon_lengths[3]
 sum(gene$exon_lengths)
@@ -769,10 +769,10 @@ gene$expression$tpm[gene$expression$tissue == &quot;lung&quot;]</code></pre>
 <li>Add an element <code>aliases</code> with the value <code>c("p53", "LFS1")</code>. Then remove <code>chromosome</code>. Check the names of the list.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914378214" aria-expanded="false" aria-controls="acc2026102914378214">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213128214" aria-expanded="false" aria-controls="acc2026110213128214">
 </button>
 </p>
-<div id="acc2026102914378214" class="collapse">
+<div id="acc2026110213128214" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>gene$aliases &lt;- c(&quot;p53&quot;, &quot;LFS1&quot;)
 gene$chromosome &lt;- NULL
@@ -784,10 +784,10 @@ names(gene)</code></pre>
 <li>Use <code>t.test()</code> to compare tooth length between the two supplements in <code>ToothGrowth</code>. The result is a list. What are its elements? Get the p-value and the 95% confidence interval.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914379531" aria-expanded="false" aria-controls="acc2026102914379531">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213129531" aria-expanded="false" aria-controls="acc2026110213129531">
 </button>
 </p>
-<div id="acc2026102914379531" class="collapse">
+<div id="acc2026110213129531" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>res &lt;- t.test(len ~ supp, data = ToothGrowth)
 is.list(res)

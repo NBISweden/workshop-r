@@ -244,7 +244,6 @@ div.tocify {
 
 
 
-
 </div>
 
 
@@ -252,970 +251,664 @@ div.tocify {
 <p><br></p>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>Up until now we have mostly created the object we worked with on the fly from within R. The most common use-case is however to read in different data sets that are stored as files, either somewhere on a server or locally on your computer. In this exercise we will test some common ways to import data in R and also how to save data from R. After this exercise you will know how to:</p>
+<p>So far, we’ve typed our data into R. Real data comes in files: from instruments, collaborators, databases. In this lab you will:</p>
 <ul>
-<li>Read data from txt files and save the information as a vector, data frame or a list.</li>
-<li>Identify missing data and correctly encode this at import</li>
-<li>Check that imported objects are imported correctly</li>
-<li>Read data from online resource</li>
-<li>Write data to a file</li>
+<li>organise your files and use <strong>relative paths</strong>,</li>
+<li>read text files with <code>read.table()</code>, <code>read.csv()</code>, <code>read.csv2()</code> and <code>read.delim()</code>,</li>
+<li>describe a file to R: separator, decimal mark, missing values, comment lines,</li>
+<li><strong>check</strong> what you’ve read,</li>
+<li>find and fix problems in broken files,</li>
+<li>read Excel files,</li>
+<li>write data to files,</li>
+<li>explore a real genome annotation.</li>
 </ul>
-</div>
-<div id="scan" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> <code>scan()</code></h1>
-<p>The function <code>scan()</code> can be used both to read data from files and directly from keyboard. The function is very flexible and have many different settings that allow to read data in different formats. To read and store a set of words that you type on your keyboard try the following code that will prompt your for input. After each word press enter and R will prompt you for new input. After the last word have been typed press enter twice to get back to your R prompt and have your character vector named words available in R your session.</p>
-<pre class="r"><code>words &lt;- scan(what=character())</code></pre>
-<p>We will read in this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt" target="_blank">book chapter</a>. Read the manual for scan and read the text file named <strong>book_chapter.txt</strong> into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.</p>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914003834" aria-expanded="false" aria-controls="acc2026102914003834">
-</button>
-</p>
-<div id="acc2026102914003834" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>shelley.vec &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=character())
-str(shelley.vec)
-
-shelley.list &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=list(character()))
-class(shelley.list)</code></pre>
-<pre><code>##  chr [1:420] &quot;My&quot; &quot;present&quot; &quot;situation&quot; &quot;was&quot; &quot;one&quot; &quot;in&quot; &quot;which&quot; &quot;all&quot; ...
-## [1] &quot;list&quot;</code></pre>
+<div class="boxy boxy-lightbulb">
+<p>As always: predict first, then run. If the output surprises you, find out why. Click the key to reveal example code. Keep your code and notes in your <strong>R Markdown learning journal</strong>.</p>
 </div>
 </div>
-<p>Check that your newly created objects contain the correct information and have been saved as you have intended eg. each entry of the vector or the list should contain a single word. Once your convinced that you have a sound word vector and list.</p>
+<div id="get-the-files" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Get the files</h1>
 <ol style="list-style-type: decimal">
-<li>Identify the longest word in your vector.</li>
+<li>Open your <code>r-course</code> <strong>Project</strong>. Where is R looking for files? Create a folder called <code>data</code> inside it.
+&gt; No r-course Project yet? Create one: File → New Project → New Directory → New Project, name it r-course.</li>
 </ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914009996" aria-expanded="false" aria-controls="acc2026102914009996">
-</button>
-</p>
-<div id="acc2026102914009996" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>sort(nchar(shelley.vec), decreasing=TRUE)
-which(nchar(shelley.vec) == max(nchar(shelley.vec)))
-shelley.vec[381]</code></pre>
-<pre><code>##   [1] 690  12  11  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
-##  [19]   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9
-##  [37]   9   9   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8
-##  [55]   8   8   8   8   8   8   8   8   8   8   7   7   7   7   7   7   7   7
-##  [73]   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   6
-##  [91]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
-## [109]   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6
-## [127]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-## [145]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-## [163]   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5
-## [181]   5   5   5   5   5   4   4   4   4   4   4   4   4   4   4   4   4   4
-## [199]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
-## [217]   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4   4
-## [235]   4   4   4   4   4   4   4   3   3   3   3   3   3   3   3   3   3   3
-## [253]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-## [271]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-## [289]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-## [307]   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3
-## [325]   3   3   3   3   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-## [343]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-## [361]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-## [379]   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
-## [397]   2   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
-## [415]   1   1   1   1   1   1
-## [1] 381
-## [1] &quot;By the sacred earth on which I kneel, by the shades that wander near me, by the deep and eternal grief that I feel, I swear; and by thee, O Night, and the spirits that preside over thee, to pursue the daemon who caused this misery, until he or I shall perish in mortal conflict. For this purpose I will preserve my life; to execute this dear revenge will I again behold the sun and tread the green herbage of earth, which otherwise should vanish from my eyes forever. And I call on you, spirits of the dead, and on you, wandering ministers of vengeance, to aid and conduct me in my work. Let the cursed and hellish monster drink deep of agony; let him feel the despair that now torments me.&quot;</code></pre>
-</div>
-</div>
+<pre class="r"><code>getwd()
+dir.create(&quot;data&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.</li>
+<li>Download the files for this lab into <code>data/</code>:</li>
 </ol>
+<pre class="r"><code>base  &lt;- &quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/&quot;
+files &lt;- c(&quot;normalized.txt&quot;, &quot;example.data&quot;, &quot;cell_counts_eu.csv&quot;,
+           &quot;qpcr_export.txt&quot;, &quot;primers_broken.tsv&quot;, &quot;rna_qc.xlsx&quot;)</code></pre>
+<pre class="r"><code>download.file(paste0(base, files), destfile = paste0(&quot;data/&quot;, files),
+              method = &quot;libcurl&quot;, mode = &quot;wb&quot;)</code></pre>
+<p>Check that all six files arrived:</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914005855" aria-expanded="false" aria-controls="acc2026102914005855">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213383834" aria-expanded="false" aria-controls="acc2026110213383834">
 </button>
 </p>
-<div id="acc2026102914005855" class="collapse">
+<div id="acc2026110213383834" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>shelley.vec2 &lt;- scan(file=&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt&quot;, what=character(), sep=&#39; &#39;, quote=NULL)
-shelley.filt2 &lt;- gsub(pattern=&#39;[^[:alnum:] ]&#39;, replacement=&quot;&quot;, x=shelley.vec2)
-longest &lt;- which(nchar(shelley.filt2) == max(nchar(shelley.filt2)))
-shelley.filt2[longest]</code></pre>
-<pre><code>## [1] &quot;uninterested&quot;</code></pre>
+<pre class="r"><code>file.exists(paste0(&quot;data/&quot;, files))
+list.files(&quot;data&quot;)</code></pre>
+<pre><code>## [1] TRUE TRUE TRUE TRUE TRUE TRUE
+## [1] &quot;cell_counts_eu.csv&quot; &quot;example.data&quot;       &quot;normalized.txt&quot;    
+## [4] &quot;primers_broken.tsv&quot; &quot;qpcr_export.txt&quot;    &quot;rna_qc.xlsx&quot;</code></pre>
 </div>
 </div>
+<p>From now on, read every file with a <strong>relative path</strong> like <code>"data/qpcr_export.txt"</code>.</p>
 </div>
-<div id="read.table" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> <code>read.table()</code></h1>
-<p>This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.</p>
-<p>In this code block we first import the data from <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt" target="_blank">normalized.txt</a> and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.</p>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914004715" aria-expanded="false" aria-controls="acc2026102914004715">
-</button>
-</p>
-<div id="acc2026102914004715" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>expr.At &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt&quot;)
-head(expr.At)</code></pre>
-<pre><code>##               bZIP29_1  bZIP29_2  bZIP29_3        WT_1      WT_2       WT_3
-## AT1G01020.1  13.572739 14.167143 12.972703  14.8181738 15.904017 11.3270623
-## AT1G01030.1   1.417234  1.201454  1.385434   0.8590246  1.096829  0.8596431
-## AT1G01040.2  41.862906 41.199853 42.696566  37.5286358 34.849241 48.6456871
-## AT1G01050.1 102.422397 98.318969 92.068406 104.2104178 97.418336 86.0654463
-## AT1G01060.1   3.216031  4.004846  3.589534   3.7045434  2.642360  6.2703380
-## AT1G01070.1   8.230858 17.871625 14.924906   7.9996663  8.824486 13.8554244</code></pre>
-</div>
-</div>
-<p>One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.</p>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914019031" aria-expanded="false" aria-controls="acc2026102914019031">
-</button>
-</p>
-<div id="acc2026102914019031" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>url &lt;- &#39;http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&#39;
-abalone &lt;- read.table(url, header=FALSE , sep=&#39;,&#39;)
-head(abalone)</code></pre>
-<pre><code>##   V1    V2    V3    V4     V5     V6     V7    V8 V9
-## 1  M 0.455 0.365 0.095 0.5140 0.2245 0.1010 0.150 15
-## 2  M 0.350 0.265 0.090 0.2255 0.0995 0.0485 0.070  7
-## 3  F 0.530 0.420 0.135 0.6770 0.2565 0.1415 0.210  9
-## 4  M 0.440 0.365 0.125 0.5160 0.2155 0.1140 0.155 10
-## 5  I 0.330 0.255 0.080 0.2050 0.0895 0.0395 0.055  7
-## 6  I 0.425 0.300 0.095 0.3515 0.1410 0.0775 0.120  8</code></pre>
-</div>
-</div>
-<ol style="list-style-type: decimal">
-<li>Read this <a href="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data" target="_blank">example data</a> to R using the <code>read.table()</code> function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the <code>write.table</code> function.</li>
-</ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914017860" aria-expanded="false" aria-controls="acc2026102914017860">
-</button>
-</p>
-<div id="acc2026102914017860" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>ed &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data&quot;, sep=&quot;:&quot;, header = T)
-head(ed)
-str(ed)</code></pre>
-<pre><code>##     bZIP29_1  bZIP29_2  bZIP29_3       WT_1      WT_2      WT_3
-## 1         NA 14.167143 12.972703  14.818174        NA        NA
-## 2   1.417234  1.201454        NA         NA  1.096829        NA
-## 3  41.862906 41.199853 42.696566  37.528636 34.849241 48.645687
-## 4 102.422397 98.318969 92.068406 104.210418 97.418336 86.065446
-## 5         NA  4.004846  3.589534   3.704543  2.642360  6.270338
-## 6   8.230858 17.871625 14.924906   7.999666        NA        NA
-## &#39;data.frame&#39;:    18945 obs. of  6 variables:
-##  $ bZIP29_1: num  NA 1.42 41.86 102.42 NA ...
-##  $ bZIP29_2: num  14.2 1.2 41.2 98.3 4 ...
-##  $ bZIP29_3: num  12.97 NA 42.7 92.07 3.59 ...
-##  $ WT_1    : num  14.8 NA 37.5 104.2 3.7 ...
-##  $ WT_2    : num  NA 1.1 34.85 97.42 2.64 ...
-##  $ WT_3    : num  NA NA 48.65 86.07 6.27 ...</code></pre>
-</div>
-</div>
-<p>Encode all NA values as “missing”, at export.</p>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914020745" aria-expanded="false" aria-controls="acc2026102914020745">
-</button>
-</p>
-<div id="acc2026102914020745" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>write.table(x=ed, na=&quot;missing&quot;, file=&quot;example_write.txt&quot;)</code></pre>
-</div>
-</div>
-<ol start="2" style="list-style-type: decimal">
-<li>Read in the file you just created and double-check that you have the same data as earlier.</li>
-</ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914024579" aria-expanded="false" aria-controls="acc2026102914024579">
-</button>
-</p>
-<div id="acc2026102914024579" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>df.test &lt;- read.table(&quot;example_write.txt&quot;, na.strings=&quot;missing&quot;)</code></pre>
-</div>
-</div>
+<div id="reading-text-files" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Reading text files</h1>
 <ol start="3" style="list-style-type: decimal">
-<li>Analysing genome annotation in R using read.table</li>
-</ol>
-<p>For this exercise we will load a GTF file into R and calculate some basic summary statistics from the file. In the first part we will use basic manipulations of data frames to extract the information. In the second part you get a try out a library designed to work with annotation data, that stores the information in a more complex format, that allow for easy manipulation and calculation of summaries from genome annotation files.</p>
-<p>For those not familiar with the GTF format it is a file format containing annotation information for a genome. It does not contain the actual DNA sequence of the organism, but instead refers to positions along the genome.</p>
-<p>A valid GTF file should contain the following tab delimited fields (taken from the ensembl home page).</p>
-<ol style="list-style-type: decimal">
-<li><strong>seqname</strong> - name of the chromosome or scaffold; chromosome names can be given with or without the ‘chr’ prefix.</li>
-<li><strong>source</strong> - name of the program that generated this feature, or the data source (database or project name)</li>
-<li><strong>feature</strong> - feature type name, e.g. gene, transcript, exon, CDS, start_codon, end_codon</li>
-<li><strong>start</strong> - Start position of the feature, with sequence numbering starting at 1.</li>
-<li><strong>end</strong> - End position of the feature, with sequence numbering starting at 1.</li>
-<li><strong>score</strong> - A floating point value.</li>
-<li><strong>strand</strong> - defined as + (forward) or - (reverse).</li>
-<li><strong>frame</strong> - One of ‘0’, ‘1’ or ‘2’. ‘0’ indicates that the first base of the feature is the first base of a codon, ‘1’ that the second base is the first base of a codon, and so on..</li>
-<li><strong>attribute</strong> - A semicolon-separated list of tag-value pairs, providing additional information about each feature.</li>
-</ol>
-<table style="width:100%;">
-<colgroup>
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-<th>6</th>
-<th>7</th>
-<th>8</th>
-<th>9</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>transcribed_unprocessed_pseudogene</td>
-<td>gene</td>
-<td>11869</td>
-<td>14409</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>gene_id; “ENSG00000223972”;</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>processed_transcript</td>
-<td>transcript</td>
-<td>11869</td>
-<td>14409</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>gene_id; “ENSG00000223972”;</td>
-</tr>
-</tbody>
-</table>
-<p>The last column can contain a large number of attributes that are semicolon-separated.</p>
-<p>As these files for many organisms are large we will in this exercise use the <em>Drosophila melanogaster</em> genome annotation available at Ensembl that is small enough for analysis even on a laptop.</p>
-<p>Download the file <strong>Drosophila_melanogaster.BDGP6.86.gtf.gz</strong> to your computer using this function:</p>
-<pre class="r"><code>download.file(&quot;ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz&quot;,&quot;Drosophila_melanogaster.BDGP6.86.gtf.gz&quot;)</code></pre>
-<p>Unzip this file and keep track of where you stored it.</p>
-<p>With this done read this file into R using the function <code>read.table()</code> and add meaningful column names to the table.</p>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914054976" aria-expanded="false" aria-controls="acc2026102914054976">
-</button>
-</p>
-<div id="acc2026102914054976" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>d.gtf &lt;- read.table(&quot;Drosophila_melanogaster.BDGP6.86.gtf&quot;, header=FALSE, comment.char=&quot;#&quot;, sep=&quot;\t&quot;)
-colnames(d.gtf) &lt;- c(&quot;Chromosome&quot;,&quot;Source&quot;,&quot;Feature&quot;, &quot;Start&quot;,&quot;End&quot;,&quot;Score&quot;,&quot;Strand&quot;,&quot;Frame&quot;,&quot;Attribute&quot;)</code></pre>
-</div>
-</div>
-<p>Prior to any analysis you should make sure that your attempt to read in the file has worked as expected. This can for example be done by having a look at the dimension of the stored object and making sure that it has the structure you expect.</p>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914100325" aria-expanded="false" aria-controls="acc2026102914100325">
-</button>
-</p>
-<div id="acc2026102914100325" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>dim(d.gtf)
-str(d.gtf)</code></pre>
-<pre><code>## [1] 538684      9
-## &#39;data.frame&#39;:    538684 obs. of  9 variables:
-##  $ Chromosome: chr  &quot;3R&quot; &quot;3R&quot; &quot;3R&quot; &quot;3R&quot; ...
-##  $ Source    : chr  &quot;FlyBase&quot; &quot;FlyBase&quot; &quot;FlyBase&quot; &quot;FlyBase&quot; ...
-##  $ Feature   : chr  &quot;gene&quot; &quot;transcript&quot; &quot;exon&quot; &quot;gene&quot; ...
-##  $ Start     : int  722370 722370 722370 835381 835381 835381 835381 835381 869486 869486 ...
-##  $ End       : int  722621 722621 722621 2503907 2503907 835491 835491 835383 869548 869548 ...
-##  $ Score     : chr  &quot;.&quot; &quot;.&quot; &quot;.&quot; &quot;.&quot; ...
-##  $ Strand    : chr  &quot;-&quot; &quot;-&quot; &quot;-&quot; &quot;+&quot; ...
-##  $ Frame     : chr  &quot;.&quot; &quot;.&quot; &quot;.&quot; &quot;.&quot; ...
-##  $ Attribute : chr  &quot;gene_id FBgn0085804; gene_name CR41571; gene_source FlyBase; gene_biotype pseudogene;&quot; &quot;gene_id FBgn0085804; transcript_id FBtr0114258; gene_name CR41571; gene_source FlyBase; gene_biotype pseudogene&quot;| __truncated__ &quot;gene_id FBgn0085804; transcript_id FBtr0114258; exon_number 1; gene_name CR41571; gene_source FlyBase; gene_bio&quot;| __truncated__ &quot;gene_id FBgn0267431; gene_name CG45784; gene_source FlyBase; gene_biotype protein_coding;&quot; ...</code></pre>
-</div>
-</div>
-<ol style="list-style-type: decimal">
-<li>How many chromosome names can be found in the annotation file?</li>
+<li><code>normalized.txt</code> holds normalised expression values for <em>Arabidopsis thaliana</em> genes in a <em>bzip29</em> mutant and wild type (three replicates each). Look at the first three lines with <code>readLines()</code>. What separates the columns? Then read it with <code>read.table()</code>, using the defaults.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914103725" aria-expanded="false" aria-controls="acc2026102914103725">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213389996" aria-expanded="false" aria-controls="acc2026110213389996">
 </button>
 </p>
-<div id="acc2026102914103725" class="collapse">
+<div id="acc2026110213389996" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>length(levels(as.factor(d.gtf$Chromosome)))</code></pre>
-<pre><code>## [1] 57</code></pre>
-</div>
-</div>
-<ol start="2" style="list-style-type: decimal">
-<li>How many <strong>exons</strong> is there in total and per chromosome? (hint: first extract lines that have <code>feature == 'exon'</code>, and then use either <code>aggregate</code> or <code>by</code> or <code>table</code> function to summarize the data per chromosome).</li>
-</ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914105917" aria-expanded="false" aria-controls="acc2026102914105917">
-</button>
-</p>
-<div id="acc2026102914105917" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>d.gtf.exons &lt;- d.gtf[(d.gtf$Feature == &#39;exon&#39;),]
-nrow(d.gtf.exons)
-aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)</code></pre>
-<pre><code>## [1] 186414
-##                      Group.1 x.Length   x.Class    x.Mode
-## 1            211000022278158        1 character character
-## 2            211000022278279        1 character character
-## 3            211000022278282        1 character character
-## 4            211000022278298        1 character character
-## 5            211000022278307        1 character character
-## 6            211000022278309        1 character character
-## 7            211000022278436        1 character character
-## 8            211000022278449        2 character character
-## 9            211000022278498        1 character character
-## 10           211000022278522        1 character character
-## 11           211000022278603        1 character character
-## 12           211000022278604        1 character character
-## 13           211000022278664        1 character character
-## 14           211000022278724        1 character character
-## 15           211000022278750        1 character character
-## 16           211000022278760        2 character character
-## 17           211000022278875        1 character character
-## 18           211000022278877        1 character character
-## 19           211000022278878        1 character character
-## 20           211000022278879        1 character character
-## 21           211000022278880        1 character character
-## 22           211000022278985        1 character character
-## 23           211000022279055        1 character character
-## 24           211000022279108        1 character character
-## 25           211000022279132        1 character character
-## 26           211000022279134        1 character character
-## 27           211000022279165        1 character character
-## 28           211000022279188        3 character character
-## 29           211000022279222        1 character character
-## 30           211000022279264        1 character character
-## 31           211000022279342        1 character character
-## 32           211000022279392        1 character character
-## 33           211000022279446        1 character character
-## 34           211000022279528        1 character character
-## 35           211000022279529        1 character character
-## 36           211000022279531        1 character character
-## 37           211000022279555        1 character character
-## 38           211000022279681        1 character character
-## 39           211000022279708        1 character character
-## 40           211000022280133        1 character character
-## 41           211000022280328        4 character character
-## 42           211000022280341        1 character character
-## 43           211000022280347        1 character character
-## 44           211000022280481        1 character character
-## 45           211000022280494        2 character character
-## 46           211000022280645        1 character character
-## 47           211000022280703        1 character character
-## 48                        2L    32747 character character
-## 49                        2R    38551 character character
-## 50                        3L    34347 character character
-## 51                        3R    43159 character character
-## 52                         4     3165 character character
-## 53 dmel_mitochondrion_genome       37 character character
-## 54                      rDNA       21 character character
-## 55       Unmapped_Scaffold_8       14 character character
-## 56                         X    34136 character character
-## 57                         Y      182 character character</code></pre>
-</div>
-</div>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914109151" aria-expanded="false" aria-controls="acc2026102914109151">
-</button>
-</p>
-<div id="acc2026102914109151" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>by(data=d.gtf$Feature, d.gtf[,&quot;Chromosome&quot;], summary)</code></pre>
-<pre><code>## d.gtf[, &quot;Chromosome&quot;]: 211000022278158
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278279
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278282
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278298
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278307
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278309
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278436
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278449
-##    Length     Class      Mode 
-##         4 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278498
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278522
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278603
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278604
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278664
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278724
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278750
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278760
-##    Length     Class      Mode 
-##         7 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278875
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278877
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278878
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278879
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278880
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022278985
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279055
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279108
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279132
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279134
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279165
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279188
-##    Length     Class      Mode 
-##        12 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279222
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279264
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279342
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279392
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279446
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279528
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279529
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279531
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279555
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279681
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022279708
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022280133
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022280328
-##    Length     Class      Mode 
-##        14 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022280341
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022280347
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022280481
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022280494
-##    Length     Class      Mode 
-##         6 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022280645
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 211000022280703
-##    Length     Class      Mode 
-##         3 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 2L
-##    Length     Class      Mode 
-##     96740 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 2R
-##    Length     Class      Mode 
-##    110108 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 3L
-##    Length     Class      Mode 
-##    100745 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 3R
-##    Length     Class      Mode 
-##    125133 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: 4
-##    Length     Class      Mode 
-##      7844 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: dmel_mitochondrion_genome
-##    Length     Class      Mode 
-##       146 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: rDNA
-##    Length     Class      Mode 
-##        59 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: Unmapped_Scaffold_8
-##    Length     Class      Mode 
-##        43 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: X
-##    Length     Class      Mode 
-##     97193 character character 
-## ------------------------------------------------------------ 
-## d.gtf[, &quot;Chromosome&quot;]: Y
-##    Length     Class      Mode 
-##       504 character character</code></pre>
-</div>
-</div>
-<ol start="3" style="list-style-type: decimal">
-<li>Filter the data frame to only retain gene annotations</li>
-</ol>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914115479" aria-expanded="false" aria-controls="acc2026102914115479">
-</button>
-</p>
-<div id="acc2026102914115479" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>d.gtf.gene &lt;- d.gtf[d.gtf$Feature == &quot;gene&quot;,]</code></pre>
+<pre class="r"><code>readLines(&quot;data/normalized.txt&quot;, n = 3)    # \t means a tab
+expr &lt;- read.table(&quot;data/normalized.txt&quot;)
+dim(expr)
+head(expr, 3)</code></pre>
+<pre><code>## [1] &quot;bZIP29_1\tbZIP29_2\tbZIP29_3\tWT_1\tWT_2\tWT_3&quot;                                                                         
+## [2] &quot;AT1G01020.1\t13.5727390788326\t14.1671426761817\t12.9727029171751\t14.8181737869517\t15.9040169362625\t11.3270622675928&quot;
+## [3] &quot;AT1G01030.1\t1.41723379939617\t1.20145379585993\t1.38543429212549\t0.85902456735952\t1.096828754225\t0.859643118522669&quot; 
+## [1] 18945     6
+##              bZIP29_1  bZIP29_2  bZIP29_3       WT_1      WT_2       WT_3
+## AT1G01020.1 13.572739 14.167143 12.972703 14.8181738 15.904017 11.3270623
+## AT1G01030.1  1.417234  1.201454  1.385434  0.8590246  1.096829  0.8596431
+## AT1G01040.2 41.862906 41.199853 42.696566 37.5286358 34.849241 48.6456871</code></pre>
 </div>
 </div>
 <ol start="4" style="list-style-type: decimal">
-<li>What is the average gene length of in the Drosophila genome?</li>
+<li>The first line has one name fewer than the other lines. What did <code>read.table()</code> do with the first column?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914110579" aria-expanded="false" aria-controls="acc2026102914110579">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213385855" aria-expanded="false" aria-controls="acc2026110213385855">
 </button>
 </p>
-<div id="acc2026102914110579" class="collapse">
+<div id="acc2026110213385855" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>mean(abs(d.gtf.gene$Start - d.gtf.gene$End))</code></pre>
-<pre><code>## [1] 5753.282</code></pre>
+<pre class="r"><code>rownames(expr)[1:5]   # the gene IDs became row names</code></pre>
+<pre><code>## [1] &quot;AT1G01020.1&quot; &quot;AT1G01030.1&quot; &quot;AT1G01040.2&quot; &quot;AT1G01050.1&quot; &quot;AT1G01060.1&quot;</code></pre>
 </div>
 </div>
 <ol start="5" style="list-style-type: decimal">
-<li>What fraction of the genes are encoded on the plus strand of the genome.</li>
+<li>Which gene has the highest expression in <code>WT_1</code>? Is it really a gene? Look at the last rows of the table, remove the rows that aren’t genes, and try again.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914115299" aria-expanded="false" aria-controls="acc2026102914115299">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213384715" aria-expanded="false" aria-controls="acc2026110213384715">
 </button>
 </p>
-<div id="acc2026102914115299" class="collapse">
+<div id="acc2026110213384715" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>sum(d.gtf.gene$Strand == &quot;+&quot;) / length(d.gtf.gene$Strand)</code></pre>
-<pre><code>## [1] 0.5016231</code></pre>
+<pre class="r"><code>rownames(expr)[which.max(expr$WT_1)]   # &quot;no_feature&quot; is not a gene!
+tail(expr, 3)                          # summary rows from the read-counting software
+expr &lt;- expr[rownames(expr) != &quot;no_feature&quot; &amp; rownames(expr) != &quot;ambiguous&quot;, ]
+rownames(expr)[which.max(expr$WT_1)]</code></pre>
+<pre><code>## [1] &quot;no_feature&quot;
+##                 bZIP29_1     bZIP29_2     bZIP29_3         WT_1        WT_2
+## ATMG01360.1     1.362725     2.753332     1.133537     1.342226    10.96829
+## no_feature  76805.514015 80221.720737 78090.444696 77965.069734 91087.39029
+## ambiguous    8868.667554 10047.507792  9676.754736  9702.950934  9569.13290
+##                     WT_3
+## ATMG01360.1 6.573741e-01
+## no_feature  7.806303e+04
+## ambiguous   9.623300e+03
+## [1] &quot;AT5G60390.1&quot;</code></pre>
 </div>
 </div>
 <ol start="6" style="list-style-type: decimal">
-<li>What is the median and mean length of the exons found on chromosome 3R in the data set?</li>
+<li><code>example.data</code> has the same data, but with <code>:</code> between columns, a header line, and some missing values. Read it. How many values are missing in each column? How many genes have no missing values at all?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914119008" aria-expanded="false" aria-controls="acc2026102914119008">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213389031" aria-expanded="false" aria-controls="acc2026110213389031">
 </button>
 </p>
-<div id="acc2026102914119008" class="collapse">
+<div id="acc2026110213389031" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>d.gtf3R &lt;- d.gtf[d.gtf$Chromosome == &quot;3R&quot;,]
-exon.position &lt;- d.gtf3R[d.gtf3R$Feature == &quot;exon&quot;,c(&quot;Start&quot;, &quot;End&quot;)]   
-median(abs(exon.position$Start - exon.position$End))
-mean(abs(exon.position$Start - exon.position$End))</code></pre>
-<pre><code>## [1] 251
-## [1] 468.6693</code></pre>
+<pre class="r"><code>ex &lt;- read.table(&quot;data/example.data&quot;, sep = &quot;:&quot;, header = TRUE)
+colSums(is.na(ex))
+nrow(na.omit(ex))</code></pre>
+<pre><code>## bZIP29_1 bZIP29_2 bZIP29_3     WT_1     WT_2     WT_3 
+##     2784     2776     2835     2909     2792     2818 
+## [1] 7178</code></pre>
 </div>
 </div>
 <ol start="7" style="list-style-type: decimal">
-<li>Do the same calculations for the chromosomes 2L, 2R, 3L, 4, X and Y using a for loop.</li>
+<li><code>cell_counts_eu.csv</code> comes from an instrument set to European settings. Try to read it with <code>read.csv()</code>. What happens? Look at the file with <code>readLines()</code>, then read it correctly.</li>
 </ol>
-<p>To refresh your mind the placeholders and datatype are summarized in the following table.</p>
-<table>
-<colgroup>
-<col width="15%" />
-<col width="32%" />
-<col width="51%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Placeholder</th>
-<th>Meaning</th>
-<th>Example Use</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>%s</code></td>
-<td>String</td>
-<td><code>sprintf("Here we %s", "R")</code> → Here we R</td>
-</tr>
-<tr class="even">
-<td><code>%d</code></td>
-<td>Integer</td>
-<td><code>sprintf("Count: %d", 5)</code> → Count: 5</td>
-</tr>
-<tr class="odd">
-<td><code>%f</code></td>
-<td>Floating-point (fixed)</td>
-<td><code>sprintf("Value: %f", 3.14)</code> → Value: 3.140000</td>
-</tr>
-<tr class="even">
-<td><code>%g</code></td>
-<td>Numeric (compact double)</td>
-<td><code>sprintf("Weight: %g g", 7.5)</code> → Weight: 7.5</td>
-</tr>
-<tr class="odd">
-<td><code>%e</code></td>
-<td>Scientific notation</td>
-<td><code>sprintf("%e", 0.00123)</code> → 1.23e-03</td>
-</tr>
-</tbody>
-</table>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026102914117222" aria-expanded="false" aria-controls="acc2026102914117222">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213387860" aria-expanded="false" aria-controls="acc2026110213387860">
 </button>
 </p>
-<div id="acc2026102914117222" class="collapse">
+<div id="acc2026110213387860" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>chr &lt;- c(&quot;2L&quot;,&quot;2R&quot;,&quot;3L&quot;,&quot;4&quot;,&quot;X&quot;,&quot;Y&quot;)
-for (i in chr) {
-  d.gtf.tmp &lt;- d.gtf[d.gtf$Chromosome == i,]
-  exon.position &lt;- d.gtf.tmp[d.gtf.tmp$Feature == &quot;exon&quot;, c(&quot;Start&quot;, &quot;End&quot;)]   
-  exon.med &lt;- median(abs(exon.position$Start - exon.position$End))
-  exon.mean &lt;- mean(abs(exon.position$Start - exon.position$End))
-  txt &lt;- sprintf(&quot;The median and mean exon length for %s is %g and %g, respectively&quot;, i, exon.med, exon.mean)
-  print(txt)
-}</code></pre>
-<pre><code>## [1] &quot;The median and mean exon length for 2L is 279 and 502.617, respectively&quot;
-## [1] &quot;The median and mean exon length for 2R is 225 and 437.187, respectively&quot;
-## [1] &quot;The median and mean exon length for 3L is 255 and 502.116, respectively&quot;
-## [1] &quot;The median and mean exon length for 4 is 198 and 429.573, respectively&quot;
-## [1] &quot;The median and mean exon length for X is 257 and 526.301, respectively&quot;
-## [1] &quot;The median and mean exon length for Y is 410.5 and 657.055, respectively&quot;</code></pre>
+<pre class="r"><code>read.csv(&quot;data/cell_counts_eu.csv&quot;)        # error</code></pre>
+<pre><code>## Error in read.table(file = file, header = header, sep = sep, quote = quote, : more columns than column names</code></pre>
+<pre class="r"><code>readLines(&quot;data/cell_counts_eu.csv&quot;, n = 3) # ; between columns, , as decimal mark
+growth &lt;- read.csv2(&quot;data/cell_counts_eu.csv&quot;)
+str(growth)</code></pre>
+<pre><code>## [1] &quot;culture;timepoint_h;od600;viability_pct;medium&quot;
+## [2] &quot;C1;0;0,051;98,2;LB&quot;                            
+## [3] &quot;C2;0;0,048;97,5;M9&quot;                            
+## &#39;data.frame&#39;:    8 obs. of  5 variables:
+##  $ culture      : chr  &quot;C1&quot; &quot;C2&quot; &quot;C1&quot; &quot;C2&quot; ...
+##  $ timepoint_h  : int  0 0 4 4 8 8 12 12
+##  $ od600        : num  0.051 0.048 0.312 0.187 1.124 ...
+##  $ viability_pct: num  98.2 97.5 96.8 97.1 93.4 95.9 88.1 92.3
+##  $ medium       : chr  &quot;LB&quot; &quot;M9&quot; &quot;LB&quot; &quot;M9&quot; ...</code></pre>
+</div>
+</div>
+<ol start="8" style="list-style-type: decimal">
+<li>Using <code>growth</code>: what was the OD600 of each culture after 12 hours? In which medium did the bacteria grow faster?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213380745" aria-expanded="false" aria-controls="acc2026110213380745">
+</button>
+</p>
+<div id="acc2026110213380745" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>growth[growth$timepoint_h == 12, ]   # faster growth in LB</code></pre>
+<pre><code>##   culture timepoint_h od600 viability_pct medium
+## 7      C1          12 1.987          88.1     LB
+## 8      C2          12 1.105          92.3     M9</code></pre>
+</div>
+</div>
+<ol start="9" style="list-style-type: decimal">
+<li><code>qpcr_export.txt</code> was exported from a qPCR machine. Look at the first five lines. Then read it, so that:
+<ul>
+<li>the instrument information at the top is skipped,</li>
+<li><code>Undetermined</code> and empty cells become <code>NA</code>,</li>
+<li><code>ct</code> is a number.</li>
+</ul></li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213384579" aria-expanded="false" aria-controls="acc2026110213384579">
+</button>
+</p>
+<div id="acc2026110213384579" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>readLines(&quot;data/qpcr_export.txt&quot;, n = 5)
+qpcr &lt;- read.delim(&quot;data/qpcr_export.txt&quot;, skip = 3,
+                   na.strings = c(&quot;Undetermined&quot;, &quot;&quot;))
+str(qpcr)</code></pre>
+<pre><code>## [1] &quot;# Instrument: QuantStudio 5&quot; &quot;# Run date: 2026-05-02&quot;     
+## [3] &quot;# Operator: AL&quot;              &quot;well\tsample\tgene\tct&quot;     
+## [5] &quot;A1\tctrl_1\tGAPDH\t18.2&quot;    
+## &#39;data.frame&#39;:    12 obs. of  4 variables:
+##  $ well  : chr  &quot;A1&quot; &quot;A2&quot; &quot;A3&quot; &quot;A4&quot; ...
+##  $ sample: chr  &quot;ctrl_1&quot; &quot;ctrl_2&quot; &quot;trt_1&quot; &quot;trt_2&quot; ...
+##  $ gene  : chr  &quot;GAPDH&quot; &quot;GAPDH&quot; &quot;GAPDH&quot; &quot;GAPDH&quot; ...
+##  $ ct    : num  18.2 18.5 18.1 18.4 29.8 30.4 25.1 24.7 NA 33.9 ...</code></pre>
+</div>
+</div>
+<p><code>comment.char = "#"</code> instead of <code>skip = 3</code> works too. Why?</p>
+<ol start="10" style="list-style-type: decimal">
+<li>How many Ct values are missing? What is the mean Ct of <em>IL6</em> in control samples (<code>ctrl_1</code>, <code>ctrl_2</code>) and in treated samples?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213384976" aria-expanded="false" aria-controls="acc2026110213384976">
+</button>
+</p>
+<div id="acc2026110213384976" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>sum(is.na(qpcr$ct))
+mean(qpcr$ct[qpcr$gene == &quot;IL6&quot; &amp; qpcr$sample %in% c(&quot;ctrl_1&quot;, &quot;ctrl_2&quot;)])
+mean(qpcr$ct[qpcr$gene == &quot;IL6&quot; &amp; qpcr$sample %in% c(&quot;trt_1&quot;, &quot;trt_2&quot;)])</code></pre>
+<pre><code>## [1] 2
+## [1] 30.1
+## [1] 24.9</code></pre>
+</div>
+</div>
+<p><code>%in%</code> checks whether each value is one of several options. Without it, write <code>(qpcr$sample == "ctrl_1" | qpcr$sample == "ctrl_2")</code>.</p>
+</div>
+<div id="broken-files" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Broken files</h1>
+<ol start="11" style="list-style-type: decimal">
+<li>Read <code>primers_broken.tsv</code> with <code>read.delim()</code>. No error. But look at the result carefully: is everything in the right column?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213380325" aria-expanded="false" aria-controls="acc2026110213380325">
+</button>
+</p>
+<div id="acc2026110213380325" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>primers &lt;- read.delim(&quot;data/primers_broken.tsv&quot;)
+primers   # the primer IDs became row names and every column is shifted!</code></pre>
+<pre><code>##    primer                  target sequence   tm
+## P1  GAPDH     GAAGGTGAAGGTCGGAGTC     59.2   NA
+## P2    IL6 ACTCACCTCTTCAGAACGAATTG     58.7   NA
+## P3    TNF  CCTCTCTCTAATCAGCCCTCTG       NA 60.1
+## P4   ACTB   CATGTACGTTGCTATCCAGGC     59.8   NA
+## P5   IL1B ATGATGGCTTATTACAGTGGCAA     57.9   NA</code></pre>
+</div>
+</div>
+<ol start="12" style="list-style-type: decimal">
+<li>Now read it with <code>read.table(header = TRUE, sep = "\t")</code>. Use <code>count.fields()</code> to find the line that causes the problem, and <code>readLines()</code> to look at it. What is wrong?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213383725" aria-expanded="false" aria-controls="acc2026110213383725">
+</button>
+</p>
+<div id="acc2026110213383725" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>read.table(&quot;data/primers_broken.tsv&quot;, header = TRUE, sep = &quot;\t&quot;)   # the line number in the error is misleading</code></pre>
+<pre><code>## Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 1 did not have 5 elements</code></pre>
+<pre class="r"><code>count.fields(&quot;data/primers_broken.tsv&quot;, sep = &quot;\t&quot;)   # line 4 has 5 fields, not 4
+readLines(&quot;data/primers_broken.tsv&quot;)[4]               # two tabs after the sequence</code></pre>
+<pre><code>## [1] 4 4 4 5 4 4
+## [1] &quot;P3\tTNF\tCCTCTCTCTAATCAGCCCTCTG\t\t60.1&quot;</code></pre>
+</div>
+</div>
+<ol start="13" style="list-style-type: decimal">
+<li>Fix the problem. You can fix the file in a text editor, or fix the line in R and read the corrected lines with the <code>text</code> argument.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213385917" aria-expanded="false" aria-controls="acc2026110213385917">
+</button>
+</p>
+<div id="acc2026110213385917" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>lines &lt;- readLines(&quot;data/primers_broken.tsv&quot;)
+lines[4] &lt;- sub(&quot;\t\t&quot;, &quot;\t&quot;, lines[4])
+primers &lt;- read.delim(text = lines)
+primers</code></pre>
+<pre><code>##   primer target                sequence   tm
+## 1     P1  GAPDH     GAAGGTGAAGGTCGGAGTC 59.2
+## 2     P2    IL6 ACTCACCTCTTCAGAACGAATTG 58.7
+## 3     P3    TNF  CCTCTCTCTAATCAGCCCTCTG 60.1
+## 4     P4   ACTB   CATGTACGTTGCTATCCAGGC 59.8
+## 5     P5   IL1B ATGATGGCTTATTACAGTGGCAA 57.9</code></pre>
+</div>
+</div>
+<p>Write in your journal: why is the silent result from exercise 11 more dangerous than the error in exercise 12?</p>
+</div>
+<div id="excel-files" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Excel files</h1>
+<p>Install <code>readxl</code> if you don’t have it: <code>install.packages("readxl")</code>.</p>
+<ol start="14" style="list-style-type: decimal">
+<li><code>rna_qc.xlsx</code> holds RNA quality results. Which sheets does it have? Read the <code>README</code> sheet, then the <code>samples</code> sheet. The <code>samples</code> sheet has a title row above the column names, and missing concentrations are written <code>n/a</code>.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213389151" aria-expanded="false" aria-controls="acc2026110213389151">
+</button>
+</p>
+<div id="acc2026110213389151" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>library(readxl)
+excel_sheets(&quot;data/rna_qc.xlsx&quot;)
+read_excel(&quot;data/rna_qc.xlsx&quot;, sheet = &quot;README&quot;, col_names = FALSE)
+rna &lt;- read_excel(&quot;data/rna_qc.xlsx&quot;, sheet = &quot;samples&quot;, skip = 1, na = &quot;n/a&quot;)
+rna</code></pre>
+<pre><code>## [1] &quot;README&quot;  &quot;samples&quot;
+## # A tibble: 4 × 1
+##   ...1                            
+##   &lt;chr&gt;                           
+## 1 RNA extraction, mouse liver     
+## 2 Extracted by: AL                
+## 3 Date: 2026-04-20                
+## 4 See sheet &#39;samples&#39; for the data
+## # A tibble: 6 × 5
+##   sample gene_of_interest   rin conc_ng_ul strain
+##   &lt;chr&gt;  &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt; 
+## 1 L01    MARCHF1            8.9      152.  WT    
+## 2 L02    46267              9.1       NA   WT    
+## 3 L03    MARCHF1            7.4       98.6 KO    
+## 4 L04    &lt;NA&gt;               8.2      120.  KO    
+## 5 L05    SEPTIN2            6.8       NA   KO    
+## 6 L06    MARCHF1            9.3      175   WT</code></pre>
+</div>
+</div>
+<ol start="15" style="list-style-type: decimal">
+<li>Look at <code>gene_of_interest</code>. One value is a number. Someone typed the old gene symbol <code>SEPT2</code>, and Excel turned it into a date, which R reads as Excel’s internal date number. Replace it with the current symbol, <code>SEPTIN2</code>.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213385479" aria-expanded="false" aria-controls="acc2026110213385479">
+</button>
+</p>
+<div id="acc2026110213385479" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>rna$gene_of_interest[rna$gene_of_interest == &quot;46267&quot;] &lt;- &quot;SEPTIN2&quot;
+rna$gene_of_interest</code></pre>
+<pre><code>## [1] &quot;MARCHF1&quot; &quot;SEPTIN2&quot; &quot;MARCHF1&quot; NA        &quot;SEPTIN2&quot; &quot;MARCHF1&quot;</code></pre>
+</div>
+</div>
+<ol start="16" style="list-style-type: decimal">
+<li>Which samples have an RNA integrity number (<code>rin</code>) below 7? What is the mean RIN in each strain?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213380579" aria-expanded="false" aria-controls="acc2026110213380579">
+</button>
+</p>
+<div id="acc2026110213380579" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>rna$sample[rna$rin &lt; 7]
+mean(rna$rin[rna$strain == &quot;WT&quot;])
+mean(rna$rin[rna$strain == &quot;KO&quot;])</code></pre>
+<pre><code>## [1] &quot;L05&quot;
+## [1] 9.1
+## [1] 7.466667</code></pre>
 </div>
 </div>
 </div>
-<div id="cheatsheet" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Cheatsheet</h1>
-<div id="general-helpers" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> General Helpers</h2>
-<table>
-<colgroup>
-<col width="19%" />
-<col width="17%" />
-<col width="46%" />
-<col width="17%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Function</th>
-<th>Purpose</th>
-<th>Key Points / Arguments</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>which()</code></td>
-<td>Indices of TRUE values</td>
-<td>Returns <strong>positions</strong>, not values.</td>
-<td><code>which(c(TRUE, FALSE, TRUE))  # 1 3</code></td>
-</tr>
-<tr class="even">
-<td><code>sort()</code></td>
-<td>Sort a vector</td>
-<td><code>decreasing = FALSE/TRUE</code>, <code>na.last = TRUE/FALSE/NA</code>.</td>
-<td><code>sort(c(3, 1, 2), decreasing = TRUE)</code></td>
-</tr>
-<tr class="odd">
-<td><code>abs()</code></td>
-<td>Absolute value</td>
-<td>Works on numeric vectors.</td>
-<td><code>abs(c(-3, 5, -1))  # 3 5 1</code></td>
-</tr>
-<tr class="even">
-<td><code>colnames()</code></td>
-<td>Get or set column names of a data frame, matrix, or tibble</td>
-<td>- <code>colnames(x)</code> returns the column names<br>- <code>colnames(x) &lt;- c(...)</code> sets new names<br>- Must match the number of columns</td>
-<td><code>colnames(df)</code><br><code>colnames(df) &lt;- c("id", "age", "score")</code></td>
-</tr>
-</tbody>
-</table>
+<div id="writing-data" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Writing data</h1>
+<ol start="17" style="list-style-type: decimal">
+<li>Create a folder called <code>results</code>. Write <code>qpcr</code> to <code>results/qpcr_clean.csv</code> without row names. Read it back. Is it identical to <code>qpcr</code>?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213385299" aria-expanded="false" aria-controls="acc2026110213385299">
+</button>
+</p>
+<div id="acc2026110213385299" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>dir.create(&quot;results&quot;, showWarnings = FALSE)
+write.csv(qpcr, &quot;results/qpcr_clean.csv&quot;, row.names = FALSE)
+qpcr2 &lt;- read.csv(&quot;results/qpcr_clean.csv&quot;)
+all.equal(qpcr, qpcr2)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
-<div id="strings" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Strings</h2>
-<table>
-<colgroup>
-<col width="19%" />
-<col width="17%" />
-<col width="46%" />
-<col width="17%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Function</th>
-<th>Purpose</th>
-<th>Key Points / Arguments</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>sub()</code></td>
-<td>Replace <strong>first</strong> match in each string</td>
-<td><code>pattern</code>, <code>replacement</code>, <code>x</code>.</td>
-<td><code>sub("cat", "dog", "catcat")  # "dogcat"</code></td>
-</tr>
-<tr class="even">
-<td><code>gsub()</code></td>
-<td>Replace <strong>all</strong> matches in each string</td>
-<td>Same args as <code>sub()</code>.</td>
-<td><code>gsub("cat", "dog", "catcat") # "dogdog"</code></td>
-</tr>
-<tr class="odd">
-<td><code>sprintf()</code></td>
-<td>Build formatted strings</td>
-<td>Use <strong>format codes</strong> like <code>%s</code> (string), <code>%d</code> (integer), <code>%f</code> (float), <code>%g</code> (general number).</td>
-<td><code>sprintf("Mean = %.2f", 3.14159)</code></td>
-</tr>
-</tbody>
-</table>
 </div>
-<div id="reading-writing-tables" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Reading &amp; Writing Tables</h2>
-<table>
-<colgroup>
-<col width="19%" />
-<col width="17%" />
-<col width="46%" />
-<col width="17%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Function</th>
-<th>Purpose</th>
-<th>Key Points / Arguments</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>read.table()</code></td>
-<td>Read data from text file into a data frame</td>
-<td>Common args: <code>file</code>, <code>sep</code> (column separator, e.g. <code>","</code> or <code>"\t"</code>), <code>header</code> (first row has names?), <code>na.strings</code> (what to treat as NA), <code>stringsAsFactors</code> (old R &lt; 4.0).</td>
-<td><code>df &lt;- read.table("data.txt", sep = "\t", header = TRUE, na.strings = "NA")</code></td>
-</tr>
-<tr class="even">
-<td><code>write.table()</code></td>
-<td>Write data frame to text file</td>
-<td>Common args: <code>x</code> (data), <code>file</code>, <code>sep</code>, <code>row.names</code>, <code>col.names</code>, <code>quote</code>.</td>
-<td><code>write.table(df, "out.txt", sep = "\t", row.names = FALSE)</code></td>
-</tr>
-</tbody>
-</table>
+<p>What happens if you leave out <code>row.names = FALSE</code>? Read the file back and compare.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213389008" aria-expanded="false" aria-controls="acc2026110213389008">
+</button>
+</p>
+<div id="acc2026110213389008" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>write.csv(qpcr, &quot;results/qpcr_rownames.csv&quot;)
+head(read.csv(&quot;results/qpcr_rownames.csv&quot;), 3)   # an extra column &quot;X&quot; with the row numbers</code></pre>
+<pre><code>##   X well sample  gene   ct
+## 1 1   A1 ctrl_1 GAPDH 18.2
+## 2 2   A2 ctrl_2 GAPDH 18.5
+## 3 3   A3  trt_1 GAPDH 18.1</code></pre>
 </div>
-<div id="factors" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Factors</h2>
-<table>
-<colgroup>
-<col width="19%" />
-<col width="17%" />
-<col width="46%" />
-<col width="17%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Function</th>
-<th>Purpose</th>
-<th>Key Points / Arguments</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>as.factor()</code></td>
-<td>Convert to factor (categorical)</td>
-<td>Useful for groupings, modelling, plotting.</td>
-<td><code>group &lt;- as.factor(c("A", "B", "A"))</code></td>
-</tr>
-<tr class="even">
-<td><code>levels()</code></td>
-<td>Get or set factor levels</td>
-<td><code>levels(x)</code> or <code>levels(x) &lt;- ...</code>.</td>
-<td><code>levels(group)  # "A" "B"</code><br><code>levels(group) &lt;- c("ctrl", "treat")</code></td>
-</tr>
-</tbody>
-</table>
 </div>
-<div id="aggregation-summary" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Aggregation &amp; Summary</h2>
-<table>
-<colgroup>
-<col width="19%" />
-<col width="17%" />
-<col width="46%" />
-<col width="17%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Function</th>
-<th>Purpose</th>
-<th>Key Points / Arguments</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>aggregate()</code></td>
-<td>Apply a function by group(s)</td>
-<td><code>aggregate(x ~ group, data, FUN)</code> or <code>aggregate(x, by = list(g1, g2), FUN)</code>.</td>
-<td><code>aggregate(mpg ~ cyl, data = mtcars, mean)</code></td>
-</tr>
-<tr class="even">
-<td><code>mean()</code></td>
-<td>Average</td>
-<td><code>na.rm = TRUE</code> to ignore NA.</td>
-<td><code>mean(c(1, 2, NA), na.rm = TRUE)</code></td>
-</tr>
-<tr class="odd">
-<td><code>median()</code></td>
-<td>Median</td>
-<td>Also has <code>na.rm = TRUE</code>.</td>
-<td><code>median(c(1, 100, 2))</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="loops" class="section level2" number="4.6">
-<h2><span class="header-section-number">4.6</span> Loops</h2>
-<table>
-<colgroup>
-<col width="17%" />
-<col width="17%" />
-<col width="47%" />
-<col width="17%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Keyword</th>
-<th>Purpose</th>
-<th>Key Points / Arguments</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>for</code></td>
-<td>Repeat code for each element in a sequence</td>
-<td>Syntax: <code>for (name in sequence) { ... }</code>.</td>
-<td><code>for (i in 1:3) { print(i) }</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="small-combined-example" class="section level2" number="4.7">
-<h2><span class="header-section-number">4.7</span> Small Combined Example</h2>
-<pre class="r"><code># Read data
-df &lt;- read.table(&quot;data.txt&quot;, sep = &quot;,&quot;, header = TRUE, na.strings = &quot;&quot;)
+<ol start="18" style="list-style-type: decimal">
+<li>Make <code>gene</code> a factor with the levels in the order <code>"TNF"</code>, <code>"IL6"</code>, <code>"GAPDH"</code>. Save <code>qpcr</code> both as a CSV and as an <code>.rds</code> file, read both back, and compare the levels of <code>gene</code>. What do you notice?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213387222" aria-expanded="false" aria-controls="acc2026110213387222">
+</button>
+</p>
+<div id="acc2026110213387222" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>qpcr$gene &lt;- factor(qpcr$gene, levels = c(&quot;TNF&quot;, &quot;IL6&quot;, &quot;GAPDH&quot;))
+write.csv(qpcr, &quot;results/qpcr_factor.csv&quot;, row.names = FALSE)
+saveRDS(qpcr, &quot;results/qpcr_factor.rds&quot;)
 
-# Convert a column to factor and inspect levels
-df$group &lt;- as.factor(df$group)
-levels(df$group)
-
-# Aggregate mean by group
-agg &lt;- aggregate(value ~ group, data = df, mean)
-
-# Print a formatted summary line
-sprintf(&quot;Group %s has mean value %.2f&quot;, agg$group[1], agg$value[1])
-
-# Write results
-write.table(agg, &quot;summary.txt&quot;, sep = &quot;\t&quot;, row.names = FALSE)</code></pre>
+class(read.csv(&quot;results/qpcr_factor.csv&quot;)$gene)    # back to character
+levels(readRDS(&quot;results/qpcr_factor.rds&quot;)$gene)    # factor, levels in your order</code></pre>
+<pre><code>## [1] &quot;character&quot;
+## [1] &quot;TNF&quot;   &quot;IL6&quot;   &quot;GAPDH&quot;</code></pre>
 </div>
+</div>
+</div>
+<div id="a-real-genome-annotation" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> A real genome annotation</h1>
+<p>A <strong>GTF</strong> file describes where the genes, transcripts and exons of a genome are. It is a tab-separated text file with nine columns and no header:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">#</th>
+<th align="left">Column</th>
+<th align="left">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="left">seqname</td>
+<td align="left">chromosome</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="left">source</td>
+<td align="left">where the annotation comes from</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="left">feature</td>
+<td align="left"><code>gene</code>, <code>transcript</code>, <code>exon</code>, <code>CDS</code>, …</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="left">start</td>
+<td align="left">start position (1-based)</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="left">end</td>
+<td align="left">end position</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="left">score</td>
+<td align="left">a number, or <code>.</code></td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td align="left">strand</td>
+<td align="left"><code>+</code> or <code>-</code></td>
+</tr>
+<tr class="even">
+<td align="center">8</td>
+<td align="left">frame</td>
+<td align="left"><code>0</code>, <code>1</code>, <code>2</code>, or <code>.</code></td>
+</tr>
+<tr class="odd">
+<td align="center">9</td>
+<td align="left">attribute</td>
+<td align="left"><code>gene_id "..."; gene_name "...";</code> and more</td>
+</tr>
+</tbody>
+</table>
+<ol start="19" style="list-style-type: decimal">
+<li>Download the <em>Drosophila melanogaster</em> annotation from Ensembl into <code>data/</code>. You don’t need to unzip it: R can read <code>.gz</code> files directly.</li>
+</ol>
+<pre class="r"><code>download.file(&quot;https://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz&quot;,
+              &quot;data/Drosophila_melanogaster.BDGP6.86.gtf.gz&quot;, mode = &quot;wb&quot;)</code></pre>
+<ol start="20" style="list-style-type: decimal">
+<li>Read the file with <code>read.delim()</code>. It has no header, its first lines are comments starting with <code>#</code>, and the attribute column contains quotes, so add <code>quote = ""</code>. Give the columns meaningful names, then check the dimensions and structure.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213413995" aria-expanded="false" aria-controls="acc2026110213413995">
+</button>
+</p>
+<div id="acc2026110213413995" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>gtf &lt;- read.delim(&quot;data/Drosophila_melanogaster.BDGP6.86.gtf.gz&quot;,
+                  header = FALSE, comment.char = &quot;#&quot;, quote = &quot;&quot;)
+colnames(gtf) &lt;- c(&quot;chromosome&quot;, &quot;source&quot;, &quot;feature&quot;, &quot;start&quot;, &quot;end&quot;,
+                   &quot;score&quot;, &quot;strand&quot;, &quot;frame&quot;, &quot;attribute&quot;)
+dim(gtf)
+str(gtf)</code></pre>
+<pre><code>## [1] 538684      9
+## &#39;data.frame&#39;:    538684 obs. of  9 variables:
+##  $ chromosome: chr  &quot;3R&quot; &quot;3R&quot; &quot;3R&quot; &quot;3R&quot; ...
+##  $ source    : chr  &quot;FlyBase&quot; &quot;FlyBase&quot; &quot;FlyBase&quot; &quot;FlyBase&quot; ...
+##  $ feature   : chr  &quot;gene&quot; &quot;transcript&quot; &quot;exon&quot; &quot;gene&quot; ...
+##  $ start     : int  722370 722370 722370 835381 835381 835381 835381 835381 869486 869486 ...
+##  $ end       : int  722621 722621 722621 2503907 2503907 835491 835491 835383 869548 869548 ...
+##  $ score     : chr  &quot;.&quot; &quot;.&quot; &quot;.&quot; &quot;.&quot; ...
+##  $ strand    : chr  &quot;-&quot; &quot;-&quot; &quot;-&quot; &quot;+&quot; ...
+##  $ frame     : chr  &quot;.&quot; &quot;.&quot; &quot;.&quot; &quot;.&quot; ...
+##  $ attribute : chr  &quot;gene_id \&quot;FBgn0085804\&quot;; gene_name \&quot;CR41571\&quot;; gene_source \&quot;FlyBase\&quot;; gene_biotype \&quot;pseudogene\&quot;;&quot; &quot;gene_id \&quot;FBgn0085804\&quot;; transcript_id \&quot;FBtr0114258\&quot;; gene_name \&quot;CR41571\&quot;; gene_source \&quot;FlyBase\&quot;; gene_bi&quot;| __truncated__ &quot;gene_id \&quot;FBgn0085804\&quot;; transcript_id \&quot;FBtr0114258\&quot;; exon_number \&quot;1\&quot;; gene_name \&quot;CR41571\&quot;; gene_source \&quot;| __truncated__ &quot;gene_id \&quot;FBgn0267431\&quot;; gene_name \&quot;CG45784\&quot;; gene_source \&quot;FlyBase\&quot;; gene_biotype \&quot;protein_coding\&quot;;&quot; ...</code></pre>
+</div>
+</div>
+<ol start="21" style="list-style-type: decimal">
+<li>Which chromosomes (and scaffolds) are in the file, and how many features does each have? Which feature types are there, and how many of each?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213467166" aria-expanded="false" aria-controls="acc2026110213467166">
+</button>
+</p>
+<div id="acc2026110213467166" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>table(gtf$chromosome)
+table(gtf$feature)</code></pre>
+<pre><code>## 
+##           211000022278158           211000022278279           211000022278282 
+##                         3                         3                         3 
+##           211000022278298           211000022278307           211000022278309 
+##                         3                         3                         3 
+##           211000022278436           211000022278449           211000022278498 
+##                         3                         4                         3 
+##           211000022278522           211000022278603           211000022278604 
+##                         3                         3                         3 
+##           211000022278664           211000022278724           211000022278750 
+##                         3                         3                         3 
+##           211000022278760           211000022278875           211000022278877 
+##                         7                         3                         3 
+##           211000022278878           211000022278879           211000022278880 
+##                         3                         3                         3 
+##           211000022278985           211000022279055           211000022279108 
+##                         3                         3                         3 
+##           211000022279132           211000022279134           211000022279165 
+##                         3                         3                         3 
+##           211000022279188           211000022279222           211000022279264 
+##                        12                         3                         3 
+##           211000022279342           211000022279392           211000022279446 
+##                         3                         3                         3 
+##           211000022279528           211000022279529           211000022279531 
+##                         3                         3                         3 
+##           211000022279555           211000022279681           211000022279708 
+##                         3                         3                         3 
+##           211000022280133           211000022280328           211000022280341 
+##                         3                        14                         3 
+##           211000022280347           211000022280481           211000022280494 
+##                         3                         3                         6 
+##           211000022280645           211000022280703                        2L 
+##                         3                         3                     96740 
+##                        2R                        3L                        3R 
+##                    110108                    100745                    125133 
+##                         4 dmel_mitochondrion_genome                      rDNA 
+##                      7844                       146                        59 
+##       Unmapped_Scaffold_8                         X                         Y 
+##                        43                     97193                       504 
+## 
+##             CDS            exon  five_prime_utr            gene  Selenocysteine 
+##          160188          186414           46060           17559               4 
+##     start_codon      stop_codon three_prime_utr      transcript 
+##           30389           30296           33034           34740</code></pre>
+</div>
+</div>
+<ol start="22" style="list-style-type: decimal">
+<li>Keep only the genes. What is their mean and median length? What fraction of genes is on the <code>+</code> strand?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213467487" aria-expanded="false" aria-controls="acc2026110213467487">
+</button>
+</p>
+<div id="acc2026110213467487" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>genes &lt;- gtf[gtf$feature == &quot;gene&quot;, ]
+gene_length &lt;- genes$end - genes$start + 1
+mean(gene_length)
+median(gene_length)
+mean(genes$strand == &quot;+&quot;)</code></pre>
+<pre><code>## [1] 5754.282
+## [1] 1710
+## [1] 0.5016231</code></pre>
+</div>
+</div>
+<ol start="23" style="list-style-type: decimal">
+<li>How many exons are there on each of the main chromosome arms (<code>2L</code>, <code>2R</code>, <code>3L</code>, <code>3R</code>, <code>4</code>, <code>X</code>)? What is the median exon length on <code>3R</code>?</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213463832" aria-expanded="false" aria-controls="acc2026110213463832">
+</button>
+</p>
+<div id="acc2026110213463832" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>exons &lt;- gtf[gtf$feature == &quot;exon&quot;, ]
+table(exons$chromosome)[c(&quot;2L&quot;, &quot;2R&quot;, &quot;3L&quot;, &quot;3R&quot;, &quot;4&quot;, &quot;X&quot;)]
+exons_3R &lt;- exons[exons$chromosome == &quot;3R&quot;, ]
+median(exons_3R$end - exons_3R$start + 1)</code></pre>
+<pre><code>## 
+##    2L    2R    3L    3R     4     X 
+## 32747 38551 34347 43159  3165 34136 
+## [1] 252</code></pre>
+</div>
+</div>
+</div>
+<div id="cheatsheet" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Cheatsheet</h1>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="32%" />
+<col width="48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Task</th>
+<th align="left">Function</th>
+<th align="left">Key arguments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Where am I?</td>
+<td align="left"><code>getwd()</code>, <code>list.files()</code>, <code>file.exists()</code></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Look at a file</td>
+<td align="left"><code>readLines()</code></td>
+<td align="left"><code>n</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Comma-separated</td>
+<td align="left"><code>read.csv()</code></td>
+<td align="left"><code>na.strings</code>, <code>skip</code>, <code>comment.char</code></td>
+</tr>
+<tr class="even">
+<td align="left">Semicolon, decimal comma</td>
+<td align="left"><code>read.csv2()</code></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Tab-separated</td>
+<td align="left"><code>read.delim()</code></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Anything else</td>
+<td align="left"><code>read.table()</code></td>
+<td align="left"><code>sep</code>, <code>dec</code>, <code>header</code>, <code>quote</code>, <code>fill</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Find broken lines</td>
+<td align="left"><code>count.fields()</code></td>
+<td align="left"><code>sep</code></td>
+</tr>
+<tr class="even">
+<td align="left">Excel</td>
+<td align="left"><code>readxl::read_excel()</code>, <code>excel_sheets()</code></td>
+<td align="left"><code>sheet</code>, <code>skip</code>, <code>na</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Write a table</td>
+<td align="left"><code>write.csv()</code>, <code>write.table()</code></td>
+<td align="left"><code>row.names = FALSE</code>, <code>sep</code>, <code>quote</code></td>
+</tr>
+<tr class="even">
+<td align="left">Save an R object</td>
+<td align="left"><code>saveRDS()</code>, <code>readRDS()</code></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Check</td>
+<td align="left"><code>dim()</code>, <code>str()</code>, <code>head()</code>, <code>tail()</code>, <code>colSums(is.na())</code></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
 </div>
 
 

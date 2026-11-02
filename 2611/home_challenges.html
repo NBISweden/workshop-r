@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data challenges</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/lab.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="assets/logo.svg" id="logo" style="height:20px;margin:0;"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="home_schedule.html">Schedule</a>
+</li>
+<li>
+  <a href="home_precourse.html">Precourse</a>
+</li>
+<li>
+  <a href="home_info.html">Info</a>
+</li>
+<li>
+  <a href="home_challenges.html">Challenges</a>
+</li>
+<li>
+  <a href="https://github.com/NBISweden/workshop-r/">GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Data challenges</h1>
+
+</div>
+
+
+<!-- rmd lab header -->
+<p><br></p>
+<style>
+.challenge-card { border: 1px solid #ddd; border-radius: 8px; padding: 1em 1.5em; margin: 1.5em 0; }
+.challenge-meta { color: #666; font-size: 90%; margin-top: -0.5em; }
+.challenge-answer { margin: 1em 0; }
+.challenge-answer input { width: 12em; margin: 0 0.5em; padding: 6px 10px; font-size: 100%; }
+/* own class, not .btn: lab.css fixes button.btn to 35 x 35 px */
+.challenge-check { width: auto; height: auto; padding: 6px 22px; font-size: 100%;
+  font-weight: bold; color: white; background-color: #95b540; border: 1px solid #95b540;
+  border-radius: 4px; cursor: pointer; }
+.challenge-check:hover, .challenge-check:focus { background-color: white; color: #95b540; }
+.challenge-feedback { margin-left: 0.5em; font-weight: bold; }
+.walkthrough { display: none; border-top: 2px dashed #ccc; margin-top: 1em; padding-top: 0.5em; }
+.walkthrough.unlocked { display: block; }
+</style>
+<p>One short data challenge per day, each with <strong>one exact answer</strong>. Type it in the box to check it: the correct answer unlocks a solution walkthrough.</p>
+<div class="alert alert-info">
+<p><strong>Work in pairs, use the hints, and try before you peek.</strong> The solutions are also in the course repository, but you’ll learn much more by getting there yourself. Thursday’s challenge is the hardest: you have until Friday at 12:00. We’ll go through all answers in Friday’s discussion.</p>
+</div>
+<hr />
+<!-- ======================= MONDAY: Countable Colonies ======================= -->
+<div id="monday-countable-colonies" class="section level3 unnumbered challenge-card">
+<h3>🧫 Monday · Countable Colonies</h3>
+<p class="challenge-meta">
+Beginner · ~30 min · Monday: data types, operators, vectors
+</p>
+<p><strong>The scenario.</strong> You diluted a bacterial culture 1,000 to 1,000,000 times, spread 0.1 mL of each dilution on three plates, and counted the colonies the next day. Some plates were too crowded to count: you wrote <code>TNTC</code> (too numerous to count).</p>
+<p><strong>Your task.</strong> Estimate the concentration of the culture in colony-forming units per mL (CFU/mL):</p>
+<ul>
+<li>only use plates with <strong>30 to 300 colonies</strong> (the countable range),</li>
+<li>for each of those plates, CFU/mL = colonies ÷ (dilution × volume plated),</li>
+<li>take the <strong>mean</strong> of these values.</li>
+</ul>
+<p>Report <strong>log10 of the mean CFU/mL, rounded to 2 decimals</strong> (e.g. <code>7.12</code>). <code>log10()</code> works like <code>log2()</code>, with base 10.</p>
+<details>
+<summary>
+Get the data
+</summary>
+<p>Copy these lines into R:</p>
+<pre class="r"><code># Colony counts from 12 plates (3 plates per dilution)
+colonies &lt;- c(&quot;TNTC&quot;, &quot;TNTC&quot;, &quot;TNTC&quot;, &quot;TNTC&quot;, &quot;TNTC&quot;, &quot;TNTC&quot;, &quot;295&quot;, &quot;259&quot;, &quot;289&quot;, &quot;16&quot;, &quot;36&quot;, &quot;33&quot;)
+dilution &lt;- c(1e-03, 1e-03, 1e-03, 1e-04, 1e-04, 1e-04, 1e-05, 1e-05, 1e-05, 1e-06, 1e-06, 1e-06)
+volume_ml &lt;- 0.1   # volume spread on each plate</code></pre>
+</details>
+<details>
+<summary>
+Hint 1
+</summary>
+What type is <code>colonies</code>? What happens when you convert it with <code>as.numeric()</code>?
+</details>
+<details>
+<summary>
+Hint 2
+</summary>
+Build one logical vector that is <code>TRUE</code> for countable plates, and use it to select from <strong>both</strong> <code>colonies</code> and <code>dilution</code>.
+</details>
+<div class="challenge-answer">
+<p><label for="input-colonies"><strong>Your answer</strong> (e.g. <code>7.12</code>):</label>
+<input id="input-colonies" type="text" autocomplete="off" data-key="OC40OQ==" data-target="colonies">
+<button type="button" class="challenge-check" data-check="colonies">Check</button>
+<span id="feedback-colonies" class="challenge-feedback"></span></p>
+</div>
+<div id="walkthrough-colonies" class="walkthrough">
+<div id="solution-walkthrough" class="section level4 unnumbered">
+<h4>🔓 Solution walkthrough</h4>
+<!-- Monday: Countable Colonies -->
+<div id="step-1-look-at-the-data" class="section level5">
+<h5>Step 1: Look at the data</h5>
+<pre class="r"><code>colonies
+typeof(colonies)</code></pre>
+<pre><code>##  [1] &quot;TNTC&quot; &quot;TNTC&quot; &quot;TNTC&quot; &quot;TNTC&quot; &quot;TNTC&quot; &quot;TNTC&quot; &quot;295&quot;  &quot;259&quot;  &quot;289&quot;  &quot;16&quot;  
+## [11] &quot;36&quot;   &quot;33&quot;  
+## [1] &quot;character&quot;</code></pre>
+<p>The counts are <strong>text</strong>, because of the <code>"TNTC"</code> plates (too numerous to count).</p>
+</div>
+<div id="step-2-turn-the-counts-into-numbers" class="section level5">
+<h5>Step 2: Turn the counts into numbers</h5>
+<pre class="r"><code>counts &lt;- as.numeric(colonies)   # &quot;TNTC&quot; becomes NA, with a warning
+counts</code></pre>
+<pre><code>##  [1]  NA  NA  NA  NA  NA  NA 295 259 289  16  36  33</code></pre>
+</div>
+<div id="step-3-keep-only-the-countable-plates" class="section level5">
+<h5>Step 3: Keep only the countable plates</h5>
+<pre class="r"><code>countable &lt;- !is.na(counts) &amp; counts &gt;= 30 &amp; counts &lt;= 300
+countable
+sum(countable)</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
+## [1] 5</code></pre>
+<p>The plate with 16 colonies is too sparse to count reliably, so it’s out.</p>
+</div>
+<div id="step-4-cfu-per-ml-for-each-countable-plate" class="section level5">
+<h5>Step 4: CFU per mL for each countable plate</h5>
+<p>CFU/mL = colonies ÷ (dilution × volume plated):</p>
+<pre class="r"><code>cfu_per_ml &lt;- counts[countable] / (dilution[countable] * volume_ml)
+cfu_per_ml</code></pre>
+<pre><code>## [1] 2.95e+08 2.59e+08 2.89e+08 3.60e+08 3.30e+08</code></pre>
+</div>
+<div id="step-5-mean-log10-round" class="section level5">
+<h5>Step 5: Mean, log10, round</h5>
+<pre class="r"><code>mean_cfu &lt;- mean(cfu_per_ml)
+mean_cfu
+round(log10(mean_cfu), 2)</code></pre>
+<pre><code>## [1] 306600000
+## [1] 8.49</code></pre>
+<p><strong>The answer is 8.49</strong>, i.e. about 3.1e+08 CFU/mL.</p>
+</div>
+<div id="the-traps" class="section level5">
+<h5>The traps</h5>
+<p>Using every plate with a number, including the one with 16 colonies:</p>
+<pre class="r"><code>all_plates &lt;- !is.na(counts)
+round(log10(mean(counts[all_plates] / (dilution[all_plates] * volume_ml))), 2)</code></pre>
+<pre><code>## [1] 8.45</code></pre>
+<p>Forgetting the plated volume (0.1 mL) gives a result 10 times too small:</p>
+<pre class="r"><code>round(log10(mean(counts[countable] / dilution[countable])), 2)</code></pre>
+<pre><code>## [1] 7.49</code></pre>
+<p><strong>Lessons:</strong> text in a numeric column turns everything into text; vectors of the same length line up element by element (each count with its own dilution); a logical vector selects the elements you want.</p>
+</div>
+</div>
+</div>
+</div>
+<hr />
+<!-- ======================= TUESDAY: Mouse Mismatch ======================= -->
+<div id="tuesday-mouse-mismatch" class="section level3 unnumbered challenge-card">
+<h3>🐭 Tuesday · Mouse Mismatch</h3>
+<p class="challenge-meta">
+Beginner+ · ~45 min · Tuesday: data frames, loading data, basic statistics
+</p>
+<p><strong>The scenario.</strong> You weighed 20 mice. The scale exported the weights from one computer; the animal facility sent the genotypes (wild type, <code>WT</code>, or knockout, <code>KO</code>) from another. Do knockout mice weigh more?</p>
+<p><strong>Your task.</strong> Combine the two files and compare the weight of KO and WT mice with a Welch t-test (the default in <code>t.test()</code>). Report the <strong>p-value, rounded to 3 decimals</strong>.</p>
+<details>
+<summary>
+Get the data
+</summary>
+<pre class="r"><code>download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_weights.csv&quot;,
+              &quot;data/mouse_weights.csv&quot;)
+download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_genotypes.csv&quot;,
+              &quot;data/mouse_genotypes.csv&quot;)</code></pre>
+</details>
+<details>
+<summary>
+Hint 1
+</summary>
+Look at both files with <code>readLines()</code> before you read them. Do they use the same separator and decimal mark?
+</details>
+<details>
+<summary>
+Hint 2
+</summary>
+Are the mice in the same order in both files? Does every ID appear in both files? (<code>x %in% y</code> checks, for each element of <code>x</code>, whether it is in <code>y</code>.) After merging, how many rows do you have?
+</details>
+<div class="challenge-answer">
+<p><label for="input-mice"><strong>Your answer</strong> (e.g. <code>0.123</code>):</label>
+<input id="input-mice" type="text" autocomplete="off" data-key="MC4wNDU=" data-target="mice">
+<button type="button" class="challenge-check" data-check="mice">Check</button>
+<span id="feedback-mice" class="challenge-feedback"></span></p>
+</div>
+<div id="walkthrough-mice" class="walkthrough">
+<div id="solution-walkthrough-1" class="section level4 unnumbered">
+<h4>🔓 Solution walkthrough</h4>
+<!-- Tuesday: Mouse Mismatch -->
+<div id="step-1-read-both-files" class="section level5">
+<h5>Step 1: Read both files</h5>
+<p>Look at the files first. The weights use <code>;</code> and decimal commas, so they need <code>read.csv2()</code>:</p>
+<pre class="r"><code>weights   &lt;- read.csv2(&quot;data/challenges/mouse_weights.csv&quot;)
+genotypes &lt;- read.csv(&quot;data/challenges/mouse_genotypes.csv&quot;)
+str(weights)
+str(genotypes)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    20 obs. of  3 variables:
+##  $ id      : chr  &quot;M01&quot; &quot;M02&quot; &quot;M03&quot; &quot;M04&quot; ...
+##  $ sex     : chr  &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; ...
+##  $ weight_g: num  23.7 23.5 23.2 24.3 27.4 27.1 27.6 25.9 27.6 29.1 ...
+## &#39;data.frame&#39;:    20 obs. of  2 variables:
+##  $ id      : chr  &quot;M17&quot; &quot;M16&quot; &quot;M04&quot; &quot;M06&quot; ...
+##  $ genotype: chr  &quot;KO&quot; &quot;KO&quot; &quot;WT&quot; &quot;WT&quot; ...</code></pre>
+<p>Both have 20 rows, and <code>weight_g</code> is a number. Good.</p>
+</div>
+<div id="step-2-check-that-the-ids-match" class="section level5">
+<h5>Step 2: Check that the IDs match</h5>
+<p>The files are in different orders, so we must match the mice by ID. But do all IDs appear in both files?</p>
+<pre class="r"><code>weights$id %in% genotypes$id                          # is each weight ID in the genotype file?
+weights$id[!weights$id %in% genotypes$id]             # which one isn&#39;t?
+genotypes$id[!genotypes$id %in% weights$id]</code></pre>
+<pre><code>##  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
+## [13]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+## [1] &quot;M07&quot;
+## [1] &quot;m07&quot;</code></pre>
+<p><code>m07</code> was typed in lower case. Fix it with <code>toupper()</code>:</p>
+<pre class="r"><code>genotypes$id &lt;- toupper(genotypes$id)
+all(weights$id %in% genotypes$id)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="step-3-merge-by-id" class="section level5">
+<h5>Step 3: Merge by ID</h5>
+<pre class="r"><code>mice &lt;- merge(weights, genotypes, by = &quot;id&quot;)
+nrow(mice)          # all 20 mice
+head(mice)</code></pre>
+<pre><code>## [1] 20
+##    id sex weight_g genotype
+## 1 M01   F     23.7       WT
+## 2 M02   F     23.5       KO
+## 3 M03   F     23.2       WT
+## 4 M04   M     24.3       WT
+## 5 M05   M     27.4       WT
+## 6 M06   M     27.1       WT</code></pre>
+</div>
+<div id="step-4-compare-ko-and-wt" class="section level5">
+<h5>Step 4: Compare KO and WT</h5>
+<pre class="r"><code>mean(mice$weight_g[mice$genotype == &quot;KO&quot;])
+mean(mice$weight_g[mice$genotype == &quot;WT&quot;])</code></pre>
+<pre><code>## [1] 27.12
+## [1] 25.38</code></pre>
+<pre class="r"><code>res &lt;- t.test(weight_g ~ genotype, data = mice)   # Welch t-test is the default
+res
+round(res$p.value, 3)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  weight_g by genotype
+## t = 2.1554, df = 17.834, p-value = 0.04505
+## alternative hypothesis: true difference in means between group KO and group WT is not equal to 0
+## 95 percent confidence interval:
+##  0.04285058 3.43714942
+## sample estimates:
+## mean in group KO mean in group WT 
+##            27.12            25.38 
+## 
+## [1] 0.045</code></pre>
+<p><strong>The answer is 0.045.</strong></p>
+</div>
+<div id="the-traps-1" class="section level5">
+<h5>The traps</h5>
+<p>Pasting the two tables side by side matches mice <strong>by position</strong>, so genotypes end up attached to the wrong mice:</p>
+<pre class="r"><code>round(t.test(weights$weight_g ~ genotypes$genotype)$p.value, 3)</code></pre>
+<pre><code>## [1] 0.31</code></pre>
+<p>Merging without fixing <code>m07</code> silently drops one mouse, and the result is no longer significant at 0.05:</p>
+<pre class="r"><code>mice19 &lt;- merge(weights, read.csv(&quot;data/challenges/mouse_genotypes.csv&quot;), by = &quot;id&quot;)
+nrow(mice19)
+round(t.test(weight_g ~ genotype, data = mice19)$p.value, 3)</code></pre>
+<pre><code>## [1] 19
+## [1] 0.067</code></pre>
+<p><strong>Lessons:</strong> merge by ID, never by position. After a merge, check the number of rows.</p>
+</div>
+</div>
+</div>
+</div>
+<hr />
+<!-- ======================= WEDNESDAY: Primer Pairs ======================= -->
+<div id="wednesday-primer-pairs" class="section level3 unnumbered challenge-card">
+<h3>🧬 Wednesday · Primer Pairs</h3>
+<p class="challenge-meta">
+Intermediate · ~45 min · Wednesday: loops and functions (tidyverse optional)
+</p>
+<p><strong>The scenario.</strong> A colleague designed forward (<code>F</code>) and reverse (<code>R</code>) qPCR primers for 30 genes and typed them into a spreadsheet. Before ordering, you check which pairs are good.</p>
+<p><strong>Your task.</strong> A primer pair <strong>passes</strong> if:</p>
+<ul>
+<li>both primers have a <strong>GC content of 40–60 %</strong>,</li>
+<li>both primers have a <strong>melting temperature (Tm) of 52–60 °C</strong>, using the Wallace rule: Tm = 2 × (A + T) + 4 × (G + C),</li>
+<li>the two Tm values differ by <strong>at most 2 °C</strong>.</li>
+</ul>
+<p>Report the <strong>number of passing pairs</strong> and the <strong>target of the passing pair with the highest mean Tm</strong>, joined by a dash (e.g. <code>7-GAPDH</code>).</p>
+<details>
+<summary>
+Get the data
+</summary>
+<pre class="r"><code>download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/primers.csv&quot;, &quot;data/primers.csv&quot;)</code></pre>
+</details>
+<details>
+<summary>
+Hint 1
+</summary>
+Write a function that takes <strong>one</strong> sequence and counts its G/C and A/T bases. <code>substr(seq, i, i)</code> gives the base at position <code>i</code>, and a <code>for</code> loop over <code>1:nchar(seq)</code> visits every position. Test it on a sequence where you know the answer, e.g. <code>"GGCCAATT"</code>. Then use a second loop to run it on every primer.
+</details>
+<details>
+<summary>
+Hint 2
+</summary>
+Look closely at the data before you start. <code>table(primers$direction)</code> and <code>head(primers$sequence)</code> are good places to look. Is everything written the same way?
+</details>
+<details>
+<summary>
+Hint 3
+</summary>
+To compare the two primers of a pair, put them in the same row: make one data frame of forward primers and one of reverse primers, and <code>merge()</code> them by target.
+</details>
+<div class="challenge-answer">
+<p><label for="input-primers"><strong>Your answer</strong> (e.g. <code>7-GAPDH</code>):</label>
+<input id="input-primers" type="text" autocomplete="off" data-key="MTUtY2RrbjFh" data-target="primers">
+<button type="button" class="challenge-check" data-check="primers">Check</button>
+<span id="feedback-primers" class="challenge-feedback"></span></p>
+</div>
+<div id="walkthrough-primers" class="walkthrough">
+<div id="solution-walkthrough-2" class="section level4 unnumbered">
+<h4>🔓 Solution walkthrough</h4>
+<!-- Wednesday: Primer Pairs -->
+<div id="step-1-read-and-inspect" class="section level5">
+<h5>Step 1: Read and inspect</h5>
+<pre class="r"><code>primers &lt;- read.csv(&quot;data/challenges/primers.csv&quot;)
+str(primers)
+table(primers$direction)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    60 obs. of  3 variables:
+##  $ target   : chr  &quot;PCNA&quot; &quot;IL6&quot; &quot;RPLP0&quot; &quot;IL6&quot; ...
+##  $ direction: chr  &quot;R&quot; &quot;F&quot; &quot;F&quot; &quot;R&quot; ...
+##  $ sequence : chr  &quot;CGCTGCATGCTTATCCCTGTA&quot; &quot;TTAGCATGTCCTCCTTACT&quot; &quot;TATATCACGGATGAAGTTCG&quot; &quot;TGAGAGTTCACCCAAAGG&quot; ...
+## 
+##  F  r  R 
+## 30  3 27</code></pre>
+<p><code>table()</code> shows a problem: a few directions were typed as <code>r</code>, not <code>R</code>. Are the sequences all in upper case? Compare each one with its upper-case version:</p>
+<pre class="r"><code>primers$sequence[primers$sequence != toupper(primers$sequence)]</code></pre>
+<pre><code>## [1] &quot;ctacatggcagcctaatc&quot;   &quot;tctcccagaagcccgaggtg&quot; &quot;gctgttgctcaacatgat&quot;  
+## [4] &quot;ttcaacatctacgcaaggtg&quot; &quot;gatgtatgtagcggttctc&quot;</code></pre>
+</div>
+<div id="step-2-clean-the-data" class="section level5">
+<h5>Step 2: Clean the data</h5>
+<pre class="r"><code>primers$direction &lt;- toupper(primers$direction)
+primers$sequence  &lt;- toupper(primers$sequence)
+table(primers$direction)</code></pre>
+<pre><code>## 
+##  F  R 
+## 30 30</code></pre>
+</div>
+<div id="step-3-write-a-function-for-one-primer" class="section level5">
+<h5>Step 3: Write a function for one primer</h5>
+<p>Go through the sequence base by base with a <code>for</code> loop, and count the bases:</p>
+<pre class="r"><code>primer_stats &lt;- function(seq) {
+  n_gc &lt;- 0
+  n_at &lt;- 0
+  for (i in 1:nchar(seq)) {
+    base &lt;- substr(seq, i, i)
+    if (base == &quot;G&quot; | base == &quot;C&quot;) n_gc &lt;- n_gc + 1
+    if (base == &quot;A&quot; | base == &quot;T&quot;) n_at &lt;- n_at + 1
+  }
+  gc &lt;- 100 * n_gc / nchar(seq)
+  tm &lt;- 2 * n_at + 4 * n_gc
+  c(gc = gc, tm = tm)
+}
+
+primer_stats(&quot;GGCCAATT&quot;)   # test on a sequence where you know the answer: 50 % GC, Tm 24</code></pre>
+<pre><code>## gc tm 
+## 50 24</code></pre>
+</div>
+<div id="step-4-use-the-function-on-every-primer" class="section level5">
+<h5>Step 4: Use the function on every primer</h5>
+<p>A second loop goes through the rows:</p>
+<pre class="r"><code>primers$gc &lt;- NA
+primers$tm &lt;- NA
+for (i in 1:nrow(primers)) {
+  stats &lt;- primer_stats(primers$sequence[i])
+  primers$gc[i] &lt;- stats[&quot;gc&quot;]
+  primers$tm[i] &lt;- stats[&quot;tm&quot;]
+}
+head(primers)</code></pre>
+<pre><code>##   target direction              sequence       gc tm
+## 1   PCNA         R CGCTGCATGCTTATCCCTGTA 52.38095 64
+## 2    IL6         F   TTAGCATGTCCTCCTTACT 42.10526 54
+## 3  RPLP0         F  TATATCACGGATGAAGTTCG 40.00000 56
+## 4    IL6         R    TGAGAGTTCACCCAAAGG 50.00000 54
+## 5   TP53         R   CAACCGGGTATATACAGCC 52.63158 58
+## 6  HIF1A         F  CAGGAGCATAATTGACTCCG 50.00000 60</code></pre>
+</div>
+<div id="step-5-put-forward-and-reverse-primers-side-by-side" class="section level5">
+<h5>Step 5: Put forward and reverse primers side by side</h5>
+<p><code>merge()</code> by target. Columns from the forward primers get <code>.x</code>, columns from the reverse primers get <code>.y</code>:</p>
+<pre class="r"><code>fwd &lt;- primers[primers$direction == &quot;F&quot;, ]
+rev &lt;- primers[primers$direction == &quot;R&quot;, ]
+pairs &lt;- merge(fwd, rev, by = &quot;target&quot;)
+nrow(pairs)</code></pre>
+<pre><code>## [1] 30</code></pre>
+</div>
+<div id="step-6-apply-the-rules" class="section level5">
+<h5>Step 6: Apply the rules</h5>
+<pre class="r"><code>pass &lt;- pairs$gc.x &gt;= 40 &amp; pairs$gc.x &lt;= 60 &amp;
+        pairs$gc.y &gt;= 40 &amp; pairs$gc.y &lt;= 60 &amp;
+        pairs$tm.x &gt;= 52 &amp; pairs$tm.x &lt;= 60 &amp;
+        pairs$tm.y &gt;= 52 &amp; pairs$tm.y &lt;= 60 &amp;
+        abs(pairs$tm.x - pairs$tm.y) &lt;= 2
+sum(pass)
+
+good &lt;- pairs[pass, ]
+good$mean_tm &lt;- (good$tm.x + good$tm.y) / 2
+good &lt;- good[order(good$mean_tm, decreasing = TRUE), ]
+good[, c(&quot;target&quot;, &quot;tm.x&quot;, &quot;tm.y&quot;, &quot;mean_tm&quot;)]</code></pre>
+<pre><code>## [1] 15
+##    target tm.x tm.y mean_tm
+## 6  CDKN1A   60   60      60
+## 12  HIF1A   60   58      59
+## 21 POU5F1   58   60      59
+## 16  KRT18   58   58      58
+## 25  STAT3   58   58      58
+## 27   TP53   58   58      58
+## 1    ACTB   56   58      57
+## 5    CDH1   56   56      56
+## 15    JUN   56   56      56
+## 22  RPLP0   56   56      56
+## 29  VEGFA   56   56      56
+## 14    IL6   54   54      54
+## 24   SOX2   54   54      54
+## 30    VIM   54   54      54
+## 9    EGFR   52   54      53</code></pre>
+<p><strong>The answer is 15-CDKN1A.</strong></p>
+<details>
+<summary>
+The same with the tidyverse
+</summary>
+<pre class="r"><code>library(dplyr)
+clean &lt;- read.csv(&quot;data/challenges/primers.csv&quot;) |&gt;
+  mutate(direction = toupper(direction),
+         sequence  = toupper(sequence))
+clean$gc &lt;- NA
+clean$tm &lt;- NA
+for (i in 1:nrow(clean)) {
+  stats &lt;- primer_stats(clean$sequence[i])
+  clean$gc[i] &lt;- stats[&quot;gc&quot;]
+  clean$tm[i] &lt;- stats[&quot;tm&quot;]
+}
+inner_join(filter(clean, direction == &quot;F&quot;), filter(clean, direction == &quot;R&quot;),
+           by = &quot;target&quot;) |&gt;
+  filter(gc.x &gt;= 40, gc.x &lt;= 60, gc.y &gt;= 40, gc.y &lt;= 60,
+         tm.x &gt;= 52, tm.x &lt;= 60, tm.y &gt;= 52, tm.y &lt;= 60,
+         abs(tm.x - tm.y) &lt;= 2) |&gt;
+  mutate(mean_tm = (tm.x + tm.y) / 2) |&gt;
+  arrange(desc(mean_tm)) |&gt;
+  select(target, tm.x, tm.y, mean_tm)</code></pre>
+<pre><code>##    target tm.x tm.y mean_tm
+## 1  CDKN1A   60   60      60
+## 2   HIF1A   60   58      59
+## 3  POU5F1   58   60      59
+## 4    TP53   58   58      58
+## 5   STAT3   58   58      58
+## 6   KRT18   58   58      58
+## 7    ACTB   56   58      57
+## 8   RPLP0   56   56      56
+## 9     JUN   56   56      56
+## 10  VEGFA   56   56      56
+## 11   CDH1   56   56      56
+## 12    IL6   54   54      54
+## 13    VIM   54   54      54
+## 14   SOX2   54   54      54
+## 15   EGFR   52   54      53</code></pre>
+</details>
+</div>
+<div id="the-traps-2" class="section level5">
+<h5>The traps</h5>
+<pre class="r"><code>count_pass &lt;- function(p) {
+  for (i in 1:nrow(p)) {
+    stats &lt;- primer_stats(p$sequence[i])
+    p$gc[i] &lt;- stats[&quot;gc&quot;]
+    p$tm[i] &lt;- stats[&quot;tm&quot;]
+  }
+  m &lt;- merge(p[p$direction == &quot;F&quot;, ], p[p$direction == &quot;R&quot;, ], by = &quot;target&quot;)
+  sum(m$gc.x &gt;= 40 &amp; m$gc.x &lt;= 60 &amp; m$gc.y &gt;= 40 &amp; m$gc.y &lt;= 60 &amp;
+      m$tm.x &gt;= 52 &amp; m$tm.x &lt;= 60 &amp; m$tm.y &gt;= 52 &amp; m$tm.y &lt;= 60 &amp;
+      abs(m$tm.x - m$tm.y) &lt;= 2)
+}
+raw &lt;- read.csv(&quot;data/challenges/primers.csv&quot;)
+count_pass(raw)                                              # nothing cleaned
+count_pass(transform(raw, sequence = toupper(sequence)))     # directions not fixed
+count_pass(transform(raw, direction = toupper(direction)))   # sequences not fixed</code></pre>
+<pre><code>## [1] 10
+## [1] 13
+## [1] 12</code></pre>
+<p>Lower-case bases are not <code>"G"</code> or <code>"C"</code>, so they aren’t counted. A reverse primer typed as <code>r</code> is missing when you select <code>direction == "R"</code>, so its pair disappears from the merge.</p>
+<p><strong>Lessons:</strong> look at your data (<code>table()</code> is great for spotting typos); write a function for one item, test it on input where you know the answer, then loop over all items.</p>
+</div>
+</div>
+</div>
+</div>
+<hr />
+<!-- ======================= THURSDAY: Who's the Imposter? ======================= -->
+<div id="thursday-whos-the-imposter" class="section level3 unnumbered challenge-card">
+<h3>🕵️ Thursday · Who’s the Imposter?</h3>
+<p class="challenge-meta">
+Advanced · due Friday 12:00 · Thursday: base graphics, ggplot2, plus the whole week
+</p>
+<p><strong>The scenario.</strong> You received RNA-seq counts for 12 mouse liver samples, with a sample sheet. Something went wrong in the lab: <strong>one sample is mislabelled</strong>. Its sex in the sample sheet doesn’t match its biology.</p>
+<p><strong>Your task.</strong> Find the mislabelled sample.</p>
+<ul>
+<li>Normalise the counts to <strong>counts per million (CPM)</strong>: divide each sample’s counts by its total counts (all genes in the file), times 1,000,000.</li>
+<li>Use sex-specific genes: <em>XIST</em> is expressed in female cells; <em>RPS4Y1</em>, <em>DDX3Y</em>, <em>KDM5D</em>, <em>UTY</em> and <em>EIF1AY</em> are on the Y chromosome, so they are expressed in male cells only.</li>
+<li>Make a plot that shows the problem.</li>
+</ul>
+<p>Report the <strong>sample ID</strong> and its <strong>RPS4Y1 expression in CPM, rounded to a whole number</strong>, joined by a dash (e.g. <code>S01-123</code>).</p>
+<p><strong>Bonus (no answer box):</strong> two samples have a second problem. Can you find it?</p>
+<details>
+<summary>
+Get the data
+</summary>
+<pre class="r"><code>download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/counts.csv&quot;, &quot;data/counts.csv&quot;)
+download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/sample_sheet.csv&quot;, &quot;data/sample_sheet.csv&quot;)</code></pre>
+</details>
+<details>
+<summary>
+Hint 1
+</summary>
+Read <code>counts.csv</code> with <code>row.names = 1</code>, so the gene names become row names. <code>colSums()</code> gives the library size of each sample. Are they similar? To divide each column by its own total, loop over the samples, or transpose with <code>t()</code>, divide, and transpose back.
+</details>
+<details>
+<summary>
+Hint 2
+</summary>
+For each sample, you need the CPM of <em>XIST</em> and the CPM of the Y genes (e.g. their mean), plus the sex from the sample sheet. Put them in one data frame, then plot <em>XIST</em> against the Y genes, coloured by sex.
+</details>
+<details>
+<summary>
+Hint 3 (bonus)
+</summary>
+<code>cor()</code> on the CPM matrix compares every sample with every other sample. Can you show the result as a plot?
+</details>
+<div class="challenge-answer">
+<p><label for="input-imposter"><strong>Your answer</strong> (e.g. <code>S01-123</code>):</label>
+<input id="input-imposter" type="text" autocomplete="off" data-key="czA0LTEzMg==" data-target="imposter">
+<button type="button" class="challenge-check" data-check="imposter">Check</button>
+<span id="feedback-imposter" class="challenge-feedback"></span></p>
+</div>
+<div id="walkthrough-imposter" class="walkthrough">
+<div id="solution-walkthrough-3" class="section level4 unnumbered">
+<h4>🔓 Solution walkthrough</h4>
+<!-- Thursday: Who's the Imposter? -->
+<pre class="r"><code>library(ggplot2)</code></pre>
+<div id="step-1-read-and-check" class="section level5">
+<h5>Step 1: Read and check</h5>
+<pre class="r"><code>counts &lt;- read.csv(&quot;data/challenges/counts.csv&quot;, row.names = 1)
+sheet  &lt;- read.csv(&quot;data/challenges/sample_sheet.csv&quot;)
+dim(counts)
+head(sheet)
+all(colnames(counts) %in% sheet$sample)   # do the sample names match?</code></pre>
+<pre><code>## [1] 2000   12
+##   sample sex treatment rin
+## 1    S06   F   treated 9.1
+## 2    S12   M   treated 8.8
+## 3    S03   F   control 9.3
+## 4    S01   F   control 8.0
+## 5    S09   M   control 7.6
+## 6    S10   M   treated 9.2
+## [1] TRUE</code></pre>
+</div>
+<div id="step-2-normalise-to-counts-per-million-cpm" class="section level5">
+<h5>Step 2: Normalise to counts per million (CPM)</h5>
+<p>Library sizes differ a lot, so raw counts can’t be compared between samples:</p>
+<pre class="r"><code>colSums(counts)
+cpm &lt;- t(t(counts) / colSums(counts)) * 1e6</code></pre>
+<pre><code>##      S01      S02      S03      S04      S05      S06      S07      S08 
+## 29514707 10985147 13549372 27630888 19575571 18236191 12130481 10600899 
+##      S09      S10      S11      S12 
+##  2432125 20961929 10600899 18736662</code></pre>
+<p>(Dividing a matrix by a vector works row by row, which is why we transpose, divide, and transpose back.)</p>
+</div>
+<div id="step-3-pick-out-the-sex-specific-genes" class="section level5">
+<h5>Step 3: Pick out the sex-specific genes</h5>
+<pre class="r"><code>y_genes &lt;- c(&quot;RPS4Y1&quot;, &quot;DDX3Y&quot;, &quot;KDM5D&quot;, &quot;UTY&quot;, &quot;EIF1AY&quot;)
+sex_expr &lt;- data.frame(sample = colnames(cpm),
+                       XIST   = cpm[&quot;XIST&quot;, ],
+                       Y_mean = colMeans(cpm[y_genes, ]))
+sex_expr &lt;- merge(sex_expr, sheet, by = &quot;sample&quot;)
+sex_expr</code></pre>
+<pre><code>##    sample         XIST      Y_mean sex treatment rin
+## 1     S01 1323.3063774   0.8470353   F   control 8.0
+## 2     S02 1267.8938206   1.0741777   F   treated 7.5
+## 3     S03 1604.2071913   0.5313899   F   control 9.3
+## 4     S04    1.8095691 217.7345875   F   treated 8.2
+## 5     S05 1159.4553232   1.0318984   F   control 8.4
+## 6     S06 1626.4361346   0.5154585   F   treated 9.1
+## 7     S07    0.2473109 229.0593423   M   control 8.5
+## 8     S08    2.2639589 261.7136528   M   treated 8.4
+## 9     S09    2.8781415 263.9666958   M   control 7.6
+## 10    S10    0.2385277 242.6875885   M   treated 9.2
+## 11    S11    2.2639589 261.7136528   M   control 7.3
+## 12    S12    1.9747381 297.8545485   M   treated 8.8</code></pre>
+</div>
+<div id="step-4-plot" class="section level5">
+<h5>Step 4: Plot</h5>
+<pre class="r"><code>ggplot(sex_expr, aes(x = XIST, y = Y_mean, colour = sex, label = sample)) +
+  geom_point(size = 3) +
+  geom_text(nudge_y = 15, show.legend = FALSE) +
+  labs(x = &quot;XIST (CPM)&quot;, y = &quot;Mean of 5 Y-chromosome genes (CPM)&quot;,
+       colour = &quot;Sex in\nsample sheet&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="home_challenges_files/figure-html/im-plot-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p>Female samples should be bottom right (high <em>XIST</em>, no Y genes), male samples top left. One sample labelled <code>F</code> sits with the males.</p>
+<pre class="r"><code>imposter &lt;- sex_expr$sample[sex_expr$sex == &quot;F&quot; &amp; sex_expr$Y_mean &gt; sex_expr$XIST]
+imposter
+round(cpm[&quot;RPS4Y1&quot;, imposter])</code></pre>
+<pre><code>## [1] &quot;S04&quot;
+## [1] 132</code></pre>
+<p><strong>The answer is S04-132.</strong></p>
+</div>
+<div id="the-trap" class="section level5">
+<h5>The trap</h5>
+<p>Using raw counts instead of CPM gives the wrong number, and makes sample <code>S09</code> (a small library) look odd too:</p>
+<pre class="r"><code>counts[&quot;RPS4Y1&quot;, imposter]
+round(colSums(counts) / 1e6, 1)   # library sizes in millions</code></pre>
+<pre><code>## [1] 3640
+##  S01  S02  S03  S04  S05  S06  S07  S08  S09  S10  S11  S12 
+## 29.5 11.0 13.5 27.6 19.6 18.2 12.1 10.6  2.4 21.0 10.6 18.7</code></pre>
+</div>
+<div id="bonus-the-duplicate" class="section level5">
+<h5>Bonus: the duplicate</h5>
+<p>Two samples are identical: a file was copied twice. A correlation of exactly 1 gives it away:</p>
+<pre class="r"><code>r &lt;- cor(cpm)
+round(r[c(&quot;S07&quot;, &quot;S08&quot;, &quot;S09&quot;, &quot;S10&quot;, &quot;S11&quot;, &quot;S12&quot;), c(&quot;S07&quot;, &quot;S08&quot;, &quot;S09&quot;, &quot;S10&quot;, &quot;S11&quot;, &quot;S12&quot;)], 4)</code></pre>
+<pre><code>##        S07    S08    S09    S10    S11    S12
+## S07 1.0000 0.9641 0.9641 0.9694 0.9641 0.9659
+## S08 0.9641 1.0000 0.9679 0.9637 1.0000 0.9734
+## S09 0.9641 0.9679 1.0000 0.9682 0.9679 0.9588
+## S10 0.9694 0.9637 0.9682 1.0000 0.9637 0.9564
+## S11 0.9641 1.0000 0.9679 0.9637 1.0000 0.9734
+## S12 0.9659 0.9734 0.9588 0.9564 0.9734 1.0000</code></pre>
+<p><code>S08</code> and <code>S11</code> have a correlation of exactly 1: no two real samples are that similar. The base-graphics heatmap shows it too:</p>
+<pre class="r"><code>heatmap(r, symm = TRUE)</code></pre>
+<p><img src="home_challenges_files/figure-html/im-heatmap-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><strong>Lessons:</strong> normalise before comparing samples; check sample labels with biology you know (sex genes are the classic check); plot before you trust.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- To add a challenge: see the instructions at the top of challenges/walkthroughs.Rmd -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function normalise(s) { return s.trim().toLowerCase().replace(/\s+/g, ""); }
+  function check(id) {
+    var input = document.getElementById("input-" + id);
+    var feedback = document.getElementById("feedback-" + id);
+    var walkthrough = document.getElementById("walkthrough-" + id);
+    var guess;
+    try { guess = btoa(normalise(input.value)); } catch (e) { guess = ""; }
+    if (guess === input.dataset.key) {
+      feedback.textContent = "✅ Correct! The walkthrough is unlocked below.";
+      walkthrough.classList.add("unlocked");
+    } else {
+      feedback.textContent = "❌ Not quite. Check the hints, and try again!";
+    }
+  }
+  document.querySelectorAll("[data-check]").forEach(function (button) {
+    button.addEventListener("click", function () { check(button.dataset.check); });
+  });
+  document.querySelectorAll(".challenge-answer input").forEach(function (input) {
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") check(input.dataset.target);
+    });
+  });
+});
+</script>
+
+
+<footer class="footer">
+<div class="container footer-container">
+<div class="row">
+
+<div class="footer-left col-sm-6">
+<p class="small">
+<b>2026</b> • <a href="https://nbis.se/">NBIS</a> • <a href="https://www.scilifelab.se/">SciLifeLab</a>
+</p>
+</div>
+
+<div class="footer-right col-sm-6">
+<p>
+<span>
+  <span class="footericon" style="padding-right:4px; padding-left:4px">
+    <a href="https://nbis.se/">
+      <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 496 512"><path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z"></path>
+      </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-right:4px; padding-left:4px">
+      <a href="https://twitter.com/NBISwe"><svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+    </svg>
+    </a>
+    </span>
+    <span class="footericon" style="padding-left:4px">
+      <a href="https://www.linkedin.com/company/nbisweden/">
+        <svg style="height:0.8em;top:.04em;position:relative;fill:#bdbdbd;" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+        </svg>
+    </a>
+    </span>
+  </span>
+</p>
+</div>
+
+</div>
+</div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
