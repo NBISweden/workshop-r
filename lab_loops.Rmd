@@ -1,5 +1,5 @@
 ---
-title: "Loops in R"
+title: "Loops, decisions and functions"
 subtitle: "R Programming Foundation for Life Scientists"
 output:
   bookdown::html_document2:
@@ -26,298 +26,301 @@ output:
 
 # Introduction
 
-In programming languages loop structures, either with or without conditions, are used to repeat commands over multiple entities. `for` and `while` loops as well as `if-else` statements are also often used in R, but not as often as in many other programming languages. The reason for this is that many needs of the loops are already addressed using vectorization or via apply functions.
+Loops, decisions and functions let you write your analysis **once** and run it on any number of samples. In this lab you will:
 
-This means that we can multiply all values in a vector in R by two by calling
+- repeat steps with `for` and `while` loops,
+- store loop results the efficient way,
+- compare loops with vectorised code,
+- make decisions with `if`, `else if`, `else` and `ifelse()`,
+- write your own functions, with default arguments and input checks,
+- combine all three.
+
+<div class="boxy boxy-lightbulb">
+As always: predict first, then run. If the output surprises you, find out why. Click the key to reveal example code. Keep your code and notes in your **R Markdown learning journal**.
+</div>
+
+# Loops
+
+1. You sequenced five samples:
 
 ```{r}
-vec.a <- c(1, 2, 3, 4)
-vec.a * 2
+sample_ids <- c("liver_1", "liver_2", "brain_1", "brain_2", "heart_1")
+reads <- c(21.4, 18.9, 25.2, 9.7, 22.8)   # million reads
 ```
 
-In many other and languages as well as in R, you can also create this with a loop instead
+Write a `for` loop that prints one line per sample, e.g. `liver_1: 21.4 million reads`.
+
+```{r,accordion=TRUE}
+for (i in seq_along(sample_ids)) {
+  cat(sample_ids[i], ": ", reads[i], " million reads\n", sep = "")
+}
+```
+
+2. In qPCR, the relative amount of a target compared with a reference gene is 2^−ΔCt, where ΔCt = Ct(target) − Ct(reference). Calculate it for these six wells with a `for` loop. Create the result vector **before** the loop. Then do the same without a loop, and check that both give the same result.
 
 ```{r}
-for (i in seq_along(vec.a)) {
-  vec.a[i] <- vec.a[i] * 2
-}
-
-vec.a
+ct_target <- c(24.3, 25.1, 23.8, 28.9, 29.4, 28.6)
+ct_ref    <- c(18.1, 18.3, 17.9, 18.2, 18.0, 18.4)
 ```
-
-This is far less efficient and not by any means easier to type and we hence tend to avoid loops when possible.
-
-<details>
-  <summary><strong>Extra: Demonstration of time lapse comparison between vectorization and loop</strong></summary>
-  
-Let us compare the time of execution of the vectorized version (vector with 10,000 elements):
-
-```{r for.loop.avoid.timing, echo=T}
-vec <- c(1:1000000)
-ptm <- proc.time()
-vec <- vec + 1
-proc.time() - ptm # vectorized
-```
-
---
-
-to the loop version:
-
-```{r for.loop.avoid.timing2, echo=T}
-vec <- c(1:1000000)
-ptm <- proc.time()
-for (i in seq_along(vec)) {
-  vec[i] <- vec[i] + 1
-}
-proc.time() - ptm # for-loop
-```
-
-</details>
-
-</br>
-
-After this exercise you should know:
-
-- What are the most common loop structures in R
-- Some common alternatives to using loops in R
-- How one can convert a short script to a function.
-- Use that new function in R.
-
-# Exercises
-
-1. Create a 100000 by 10 matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the `apply()` function to calculate row sums as well as with the built-in `rowSums()` function. These functions were discussed in the lecture **Matrices, data frames, and lists**.
-
-```{r,accordion=TRUE,results='markup'}
-X <- matrix(1:1000000, nrow = 100000, ncol = 10)
-for.sum <- vector(mode = 'numeric')
-# Note that this loop is much faster if you outside the loop create an empty vector of the right size.
-# rwmeans <- vector('numeric', 100000)
-for (i in 1:nrow(X)) {
-    for.sum[i] <- sum(X[i,])
-}
-head(for.sum)
-
-app.sum <- apply(X, MARGIN = 1, sum)
-head(app.sum)
-
-rowSums.sum <- rowSums(X)
-head(rowSums.sum)
-
-identical(for.sum, app.sum)
-identical(for.sum, rowSums.sum)
-identical(for.sum, as.integer(rowSums.sum))
-```
-
-2. As you saw in the lecture, another common loop structure that is used is the while loop, which functions much like a for loop, but will only run as long as a test condition is TRUE. Modify your for loop from exercise 1 and make it into a while loop. 
-<details>
-  <summary><strong>Tip?</strong></summary>
-  You can use the number of rows in the matrix as a condition for the while loop.
-</details>
 
 ```{r,accordion=TRUE}
-x <- 1
-while.sum <- vector("numeric", 100000)
-while (x <= 100000) {
-  while.sum[x] <- sum(X[x,])
-  x <- x + 1
+rel_amount <- numeric(length(ct_target))
+for (i in seq_along(ct_target)) {
+  rel_amount[i] <- 2^-(ct_target[i] - ct_ref[i])
 }
-head(while.sum)
+rel_amount
+
+rel_amount_vec <- 2^-(ct_target - ct_ref)   # vectorised
+identical(rel_amount, rel_amount_vec)
 ```
 
-3. Create a data frame with two numeric and one character columns. Write a loop that loops over the columns and reports the sum of the column values if it is numeric and the total number of characters if it is a character vector.
-<details>
-  <summary><strong>Tip?</strong></summary>
-  To count number of characters, you can use `nchar` function.
-</details>
-- Do it first using only if clauses
+3. Here is a small count table: 1,000 genes in 6 samples.
+
+```{r}
+set.seed(1)
+counts <- matrix(rpois(6000, lambda = 50), nrow = 1000,
+                 dimnames = list(paste0("gene", 1:1000), paste0("S", 1:6)))
+```
+
+Use a `for` loop to calculate the total count of each **sample** (each column). Check your result with `colSums()`.
 
 ```{r,accordion=TRUE}
-vector1 <- 1:10
-vector2 <- c("Odd", "Loop", letters[1:8])
-vector3 <- rnorm(10, sd = 10)
-dfr1 <- data.frame(vector1, vector2, vector3, stringsAsFactors = FALSE)
-sum.vec <- vector()
-for(i in 1:ncol(dfr1)) {
-  if (is.numeric(dfr1[,i])) {
-      sum.vec[i] <- sum(dfr1[,i])
-  } 
-  if (is.character(dfr1[,i])) {
-      sum.vec[i] <- sum(nchar(dfr1[,i]))
-  }
+totals <- numeric(ncol(counts))
+for (j in seq_len(ncol(counts))) {
+  totals[j] <- sum(counts[, j])
 }
-sum.vec
+totals
+colSums(counts)
+all(totals == colSums(counts))
 ```
 
+4. Why do we create `totals` before the loop, instead of starting with `totals <- c()` and adding each new value with `totals <- c(totals, ...)`? Try both ways with a loop over 100,000 elements and use `system.time()` to compare.
 
-- And then modify the loop to use if-else clauses
+```{r,accordion=TRUE}
+n <- 1e5
+system.time({
+  grow <- c()
+  for (i in 1:n) grow <- c(grow, i)
+})
+system.time({
+  fill <- numeric(n)
+  for (i in 1:n) fill[i] <- i
+})
+# Growing copies the whole vector at every step, so it gets slower and slower.
+```
 
-```{r, accordion=TRUE}
+5. A bacterial culture starts with 100 cells and doubles every 20 minutes. Use a `while` loop to find out how many minutes it takes to reach at least one million cells.
 
-sum.vec <- vector()
-for(i in 1:ncol(dfr1)) {
-  if (is.numeric(dfr1[,i])) {
-      sum.vec[i] <- sum(dfr1[,i])
+```{r,accordion=TRUE}
+n_cells <- 100
+minutes <- 0
+while (n_cells < 1e6) {
+  n_cells <- n_cells * 2
+  minutes <- minutes + 20
+}
+minutes
+n_cells
+```
+
+# Decisions
+
+6. Fasting blood glucose (mmol/L) is classified as **normal** below 5.6, **prediabetes** from 5.6 up to 7.0, and **diabetes** from 7.0. Write an `if` / `else if` / `else` that classifies one value. Test it with 5.2, 6.1 and 7.4.
+
+```{r,accordion=TRUE}
+glucose <- 6.1
+if (glucose >= 7.0) {
+  "diabetes"
+} else if (glucose >= 5.6) {
+  "prediabetes"
+} else {
+  "normal"
+}
+```
+
+7. Classify all patients below, first with a `for` loop and then with nested `ifelse()`. Count how many patients fall in each class with `table()`.
+
+```{r}
+glucose_all <- c(5.2, 6.1, 7.4, 4.9, 5.6, 8.2, 6.9, 5.0)
+```
+
+```{r,accordion=TRUE}
+class_loop <- character(length(glucose_all))
+for (i in seq_along(glucose_all)) {
+  if (glucose_all[i] >= 7.0) {
+    class_loop[i] <- "diabetes"
+  } else if (glucose_all[i] >= 5.6) {
+    class_loop[i] <- "prediabetes"
   } else {
-      sum.vec[i] <- sum(nchar(dfr1[,i]))
+    class_loop[i] <- "normal"
   }
 }
-sum.vec
+class_loop
+
+class_vec <- ifelse(glucose_all >= 7.0, "diabetes",
+                    ifelse(glucose_all >= 5.6, "prediabetes", "normal"))
+identical(class_loop, class_vec)
+table(class_vec)
 ```
 
-4. In question 3 you generated a loop to go over a data frame. Try to convert this code to a function in R. The function should take a single data frame name as argument.
+8. Here is a sample sheet with columns of different types:
 
-```{r,accordion=TRUE}
-dfr.info <- function(dfr) {
-  sum.vec <- vector()
-  for (i in 1:ncol(dfr)) {
-  	if (is.numeric(dfr[,i])) {
-  		sum.vec[i] <- sum(dfr[,i])
-  	} else {
-  		sum.vec[i] <- sum(nchar(dfr[,i]))
-  	}
-  }
-  sum.vec
-}
-#Execute the function
-
-dfr.info(dfr1)
+```{r}
+sheet <- data.frame(
+  sample   = c("liver_1", "liver_2", "brain_1", "brain_2"),
+  rin      = c(8.4, 7.9, 6.2, 9.1),
+  reads_m  = c(21.4, 18.9, 25.2, 9.7),
+  passed   = c(TRUE, TRUE, FALSE, TRUE)
+)
 ```
 
-5. **Extra exercise-loops**. A variation of exercise 3: Create a data frame with three columns: one numeric, one logical, and one character vector. Write a loop that loops over the columns and reports the sum of the column values if it is numeric, the total number of `TRUE`s when is logical and the total number of characters if it is a character vector.
-<details>
-  <summary><strong>Tips?</strong></summary>
-  To count number of characters, you can use `nchar` function. <br/>
-  To count number of `TRUE` values, you can use `sum` function.<br/>
-  Inside the loop, you may want to use the if-else-if structure.<br/>
-</details>
+Loop over the **columns**. For each column, report:
+- the **mean** if it is numeric,
+- the **number of `TRUE`** values if it is logical,
+- the **number of different values** if it is character.
 
-
+Hint: `is.numeric()`, `is.logical()`, `is.character()`; `sheet[[j]]` gets column `j` as a vector.
 
 ```{r,accordion=TRUE}
-vector1 <- 1:10
-vector2 <- c("Odd", "Loop", letters[1:8])
-vector3 <- c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, FALSE)
-dfr2 <- data.frame(vector1, vector2, vector3, stringsAsFactors = FALSE)
-sum.vec <- vector()
-for(i in 1:ncol(dfr2)) {
-  if (is.numeric(dfr2[,i])) {
-      sum.vec[i] <- sum(dfr2[,i])
-  } else if (is.logical(dfr2[,i])) {
-      sum.vec[i] <- sum(dfr2[,i])
+for (j in seq_along(sheet)) {
+  column <- sheet[[j]]
+  if (is.numeric(column)) {
+    cat(names(sheet)[j], ": mean", mean(column), "\n")
+  } else if (is.logical(column)) {
+    cat(names(sheet)[j], ":", sum(column), "TRUE\n")
   } else {
-      sum.vec[i]<-sum(nchar(dfr2[,i]))
+    cat(names(sheet)[j], ":", length(unique(column)), "different values\n")
   }
 }
-sum.vec
 ```
 
-6. **Extra exercise-functions**. Create a function that will convert time in hours to time in minutes. The function should take a single argument, a numeric value of hours, and return a numeric value of minutes. Add an if clause inside of the function that will stop running the function and give an error if the hours provided are negative. 
-<details>
-  <summary><strong>Tip?</strong></summary>
-  You can read the documentation of the `stop()` function by typing `?stop` in the R console.
-</details>
+# Functions
 
-```{r,accordion=TRUE, error=T}
-hours_to_mins <- function(hours) {
-  if (hours < 0) {
-    stop("Hours cannot be negative")
+9. Write a function `cells_per_ml()` that converts an OD600 value into cells per mL. Use an argument `factor` with the default value `8e8` (cells/mL per OD unit). Test it on `c(0.2, 0.5, 1.1)`, then with `factor = 5e8` for a different species.
+
+```{r,accordion=TRUE}
+cells_per_ml <- function(od, factor = 8e8) {
+  od * factor
+}
+cells_per_ml(c(0.2, 0.5, 1.1))
+cells_per_ml(c(0.2, 0.5, 1.1), factor = 5e8)
+```
+
+10. Write a function `molarity()` that calculates the concentration (mol/L) of a solution from the **mass** of compound (g), its **molecular weight** (g/mol) and the **volume** (L). It should stop with a clear error message if the volume is zero or negative. Test it: 5.844 g of NaCl (58.44 g/mol) in 0.5 L should give 0.2 mol/L.
+
+```{r,accordion=TRUE,error=TRUE}
+molarity <- function(mass_g, mw, volume_l) {
+  if (volume_l <= 0) {
+    stop("volume_l must be positive")
   }
-  minutes <- hours * 60
-  return(minutes)
+  (mass_g / mw) / volume_l
 }
-
-hours_to_mins(3.2)
-#Now test it with a negative hour value
-hours_to_mins(-3.26)
+molarity(5.844, 58.44, 0.5)
+molarity(5.844, 58.44, 0)
 ```
 
+11. Write a function `replicate_summary()` that takes a vector of replicate measurements and returns their **mean**, **standard deviation** and **coefficient of variation** (CV = sd / mean × 100, in %) as a named vector. Add an argument `na.rm` with the default `TRUE` and pass it on to `mean()` and `sd()`. Test it on the replicates below.
 
-6.  In all loops that we tried out we have created the variable where the output is saved outside the loop. Why is this?
-</br>
-</br>
-
-# Extra material
-
-Do you want to expand on loops, if-else clauses, and functions? Here a bit more extra material!
-
-<details>
-  <summary><strong>Extra material: The switch function</strong></summary>
-  If-else clauses operate on logical values. What if we want to take decisions based on non-logical values? Well, if-else will still work by evaluating a number of comparisons, but we can also use **switch**:
-
-```{r switch, echo=T}
-switch.demo <- function(x) {
-  switch(class(x),
-         logical = cat('logical\n'),
-         numeric = cat('Numeric\n'),
-         factor = cat('Factor\n'),
-         cat('Undefined\n')
-         )
-}
-switch.demo(x=TRUE)
-switch.demo(x=15)
-switch.demo(x=factor('a'))
-switch.demo(data.frame())
+```{r}
+replicates <- c(12.1, 11.8, NA, 12.6, 12.3)
 ```
 
-</details>
-
-<details>
-  <summary><strong>Extra material: The ellipsis argument trick</strong></summary>
-  What if the authors of, e.g. plot.something wrapper forgot about the `...`?
-
-```{r fns.3dots.trick, echo=T, fig.height = 5, fig.width = 5}
-my.plot <- function(x, y) { # Passing downstrem
-  plot(x, y, las=1, cex.axis=.8, ...)
+```{r,accordion=TRUE}
+replicate_summary <- function(x, na.rm = TRUE) {
+  m <- mean(x, na.rm = na.rm)
+  s <- sd(x, na.rm = na.rm)
+  c(mean = m, sd = s, cv = s / m * 100)
 }
-# you can update the function adding the ellipsis like this
-formals(my.plot) <- c(formals(my.plot), alist(... = ))
-my.plot(1, 1, col='red', pch=19)
+round(replicate_summary(replicates), 2)
+replicate_summary(replicates, na.rm = FALSE)
 ```
 
-</details>
+12. Turn your loop from exercise 8 into a function `describe_columns()` that takes any data frame. Test it on `sheet`, and on the built-in `ToothGrowth` data set (it has a factor column: what happens to it?).
 
-
-<details>
-  <summary><strong>Extra material: Infix notations</strong></summary>
-Operators like `+`, `-` or `*` are using the so-called **infix** functions, where the function name is between arguments. We can define our own:
-
-```{r infix, echo=T}
-`%p%` <- function(x, y) {
-  paste(x,y)
+```{r,accordion=TRUE}
+describe_columns <- function(df) {
+  for (j in seq_along(df)) {
+    column <- df[[j]]
+    if (is.numeric(column)) {
+      cat(names(df)[j], ": mean", mean(column), "\n")
+    } else if (is.logical(column)) {
+      cat(names(df)[j], ":", sum(column), "TRUE\n")
+    } else {
+      cat(names(df)[j], ":", length(unique(column)), "different values\n")
+    }
+  }
 }
-'a' %p% 'b'
+describe_columns(sheet)
+describe_columns(ToothGrowth)   # a factor is not numeric or logical, so it ends up in "else"
 ```
 
-</details>
+13. Predict the output of each line, then run the code. Explain the result in your journal.
+
+```{r}
+dilution <- 10
+make_dilution <- function(conc) {
+  dilution <- 100
+  conc / dilution
+}
+```
+
+```{r,eval=FALSE}
+make_dilution(500)
+dilution
+```
+
+```{r,accordion=TRUE}
+make_dilution(500)   # uses the local dilution = 100
+dilution             # still 10: the function's variables stay inside it
+```
+
+# All together
+
+14. The restriction enzyme *DpnI* cuts at the site `GATC`. Write a function `count_site(dna, site)` that counts how often `site` occurs in a DNA sequence. Use a `for` loop over every position, `substr()` to extract a piece of the same length as `site`, and `if` to check whether it matches. Test it on `"GATCGATCAAGATC"` (3 sites), then make `site` default to `"GATC"`.
+
+```{r,accordion=TRUE}
+count_site <- function(dna, site = "GATC") {
+  n <- 0
+  len <- nchar(site)
+  for (pos in 1:(nchar(dna) - len + 1)) {
+    if (substr(dna, pos, pos + len - 1) == site) {
+      n <- n + 1
+    }
+  }
+  n
+}
+count_site("GATCGATCAAGATC")
+count_site("GATCGATCAAGATC", site = "AAG")
+```
+
+15. Use `count_site()` in a loop to count `GATC` sites in each of these sequences. Store the results in a named vector. Which sequence has the most sites?
+
+```{r}
+fragments <- c(frag1 = "AAGATCTTGATCCA", frag2 = "GGGCCCAAATTT",
+               frag3 = "GATCGATCGATCGA", frag4 = "TTGATCAA")
+```
+
+```{r,accordion=TRUE}
+n_sites <- numeric(length(fragments))
+names(n_sites) <- names(fragments)
+for (i in seq_along(fragments)) {
+  n_sites[i] <- count_site(fragments[i])
+}
+n_sites
+names(n_sites)[n_sites == max(n_sites)]
+```
 
 # Cheatsheet
 
-| Function | Purpose | Key Points | Example |
-|----------|---------|------------|---------|
-| `nrow()` | Number of rows | Works on data frames, matrices | `nrow(df)` |
-| `ncol()` | Number of columns | Works on data frames, matrices | `ncol(df)` |
-| `dim()` | Dimensions (rows, cols) | Returns vector `c(nrow, ncol)` | `dim(df)` |
-| `nchar()` | Number of characters in strings | Vectorised over character vectors | `nchar(c("abc", "hello"))` |
-| `sum()` | Sum of values | `na.rm = TRUE` to ignore NA | `sum(c(1, 2, NA), na.rm = TRUE)` |
-| `rowSums()` | Sum of each row | Works on numeric matrices/data frames | `rowSums(df)` |
-| `apply()` | Apply function over rows/columns | `apply(X, MARGIN, FUN)` where `MARGIN = 1` (rows) or `2` (cols) | `apply(df, 2, mean)` |
-| `sapply()` | Simplifying lapply output | Returns vector/matrix if possible | `sapply(df, class)` |
-| `lapply()` | Apply function to each element of a list | Returns a list | `lapply(df, mean)` |
-| `identical()` | Check exact equality | Stricter than `==`, checks type + value | `identical(1, 1L)` |
-| `is.numeric()` | Check if an object is numeric | Returns TRUE/FALSE | `is.numeric(3.14)` |
-| `data.frame()` | Create a data frame | `stringsAsFactors=FALSE` for R < 4.0 | `data.frame(x=1:3, y=c("a","b","c"))` |
-
-
-<!--
-7. <i class="fas fa-exclamation-circle"></i> **Advanced:** At the lecture an approach to calculate factorials were implemented using recursion (function calling itself). Here we instead will have a go at generating Fibonacci numbers. A fibonacci number is part of a series of number with the following properties:
-
-The first two numbers in the Fibonacci sequence are either 1 and 1, or 0 and 1, depending on the chosen starting point of the sequence, and each subsequent number is the sum of the previous two. Hence:
-
-`0, 1, 1, 2, 3, 5, 8, 13, 21, ...`
-
-or
-
-`1, 1, 2, 3, 5, 8, 13, 21, ...`
-
-Try to generate such a series using a recursive approach.
--->
+| Task | Code |
+|:-----|:-----|
+| Loop over values | `for (x in values) { ... }` |
+| Loop over positions | `for (i in seq_along(x)) { ... }` |
+| Create a result vector first | `result <- numeric(n)`, `character(n)` |
+| Loop while a condition holds | `while (condition) { ... }` |
+| Decide | `if (cond) { ... } else if (cond2) { ... } else { ... }` |
+| Decide for a whole vector | `ifelse(cond, yes, no)` |
+| Write a function | `f <- function(x, y = 1) { ...; result }` |
+| Stop with an error | `stop("message")` |
+| Return several values | `c(a = ..., b = ...)` or `list(...)` |
+| Check a type | `is.numeric()`, `is.character()`, `is.logical()` |
+| Time some code | `system.time({ ... })` |

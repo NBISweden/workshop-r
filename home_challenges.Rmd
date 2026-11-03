@@ -65,17 +65,22 @@ knit_walkthrough <- function(id, file = "challenges/walkthroughs.Rmd") {
   list(content = content, answer = env$answer)
 }
 
-# Print the hidden walkthrough block
+# Print the hidden walkthrough block: a collapsed <details>, shown once unlocked
 walkthrough_block <- function(id, wt) {
-  cat("\n\n::: {#walkthrough-", id, " .walkthrough}\n\n",
-      "#### 🔓 Solution walkthrough {-}\n\n",
-      wt$content, "\n\n:::\n\n", sep = "")
+  # Turn "##### Step" headings into plain HTML headings. As markdown headings,
+  # pandoc would wrap them in sections that run past </details> and break the tabs.
+  wt$content <- gsub("(^|\n)##### ([^\n]*)", "\\1<h5 class=\"wt-step\">\\2</h5>", wt$content)
+  cat("\n\n<details class=\"walkthrough\" id=\"walkthrough-", id, "\">\n",
+      "<summary>🔓 Solution walkthrough (click to view)</summary>\n\n",
+      wt$content, "\n\n</details>\n\n", sep = "")
 }
 ```
 
 <style>
 .challenge-card { border: 1px solid #ddd; border-radius: 8px; padding: 1em 1.5em; margin: 1.5em 0; }
-.challenge-meta { color: #666; font-size: 90%; margin-top: -0.5em; }
+.challenge-title { font-size: 150%; font-weight: bold; margin: 0.3em 0 0.4em; }
+.challenge-meta { color: #666; font-size: 90%; margin-top: -0.3em; }
+.map-hint { display: block; margin-top: 0.3em; font-weight: normal; }
 .challenge-answer { margin: 1em 0; }
 .challenge-answer input { width: 12em; margin: 0 0.5em; padding: 6px 10px; font-size: 100%; }
 /* own class, not .btn: lab.css fixes button.btn to 35 x 35 px */
@@ -85,18 +90,27 @@ walkthrough_block <- function(id, wt) {
 .challenge-check:hover, .challenge-check:focus { background-color: white; color: #95b540; }
 .challenge-feedback { margin-left: 0.5em; font-weight: bold; }
 .walkthrough { display: none; border-top: 2px dashed #ccc; margin-top: 1em; padding-top: 0.5em; }
+.walkthrough > summary { cursor: pointer; font-weight: bold; font-size: 110%; }
 .walkthrough.unlocked { display: block; }
 </style>
 
-One short data challenge per day, each with **one exact answer**. Type it in the box to check it: the correct answer unlocks a solution walkthrough.
+# A treasure awaits you across the sea of data!
+
+```{r treasure-map, echo=FALSE}
+htmltools::includeHTML(file.path(page_dir, "challenges/treasure_map.html"))
+```
+
+You will have one short data challenge per day, each with **one exact answer**. Type the answer in the box to check it. Every challenge you solve lifts the fog from one island and draws the next stretch of the route. Solve all four to find the treasure.
 
 <div class="alert alert-info">
-  <strong>Work in pairs, use the hints, and try before you peek.</strong> The solutions are also in the course repository, but you'll learn much more by getting there yourself. Thursday's challenge is the hardest: you have until Friday at 12:00. We'll go through all answers in Friday's discussion.
+  <strong>Pirates need their crew! Talk to your colleagues and discuss strategy, exchange tips! Use the hints for each challenge, and try to limit the use of AI.</strong>
 </div>
 
----
+## The challenges {.tabset .tabset-fade .tabset-pills -}
 
 <!-- ======================= MONDAY: Countable Colonies ======================= -->
+
+### 🧫 Mon · Colonies {.unlisted -}
 
 ```{r wt-colonies, include=FALSE}
 wt_colonies <- knit_walkthrough("colonies")
@@ -104,7 +118,7 @@ wt_colonies <- knit_walkthrough("colonies")
 
 ::: {.challenge-card}
 
-### 🧫 Monday · Countable Colonies {-}
+<p class="challenge-title">🧫 Monday · Countable Colonies</p>
 
 <p class="challenge-meta">Beginner · ~30 min · Monday: data types, operators, vectors</p>
 
@@ -145,9 +159,9 @@ walkthrough_block("colonies", wt_colonies)
 
 :::
 
----
-
 <!-- ======================= TUESDAY: Mouse Mismatch ======================= -->
+
+### 🐭 Tue · Mice {.unlisted -}
 
 ```{r wt-mice, include=FALSE}
 wt_mice <- knit_walkthrough("mice")
@@ -155,36 +169,35 @@ wt_mice <- knit_walkthrough("mice")
 
 ::: {.challenge-card}
 
-### 🐭 Tuesday · Mouse Mismatch {-}
+<p class="challenge-title">🐭 Tuesday · Mouse Mismatch</p>
 
-<p class="challenge-meta">Beginner+ · ~45 min · Tuesday: data frames, loading data, basic statistics</p>
+<p class="challenge-meta">Beginner+ · ~45 min · Tuesday: data frames (tidyverse optional)</p>
 
-**The scenario.** You weighed 20 mice. The scale exported the weights from one computer; the animal facility sent the genotypes (wild type, `WT`, or knockout, `KO`) from another. Do knockout mice weigh more?
+**The scenario.** You weighed 20 mice. The weights come from the scale; the genotypes (wild type, `WT`, or knockout, `KO`) come from the animal facility, in a separate table. Do knockout mice weigh more?
 
-**Your task.** Combine the two files and compare the weight of KO and WT mice with a Welch t-test (the default in `t.test()`). Report the **p-value, rounded to 3 decimals**.
+**Your task.** Combine the two tables, so that every mouse has both its weight and its genotype. Then calculate the **mean weight of the KO mice minus the mean weight of the WT mice**, rounded to **2 decimals** (e.g. `0.12`).
 
 <details>
   <summary>Get the data</summary>
+Copy these lines into R. They read both tables straight from the web (you'll learn all about reading files on Friday):
 ```{r, eval=FALSE}
-download.file("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_weights.csv",
-              "data/mouse_weights.csv")
-download.file("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_genotypes.csv",
-              "data/mouse_genotypes.csv")
+weights   <- read.csv2("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_weights.csv")
+genotypes <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_genotypes.csv")
 ```
 </details>
 
 <details>
   <summary>Hint 1</summary>
-Look at both files with `readLines()` before you read them. Do they use the same separator and decimal mark?
+Look at both data frames with `head()` and `str()`. Are the mice in the same order in both tables? Can you just put the columns side by side?
 </details>
 
 <details>
   <summary>Hint 2</summary>
-Are the mice in the same order in both files? Does every ID appear in both files? (`x %in% y` checks, for each element of `x`, whether it is in `y`.) After merging, how many rows do you have?
+Does every ID appear in both tables? (`x %in% y` checks, for each element of `x`, whether it is in `y`.) After merging, how many rows do you have?
 </details>
 
 ```{r, results='asis', echo=FALSE}
-cat(answer_box("mice", wt_mice$answer, "0.123"))
+cat(answer_box("mice", wt_mice$answer, "0.12"))
 ```
 
 ```{r, results='asis', echo=FALSE}
@@ -193,9 +206,9 @@ walkthrough_block("mice", wt_mice)
 
 :::
 
----
-
 <!-- ======================= WEDNESDAY: Primer Pairs ======================= -->
+
+### 🧬 Wed · Primers {.unlisted -}
 
 ```{r wt-primers, include=FALSE}
 wt_primers <- knit_walkthrough("primers")
@@ -203,7 +216,7 @@ wt_primers <- knit_walkthrough("primers")
 
 ::: {.challenge-card}
 
-### 🧬 Wednesday · Primer Pairs {-}
+<p class="challenge-title">🧬 Wednesday · Primer Pairs</p>
 
 <p class="challenge-meta">Intermediate · ~45 min · Wednesday: loops and functions (tidyverse optional)</p>
 
@@ -219,8 +232,9 @@ Report the **number of passing pairs** and the **target of the passing pair with
 
 <details>
   <summary>Get the data</summary>
+Copy this line into R. It reads the table straight from the web:
 ```{r, eval=FALSE}
-download.file("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/primers.csv", "data/primers.csv")
+primers <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/primers.csv")
 ```
 </details>
 
@@ -249,9 +263,9 @@ walkthrough_block("primers", wt_primers)
 
 :::
 
----
-
 <!-- ======================= THURSDAY: Who's the Imposter? ======================= -->
+
+### 🕵️ Thu · Imposter {.unlisted -}
 
 ```{r wt-imposter, include=FALSE}
 wt_imposter <- knit_walkthrough("imposter")
@@ -259,9 +273,9 @@ wt_imposter <- knit_walkthrough("imposter")
 
 ::: {.challenge-card}
 
-### 🕵️ Thursday · Who's the Imposter? {-}
+<p class="challenge-title">🕵️ Thursday · Who's the Imposter?</p>
 
-<p class="challenge-meta">Advanced · due Friday 12:00 · Thursday: base graphics, ggplot2, plus the whole week</p>
+<p class="challenge-meta">Advanced · until Friday 14:00 · Thursday: base graphics, ggplot2, plus the whole week</p>
 
 **The scenario.** You received RNA-seq counts for 12 mouse liver samples, with a sample sheet. Something went wrong in the lab: **one sample is mislabelled**. Its sex in the sample sheet doesn't match its biology.
 
@@ -277,15 +291,16 @@ Report the **sample ID** and its **RPS4Y1 expression in CPM, rounded to a whole 
 
 <details>
   <summary>Get the data</summary>
+Copy these lines into R. They read both tables straight from the web:
 ```{r, eval=FALSE}
-download.file("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/counts.csv", "data/counts.csv")
-download.file("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/sample_sheet.csv", "data/sample_sheet.csv")
+counts <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/counts.csv", row.names = 1)   # gene names become row names
+sheet  <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/sample_sheet.csv")
 ```
 </details>
 
 <details>
   <summary>Hint 1</summary>
-Read `counts.csv` with `row.names = 1`, so the gene names become row names. `colSums()` gives the library size of each sample. Are they similar? To divide each column by its own total, loop over the samples, or transpose with `t()`, divide, and transpose back.
+`colSums()` gives the library size of each sample. Are they similar? To divide each column by its own total, loop over the samples, or transpose with `t()`, divide, and transpose back.
 </details>
 
 <details>
@@ -320,11 +335,25 @@ document.addEventListener("DOMContentLoaded", function () {
     var guess;
     try { guess = btoa(normalise(input.value)); } catch (e) { guess = ""; }
     if (guess === input.dataset.key) {
-      feedback.textContent = "✅ Correct! The walkthrough is unlocked below.";
+      feedback.textContent = "✅ Arrr! You found it!";
+      var hint = document.createElement("span");
+      hint.className = "map-hint";
+      hint.textContent = "🗺️ Island found! See the map above.";
+      feedback.appendChild(hint);
       walkthrough.classList.add("unlocked");
+      if (window.treasureMap) window.treasureMap.solve(id);
     } else {
       feedback.textContent = "❌ Not quite. Check the hints, and try again!";
     }
+  }
+  // challenges solved earlier in this browser: unlock their walkthroughs again
+  if (window.treasureMap) {
+    window.treasureMap.solved().forEach(function (id) {
+      var walkthrough = document.getElementById("walkthrough-" + id);
+      var feedback = document.getElementById("feedback-" + id);
+      if (walkthrough) walkthrough.classList.add("unlocked");
+      if (feedback) feedback.textContent = "✅ Solved";
+    });
   }
   document.querySelectorAll("[data-check]").forEach(function (button) {
     button.addEventListener("click", function () { check(button.dataset.check); });
