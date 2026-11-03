@@ -99,26 +99,26 @@ round(log10(mean(counts[countable] / dilution[countable])), 2)
 <!-- walkthrough: mice -->
 <!-- Tuesday: Mouse Mismatch -->
 
-##### Step 1: Read both files
+##### Step 1: Read and look
 
-Look at the files first. The weights use `;` and decimal commas, so they need `read.csv2()`:
+Read both tables (the same files as in "Get the data") and look at them:
 
 ```{r mm-read}
 weights   <- read.csv2("data/challenges/mouse_weights.csv")
 genotypes <- read.csv("data/challenges/mouse_genotypes.csv")
-str(weights)
-str(genotypes)
+head(weights)
+head(genotypes)
 ```
 
-Both have 20 rows, and `weight_g` is a number. Good.
+The mice are in a **different order** in the two tables, so we can't just put the columns side by side.
 
 ##### Step 2: Check that the IDs match
 
-The files are in different orders, so we must match the mice by ID. But do all IDs appear in both files?
+Before merging, check that every ID appears in both tables:
 
 ```{r mm-ids}
-weights$id %in% genotypes$id                          # is each weight ID in the genotype file?
-weights$id[!weights$id %in% genotypes$id]             # which one isn't?
+weights$id %in% genotypes$id                   # is each weight ID in the genotype table?
+weights$id[!weights$id %in% genotypes$id]      # which one isn't?
 genotypes$id[!genotypes$id %in% weights$id]
 ```
 
@@ -140,40 +140,53 @@ head(mice)
 ##### Step 4: Compare KO and WT
 
 ```{r mm-means}
-mean(mice$weight_g[mice$genotype == "KO"])
-mean(mice$weight_g[mice$genotype == "WT"])
-```
-
-```{r mm-test}
-res <- t.test(weight_g ~ genotype, data = mice)   # Welch t-test is the default
-res
-round(res$p.value, 3)
+mean_ko <- mean(mice$weight_g[mice$genotype == "KO"])
+mean_wt <- mean(mice$weight_g[mice$genotype == "WT"])
+mean_ko
+mean_wt
+round(mean_ko - mean_wt, 2)
 ```
 
 ```{r mm-answer, include=FALSE}
-answer <- sprintf("%.3f", round(res$p.value, 3))
+answer <- sprintf("%.2f", round(mean_ko - mean_wt, 2))
 ```
 
-**The answer is `r answer`.**
+**The answer is `r answer`**: knockout mice are about `r answer` g heavier.
+
+<details>
+  <summary>The same with the tidyverse</summary>
+```{r mm-tidy, message=FALSE}
+library(dplyr)
+genotypes |>
+  mutate(id = toupper(id)) |>
+  inner_join(weights, by = "id") |>
+  group_by(genotype) |>
+  summarise(n = n(), mean_weight = mean(weight_g))
+```
+</details>
 
 ##### The traps
 
-Pasting the two tables side by side matches mice **by position**, so genotypes end up attached to the wrong mice:
+Putting the columns side by side matches mice **by position**, so the genotypes end up attached to the wrong mice:
 
 ```{r mm-trap1}
-round(t.test(weights$weight_g ~ genotypes$genotype)$p.value, 3)
+wrong <- data.frame(weight_g = weights$weight_g, genotype = genotypes$genotype)
+round(mean(wrong$weight_g[wrong$genotype == "KO"]) -
+      mean(wrong$weight_g[wrong$genotype == "WT"]), 2)
 ```
 
-Merging without fixing `m07` silently drops one mouse, and the result is no longer significant at 0.05:
+Merging without fixing `m07` silently drops one mouse:
 
 ```{r mm-trap2}
 mice19 <- merge(weights, read.csv("data/challenges/mouse_genotypes.csv"), by = "id")
 nrow(mice19)
-round(t.test(weight_g ~ genotype, data = mice19)$p.value, 3)
+round(mean(mice19$weight_g[mice19$genotype == "KO"]) -
+      mean(mice19$weight_g[mice19$genotype == "WT"]), 2)
 ```
 
 **Lessons:** merge by ID, never by position. After a merge, check the number of rows.
 
+**Coming on Wednesday:** is a difference of `r answer` g real, or could it be chance? The statistics lecture shows how to test it, e.g. with `t.test(weight_g ~ genotype, data = mice)`.
 
 <!-- walkthrough: primers -->
 <!-- Wednesday: Primer Pairs -->
@@ -181,7 +194,7 @@ round(t.test(weight_g ~ genotype, data = mice19)$p.value, 3)
 ##### Step 1: Read and inspect
 
 ```{r pp-read}
-primers <- read.csv("data/challenges/primers.csv")
+primers <- read.csv("data/challenges/primers.csv")   # the same file as in "Get the data"
 str(primers)
 table(primers$direction)
 ```
@@ -328,7 +341,7 @@ library(ggplot2)
 ##### Step 1: Read and check
 
 ```{r im-read}
-counts <- read.csv("data/challenges/counts.csv", row.names = 1)
+counts <- read.csv("data/challenges/counts.csv", row.names = 1)   # the same files as in "Get the data"
 sheet  <- read.csv("data/challenges/sample_sheet.csv")
 dim(counts)
 head(sheet)
