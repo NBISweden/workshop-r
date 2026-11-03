@@ -3,7 +3,7 @@
   <head>
     <title>Replication, Control Structures &amp; Functions</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Marcin Kierczak, Nima Rafati, Miguel Redondo" />
+    <meta name="author" content="Guilherme Dias" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
     <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -18,11 +18,8 @@ class: center, middle, inverse, title-slide
 .title[
 # Replication, Control Structures &amp; Functions
 ]
-.subtitle[
-## Elements of the R language
-]
 .author[
-### Marcin Kierczak, Nima Rafati, Miguel Redondo
+### Guilherme Dias
 ]
 
 ---
@@ -42,914 +39,451 @@ count: false
 
 
 ---
-name: contents
+name: protocol
 
-# Contents of the lecture
+# You already write programs 🧪
 
-- **repeating actions: loops**
-- **decision taking: `if` control structures**
-- **functions**
-
-
----
-name: repeating_actions_1
-
-# Repeating actions
-
-Sometimes you want to repeat certain action several times.  
-
-There are few alternatives in R, for example:  
-- `for` loop 
-- `while` loop   
-
----
-name: for_loop_0
-
-# Repeating actions &amp;mdash; for loop
-
-One way to repeat an action is to use the **for-loop**. 
-
-This is the general syntax:
+A protocol from the lab bench:
 
 ```
-for (var in seq) {
-  expr
-}
-```
-Where:
-- var = variable that will take values from the sequence
-- seq= sequence of values
-- expr = expression to be executed
+For each of the 12 cultures:
+    measure the OD600
+    if OD600 &gt; 0.6:   harvest the cells
+    otherwise:        back in the incubator
 
----
-name: for_loop_1
-# Repeating actions &amp;mdash; for loop, an example
-
-Example. 
-
-
-``` r
-for (i in 1:5) {
-  print(paste('Performing operation on no.', i))
-}
-```
-
-```
-## [1] "Performing operation on no. 1"
-## [1] "Performing operation on no. 2"
-## [1] "Performing operation on no. 3"
-## [1] "Performing operation on no. 4"
-## [1] "Performing operation on no. 5"
-```
-
---
-A slight modification of the above example.
-
-
-``` r
-for (i in c(2,4,6,8,10)) {
-  print(paste('Performing operation on no.', i))
-}
-```
-
-```
-## [1] "Performing operation on no. 2"
-## [1] "Performing operation on no. 4"
-## [1] "Performing operation on no. 6"
-## [1] "Performing operation on no. 8"
-## [1] "Performing operation on no. 10"
-```
-The variable `i` &lt;u&gt; takes values &lt;/u&gt; from the sequences.
-
----
-name: for_loop_example
-
-# Repeating actions &amp;mdash; for loop, another example
-
-Say, we want to add 1 to every element of a vector:
-
-
-``` r
-vec &lt;- c(10,20,30,40,50)
-vec
-```
-
-```
-## [1] 10 20 30 40 50
-```
-
-
-``` r
-for (i in 1:length(vec)) {
-  vec[i] &lt;- vec[i] + 1
-}
-vec
-```
-
-```
-## [1] 11 21 31 41 51
+Then do a miniprep (see protocol 3)
 ```
 
 --
 
-The above can be achieved in R by means of **vectorization**.  
-**Vectorization** is an element-wise operation where you perform an operation on entire vectors.
+.pull-left-50[
+&lt;br&gt;
 
+| Protocol | R |
+|:---------|:--|
+| "For each…" | `for` loop |
+| "If… otherwise…" | `if` / `else` |
+| "See protocol 3" | a **function** |
+]
 
-``` r
-vec &lt;- c(10,20,30,40,50)
-vec + 1  
-```
+.pull-right-50[
+&lt;br&gt;&lt;br&gt;
 
-```
-## [1] 11 21 31 41 51
-```
-
----
-name: vectorization_benchmark
-exclude:true
-# Repeating actions &amp;mdash; vectorization
-
-Let us compare the time of execution of the vectorized version (vector with 10,000 elements):
-
-
-``` r
-vec &lt;- c(1:1e6)
-ptm &lt;- proc.time()
-vec &lt;- vec + 1
-proc.time() - ptm # vectorized
-```
-
-```
-##    user  system elapsed 
-##   0.002   0.000   0.002
-```
-
-
-to the loop version:
-
-
-``` r
-vec &lt;- c(1:1e6)
-ptm &lt;- proc.time()
-for (i in vec) {
-  vec[i] &lt;- vec[i] + 1
-}
-proc.time() - ptm # for-loop
-```
-
-```
-##    user  system elapsed 
-##   0.055   0.006   0.061
-```
-
+### Today: write them in R.
+]
 
 ---
-name: for_loop_counter
+name: for_loop
 
-# Repeating actions &amp;mdash; for loop with a counter
+# 🔁 The `for` loop
 
-To know the current iteration number on the loop, we can set an external counter:
+Repeat the same steps for every element:
 
 
 ``` r
-cnt &lt;- 1
-vec &lt;- letters[1:5]
-for (i in vec) {
-  cat(paste('Iteration', cnt,
-            'Reading letter:', i), '\n')
-  cnt &lt;- cnt + 1
+samples &lt;- c("S1", "S2", "S3")
+for (sample in samples) {
+  print(paste("Processing", sample))
 }
 ```
 
 ```
-## Iteration 1 Reading letter: a 
-## Iteration 2 Reading letter: b 
-## Iteration 3 Reading letter: c 
-## Iteration 4 Reading letter: d 
-## Iteration 5 Reading letter: e
-```
---
-Be careful with counters
-
-``` r
-# now it has the value of the last loop cycle 
-cnt
-```
-
-```
-## [1] 6
-```
-
----
-name: for_loop_counter2
-
-# Repeating actions &amp;mdash; for loop with an implicit counter
-
-To safest way to loop and to know the current iteration number is using the function `seq_along`.
-
-
-``` r
-vec &lt;- letters[1:5]
-for (i in seq_along(vec)) {
-  cat(paste('Iteration', i,
-            'Reading letter:', vec[i]), '\n')
-}
-```
-
-```
-## Iteration 1 Reading letter: a 
-## Iteration 2 Reading letter: b 
-## Iteration 3 Reading letter: c 
-## Iteration 4 Reading letter: d 
-## Iteration 5 Reading letter: e
-```
---
-
-``` r
-seq_along(vec)
-```
-
-```
-## [1] 1 2 3 4 5
-```
-
-
----
-name: loops_avoid_growing
-
-# Repeating actions &amp;mdash; avoid growing data
-
-Avoid changing dimensions of an object inside the loop:
-
-
-``` r
-v &lt;- c() # Initialize
-for (i in 1:100) {
-  v &lt;- c(v, i)
-}
-cat(head(v), " ... ", tail(v))
-```
-
-```
-## 1 2 3 4 5 6  ...  95 96 97 98 99 100
+## [1] "Processing S1"
+## [1] "Processing S2"
+## [1] "Processing S3"
 ```
 
 --
 
-It is much better to do it like this:
+```
+for (variable in vector) {
+  code that uses variable
+}
+```
+
+`sample` takes each value of `samples` in turn.
+
+---
+name: for_index
+
+# Looping with an index
+
+Use `seq_along()` to loop over **positions**. Handy when you need two vectors at once:
 
 
 ``` r
-# Initialize with the desired with length
-v &lt;- rep(NA, 100)
-for (i in 1:100) {
-  v[i] &lt;- i
+od &lt;- c(0.42, 0.71, 0.65)
+for (i in seq_along(samples)) {
+  cat(samples[i], "has OD600", od[i], "\n")
 }
-cat(head(v), " ... ", tail(v))
+seq_along(samples)
 ```
 
 ```
-## 1 2 3 4 5 6  ...  95 96 97 98 99 100
+## S1 has OD600 0.42 
+## S2 has OD600 0.71 
+## S3 has OD600 0.65 
+## [1] 1 2 3
+```
+
+.footnote[`seq_along(x)` is safer than `1:length(x)`: it also works when `x` is empty.]
+
+---
+name: for_store
+
+# Storing results
+
+Create the result vector **before** the loop, then fill it in:
+
+
+``` r
+cells &lt;- numeric(length(od))            # 3 empty slots
+for (i in seq_along(od)) {
+  cells[i] &lt;- od[i] * 8e8               # cells/mL (approx.)
+}
+cells
+```
+
+```
+## [1] 3.36e+08 5.68e+08 5.20e+08
 ```
 
 --
 
-Always try to know the size of the object you are going to create!
+.content-box-yellow[
+Avoid `result &lt;- c(result, new)` in a loop: R copies the vector every time. Fine for 10 elements, painfully slow for 100,000.
+]
 
+---
+name: vectorise
+
+# Do you even need a loop?
+
+Most R functions work on whole vectors:
+
+
+``` r
+od * 8e8          # same result, no loop
+```
+
+```
+## [1] 3.36e+08 5.68e+08 5.20e+08
+```
+
+--
+
+**Use a vectorised function when one exists:** `sum()`, `mean()`, `rowSums()`, `colMeans()`, `log2()`, `paste0()`, …
+
+**Use a loop when** each step depends on the previous one, or a step is too complex for one function call.
 
 ---
 name: while_loop
 
-# Repeating actions &amp;mdash; the while loop
+# 🔁 The `while` loop
 
-The **while loop** is only executed as long as some condition is true.
+Repeat **as long as** a condition is `TRUE`. Useful when you don't know how many steps you need.
+
+How many 1:10 dilutions until a 2,000 ng/µL stock is below 1 ng/µL?
+
 
 ``` r
-x &lt;- 1
-while (x &lt; 5) {
-  cat("x equals",x, "\n")
-  x &lt;- x + 1
+conc &lt;- 2000
+n_dilutions &lt;- 0
+while (conc &gt;= 1) {
+  conc &lt;- conc / 10
+  n_dilutions &lt;- n_dilutions + 1
 }
-```
-
-```
-## x equals 1 
-## x equals 2 
-## x equals 3 
-## x equals 4
-```
-
----
-name: recursion
-exclude: true
-# Any questions so far?
-&lt;!-- # Recursion
-
-When we explicitely repeat an action using a loop, we talk about **iteration**. We can also repeat actions by means of **recursion**, i.e. when a function calls itself. Let us implement a factorial `\(!\)`:
-
-
-```
-## [1] 120
-```
-
-
-# Recursion = iteration?
-Yes, every iteration can be converted to recursion (Church-Turing conjecture) and vice-versa. It is not always obvious, but theoretically it is doable. Let's see how to implement *factorial* in iterative manner:
-
-``` r
-factorial.iter &lt;- function(x) {
-  if (x == 0 || x == 1)
-    return(1)
-  else {
-    tmp &lt;- 1
-    for (i in 2:x) {
-      tmp &lt;- tmp * i
-    }
-    return(tmp)  
-  }
-}
-factorial.iter(5)
-```
-
-```
-## [1] 120
-```
-
-# Recursion == iteration, really?
-More writing for the iterative version, right? What about the time efficiency?  
-The recursive version:
-
-```
-## [1] 2.432902e+18
-##    user  system elapsed 
-##   0.001   0.000   0.001
-```
-And the iterative one:
-
-```
-## [1] 2.432902e+18
-##    user  system elapsed 
-##   0.005   0.000   0.005
-```
---&gt;
-
----
-
-name: if_clause
-
-# Decisions, if-clause
-
-Often, one has to take a different course of action depending on a flow of the algorithm. 
-
-In R, we use the `if` clause for this purpose.
-
-This is the general syntax:
-
-```
-if (condition) {
-  expr
-}
-```
-
---
-A simple example:
-
-
-``` r
-temp &lt;- -2
-
-if (temp &lt; 0) {
-  print("It's freezing!")
-}
-```
-
-```
-## [1] "It's freezing!"
-```
-
----
-name: if examples
-
-# Decisions, if-clause
-
-Two more examples of using `if` inside of a loop:
-
-Let's display only the numbers that are greater than 5 in the sequence `\([1, 10]\)`
-
-``` r
-v &lt;- 1:10
-for (i in v) {
-  if (i &gt; 5) { # if clause
-    cat(i, ' ')
-  }
-}
-```
-
-```
-## 6  7  8  9  10
-```
-
---
-
-Let's display only odd numbers in the sequence `\([1, 10]\)`:
-
-
-``` r
-v &lt;- 1:10
-for (i in v) {
-  if (i %% 2 != 0) { # if clause
-    cat(i, ' ')
-  }
-}
-```
-
-```
-## 1  3  5  7  9
-```
-
----
-name:if_else
-
-# Decisions, if-else
-
-What if we want to perform an action when the first `if` condition is not met? 
-
-If we want to print 'o' for an odd number and 'e' for an even, we could write either of:
-
-.pull-left-50[
-
-Only `if` clauses
-
-``` r
-v &lt;- 1:10
-for (i in v) {
-  if (i %% 2 != 0) { # if clause
-    cat('o ')
-  }
-  if (i %% 2 == 0) { # another if-clause
-    cat('e ')
-  }
-}
-```
-
-```
-## o e o e o e o e o e
-```
-
-]
-
---
-
-.pull-right-50[
-Using `if-else`:      
-
-``` r
-v &lt;- 1:10
-for (i in v) {
-  if (i %% 2 != 0) { # if clause
-    cat('o ')
-  } else { # else clause
-    cat('e ')
-  }
-}
-```
-
-```
-## o e o e o e o e o e
-```
-
-]
-
----
-name: elif
-exclude: true
-
-# Decisions, if-else-if for more alternatives
-
-So far, so good, but we were only dealing with 2 alternatives. 
-
-Let's say that we want to print '?' for zero, 'e' for even and 'o' for an odd number:
-
-We can use the **if-else-if** clause for this!
-
-
-``` r
-v &lt;- c(0:10)
-for (i in v) {
-  if (i == 0) { #if clause
-    cat('? ')
-  } else if (i %% 2 != 0) { # else-if clause
-    cat('o ')
-  } else { # else clause
-    cat('e ')
-  }
-}
-```
-
-```
-## ? o e o e o e o e o e
-```
-
-
----
-name: switch
-exclude: true
-# Switch
-
-If-else clauses operate on logical values. What if we want to take decisions based on non-logical values? Well, if-else will still work by evaluating a number of comparisons, but we can also use **switch**:
-
-
-``` r
-switch.demo &lt;- function(x) {
-  switch(class(x),
-         logical = cat('logical\n'),
-         numeric = cat('Numeric\n'),
-         factor = cat('Factor\n'),
-         cat('Undefined\n')
-         )
-}
-switch.demo(x=TRUE)
-switch.demo(x=15)
-switch.demo(x=factor('a'))
-switch.demo(data.frame())
-```
-
-```
-## logical
-## Numeric
-## Factor
-## Undefined
-```
-
----
-name: fns
-
-# Functions
-
-Often, it is really handy to re-use some code we have written or to pack together the code that is doing some task. Functions are a really good way to do this in R:
-
-This is the general syntax
-
-```
-function_name &lt;- function(arg1, arg2, ...) {
-  expr
-  return(something)
-}
-```
-
---
-
-Let's see a simple example of a function to add one to a number:
-
-
-``` r
-add.one &lt;- function(arg1) {
-  result &lt;- arg1 + 1
-  return(result)
-}
-add.one(1)
-```
-
-```
-## [1] 2
-```
-
-
----
-name: fns_defaults
-
-# Functions &amp;mdash; arguments with default values
-
-Sometimes, it is good to use default values for some arguments:
-
-
-``` r
-add.a.num &lt;- function(arg1, arg2=1) {
-  result &lt;- arg1 + arg2
-  return(result)
-}
-add.a.num(1) # you can skip the arg2 argument
-```
-
-```
-## [1] 2
-```
-
---
-
-
-``` r
-add.a.num(1, arg2=5) # overwrite the arg2 default
-add.a.num(1, 5)
-```
-
-```
-## [1] 6
-## [1] 6
-```
-
---
-
-
-``` r
-add.a.num(arg2=1) # arg1 is missing
-```
-
-```
-## Error in add.a.num(arg2 = 1): argument "arg1" is missing, with no default
-```
-
----
-name:fns_args
-
-# Functions &amp;mdash; order of arguments
-
-
-``` r
-args.demo &lt;- function(arg1, arg2, arg3) {
-  print(paste('arg1 =', arg1, 'arg2 =', arg2, 'arg3 =', arg3))
-}
-```
---
-
-
-``` r
-args.demo(arg1='a', arg2='b', arg3='c')
-```
-
-```
-## [1] "arg1 = a arg2 = b arg3 = c"
-```
-
---
-
-``` r
-args.demo('a','b','c')
-```
-
-```
-## [1] "arg1 = a arg2 = b arg3 = c"
-```
-
---
-
-``` r
-args.demo('b','a','c')
-```
-
-```
-## [1] "arg1 = b arg2 = a arg3 = c"
-```
---
-
-
-``` r
-args.demo(arg3='c', arg2='b', arg1='a')
-```
-
-```
-## [1] "arg1 = a arg2 = b arg3 = c"
-```
-
-
----
-name: variable_scope
-
-# Functions &amp;mdash; variable scope
-
-.pull-left-50[
-Functions 'see' not only what has been passed to them as arguments:
-
-``` r
-x &lt;- 7
-y &lt;- 3
-xyplus &lt;- function(x) {
-  x &lt;- x + y
-  return(x)
-}
-xyplus(x)
-x
-```
-
-```
-## [1] 10
-## [1] 7
-```
-]
-
---
-
-.pull-right-50[
-Everything outside the function is called **global environment**. There is a special operator `&lt;&lt;-` for working on global environment:
-
-
-``` r
-x &lt;- 1
-xplus &lt;- function(x) {
-  x &lt;&lt;- x + 1
-}
-xplus(x)
-x
-xplus(x)
-x
-```
-
-```
-## [1] 2
-## [1] 3
-```
-]
-
----
-name: fns_ellipsis
-
-# Functions &amp;mdash; the `...` argument
-
-There is a special argument **...** (ellipsis) which allows you to give any number of arguments or pass arguments downstream:
-
-
-``` r
-# Any number of arguments
-my.plot &lt;- function(x, y, ...) { # Passing downstream
-  plot(x, y, las=1, cex.axis=.8, ...)
-}
-
-par(mfrow=c(1,2),mar=c(4,4,1,1))
-my.plot(1,1)
-my.plot(1, 1, col='red', pch=19)
-```
-
-&lt;img src="slide_r_elements_4_files/figure-html/fns.3dots-1.png" width="432" style="display: block; margin: auto auto auto 0;" /&gt;
-
-- A function enclosing a function is a **wrapper function**
-
----
-name: ellipsis_trick
-exclude:true
-# Functions &amp;mdash; the ellipsis argument trick
-
-What if the authors of, e.g. plot.something wrapper forgot about the `...`?
-
-
-``` r
-my.plot &lt;- function(x, y) { # Passing downstrem
-  plot(x, y, las=1, cex.axis=.8, ...)
-}
-formals(my.plot) &lt;- c(formals(my.plot), alist(... = ))
-my.plot(1, 1, col='red', pch=19)
-```
-
-&lt;img src="slide_r_elements_4_files/figure-html/fns.3dots.trick-1.png" width="360" style="display: block; margin: auto auto auto 0;" /&gt;
-
----
-exclude:true
-&lt;!--  
-name: lazy_eval
-
-# R is lazy!
-
-In R, arguments are evaluated as late as possible, i.e. when they are needed. This is **lazy evaluation**:
-
-
-
-&gt; The above won't be possible in, e.g. C where values of both arguments have to be known before calling a function **eager evaluation**.  
---&gt;
----
-
-name: everything_is_a_fn
-exclude:true
-
-# In R everything is a function
-
-Because in R everything is a function
-
-
-``` r
-`+`
-```
-
-```
-## function (e1, e2)  .Primitive("+")
-```
-
-
-we can re-define things like this:
-
-
-
-``` r
-`+` &lt;- function(e1, e2) { e1 - e2 }
-2 + 2
-```
-
-```
-## [1] 0
-```
-
-
-and, finally, clean up the mess...
-
-
-
-``` r
-rm("+")
-2 + 2
+n_dilutions
+conc
 ```
 
 ```
 ## [1] 4
+## [1] 0.2
 ```
 
----
-name: infix_fns
-exclude:true
-# Infix notation
+.footnote[Make sure the condition becomes `FALSE` eventually, or the loop runs forever. **Esc** (or the red stop sign in RStudio) stops it.]
 
-Operators like `+`, `-` or `*` are using the so-called **infix** functions, where the function name is between arguments. We can define our own:
+---
+name: if
+
+# 🔀 Decisions: `if`
+
+Run code only **if** a condition is `TRUE`:
 
 
 ``` r
-`%p%` &lt;- function(x, y) {
-  paste(x,y)
+od_culture &lt;- 0.71
+if (od_culture &gt; 0.6) {
+  print("Harvest!")
 }
-'a' %p% 'b'
 ```
 
 ```
-## [1] "a b"
+## [1] "Harvest!"
+```
+
+--
+
+```
+if (condition) {
+  code
+}
+```
+
+The condition must be **one** `TRUE` or `FALSE`.
+
+---
+name: if_else
+
+# `if` … `else`
+
+Two options:
+
+
+``` r
+for (i in seq_along(od)) {
+  if (od[i] &gt; 0.6) {
+    cat(samples[i], ": harvest\n")
+  } else {
+    cat(samples[i], ": back to the incubator\n")
+  }
+}
+```
+
+```
+## S1 : back to the incubator
+## S2 : harvest
+## S3 : harvest
 ```
 
 ---
-name:anatomy_of_a_fn
-exclude: true
-# Anatomy of a function
+name: else_if
 
-A function consists of: *formal arguments*, *function body* and *environment*:
+# More than two options: `else if`
 
-
-``` r
-formals(add.one)
-```
-
-```
-## $arg1
-```
+RNA integrity number (RIN): is the RNA good enough to sequence?
 
 
 ``` r
-body(add.one)
+rin &lt;- 6.8
+if (rin &gt;= 8) {
+  "good"
+} else if (rin &gt;= 6) {
+  "use with care"
+} else {
+  "degraded"
+}
 ```
 
 ```
-## {
-##     result &lt;- arg1 + 1
-##     return(result)
-## }
+## [1] "use with care"
 ```
+
+R checks the conditions **in order** and runs the first one that is `TRUE`.
+
+---
+name: ifelse
+
+# `if` vs. `ifelse()`
+
+`if` needs **one** `TRUE`/`FALSE`. With a vector:
 
 
 ``` r
-environment(add.one)
-environment(sd)
+if (od &gt; 0.6) print("Harvest!")
 ```
 
 ```
-## &lt;environment: R_GlobalEnv&gt;
-## &lt;environment: namespace:stats&gt;
+## Error in if (od &gt; 0.6) print("Harvest!"): the condition has length &gt; 1
+```
+
+--
+
+`ifelse()` is the **vectorised** version:
+
+
+``` r
+ifelse(od &gt; 0.6, "harvest", "incubate")
+```
+
+```
+## [1] "incubate" "harvest"  "harvest"
 ```
 
 ---
-name: base_fns
+name: functions
 
-# Base functions
+# 📦 Functions
 
-When we start R, the following packages are pre-loaded automatically:
+Package code you use again and again. Dilution with C1 × V1 = C2 × V2:
 
 
 ``` r
-# .libPaths() # get library location
-# library()   # see all packages installed
-search()    # see packages currently loaded
+stock_volume &lt;- function(stock_conc, target_conc, final_volume) {
+  volume &lt;- target_conc * final_volume / stock_conc
+  return(volume)
+}
+stock_volume(250, 10, 20)   # µL of stock for 20 µL at 10 ng/µL
 ```
 
 ```
-##  [1] ".GlobalEnv"               "package:tibble"          
-##  [3] "package:patchwork"        "package:nycflights13"    
-##  [5] "package:readxl"           "package:tidyr"           
-##  [7] "package:formattable"      "package:kableExtra"      
-##  [9] "package:lubridate"        "package:stringr"         
-## [11] "package:manipulateWidget" "package:leaflet"         
-## [13] "package:yaml"             "package:ggplot2"         
-## [15] "package:dplyr"            "package:fontawesome"     
-## [17] "package:bookdown"         "package:knitr"           
-## [19] "package:stats"            "package:graphics"        
-## [21] "package:grDevices"        "package:utils"           
-## [23] "package:datasets"         "package:methods"         
-## [25] "Autoloads"                "package:base"
+## [1] 0.8
 ```
 
-Check what basic functions are offered by packages: *base*, *utils* and we will soon work with package *graphics*. If you want to see what statistical functions are in your arsenal, check out package *stats*.
+--
+
+```
+name &lt;- function(argument1, argument2) {
+  code
+  return(result)
+}
+```
+
+Write it once. Use it everywhere. Fix a bug in one place.
+
+---
+name: fn_args
+
+# Arguments: names and defaults
+
+Give arguments **default values**, and call them **by name**:
+
+
+``` r
+stock_volume &lt;- function(stock_conc, target_conc, final_volume = 20) {
+  target_conc * final_volume / stock_conc
+}
+stock_volume(250, 10)                       # uses final_volume = 20
+stock_volume(250, 10, final_volume = 50)
+stock_volume(target_conc = 10, stock_conc = 250)   # any order, by name
+```
+
+```
+## [1] 0.8
+## [1] 2
+## [1] 0.8
+```
+
+.footnote[Without `return()`, a function returns its last value.]
+
+---
+name: fn_check
+
+# Check the input
+
+Stop with a clear message instead of returning nonsense:
+
+
+``` r
+stock_volume &lt;- function(stock_conc, target_conc, final_volume = 20) {
+  if (target_conc &gt; stock_conc) {
+    stop("The target can't be more concentrated than the stock!")
+  }
+  target_conc * final_volume / stock_conc
+}
+stock_volume(5, 10)
+```
+
+```
+## Error in stock_volume(5, 10): The target can't be more concentrated than the stock!
+```
+
+---
+name: fn_return
+
+# Returning more than one value
+
+Return a **named vector** (or a list):
+
+
+``` r
+dilution_plan &lt;- function(stock_conc, target_conc, final_volume = 20) {
+  stock &lt;- target_conc * final_volume / stock_conc
+  c(stock = stock, water = final_volume - stock)
+}
+plan &lt;- dilution_plan(250, 10)
+plan
+plan["water"]
+```
+
+```
+## stock water 
+##   0.8  19.2 
+## water 
+##  19.2
+```
+
+---
+name: scope
+
+# What happens inside, stays inside
+
+
+``` r
+myfunction &lt;- function() {
+  age &lt;- 5          # local variable
+}
+print(age)
+```
+
+```
+## [1] 70
+```
+
+--
+
+- Variables created inside a function **disappear** when it finishes.
+- Pass everything a function needs as **arguments**, and get results back with `return()`.
+
+---
+name: together
+
+# All together: find the stop codon 🧬
+
+
+``` r
+first_stop &lt;- function(dna) {
+  stops &lt;- c("TAA", "TAG", "TGA")
+  for (pos in seq(1, nchar(dna) - 2, by = 3)) { # cycle every codon
+    codon &lt;- substr(dna, pos, pos + 2)
+    if (codon %in% stops) {
+      return(pos) # stop at the first stop codon
+    }
+  }
+  return(NA) # if no stop codon is found, return NA
+}
+first_stop("ATGGCCTTGCATTAGGCA")
+first_stop("ATGGCC")
+```
+
+```
+## [1] 13
+## [1] NA
+```
+
+A function, a loop and a decision: a tiny genome annotation tool.
+
+---
+name: recap
+
+# Recap
+
+| | Use it to | Example |
+|:--|:----------|:--------|
+| 🔁 `for` | repeat for each element | `for (i in seq_along(x)) { ... }` |
+| 🔁 `while` | repeat until a condition fails | `while (conc &gt;= 1) { ... }` |
+| 🔀 `if` / `else` | choose what to do | `if (od &gt; 0.6) { ... } else { ... }` |
+| 🔀 `ifelse()` | choose for a whole vector | `ifelse(od &gt; 0.6, "yes", "no")` |
+| 📦 `function` | package code for reuse | `f &lt;- function(x, y = 1) { ... }` |
+
+&lt;br&gt;
+
+**Remember:**
+
+- Vectorise first. Loop when you must.
+- Create the result **before** the loop.
+- Small functions, clear names, test on input where you know the answer.
 
 &lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
 
@@ -964,7 +498,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 02-Nov-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 03-Nov-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 

@@ -172,7 +172,9 @@ pre code {
 <p><br></p>
 <style>
 .challenge-card { border: 1px solid #ddd; border-radius: 8px; padding: 1em 1.5em; margin: 1.5em 0; }
-.challenge-meta { color: #666; font-size: 90%; margin-top: -0.5em; }
+.challenge-title { font-size: 150%; font-weight: bold; margin: 0.3em 0 0.4em; }
+.challenge-meta { color: #666; font-size: 90%; margin-top: -0.3em; }
+.map-hint { display: block; margin-top: 0.3em; font-weight: normal; }
 .challenge-answer { margin: 1em 0; }
 .challenge-answer input { width: 12em; margin: 0 0.5em; padding: 6px 10px; font-size: 100%; }
 /* own class, not .btn: lab.css fixes button.btn to 35 x 35 px */
@@ -182,16 +184,260 @@ pre code {
 .challenge-check:hover, .challenge-check:focus { background-color: white; color: #95b540; }
 .challenge-feedback { margin-left: 0.5em; font-weight: bold; }
 .walkthrough { display: none; border-top: 2px dashed #ccc; margin-top: 1em; padding-top: 0.5em; }
+.walkthrough > summary { cursor: pointer; font-weight: bold; font-size: 110%; }
 .walkthrough.unlocked { display: block; }
 </style>
-<p>One short data challenge per day, each with <strong>one exact answer</strong>. Type it in the box to check it: the correct answer unlocks a solution walkthrough.</p>
-<div class="alert alert-info">
-<p><strong>Work in pairs, use the hints, and try before you peek.</strong> The solutions are also in the course repository, but you’ll learn much more by getting there yourself. Thursday’s challenge is the hardest: you have until Friday at 12:00. We’ll go through all answers in Friday’s discussion.</p>
+<div id="a-treasure-awaits-you-across-the-sea-of-data" class="section level1">
+<h1>A treasure awaits you across the sea of data!</h1>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+#tm { --navy: #12355B; --sea: #2E6A9E; --cream: #FFF8EC; --gold: #F6C453; --red: #B23A2E; --prompt: #C2410C;
+  margin: 1.5em 0 2em; color: var(--navy); }
+#tm svg { display: block; width: 100%; height: auto; border-radius: 28px; }
+#tm .tm-fog { transition: opacity 0.9s ease; }
+#tm .tm-fog.tm-lifted { opacity: 0; pointer-events: none; }
+#tm .tm-draw { stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s ease-in-out; }
+#tm .tm-draw.tm-on { stroke-dashoffset: 0; }
+#tm-m5 .tm-draw { transition-delay: 1.2s; }
+#tm .tm-fog[data-step="5"] { transition-delay: 2.2s; }
+#tm .tm-lid { transform-box: fill-box; transform-origin: 0% 100%; transition: transform 0.8s 3s ease; }
+#tm.tm-done .tm-lid { transform: translate(-4px, -10px) rotate(-22deg); }
+#tm .tm-gold { opacity: 0; transition: opacity 0.6s 3.4s ease; }
+#tm.tm-done .tm-gold { opacity: 1; }
+#tm .tm-after, #tm.tm-done .tm-before { display: none; }
+#tm.tm-done .tm-after { display: inline; }
+#tm .tm-status { margin: 0.8em 0 0; font-family: 'JetBrains Mono', 'Courier New', monospace; font-weight: 700; font-size: 18px; text-align: center; }
+#tm .tm-status span { color: var(--prompt); }
+#tm .tm-prize { display: none; margin: 1em auto 0; max-width: 560px; padding: 0.5em 1.4em 0.9em; background: #FFFFFF;
+  border: 4px solid var(--navy); border-radius: 18px; text-align: center; }
+#tm.tm-done .tm-prize { display: block; }
+#tm .tm-prize .tm-prize-title { margin: 0 0 0.15em; line-height: 1.1; font-family: 'Lilita One', 'Trebuchet MS', sans-serif; font-weight: 400; font-size: 36px; color: var(--red); }
+#tm .tm-prize p { margin: 0; font-size: 16px; }
+#tm .tm-play { margin-top: 0.8em; padding: 6px 18px; width: auto; height: auto; cursor: pointer;
+  font: 700 14px 'JetBrains Mono', 'Courier New', monospace; color: #FFFFFF; background: var(--sea);
+  border: 3px solid var(--navy); border-radius: 12px; }
+#tm .tm-play:hover, #tm .tm-play:focus { background: var(--navy); }
+#tm .tm-reset { display: block; margin: 0.6em auto 0; background: none; border: none; width: auto; height: auto;
+  font: 13px 'JetBrains Mono', 'Courier New', monospace; color: #6B7C8F; text-decoration: underline; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) {
+  #tm .tm-fog, #tm .tm-draw, #tm .tm-lid, #tm .tm-gold { transition: none; }
+}
+</style>
+<div id="tm">
+<svg viewBox="0 0 900 500" role="img" aria-labelledby="tm-title tm-desc">
+<title id="tm-title">Treasure map of the week's data challenges</title>
+<desc id="tm-desc">A pirate ship sails from the bottom left past four islands, one per day, to Treasure Island. Each solved challenge lifts the fog from an island and draws the next stretch of the route. Solving Thursday's challenge reveals Imposter Alcove and then Treasure Island, and solving all four opens the treasure chest.</desc>
+<defs>
+<mask id="tm-m1" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M145 392 Q175 356 180 340" stroke="#fff" stroke-width="14" fill="none"/></mask>
+<mask id="tm-m2" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M262 292 Q280 210 322 182" stroke="#fff" stroke-width="14" fill="none"/></mask>
+<mask id="tm-m3" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M435 162 Q505 180 512 288" stroke="#fff" stroke-width="14" fill="none"/></mask>
+<mask id="tm-m4" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M562 298 Q590 215 628 182" stroke="#fff" stroke-width="14" fill="none"/></mask>
+<mask id="tm-m5" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M735 168 Q800 190 806 286" stroke="#fff" stroke-width="14" fill="none"/></mask>
+</defs>
+<rect width="900" height="500" fill="#2E6A9E"/>
+<path d="M0 60 Q45 46 90 60 T180 60 T270 60 T360 60 T450 60 T540 60 T630 60 T720 60 T810 60 T900 60" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="3"/>
+<path d="M0 470 Q45 456 90 470 T180 470 T270 470 T360 470 T450 470 T540 470 T630 470 T720 470 T810 470 T900 470" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="3"/>
+<text class="tm-before" x="300" y="452" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="500" font-size="15" fill="#FFFFFF" fill-opacity="0.45" transform="rotate(-2 300 452)">Error: object 'treasure' not found</text>
+<text class="tm-after" x="300" y="452" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="500" font-size="15" fill="#FFFFFF" fill-opacity="0.75" transform="rotate(-2 300 452)">[1] "treasure"  # found it!</text>
+<text x="40" y="40" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="500" font-size="15" fill="#FFFFFF" fill-opacity="0.45">Warning: here be NAs</text>
+<path d="M650 440 L674 398 L690 440 Z" fill="#6B7C8F" stroke="#12355B" stroke-width="3" stroke-linejoin="round"/>
+<text x="672" y="433" text-anchor="middle" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="700" font-size="12" fill="#FFFFFF">NA</text>
+<g transform="translate(846 62)" stroke="#12355B" stroke-width="3" stroke-linejoin="round">
+<circle r="28" fill="#FFF8EC"/>
+<path d="M0 -24 L7 0 L0 24 L-7 0 Z" fill="#B23A2E"/>
+<path d="M-24 0 L0 -7 L24 0 L0 7 Z" fill="#FFF8EC"/>
+</g>
+<g mask="url(#tm-m1)"><path d="M145 392 Q175 356 180 340" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g mask="url(#tm-m2)"><path d="M262 292 Q280 210 322 182" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g mask="url(#tm-m3)"><path d="M435 162 Q505 180 512 288" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g mask="url(#tm-m4)"><path d="M562 298 Q590 215 628 182" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g mask="url(#tm-m5)"><path d="M735 168 Q800 190 806 286" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g transform="translate(90 400)">
+<path d="M-48 8 L48 8 L36 34 L-36 34 Z" fill="#8B5A2B" stroke="#12355B" stroke-width="3" stroke-linejoin="round"/>
+<rect x="-3" y="-58" width="6" height="66" fill="#5C3A1E"/>
+<path d="M-34 -48 Q0 -40 34 -48 L30 0 Q0 6 -30 0 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="3" stroke-linejoin="round"/>
+<text y="-8" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="38" fill="#2E6A9E">R</text>
+<rect x="3" y="-74" width="28" height="18" rx="2" fill="#1D1D1F"/>
+<circle cx="17" cy="-66" r="4.5" fill="#FFFFFF"/>
+</g>
+<g transform="translate(225 325)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="-14" cy="0" r="19" fill="#FFFFFF" stroke="#12355B" stroke-width="3"/>
+<circle cx="-14" cy="0" r="13" fill="none" stroke="#8A97A6" stroke-width="2"/>
+<circle cx="-20" cy="-4" r="3.5" fill="#F6C453"/><circle cx="-8" cy="3" r="3.5" fill="#B23A2E"/><circle cx="-16" cy="7" r="3" fill="#F6C453"/><circle cx="-6" cy="-7" r="2.5" fill="#F6C453"/>
+<path d="M30 14 Q34 -10 26 -26" fill="none" stroke="#8B5A2B" stroke-width="5" stroke-linecap="round"/>
+<path d="M26 -26 q-14 -6 -22 4 M26 -26 q14 -8 22 2 M26 -26 q0 -14 -10 -18" fill="none" stroke="#1F7A7A" stroke-width="5" stroke-linecap="round"/>
+<text y="68" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Colony Cove</text>
+</g>
+<g transform="translate(375 155)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<ellipse cx="-4" cy="4" rx="24" ry="15" fill="#8A97A6" stroke="#12355B" stroke-width="3"/>
+<circle cx="-22" cy="-10" r="8" fill="#8A97A6" stroke="#12355B" stroke-width="3"/>
+<circle cx="-28" cy="2" r="2.5" fill="#12355B"/>
+<path d="M20 6 q20 0 18 -18" fill="none" stroke="#12355B" stroke-width="3" stroke-linecap="round"/>
+<text y="-52" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Mismatch Isle</text>
+</g>
+<g transform="translate(520 330)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<path d="M-30 -20 C-15 -20 -15 20 0 20 C15 20 15 -20 30 -20" fill="none" stroke="#2E6A9E" stroke-width="5" stroke-linecap="round"/>
+<path d="M-30 20 C-15 20 -15 -20 0 -20 C15 -20 15 20 30 20" fill="none" stroke="#B23A2E" stroke-width="5" stroke-linecap="round"/>
+<path d="M-22 -12 V12 M-8 -8 V8 M8 -8 V8 M22 -12 V12" stroke="#12355B" stroke-width="2.5" stroke-linecap="round"/>
+<text y="68" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Primer Point</text>
+</g>
+<g transform="translate(670 155)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<line x1="10" y1="10" x2="30" y2="28" stroke="#5C3A1E" stroke-width="8" stroke-linecap="round"/>
+<circle cx="-4" cy="-4" r="20" fill="#CFE6F0" stroke="#12355B" stroke-width="5"/>
+<text x="-4" y="5" text-anchor="middle" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="700" font-size="20" fill="#B23A2E">?</text>
+<path d="M-48 8 q6 -10 12 0 q6 10 12 0" fill="none" stroke="#12355B" stroke-width="2.5" stroke-linecap="round"/>
+<text y="-52" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Imposter Alcove</text>
+</g>
+<g transform="translate(810 330)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<path d="M-46 -8 L-28 10 M-28 -8 L-46 10" stroke="#B23A2E" stroke-width="7" stroke-linecap="round"/>
+<g class="tm-gold">
+<circle cx="14" cy="-12" r="7" fill="#F6C453" stroke="#12355B" stroke-width="2.5"/>
+<circle cx="26" cy="-18" r="7" fill="#F6C453" stroke="#12355B" stroke-width="2.5"/>
+<circle cx="38" cy="-12" r="7" fill="#F6C453" stroke="#12355B" stroke-width="2.5"/>
+<path d="M50 -32 l4 -10 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 Z" fill="#FFFFFF"/>
+</g>
+<rect x="2" y="-8" width="48" height="30" rx="4" fill="#8B5A2B" stroke="#12355B" stroke-width="3"/>
+<rect x="22" y="0" width="8" height="10" rx="1.5" fill="#F6C453" stroke="#12355B" stroke-width="2"/>
+<path class="tm-lid" d="M2 -8 Q26 -28 50 -8 Z" fill="#A86B35" stroke="#12355B" stroke-width="3" stroke-linejoin="round"/>
+<text y="68" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Treasure Island</text>
+</g>
+<g class="tm-fog" data-step="1" transform="translate(225 328)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="54" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+<g class="tm-fog" data-step="2" transform="translate(375 150)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="-42" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+<g class="tm-fog" data-step="3" transform="translate(520 333)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="54" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+<g class="tm-fog" data-step="4" transform="translate(670 150)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="-42" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+<g class="tm-fog" data-step="5" transform="translate(810 333)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="54" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+</svg>
+<p class="tm-status"><span>&gt;</span> islands_found() <span id="tm-count">[1] 0 of 4</span></p>
+<div class="tm-prize" role="status">
+<p class="tm-prize-title">Treasure found!</p>
+<p>Well done sailoR! You have solved all four data challenges. A reward awaits you!</p>
+<button type="button" class="tm-play" id="tm-play">🔊 Play the shanty again</button>
 </div>
-<hr />
+<button type="button" class="tm-reset" id="tm-reset">Start the map over</button>
+</div>
+<script>
+(function () {
+  // which steps (fog + route) each challenge reveals; Thursday also reveals Treasure Island
+  var steps = { colonies: [1], mice: [2], primers: [3], imposter: [4, 5] };
+  var order = ["colonies", "mice", "primers", "imposter"];
+  var key = "r-course-treasure-map";
+  var root = document.getElementById("tm");
+  function load() {
+    try { return JSON.parse(localStorage.getItem(key)) || []; } catch (e) { return []; }
+  }
+  function save(list) {
+    try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
+  }
+  var solved = load();
+
+  // ---- Sound: "What shall we do with the drunken sailor" (traditional sea shanty,
+  // public domain), played on a synthesised accordion, then a jingle of coins.
+  // Made with the Web Audio API: no audio files needed.
+  var audio = null;
+  function getAudio() {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    if (!audio) audio = new AC();
+    if (audio.state === "suspended") audio.resume();
+    return audio;
+  }
+  function hz(midi) { return 440 * Math.pow(2, (midi - 69) / 12); }
+  function note(ctx, midi, start, dur, vol, type) {
+    var out = ctx.createGain();
+    out.gain.setValueAtTime(0, start);
+    out.gain.linearRampToValueAtTime(vol, start + 0.02);
+    out.gain.setValueAtTime(vol, start + dur * 0.75);
+    out.gain.linearRampToValueAtTime(0, start + dur * 0.98);
+    var filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 1800;
+    filter.connect(out);
+    out.connect(ctx.destination);
+    [-6, 6].forEach(function (cents) {           // two detuned reeds = accordion
+      var osc = ctx.createOscillator();
+      osc.type = type || "sawtooth";
+      osc.frequency.value = hz(midi);
+      osc.detune.value = cents;
+      osc.connect(filter);
+      osc.start(start);
+      osc.stop(start + dur);
+    });
+  }
+  function playShanty() {
+    var ctx = getAudio();
+    if (!ctx) return;
+    var A = 69, B = 71, C = 72, D = 62, E = 64, F = 65, G = 67, Dh = 74;
+    var q = 0.26, e = q / 2;                     // quarter and eighth note (seconds)
+    var tune = [
+      [A, q], [A, e], [A, e], [A, q], [A, e], [A, e], [A, q], [D, q], [F, q], [A, q],
+      [G, q], [G, e], [G, e], [G, q], [G, e], [G, e], [G, q], [C - 12, q], [E, q], [G, q],
+      [A, q], [A, e], [A, e], [A, q], [A, e], [A, e], [A, q], [B, q], [C, q], [Dh, q],
+      [C, q], [A, q], [G, q], [E, q], [D, q * 2], [D, q * 2]
+    ];
+    var bass = [50, 50, 48, 48, 50, 50, 48, 50];   // one bass note per bar
+    var t = ctx.currentTime + 0.05;
+    tune.forEach(function (n) { note(ctx, n[0], t, n[1], 0.09); t += n[1]; });
+    var b0 = ctx.currentTime + 0.05;
+    bass.forEach(function (m, i) { note(ctx, m, b0 + i * q * 4, q * 3.6, 0.05, "triangle"); });
+    [86, 90, 93, 98, 93, 98].forEach(function (m, i) {   // coins
+      note(ctx, m, t + 0.05 + i * 0.07, 0.25, 0.05, "triangle");
+    });
+  }
+  function render() {
+    order.forEach(function (id) {
+      var on = solved.indexOf(id) >= 0;
+      steps[id].forEach(function (step) {
+        root.querySelector('.tm-fog[data-step="' + step + '"]').classList.toggle("tm-lifted", on);
+        root.querySelector("#tm-m" + step + " .tm-draw").classList.toggle("tm-on", on);
+      });
+    });
+    var n = order.filter(function (id) { return solved.indexOf(id) >= 0; }).length;
+    document.getElementById("tm-count").textContent = "[1] " + n + " of 4";
+    root.classList.toggle("tm-done", n === order.length);
+  }
+  window.treasureMap = {
+    solve: function (id) {
+      if (order.indexOf(id) < 0 || solved.indexOf(id) >= 0) return;
+      solved.push(id);
+      save(solved);
+      render();
+      if (solved.length === order.length) {
+        getAudio();                          // unlock audio while we still have the click
+        setTimeout(playShanty, 3000);        // play when the chest opens
+      }
+    },
+    solved: function () { return solved.slice(); }
+  };
+  document.getElementById("tm-play").addEventListener("click", playShanty);
+  document.getElementById("tm-reset").addEventListener("click", function () {
+    solved = [];
+    save(solved);
+    render();
+    document.querySelectorAll(".walkthrough.unlocked").forEach(function (w) { w.classList.remove("unlocked"); w.open = false; });
+    document.querySelectorAll(".challenge-feedback").forEach(function (f) { f.textContent = ""; });
+  });
+  render();
+})();
+</script>
+<p>You will have one short data challenge per day, each with <strong>one exact answer</strong>. Type the answer in the box to check it. Every challenge you solve lifts the fog from one island and draws the next stretch of the route. Solve all four to find the treasure.</p>
+<div class="alert alert-info">
+<p><strong>Pirates need their crew! Talk to your colleagues and discuss strategy, exchange tips! Use the hints for each challenge, and try to limit the use of AI.</strong></p>
+</div>
+<div id="the-challenges" class="section level2 tabset tabset-fade tabset-pills unnumbered">
+<h2>The challenges</h2>
 <!-- ======================= MONDAY: Countable Colonies ======================= -->
-<div id="monday-countable-colonies" class="section level3 unnumbered challenge-card">
-<h3>🧫 Monday · Countable Colonies</h3>
+<div id="mon-colonies" class="section level3 unlisted unnumbered">
+<h3>🧫 Mon · Colonies</h3>
+<div class="challenge-card">
+<p class="challenge-title">
+🧫 Monday · Countable Colonies
+</p>
 <p class="challenge-meta">
 Beginner · ~30 min · Monday: data types, operators, vectors
 </p>
@@ -231,52 +477,54 @@ Build one logical vector that is <code>TRUE</code> for countable plates, and use
 <button type="button" class="challenge-check" data-check="colonies">Check</button>
 <span id="feedback-colonies" class="challenge-feedback"></span></p>
 </div>
-<div id="walkthrough-colonies" class="walkthrough">
-<div id="solution-walkthrough" class="section level4 unnumbered">
-<h4>🔓 Solution walkthrough</h4>
+<details class="walkthrough" id="walkthrough-colonies">
+<summary>
+🔓 Solution walkthrough (click to view)
+</summary>
 <!-- Monday: Countable Colonies -->
-<div id="step-1-look-at-the-data" class="section level5">
-<h5>Step 1: Look at the data</h5>
+<h5 class="wt-step">
+Step 1: Look at the data
+</h5>
 <pre class="r"><code>colonies
 typeof(colonies)</code></pre>
 <pre><code>##  [1] &quot;TNTC&quot; &quot;TNTC&quot; &quot;TNTC&quot; &quot;TNTC&quot; &quot;TNTC&quot; &quot;TNTC&quot; &quot;295&quot;  &quot;259&quot;  &quot;289&quot;  &quot;16&quot;  
 ## [11] &quot;36&quot;   &quot;33&quot;  
 ## [1] &quot;character&quot;</code></pre>
 <p>The counts are <strong>text</strong>, because of the <code>"TNTC"</code> plates (too numerous to count).</p>
-</div>
-<div id="step-2-turn-the-counts-into-numbers" class="section level5">
-<h5>Step 2: Turn the counts into numbers</h5>
+<h5 class="wt-step">
+Step 2: Turn the counts into numbers
+</h5>
 <pre class="r"><code>counts &lt;- as.numeric(colonies)   # &quot;TNTC&quot; becomes NA, with a warning
 counts</code></pre>
 <pre><code>##  [1]  NA  NA  NA  NA  NA  NA 295 259 289  16  36  33</code></pre>
-</div>
-<div id="step-3-keep-only-the-countable-plates" class="section level5">
-<h5>Step 3: Keep only the countable plates</h5>
+<h5 class="wt-step">
+Step 3: Keep only the countable plates
+</h5>
 <pre class="r"><code>countable &lt;- !is.na(counts) &amp; counts &gt;= 30 &amp; counts &lt;= 300
 countable
 sum(countable)</code></pre>
 <pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
 ## [1] 5</code></pre>
 <p>The plate with 16 colonies is too sparse to count reliably, so it’s out.</p>
-</div>
-<div id="step-4-cfu-per-ml-for-each-countable-plate" class="section level5">
-<h5>Step 4: CFU per mL for each countable plate</h5>
+<h5 class="wt-step">
+Step 4: CFU per mL for each countable plate
+</h5>
 <p>CFU/mL = colonies ÷ (dilution × volume plated):</p>
 <pre class="r"><code>cfu_per_ml &lt;- counts[countable] / (dilution[countable] * volume_ml)
 cfu_per_ml</code></pre>
 <pre><code>## [1] 2.95e+08 2.59e+08 2.89e+08 3.60e+08 3.30e+08</code></pre>
-</div>
-<div id="step-5-mean-log10-round" class="section level5">
-<h5>Step 5: Mean, log10, round</h5>
+<h5 class="wt-step">
+Step 5: Mean, log10, round
+</h5>
 <pre class="r"><code>mean_cfu &lt;- mean(cfu_per_ml)
 mean_cfu
 round(log10(mean_cfu), 2)</code></pre>
 <pre><code>## [1] 306600000
 ## [1] 8.49</code></pre>
 <p><strong>The answer is 8.49</strong>, i.e. about 3.1e+08 CFU/mL.</p>
-</div>
-<div id="the-traps" class="section level5">
-<h5>The traps</h5>
+<h5 class="wt-step">
+The traps
+</h5>
 <p>Using every plate with a number, including the one with 16 colonies:</p>
 <pre class="r"><code>all_plates &lt;- !is.na(counts)
 round(log10(mean(counts[all_plates] / (dilution[all_plates] * volume_ml))), 2)</code></pre>
@@ -285,71 +533,81 @@ round(log10(mean(counts[all_plates] / (dilution[all_plates] * volume_ml))), 2)</
 <pre class="r"><code>round(log10(mean(counts[countable] / dilution[countable])), 2)</code></pre>
 <pre><code>## [1] 7.49</code></pre>
 <p><strong>Lessons:</strong> text in a numeric column turns everything into text; vectors of the same length line up element by element (each count with its own dilution); a logical vector selects the elements you want.</p>
+</details>
 </div>
-</div>
-</div>
-</div>
-<hr />
 <!-- ======================= TUESDAY: Mouse Mismatch ======================= -->
-<div id="tuesday-mouse-mismatch" class="section level3 unnumbered challenge-card">
-<h3>🐭 Tuesday · Mouse Mismatch</h3>
-<p class="challenge-meta">
-Beginner+ · ~45 min · Tuesday: data frames, loading data, basic statistics
+</div>
+<div id="tue-mice" class="section level3 unlisted unnumbered">
+<h3>🐭 Tue · Mice</h3>
+<div class="challenge-card">
+<p class="challenge-title">
+🐭 Tuesday · Mouse Mismatch
 </p>
-<p><strong>The scenario.</strong> You weighed 20 mice. The scale exported the weights from one computer; the animal facility sent the genotypes (wild type, <code>WT</code>, or knockout, <code>KO</code>) from another. Do knockout mice weigh more?</p>
-<p><strong>Your task.</strong> Combine the two files and compare the weight of KO and WT mice with a Welch t-test (the default in <code>t.test()</code>). Report the <strong>p-value, rounded to 3 decimals</strong>.</p>
+<p class="challenge-meta">
+Beginner+ · ~45 min · Tuesday: data frames (tidyverse optional)
+</p>
+<p><strong>The scenario.</strong> You weighed 20 mice. The weights come from the scale; the genotypes (wild type, <code>WT</code>, or knockout, <code>KO</code>) come from the animal facility, in a separate table. Do knockout mice weigh more?</p>
+<p><strong>Your task.</strong> Combine the two tables, so that every mouse has both its weight and its genotype. Then calculate the <strong>mean weight of the KO mice minus the mean weight of the WT mice</strong>, rounded to <strong>2 decimals</strong> (e.g. <code>0.12</code>).</p>
 <details>
 <summary>
 Get the data
 </summary>
-<pre class="r"><code>download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_weights.csv&quot;,
-              &quot;data/mouse_weights.csv&quot;)
-download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_genotypes.csv&quot;,
-              &quot;data/mouse_genotypes.csv&quot;)</code></pre>
+<p>Copy these lines into R. They read both tables straight from the web (you’ll learn all about reading files on Friday):</p>
+<pre class="r"><code>weights   &lt;- read.csv2(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_weights.csv&quot;)
+genotypes &lt;- read.csv(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_genotypes.csv&quot;)</code></pre>
 </details>
 <details>
 <summary>
 Hint 1
 </summary>
-Look at both files with <code>readLines()</code> before you read them. Do they use the same separator and decimal mark?
+Look at both data frames with <code>head()</code> and <code>str()</code>. Are the mice in the same order in both tables? Can you just put the columns side by side?
 </details>
 <details>
 <summary>
 Hint 2
 </summary>
-Are the mice in the same order in both files? Does every ID appear in both files? (<code>x %in% y</code> checks, for each element of <code>x</code>, whether it is in <code>y</code>.) After merging, how many rows do you have?
+Does every ID appear in both tables? (<code>x %in% y</code> checks, for each element of <code>x</code>, whether it is in <code>y</code>.) After merging, how many rows do you have?
 </details>
 <div class="challenge-answer">
-<p><label for="input-mice"><strong>Your answer</strong> (e.g. <code>0.123</code>):</label>
-<input id="input-mice" type="text" autocomplete="off" data-key="MC4wNDU=" data-target="mice">
+<p><label for="input-mice"><strong>Your answer</strong> (e.g. <code>0.12</code>):</label>
+<input id="input-mice" type="text" autocomplete="off" data-key="MS43NA==" data-target="mice">
 <button type="button" class="challenge-check" data-check="mice">Check</button>
 <span id="feedback-mice" class="challenge-feedback"></span></p>
 </div>
-<div id="walkthrough-mice" class="walkthrough">
-<div id="solution-walkthrough-1" class="section level4 unnumbered">
-<h4>🔓 Solution walkthrough</h4>
+<details class="walkthrough" id="walkthrough-mice">
+<summary>
+🔓 Solution walkthrough (click to view)
+</summary>
 <!-- Tuesday: Mouse Mismatch -->
-<div id="step-1-read-both-files" class="section level5">
-<h5>Step 1: Read both files</h5>
-<p>Look at the files first. The weights use <code>;</code> and decimal commas, so they need <code>read.csv2()</code>:</p>
+<h5 class="wt-step">
+Step 1: Read and look
+</h5>
+<p>Read both tables (the same files as in “Get the data”) and look at them:</p>
 <pre class="r"><code>weights   &lt;- read.csv2(&quot;data/challenges/mouse_weights.csv&quot;)
 genotypes &lt;- read.csv(&quot;data/challenges/mouse_genotypes.csv&quot;)
-str(weights)
-str(genotypes)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    20 obs. of  3 variables:
-##  $ id      : chr  &quot;M01&quot; &quot;M02&quot; &quot;M03&quot; &quot;M04&quot; ...
-##  $ sex     : chr  &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; ...
-##  $ weight_g: num  23.7 23.5 23.2 24.3 27.4 27.1 27.6 25.9 27.6 29.1 ...
-## &#39;data.frame&#39;:    20 obs. of  2 variables:
-##  $ id      : chr  &quot;M17&quot; &quot;M16&quot; &quot;M04&quot; &quot;M06&quot; ...
-##  $ genotype: chr  &quot;KO&quot; &quot;KO&quot; &quot;WT&quot; &quot;WT&quot; ...</code></pre>
-<p>Both have 20 rows, and <code>weight_g</code> is a number. Good.</p>
-</div>
-<div id="step-2-check-that-the-ids-match" class="section level5">
-<h5>Step 2: Check that the IDs match</h5>
-<p>The files are in different orders, so we must match the mice by ID. But do all IDs appear in both files?</p>
-<pre class="r"><code>weights$id %in% genotypes$id                          # is each weight ID in the genotype file?
-weights$id[!weights$id %in% genotypes$id]             # which one isn&#39;t?
+head(weights)
+head(genotypes)</code></pre>
+<pre><code>##    id sex weight_g
+## 1 M01   F     23.7
+## 2 M02   F     23.5
+## 3 M03   F     23.2
+## 4 M04   M     24.3
+## 5 M05   M     27.4
+## 6 M06   M     27.1
+##    id genotype
+## 1 M17       KO
+## 2 M16       KO
+## 3 M04       WT
+## 4 M06       WT
+## 5 M01       WT
+## 6 M13       WT</code></pre>
+<p>The mice are in a <strong>different order</strong> in the two tables, so we can’t just put the columns side by side.</p>
+<h5 class="wt-step">
+Step 2: Check that the IDs match
+</h5>
+<p>Before merging, check that every ID appears in both tables:</p>
+<pre class="r"><code>weights$id %in% genotypes$id                   # is each weight ID in the genotype table?
+weights$id[!weights$id %in% genotypes$id]      # which one isn&#39;t?
 genotypes$id[!genotypes$id %in% weights$id]</code></pre>
 <pre><code>##  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
 ## [13]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
@@ -359,9 +617,9 @@ genotypes$id[!genotypes$id %in% weights$id]</code></pre>
 <pre class="r"><code>genotypes$id &lt;- toupper(genotypes$id)
 all(weights$id %in% genotypes$id)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
-</div>
-<div id="step-3-merge-by-id" class="section level5">
-<h5>Step 3: Merge by ID</h5>
+<h5 class="wt-step">
+Step 3: Merge by ID
+</h5>
 <pre class="r"><code>mice &lt;- merge(weights, genotypes, by = &quot;id&quot;)
 nrow(mice)          # all 20 mice
 head(mice)</code></pre>
@@ -373,51 +631,61 @@ head(mice)</code></pre>
 ## 4 M04   M     24.3       WT
 ## 5 M05   M     27.4       WT
 ## 6 M06   M     27.1       WT</code></pre>
-</div>
-<div id="step-4-compare-ko-and-wt" class="section level5">
-<h5>Step 4: Compare KO and WT</h5>
-<pre class="r"><code>mean(mice$weight_g[mice$genotype == &quot;KO&quot;])
-mean(mice$weight_g[mice$genotype == &quot;WT&quot;])</code></pre>
+<h5 class="wt-step">
+Step 4: Compare KO and WT
+</h5>
+<pre class="r"><code>mean_ko &lt;- mean(mice$weight_g[mice$genotype == &quot;KO&quot;])
+mean_wt &lt;- mean(mice$weight_g[mice$genotype == &quot;WT&quot;])
+mean_ko
+mean_wt
+round(mean_ko - mean_wt, 2)</code></pre>
 <pre><code>## [1] 27.12
-## [1] 25.38</code></pre>
-<pre class="r"><code>res &lt;- t.test(weight_g ~ genotype, data = mice)   # Welch t-test is the default
-res
-round(res$p.value, 3)</code></pre>
-<pre><code>## 
-##  Welch Two Sample t-test
-## 
-## data:  weight_g by genotype
-## t = 2.1554, df = 17.834, p-value = 0.04505
-## alternative hypothesis: true difference in means between group KO and group WT is not equal to 0
-## 95 percent confidence interval:
-##  0.04285058 3.43714942
-## sample estimates:
-## mean in group KO mean in group WT 
-##            27.12            25.38 
-## 
-## [1] 0.045</code></pre>
-<p><strong>The answer is 0.045.</strong></p>
-</div>
-<div id="the-traps-1" class="section level5">
-<h5>The traps</h5>
-<p>Pasting the two tables side by side matches mice <strong>by position</strong>, so genotypes end up attached to the wrong mice:</p>
-<pre class="r"><code>round(t.test(weights$weight_g ~ genotypes$genotype)$p.value, 3)</code></pre>
-<pre><code>## [1] 0.31</code></pre>
-<p>Merging without fixing <code>m07</code> silently drops one mouse, and the result is no longer significant at 0.05:</p>
+## [1] 25.38
+## [1] 1.74</code></pre>
+<p><strong>The answer is 1.74</strong>: knockout mice are about 1.74 g heavier.</p>
+<details>
+<summary>
+The same with the tidyverse
+</summary>
+<pre class="r"><code>library(dplyr)
+genotypes |&gt;
+  mutate(id = toupper(id)) |&gt;
+  inner_join(weights, by = &quot;id&quot;) |&gt;
+  group_by(genotype) |&gt;
+  summarise(n = n(), mean_weight = mean(weight_g))</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##   genotype     n mean_weight
+##   &lt;chr&gt;    &lt;int&gt;       &lt;dbl&gt;
+## 1 KO          10        27.1
+## 2 WT          10        25.4</code></pre>
+</details>
+<h5 class="wt-step">
+The traps
+</h5>
+<p>Putting the columns side by side matches mice <strong>by position</strong>, so the genotypes end up attached to the wrong mice:</p>
+<pre class="r"><code>wrong &lt;- data.frame(weight_g = weights$weight_g, genotype = genotypes$genotype)
+round(mean(wrong$weight_g[wrong$genotype == &quot;KO&quot;]) -
+      mean(wrong$weight_g[wrong$genotype == &quot;WT&quot;]), 2)</code></pre>
+<pre><code>## [1] 0.92</code></pre>
+<p>Merging without fixing <code>m07</code> silently drops one mouse:</p>
 <pre class="r"><code>mice19 &lt;- merge(weights, read.csv(&quot;data/challenges/mouse_genotypes.csv&quot;), by = &quot;id&quot;)
 nrow(mice19)
-round(t.test(weight_g ~ genotype, data = mice19)$p.value, 3)</code></pre>
+round(mean(mice19$weight_g[mice19$genotype == &quot;KO&quot;]) -
+      mean(mice19$weight_g[mice19$genotype == &quot;WT&quot;]), 2)</code></pre>
 <pre><code>## [1] 19
-## [1] 0.067</code></pre>
+## [1] 1.69</code></pre>
 <p><strong>Lessons:</strong> merge by ID, never by position. After a merge, check the number of rows.</p>
+<p><strong>Coming on Wednesday:</strong> is a difference of 1.74 g real, or could it be chance? The statistics lecture shows how to test it, e.g. with <code>t.test(weight_g ~ genotype, data = mice)</code>.</p>
+</details>
 </div>
-</div>
-</div>
-</div>
-<hr />
 <!-- ======================= WEDNESDAY: Primer Pairs ======================= -->
-<div id="wednesday-primer-pairs" class="section level3 unnumbered challenge-card">
-<h3>🧬 Wednesday · Primer Pairs</h3>
+</div>
+<div id="wed-primers" class="section level3 unlisted unnumbered">
+<h3>🧬 Wed · Primers</h3>
+<div class="challenge-card">
+<p class="challenge-title">
+🧬 Wednesday · Primer Pairs
+</p>
 <p class="challenge-meta">
 Intermediate · ~45 min · Wednesday: loops and functions (tidyverse optional)
 </p>
@@ -433,7 +701,8 @@ Intermediate · ~45 min · Wednesday: loops and functions (tidyverse optional)
 <summary>
 Get the data
 </summary>
-<pre class="r"><code>download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/primers.csv&quot;, &quot;data/primers.csv&quot;)</code></pre>
+<p>Copy this line into R. It reads the table straight from the web:</p>
+<pre class="r"><code>primers &lt;- read.csv(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/primers.csv&quot;)</code></pre>
 </details>
 <details>
 <summary>
@@ -459,13 +728,15 @@ To compare the two primers of a pair, put them in the same row: make one data fr
 <button type="button" class="challenge-check" data-check="primers">Check</button>
 <span id="feedback-primers" class="challenge-feedback"></span></p>
 </div>
-<div id="walkthrough-primers" class="walkthrough">
-<div id="solution-walkthrough-2" class="section level4 unnumbered">
-<h4>🔓 Solution walkthrough</h4>
+<details class="walkthrough" id="walkthrough-primers">
+<summary>
+🔓 Solution walkthrough (click to view)
+</summary>
 <!-- Wednesday: Primer Pairs -->
-<div id="step-1-read-and-inspect" class="section level5">
-<h5>Step 1: Read and inspect</h5>
-<pre class="r"><code>primers &lt;- read.csv(&quot;data/challenges/primers.csv&quot;)
+<h5 class="wt-step">
+Step 1: Read and inspect
+</h5>
+<pre class="r"><code>primers &lt;- read.csv(&quot;data/challenges/primers.csv&quot;)   # the same file as in &quot;Get the data&quot;
 str(primers)
 table(primers$direction)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    60 obs. of  3 variables:
@@ -479,18 +750,18 @@ table(primers$direction)</code></pre>
 <pre class="r"><code>primers$sequence[primers$sequence != toupper(primers$sequence)]</code></pre>
 <pre><code>## [1] &quot;ctacatggcagcctaatc&quot;   &quot;tctcccagaagcccgaggtg&quot; &quot;gctgttgctcaacatgat&quot;  
 ## [4] &quot;ttcaacatctacgcaaggtg&quot; &quot;gatgtatgtagcggttctc&quot;</code></pre>
-</div>
-<div id="step-2-clean-the-data" class="section level5">
-<h5>Step 2: Clean the data</h5>
+<h5 class="wt-step">
+Step 2: Clean the data
+</h5>
 <pre class="r"><code>primers$direction &lt;- toupper(primers$direction)
 primers$sequence  &lt;- toupper(primers$sequence)
 table(primers$direction)</code></pre>
 <pre><code>## 
 ##  F  R 
 ## 30 30</code></pre>
-</div>
-<div id="step-3-write-a-function-for-one-primer" class="section level5">
-<h5>Step 3: Write a function for one primer</h5>
+<h5 class="wt-step">
+Step 3: Write a function for one primer
+</h5>
 <p>Go through the sequence base by base with a <code>for</code> loop, and count the bases:</p>
 <pre class="r"><code>primer_stats &lt;- function(seq) {
   n_gc &lt;- 0
@@ -508,9 +779,9 @@ table(primers$direction)</code></pre>
 primer_stats(&quot;GGCCAATT&quot;)   # test on a sequence where you know the answer: 50 % GC, Tm 24</code></pre>
 <pre><code>## gc tm 
 ## 50 24</code></pre>
-</div>
-<div id="step-4-use-the-function-on-every-primer" class="section level5">
-<h5>Step 4: Use the function on every primer</h5>
+<h5 class="wt-step">
+Step 4: Use the function on every primer
+</h5>
 <p>A second loop goes through the rows:</p>
 <pre class="r"><code>primers$gc &lt;- NA
 primers$tm &lt;- NA
@@ -527,18 +798,18 @@ head(primers)</code></pre>
 ## 4    IL6         R    TGAGAGTTCACCCAAAGG 50.00000 54
 ## 5   TP53         R   CAACCGGGTATATACAGCC 52.63158 58
 ## 6  HIF1A         F  CAGGAGCATAATTGACTCCG 50.00000 60</code></pre>
-</div>
-<div id="step-5-put-forward-and-reverse-primers-side-by-side" class="section level5">
-<h5>Step 5: Put forward and reverse primers side by side</h5>
+<h5 class="wt-step">
+Step 5: Put forward and reverse primers side by side
+</h5>
 <p><code>merge()</code> by target. Columns from the forward primers get <code>.x</code>, columns from the reverse primers get <code>.y</code>:</p>
 <pre class="r"><code>fwd &lt;- primers[primers$direction == &quot;F&quot;, ]
 rev &lt;- primers[primers$direction == &quot;R&quot;, ]
 pairs &lt;- merge(fwd, rev, by = &quot;target&quot;)
 nrow(pairs)</code></pre>
 <pre><code>## [1] 30</code></pre>
-</div>
-<div id="step-6-apply-the-rules" class="section level5">
-<h5>Step 6: Apply the rules</h5>
+<h5 class="wt-step">
+Step 6: Apply the rules
+</h5>
 <pre class="r"><code>pass &lt;- pairs$gc.x &gt;= 40 &amp; pairs$gc.x &lt;= 60 &amp;
         pairs$gc.y &gt;= 40 &amp; pairs$gc.y &lt;= 60 &amp;
         pairs$tm.x &gt;= 52 &amp; pairs$tm.x &lt;= 60 &amp;
@@ -608,9 +879,9 @@ inner_join(filter(clean, direction == &quot;F&quot;), filter(clean, direction ==
 ## 14   SOX2   54   54      54
 ## 15   EGFR   52   54      53</code></pre>
 </details>
-</div>
-<div id="the-traps-2" class="section level5">
-<h5>The traps</h5>
+<h5 class="wt-step">
+The traps
+</h5>
 <pre class="r"><code>count_pass &lt;- function(p) {
   for (i in 1:nrow(p)) {
     stats &lt;- primer_stats(p$sequence[i])
@@ -631,16 +902,18 @@ count_pass(transform(raw, direction = toupper(direction)))   # sequences not fix
 ## [1] 12</code></pre>
 <p>Lower-case bases are not <code>"G"</code> or <code>"C"</code>, so they aren’t counted. A reverse primer typed as <code>r</code> is missing when you select <code>direction == "R"</code>, so its pair disappears from the merge.</p>
 <p><strong>Lessons:</strong> look at your data (<code>table()</code> is great for spotting typos); write a function for one item, test it on input where you know the answer, then loop over all items.</p>
+</details>
 </div>
-</div>
-</div>
-</div>
-<hr />
 <!-- ======================= THURSDAY: Who's the Imposter? ======================= -->
-<div id="thursday-whos-the-imposter" class="section level3 unnumbered challenge-card">
-<h3>🕵️ Thursday · Who’s the Imposter?</h3>
+</div>
+<div id="thu-imposter" class="section level3 unlisted unnumbered">
+<h3>🕵️ Thu · Imposter</h3>
+<div class="challenge-card">
+<p class="challenge-title">
+🕵️ Thursday · Who’s the Imposter?
+</p>
 <p class="challenge-meta">
-Advanced · due Friday 12:00 · Thursday: base graphics, ggplot2, plus the whole week
+Advanced · until Friday 14:00 · Thursday: base graphics, ggplot2, plus the whole week
 </p>
 <p><strong>The scenario.</strong> You received RNA-seq counts for 12 mouse liver samples, with a sample sheet. Something went wrong in the lab: <strong>one sample is mislabelled</strong>. Its sex in the sample sheet doesn’t match its biology.</p>
 <p><strong>Your task.</strong> Find the mislabelled sample.</p>
@@ -655,14 +928,15 @@ Advanced · due Friday 12:00 · Thursday: base graphics, ggplot2, plus the whole
 <summary>
 Get the data
 </summary>
-<pre class="r"><code>download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/counts.csv&quot;, &quot;data/counts.csv&quot;)
-download.file(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/sample_sheet.csv&quot;, &quot;data/sample_sheet.csv&quot;)</code></pre>
+<p>Copy these lines into R. They read both tables straight from the web:</p>
+<pre class="r"><code>counts &lt;- read.csv(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/counts.csv&quot;, row.names = 1)   # gene names become row names
+sheet  &lt;- read.csv(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/sample_sheet.csv&quot;)</code></pre>
 </details>
 <details>
 <summary>
 Hint 1
 </summary>
-Read <code>counts.csv</code> with <code>row.names = 1</code>, so the gene names become row names. <code>colSums()</code> gives the library size of each sample. Are they similar? To divide each column by its own total, loop over the samples, or transpose with <code>t()</code>, divide, and transpose back.
+<code>colSums()</code> gives the library size of each sample. Are they similar? To divide each column by its own total, loop over the samples, or transpose with <code>t()</code>, divide, and transpose back.
 </details>
 <details>
 <summary>
@@ -682,14 +956,16 @@ Hint 3 (bonus)
 <button type="button" class="challenge-check" data-check="imposter">Check</button>
 <span id="feedback-imposter" class="challenge-feedback"></span></p>
 </div>
-<div id="walkthrough-imposter" class="walkthrough">
-<div id="solution-walkthrough-3" class="section level4 unnumbered">
-<h4>🔓 Solution walkthrough</h4>
+<details class="walkthrough" id="walkthrough-imposter">
+<summary>
+🔓 Solution walkthrough (click to view)
+</summary>
 <!-- Thursday: Who's the Imposter? -->
 <pre class="r"><code>library(ggplot2)</code></pre>
-<div id="step-1-read-and-check" class="section level5">
-<h5>Step 1: Read and check</h5>
-<pre class="r"><code>counts &lt;- read.csv(&quot;data/challenges/counts.csv&quot;, row.names = 1)
+<h5 class="wt-step">
+Step 1: Read and check
+</h5>
+<pre class="r"><code>counts &lt;- read.csv(&quot;data/challenges/counts.csv&quot;, row.names = 1)   # the same files as in &quot;Get the data&quot;
 sheet  &lt;- read.csv(&quot;data/challenges/sample_sheet.csv&quot;)
 dim(counts)
 head(sheet)
@@ -703,9 +979,9 @@ all(colnames(counts) %in% sheet$sample)   # do the sample names match?</code></p
 ## 5    S09   M   control 7.6
 ## 6    S10   M   treated 9.2
 ## [1] TRUE</code></pre>
-</div>
-<div id="step-2-normalise-to-counts-per-million-cpm" class="section level5">
-<h5>Step 2: Normalise to counts per million (CPM)</h5>
+<h5 class="wt-step">
+Step 2: Normalise to counts per million (CPM)
+</h5>
 <p>Library sizes differ a lot, so raw counts can’t be compared between samples:</p>
 <pre class="r"><code>colSums(counts)
 cpm &lt;- t(t(counts) / colSums(counts)) * 1e6</code></pre>
@@ -714,9 +990,9 @@ cpm &lt;- t(t(counts) / colSums(counts)) * 1e6</code></pre>
 ##      S09      S10      S11      S12 
 ##  2432125 20961929 10600899 18736662</code></pre>
 <p>(Dividing a matrix by a vector works row by row, which is why we transpose, divide, and transpose back.)</p>
-</div>
-<div id="step-3-pick-out-the-sex-specific-genes" class="section level5">
-<h5>Step 3: Pick out the sex-specific genes</h5>
+<h5 class="wt-step">
+Step 3: Pick out the sex-specific genes
+</h5>
 <pre class="r"><code>y_genes &lt;- c(&quot;RPS4Y1&quot;, &quot;DDX3Y&quot;, &quot;KDM5D&quot;, &quot;UTY&quot;, &quot;EIF1AY&quot;)
 sex_expr &lt;- data.frame(sample = colnames(cpm),
                        XIST   = cpm[&quot;XIST&quot;, ],
@@ -736,9 +1012,9 @@ sex_expr</code></pre>
 ## 10    S10    0.2385277 242.6875885   M   treated 9.2
 ## 11    S11    2.2639589 261.7136528   M   control 7.3
 ## 12    S12    1.9747381 297.8545485   M   treated 8.8</code></pre>
-</div>
-<div id="step-4-plot" class="section level5">
-<h5>Step 4: Plot</h5>
+<h5 class="wt-step">
+Step 4: Plot
+</h5>
 <pre class="r"><code>ggplot(sex_expr, aes(x = XIST, y = Y_mean, colour = sex, label = sample)) +
   geom_point(size = 3) +
   geom_text(nudge_y = 15, show.legend = FALSE) +
@@ -753,18 +1029,18 @@ round(cpm[&quot;RPS4Y1&quot;, imposter])</code></pre>
 <pre><code>## [1] &quot;S04&quot;
 ## [1] 132</code></pre>
 <p><strong>The answer is S04-132.</strong></p>
-</div>
-<div id="the-trap" class="section level5">
-<h5>The trap</h5>
+<h5 class="wt-step">
+The trap
+</h5>
 <p>Using raw counts instead of CPM gives the wrong number, and makes sample <code>S09</code> (a small library) look odd too:</p>
 <pre class="r"><code>counts[&quot;RPS4Y1&quot;, imposter]
 round(colSums(counts) / 1e6, 1)   # library sizes in millions</code></pre>
 <pre><code>## [1] 3640
 ##  S01  S02  S03  S04  S05  S06  S07  S08  S09  S10  S11  S12 
 ## 29.5 11.0 13.5 27.6 19.6 18.2 12.1 10.6  2.4 21.0 10.6 18.7</code></pre>
-</div>
-<div id="bonus-the-duplicate" class="section level5">
-<h5>Bonus: the duplicate</h5>
+<h5 class="wt-step">
+Bonus: the duplicate
+</h5>
 <p>Two samples are identical: a file was copied twice. A correlation of exactly 1 gives it away:</p>
 <pre class="r"><code>r &lt;- cor(cpm)
 round(r[c(&quot;S07&quot;, &quot;S08&quot;, &quot;S09&quot;, &quot;S10&quot;, &quot;S11&quot;, &quot;S12&quot;), c(&quot;S07&quot;, &quot;S08&quot;, &quot;S09&quot;, &quot;S10&quot;, &quot;S11&quot;, &quot;S12&quot;)], 4)</code></pre>
@@ -779,9 +1055,7 @@ round(r[c(&quot;S07&quot;, &quot;S08&quot;, &quot;S09&quot;, &quot;S10&quot;, &q
 <pre class="r"><code>heatmap(r, symm = TRUE)</code></pre>
 <p><img src="home_challenges_files/figure-html/im-heatmap-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 <p><strong>Lessons:</strong> normalise before comparing samples; check sample labels with biology you know (sex genes are the classic check); plot before you trust.</p>
-</div>
-</div>
-</div>
+</details>
 </div>
 <!-- To add a challenge: see the instructions at the top of challenges/walkthroughs.Rmd -->
 <script>
@@ -794,11 +1068,25 @@ document.addEventListener("DOMContentLoaded", function () {
     var guess;
     try { guess = btoa(normalise(input.value)); } catch (e) { guess = ""; }
     if (guess === input.dataset.key) {
-      feedback.textContent = "✅ Correct! The walkthrough is unlocked below.";
+      feedback.textContent = "✅ Arrr! You found it!";
+      var hint = document.createElement("span");
+      hint.className = "map-hint";
+      hint.textContent = "🗺️ Island found! See the map above.";
+      feedback.appendChild(hint);
       walkthrough.classList.add("unlocked");
+      if (window.treasureMap) window.treasureMap.solve(id);
     } else {
       feedback.textContent = "❌ Not quite. Check the hints, and try again!";
     }
+  }
+  // challenges solved earlier in this browser: unlock their walkthroughs again
+  if (window.treasureMap) {
+    window.treasureMap.solved().forEach(function (id) {
+      var walkthrough = document.getElementById("walkthrough-" + id);
+      var feedback = document.getElementById("feedback-" + id);
+      if (walkthrough) walkthrough.classList.add("unlocked");
+      if (feedback) feedback.textContent = "✅ Solved";
+    });
   }
   document.querySelectorAll("[data-check]").forEach(function (button) {
     button.addEventListener("click", function () { check(button.dataset.check); });
@@ -810,6 +1098,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+</div>
+</div>
+</div>
 
 
 <footer class="footer">

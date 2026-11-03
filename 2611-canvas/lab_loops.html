@@ -11,7 +11,7 @@
 
 
 
-<title>Loops in R</title>
+<title>Loops, decisions and functions</title>
 
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -252,417 +252,463 @@ div.tocify {
 <p><br></p>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>In programming languages loop structures, either with or without conditions, are used to repeat commands over multiple entities. <code>for</code> and <code>while</code> loops as well as <code>if-else</code> statements are also often used in R, but not as often as in many other programming languages. The reason for this is that many needs of the loops are already addressed using vectorization or via apply functions.</p>
-<p>This means that we can multiply all values in a vector in R by two by calling</p>
-<pre class="r"><code>vec.a &lt;- c(1, 2, 3, 4)
-vec.a * 2</code></pre>
-<pre><code>## [1] 2 4 6 8</code></pre>
-<p>In many other and languages as well as in R, you can also create this with a loop instead</p>
-<pre class="r"><code>for (i in seq_along(vec.a)) {
-  vec.a[i] &lt;- vec.a[i] * 2
-}
-
-vec.a</code></pre>
-<pre><code>## [1] 2 4 6 8</code></pre>
-<p>This is far less efficient and not by any means easier to type and we hence tend to avoid loops when possible.</p>
-<details>
-<summary>
-<strong>Extra: Demonstration of time lapse comparison between vectorization and loop</strong>
-</summary>
-<p>Let us compare the time of execution of the vectorized version (vector with 10,000 elements):</p>
-<pre class="r"><code>vec &lt;- c(1:1000000)
-ptm &lt;- proc.time()
-vec &lt;- vec + 1
-proc.time() - ptm # vectorized</code></pre>
-<pre><code>##    user  system elapsed 
-##   0.002   0.000   0.002</code></pre>
-<p>–</p>
-<p>to the loop version:</p>
-<pre class="r"><code>vec &lt;- c(1:1000000)
-ptm &lt;- proc.time()
-for (i in seq_along(vec)) {
-  vec[i] &lt;- vec[i] + 1
-}
-proc.time() - ptm # for-loop</code></pre>
-<pre><code>##    user  system elapsed 
-##   0.057   0.000   0.057</code></pre>
-</details>
-<p></br></p>
-<p>After this exercise you should know:</p>
+<p>Loops, decisions and functions let you write your analysis <strong>once</strong> and run it on any number of samples. In this lab you will:</p>
 <ul>
-<li>What are the most common loop structures in R</li>
-<li>Some common alternatives to using loops in R</li>
-<li>How one can convert a short script to a function.</li>
-<li>Use that new function in R.</li>
+<li>repeat steps with <code>for</code> and <code>while</code> loops,</li>
+<li>store loop results the efficient way,</li>
+<li>compare loops with vectorised code,</li>
+<li>make decisions with <code>if</code>, <code>else if</code>, <code>else</code> and <code>ifelse()</code>,</li>
+<li>write your own functions, with default arguments and input checks,</li>
+<li>combine all three.</li>
 </ul>
+<div class="boxy boxy-lightbulb">
+<p>As always: predict first, then run. If the output surprises you, find out why. Click the key to reveal example code. Keep your code and notes in your <strong>R Markdown learning journal</strong>.</p>
 </div>
-<div id="exercises" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Exercises</h1>
+</div>
+<div id="loops" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Loops</h1>
 <ol style="list-style-type: decimal">
-<li>Create a 100000 by 10 matrix with the numbers 1:1000000. Make a for-loop that calculates the sum for each row of the matrix. Verify that your results are consistent with what you obtain with the <code>apply()</code> function to calculate row sums as well as with the built-in <code>rowSums()</code> function. These functions were discussed in the lecture <strong>Matrices, data frames, and lists</strong>.</li>
+<li>You sequenced five samples:</li>
 </ol>
+<pre class="r"><code>sample_ids &lt;- c(&quot;liver_1&quot;, &quot;liver_2&quot;, &quot;brain_1&quot;, &quot;brain_2&quot;, &quot;heart_1&quot;)
+reads &lt;- c(21.4, 18.9, 25.2, 9.7, 22.8)   # million reads</code></pre>
+<p>Write a <code>for</code> loop that prints one line per sample, e.g. <code>liver_1: 21.4 million reads</code>.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213470215" aria-expanded="false" aria-controls="acc2026110213470215">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317200215" aria-expanded="false" aria-controls="acc2026110317200215">
 </button>
 </p>
-<div id="acc2026110213470215" class="collapse">
+<div id="acc2026110317200215" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>X &lt;- matrix(1:1000000, nrow = 100000, ncol = 10)
-for.sum &lt;- vector(mode = &#39;numeric&#39;)
-# Note that this loop is much faster if you outside the loop create an empty vector of the right size.
-# rwmeans &lt;- vector(&#39;numeric&#39;, 100000)
-for (i in 1:nrow(X)) {
-    for.sum[i] &lt;- sum(X[i,])
-}
-head(for.sum)</code></pre>
-<pre><code>## [1] 4500010 4500020 4500030 4500040 4500050 4500060</code></pre>
-<pre class="r"><code>app.sum &lt;- apply(X, MARGIN = 1, sum)
-head(app.sum)</code></pre>
-<pre><code>## [1] 4500010 4500020 4500030 4500040 4500050 4500060</code></pre>
-<pre class="r"><code>rowSums.sum &lt;- rowSums(X)
-head(rowSums.sum)</code></pre>
-<pre><code>## [1] 4500010 4500020 4500030 4500040 4500050 4500060</code></pre>
-<pre class="r"><code>identical(for.sum, app.sum)</code></pre>
-<pre><code>## [1] FALSE</code></pre>
-<pre class="r"><code>identical(for.sum, rowSums.sum)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>identical(for.sum, as.integer(rowSums.sum))</code></pre>
-<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>for (i in seq_along(sample_ids)) {
+  cat(sample_ids[i], &quot;: &quot;, reads[i], &quot; million reads\n&quot;, sep = &quot;&quot;)
+}</code></pre>
+<pre><code>## liver_1: 21.4 million reads
+## liver_2: 18.9 million reads
+## brain_1: 25.2 million reads
+## brain_2: 9.7 million reads
+## heart_1: 22.8 million reads</code></pre>
 </div>
 </div>
 <ol start="2" style="list-style-type: decimal">
-<li>As you saw in the lecture, another common loop structure that is used is the while loop, which functions much like a for loop, but will only run as long as a test condition is TRUE. Modify your for loop from exercise 1 and make it into a while loop.
-<details>
-<summary>
-<strong>Tip?</strong>
-</summary>
-You can use the number of rows in the matrix as a condition for the while loop.
-</details></li>
+<li>In qPCR, the relative amount of a target compared with a reference gene is 2^−ΔCt, where ΔCt = Ct(target) − Ct(reference). Calculate it for these six wells with a <code>for</code> loop. Create the result vector <strong>before</strong> the loop. Then do the same without a loop, and check that both give the same result.</li>
 </ol>
+<pre class="r"><code>ct_target &lt;- c(24.3, 25.1, 23.8, 28.9, 29.4, 28.6)
+ct_ref    &lt;- c(18.1, 18.3, 17.9, 18.2, 18.0, 18.4)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213473501" aria-expanded="false" aria-controls="acc2026110213473501">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317203501" aria-expanded="false" aria-controls="acc2026110317203501">
 </button>
 </p>
-<div id="acc2026110213473501" class="collapse">
+<div id="acc2026110317203501" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>x &lt;- 1
-while.sum &lt;- vector(&quot;numeric&quot;, 100000)
-while (x &lt;= 100000) {
-  while.sum[x] &lt;- sum(X[x,])
-  x &lt;- x + 1
+<pre class="r"><code>rel_amount &lt;- numeric(length(ct_target))
+for (i in seq_along(ct_target)) {
+  rel_amount[i] &lt;- 2^-(ct_target[i] - ct_ref[i])
 }
-head(while.sum)</code></pre>
-<pre><code>## [1] 4500010 4500020 4500030 4500040 4500050 4500060</code></pre>
+rel_amount
+
+rel_amount_vec &lt;- 2^-(ct_target - ct_ref)   # vectorised
+identical(rel_amount, rel_amount_vec)</code></pre>
+<pre><code>## [1] 0.0136023526 0.0089742059 0.0167464604 0.0006011447 0.0003700480
+## [6] 0.0008501470
+## [1] TRUE</code></pre>
 </div>
 </div>
 <ol start="3" style="list-style-type: decimal">
-<li>Create a data frame with two numeric and one character columns. Write a loop that loops over the columns and reports the sum of the column values if it is numeric and the total number of characters if it is a character vector.
-<details>
-<summary>
-<strong>Tip?</strong>
-</summary>
-To count number of characters, you can use <code>nchar</code> function.
-</details></li>
+<li>Here is a small count table: 1,000 genes in 6 samples.</li>
 </ol>
-<ul>
-<li>Do it first using only if clauses</li>
-</ul>
+<pre class="r"><code>set.seed(1)
+counts &lt;- matrix(rpois(6000, lambda = 50), nrow = 1000,
+                 dimnames = list(paste0(&quot;gene&quot;, 1:1000), paste0(&quot;S&quot;, 1:6)))</code></pre>
+<p>Use a <code>for</code> loop to calculate the total count of each <strong>sample</strong> (each column). Check your result with <code>colSums()</code>.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213477429" aria-expanded="false" aria-controls="acc2026110213477429">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317205848" aria-expanded="false" aria-controls="acc2026110317205848">
 </button>
 </p>
-<div id="acc2026110213477429" class="collapse">
+<div id="acc2026110317205848" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>vector1 &lt;- 1:10
-vector2 &lt;- c(&quot;Odd&quot;, &quot;Loop&quot;, letters[1:8])
-vector3 &lt;- rnorm(10, sd = 10)
-dfr1 &lt;- data.frame(vector1, vector2, vector3, stringsAsFactors = FALSE)
-sum.vec &lt;- vector()
-for(i in 1:ncol(dfr1)) {
-  if (is.numeric(dfr1[,i])) {
-      sum.vec[i] &lt;- sum(dfr1[,i])
-  } 
-  if (is.character(dfr1[,i])) {
-      sum.vec[i] &lt;- sum(nchar(dfr1[,i]))
-  }
+<pre class="r"><code>totals &lt;- numeric(ncol(counts))
+for (j in seq_len(ncol(counts))) {
+  totals[j] &lt;- sum(counts[, j])
 }
-sum.vec</code></pre>
-<pre><code>## [1]  55.0000  15.0000 -13.6442</code></pre>
-</div>
-</div>
-<ul>
-<li>And then modify the loop to use if-else clauses</li>
-</ul>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213471761" aria-expanded="false" aria-controls="acc2026110213471761">
-</button>
-</p>
-<div id="acc2026110213471761" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>sum.vec &lt;- vector()
-for(i in 1:ncol(dfr1)) {
-  if (is.numeric(dfr1[,i])) {
-      sum.vec[i] &lt;- sum(dfr1[,i])
-  } else {
-      sum.vec[i] &lt;- sum(nchar(dfr1[,i]))
-  }
-}
-sum.vec</code></pre>
-<pre><code>## [1]  55.0000  15.0000 -13.6442</code></pre>
+totals
+colSums(counts)
+all(totals == colSums(counts))</code></pre>
+<pre><code>## [1] 49794 49928 50382 49911 50285 49929
+##    S1    S2    S3    S4    S5    S6 
+## 49794 49928 50382 49911 50285 49929 
+## [1] TRUE</code></pre>
 </div>
 </div>
 <ol start="4" style="list-style-type: decimal">
-<li>In question 3 you generated a loop to go over a data frame. Try to convert this code to a function in R. The function should take a single data frame name as argument.</li>
+<li>Why do we create <code>totals</code> before the loop, instead of starting with <code>totals &lt;- c()</code> and adding each new value with <code>totals &lt;- c(totals, ...)</code>? Try both ways with a loop over 100,000 elements and use <code>system.time()</code> to compare.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213483240" aria-expanded="false" aria-controls="acc2026110213483240">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317203637" aria-expanded="false" aria-controls="acc2026110317203637">
 </button>
 </p>
-<div id="acc2026110213483240" class="collapse">
+<div id="acc2026110317203637" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>dfr.info &lt;- function(dfr) {
-  sum.vec &lt;- vector()
-  for (i in 1:ncol(dfr)) {
-    if (is.numeric(dfr[,i])) {
-        sum.vec[i] &lt;- sum(dfr[,i])
-    } else {
-        sum.vec[i] &lt;- sum(nchar(dfr[,i]))
-    }
-  }
-  sum.vec
-}
-#Execute the function
-
-dfr.info(dfr1)</code></pre>
-<pre><code>## [1]  55.0000  15.0000 -13.6442</code></pre>
+<pre class="r"><code>n &lt;- 1e5
+system.time({
+  grow &lt;- c()
+  for (i in 1:n) grow &lt;- c(grow, i)
+})
+system.time({
+  fill &lt;- numeric(n)
+  for (i in 1:n) fill[i] &lt;- i
+})
+# Growing copies the whole vector at every step, so it gets slower and slower.</code></pre>
+<pre><code>##    user  system elapsed 
+##   6.106   0.019   6.125 
+##    user  system elapsed 
+##   0.003   0.000   0.003</code></pre>
 </div>
 </div>
 <ol start="5" style="list-style-type: decimal">
-<li><strong>Extra exercise-loops</strong>. A variation of exercise 3: Create a data frame with three columns: one numeric, one logical, and one character vector. Write a loop that loops over the columns and reports the sum of the column values if it is numeric, the total number of <code>TRUE</code>s when is logical and the total number of characters if it is a character vector.
-<details>
-<summary>
-<strong>Tips?</strong>
-</summary>
-To count number of characters, you can use <code>nchar</code> function. <br/>
-To count number of <code>TRUE</code> values, you can use <code>sum</code> function.<br/>
-Inside the loop, you may want to use the if-else-if structure.<br/>
-</details></li>
+<li>A bacterial culture starts with 100 cells and doubles every 20 minutes. Use a <code>while</code> loop to find out how many minutes it takes to reach at least one million cells.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213480007" aria-expanded="false" aria-controls="acc2026110213480007">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317276481" aria-expanded="false" aria-controls="acc2026110317276481">
 </button>
 </p>
-<div id="acc2026110213480007" class="collapse">
+<div id="acc2026110317276481" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>vector1 &lt;- 1:10
-vector2 &lt;- c(&quot;Odd&quot;, &quot;Loop&quot;, letters[1:8])
-vector3 &lt;- c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, FALSE)
-dfr2 &lt;- data.frame(vector1, vector2, vector3, stringsAsFactors = FALSE)
-sum.vec &lt;- vector()
-for(i in 1:ncol(dfr2)) {
-  if (is.numeric(dfr2[,i])) {
-      sum.vec[i] &lt;- sum(dfr2[,i])
-  } else if (is.logical(dfr2[,i])) {
-      sum.vec[i] &lt;- sum(dfr2[,i])
+<pre class="r"><code>n_cells &lt;- 100
+minutes &lt;- 0
+while (n_cells &lt; 1e6) {
+  n_cells &lt;- n_cells * 2
+  minutes &lt;- minutes + 20
+}
+minutes
+n_cells</code></pre>
+<pre><code>## [1] 280
+## [1] 1638400</code></pre>
+</div>
+</div>
+</div>
+<div id="decisions" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Decisions</h1>
+<ol start="6" style="list-style-type: decimal">
+<li>Fasting blood glucose (mmol/L) is classified as <strong>normal</strong> below 5.6, <strong>prediabetes</strong> from 5.6 up to 7.0, and <strong>diabetes</strong> from 7.0. Write an <code>if</code> / <code>else if</code> / <code>else</code> that classifies one value. Test it with 5.2, 6.1 and 7.4.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317272318" aria-expanded="false" aria-controls="acc2026110317272318">
+</button>
+</p>
+<div id="acc2026110317272318" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>glucose &lt;- 6.1
+if (glucose &gt;= 7.0) {
+  &quot;diabetes&quot;
+} else if (glucose &gt;= 5.6) {
+  &quot;prediabetes&quot;
+} else {
+  &quot;normal&quot;
+}</code></pre>
+<pre><code>## [1] &quot;prediabetes&quot;</code></pre>
+</div>
+</div>
+<ol start="7" style="list-style-type: decimal">
+<li>Classify all patients below, first with a <code>for</code> loop and then with nested <code>ifelse()</code>. Count how many patients fall in each class with <code>table()</code>.</li>
+</ol>
+<pre class="r"><code>glucose_all &lt;- c(5.2, 6.1, 7.4, 4.9, 5.6, 8.2, 6.9, 5.0)</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317279833" aria-expanded="false" aria-controls="acc2026110317279833">
+</button>
+</p>
+<div id="acc2026110317279833" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>class_loop &lt;- character(length(glucose_all))
+for (i in seq_along(glucose_all)) {
+  if (glucose_all[i] &gt;= 7.0) {
+    class_loop[i] &lt;- &quot;diabetes&quot;
+  } else if (glucose_all[i] &gt;= 5.6) {
+    class_loop[i] &lt;- &quot;prediabetes&quot;
   } else {
-      sum.vec[i]&lt;-sum(nchar(dfr2[,i]))
+    class_loop[i] &lt;- &quot;normal&quot;
   }
 }
-sum.vec</code></pre>
-<pre><code>## [1] 55 15  6</code></pre>
+class_loop
+
+class_vec &lt;- ifelse(glucose_all &gt;= 7.0, &quot;diabetes&quot;,
+                    ifelse(glucose_all &gt;= 5.6, &quot;prediabetes&quot;, &quot;normal&quot;))
+identical(class_loop, class_vec)
+table(class_vec)</code></pre>
+<pre><code>## [1] &quot;normal&quot;      &quot;prediabetes&quot; &quot;diabetes&quot;    &quot;normal&quot;      &quot;prediabetes&quot;
+## [6] &quot;diabetes&quot;    &quot;prediabetes&quot; &quot;normal&quot;     
+## [1] TRUE
+## class_vec
+##    diabetes      normal prediabetes 
+##           2           3           3</code></pre>
 </div>
 </div>
-<ol start="6" style="list-style-type: decimal">
-<li><strong>Extra exercise-functions</strong>. Create a function that will convert time in hours to time in minutes. The function should take a single argument, a numeric value of hours, and return a numeric value of minutes. Add an if clause inside of the function that will stop running the function and give an error if the hours provided are negative.
-<details>
-<summary>
-<strong>Tip?</strong>
-</summary>
-You can read the documentation of the <code>stop()</code> function by typing <code>?stop</code> in the R console.
-</details></li>
+<ol start="8" style="list-style-type: decimal">
+<li>Here is a sample sheet with columns of different types:</li>
 </ol>
+<pre class="r"><code>sheet &lt;- data.frame(
+  sample   = c(&quot;liver_1&quot;, &quot;liver_2&quot;, &quot;brain_1&quot;, &quot;brain_2&quot;),
+  rin      = c(8.4, 7.9, 6.2, 9.1),
+  reads_m  = c(21.4, 18.9, 25.2, 9.7),
+  passed   = c(TRUE, TRUE, FALSE, TRUE)
+)</code></pre>
+<p>Loop over the <strong>columns</strong>. For each column, report:
+- the <strong>mean</strong> if it is numeric,
+- the <strong>number of <code>TRUE</code></strong> values if it is logical,
+- the <strong>number of different values</strong> if it is character.</p>
+<p>Hint: <code>is.numeric()</code>, <code>is.logical()</code>, <code>is.character()</code>; <code>sheet[[j]]</code> gets column <code>j</code> as a vector.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110213485080" aria-expanded="false" aria-controls="acc2026110213485080">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317278521" aria-expanded="false" aria-controls="acc2026110317278521">
 </button>
 </p>
-<div id="acc2026110213485080" class="collapse">
+<div id="acc2026110317278521" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>hours_to_mins &lt;- function(hours) {
-  if (hours &lt; 0) {
-    stop(&quot;Hours cannot be negative&quot;)
+<pre class="r"><code>for (j in seq_along(sheet)) {
+  column &lt;- sheet[[j]]
+  if (is.numeric(column)) {
+    cat(names(sheet)[j], &quot;: mean&quot;, mean(column), &quot;\n&quot;)
+  } else if (is.logical(column)) {
+    cat(names(sheet)[j], &quot;:&quot;, sum(column), &quot;TRUE\n&quot;)
+  } else {
+    cat(names(sheet)[j], &quot;:&quot;, length(unique(column)), &quot;different values\n&quot;)
   }
-  minutes &lt;- hours * 60
-  return(minutes)
-}
-
-hours_to_mins(3.2)
-#Now test it with a negative hour value
-hours_to_mins(-3.26)</code></pre>
-<pre><code>## Error in hours_to_mins(-3.26): Hours cannot be negative</code></pre>
-<pre><code>## [1] 192</code></pre>
+}</code></pre>
+<pre><code>## sample : 4 different values
+## rin : mean 7.9 
+## reads_m : mean 18.8 
+## passed : 3 TRUE</code></pre>
 </div>
 </div>
-<ol start="6" style="list-style-type: decimal">
-<li>In all loops that we tried out we have created the variable where the output is saved outside the loop. Why is this?
-</br>
-</br></li>
+</div>
+<div id="functions" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Functions</h1>
+<ol start="9" style="list-style-type: decimal">
+<li>Write a function <code>cells_per_ml()</code> that converts an OD600 value into cells per mL. Use an argument <code>factor</code> with the default value <code>8e8</code> (cells/mL per OD unit). Test it on <code>c(0.2, 0.5, 1.1)</code>, then with <code>factor = 5e8</code> for a different species.</li>
 </ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317273364" aria-expanded="false" aria-controls="acc2026110317273364">
+</button>
+</p>
+<div id="acc2026110317273364" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>cells_per_ml &lt;- function(od, factor = 8e8) {
+  od * factor
+}
+cells_per_ml(c(0.2, 0.5, 1.1))
+cells_per_ml(c(0.2, 0.5, 1.1), factor = 5e8)</code></pre>
+<pre><code>## [1] 1.6e+08 4.0e+08 8.8e+08
+## [1] 1.0e+08 2.5e+08 5.5e+08</code></pre>
 </div>
-<div id="extra-material" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Extra material</h1>
-<p>Do you want to expand on loops, if-else clauses, and functions? Here a bit more extra material!</p>
-<details>
-<summary>
-<strong>Extra material: The switch function</strong>
-</summary>
-<p>If-else clauses operate on logical values. What if we want to take decisions based on non-logical values? Well, if-else will still work by evaluating a number of comparisons, but we can also use <strong>switch</strong>:</p>
-<pre class="r"><code>switch.demo &lt;- function(x) {
-  switch(class(x),
-         logical = cat(&#39;logical\n&#39;),
-         numeric = cat(&#39;Numeric\n&#39;),
-         factor = cat(&#39;Factor\n&#39;),
-         cat(&#39;Undefined\n&#39;)
-         )
-}
-switch.demo(x=TRUE)
-switch.demo(x=15)
-switch.demo(x=factor(&#39;a&#39;))
-switch.demo(data.frame())</code></pre>
-<pre><code>## logical
-## Numeric
-## Factor
-## Undefined</code></pre>
-</details>
-<details>
-<summary>
-<strong>Extra material: The ellipsis argument trick</strong>
-</summary>
-<p>What if the authors of, e.g. plot.something wrapper forgot about the <code>...</code>?</p>
-<pre class="r"><code>my.plot &lt;- function(x, y) { # Passing downstrem
-  plot(x, y, las=1, cex.axis=.8, ...)
-}
-# you can update the function adding the ellipsis like this
-formals(my.plot) &lt;- c(formals(my.plot), alist(... = ))
-my.plot(1, 1, col=&#39;red&#39;, pch=19)</code></pre>
-<p><img src="lab_loops_files/figure-html/fns.3dots.trick-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
-</details>
-<details>
-<summary>
-<strong>Extra material: Infix notations</strong>
-</summary>
-<p>Operators like <code>+</code>, <code>-</code> or <code>*</code> are using the so-called <strong>infix</strong> functions, where the function name is between arguments. We can define our own:</p>
-<pre class="r"><code>`%p%` &lt;- function(x, y) {
-  paste(x,y)
-}
-&#39;a&#39; %p% &#39;b&#39;</code></pre>
-<pre><code>## [1] &quot;a b&quot;</code></pre>
-</details>
 </div>
-<div id="cheatsheet" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Cheatsheet</h1>
-<table style="width:100%;">
+<ol start="10" style="list-style-type: decimal">
+<li>Write a function <code>molarity()</code> that calculates the concentration (mol/L) of a solution from the <strong>mass</strong> of compound (g), its <strong>molecular weight</strong> (g/mol) and the <strong>volume</strong> (L). It should stop with a clear error message if the volume is zero or negative. Test it: 5.844 g of NaCl (58.44 g/mol) in 0.5 L should give 0.2 mol/L.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317271891" aria-expanded="false" aria-controls="acc2026110317271891">
+</button>
+</p>
+<div id="acc2026110317271891" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>molarity &lt;- function(mass_g, mw, volume_l) {
+  if (volume_l &lt;= 0) {
+    stop(&quot;volume_l must be positive&quot;)
+  }
+  (mass_g / mw) / volume_l
+}
+molarity(5.844, 58.44, 0.5)
+molarity(5.844, 58.44, 0)</code></pre>
+<pre><code>## Error in molarity(5.844, 58.44, 0): volume_l must be positive</code></pre>
+<pre><code>## [1] 0.2</code></pre>
+</div>
+</div>
+<ol start="11" style="list-style-type: decimal">
+<li>Write a function <code>replicate_summary()</code> that takes a vector of replicate measurements and returns their <strong>mean</strong>, <strong>standard deviation</strong> and <strong>coefficient of variation</strong> (CV = sd / mean × 100, in %) as a named vector. Add an argument <code>na.rm</code> with the default <code>TRUE</code> and pass it on to <code>mean()</code> and <code>sd()</code>. Test it on the replicates below.</li>
+</ol>
+<pre class="r"><code>replicates &lt;- c(12.1, 11.8, NA, 12.6, 12.3)</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317271264" aria-expanded="false" aria-controls="acc2026110317271264">
+</button>
+</p>
+<div id="acc2026110317271264" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>replicate_summary &lt;- function(x, na.rm = TRUE) {
+  m &lt;- mean(x, na.rm = na.rm)
+  s &lt;- sd(x, na.rm = na.rm)
+  c(mean = m, sd = s, cv = s / m * 100)
+}
+round(replicate_summary(replicates), 2)
+replicate_summary(replicates, na.rm = FALSE)</code></pre>
+<pre><code>##  mean    sd    cv 
+## 12.20  0.34  2.76 
+## mean   sd   cv 
+##   NA   NA   NA</code></pre>
+</div>
+</div>
+<ol start="12" style="list-style-type: decimal">
+<li>Turn your loop from exercise 8 into a function <code>describe_columns()</code> that takes any data frame. Test it on <code>sheet</code>, and on the built-in <code>ToothGrowth</code> data set (it has a factor column: what happens to it?).</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317276708" aria-expanded="false" aria-controls="acc2026110317276708">
+</button>
+</p>
+<div id="acc2026110317276708" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>describe_columns &lt;- function(df) {
+  for (j in seq_along(df)) {
+    column &lt;- df[[j]]
+    if (is.numeric(column)) {
+      cat(names(df)[j], &quot;: mean&quot;, mean(column), &quot;\n&quot;)
+    } else if (is.logical(column)) {
+      cat(names(df)[j], &quot;:&quot;, sum(column), &quot;TRUE\n&quot;)
+    } else {
+      cat(names(df)[j], &quot;:&quot;, length(unique(column)), &quot;different values\n&quot;)
+    }
+  }
+}
+describe_columns(sheet)
+describe_columns(ToothGrowth)   # a factor is not numeric or logical, so it ends up in &quot;else&quot;</code></pre>
+<pre><code>## sample : 4 different values
+## rin : mean 7.9 
+## reads_m : mean 18.8 
+## passed : 3 TRUE
+## len : mean 18.81333 
+## supp : 2 different values
+## dose : mean 1.166667</code></pre>
+</div>
+</div>
+<ol start="13" style="list-style-type: decimal">
+<li>Predict the output of each line, then run the code. Explain the result in your journal.</li>
+</ol>
+<pre class="r"><code>dilution &lt;- 10
+make_dilution &lt;- function(conc) {
+  dilution &lt;- 100
+  conc / dilution
+}</code></pre>
+<pre class="r"><code>make_dilution(500)
+dilution</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317270337" aria-expanded="false" aria-controls="acc2026110317270337">
+</button>
+</p>
+<div id="acc2026110317270337" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>make_dilution(500)   # uses the local dilution = 100
+dilution             # still 10: the function&#39;s variables stay inside it</code></pre>
+<pre><code>## [1] 5
+## [1] 10</code></pre>
+</div>
+</div>
+</div>
+<div id="all-together" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> All together</h1>
+<ol start="14" style="list-style-type: decimal">
+<li>The restriction enzyme <em>DpnI</em> cuts at the site <code>GATC</code>. Write a function <code>count_site(dna, site)</code> that counts how often <code>site</code> occurs in a DNA sequence. Use a <code>for</code> loop over every position, <code>substr()</code> to extract a piece of the same length as <code>site</code>, and <code>if</code> to check whether it matches. Test it on <code>"GATCGATCAAGATC"</code> (3 sites), then make <code>site</code> default to <code>"GATC"</code>.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317270721" aria-expanded="false" aria-controls="acc2026110317270721">
+</button>
+</p>
+<div id="acc2026110317270721" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>count_site &lt;- function(dna, site = &quot;GATC&quot;) {
+  n &lt;- 0
+  len &lt;- nchar(site)
+  for (pos in 1:(nchar(dna) - len + 1)) {
+    if (substr(dna, pos, pos + len - 1) == site) {
+      n &lt;- n + 1
+    }
+  }
+  n
+}
+count_site(&quot;GATCGATCAAGATC&quot;)
+count_site(&quot;GATCGATCAAGATC&quot;, site = &quot;AAG&quot;)</code></pre>
+<pre><code>## [1] 3
+## [1] 1</code></pre>
+</div>
+</div>
+<ol start="15" style="list-style-type: decimal">
+<li>Use <code>count_site()</code> in a loop to count <code>GATC</code> sites in each of these sequences. Store the results in a named vector. Which sequence has the most sites?</li>
+</ol>
+<pre class="r"><code>fragments &lt;- c(frag1 = &quot;AAGATCTTGATCCA&quot;, frag2 = &quot;GGGCCCAAATTT&quot;,
+               frag3 = &quot;GATCGATCGATCGA&quot;, frag4 = &quot;TTGATCAA&quot;)</code></pre>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317279682" aria-expanded="false" aria-controls="acc2026110317279682">
+</button>
+</p>
+<div id="acc2026110317279682" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>n_sites &lt;- numeric(length(fragments))
+names(n_sites) &lt;- names(fragments)
+for (i in seq_along(fragments)) {
+  n_sites[i] &lt;- count_site(fragments[i])
+}
+n_sites
+names(n_sites)[n_sites == max(n_sites)]</code></pre>
+<pre><code>## frag1 frag2 frag3 frag4 
+##     2     0     3     1 
+## [1] &quot;frag3&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="cheatsheet" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Cheatsheet</h1>
+<table>
 <colgroup>
-<col width="25%" />
-<col width="22%" />
-<col width="30%" />
-<col width="22%" />
+<col width="50%" />
+<col width="50%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Function</th>
-<th>Purpose</th>
-<th>Key Points</th>
-<th>Example</th>
+<th align="left">Task</th>
+<th align="left">Code</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>nrow()</code></td>
-<td>Number of rows</td>
-<td>Works on data frames, matrices</td>
-<td><code>nrow(df)</code></td>
+<td align="left">Loop over values</td>
+<td align="left"><code>for (x in values) { ... }</code></td>
 </tr>
 <tr class="even">
-<td><code>ncol()</code></td>
-<td>Number of columns</td>
-<td>Works on data frames, matrices</td>
-<td><code>ncol(df)</code></td>
+<td align="left">Loop over positions</td>
+<td align="left"><code>for (i in seq_along(x)) { ... }</code></td>
 </tr>
 <tr class="odd">
-<td><code>dim()</code></td>
-<td>Dimensions (rows, cols)</td>
-<td>Returns vector <code>c(nrow, ncol)</code></td>
-<td><code>dim(df)</code></td>
+<td align="left">Create a result vector first</td>
+<td align="left"><code>result &lt;- numeric(n)</code>, <code>character(n)</code></td>
 </tr>
 <tr class="even">
-<td><code>nchar()</code></td>
-<td>Number of characters in strings</td>
-<td>Vectorised over character vectors</td>
-<td><code>nchar(c("abc", "hello"))</code></td>
+<td align="left">Loop while a condition holds</td>
+<td align="left"><code>while (condition) { ... }</code></td>
 </tr>
 <tr class="odd">
-<td><code>sum()</code></td>
-<td>Sum of values</td>
-<td><code>na.rm = TRUE</code> to ignore NA</td>
-<td><code>sum(c(1, 2, NA), na.rm = TRUE)</code></td>
+<td align="left">Decide</td>
+<td align="left"><code>if (cond) { ... } else if (cond2) { ... } else { ... }</code></td>
 </tr>
 <tr class="even">
-<td><code>rowSums()</code></td>
-<td>Sum of each row</td>
-<td>Works on numeric matrices/data frames</td>
-<td><code>rowSums(df)</code></td>
+<td align="left">Decide for a whole vector</td>
+<td align="left"><code>ifelse(cond, yes, no)</code></td>
 </tr>
 <tr class="odd">
-<td><code>apply()</code></td>
-<td>Apply function over rows/columns</td>
-<td><code>apply(X, MARGIN, FUN)</code> where <code>MARGIN = 1</code> (rows) or <code>2</code> (cols)</td>
-<td><code>apply(df, 2, mean)</code></td>
+<td align="left">Write a function</td>
+<td align="left"><code>f &lt;- function(x, y = 1) { ...; result }</code></td>
 </tr>
 <tr class="even">
-<td><code>sapply()</code></td>
-<td>Simplifying lapply output</td>
-<td>Returns vector/matrix if possible</td>
-<td><code>sapply(df, class)</code></td>
+<td align="left">Stop with an error</td>
+<td align="left"><code>stop("message")</code></td>
 </tr>
 <tr class="odd">
-<td><code>lapply()</code></td>
-<td>Apply function to each element of a list</td>
-<td>Returns a list</td>
-<td><code>lapply(df, mean)</code></td>
+<td align="left">Return several values</td>
+<td align="left"><code>c(a = ..., b = ...)</code> or <code>list(...)</code></td>
 </tr>
 <tr class="even">
-<td><code>identical()</code></td>
-<td>Check exact equality</td>
-<td>Stricter than <code>==</code>, checks type + value</td>
-<td><code>identical(1, 1L)</code></td>
+<td align="left">Check a type</td>
+<td align="left"><code>is.numeric()</code>, <code>is.character()</code>, <code>is.logical()</code></td>
 </tr>
 <tr class="odd">
-<td><code>is.numeric()</code></td>
-<td>Check if an object is numeric</td>
-<td>Returns TRUE/FALSE</td>
-<td><code>is.numeric(3.14)</code></td>
-</tr>
-<tr class="even">
-<td><code>data.frame()</code></td>
-<td>Create a data frame</td>
-<td><code>stringsAsFactors=FALSE</code> for R &lt; 4.0</td>
-<td><code>data.frame(x=1:3, y=c("a","b","c"))</code></td>
+<td align="left">Time some code</td>
+<td align="left"><code>system.time({ ... })</code></td>
 </tr>
 </tbody>
 </table>
-<!--
-7. <i class="fas fa-exclamation-circle"></i> **Advanced:** At the lecture an approach to calculate factorials were implemented using recursion (function calling itself). Here we instead will have a go at generating Fibonacci numbers. A fibonacci number is part of a series of number with the following properties:
-
-The first two numbers in the Fibonacci sequence are either 1 and 1, or 0 and 1, depending on the chosen starting point of the sequence, and each subsequent number is the sum of the previous two. Hence:
-
-`0, 1, 1, 2, 3, 5, 8, 13, 21, ...`
-
-or
-
-`1, 1, 2, 3, 5, 8, 13, 21, ...`
-
-Try to generate such a series using a recursive approach.
--->
 </div>
 
 

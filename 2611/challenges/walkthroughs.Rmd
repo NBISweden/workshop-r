@@ -1,0 +1,422 @@
+<!--
+Solution walkthroughs for the daily challenges on home_challenges.Rmd.
+
+This file is NOT rendered on its own. Each walkthrough starts with a marker line
+(a comment with "walkthrough:" and an id, see below) and ends at the next marker.
+The page cuts out one section at a time with knit_walkthrough("<id>").
+
+Rules for each section:
+- it must create a variable called `answer`, in exactly the format students type
+  (the answer box is built from it);
+- chunk labels must be unique in the whole file (use a prefix per challenge);
+- data paths are relative to the repo root, e.g. "data/challenges/primers.csv";
+- headings start at level 5 (#####).
+
+To add a challenge:
+1. Add a new section at the end, starting with a marker line like the others,
+   with a new id (letters, digits, - or _).
+2. In home_challenges.Rmd, copy one challenge card (from the "=== ... ===" comment to
+   the closing ":::"), and change the id in knit_walkthrough(), answer_box() and
+   walkthrough_block(), the texts, the hints and the example answer.
+3. If it needs data, add a section to data/challenges/generate_challenges.R.
+-->
+
+
+<!-- walkthrough: colonies -->
+<!-- Monday: Countable Colonies -->
+
+```{r cc-data, include=FALSE}
+source("data/challenges/colonies.R")
+```
+
+##### Step 1: Look at the data
+
+```{r cc-look}
+colonies
+typeof(colonies)
+```
+
+The counts are **text**, because of the `"TNTC"` plates (too numerous to count).
+
+##### Step 2: Turn the counts into numbers
+
+```{r cc-numeric}
+counts <- as.numeric(colonies)   # "TNTC" becomes NA, with a warning
+counts
+```
+
+##### Step 3: Keep only the countable plates
+
+```{r cc-countable}
+countable <- !is.na(counts) & counts >= 30 & counts <= 300
+countable
+sum(countable)
+```
+
+The plate with 16 colonies is too sparse to count reliably, so it's out.
+
+##### Step 4: CFU per mL for each countable plate
+
+CFU/mL = colonies ÷ (dilution × volume plated):
+
+```{r cc-cfu}
+cfu_per_ml <- counts[countable] / (dilution[countable] * volume_ml)
+cfu_per_ml
+```
+
+##### Step 5: Mean, log10, round
+
+```{r cc-answer-calc}
+mean_cfu <- mean(cfu_per_ml)
+mean_cfu
+round(log10(mean_cfu), 2)
+```
+
+```{r cc-answer, include=FALSE}
+answer <- sprintf("%.2f", round(log10(mean_cfu), 2))
+```
+
+**The answer is `r answer`**, i.e. about `r format(signif(mean_cfu, 2), scientific = TRUE)` CFU/mL.
+
+##### The traps
+
+Using every plate with a number, including the one with 16 colonies:
+
+```{r cc-trap1}
+all_plates <- !is.na(counts)
+round(log10(mean(counts[all_plates] / (dilution[all_plates] * volume_ml))), 2)
+```
+
+Forgetting the plated volume (0.1 mL) gives a result 10 times too small:
+
+```{r cc-trap2}
+round(log10(mean(counts[countable] / dilution[countable])), 2)
+```
+
+**Lessons:** text in a numeric column turns everything into text; vectors of the same length line up element by element (each count with its own dilution); a logical vector selects the elements you want.
+
+
+<!-- walkthrough: mice -->
+<!-- Tuesday: Mouse Mismatch -->
+
+##### Step 1: Read and look
+
+Read both tables (the same files as in "Get the data") and look at them:
+
+```{r mm-read}
+weights   <- read.csv2("data/challenges/mouse_weights.csv")
+genotypes <- read.csv("data/challenges/mouse_genotypes.csv")
+head(weights)
+head(genotypes)
+```
+
+The mice are in a **different order** in the two tables, so we can't just put the columns side by side.
+
+##### Step 2: Check that the IDs match
+
+Before merging, check that every ID appears in both tables:
+
+```{r mm-ids}
+weights$id %in% genotypes$id                   # is each weight ID in the genotype table?
+weights$id[!weights$id %in% genotypes$id]      # which one isn't?
+genotypes$id[!genotypes$id %in% weights$id]
+```
+
+`m07` was typed in lower case. Fix it with `toupper()`:
+
+```{r mm-fix}
+genotypes$id <- toupper(genotypes$id)
+all(weights$id %in% genotypes$id)
+```
+
+##### Step 3: Merge by ID
+
+```{r mm-merge}
+mice <- merge(weights, genotypes, by = "id")
+nrow(mice)          # all 20 mice
+head(mice)
+```
+
+##### Step 4: Compare KO and WT
+
+```{r mm-means}
+mean_ko <- mean(mice$weight_g[mice$genotype == "KO"])
+mean_wt <- mean(mice$weight_g[mice$genotype == "WT"])
+mean_ko
+mean_wt
+round(mean_ko - mean_wt, 2)
+```
+
+```{r mm-answer, include=FALSE}
+answer <- sprintf("%.2f", round(mean_ko - mean_wt, 2))
+```
+
+**The answer is `r answer`**: knockout mice are about `r answer` g heavier.
+
+<details>
+  <summary>The same with the tidyverse</summary>
+```{r mm-tidy, message=FALSE}
+library(dplyr)
+genotypes |>
+  mutate(id = toupper(id)) |>
+  inner_join(weights, by = "id") |>
+  group_by(genotype) |>
+  summarise(n = n(), mean_weight = mean(weight_g))
+```
+</details>
+
+##### The traps
+
+Putting the columns side by side matches mice **by position**, so the genotypes end up attached to the wrong mice:
+
+```{r mm-trap1}
+wrong <- data.frame(weight_g = weights$weight_g, genotype = genotypes$genotype)
+round(mean(wrong$weight_g[wrong$genotype == "KO"]) -
+      mean(wrong$weight_g[wrong$genotype == "WT"]), 2)
+```
+
+Merging without fixing `m07` silently drops one mouse:
+
+```{r mm-trap2}
+mice19 <- merge(weights, read.csv("data/challenges/mouse_genotypes.csv"), by = "id")
+nrow(mice19)
+round(mean(mice19$weight_g[mice19$genotype == "KO"]) -
+      mean(mice19$weight_g[mice19$genotype == "WT"]), 2)
+```
+
+**Lessons:** merge by ID, never by position. After a merge, check the number of rows.
+
+**Coming on Wednesday:** is a difference of `r answer` g real, or could it be chance? The statistics lecture shows how to test it, e.g. with `t.test(weight_g ~ genotype, data = mice)`.
+
+<!-- walkthrough: primers -->
+<!-- Wednesday: Primer Pairs -->
+
+##### Step 1: Read and inspect
+
+```{r pp-read}
+primers <- read.csv("data/challenges/primers.csv")   # the same file as in "Get the data"
+str(primers)
+table(primers$direction)
+```
+
+`table()` shows a problem: a few directions were typed as `r`, not `R`. Are the sequences all in upper case? Compare each one with its upper-case version:
+
+```{r pp-messy}
+primers$sequence[primers$sequence != toupper(primers$sequence)]
+```
+
+##### Step 2: Clean the data
+
+```{r pp-clean}
+primers$direction <- toupper(primers$direction)
+primers$sequence  <- toupper(primers$sequence)
+table(primers$direction)
+```
+
+##### Step 3: Write a function for one primer
+
+Go through the sequence base by base with a `for` loop, and count the bases:
+
+```{r pp-functions}
+primer_stats <- function(seq) {
+  n_gc <- 0
+  n_at <- 0
+  for (i in 1:nchar(seq)) {
+    base <- substr(seq, i, i)
+    if (base == "G" | base == "C") n_gc <- n_gc + 1
+    if (base == "A" | base == "T") n_at <- n_at + 1
+  }
+  gc <- 100 * n_gc / nchar(seq)
+  tm <- 2 * n_at + 4 * n_gc
+  c(gc = gc, tm = tm)
+}
+
+primer_stats("GGCCAATT")   # test on a sequence where you know the answer: 50 % GC, Tm 24
+```
+
+##### Step 4: Use the function on every primer
+
+A second loop goes through the rows:
+
+```{r pp-apply}
+primers$gc <- NA
+primers$tm <- NA
+for (i in 1:nrow(primers)) {
+  stats <- primer_stats(primers$sequence[i])
+  primers$gc[i] <- stats["gc"]
+  primers$tm[i] <- stats["tm"]
+}
+head(primers)
+```
+
+##### Step 5: Put forward and reverse primers side by side
+
+`merge()` by target. Columns from the forward primers get `.x`, columns from the reverse primers get `.y`:
+
+```{r pp-pairs}
+fwd <- primers[primers$direction == "F", ]
+rev <- primers[primers$direction == "R", ]
+pairs <- merge(fwd, rev, by = "target")
+nrow(pairs)
+```
+
+##### Step 6: Apply the rules
+
+```{r pp-rules}
+pass <- pairs$gc.x >= 40 & pairs$gc.x <= 60 &
+        pairs$gc.y >= 40 & pairs$gc.y <= 60 &
+        pairs$tm.x >= 52 & pairs$tm.x <= 60 &
+        pairs$tm.y >= 52 & pairs$tm.y <= 60 &
+        abs(pairs$tm.x - pairs$tm.y) <= 2
+sum(pass)
+
+good <- pairs[pass, ]
+good$mean_tm <- (good$tm.x + good$tm.y) / 2
+good <- good[order(good$mean_tm, decreasing = TRUE), ]
+good[, c("target", "tm.x", "tm.y", "mean_tm")]
+```
+
+```{r pp-answer, include=FALSE}
+answer <- paste0(sum(pass), "-", good$target[1])
+```
+
+**The answer is `r answer`.**
+
+<details>
+  <summary>The same with the tidyverse</summary>
+```{r pp-tidy, message=FALSE}
+library(dplyr)
+clean <- read.csv("data/challenges/primers.csv") |>
+  mutate(direction = toupper(direction),
+         sequence  = toupper(sequence))
+clean$gc <- NA
+clean$tm <- NA
+for (i in 1:nrow(clean)) {
+  stats <- primer_stats(clean$sequence[i])
+  clean$gc[i] <- stats["gc"]
+  clean$tm[i] <- stats["tm"]
+}
+inner_join(filter(clean, direction == "F"), filter(clean, direction == "R"),
+           by = "target") |>
+  filter(gc.x >= 40, gc.x <= 60, gc.y >= 40, gc.y <= 60,
+         tm.x >= 52, tm.x <= 60, tm.y >= 52, tm.y <= 60,
+         abs(tm.x - tm.y) <= 2) |>
+  mutate(mean_tm = (tm.x + tm.y) / 2) |>
+  arrange(desc(mean_tm)) |>
+  select(target, tm.x, tm.y, mean_tm)
+```
+</details>
+
+##### The traps
+
+```{r pp-traps}
+count_pass <- function(p) {
+  for (i in 1:nrow(p)) {
+    stats <- primer_stats(p$sequence[i])
+    p$gc[i] <- stats["gc"]
+    p$tm[i] <- stats["tm"]
+  }
+  m <- merge(p[p$direction == "F", ], p[p$direction == "R", ], by = "target")
+  sum(m$gc.x >= 40 & m$gc.x <= 60 & m$gc.y >= 40 & m$gc.y <= 60 &
+      m$tm.x >= 52 & m$tm.x <= 60 & m$tm.y >= 52 & m$tm.y <= 60 &
+      abs(m$tm.x - m$tm.y) <= 2)
+}
+raw <- read.csv("data/challenges/primers.csv")
+count_pass(raw)                                              # nothing cleaned
+count_pass(transform(raw, sequence = toupper(sequence)))     # directions not fixed
+count_pass(transform(raw, direction = toupper(direction)))   # sequences not fixed
+```
+
+Lower-case bases are not `"G"` or `"C"`, so they aren't counted. A reverse primer typed as `r` is missing when you select `direction == "R"`, so its pair disappears from the merge.
+
+**Lessons:** look at your data (`table()` is great for spotting typos); write a function for one item, test it on input where you know the answer, then loop over all items.
+
+<!-- walkthrough: imposter -->
+<!-- Thursday: Who's the Imposter? -->
+
+```{r im-packages, message=FALSE}
+library(ggplot2)
+```
+
+##### Step 1: Read and check
+
+```{r im-read}
+counts <- read.csv("data/challenges/counts.csv", row.names = 1)   # the same files as in "Get the data"
+sheet  <- read.csv("data/challenges/sample_sheet.csv")
+dim(counts)
+head(sheet)
+all(colnames(counts) %in% sheet$sample)   # do the sample names match?
+```
+
+##### Step 2: Normalise to counts per million (CPM)
+
+Library sizes differ a lot, so raw counts can't be compared between samples:
+
+```{r im-libsize}
+colSums(counts)
+cpm <- t(t(counts) / colSums(counts)) * 1e6
+```
+
+(Dividing a matrix by a vector works row by row, which is why we transpose, divide, and transpose back.)
+
+##### Step 3: Pick out the sex-specific genes
+
+```{r im-sexgenes}
+y_genes <- c("RPS4Y1", "DDX3Y", "KDM5D", "UTY", "EIF1AY")
+sex_expr <- data.frame(sample = colnames(cpm),
+                       XIST   = cpm["XIST", ],
+                       Y_mean = colMeans(cpm[y_genes, ]))
+sex_expr <- merge(sex_expr, sheet, by = "sample")
+sex_expr
+```
+
+##### Step 4: Plot
+
+```{r im-plot, fig.width=6, fig.height=4}
+ggplot(sex_expr, aes(x = XIST, y = Y_mean, colour = sex, label = sample)) +
+  geom_point(size = 3) +
+  geom_text(nudge_y = 15, show.legend = FALSE) +
+  labs(x = "XIST (CPM)", y = "Mean of 5 Y-chromosome genes (CPM)",
+       colour = "Sex in\nsample sheet") +
+  theme_minimal()
+```
+
+Female samples should be bottom right (high *XIST*, no Y genes), male samples top left. One sample labelled `F` sits with the males.
+
+```{r im-find}
+imposter <- sex_expr$sample[sex_expr$sex == "F" & sex_expr$Y_mean > sex_expr$XIST]
+imposter
+round(cpm["RPS4Y1", imposter])
+```
+
+```{r im-answer, include=FALSE}
+answer <- paste0(imposter, "-", round(cpm["RPS4Y1", imposter]))
+```
+
+**The answer is `r answer`.**
+
+##### The trap
+
+Using raw counts instead of CPM gives the wrong number, and makes sample `S09` (a small library) look odd too:
+
+```{r im-trap}
+counts["RPS4Y1", imposter]
+round(colSums(counts) / 1e6, 1)   # library sizes in millions
+```
+
+##### Bonus: the duplicate
+
+Two samples are identical: a file was copied twice. A correlation of exactly 1 gives it away:
+
+```{r im-bonus}
+r <- cor(cpm)
+round(r[c("S07", "S08", "S09", "S10", "S11", "S12"), c("S07", "S08", "S09", "S10", "S11", "S12")], 4)
+```
+
+`S08` and `S11` have a correlation of exactly 1: no two real samples are that similar. The base-graphics heatmap shows it too:
+
+```{r im-heatmap, fig.width=5, fig.height=5}
+heatmap(r, symm = TRUE)
+```
+
+**Lessons:** normalise before comparing samples; check sample labels with biology you know (sex genes are the classic check); plot before you trust.
