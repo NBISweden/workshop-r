@@ -274,10 +274,10 @@ div.tocify {
 reads &lt;- c(21.4, 18.9, 25.2, 9.7, 22.8)   # million reads</code></pre>
 <p>Write a <code>for</code> loop that prints one line per sample, e.g. <code>liver_1: 21.4 million reads</code>.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317200215" aria-expanded="false" aria-controls="acc2026110317200215">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418520215" aria-expanded="false" aria-controls="acc2026110418520215">
 </button>
 </p>
-<div id="acc2026110317200215" class="collapse">
+<div id="acc2026110418520215" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>for (i in seq_along(sample_ids)) {
   cat(sample_ids[i], &quot;: &quot;, reads[i], &quot; million reads\n&quot;, sep = &quot;&quot;)
@@ -295,10 +295,10 @@ reads &lt;- c(21.4, 18.9, 25.2, 9.7, 22.8)   # million reads</code></pre>
 <pre class="r"><code>ct_target &lt;- c(24.3, 25.1, 23.8, 28.9, 29.4, 28.6)
 ct_ref    &lt;- c(18.1, 18.3, 17.9, 18.2, 18.0, 18.4)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317203501" aria-expanded="false" aria-controls="acc2026110317203501">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418523501" aria-expanded="false" aria-controls="acc2026110418523501">
 </button>
 </p>
-<div id="acc2026110317203501" class="collapse">
+<div id="acc2026110418523501" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>rel_amount &lt;- numeric(length(ct_target))
 for (i in seq_along(ct_target)) {
@@ -321,10 +321,10 @@ counts &lt;- matrix(rpois(6000, lambda = 50), nrow = 1000,
                  dimnames = list(paste0(&quot;gene&quot;, 1:1000), paste0(&quot;S&quot;, 1:6)))</code></pre>
 <p>Use a <code>for</code> loop to calculate the total count of each <strong>sample</strong> (each column). Check your result with <code>colSums()</code>.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317205848" aria-expanded="false" aria-controls="acc2026110317205848">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418525848" aria-expanded="false" aria-controls="acc2026110418525848">
 </button>
 </p>
-<div id="acc2026110317205848" class="collapse">
+<div id="acc2026110418525848" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>totals &lt;- numeric(ncol(counts))
 for (j in seq_len(ncol(counts))) {
@@ -343,10 +343,10 @@ all(totals == colSums(counts))</code></pre>
 <li>Why do we create <code>totals</code> before the loop, instead of starting with <code>totals &lt;- c()</code> and adding each new value with <code>totals &lt;- c(totals, ...)</code>? Try both ways with a loop over 100,000 elements and use <code>system.time()</code> to compare.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317203637" aria-expanded="false" aria-controls="acc2026110317203637">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418523637" aria-expanded="false" aria-controls="acc2026110418523637">
 </button>
 </p>
-<div id="acc2026110317203637" class="collapse">
+<div id="acc2026110418523637" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>n &lt;- 1e5
 system.time({
@@ -359,19 +359,19 @@ system.time({
 })
 # Growing copies the whole vector at every step, so it gets slower and slower.</code></pre>
 <pre><code>##    user  system elapsed 
-##   6.106   0.019   6.125 
+##  10.019   0.041  10.061 
 ##    user  system elapsed 
-##   0.003   0.000   0.003</code></pre>
+##   0.006   0.000   0.006</code></pre>
 </div>
 </div>
 <ol start="5" style="list-style-type: decimal">
 <li>A bacterial culture starts with 100 cells and doubles every 20 minutes. Use a <code>while</code> loop to find out how many minutes it takes to reach at least one million cells.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317276481" aria-expanded="false" aria-controls="acc2026110317276481">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418036481" aria-expanded="false" aria-controls="acc2026110418036481">
 </button>
 </p>
-<div id="acc2026110317276481" class="collapse">
+<div id="acc2026110418036481" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>n_cells &lt;- 100
 minutes &lt;- 0
@@ -392,10 +392,10 @@ n_cells</code></pre>
 <li>Fasting blood glucose (mmol/L) is classified as <strong>normal</strong> below 5.6, <strong>prediabetes</strong> from 5.6 up to 7.0, and <strong>diabetes</strong> from 7.0. Write an <code>if</code> / <code>else if</code> / <code>else</code> that classifies one value. Test it with 5.2, 6.1 and 7.4.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317272318" aria-expanded="false" aria-controls="acc2026110317272318">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418032318" aria-expanded="false" aria-controls="acc2026110418032318">
 </button>
 </p>
-<div id="acc2026110317272318" class="collapse">
+<div id="acc2026110418032318" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>glucose &lt;- 6.1
 if (glucose &gt;= 7.0) {
@@ -413,10 +413,10 @@ if (glucose &gt;= 7.0) {
 </ol>
 <pre class="r"><code>glucose_all &lt;- c(5.2, 6.1, 7.4, 4.9, 5.6, 8.2, 6.9, 5.0)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317279833" aria-expanded="false" aria-controls="acc2026110317279833">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418039833" aria-expanded="false" aria-controls="acc2026110418039833">
 </button>
 </p>
-<div id="acc2026110317279833" class="collapse">
+<div id="acc2026110418039833" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>class_loop &lt;- character(length(glucose_all))
 for (i in seq_along(glucose_all)) {
@@ -457,10 +457,10 @@ table(class_vec)</code></pre>
 - the <strong>number of different values</strong> if it is character.</p>
 <p>Hint: <code>is.numeric()</code>, <code>is.logical()</code>, <code>is.character()</code>; <code>sheet[[j]]</code> gets column <code>j</code> as a vector.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317278521" aria-expanded="false" aria-controls="acc2026110317278521">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418038521" aria-expanded="false" aria-controls="acc2026110418038521">
 </button>
 </p>
-<div id="acc2026110317278521" class="collapse">
+<div id="acc2026110418038521" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>for (j in seq_along(sheet)) {
   column &lt;- sheet[[j]]
@@ -485,10 +485,10 @@ table(class_vec)</code></pre>
 <li>Write a function <code>cells_per_ml()</code> that converts an OD600 value into cells per mL. Use an argument <code>factor</code> with the default value <code>8e8</code> (cells/mL per OD unit). Test it on <code>c(0.2, 0.5, 1.1)</code>, then with <code>factor = 5e8</code> for a different species.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317273364" aria-expanded="false" aria-controls="acc2026110317273364">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418033364" aria-expanded="false" aria-controls="acc2026110418033364">
 </button>
 </p>
-<div id="acc2026110317273364" class="collapse">
+<div id="acc2026110418033364" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>cells_per_ml &lt;- function(od, factor = 8e8) {
   od * factor
@@ -503,10 +503,10 @@ cells_per_ml(c(0.2, 0.5, 1.1), factor = 5e8)</code></pre>
 <li>Write a function <code>molarity()</code> that calculates the concentration (mol/L) of a solution from the <strong>mass</strong> of compound (g), its <strong>molecular weight</strong> (g/mol) and the <strong>volume</strong> (L). It should stop with a clear error message if the volume is zero or negative. Test it: 5.844 g of NaCl (58.44 g/mol) in 0.5 L should give 0.2 mol/L.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317271891" aria-expanded="false" aria-controls="acc2026110317271891">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418031891" aria-expanded="false" aria-controls="acc2026110418031891">
 </button>
 </p>
-<div id="acc2026110317271891" class="collapse">
+<div id="acc2026110418031891" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>molarity &lt;- function(mass_g, mw, volume_l) {
   if (volume_l &lt;= 0) {
@@ -525,10 +525,10 @@ molarity(5.844, 58.44, 0)</code></pre>
 </ol>
 <pre class="r"><code>replicates &lt;- c(12.1, 11.8, NA, 12.6, 12.3)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317271264" aria-expanded="false" aria-controls="acc2026110317271264">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418031264" aria-expanded="false" aria-controls="acc2026110418031264">
 </button>
 </p>
-<div id="acc2026110317271264" class="collapse">
+<div id="acc2026110418031264" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>replicate_summary &lt;- function(x, na.rm = TRUE) {
   m &lt;- mean(x, na.rm = na.rm)
@@ -547,10 +547,10 @@ replicate_summary(replicates, na.rm = FALSE)</code></pre>
 <li>Turn your loop from exercise 8 into a function <code>describe_columns()</code> that takes any data frame. Test it on <code>sheet</code>, and on the built-in <code>ToothGrowth</code> data set (it has a factor column: what happens to it?).</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317276708" aria-expanded="false" aria-controls="acc2026110317276708">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418036708" aria-expanded="false" aria-controls="acc2026110418036708">
 </button>
 </p>
-<div id="acc2026110317276708" class="collapse">
+<div id="acc2026110418036708" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>describe_columns &lt;- function(df) {
   for (j in seq_along(df)) {
@@ -586,10 +586,10 @@ make_dilution &lt;- function(conc) {
 <pre class="r"><code>make_dilution(500)
 dilution</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317270337" aria-expanded="false" aria-controls="acc2026110317270337">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418030337" aria-expanded="false" aria-controls="acc2026110418030337">
 </button>
 </p>
-<div id="acc2026110317270337" class="collapse">
+<div id="acc2026110418030337" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>make_dilution(500)   # uses the local dilution = 100
 dilution             # still 10: the function&#39;s variables stay inside it</code></pre>
@@ -604,10 +604,10 @@ dilution             # still 10: the function&#39;s variables stay inside it</co
 <li>The restriction enzyme <em>DpnI</em> cuts at the site <code>GATC</code>. Write a function <code>count_site(dna, site)</code> that counts how often <code>site</code> occurs in a DNA sequence. Use a <code>for</code> loop over every position, <code>substr()</code> to extract a piece of the same length as <code>site</code>, and <code>if</code> to check whether it matches. Test it on <code>"GATCGATCAAGATC"</code> (3 sites), then make <code>site</code> default to <code>"GATC"</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317270721" aria-expanded="false" aria-controls="acc2026110317270721">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418030721" aria-expanded="false" aria-controls="acc2026110418030721">
 </button>
 </p>
-<div id="acc2026110317270721" class="collapse">
+<div id="acc2026110418030721" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>count_site &lt;- function(dna, site = &quot;GATC&quot;) {
   n &lt;- 0
@@ -631,10 +631,10 @@ count_site(&quot;GATCGATCAAGATC&quot;, site = &quot;AAG&quot;)</code></pre>
 <pre class="r"><code>fragments &lt;- c(frag1 = &quot;AAGATCTTGATCCA&quot;, frag2 = &quot;GGGCCCAAATTT&quot;,
                frag3 = &quot;GATCGATCGATCGA&quot;, frag4 = &quot;TTGATCAA&quot;)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317279682" aria-expanded="false" aria-controls="acc2026110317279682">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418039682" aria-expanded="false" aria-controls="acc2026110418039682">
 </button>
 </p>
-<div id="acc2026110317279682" class="collapse">
+<div id="acc2026110418039682" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>n_sites &lt;- numeric(length(fragments))
 names(n_sites) &lt;- names(fragments)

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Brief introduction to statistics</title>
+    <title>(very) Basic statistics in R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Nima Rafati" />
+    <meta name="author" content="Guilherme Dias" />
     <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
     <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -16,13 +16,10 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Brief introduction to statistics
-]
-.subtitle[
-## Statistics
+# (<em>very</em>) Basic statistics in R
 ]
 .author[
-### Nima Rafati
+### Guilherme Dias
 ]
 
 ---
@@ -46,220 +43,393 @@ count: false
 
 
 ---
-name: intro2
+name: anscombe1
 
-# Introduction
+# Four data sets walk into a lab 🧪
 
-**Why do we need statistics in our analysis?**  
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; data_set &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean_x &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean_y &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sd_y &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; cor_xy &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Set 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Set 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Set 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Set 4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
-- Make data understandable and insightful.  
+&lt;br&gt;
 
-- Evaluate patterns and trends.  
+Same means. Same spread. Same correlation.
 
-- Identify and quantify differences/similarities between groups. 
+### ✋ Are these four data sets the same?
 
+---
+name: anscombe2
+class: middle
+
+# Not even close
+
+&lt;img src="slide_r_basic_statistic_files/figure-html/anscombe.plot-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+
+**Anscombe's quartet** (1973). Summary statistics summarise. Plots show.
+
+**Always look at your data.**
+
+---
+name: today
+
+# Today
+
+1. **Describe** one variable: centre and spread
+2. **Relate** two variables: correlation
+3. **Compare** two groups: the t-test
+
+&lt;br&gt;
+
+All with functions you already know how to call: `mean()`, `sd()`, `cor()`, `t.test()`, …
+
+.footnote[Plots here are previews. You'll learn to make them yourself on Thursday.]
+
+---
+name: mean_median
+
+# Centre: mean or median?
+
+Six mice weighed. One weight was typed wrong:
+
+
+``` r
+weight &lt;- c(24.1, 25.3, 23.8, 26.0, 24.7, 251)   # 25.1 typed as 251
+mean(weight)
+median(weight)
+```
+
+```
+## [1] 62.48333
+## [1] 25
+```
 
 --
 
+- **Mean:** the average. Pulled by extreme values.
+- **Median:** the middle value. Robust to outliers.
 
-**Types of statistics:**  
-
-- Descriptive statistics: To summarize and describe main features of a dataset (Mean, median,...).  
-
-- Inferential statistics: To make prediction or inferences about a population using a sample of data (Hypothesis testing, regression analysis,...).  
-
-- Predictive statistics: To make predictions about future outcomes based on collected data (Regression models, time series forecasting, machine learning,...). 
-
-- ......  
-
+.content-box-yellow[
+A mean that looks odd is often a data-entry error. Look before you trust it!
+]
 
 ---
-name: intro2
+name: skewed
 
-In this lecture we will learn basic statistics concepts including:  
+# Skewed data
 
-Descriptive statistics:  
+Expression of one gene in 500 cells: most cells low, a few very high.
 
-- Central tendency: `mean`, `median`, `mode`.  
-- Measures of spread: `range`, `interquartile range`, `variance`, `standard deviation`.  
-- Correlation: `Pearson's correlation`, `Spearman's correlation`.  
+&lt;img src="slide_r_basic_statistic_files/figure-html/skewed-1.png" width="648" style="display: block; margin: auto auto auto 0;" /&gt;
 
-
-
+With skewed data, the median describes a "typical" value better. Common in biology: counts, concentrations, expression.
 
 ---
-name: Descriptive
-# Types of Descriptive Statistics
+name: spread
 
-Descriptive statistics helps to:
+# Spread: range and IQR
 
-- Summarize and describe the data.  
-
-- Visualize the data.   
-
-- Identify patterns (trends) and outliers in the data.     
-
-- Provide insights for downstream-analysis. 
-
----
-name: Mean 
-# Central Tendency: Mean
-- Mean: The average value of data.  
-$$
-\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
-$$
-
-&lt;img src="slide_r_basic_statistic_files/figure-html/Mean-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+Chick weights (g) after six weeks on six different feeds (`chickwts`):
 
 
 ``` r
-mean(data$var1)
-mean(data$var2)
+w &lt;- chickwts$weight
+range(w)
+quantile(w)          # min, Q1, median, Q3, max
+IQR(w)               # Q3 - Q1: the middle 50 %
 ```
 
 ```
-## [1] 47.46736
-## [1] 100.081
+## [1] 108 423
+##    0%   25%   50%   75%  100% 
+## 108.0 204.5 258.0 323.5 423.0 
+## [1] 119
 ```
 
+--
+
+A **boxplot** draws exactly these numbers:
+
+&lt;img src="slide_r_basic_statistic_files/figure-html/boxplot-1.png" width="648" style="display: block; margin: auto auto auto 0;" /&gt;
 
 ---
-name: Median 
+name: sd
 
-# Central Tendency: Median
+# Spread: variance and standard deviation
 
-- Median: The middle value with the data is sorted.
-&lt;img src="slide_r_basic_statistic_files/figure-html/Median-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+How far are values from the mean, on average?
+
+`$$s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2} \qquad \text{variance} = s^2$$`
 
 
 ``` r
-median(data$var1)
-median(data$var2)
+sd(w)      # same unit as the data: grams
+var(w)     # squared unit: grams²
 ```
 
 ```
-## [1] 40.06529
-## [1] 100.0426
+## [1] 78.0737
+## [1] 6095.503
 ```
+
+--
+
+For roughly normal data: about **68 %** of values lie within 1 SD of the mean, **95 %** within 2 SD.
+
+.footnote[R divides by n − 1 (the *sample* SD), which is what you want for data from an experiment.]
 
 ---
-name: Mode
-# Central Tendency: Mode
+name: by_group
 
-- Mode: The most frequently occurring value.    
-&lt;img src="slide_r_basic_statistic_files/figure-html/Mode-plot-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+# Summaries per group
+
+Mean weight for each feed:
 
 
 ``` r
-density_data1 &lt;- density(data$var1)
-density_data1$x[which.max(density_data1$y)]
-density_data2 &lt;- density(data$var2)
-density_data2$x[which.max(density_data2$y)]
+tapply(chickwts$weight, chickwts$feed, mean)
 ```
 
 ```
-## [1] 26.8621
-## [1] 100.6456
+##    casein horsebean   linseed  meatmeal   soybean sunflower 
+##  323.5833  160.2000  218.7500  276.9091  246.4286  328.9167
 ```
----
-name: Spread
-# Measures of spread: Range and Interquartile Range. 
-- Range: Difference between maximum `max(data$var2)`  and minimum `min(data$var2)`.  
-- Interquartile Range: Data is represented in four equally sized groups (bins) known as **Quartile** and the distance between quartile is called **Interquartile Range** (IQR).    
 
-&lt;img src="slide_r_basic_statistic_files/figure-html/range-1.png" width="504" style="display: block; margin: auto auto auto 0;" /&gt;
+--
 
----
-name: Variance
-# Measures of spread: Variance 
+The same with the tidyverse:
 
-- Variance: How far the data points are spread out from the mean. Unit is the square of the data's unit (e.g. `\(cm^2\)` ). 
-
-$$
-\sigma^2 = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2
-$$
 
 ``` r
-var(data$var2)
+library(dplyr)
+chickwts |&gt;
+  group_by(feed) |&gt;
+  summarise(n = n(), mean = mean(weight), sd = sd(weight))
 ```
 
 ```
-## [1] 395.8689
+## # A tibble: 6 × 4
+##   feed          n  mean    sd
+##   &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 casein       12  324.  64.4
+## 2 horsebean    10  160.  38.6
+## 3 linseed      12  219.  52.2
+## 4 meatmeal     11  277.  64.9
+## 5 soybean      14  246.  54.1
+## 6 sunflower    12  329.  48.8
 ```
+
 ---
-name: Stdev
-# Measures of spread: Standard deviation
+name: missing
 
-- Standard deviation (sd): is the square root of the variance and provides a more intuitive measure of spread. Despite of variance, sd has the same unit as the data (e.g. cm). 
+# Missing values
 
-$$
-\sigma =\sqrt{\sigma^2}
-$$
+Most summary functions return `NA` if any value is missing:
 
-&lt;img src="slide_r_basic_statistic_files/figure-html/sd-plot-1.png" width="504" style="display: block; margin: auto auto auto 0;" /&gt;
+
+``` r
+x &lt;- c(5.1, 4.8, NA, 5.6)
+mean(x)
+mean(x, na.rm = TRUE)
+sd(x, na.rm = TRUE)
+```
+
+```
+## [1] NA
+## [1] 5.166667
+## [1] 0.4041452
+```
+
+.content-box-yellow[
+Before you remove them: **how many** values are missing, and **why**? `sum(is.na(x))`
+]
+
 ---
 name: correlation
-# Correlation
 
-- Measuring the strength and direction of the **linear**  relationship between two variables.  
+# Relate: correlation
 
-  - Positive Correlation: As one variable increases, the other also increases.
-  
-  - Negative Correlation: As one variable increases, the other decreases.
-  
-  - No Correlation: No directional relationship between the variables.
-  
----
-name: Pearson
-# Types of correlation 
-- Pearson's correlation coefficient: Correlation of two **continuous** variables.
-- Assumptions:  
-   - Linear relationship. 
-   - Normally distributed variables.  
+How strongly do two variables move together? From −1 to +1.
 
-&lt;img src="slide_r_basic_statistic_files/figure-html/pearson-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;img src="slide_r_basic_statistic_files/figure-html/cor.plot-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
 
-$$
-r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2 \sum (y_i - \bar{y})^2}}
-$$
 
+``` r
+cor(trees$Girth, trees$Volume)   # thicker trees hold more wood
+```
+
+```
+## [1] 0.9671194
+```
 
 ---
-name: Spearman
-# Types of correlation 
-- Spearman's rank correlation coefficient: Measures the monotonic relationship between two **ranked** variables.  
-- Assumptions:  
-  - It is a non-parametric approach and does not require the data to be linearly correlated.  
-  - The data is not normally distributed.  
-  - For both conrinuous and ordinal (categorical) variables.  
-&lt;img src="slide_r_basic_statistic_files/figure-html/spearman-1.png" width="576" style="display: block; margin: auto auto auto 0;" /&gt;
+name: spearman
 
-$$
-\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
-$$
+# Pearson or Spearman?
+
+Enzyme reaction rate vs. substrate concentration (`Puromycin`): it rises, then levels off.
+
+&lt;img src="slide_r_basic_statistic_files/figure-html/spearman.plot-1.png" width="648" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+``` r
+cor(pt$conc, pt$rate)                        # Pearson: straight-line relationship
+cor(pt$conc, pt$rate, method = "spearman")   # Spearman: any steady up (or down) trend
+```
+
+```
+## [1] 0.8310362
+## [1] 0.9753198
+```
+
+**Spearman** works on ranks: robust to outliers and curves. **Pearson** assumes a straight line.
+
+---
+name: cor_caveats
+
+# Correlation: three warnings
+
+1. **Plot first.** Anscombe's four data sets all have r = 0.82.
+2. **One outlier** can create or hide a strong Pearson correlation.
+3. **Correlation is not causation.** Ice-cream sales and sunburns are correlated. Neither causes the other: the sun does.
+
+&lt;br&gt;
+
+
+``` r
+cor(c(1, 2, 3, NA), c(2, 4, 7, 8), use = "complete.obs")   # handling NAs
+```
+
+```
+## [1] 0.9933993
+```
+
+---
+name: ttest
+
+# Compare: the t-test 🍺
+
+Invented in 1908 by William Gosset, a chemist at the **Guinness brewery**, who published as "Student". His data are in R: extra hours of sleep with two drugs, in the same 10 patients.
+
+
+``` r
+drug1 &lt;- sleep$extra[sleep$group == 1]
+drug2 &lt;- sleep$extra[sleep$group == 2]
+mean(drug2) - mean(drug1)
+t.test(drug2, drug1)$p.value                  # as if 20 different patients
+t.test(drug2, drug1, paired = TRUE)$p.value   # the same 10 patients
+```
+
+```
+## [1] 1.58
+## [1] 0.07939414
+## [1] 0.00283289
+```
+
+The design matters: pairing removes patient-to-patient differences.
+
+---
+name: pvalue
+
+# What a p-value is (and isn't)
+
+**p-value:** if there were **no real difference**, how likely is a difference at least this large, just by chance?
+
+- p = 0.003: very unlikely by chance alone.
+- p = 0.08: could easily be chance.
+
+--
+
+**It is not:**
+
+- the probability that the result is true;
+- a measure of **how large** or **important** the difference is. Always report the difference itself, e.g. "1.6 h more sleep".
+
+.footnote[By convention, p &lt; 0.05 is called "significant". Test many things and some will be "significant" by chance.]
+
+---
+name: tests
+
+# Which test?
+
+| Comparing | Data roughly normal | Not normal / ranks |
+|:----------|:--------------------|:-------------------|
+| 2 groups | `t.test(x, y)` | `wilcox.test(x, y)` |
+| 2 groups, same subjects | `t.test(x, y, paired = TRUE)` | `wilcox.test(x, y, paired = TRUE)` |
+| 2 numeric variables | `cor.test(x, y)` | `cor.test(x, y, method = "spearman")` |
+
+&lt;br&gt;
+
+The result of a test is a **list**:
+
+
+``` r
+res &lt;- t.test(drug2, drug1, paired = TRUE)
+res$conf.int     # 95 % confidence interval of the difference
+```
+
+```
+## [1] 0.7001142 2.4598858
+## attr(,"conf.level")
+## [1] 0.95
+```
+
 ---
 name: recap
 
-&lt;div style="font-size:60%"&gt; 
-# 🧮 Basic Statistics in R — Summary
+# Recap
 
-| Concept | What it measures | Key R function(s) | Notes / Assumptions |
-|----------|------------------|-------------------|----------------------|
-| **Mean** | Average value (center) | `mean(x)` | Sensitive to outliers |
-| **Median** | Middle value (robust center) | `median(x)` | Robust to skew/outliers |
-| **Mode** | Most frequent value | `names(sort(table(x), TRUE))[1]` | Useful for discrete or multimodal data |
-| **Range** | Full spread (max–min) | `range(x)` or `diff(range(x))` | Very sensitive to extremes |
-| **IQR** | Middle 50% spread | `IQR(x)` | Robust to outliers |
-| **Variance** | Average squared deviation from mean | `var(x)` | Units are squared; measures spread |
-| **Standard Deviation (SD)** | Typical deviation from mean | `sd(x)` | Same unit as data; intuitive measure of spread |
-| **Pearson’s r** | Linear relationship (−1 to 1) | `cor(x, y, method="pearson")` | Continuous, linear, normal assumption |
-| **Spearman’s ρ** | Monotonic relationship (ranks) | `cor(x, y, method="spearman")` | Non-parametric; works for ranked or non-normal data |
+| Question | Use | R |
+|:---------|:----|:--|
+| Typical value? | mean, or median if skewed / outliers | `mean()`, `median()` |
+| How variable? | SD, or IQR if skewed | `sd()`, `IQR()`, `quantile()` |
+| Per group? | summary for each group | `tapply()`, `group_by()` + `summarise()` |
+| Related? | Pearson, or Spearman for ranks/curves | `cor()`, `cor.test()` |
+| Different? | t-test, or Wilcoxon | `t.test()`, `wilcox.test()` |
 
-&lt;div style="font-size:100%"&gt; 
+&lt;br&gt;
 
-# More on statistics?
-- We discussed about very basic descriptive statistical measures.  
-- You can read more [here](https://nbisweden.github.io/workshop-mlbiostatistics/session-descriptive/docs/index.html).    
+**Remember:** plot first, mind the `NA`s, and report the size of an effect, not just its p-value.
+
+.footnote[More statistics: the NBIS course [Introduction to biostatistics and machine learning](https://nbisweden.github.io/workshop-mlbiostatistics/).]
+
 &lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
 
 ---
@@ -267,12 +437,12 @@ name: end_slide
 class: end-slide, middle
 count: false
 
-# See you at the next lecture!  
+# See you at the next lecture!
 
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 03-Nov-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 04-Nov-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 

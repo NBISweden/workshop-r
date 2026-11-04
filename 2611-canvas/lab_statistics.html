@@ -11,7 +11,7 @@
 
 
 
-<title>Basic statistic</title>
+<title>Basic statistics</title>
 
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -244,7 +244,6 @@ div.tocify {
 
 
 
-
 </div>
 
 
@@ -253,446 +252,470 @@ div.tocify {
 <p><br></p>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>In this lab, we will use statistics to gain a deeper understanding and insight into the dataset. Through statistical methods, we can evaluate data quality, identify patterns, and detect any outliers that may be present. You will apply several descriptive measures to explore and summarize the dataset, allowing for a more informed analysis.</p>
+<p>In this lab you will describe, relate and compare data with R:</p>
+<ul>
+<li><strong>describe</strong> a variable with its centre (mean, median) and spread (SD, IQR),</li>
+<li>find <strong>data-entry errors</strong> and handle <strong>missing values</strong>,</li>
+<li>summarise <strong>per group</strong>,</li>
+<li><strong>relate</strong> two variables with Pearson and Spearman correlation,</li>
+<li><strong>compare</strong> two groups with a t-test or a Wilcoxon test.</li>
+</ul>
+<p>You’ll make a few quick plots with <code>hist()</code>, <code>boxplot()</code> and <code>plot()</code>. You’ll learn much more about plotting on Thursday.</p>
+<div class="boxy boxy-lightbulb">
+<p>As always: predict first, then run. If the output surprises you, find out why. Click the key to reveal example code. Keep your code and notes in your <strong>R Markdown learning journal</strong>.</p>
 </div>
-<div id="generating-the-data" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Generating the Data</h1>
-<p>We create a dataset which consists of:<br />
-- Two numerical variables (Normally distributed).<br />
-- Three categorical.</p>
-<strong>Note:</strong> The following chunk has a function by which you generate a random dataset (<code>n</code> samples with <code>[0-100]%</code> <strong>missing data</strong>). You can also adjust these values to create a new dataset. We will talk about <strong>functions</strong> tomorrow.<br />
-
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317273701" aria-expanded="false" aria-controls="acc2026110317273701">
-</button>
-</p>
-<div id="acc2026110317273701" class="collapse">
-<div class="card card-body">
-<pre class="r"><code># Function to generate the data
-generate_dataset &lt;- function(n, na_frac) {
-  
-  # Set seed for reproducibility
-  set.seed(123)
-  
-  # Gender variable
-  Gender &lt;- sample(c(&#39;Male&#39;, &#39;Female&#39;), n, replace = TRUE)
-  
-  # Continuous Variable 1 with shifted distribution between genders
-  Variable_1 &lt;- ifelse(Gender == &#39;Male&#39;, rnorm(n, mean = 55, sd = 10), rnorm(n, mean = 45, sd = 10))
-  
-  # Continuous Variable 2: negative correlation with Variable_1 for one of the sexes
-  Variable_2 &lt;- ifelse(Gender == &#39;Male&#39;, -0.5 * Variable_1 + rnorm(n, mean = 10, sd = 5),
-                       0.5 * Variable_1 + rnorm(n, mean = 10, sd = 5))
-  
-  # Introduce NA values (10% of the data by default)
-  Variable_1[sample(1:n, round(n*na_frac))] &lt;- NA
-  Variable_2[sample(1:n, round(n*na_frac))] &lt;- NA
-  
-  # Introduce outliers
-  Variable_1[c(n)] &lt;- max(Variable_1, na.rm = T) + sd(Variable_1, na.rm = T)
-  Variable_1[c(round(n)/2)] &lt;- min(Variable_1, na.rm = T) - sd(Variable_1, na.rm = T)
-  
-  Variable_2[c(n)] &lt;- max(Variable_2, na.rm = T) + sd(Variable_2, na.rm = T)
-  Variable_2[c(round(n)/2)] &lt;- min(Variable_2, na.rm = T) - sd(Variable_2, na.rm = T)   
-  
-  # Categorical variables with more levels for Spearman correlation
-  Category_1 &lt;- sample(c(&#39;Category_A&#39;, &#39;Category_B&#39;, &#39;Category_C&#39;, &#39;Category_D&#39;, &#39;Category_E&#39;), n, replace = TRUE)
-  Category_2 &lt;- sample(c(&#39;Group1&#39;, &#39;Group2&#39;, &#39;Group3&#39;), n, replace = TRUE)
-  
-  # Create data frame
-  dataset &lt;- data.frame(Variable_1, Variable_2, Category_1, Category_2, Gender)
-  return(dataset)
+</div>
+<div id="a-patient-study" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> A patient study</h1>
+<p>This function simulates a small clinical study. You learned to write functions this morning: read it and see if you can follow what it does. You don’t need to understand every line.</p>
+<pre class="r"><code>make_patients &lt;- function(n = 300, na_frac = 0.05, seed = 42) {
+  set.seed(seed)
+  sex    &lt;- sample(c(&quot;female&quot;, &quot;male&quot;), n, replace = TRUE)
+  age    &lt;- round(runif(n, 25, 80))
+  smoker &lt;- sample(c(TRUE, FALSE), n, replace = TRUE, prob = c(0.25, 0.75))
+  bmi    &lt;- round(rnorm(n, mean = ifelse(sex == &quot;male&quot;, 27, 25.5), sd = 4), 1)
+  # systolic blood pressure (mmHg) rises with age, BMI and smoking
+  sbp    &lt;- round(95 + 0.6 * age + 0.8 * (bmi - 25) + 6 * smoker +
+                  ifelse(sex == &quot;male&quot;, 4, 0) + rnorm(n, 0, 10))
+  # C-reactive protein (mg/L), an inflammation marker: skewed, higher in smokers
+  crp    &lt;- round(rlnorm(n, meanlog = log(1.5) + 0.4 * smoker, sdlog = 0.9), 1)
+  bmi[17] &lt;- 245                                   # a data-entry error
+  sbp[sample(n, round(n * na_frac))] &lt;- NA         # missing measurements
+  crp[sample(n, round(n * na_frac))] &lt;- NA
+  data.frame(id = sprintf(&quot;P%03d&quot;, 1:n), sex, age, smoker, bmi, sbp, crp)
 }
 
-n &lt;- 1000 # Number of samples (observation). 
-na_frac &lt;- 0.1 # Introducing missing values in the dataset. 
-dataset &lt;- generate_dataset(n, na_frac = na_frac )</code></pre>
-</div>
-</div>
-<ul>
-<li>Check the content of the dataset.<br />
-</li>
-<li>How many rows and columns do you have?</li>
-</ul>
+patients &lt;- make_patients()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Column</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>sex</code>, <code>age</code>, <code>smoker</code></td>
+<td align="left">patient information</td>
+</tr>
+<tr class="even">
+<td align="left"><code>bmi</code></td>
+<td align="left">body mass index (kg/m²)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>sbp</code></td>
+<td align="left">systolic blood pressure (mmHg)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>crp</code></td>
+<td align="left">C-reactive protein (mg/L), a marker of inflammation</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li>How many patients and variables are there? What type is each column? Get a summary of every column.</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317271356" aria-expanded="false" aria-controls="acc2026110317271356">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418046066" aria-expanded="false" aria-controls="acc2026110418046066">
 </button>
 </p>
-<div id="acc2026110317271356" class="collapse">
+<div id="acc2026110418046066" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>head(dataset)
-dim(dataset)</code></pre>
-<pre><code>##   Variable_1 Variable_2 Category_1 Category_2 Gender
-## 1   48.98107 -17.884574 Category_E     Group3   Male
-## 2   45.06301  -9.659943 Category_E     Group1   Male
-## 3         NA -26.156498 Category_C     Group2   Male
-## 4   51.27069  34.248513 Category_C     Group2 Female
-## 5   39.90833  -6.082244 Category_B     Group1   Male
-## 6   66.27214  42.492134 Category_B     Group3 Female
-## [1] 1000    5</code></pre>
+<pre class="r"><code>dim(patients)
+str(patients)
+summary(patients)</code></pre>
+<pre><code>## [1] 300   7
+## &#39;data.frame&#39;:    300 obs. of  7 variables:
+##  $ id    : chr  &quot;P001&quot; &quot;P002&quot; &quot;P003&quot; &quot;P004&quot; ...
+##  $ sex   : chr  &quot;female&quot; &quot;female&quot; &quot;female&quot; &quot;female&quot; ...
+##  $ age   : num  52 49 28 43 73 76 47 34 43 42 ...
+##  $ smoker: logi  FALSE FALSE TRUE FALSE FALSE FALSE ...
+##  $ bmi   : num  20.3 24.5 26.2 23.9 27.4 25.7 33.5 29.9 37.4 23.8 ...
+##  $ sbp   : num  106 NA 115 122 122 148 144 136 132 125 ...
+##  $ crp   : num  1.8 2.2 NA 2.6 2.2 2.5 3.5 6.7 0.6 5.8 ...
+##       id                sex                 age          smoker       
+##  Length:300         Length:300         Min.   :25.00   Mode :logical  
+##  Class :character   Class :character   1st Qu.:37.00   FALSE:227      
+##  Mode  :character   Mode  :character   Median :51.00   TRUE :73       
+##                                        Mean   :51.45                  
+##                                        3rd Qu.:66.00                  
+##                                        Max.   :80.00                  
+##                                                                       
+##       bmi              sbp             crp        
+##  Min.   : 13.40   Min.   : 86.0   Min.   : 0.200  
+##  1st Qu.: 23.30   1st Qu.:121.0   1st Qu.: 0.900  
+##  Median : 25.90   Median :130.0   Median : 1.600  
+##  Mean   : 26.71   Mean   :130.5   Mean   : 2.527  
+##  3rd Qu.: 28.80   3rd Qu.:141.0   3rd Qu.: 3.100  
+##  Max.   :245.00   Max.   :168.0   Max.   :23.900  
+##                   NA&#39;s   :15      NA&#39;s   :15</code></pre>
 </div>
 </div>
 </div>
-<div id="measures-of-central-tendency" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Measures of Central Tendency</h1>
-<div id="mean" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Mean</h2>
+<div id="describe" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Describe</h1>
+<div id="centre" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Centre</h2>
+<ol start="2" style="list-style-type: decimal">
+<li>Calculate the mean systolic blood pressure. Why do you get <code>NA</code>? How many values are missing in each column? Then calculate the mean again, ignoring the missing values.</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317279402" aria-expanded="false" aria-controls="acc2026110317279402">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418042005" aria-expanded="false" aria-controls="acc2026110418042005">
 </button>
 </p>
-<div id="acc2026110317279402" class="collapse">
+<div id="acc2026110418042005" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>mean_var1 &lt;- mean(dataset$Variable_1)
-mean_var2 &lt;- mean(dataset$Variable_2)
-mean_var1
-mean_var2</code></pre>
+<pre class="r"><code>mean(patients$sbp)
+colSums(is.na(patients))
+mean(patients$sbp, na.rm = TRUE)</code></pre>
 <pre><code>## [1] NA
-## [1] NA</code></pre>
+##     id    sex    age smoker    bmi    sbp    crp 
+##      0      0      0      0      0     15     15 
+## [1] 130.5439</code></pre>
 </div>
 </div>
-<ul>
-<li><p>What is the <code>mean</code> value of <code>Variable_1</code> and <code>Variable_2</code>?</p></li>
-<li><p>Is it NA? Why?</p></li>
-<li><p>How many NA values do you find in your dataset?</p></li>
-</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Calculate the mean and the median BMI. Why are they different? Find the strange value with <code>max()</code> and <code>which.max()</code>. A BMI of 245 is impossible: it was probably meant to be 24.5. Correct it and calculate the mean again.</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317272444" aria-expanded="false" aria-controls="acc2026110317272444">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418044336" aria-expanded="false" aria-controls="acc2026110418044336">
 </button>
 </p>
-<div id="acc2026110317272444" class="collapse">
+<div id="acc2026110418044336" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>n_na &lt;- sum(is.na(dataset))
-sprintf(&#39;There are %g missing values&#39;, n_na)</code></pre>
-<pre><code>## [1] &quot;There are 199 missing values&quot;</code></pre>
+<pre class="r"><code>mean(patients$bmi)
+median(patients$bmi)
+max(patients$bmi)
+patients[which.max(patients$bmi), ]
+patients$bmi[patients$bmi == 245] &lt;- 24.5
+mean(patients$bmi)</code></pre>
+<pre><code>## [1] 26.71467
+## [1] 25.9
+## [1] 245
+##      id  sex age smoker bmi sbp crp
+## 17 P017 male  41  FALSE 245 124 1.6
+## [1] 25.97967</code></pre>
 </div>
 </div>
-<ul>
-<li>Can you fix it?<br />
-
-<details>
-<summary>
-Click to expand
-</summary>
-To handle the <code>NA</code> values, you can set <code>na.rm = TRUE</code> in the function <code>mean(x, na.rm = T)</code>, which removes the queries with <code>NA</code> values.</li>
-</ul>
-</details>
-You can plot the distribution of the values by <code>hist()</code>. You will learn more about plots in <strong>Basic Graphics</strong> lecture.<br />
-
+<ol start="4" style="list-style-type: decimal">
+<li>Look at the distribution of CRP with <code>hist()</code>. Is it symmetric? Calculate its mean and median. Which one better describes a “typical” patient?</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317277279" aria-expanded="false" aria-controls="acc2026110317277279">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418045189" aria-expanded="false" aria-controls="acc2026110418045189">
 </button>
 </p>
-<div id="acc2026110317277279" class="collapse">
+<div id="acc2026110418045189" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>hist(dataset$Variable_1, main = &#39;Distribution of Variable_1&#39;, xlab = &#39;Variable_1&#39;)</code></pre>
-<img src="lab_statistics_files/figure-html/hist-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
+<pre class="r"><code>hist(patients$crp, breaks = 30, main = &quot;CRP&quot;, xlab = &quot;CRP (mg/L)&quot;)
+mean(patients$crp, na.rm = TRUE)
+median(patients$crp, na.rm = TRUE)    # skewed to the right: the median is more typical</code></pre>
+<pre><code>## [1] 2.527368
+## [1] 1.6</code></pre>
+<img src="lab_statistics_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
 </div>
 </div>
-Can you create a separate histogram for each gender?<br />
-
+</div>
+<div id="spread" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Spread</h2>
+<ol start="5" style="list-style-type: decimal">
+<li>For systolic blood pressure, calculate the range, the quartiles, the IQR, the standard deviation and the variance. What is the unit of each?</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317273247" aria-expanded="false" aria-controls="acc2026110317273247">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418041476" aria-expanded="false" aria-controls="acc2026110418041476">
 </button>
 </p>
-<div id="acc2026110317273247" class="collapse">
+<div id="acc2026110418041476" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>dataset_f &lt;- dataset[(dataset$Gender == &#39;Female&#39;), ]
-dataset_m &lt;- dataset[(dataset$Gender == &#39;Male&#39;), ]
-hist(dataset_f$Variable_1, main = &#39;Female&#39;, xlab = &#39;Variable_1&#39;)
-hist(dataset_m$Variable_1, main = &#39;&#39;, xlab = &#39;&#39;)</code></pre>
-<img src="lab_statistics_files/figure-html/gender-plot-1.png" width="672" style="display: block; margin: auto auto auto 0;" /><img src="lab_statistics_files/figure-html/gender-plot-2.png" width="672" style="display: block; margin: auto auto auto 0;" />
+<pre class="r"><code>range(patients$sbp, na.rm = TRUE)
+quantile(patients$sbp, na.rm = TRUE)
+IQR(patients$sbp, na.rm = TRUE)
+sd(patients$sbp, na.rm = TRUE)     # mmHg
+var(patients$sbp, na.rm = TRUE)    # mmHg²</code></pre>
+<pre><code>## [1]  86 168
+##   0%  25%  50%  75% 100% 
+##   86  121  130  141  168 
+## [1] 20
+## [1] 14.99539
+## [1] 224.8616</code></pre>
 </div>
 </div>
-</div>
-<div id="median" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Median</h2>
+<ol start="6" style="list-style-type: decimal">
+<li>Write a function <code>cv()</code> that returns the <strong>coefficient of variation</strong> (SD divided by the mean, in %) of a vector, ignoring missing values. Which is more variable relative to its mean: blood pressure or CRP?</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317270964" aria-expanded="false" aria-controls="acc2026110317270964">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418040721" aria-expanded="false" aria-controls="acc2026110418040721">
 </button>
 </p>
-<div id="acc2026110317270964" class="collapse">
+<div id="acc2026110418040721" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>median_var1 &lt;- median(dataset$Variable_1, na.rm = T)
-median_var2 &lt;- median(dataset$Variable_2, na.rm = T)
-median_var1
-median_var2</code></pre>
-<pre><code>## [1] 50.004
-## [1] -4.740805</code></pre>
+<pre class="r"><code>cv &lt;- function(x) {
+  100 * sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+}
+cv(patients$sbp)
+cv(patients$crp)</code></pre>
+<pre><code>## [1] 11.48686
+## [1] 116.256</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div id="measures-of-spread" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Measures of Spread</h1>
-<div id="range" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Range</h2>
-We can find the range of values in numerical variables.<br />
-
+<div id="per-group" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Per group</h2>
+<ol start="7" style="list-style-type: decimal">
+<li>How many patients are there of each sex, and how many smokers in each sex? What fraction of women and men smoke?</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317288882" aria-expanded="false" aria-controls="acc2026110317288882">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418045622" aria-expanded="false" aria-controls="acc2026110418045622">
 </button>
 </p>
-<div id="acc2026110317288882" class="collapse">
+<div id="acc2026110418045622" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>range_var1 &lt;- range(dataset$Variable_1, na.rm = TRUE)
-range_var2 &lt;- range(dataset$Variable_2, na.rm = TRUE)
-range_var1
-range_var2</code></pre>
-<pre><code>## [1]   3.119354 100.190691
-## [1] -65.86148  83.70804</code></pre>
-</div>
-</div>
-For categorical variables we can count the queries.<br />
-
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317281084" aria-expanded="false" aria-controls="acc2026110317281084">
-</button>
-</p>
-<div id="acc2026110317281084" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>table(dataset$Category_1)
-table(dataset[,c(&#39;Category_1&#39;, &#39;Category_2&#39;)])
-table(dataset[,c(&#39;Category_1&#39;, &#39;Category_2&#39;, &#39;Gender&#39;)])</code></pre>
+<pre class="r"><code>table(patients$sex)
+table(patients$sex, patients$smoker)
+prop.table(table(patients$sex, patients$smoker), margin = 1)   # fractions per row</code></pre>
 <pre><code>## 
-## Category_A Category_B Category_C Category_D Category_E 
-##        203        201        204        194        198 
-##             Category_2
-## Category_1   Group1 Group2 Group3
-##   Category_A     80     65     58
-##   Category_B     72     62     67
-##   Category_C     73     71     60
-##   Category_D     62     63     69
-##   Category_E     64     68     66
-## , , Gender = Female
+## female   male 
+##    144    156 
+##         
+##          FALSE TRUE
+##   female   107   37
+##   male     120   36
+##         
+##              FALSE      TRUE
+##   female 0.7430556 0.2569444
+##   male   0.7692308 0.2307692</code></pre>
+</div>
+</div>
+<ol start="8" style="list-style-type: decimal">
+<li>Calculate the mean and SD of systolic blood pressure for men and women, first with <code>tapply()</code>, then with <code>group_by()</code> and <code>summarise()</code>. Then show it with a boxplot.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418041458" aria-expanded="false" aria-controls="acc2026110418041458">
+</button>
+</p>
+<div id="acc2026110418041458" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>tapply(patients$sbp, patients$sex, mean, na.rm = TRUE)
+tapply(patients$sbp, patients$sex, sd, na.rm = TRUE)
+
+library(dplyr)
+patients |&gt;
+  group_by(sex) |&gt;
+  summarise(n = n(),
+            mean_sbp = mean(sbp, na.rm = TRUE),
+            sd_sbp = sd(sbp, na.rm = TRUE))
+
+boxplot(sbp ~ sex, data = patients, ylab = &quot;Systolic blood pressure (mmHg)&quot;)</code></pre>
+<pre><code>##   female     male 
+## 126.9624 133.6776 
+##   female     male 
+## 14.37770 14.86701 
+## # A tibble: 2 × 4
+##   sex        n mean_sbp sd_sbp
+##   &lt;chr&gt;  &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1 female   144     127.   14.4
+## 2 male     156     134.   14.9</code></pre>
+<img src="lab_statistics_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
+</div>
+</div>
+</div>
+</div>
+<div id="relate" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Relate</h1>
+<ol start="9" style="list-style-type: decimal">
+<li>Does blood pressure rise with age? Plot <code>sbp</code> against <code>age</code>, then calculate the Pearson and Spearman correlations. Remember the missing values (<code>use = "complete.obs"</code>).</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418042159" aria-expanded="false" aria-controls="acc2026110418042159">
+</button>
+</p>
+<div id="acc2026110418042159" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>plot(patients$age, patients$sbp, xlab = &quot;Age (years)&quot;, ylab = &quot;Systolic blood pressure (mmHg)&quot;)
+cor(patients$age, patients$sbp, use = &quot;complete.obs&quot;)
+cor(patients$age, patients$sbp, use = &quot;complete.obs&quot;, method = &quot;spearman&quot;)</code></pre>
+<pre><code>## [1] 0.6034155
+## [1] 0.6082837</code></pre>
+<img src="lab_statistics_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
+</div>
+</div>
+<ol start="10" style="list-style-type: decimal">
+<li>Calculate all correlations between <code>age</code>, <code>bmi</code>, <code>sbp</code> and <code>crp</code> at once by giving <code>cor()</code> a data frame. Which two variables are most strongly correlated? Which are not correlated at all?</li>
+</ol>
+<p>Hint: <code>use = "pairwise.complete.obs"</code> uses all available values for each pair.</p>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418040431" aria-expanded="false" aria-controls="acc2026110418040431">
+</button>
+</p>
+<div id="acc2026110418040431" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>round(cor(patients[, c(&quot;age&quot;, &quot;bmi&quot;, &quot;sbp&quot;, &quot;crp&quot;)], use = &quot;pairwise.complete.obs&quot;), 2)</code></pre>
+<pre><code>##      age  bmi  sbp  crp
+## age 1.00 0.00 0.60 0.04
+## bmi 0.00 1.00 0.27 0.02
+## sbp 0.60 0.27 1.00 0.07
+## crp 0.04 0.02 0.07 1.00</code></pre>
+</div>
+</div>
+<ol start="11" style="list-style-type: decimal">
+<li>Is the correlation between age and blood pressure statistically significant? Use <code>cor.test()</code>. The result is a list: get the p-value and the 95 % confidence interval of the correlation.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418042595" aria-expanded="false" aria-controls="acc2026110418042595">
+</button>
+</p>
+<div id="acc2026110418042595" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>res &lt;- cor.test(patients$age, patients$sbp)
+res$p.value
+res$conf.int</code></pre>
+<pre><code>## [1] 1.177489e-29
+## [1] 0.5239629 0.6724572
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+</div>
+</div>
+</div>
+<div id="compare" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Compare</h1>
+<ol start="12" style="list-style-type: decimal">
+<li>Do smokers have higher blood pressure? Calculate the mean <code>sbp</code> for smokers and non-smokers, and their difference. Then test it with <code>t.test()</code>. Write one sentence for your journal reporting both the difference and the p-value.</li>
+</ol>
+<p>
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418048992" aria-expanded="false" aria-controls="acc2026110418048992">
+</button>
+</p>
+<div id="acc2026110418048992" class="collapse">
+<div class="card card-body">
+<pre class="r"><code>sbp_smokers &lt;- patients$sbp[patients$smoker]
+sbp_non     &lt;- patients$sbp[!patients$smoker]
+mean(sbp_smokers, na.rm = TRUE) - mean(sbp_non, na.rm = TRUE)
+t.test(sbp_smokers, sbp_non)
+# e.g. &quot;Smokers had a 7.3 mmHg higher mean systolic blood pressure (p = 0.0002).&quot;</code></pre>
+<pre><code>## [1] 7.26247
 ## 
-##             Category_2
-## Category_1   Group1 Group2 Group3
-##   Category_A     41     34     27
-##   Category_B     35     31     30
-##   Category_C     33     43     28
-##   Category_D     32     32     43
-##   Category_E     23     38     24
+##  Welch Two Sample t-test
 ## 
-## , , Gender = Male
-## 
-##             Category_2
-## Category_1   Group1 Group2 Group3
-##   Category_A     39     31     31
-##   Category_B     37     31     37
-##   Category_C     40     28     32
-##   Category_D     30     31     26
-##   Category_E     41     30     42</code></pre>
+## data:  sbp_smokers and sbp_non
+## t = 3.8508, df = 128.9, p-value = 0.0001846
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##   3.530969 10.993970
+## sample estimates:
+## mean of x mean of y 
+##  136.0735  128.8111</code></pre>
 </div>
 </div>
-</div>
-<div id="interquartile." class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Interquartile.</h2>
-<p>Calculate the following for <code>Variable_1</code>:</p>
-<ul>
-<li>Min.<br />
-</li>
-<li>Median.<br />
-</li>
-<li>Max.<br />
-</li>
-<li>Quantiles (q1:25% and q2:75%) by using <code>quantile</code> function.<br />
-</li>
-<li>Interquartile range (q3 - q1).</li>
-</ul>
-<strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>)
+<ol start="13" style="list-style-type: decimal">
+<li>CRP is skewed, so a t-test isn’t ideal. Compare CRP between smokers and non-smokers with <code>wilcox.test()</code>, and compare the medians of the two groups.</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317283108" aria-expanded="false" aria-controls="acc2026110317283108">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418042570" aria-expanded="false" aria-controls="acc2026110418042570">
 </button>
 </p>
-<div id="acc2026110317283108" class="collapse">
+<div id="acc2026110418042570" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>min_val &lt;- min(dataset$Variable_1, na.rm = T)
-q1 &lt;- quantile(dataset$Variable_1, 0.25, na.rm = T)
-median_val &lt;- median(dataset$Variable_1, na.rm = T)
-q3 &lt;- quantile(dataset$Variable_1, 0.75, na.rm = T)
-max_val &lt;- max(dataset$Variable_1, na.rm = T)
-print(&#39;Variable_1 range:&#39;)
-c(min_val, q1, median_val, q3, max_val)
-
-# Interqurtile: 
-print(&#39;Interquartile:&#39;)
-iqr_val1 &lt;- q3 - q1
-unname(iqr_val1)
-# or
-iqr_val1 &lt;- IQR(dataset$Variable_1, na.rm = T)
-iqr_val1 </code></pre>
-<pre><code>## [1] &quot;Variable_1 range:&quot;
-##                   25%                   75%            
-##   3.119354  42.793157  50.003998  57.990869 100.190691 
-## [1] &quot;Interquartile:&quot;
-## [1] 15.19771
-## [1] 15.19771</code></pre>
+<pre class="r"><code>crp_smokers &lt;- patients$crp[patients$smoker]
+crp_non     &lt;- patients$crp[!patients$smoker]
+median(crp_smokers, na.rm = TRUE)
+median(crp_non, na.rm = TRUE)
+wilcox.test(crp_smokers, crp_non)$p.value</code></pre>
+<pre><code>## [1] 2
+## [1] 1.5
+## [1] 0.002086352</code></pre>
 </div>
 </div>
-</div>
-<div id="standard-deviation" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Standard deviation</h2>
-<ul>
-<li><code>sd</code> is a built-in function in R to calculate standard deviation.</li>
-<li>Calculate standard deviation of <code>Variable_1</code> for males and females separately.</li>
-</ul>
-<strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>)
+<ol start="14" style="list-style-type: decimal">
+<li>R’s built-in <code>PlantGrowth</code> data set has the dry weight of plants grown in a control condition (<code>ctrl</code>) and two treatments (<code>trt1</code>, <code>trt2</code>). Calculate the mean weight per group and make a boxplot. Then compare each treatment with the control using a t-test. Which treatment makes a difference?</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317288064" aria-expanded="false" aria-controls="acc2026110317288064">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418043016" aria-expanded="false" aria-controls="acc2026110418043016">
 </button>
 </p>
-<div id="acc2026110317288064" class="collapse">
+<div id="acc2026110418043016" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>sd_var1_f &lt;- sd(dataset_f$Variable_1, na.rm = TRUE)
-sd_var1_m &lt;- sd(dataset_m$Variable_1, na.rm = TRUE)
-sd_var1_f
-sd_var1_m</code></pre>
-<pre><code>## [1] 10.21548
-## [1] 10.56616</code></pre>
+<pre class="r"><code>tapply(PlantGrowth$weight, PlantGrowth$group, mean)
+boxplot(weight ~ group, data = PlantGrowth, ylab = &quot;Dry weight (g)&quot;)
+ctrl &lt;- PlantGrowth$weight[PlantGrowth$group == &quot;ctrl&quot;]
+trt1 &lt;- PlantGrowth$weight[PlantGrowth$group == &quot;trt1&quot;]
+trt2 &lt;- PlantGrowth$weight[PlantGrowth$group == &quot;trt2&quot;]
+t.test(trt1, ctrl)$p.value   # no clear difference
+t.test(trt2, ctrl)$p.value   # trt2 plants are heavier</code></pre>
+<pre><code>##  ctrl  trt1  trt2 
+## 5.032 4.661 5.526 
+## [1] 0.2503825
+## [1] 0.04789926</code></pre>
+<img src="lab_statistics_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
 </div>
 </div>
-</div>
-<div id="variance" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Variance</h2>
-<ul>
-<li><code>var</code> is a built-in function in R to calculate variance.<br />
-</li>
-<li>Calculate variance of <code>Variable_1</code> for males and females separately.</li>
-</ul>
-<strong>Note:</strong> Make sure to control for missing values (<code>na.rm = T</code>).
+<ol start="15" style="list-style-type: decimal">
+<li><strong>Think about it.</strong> You tested two treatments against the same control. If you tested 100 treatments that did nothing at all, how many would you expect to have p &lt; 0.05 by chance? Try it: use a <code>for</code> loop to run 100 t-tests on two groups of random numbers from the <strong>same</strong> distribution, and count the “significant” ones.</li>
+</ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317289848" aria-expanded="false" aria-controls="acc2026110317289848">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418043464" aria-expanded="false" aria-controls="acc2026110418043464">
 </button>
 </p>
-<div id="acc2026110317289848" class="collapse">
+<div id="acc2026110418043464" class="collapse">
 <div class="card card-body">
-<pre class="r"><code>var_var1_f &lt;- var(dataset_f$Variable_1, na.rm = TRUE)
-var_var1_m &lt;- var(dataset_m$Variable_1, na.rm = TRUE)
-var_var1_f
-var_var1_m</code></pre>
-<pre><code>## [1] 104.356
-## [1] 111.6437</code></pre>
+<pre class="r"><code>set.seed(4)
+p_values &lt;- numeric(100)
+for (i in 1:100) {
+  a &lt;- rnorm(10)
+  b &lt;- rnorm(10)          # same distribution: no real difference
+  p_values[i] &lt;- t.test(a, b)$p.value
+}
+sum(p_values &lt; 0.05)      # about 5 in 100 (1 in 20) are &quot;significant&quot; by chance alone</code></pre>
+<pre><code>## [1] 6</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div id="correlation" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Correlation</h1>
-<div id="pearsons-correlation" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Pearson’s correlation</h2>
-<ul>
-<li>Let’s check the correlation of <code>Variable_1</code> and <code>Variable_2</code> by Pearson’s method implemented in <code>cor</code> function. You can specify the method by <code>method =  'pearson'</code>.</li>
-</ul>
-<p><strong>Note:</strong> Here we handle the missing values a bit differently. In <code>cor</code> function, you control the missing values (<code>NA</code>) by setting <code>use = 'complete.obs'</code> which means to include observations that there are values for both variables. In other words, rows with <code>NA</code> in either of the values will be excluded.</p>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317284436" aria-expanded="false" aria-controls="acc2026110317284436">
-</button>
-</p>
-<div id="acc2026110317284436" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>pearson_correlation &lt;- cor(dataset$Variable_1, dataset$Variable_2, use = &#39;complete.obs&#39;, method = &quot;pearson&quot;)
-pearson_correlation</code></pre>
-<pre><code>## [1] -0.4171403</code></pre>
-</div>
-</div>
-<ul>
-<li>You can also plot the values in a simple plot using <code>plot</code> function. How do you interpret the results?</li>
-</ul>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317283651" aria-expanded="false" aria-controls="acc2026110317283651">
-</button>
-</p>
-<div id="acc2026110317283651" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>plot(dataset$Variable_1, dataset$Variable_2, main = &#39;Variable_1 vs Variable_2&#39;, xlab = &#39;Variable_1&#39;, ylab = &#39;Variable_2&#39;)</code></pre>
-<img src="lab_statistics_files/figure-html/v1v2plot-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
-</div>
-</div>
-</div>
-<div id="spearmans-correlation" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Spearman’s correlation</h2>
-<ul>
-<li>You can calculate Spearman’s correlation using the same function (<code>cor</code>) for both numerical and categorical data.<br />
-</li>
-<li>Check the result of Spearman’s correlation and Pearson’s correlation for <code>Variable_1</code> and <code>Variable_2</code>.<br />
-</li>
-<li>Calculate the correlation between <code>Category_1</code> and <code>Variable_1</code>. Consider <code>Category_1</code> with ordinal variable such as level of satisfaction labeled as <strong>Category_A to E</strong>.</li>
-</ul>
-<strong>Note:</strong> Categorical_data cannot be directly passed to <code>cor</code>. You first need to encode the values as factors (the values are presented in form of <code>levels</code>) by <code>as.factor</code>. Then by converting the vector (e.g. <code>dataset$Category_1</code>) to numeric by <code>as.numeric</code> function, you can pass it to <code>cor</code> function.<br />
-
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317284285" aria-expanded="false" aria-controls="acc2026110317284285">
-</button>
-</p>
-<div id="acc2026110317284285" class="collapse">
-<div class="card card-body">
-<pre class="r"><code># Spearman correlation for numerical variables
-spearman_corr_numeric &lt;- cor(dataset$Variable_1, dataset$Variable_2, use = &quot;complete.obs&quot;, method = &quot;spearman&quot;)
-
-# Spearman correlation between numeric and categorical variables
-spearman_corr_cat_var1 &lt;- cor(as.numeric(as.factor(dataset$Category_1)), dataset$Variable_1, use = &quot;complete.obs&quot;, method = &quot;spearman&quot;)
-spearman_corr_cat_var2 &lt;- cor(as.numeric(as.factor(dataset$Category_1)), dataset$Variable_2, use = &quot;complete.obs&quot;, method = &quot;spearman&quot;)
-
-spearman_corr_numeric
-spearman_corr_cat_var1
-spearman_corr_cat_var2</code></pre>
-<pre><code>## [1] -0.4284315
-## [1] 0.02013907
-## [1] 0.0280211</code></pre>
-</div>
-</div>
-<ul>
-<li>Plot categorical data using <code>plot</code> function can be fun! If you pass the categorical as factor ( <code>as.factor(dataset$Category_1)</code>) together with a numerical values, you will generate a boxplot.</li>
-</ul>
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317286197" aria-expanded="false" aria-controls="acc2026110317286197">
-</button>
-</p>
-<div id="acc2026110317286197" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>plot((as.factor(dataset$Category_1)), dataset$Variable_1)</code></pre>
-<img src="lab_statistics_files/figure-html/boxplotcatg1var1-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
-</div>
-</div>
-</div>
-<div id="optional-exercise" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Optional exercise</h2>
-<ul>
-<li>Calculate the correlation between <code>Gender</code> and <code>Variable_1</code>, <code>Gender</code> as well as <code>Variable_2</code>.</li>
-</ul>
-<pre class="r"><code>cor_gender_var1 &lt;- cor(as.numeric(as.factor(dataset$Gender)), dataset$Variable_1, use = &#39;complete.obs&#39;, method = &#39;spearman&#39;)
-cor_gender_var2 &lt;- cor(as.numeric(as.factor(dataset$Gender)), dataset$Variable_2, use = &#39;complete.obs&#39;, method = &#39;spearman&#39;)
-cor_gender_var1
-cor_gender_var2</code></pre>
-<pre><code>## [1] 0.4465193
-## [1] -0.8657672</code></pre>
-<ul>
-<li>Now plot <code>Gender</code> vs <code>Variable_1</code> or <code>Variable_2</code>. How do you interpret the result?</li>
-</ul>
-<pre class="r"><code>plot((as.factor(dataset$Gender)), dataset$Variable_1)</code></pre>
-<p><img src="lab_statistics_files/figure-html/gendervarsplot1-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
-<pre class="r"><code>plot(as.factor(dataset$Gender), dataset$Variable_2)</code></pre>
-<p><img src="lab_statistics_files/figure-html/gendervarsplot2-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
-</div>
-</div>
-<div id="bonus" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Bonus</h1>
-You can show both histograms (males and females) in the same plot. You will learn about this in “Basic Graphics”.<br />
-
-<p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110317289189" aria-expanded="false" aria-controls="acc2026110317289189">
-</button>
-</p>
-<div id="acc2026110317289189" class="collapse">
-<div class="card card-body">
-<pre class="r"><code>par(mfrow = c(2,1), mar = c(5, 4, 1, 2) + 0.1)
-range_val &lt;- c(min(dataset$Variable_2, na.rm = T), max(dataset$Variable_2, na.rm = T) )
-hist(dataset_f$Variable_2, main = &#39;Female&#39;, xlab = &#39;Variable_2&#39;, xlim = range_val, breaks = 30)
-hist(dataset_m$Variable_2, main = &#39;Male&#39;, xlab = &#39;Variable_2&#39;, xlim = range_val, breaks = 30)</code></pre>
-<img src="lab_statistics_files/figure-html/bonus-1.png" width="672" style="display: block; margin: auto auto auto 0;" />
-</div>
-</div>
+<div id="cheatsheet" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Cheatsheet</h1>
+<table>
+<colgroup>
+<col width="66%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Task</th>
+<th align="left">R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Centre</td>
+<td align="left"><code>mean(x, na.rm = TRUE)</code>, <code>median(x, na.rm = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td align="left">Spread</td>
+<td align="left"><code>sd()</code>, <code>var()</code>, <code>range()</code>, <code>quantile()</code>, <code>IQR()</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Count categories</td>
+<td align="left"><code>table()</code>, <code>prop.table()</code></td>
+</tr>
+<tr class="even">
+<td align="left">Per group</td>
+<td align="left"><code>tapply(x, group, mean)</code>, <code>group_by()</code> + <code>summarise()</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Correlation</td>
+<td align="left"><code>cor(x, y, use = "complete.obs", method = "pearson" / "spearman")</code></td>
+</tr>
+<tr class="even">
+<td align="left">Test a correlation</td>
+<td align="left"><code>cor.test(x, y)</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Compare two groups</td>
+<td align="left"><code>t.test(x, y)</code>, <code>wilcox.test(x, y)</code>, <code>paired = TRUE</code> for the same subjects</td>
+</tr>
+<tr class="even">
+<td align="left">Quick plots</td>
+<td align="left"><code>hist()</code>, <code>boxplot(y ~ group)</code>, <code>plot(x, y)</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
