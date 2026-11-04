@@ -100,13 +100,13 @@ walkthrough_block <- function(id, wt) {
 htmltools::includeHTML(file.path(page_dir, "challenges/treasure_map.html"))
 ```
 
-You will have one short data challenge per day, each with **one exact answer**. Type the answer in the box to check it. Every challenge you solve lifts the fog from one island and draws the next stretch of the route. Solve all four to find the treasure.
+You will have one short data challenge per day, each with **one exact answer**. Type the answer in the box to check it. Every challenge you solve removes the fog from one island. Solve all four to find the treasure.
 
 <div class="alert alert-info">
-  <strong>Pirates need their crew! Talk to your colleagues and discuss strategy, exchange tips! Use the hints for each challenge, and try to limit the use of AI.</strong>
+  <strong>A sailoR needs a crew! Talk to your colleagues and the TAs to discuss strategy, exchange tips! Use the hints for each challenge, and try to limit the use of AI.</strong>
 </div>
 
-## The challenges {.tabset .tabset-fade .tabset-pills -}
+## {.tabset .tabset-fade .tabset-pills -}
 
 <!-- ======================= MONDAY: Countable Colonies ======================= -->
 
