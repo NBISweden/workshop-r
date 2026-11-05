@@ -39,11 +39,12 @@ output:
 # R Programming Foundations for Data Analysis
 </div>
 <div class="landing-features">
-- Data structures
-- Logic and control structures
+- RStudio and R Markdown
+- Data types and data structures
+- Functions and control structures
+- Data wrangling with tidyverse
+- Base and ggplot2 graphics
 - Input/Output
-- Data wrangling
-- Base and ggplot graphics
 </div>
 </div>
 <div class="landing-right">

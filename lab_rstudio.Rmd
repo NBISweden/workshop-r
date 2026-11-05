@@ -1,6 +1,5 @@
 ---
 title: "RStudio and R Markdown: Tell Your Research Story"
-author: "Guilherme Dias"
 output:
   bookdown::html_document2:
     highlight: textmate

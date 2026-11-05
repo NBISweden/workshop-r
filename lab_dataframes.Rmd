@@ -1,5 +1,5 @@
 ---
-title: "Matrices, Lists and Dataframes"
+title: "Matrices, Dataframes, and Lists"
 output:
   bookdown::html_document2:
     highlight: textmate
