@@ -284,10 +284,10 @@ files &lt;- c(&quot;normalized.txt&quot;, &quot;example.data&quot;, &quot;cell_c
               method = &quot;libcurl&quot;, mode = &quot;wb&quot;)</code></pre>
 <p>Check that all six files arrived:</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418443834" aria-expanded="false" aria-controls="acc2026110418443834">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513443834" aria-expanded="false" aria-controls="acc2026110513443834">
 </button>
 </p>
-<div id="acc2026110418443834" class="collapse">
+<div id="acc2026110513443834" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>file.exists(paste0(&quot;data/&quot;, files))
 list.files(&quot;data&quot;)</code></pre>
@@ -304,10 +304,10 @@ list.files(&quot;data&quot;)</code></pre>
 <li><code>normalized.txt</code> holds normalised expression values for <em>Arabidopsis thaliana</em> genes in a <em>bzip29</em> mutant and wild type (three replicates each). Look at the first three lines with <code>readLines()</code>. What separates the columns? Then read it with <code>read.table()</code>, using the defaults.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418449996" aria-expanded="false" aria-controls="acc2026110418449996">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513449996" aria-expanded="false" aria-controls="acc2026110513449996">
 </button>
 </p>
-<div id="acc2026110418449996" class="collapse">
+<div id="acc2026110513449996" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>readLines(&quot;data/normalized.txt&quot;, n = 3)    # \t means a tab
 expr &lt;- read.table(&quot;data/normalized.txt&quot;)
@@ -327,10 +327,10 @@ head(expr, 3)</code></pre>
 <li>The first line has one name fewer than the other lines. What did <code>read.table()</code> do with the first column?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418445855" aria-expanded="false" aria-controls="acc2026110418445855">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513445855" aria-expanded="false" aria-controls="acc2026110513445855">
 </button>
 </p>
-<div id="acc2026110418445855" class="collapse">
+<div id="acc2026110513445855" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>rownames(expr)[1:5]   # the gene IDs became row names</code></pre>
 <pre><code>## [1] &quot;AT1G01020.1&quot; &quot;AT1G01030.1&quot; &quot;AT1G01040.2&quot; &quot;AT1G01050.1&quot; &quot;AT1G01060.1&quot;</code></pre>
@@ -340,10 +340,10 @@ head(expr, 3)</code></pre>
 <li>Which gene has the highest expression in <code>WT_1</code>? Is it really a gene? Look at the last rows of the table, remove the rows that aren’t genes, and try again.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418444715" aria-expanded="false" aria-controls="acc2026110418444715">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513444715" aria-expanded="false" aria-controls="acc2026110513444715">
 </button>
 </p>
-<div id="acc2026110418444715" class="collapse">
+<div id="acc2026110513444715" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>rownames(expr)[which.max(expr$WT_1)]   # &quot;no_feature&quot; is not a gene!
 tail(expr, 3)                          # summary rows from the read-counting software
@@ -365,10 +365,10 @@ rownames(expr)[which.max(expr$WT_1)]</code></pre>
 <li><code>example.data</code> has the same data, but with <code>:</code> between columns, a header line, and some missing values. Read it. How many values are missing in each column? How many genes have no missing values at all?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418449031" aria-expanded="false" aria-controls="acc2026110418449031">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513449031" aria-expanded="false" aria-controls="acc2026110513449031">
 </button>
 </p>
-<div id="acc2026110418449031" class="collapse">
+<div id="acc2026110513449031" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>ex &lt;- read.table(&quot;data/example.data&quot;, sep = &quot;:&quot;, header = TRUE)
 colSums(is.na(ex))
@@ -382,10 +382,10 @@ nrow(na.omit(ex))</code></pre>
 <li><code>cell_counts_eu.csv</code> comes from an instrument set to European settings. Try to read it with <code>read.csv()</code>. What happens? Look at the file with <code>readLines()</code>, then read it correctly.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418447860" aria-expanded="false" aria-controls="acc2026110418447860">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513447860" aria-expanded="false" aria-controls="acc2026110513447860">
 </button>
 </p>
-<div id="acc2026110418447860" class="collapse">
+<div id="acc2026110513447860" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>read.csv(&quot;data/cell_counts_eu.csv&quot;)        # error</code></pre>
 <pre><code>## Error in read.table(file = file, header = header, sep = sep, quote = quote, : more columns than column names</code></pre>
@@ -407,10 +407,10 @@ str(growth)</code></pre>
 <li>Using <code>growth</code>: what was the OD600 of each culture after 12 hours? In which medium did the bacteria grow faster?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418440745" aria-expanded="false" aria-controls="acc2026110418440745">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513440745" aria-expanded="false" aria-controls="acc2026110513440745">
 </button>
 </p>
-<div id="acc2026110418440745" class="collapse">
+<div id="acc2026110513440745" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>growth[growth$timepoint_h == 12, ]   # faster growth in LB</code></pre>
 <pre><code>##   culture timepoint_h od600 viability_pct medium
@@ -427,10 +427,10 @@ str(growth)</code></pre>
 </ul></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418444579" aria-expanded="false" aria-controls="acc2026110418444579">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513444579" aria-expanded="false" aria-controls="acc2026110513444579">
 </button>
 </p>
-<div id="acc2026110418444579" class="collapse">
+<div id="acc2026110513444579" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>readLines(&quot;data/qpcr_export.txt&quot;, n = 5)
 qpcr &lt;- read.delim(&quot;data/qpcr_export.txt&quot;, skip = 3,
@@ -451,10 +451,10 @@ str(qpcr)</code></pre>
 <li>How many Ct values are missing? What is the mean Ct of <em>IL6</em> in control samples (<code>ctrl_1</code>, <code>ctrl_2</code>) and in treated samples?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418444976" aria-expanded="false" aria-controls="acc2026110418444976">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513444976" aria-expanded="false" aria-controls="acc2026110513444976">
 </button>
 </p>
-<div id="acc2026110418444976" class="collapse">
+<div id="acc2026110513444976" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sum(is.na(qpcr$ct))
 mean(qpcr$ct[qpcr$gene == &quot;IL6&quot; &amp; qpcr$sample %in% c(&quot;ctrl_1&quot;, &quot;ctrl_2&quot;)])
@@ -472,10 +472,10 @@ mean(qpcr$ct[qpcr$gene == &quot;IL6&quot; &amp; qpcr$sample %in% c(&quot;trt_1&q
 <li>Read <code>primers_broken.tsv</code> with <code>read.delim()</code>. No error. But look at the result carefully: is everything in the right column?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418440325" aria-expanded="false" aria-controls="acc2026110418440325">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513440325" aria-expanded="false" aria-controls="acc2026110513440325">
 </button>
 </p>
-<div id="acc2026110418440325" class="collapse">
+<div id="acc2026110513440325" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>primers &lt;- read.delim(&quot;data/primers_broken.tsv&quot;)
 primers   # the primer IDs became row names and every column is shifted!</code></pre>
@@ -491,10 +491,10 @@ primers   # the primer IDs became row names and every column is shifted!</code><
 <li>Now read it with <code>read.table(header = TRUE, sep = "\t")</code>. Use <code>count.fields()</code> to find the line that causes the problem, and <code>readLines()</code> to look at it. What is wrong?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418443725" aria-expanded="false" aria-controls="acc2026110418443725">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513443725" aria-expanded="false" aria-controls="acc2026110513443725">
 </button>
 </p>
-<div id="acc2026110418443725" class="collapse">
+<div id="acc2026110513443725" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>read.table(&quot;data/primers_broken.tsv&quot;, header = TRUE, sep = &quot;\t&quot;)   # the line number in the error is misleading</code></pre>
 <pre><code>## Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 1 did not have 5 elements</code></pre>
@@ -508,10 +508,10 @@ readLines(&quot;data/primers_broken.tsv&quot;)[4]               # two tabs after
 <li>Fix the problem. You can fix the file in a text editor, or fix the line in R and read the corrected lines with the <code>text</code> argument.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418445917" aria-expanded="false" aria-controls="acc2026110418445917">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513445917" aria-expanded="false" aria-controls="acc2026110513445917">
 </button>
 </p>
-<div id="acc2026110418445917" class="collapse">
+<div id="acc2026110513445917" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>lines &lt;- readLines(&quot;data/primers_broken.tsv&quot;)
 lines[4] &lt;- sub(&quot;\t\t&quot;, &quot;\t&quot;, lines[4])
@@ -534,10 +534,10 @@ primers</code></pre>
 <li><code>rna_qc.xlsx</code> holds RNA quality results. Which sheets does it have? Read the <code>README</code> sheet, then the <code>samples</code> sheet. The <code>samples</code> sheet has a title row above the column names, and missing concentrations are written <code>n/a</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418449151" aria-expanded="false" aria-controls="acc2026110418449151">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513449151" aria-expanded="false" aria-controls="acc2026110513449151">
 </button>
 </p>
-<div id="acc2026110418449151" class="collapse">
+<div id="acc2026110513449151" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>library(readxl)
 excel_sheets(&quot;data/rna_qc.xlsx&quot;)
@@ -567,10 +567,10 @@ rna</code></pre>
 <li>Look at <code>gene_of_interest</code>. One value is a number. Someone typed the old gene symbol <code>SEPT2</code>, and Excel turned it into a date, which R reads as Excel’s internal date number. Replace it with the current symbol, <code>SEPTIN2</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418445479" aria-expanded="false" aria-controls="acc2026110418445479">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513445479" aria-expanded="false" aria-controls="acc2026110513445479">
 </button>
 </p>
-<div id="acc2026110418445479" class="collapse">
+<div id="acc2026110513445479" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>rna$gene_of_interest[rna$gene_of_interest == &quot;46267&quot;] &lt;- &quot;SEPTIN2&quot;
 rna$gene_of_interest</code></pre>
@@ -581,10 +581,10 @@ rna$gene_of_interest</code></pre>
 <li>Which samples have an RNA integrity number (<code>rin</code>) below 7? What is the mean RIN in each strain?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418440579" aria-expanded="false" aria-controls="acc2026110418440579">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513440579" aria-expanded="false" aria-controls="acc2026110513440579">
 </button>
 </p>
-<div id="acc2026110418440579" class="collapse">
+<div id="acc2026110513440579" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>rna$sample[rna$rin &lt; 7]
 mean(rna$rin[rna$strain == &quot;WT&quot;])
@@ -601,10 +601,10 @@ mean(rna$rin[rna$strain == &quot;KO&quot;])</code></pre>
 <li>Create a folder called <code>results</code>. Write <code>qpcr</code> to <code>results/qpcr_clean.csv</code> without row names. Read it back. Is it identical to <code>qpcr</code>?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418445299" aria-expanded="false" aria-controls="acc2026110418445299">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513445299" aria-expanded="false" aria-controls="acc2026110513445299">
 </button>
 </p>
-<div id="acc2026110418445299" class="collapse">
+<div id="acc2026110513445299" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dir.create(&quot;results&quot;, showWarnings = FALSE)
 write.csv(qpcr, &quot;results/qpcr_clean.csv&quot;, row.names = FALSE)
@@ -615,10 +615,10 @@ all.equal(qpcr, qpcr2)</code></pre>
 </div>
 <p>What happens if you leave out <code>row.names = FALSE</code>? Read the file back and compare.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418449008" aria-expanded="false" aria-controls="acc2026110418449008">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513449008" aria-expanded="false" aria-controls="acc2026110513449008">
 </button>
 </p>
-<div id="acc2026110418449008" class="collapse">
+<div id="acc2026110513449008" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>write.csv(qpcr, &quot;results/qpcr_rownames.csv&quot;)
 head(read.csv(&quot;results/qpcr_rownames.csv&quot;), 3)   # an extra column &quot;X&quot; with the row numbers</code></pre>
@@ -632,10 +632,10 @@ head(read.csv(&quot;results/qpcr_rownames.csv&quot;), 3)   # an extra column &qu
 <li>Make <code>gene</code> a factor with the levels in the order <code>"TNF"</code>, <code>"IL6"</code>, <code>"GAPDH"</code>. Save <code>qpcr</code> both as a CSV and as an <code>.rds</code> file, read both back, and compare the levels of <code>gene</code>. What do you notice?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418447222" aria-expanded="false" aria-controls="acc2026110418447222">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513447222" aria-expanded="false" aria-controls="acc2026110513447222">
 </button>
 </p>
-<div id="acc2026110418447222" class="collapse">
+<div id="acc2026110513447222" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>qpcr$gene &lt;- factor(qpcr$gene, levels = c(&quot;TNF&quot;, &quot;IL6&quot;, &quot;GAPDH&quot;))
 write.csv(qpcr, &quot;results/qpcr_factor.csv&quot;, row.names = FALSE)
@@ -716,10 +716,10 @@ levels(readRDS(&quot;results/qpcr_factor.rds&quot;)$gene)    # factor, levels in
 <li>Read the file with <code>read.delim()</code>. It has no header, its first lines are comments starting with <code>#</code>, and the attribute column contains quotes, so add <code>quote = ""</code>. Give the columns meaningful names, then check the dimensions and structure.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418463995" aria-expanded="false" aria-controls="acc2026110418463995">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513463995" aria-expanded="false" aria-controls="acc2026110513463995">
 </button>
 </p>
-<div id="acc2026110418463995" class="collapse">
+<div id="acc2026110513463995" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>gtf &lt;- read.delim(&quot;data/Drosophila_melanogaster.BDGP6.86.gtf.gz&quot;,
                   header = FALSE, comment.char = &quot;#&quot;, quote = &quot;&quot;)
@@ -744,10 +744,10 @@ str(gtf)</code></pre>
 <li>Which chromosomes (and scaffolds) are in the file, and how many features does each have? Which feature types are there, and how many of each?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418517166" aria-expanded="false" aria-controls="acc2026110418517166">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513507166" aria-expanded="false" aria-controls="acc2026110513507166">
 </button>
 </p>
-<div id="acc2026110418517166" class="collapse">
+<div id="acc2026110513507166" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>table(gtf$chromosome)
 table(gtf$feature)</code></pre>
@@ -801,10 +801,10 @@ table(gtf$feature)</code></pre>
 <li>Keep only the genes. What is their mean and median length? What fraction of genes is on the <code>+</code> strand?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418517487" aria-expanded="false" aria-controls="acc2026110418517487">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513507487" aria-expanded="false" aria-controls="acc2026110513507487">
 </button>
 </p>
-<div id="acc2026110418517487" class="collapse">
+<div id="acc2026110513507487" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>genes &lt;- gtf[gtf$feature == &quot;gene&quot;, ]
 gene_length &lt;- genes$end - genes$start + 1
@@ -820,10 +820,10 @@ mean(genes$strand == &quot;+&quot;)</code></pre>
 <li>How many exons are there on each of the main chromosome arms (<code>2L</code>, <code>2R</code>, <code>3L</code>, <code>3R</code>, <code>4</code>, <code>X</code>)? What is the median exon length on <code>3R</code>?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110418513832" aria-expanded="false" aria-controls="acc2026110418513832">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110513503832" aria-expanded="false" aria-controls="acc2026110513503832">
 </button>
 </p>
-<div id="acc2026110418513832" class="collapse">
+<div id="acc2026110513503832" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>exons &lt;- gtf[gtf$feature == &quot;exon&quot;, ]
 table(exons$chromosome)[c(&quot;2L&quot;, &quot;2R&quot;, &quot;3L&quot;, &quot;3R&quot;, &quot;4&quot;, &quot;X&quot;)]

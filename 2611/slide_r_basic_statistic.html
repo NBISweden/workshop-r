@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>(very) Basic statistics in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Guilherme Dias" />
+    <meta name="keywords" content="bioinformatics, course, scilifelab, nbis, R" />
+    <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+    <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+    <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link id="font-awesome-1-attachment" rel="attachment" href="site_libs/font-awesome-6.4.2/fonts/fontawesome-webfont.ttf"/>
+    <link rel="stylesheet" href="assets/slide.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# (<em>very</em>) Basic statistics in R
+]
+.author[
+### Guilherme Dias
+]
+
+---
+
+
+exclude: true
+count: false
+
+
+&lt;link href="https://fonts.googleapis.com/css?family=Roboto|Source+Sans+Pro:300,400,600|Ubuntu+Mono&amp;amp;subset=latin-ext" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"&gt;
+
+
+
+
+
+&lt;!-- ------------ Only edit title, subtitle &amp; author above this ------------ --&gt;
+
+
+
+
+
+---
+name: anscombe1
+
+# Four data sets walk into a lab 🧪
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; data_set &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean_x &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean_y &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sd_y &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; cor_xy &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Set 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Set 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Set 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; Set 4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+
+Same means. Same spread. Same correlation.
+
+### ✋ Are these four data sets the same?
+
+---
+name: anscombe2
+class: middle
+
+# Not even close
+
+&lt;img src="slide_r_basic_statistic_files/figure-html/anscombe.plot-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+
+**Anscombe's quartet** (1973). Summary statistics summarise. Plots show.
+
+**Always look at your data.**
+
+---
+name: today
+
+# Today
+
+1. **Describe** one variable: centre and spread
+2. **Relate** two variables: correlation
+3. **Compare** two groups: the t-test
+
+&lt;br&gt;
+
+All with functions you already know how to call: `mean()`, `sd()`, `cor()`, `t.test()`, …
+
+.footnote[Plots here are previews. You'll learn to make them yourself on Thursday.]
+
+---
+name: mean_median
+
+# Centre: mean or median?
+
+Six mice weighed. One weight was typed wrong:
+
+
+``` r
+weight &lt;- c(24.1, 25.3, 23.8, 26.0, 24.7, 251)   # 25.1 typed as 251
+mean(weight)
+median(weight)
+```
+
+```
+## [1] 62.48333
+## [1] 25
+```
+
+--
+
+- **Mean:** the average. Pulled by extreme values.
+- **Median:** the middle value. Robust to outliers.
+
+.content-box-yellow[
+A mean that looks odd is often a data-entry error. Look before you trust it!
+]
+
+---
+name: skewed
+
+# Skewed data
+
+Expression of one gene in 500 cells: most cells low, a few very high.
+
+&lt;img src="slide_r_basic_statistic_files/figure-html/skewed-1.png" width="648" style="display: block; margin: auto auto auto 0;" /&gt;
+
+With skewed data, the median describes a "typical" value better. Common in biology: counts, concentrations, expression.
+
+---
+name: spread
+
+# Spread: range and IQR
+
+Chick weights (g) after six weeks on six different feeds (`chickwts`):
+
+
+``` r
+w &lt;- chickwts$weight
+range(w)
+quantile(w)          # min, Q1, median, Q3, max
+IQR(w)               # Q3 - Q1: the middle 50 %
+```
+
+```
+## [1] 108 423
+##    0%   25%   50%   75%  100% 
+## 108.0 204.5 258.0 323.5 423.0 
+## [1] 119
+```
+
+--
+
+A **boxplot** draws exactly these numbers:
+
+&lt;img src="slide_r_basic_statistic_files/figure-html/boxplot-1.png" width="648" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+name: sd
+
+# Spread: variance and standard deviation
+
+How far are values from the mean, on average?
+
+`$$s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2} \qquad \text{variance} = s^2$$`
+
+
+``` r
+sd(w)      # same unit as the data: grams
+var(w)     # squared unit: grams²
+```
+
+```
+## [1] 78.0737
+## [1] 6095.503
+```
+
+--
+
+For roughly normal data: about **68 %** of values lie within 1 SD of the mean, **95 %** within 2 SD.
+
+.footnote[R divides by n − 1 (the *sample* SD), which is what you want for data from an experiment.]
+
+---
+name: by_group
+
+# Summaries per group
+
+Mean weight for each feed:
+
+
+``` r
+tapply(chickwts$weight, chickwts$feed, mean)
+```
+
+```
+##    casein horsebean   linseed  meatmeal   soybean sunflower 
+##  323.5833  160.2000  218.7500  276.9091  246.4286  328.9167
+```
+
+--
+
+The same with the tidyverse:
+
+
+``` r
+library(dplyr)
+chickwts |&gt;
+  group_by(feed) |&gt;
+  summarise(n = n(), mean = mean(weight), sd = sd(weight))
+```
+
+```
+## # A tibble: 6 × 4
+##   feed          n  mean    sd
+##   &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 casein       12  324.  64.4
+## 2 horsebean    10  160.  38.6
+## 3 linseed      12  219.  52.2
+## 4 meatmeal     11  277.  64.9
+## 5 soybean      14  246.  54.1
+## 6 sunflower    12  329.  48.8
+```
+
+---
+name: missing
+
+# Missing values
+
+Most summary functions return `NA` if any value is missing:
+
+
+``` r
+x &lt;- c(5.1, 4.8, NA, 5.6)
+mean(x)
+mean(x, na.rm = TRUE)
+sd(x, na.rm = TRUE)
+```
+
+```
+## [1] NA
+## [1] 5.166667
+## [1] 0.4041452
+```
+
+.content-box-yellow[
+Before you remove them: **how many** values are missing, and **why**? `sum(is.na(x))`
+]
+
+---
+name: correlation
+
+# Relate: correlation
+
+How strongly do two variables move together? From −1 to +1.
+
+&lt;img src="slide_r_basic_statistic_files/figure-html/cor.plot-1.png" width="720" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+``` r
+cor(trees$Girth, trees$Volume)   # thicker trees hold more wood
+```
+
+```
+## [1] 0.9671194
+```
+
+---
+name: spearman
+
+# Pearson or Spearman?
+
+Enzyme reaction rate vs. substrate concentration (`Puromycin`): it rises, then levels off.
+
+&lt;img src="slide_r_basic_statistic_files/figure-html/spearman.plot-1.png" width="648" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+``` r
+cor(pt$conc, pt$rate)                        # Pearson: straight-line relationship
+cor(pt$conc, pt$rate, method = "spearman")   # Spearman: any steady up (or down) trend
+```
+
+```
+## [1] 0.8310362
+## [1] 0.9753198
+```
+
+**Spearman** works on ranks: robust to outliers and curves. **Pearson** assumes a straight line.
+
+---
+name: cor_caveats
+
+# Correlation: three warnings
+
+1. **Plot first.** Anscombe's four data sets all have r = 0.82.
+2. **One outlier** can create or hide a strong Pearson correlation.
+3. **Correlation is not causation.** Ice-cream sales and sunburns are correlated. Neither causes the other: the sun does.
+
+&lt;br&gt;
+
+
+``` r
+cor(c(1, 2, 3, NA), c(2, 4, 7, 8), use = "complete.obs")   # handling NAs
+```
+
+```
+## [1] 0.9933993
+```
+
+---
+name: ttest
+
+# Compare: the t-test 🍺
+
+Invented in 1908 by William Gosset, a chemist at the **Guinness brewery**, who published as "Student". His data are in R: extra hours of sleep with two drugs, in the same 10 patients.
+
+
+``` r
+drug1 &lt;- sleep$extra[sleep$group == 1]
+drug2 &lt;- sleep$extra[sleep$group == 2]
+mean(drug2) - mean(drug1)
+t.test(drug2, drug1)$p.value                  # as if 20 different patients
+t.test(drug2, drug1, paired = TRUE)$p.value   # the same 10 patients
+```
+
+```
+## [1] 1.58
+## [1] 0.07939414
+## [1] 0.00283289
+```
+
+The design matters: pairing removes patient-to-patient differences.
+
+---
+name: pvalue
+
+# What a p-value is (and isn't)
+
+**p-value:** if there were **no real difference**, how likely is a difference at least this large, just by chance?
+
+- p = 0.003: very unlikely by chance alone.
+- p = 0.08: could easily be chance.
+
+--
+
+**It is not:**
+
+- the probability that the result is true;
+- a measure of **how large** or **important** the difference is. Always report the difference itself, e.g. "1.6 h more sleep".
+
+.footnote[By convention, p &lt; 0.05 is called "significant". Test many things and some will be "significant" by chance.]
+
+---
+name: tests
+
+# Which test?
+
+| Comparing | Data roughly normal | Not normal / ranks |
+|:----------|:--------------------|:-------------------|
+| 2 groups | `t.test(x, y)` | `wilcox.test(x, y)` |
+| 2 groups, same subjects | `t.test(x, y, paired = TRUE)` | `wilcox.test(x, y, paired = TRUE)` |
+| 2 numeric variables | `cor.test(x, y)` | `cor.test(x, y, method = "spearman")` |
+
+&lt;br&gt;
+
+The result of a test is a **list**:
+
+
+``` r
+res &lt;- t.test(drug2, drug1, paired = TRUE)
+res$conf.int     # 95 % confidence interval of the difference
+```
+
+```
+## [1] 0.7001142 2.4598858
+## attr(,"conf.level")
+## [1] 0.95
+```
+
+---
+name: recap
+
+# Recap
+
+| Question | Use | R |
+|:---------|:----|:--|
+| Typical value? | mean, or median if skewed / outliers | `mean()`, `median()` |
+| How variable? | SD, or IQR if skewed | `sd()`, `IQR()`, `quantile()` |
+| Per group? | summary for each group | `tapply()`, `group_by()` + `summarise()` |
+| Related? | Pearson, or Spearman for ranks/curves | `cor()`, `cor.test()` |
+| Different? | t-test, or Wilcoxon | `t.test()`, `wilcox.test()` |
+
+&lt;br&gt;
+
+**Remember:** plot first, mind the `NA`s, and report the size of an effect, not just its p-value.
+
+.footnote[More statistics: the NBIS course [Introduction to biostatistics and machine learning](https://nbisweden.github.io/workshop-mlbiostatistics/).]
+
+&lt;!-- --------------------- Do not edit this and below --------------------- --&gt;
+
+---
+name: end_slide
+class: end-slide, middle
+count: false
+
+# See you at the next lecture!
+
+.end-text[
+&lt;p class="smaller"&gt;
+&lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
+Created: 05-Nov-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+&lt;/p&gt;
+]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="assets/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightLanguage": "r",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
