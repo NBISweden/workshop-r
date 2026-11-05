@@ -1,6 +1,5 @@
 ---
-title: "Loops, decisions and functions"
-subtitle: "R Programming Foundation for Life Scientists"
+title: "Loops and functions"
 output:
   bookdown::html_document2:
     highlight: textmate
