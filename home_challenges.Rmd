@@ -1,0 +1,367 @@
+---
+title: "Data challenges"
+output:
+  bookdown::html_document2:
+    highlight: textmate
+    toc: false
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+      print: false
+    toc_depth: 4
+    number_sections: false
+    df_print: default
+    code_folding: none
+    self_contained: false
+    keep_md: false
+    encoding: 'UTF-8'
+    css: "assets/lab.css"
+    include:
+      after_body: assets/footer-lab.html
+---
+
+```{r,child="assets/header-lab.Rmd"}
+```
+
+```{r challenge-setup, include=FALSE}
+# One answer box per challenge. The walkthrough stays hidden until the
+# correct answer is typed. The answer comes from the walkthrough's own code.
+answer_box <- function(id, answer, example) {
+  key <- jsonlite::base64_enc(tolower(gsub("\\s", "", answer)))
+  sprintf(
+'<div class="challenge-answer">
+  <label for="input-%1$s"><strong>Your answer</strong> (e.g. <code>%3$s</code>):</label>
+  <input id="input-%1$s" type="text" autocomplete="off" data-key="%2$s" data-target="%1$s">
+  <button type="button" class="challenge-check" data-check="%1$s">Check</button>
+  <span class="challenge-feedback" id="feedback-%1$s"></span>
+</div>', id, key, example)
+}
+
+# All paths are relative to the folder of this page (the repo root), whatever
+# the working directory is when knitting.
+page_dir <- dirname(normalizePath(knitr::current_input(dir = TRUE)))
+
+# Knit one walkthrough from challenges/walkthroughs.Rmd and return its content
+# and its answer. Each walkthrough starts at a line "<!-- walkthrough: id -->".
+knit_walkthrough <- function(id, file = "challenges/walkthroughs.Rmd") {
+  path <- file.path(page_dir, file)
+  if (!file.exists(path)) {
+    stop("Can't find the walkthroughs: ", path,
+         "\nIt must be in a folder 'challenges' next to home_challenges.Rmd.")
+  }
+  lines   <- readLines(path, encoding = "UTF-8")
+  markers <- grep("^<!-- walkthrough: [A-Za-z0-9_-]+ -->$", lines)
+  ids     <- sub("^<!-- walkthrough: ([A-Za-z0-9_-]+) -->$", "\\1", lines[markers])
+  if (!id %in% ids) stop("No walkthrough with id '", id, "' in ", path)
+  start <- markers[ids == id] + 1
+  end   <- c(markers[-1] - 1, length(lines))[ids == id]
+  env <- new.env()
+  # run the walkthrough code from the repo root, so data paths work
+  old_root <- knitr::opts_knit$get("root.dir")
+  knitr::opts_knit$set(root.dir = page_dir)
+  on.exit(knitr::opts_knit$set(root.dir = old_root))
+  content <- knitr::knit_child(text = lines[start:end], envir = env, quiet = TRUE)
+  if (!exists("answer", envir = env)) stop("Walkthrough '", id, "' does not define `answer`")
+  list(content = content, answer = env$answer)
+}
+
+# Print the hidden walkthrough block: a collapsed <details>, shown once unlocked
+walkthrough_block <- function(id, wt) {
+  # Turn "##### Step" headings into plain HTML headings. As markdown headings,
+  # pandoc would wrap them in sections that run past </details> and break the tabs.
+  wt$content <- gsub("(^|\n)##### ([^\n]*)", "\\1<h5 class=\"wt-step\">\\2</h5>", wt$content)
+  cat("\n\n<details class=\"walkthrough\" id=\"walkthrough-", id, "\">\n",
+      "<summary>🔓 Solution walkthrough (click to view)</summary>\n\n",
+      wt$content, "\n\n</details>\n\n", sep = "")
+}
+```
+
+<style>
+.challenge-card { border: 1px solid #ddd; border-radius: 8px; padding: 1em 1.5em; margin: 1.5em 0; }
+.challenge-title { font-size: 150%; font-weight: bold; margin: 0.3em 0 0.4em; }
+.challenge-meta { color: #666; font-size: 90%; margin-top: -0.3em; }
+.map-hint { display: block; margin-top: 0.3em; font-weight: normal; }
+.challenge-answer { margin: 1em 0; }
+.challenge-answer input { width: 12em; margin: 0 0.5em; padding: 6px 10px; font-size: 100%; }
+/* own class, not .btn: lab.css fixes button.btn to 35 x 35 px */
+.challenge-check { width: auto; height: auto; padding: 6px 22px; font-size: 100%;
+  font-weight: bold; color: white; background-color: #95b540; border: 1px solid #95b540;
+  border-radius: 4px; cursor: pointer; }
+.challenge-check:hover, .challenge-check:focus { background-color: white; color: #95b540; }
+.challenge-feedback { margin-left: 0.5em; font-weight: bold; }
+.walkthrough { display: none; border-top: 2px dashed #ccc; margin-top: 1em; padding-top: 0.5em; }
+.walkthrough > summary { cursor: pointer; font-weight: bold; font-size: 110%; }
+.walkthrough.unlocked { display: block; }
+</style>
+
+# A treasure awaits you across the sea of data!
+
+```{r treasure-map, echo=FALSE}
+htmltools::includeHTML(file.path(page_dir, "challenges/treasure_map.html"))
+```
+
+You will have one short data challenge per day, each with **one exact answer**. Type the answer in the box to check it. Every challenge you solve removes the fog from one island. Solve all four to find the treasure.
+
+<div class="alert alert-info">
+  <strong>A sailoR needs a crew! Talk to your colleagues and the TAs to discuss strategy, exchange tips! Use the hints for each challenge, and try to limit the use of AI.</strong>
+</div>
+
+## {.tabset .tabset-fade .tabset-pills -}
+
+<!-- ======================= MONDAY: Countable Colonies ======================= -->
+
+### 🧫 Mon · Colonies {.unlisted -}
+
+```{r wt-colonies, include=FALSE}
+wt_colonies <- knit_walkthrough("colonies")
+```
+
+::: {.challenge-card}
+
+<p class="challenge-title">🧫 Monday · Countable Colonies</p>
+
+<p class="challenge-meta">Beginner · ~30 min · Monday: data types, operators, vectors</p>
+
+**The scenario.** You diluted a bacterial culture 1,000 to 1,000,000 times, spread 0.1 mL of each dilution on three plates, and counted the colonies the next day. Some plates were too crowded to count: you wrote `TNTC` (too numerous to count).
+
+**Your task.** Estimate the concentration of the culture in colony-forming units per mL (CFU/mL):
+
+- only use plates with **30 to 300 colonies** (the countable range),
+- for each of those plates, CFU/mL = colonies ÷ (dilution × volume plated),
+- take the **mean** of these values.
+
+Report **log10 of the mean CFU/mL, rounded to 2 decimals** (e.g. `7.12`). `log10()` works like `log2()`, with base 10.
+
+<details>
+  <summary>Get the data</summary>
+Copy these lines into R:
+```{r, code=readLines(file.path(page_dir, "data/challenges/colonies.R")), eval=FALSE}
+```
+</details>
+
+<details>
+  <summary>Hint 1</summary>
+What type is `colonies`? What happens when you convert it with `as.numeric()`?
+</details>
+
+<details>
+  <summary>Hint 2</summary>
+Build one logical vector that is `TRUE` for countable plates, and use it to select from **both** `colonies` and `dilution`.
+</details>
+
+```{r, results='asis', echo=FALSE}
+cat(answer_box("colonies", wt_colonies$answer, "7.12"))
+```
+
+```{r, results='asis', echo=FALSE}
+walkthrough_block("colonies", wt_colonies)
+```
+
+:::
+
+<!-- ======================= TUESDAY: Mouse Mismatch ======================= -->
+
+### 🐭 Tue · Mice {.unlisted -}
+
+```{r wt-mice, include=FALSE}
+wt_mice <- knit_walkthrough("mice")
+```
+
+::: {.challenge-card}
+
+<p class="challenge-title">🐭 Tuesday · Mouse Mismatch</p>
+
+<p class="challenge-meta">Beginner+ · ~45 min · Tuesday: data frames (tidyverse optional)</p>
+
+**The scenario.** You weighed 20 mice. The weights come from the scale; the genotypes (wild type, `WT`, or knockout, `KO`) come from the animal facility, in a separate table. Do knockout mice weigh more?
+
+**Your task.** Combine the two tables, so that every mouse has both its weight and its genotype. Then calculate the **mean weight of the KO mice minus the mean weight of the WT mice**, rounded to **2 decimals** (e.g. `0.12`).
+
+<details>
+  <summary>Get the data</summary>
+Copy these lines into R. They read both tables straight from the web (you'll learn all about reading files on Friday):
+```{r, eval=FALSE}
+weights   <- read.csv2("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_weights.csv")
+genotypes <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/mouse_genotypes.csv")
+```
+</details>
+
+<details>
+  <summary>Hint 1</summary>
+Look at both data frames with `head()` and `str()`. Are the mice in the same order in both tables? Can you just put the columns side by side?
+</details>
+
+<details>
+  <summary>Hint 2</summary>
+Does every ID appear in both tables? (`x %in% y` checks, for each element of `x`, whether it is in `y`.) After merging, how many rows do you have?
+</details>
+
+```{r, results='asis', echo=FALSE}
+cat(answer_box("mice", wt_mice$answer, "0.12"))
+```
+
+```{r, results='asis', echo=FALSE}
+walkthrough_block("mice", wt_mice)
+```
+
+:::
+
+<!-- ======================= WEDNESDAY: Primer Pairs ======================= -->
+
+### 🧬 Wed · Primers {.unlisted -}
+
+```{r wt-primers, include=FALSE}
+wt_primers <- knit_walkthrough("primers")
+```
+
+::: {.challenge-card}
+
+<p class="challenge-title">🧬 Wednesday · Primer Pairs</p>
+
+<p class="challenge-meta">Intermediate · ~45 min · Wednesday: loops and functions (tidyverse optional)</p>
+
+**The scenario.** A colleague designed forward (`F`) and reverse (`R`) qPCR primers for 30 genes and typed them into a spreadsheet. Before ordering, you check which pairs are good.
+
+**Your task.** A primer pair **passes** if:
+
+- both primers have a **GC content of 40–60 %**,
+- both primers have a **melting temperature (Tm) of 52–60 °C**, using the Wallace rule: Tm = 2 × (A + T) + 4 × (G + C),
+- the two Tm values differ by **at most 2 °C**.
+
+Report the **number of passing pairs** and the **target of the passing pair with the highest mean Tm**, joined by a dash (e.g. `7-GAPDH`).
+
+<details>
+  <summary>Get the data</summary>
+Copy this line into R. It reads the table straight from the web:
+```{r, eval=FALSE}
+primers <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/primers.csv")
+```
+</details>
+
+<details>
+  <summary>Hint 1</summary>
+Write a function that takes **one** sequence and counts its G/C and A/T bases. `substr(seq, i, i)` gives the base at position `i`, and a `for` loop over `1:nchar(seq)` visits every position. Test it on a sequence where you know the answer, e.g. `"GGCCAATT"`. Then use a second loop to run it on every primer.
+</details>
+
+<details>
+  <summary>Hint 2</summary>
+Look closely at the data before you start. `table(primers$direction)` and `head(primers$sequence)` are good places to look. Is everything written the same way?
+</details>
+
+<details>
+  <summary>Hint 3</summary>
+To compare the two primers of a pair, put them in the same row: make one data frame of forward primers and one of reverse primers, and `merge()` them by target.
+</details>
+
+```{r, results='asis', echo=FALSE}
+cat(answer_box("primers", wt_primers$answer, "7-GAPDH"))
+```
+
+```{r, results='asis', echo=FALSE}
+walkthrough_block("primers", wt_primers)
+```
+
+:::
+
+<!-- ======================= THURSDAY: Who's the Imposter? ======================= -->
+
+### 🕵️ Thu · Imposter {.unlisted -}
+
+```{r wt-imposter, include=FALSE}
+wt_imposter <- knit_walkthrough("imposter")
+```
+
+::: {.challenge-card}
+
+<p class="challenge-title">🕵️ Thursday · Who's the Imposter?</p>
+
+<p class="challenge-meta">Advanced · until Friday 14:00 · Thursday: base graphics, ggplot2, plus the whole week</p>
+
+**The scenario.** You received RNA-seq counts for 12 mouse liver samples, with a sample sheet. Something went wrong in the lab: **one sample is mislabelled**. Its sex in the sample sheet doesn't match its biology.
+
+**Your task.** Find the mislabelled sample.
+
+- Normalise the counts to **counts per million (CPM)**: divide each sample's counts by its total counts (all genes in the file), times 1,000,000.
+- Use sex-specific genes: *XIST* is expressed in female cells; *RPS4Y1*, *DDX3Y*, *KDM5D*, *UTY* and *EIF1AY* are on the Y chromosome, so they are expressed in male cells only.
+- Make a plot that shows the problem.
+
+Report the **sample ID** and its **RPS4Y1 expression in CPM, rounded to a whole number**, joined by a dash (e.g. `S01-123`).
+
+**Bonus (no answer box):** two samples have a second problem. Can you find it?
+
+<details>
+  <summary>Get the data</summary>
+Copy these lines into R. They read both tables straight from the web:
+```{r, eval=FALSE}
+counts <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/counts.csv", row.names = 1)   # gene names become row names
+sheet  <- read.csv("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/challenges/sample_sheet.csv")
+```
+</details>
+
+<details>
+  <summary>Hint 1</summary>
+`colSums()` gives the library size of each sample. Are they similar? To divide each column by its own total, loop over the samples, or transpose with `t()`, divide, and transpose back.
+</details>
+
+<details>
+  <summary>Hint 2</summary>
+For each sample, you need the CPM of *XIST* and the CPM of the Y genes (e.g. their mean), plus the sex from the sample sheet. Put them in one data frame, then plot *XIST* against the Y genes, coloured by sex.
+</details>
+
+<details>
+  <summary>Hint 3 (bonus)</summary>
+`cor()` on the CPM matrix compares every sample with every other sample. Can you show the result as a plot?
+</details>
+
+```{r, results='asis', echo=FALSE}
+cat(answer_box("imposter", wt_imposter$answer, "S01-123"))
+```
+
+```{r, results='asis', echo=FALSE}
+walkthrough_block("imposter", wt_imposter)
+```
+
+:::
+
+<!-- To add a challenge: see the instructions at the top of challenges/walkthroughs.Rmd -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function normalise(s) { return s.trim().toLowerCase().replace(/\s+/g, ""); }
+  function check(id) {
+    var input = document.getElementById("input-" + id);
+    var feedback = document.getElementById("feedback-" + id);
+    var walkthrough = document.getElementById("walkthrough-" + id);
+    var guess;
+    try { guess = btoa(normalise(input.value)); } catch (e) { guess = ""; }
+    if (guess === input.dataset.key) {
+      feedback.textContent = "✅ Arrr! You found it!";
+      var hint = document.createElement("span");
+      hint.className = "map-hint";
+      hint.textContent = "🗺️ Island found! See the map above.";
+      feedback.appendChild(hint);
+      walkthrough.classList.add("unlocked");
+      if (window.treasureMap) window.treasureMap.solve(id);
+    } else {
+      feedback.textContent = "❌ Not quite. Check the hints, and try again!";
+    }
+  }
+  // challenges solved earlier in this browser: unlock their walkthroughs again
+  if (window.treasureMap) {
+    window.treasureMap.solved().forEach(function (id) {
+      var walkthrough = document.getElementById("walkthrough-" + id);
+      var feedback = document.getElementById("feedback-" + id);
+      if (walkthrough) walkthrough.classList.add("unlocked");
+      if (feedback) feedback.textContent = "✅ Solved";
+    });
+  }
+  document.querySelectorAll("[data-check]").forEach(function (button) {
+    button.addEventListener("click", function () { check(button.dataset.check); });
+  });
+  document.querySelectorAll(".challenge-answer input").forEach(function (input) {
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") check(input.dataset.target);
+    });
+  });
+});
+</script>

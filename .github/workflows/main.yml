@@ -127,8 +127,12 @@ jobs:
           ls -lh ${PATH_REPO}/${PATH_EXPORT_CANVAS}
 
           # Clone gh-pages branch and remove old directories with same name
-          git clone --single-branch --branch gh-pages "https://${{ secrets.TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" tmprepo
+          AUTH=$(printf 'x-access-token:%s' "${{ secrets.TOKEN }}" | base64 -w0)
+          git -c http.https://github.com/.extraheader="AUTHORIZATION: basic ${AUTH}" \
+              clone --single-branch --branch gh-pages "https://github.com/${GITHUB_REPOSITORY}.git" tmprepo
           cd tmprepo
+          git config http.https://github.com/.extraheader "AUTHORIZATION: basic ${AUTH}"
+
           if [ -d ${PATH_EXPORT} ]; then
             echo "Directory ${PATH_EXPORT} already exists. Removing the directory."
             git rm -r ${PATH_EXPORT}

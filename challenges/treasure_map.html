@@ -1,0 +1,236 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+#tm { --navy: #12355B; --sea: #2E6A9E; --cream: #FFF8EC; --gold: #F6C453; --red: #B23A2E; --prompt: #C2410C;
+  margin: 1.5em 0 2em; color: var(--navy); }
+#tm svg { display: block; width: 100%; height: auto; border-radius: 28px; }
+#tm .tm-fog { transition: opacity 0.9s ease; }
+#tm .tm-fog.tm-lifted { opacity: 0; pointer-events: none; }
+#tm .tm-draw { stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s ease-in-out; }
+#tm .tm-draw.tm-on { stroke-dashoffset: 0; }
+#tm-m5 .tm-draw { transition-delay: 1.2s; }
+#tm .tm-fog[data-step="5"] { transition-delay: 2.2s; }
+#tm .tm-lid { transform-box: fill-box; transform-origin: 0% 100%; transition: transform 0.8s 3s ease; }
+#tm.tm-done .tm-lid { transform: translate(-4px, -10px) rotate(-22deg); }
+#tm .tm-gold { opacity: 0; transition: opacity 0.6s 3.4s ease; }
+#tm.tm-done .tm-gold { opacity: 1; }
+#tm .tm-after, #tm.tm-done .tm-before { display: none; }
+#tm.tm-done .tm-after { display: inline; }
+#tm .tm-status { margin: 0.8em 0 0; font-family: 'JetBrains Mono', 'Courier New', monospace; font-weight: 700; font-size: 18px; text-align: center; }
+#tm .tm-status span { color: var(--prompt); }
+#tm .tm-prize { display: none; margin: 1em auto 0; max-width: 560px; padding: 0.5em 1.4em 0.9em; background: #FFFFFF;
+  border: 4px solid var(--navy); border-radius: 18px; text-align: center; }
+#tm.tm-done .tm-prize { display: block; }
+#tm .tm-prize .tm-prize-title { margin: 0 0 0.15em; line-height: 1.1; font-family: 'Lilita One', 'Trebuchet MS', sans-serif; font-weight: 400; font-size: 36px; color: var(--red); }
+#tm .tm-prize p { margin: 0; font-size: 16px; }
+#tm .tm-play { margin-top: 0.8em; padding: 6px 18px; width: auto; height: auto; cursor: pointer;
+  font: 700 14px 'JetBrains Mono', 'Courier New', monospace; color: #FFFFFF; background: var(--sea);
+  border: 3px solid var(--navy); border-radius: 12px; }
+#tm .tm-play:hover, #tm .tm-play:focus { background: var(--navy); }
+#tm .tm-reset { display: block; margin: 0.6em auto 0; background: none; border: none; width: auto; height: auto;
+  font: 13px 'JetBrains Mono', 'Courier New', monospace; color: #6B7C8F; text-decoration: underline; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) {
+  #tm .tm-fog, #tm .tm-draw, #tm .tm-lid, #tm .tm-gold { transition: none; }
+}
+</style>
+<div id="tm">
+<svg viewBox="0 0 900 500" role="img" aria-labelledby="tm-title tm-desc">
+<title id="tm-title">Treasure map of the week's data challenges</title>
+<desc id="tm-desc">A pirate ship sails from the bottom left past four islands, one per day, to Treasure Island. Each solved challenge lifts the fog from an island and draws the next stretch of the route. Solving Thursday's challenge reveals Imposter Alcove and then Treasure Island, and solving all four opens the treasure chest.</desc>
+<defs>
+<mask id="tm-m1" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M145 392 Q175 356 180 340" stroke="#fff" stroke-width="14" fill="none"/></mask>
+<mask id="tm-m2" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M262 292 Q280 210 322 182" stroke="#fff" stroke-width="14" fill="none"/></mask>
+<mask id="tm-m3" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M435 162 Q505 180 512 288" stroke="#fff" stroke-width="14" fill="none"/></mask>
+<mask id="tm-m4" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M562 298 Q590 215 628 182" stroke="#fff" stroke-width="14" fill="none"/></mask>
+<mask id="tm-m5" maskUnits="userSpaceOnUse"><path class="tm-draw" pathLength="1" stroke-dasharray="1" d="M735 168 Q800 190 806 286" stroke="#fff" stroke-width="14" fill="none"/></mask>
+</defs>
+<rect width="900" height="500" fill="#2E6A9E"/>
+<path d="M0 60 Q45 46 90 60 T180 60 T270 60 T360 60 T450 60 T540 60 T630 60 T720 60 T810 60 T900 60" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="3"/>
+<path d="M0 470 Q45 456 90 470 T180 470 T270 470 T360 470 T450 470 T540 470 T630 470 T720 470 T810 470 T900 470" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="3"/>
+<text class="tm-before" x="300" y="452" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="500" font-size="15" fill="#FFFFFF" fill-opacity="0.45" transform="rotate(-2 300 452)">Error: object 'treasure' not found</text>
+<text class="tm-after" x="300" y="452" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="500" font-size="15" fill="#FFFFFF" fill-opacity="0.75" transform="rotate(-2 300 452)">[1] "treasure"  # found it!</text>
+<text x="40" y="40" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="500" font-size="15" fill="#FFFFFF" fill-opacity="0.45">Warning: here be NAs</text>
+<path d="M650 440 L674 398 L690 440 Z" fill="#6B7C8F" stroke="#12355B" stroke-width="3" stroke-linejoin="round"/>
+<text x="672" y="433" text-anchor="middle" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="700" font-size="12" fill="#FFFFFF">NA</text>
+<g transform="translate(846 62)" stroke="#12355B" stroke-width="3" stroke-linejoin="round">
+<circle r="28" fill="#FFF8EC"/>
+<path d="M0 -24 L7 0 L0 24 L-7 0 Z" fill="#B23A2E"/>
+<path d="M-24 0 L0 -7 L24 0 L0 7 Z" fill="#FFF8EC"/>
+</g>
+<g mask="url(#tm-m1)"><path d="M145 392 Q175 356 180 340" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g mask="url(#tm-m2)"><path d="M262 292 Q280 210 322 182" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g mask="url(#tm-m3)"><path d="M435 162 Q505 180 512 288" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g mask="url(#tm-m4)"><path d="M562 298 Q590 215 628 182" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g mask="url(#tm-m5)"><path d="M735 168 Q800 190 806 286" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/></g>
+<g transform="translate(90 400)">
+<path d="M-48 8 L48 8 L36 34 L-36 34 Z" fill="#8B5A2B" stroke="#12355B" stroke-width="3" stroke-linejoin="round"/>
+<rect x="-3" y="-58" width="6" height="66" fill="#5C3A1E"/>
+<path d="M-34 -48 Q0 -40 34 -48 L30 0 Q0 6 -30 0 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="3" stroke-linejoin="round"/>
+<text y="-8" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="38" fill="#2E6A9E">R</text>
+<rect x="3" y="-74" width="28" height="18" rx="2" fill="#1D1D1F"/>
+<circle cx="17" cy="-66" r="4.5" fill="#FFFFFF"/>
+</g>
+<g transform="translate(225 325)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="-14" cy="0" r="19" fill="#FFFFFF" stroke="#12355B" stroke-width="3"/>
+<circle cx="-14" cy="0" r="13" fill="none" stroke="#8A97A6" stroke-width="2"/>
+<circle cx="-20" cy="-4" r="3.5" fill="#F6C453"/><circle cx="-8" cy="3" r="3.5" fill="#B23A2E"/><circle cx="-16" cy="7" r="3" fill="#F6C453"/><circle cx="-6" cy="-7" r="2.5" fill="#F6C453"/>
+<path d="M30 14 Q34 -10 26 -26" fill="none" stroke="#8B5A2B" stroke-width="5" stroke-linecap="round"/>
+<path d="M26 -26 q-14 -6 -22 4 M26 -26 q14 -8 22 2 M26 -26 q0 -14 -10 -18" fill="none" stroke="#1F7A7A" stroke-width="5" stroke-linecap="round"/>
+<text y="68" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Colony Cove</text>
+</g>
+<g transform="translate(375 155)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<ellipse cx="-4" cy="4" rx="24" ry="15" fill="#8A97A6" stroke="#12355B" stroke-width="3"/>
+<circle cx="-22" cy="-10" r="8" fill="#8A97A6" stroke="#12355B" stroke-width="3"/>
+<circle cx="-28" cy="2" r="2.5" fill="#12355B"/>
+<path d="M20 6 q20 0 18 -18" fill="none" stroke="#12355B" stroke-width="3" stroke-linecap="round"/>
+<text y="-52" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Mismatch Isle</text>
+</g>
+<g transform="translate(520 330)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<path d="M-30 -20 C-15 -20 -15 20 0 20 C15 20 15 -20 30 -20" fill="none" stroke="#2E6A9E" stroke-width="5" stroke-linecap="round"/>
+<path d="M-30 20 C-15 20 -15 -20 0 -20 C15 -20 15 20 30 20" fill="none" stroke="#B23A2E" stroke-width="5" stroke-linecap="round"/>
+<path d="M-22 -12 V12 M-8 -8 V8 M8 -8 V8 M22 -12 V12" stroke="#12355B" stroke-width="2.5" stroke-linecap="round"/>
+<text y="68" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Primer Point</text>
+</g>
+<g transform="translate(670 155)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<line x1="10" y1="10" x2="30" y2="28" stroke="#5C3A1E" stroke-width="8" stroke-linecap="round"/>
+<circle cx="-4" cy="-4" r="20" fill="#CFE6F0" stroke="#12355B" stroke-width="5"/>
+<text x="-4" y="5" text-anchor="middle" font-family="'JetBrains Mono', 'Courier New', monospace" font-weight="700" font-size="20" fill="#B23A2E">?</text>
+<path d="M-48 8 q6 -10 12 0 q6 10 12 0" fill="none" stroke="#12355B" stroke-width="2.5" stroke-linecap="round"/>
+<text y="-52" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Imposter Alcove</text>
+</g>
+<g transform="translate(810 330)">
+<path d="M-70 2 C-68 -28 -32 -40 2 -38 C38 -38 72 -24 70 4 C68 32 32 42 -4 40 C-40 40 -72 30 -70 2 Z" fill="#FFF8EC" stroke="#12355B" stroke-width="4" stroke-linejoin="round"/>
+<path d="M-46 -8 L-28 10 M-28 -8 L-46 10" stroke="#B23A2E" stroke-width="7" stroke-linecap="round"/>
+<g class="tm-gold">
+<circle cx="14" cy="-12" r="7" fill="#F6C453" stroke="#12355B" stroke-width="2.5"/>
+<circle cx="26" cy="-18" r="7" fill="#F6C453" stroke="#12355B" stroke-width="2.5"/>
+<circle cx="38" cy="-12" r="7" fill="#F6C453" stroke="#12355B" stroke-width="2.5"/>
+<path d="M50 -32 l4 -10 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 Z" fill="#FFFFFF"/>
+</g>
+<rect x="2" y="-8" width="48" height="30" rx="4" fill="#8B5A2B" stroke="#12355B" stroke-width="3"/>
+<rect x="22" y="0" width="8" height="10" rx="1.5" fill="#F6C453" stroke="#12355B" stroke-width="2"/>
+<path class="tm-lid" d="M2 -8 Q26 -28 50 -8 Z" fill="#A86B35" stroke="#12355B" stroke-width="3" stroke-linejoin="round"/>
+<text y="68" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="21" fill="#FFF8EC">Treasure Island</text>
+</g>
+<g class="tm-fog" data-step="1" transform="translate(225 328)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="54" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+<g class="tm-fog" data-step="2" transform="translate(375 150)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="-42" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+<g class="tm-fog" data-step="3" transform="translate(520 333)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="54" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+<g class="tm-fog" data-step="4" transform="translate(670 150)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="-42" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+<g class="tm-fog" data-step="5" transform="translate(810 333)"><ellipse rx="92" ry="64" fill="#FFFFFF"/><ellipse cx="-50" cy="-24" rx="46" ry="34" fill="#FFFFFF"/><ellipse cx="52" cy="22" rx="48" ry="36" fill="#FFFFFF"/><ellipse cy="54" rx="90" ry="32" fill="#FFFFFF"/><text y="16" text-anchor="middle" font-family="'Lilita One', 'Trebuchet MS', sans-serif" font-size="44" fill="#12355B">?</text></g>
+</svg>
+<p class="tm-status"><span>&gt;</span> islands_found() <span id="tm-count">[1] 0 of 4</span></p>
+<div class="tm-prize" role="status">
+<p class="tm-prize-title">Treasure found!</p>
+<p>Well done sailoR! You have solved all four data challenges. A reward awaits you!</p>
+<button type="button" class="tm-play" id="tm-play">🔊 Play the shanty again</button>
+</div>
+<button type="button" class="tm-reset" id="tm-reset">Start the map over</button>
+</div>
+<script>
+(function () {
+  // which steps (fog + route) each challenge reveals; Thursday also reveals Treasure Island
+  var steps = { colonies: [1], mice: [2], primers: [3], imposter: [4, 5] };
+  var order = ["colonies", "mice", "primers", "imposter"];
+  var key = "r-course-treasure-map";
+  var root = document.getElementById("tm");
+  function load() {
+    try { return JSON.parse(localStorage.getItem(key)) || []; } catch (e) { return []; }
+  }
+  function save(list) {
+    try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
+  }
+  var solved = load();
+
+  // ---- Sound: "What shall we do with the drunken sailor" (traditional sea shanty,
+  // public domain), played on a synthesised accordion, then a jingle of coins.
+  // Made with the Web Audio API: no audio files needed.
+  var audio = null;
+  function getAudio() {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    if (!audio) audio = new AC();
+    if (audio.state === "suspended") audio.resume();
+    return audio;
+  }
+  function hz(midi) { return 440 * Math.pow(2, (midi - 69) / 12); }
+  function note(ctx, midi, start, dur, vol, type) {
+    var out = ctx.createGain();
+    out.gain.setValueAtTime(0, start);
+    out.gain.linearRampToValueAtTime(vol, start + 0.02);
+    out.gain.setValueAtTime(vol, start + dur * 0.75);
+    out.gain.linearRampToValueAtTime(0, start + dur * 0.98);
+    var filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 1800;
+    filter.connect(out);
+    out.connect(ctx.destination);
+    [-6, 6].forEach(function (cents) {           // two detuned reeds = accordion
+      var osc = ctx.createOscillator();
+      osc.type = type || "sawtooth";
+      osc.frequency.value = hz(midi);
+      osc.detune.value = cents;
+      osc.connect(filter);
+      osc.start(start);
+      osc.stop(start + dur);
+    });
+  }
+  function playShanty() {
+    var ctx = getAudio();
+    if (!ctx) return;
+    var A = 69, B = 71, C = 72, D = 62, E = 64, F = 65, G = 67, Dh = 74;
+    var q = 0.26, e = q / 2;                     // quarter and eighth note (seconds)
+    var tune = [
+      [A, q], [A, e], [A, e], [A, q], [A, e], [A, e], [A, q], [D, q], [F, q], [A, q],
+      [G, q], [G, e], [G, e], [G, q], [G, e], [G, e], [G, q], [C - 12, q], [E, q], [G, q],
+      [A, q], [A, e], [A, e], [A, q], [A, e], [A, e], [A, q], [B, q], [C, q], [Dh, q],
+      [C, q], [A, q], [G, q], [E, q], [D, q * 2], [D, q * 2]
+    ];
+    var bass = [50, 50, 48, 48, 50, 50, 48, 50];   // one bass note per bar
+    var t = ctx.currentTime + 0.05;
+    tune.forEach(function (n) { note(ctx, n[0], t, n[1], 0.09); t += n[1]; });
+    var b0 = ctx.currentTime + 0.05;
+    bass.forEach(function (m, i) { note(ctx, m, b0 + i * q * 4, q * 3.6, 0.05, "triangle"); });
+    [86, 90, 93, 98, 93, 98].forEach(function (m, i) {   // coins
+      note(ctx, m, t + 0.05 + i * 0.07, 0.25, 0.05, "triangle");
+    });
+  }
+  function render() {
+    order.forEach(function (id) {
+      var on = solved.indexOf(id) >= 0;
+      steps[id].forEach(function (step) {
+        root.querySelector('.tm-fog[data-step="' + step + '"]').classList.toggle("tm-lifted", on);
+        root.querySelector("#tm-m" + step + " .tm-draw").classList.toggle("tm-on", on);
+      });
+    });
+    var n = order.filter(function (id) { return solved.indexOf(id) >= 0; }).length;
+    document.getElementById("tm-count").textContent = "[1] " + n + " of 4";
+    root.classList.toggle("tm-done", n === order.length);
+  }
+  window.treasureMap = {
+    solve: function (id) {
+      if (order.indexOf(id) < 0 || solved.indexOf(id) >= 0) return;
+      solved.push(id);
+      save(solved);
+      render();
+      if (solved.length === order.length) {
+        getAudio();                          // unlock audio while we still have the click
+        setTimeout(playShanty, 3000);        // play when the chest opens
+      }
+    },
+    solved: function () { return solved.slice(); }
+  };
+  document.getElementById("tm-play").addEventListener("click", playShanty);
+  document.getElementById("tm-reset").addEventListener("click", function () {
+    solved = [];
+    save(solved);
+    render();
+    document.querySelectorAll(".walkthrough.unlocked").forEach(function (w) { w.classList.remove("unlocked"); w.open = false; });
+    document.querySelectorAll(".challenge-feedback").forEach(function (f) { f.textContent = ""; });
+  });
+  render();
+})();
+</script>

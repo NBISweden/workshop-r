@@ -1,6 +1,5 @@
 ---
 title: "Loading data into R"
-subtitle: "R Programming Foundation for Life Scientists"
 output:
   bookdown::html_document2:
     highlight: textmate
@@ -24,295 +23,308 @@ output:
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
+```{r,include=FALSE}
+# For rendering the website: run the lab in a temporary folder that looks
+# like a fresh student project, with only the lab files in data/
+lab_dir <- file.path(tempdir(), "r-course")
+dir.create(file.path(lab_dir, "data"), recursive = TRUE, showWarnings = FALSE)
+lab_files <- c("normalized.txt", "example.data", "cell_counts_eu.csv",
+               "qpcr_export.txt", "primers_broken.tsv", "rna_qc.xlsx")
+file.copy(file.path("data/lab_loadingdata", lab_files),
+          file.path(lab_dir, "data", lab_files), overwrite = TRUE)
+knitr::opts_knit$set(root.dir = lab_dir)
+has_readxl <- requireNamespace("readxl", quietly = TRUE)
+```
+
 # Introduction
 
-Up until now we have mostly created the object we worked with on the fly from within R. The most common use-case is however to read in different data sets that are stored as files, either somewhere on a server or locally on your computer. In this exercise we will test some common ways to import data in R and also how to save data from R. After this exercise you will know how to:
+So far, we've typed our data into R. Real data comes in files: from instruments, collaborators, databases. In this lab you will:
 
--   Read data from txt files and save the information as a vector, data frame or a list.
--   Identify missing data and correctly encode this at import
--   Check that imported objects are imported correctly
--   Read data from online resource
--   Write data to a file
+- organise your files and use **relative paths**,
+- read text files with `read.table()`, `read.csv()`, `read.csv2()` and `read.delim()`,
+- describe a file to R: separator, decimal mark, missing values, comment lines,
+- **check** what you've read,
+- find and fix problems in broken files,
+- read Excel files,
+- write data to files,
+- explore a real genome annotation.
 
-# `scan()`
+<div class="boxy boxy-lightbulb">
+As always: predict first, then run. If the output surprises you, find out why. Click the key to reveal example code. Keep your code and notes in your **R Markdown learning journal**.
+</div>
 
-The function `scan()` can be used both to read data from files and directly from keyboard. The function is very flexible and have many different settings that allow to read data in different formats. To read and store a set of words that you type on your keyboard try the following code that will prompt your for input. After each word press enter and R will prompt you for new input. After the last word have been typed press enter twice to get back to your R prompt and have your character vector named words available in R your session.
+# Get the files
+
+1. Open your `r-course` **Project**. Where is R looking for files? Create a folder called `data` inside it.
+> No r-course Project yet? Create one: File → New Project → New Directory → New Project, name it r-course.
 
 ```{r,eval=FALSE}
-words <- scan(what=character())
+getwd()
+dir.create("data")
 ```
 
-We will read in this [book chapter](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt). Read the manual for scan and read the text file named **book_chapter.txt** into R, first as vector and then as a list, with each word in the chapter saved as a entry in the vector or as a single vector in a list.
+2. Download the files for this lab into `data/`:
 
+```{r}
+base  <- "https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/"
+files <- c("normalized.txt", "example.data", "cell_counts_eu.csv",
+           "qpcr_export.txt", "primers_broken.tsv", "rna_qc.xlsx")
+```
+
+```{r,eval=FALSE}
+download.file(paste0(base, files), destfile = paste0("data/", files),
+              method = "libcurl", mode = "wb")
+```
+
+Check that all six files arrived:
 
 ```{r,accordion=TRUE}
-shelley.vec <- scan(file="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt", what=character())
-str(shelley.vec)
-
-shelley.list <- scan(file="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt", what=list(character()))
-class(shelley.list)
+file.exists(paste0("data/", files))
+list.files("data")
 ```
 
-Check that your newly created objects contain the correct information and have been saved as you have intended eg. each entry of the vector or the list should contain a single word. Once your convinced that you have a sound word vector and list.
+From now on, read every file with a **relative path** like `"data/qpcr_export.txt"`.
 
-1.  Identify the longest word in your vector.
+# Reading text files
+
+3. `normalized.txt` holds normalised expression values for *Arabidopsis thaliana* genes in a *bzip29* mutant and wild type (three replicates each). Look at the first three lines with `readLines()`. What separates the columns? Then read it with `read.table()`, using the defaults.
 
 ```{r,accordion=TRUE}
-sort(nchar(shelley.vec), decreasing=TRUE)
-which(nchar(shelley.vec) == max(nchar(shelley.vec)))
-shelley.vec[381]
+readLines("data/normalized.txt", n = 3)    # \t means a tab
+expr <- read.table("data/normalized.txt")
+dim(expr)
+head(expr, 3)
 ```
 
-2.  Go back and fix the way you read in the text to make sure that you get a vector with all words in chapter as individual entries also filter any non-letter characters and now identify the longest word.
+4. The first line has one name fewer than the other lines. What did `read.table()` do with the first column?
 
 ```{r,accordion=TRUE}
-shelley.vec2 <- scan(file="https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/book_chapter.txt", what=character(), sep=' ', quote=NULL)
-shelley.filt2 <- gsub(pattern='[^[:alnum:] ]', replacement="", x=shelley.vec2)
-longest <- which(nchar(shelley.filt2) == max(nchar(shelley.filt2)))
-shelley.filt2[longest]
+rownames(expr)[1:5]   # the gene IDs became row names
 ```
 
-# `read.table()`
-
-This is the by far most common way to get data into R. As the function creates a data frame at import it will only work for data set that fits those criteria, meaning that the data needs to have a set of columns of equal length that are separated with a common string eg. tab, comma, semicolon etc.
-
-In this code block we first import the data from [normalized.txt](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt) and accept the defaults for all other arguments in the function. With this settings R will read it as a tab delimited file and will use the first row of the data as colnames (header) and the first column as rownames.
+5. Which gene has the highest expression in `WT_1`? Is it really a gene? Look at the last rows of the table, remove the rows that aren't genes, and try again.
 
 ```{r,accordion=TRUE}
-expr.At <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/normalized.txt")
-head(expr.At)
+rownames(expr)[which.max(expr$WT_1)]   # "no_feature" is not a gene!
+tail(expr, 3)                          # summary rows from the read-counting software
+expr <- expr[rownames(expr) != "no_feature" & rownames(expr) != "ambiguous", ]
+rownames(expr)[which.max(expr$WT_1)]
 ```
 
-One does however not have to have all data as a file an the local disk, instead one can read data from online resources. The following command will read in a file from a web server.
+6. `example.data` has the same data, but with `:` between columns, a header line, and some missing values. Read it. How many values are missing in each column? How many genes have no missing values at all?
 
 ```{r,accordion=TRUE}
-url <- 'http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data'
-abalone <- read.table(url, header=FALSE , sep=',')
-head(abalone)
+ex <- read.table("data/example.data", sep = ":", header = TRUE)
+colSums(is.na(ex))
+nrow(na.omit(ex))
 ```
 
-1. Read this [example data](https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data) to R using the `read.table()` function. This files consist of gene expression values. Once you have the object in R validate that it looks okay and export it using the `write.table` function.
+7. `cell_counts_eu.csv` comes from an instrument set to European settings. Try to read it with `read.csv()`. What happens? Look at the file with `readLines()`, then read it correctly.
+
+```{r,accordion=TRUE,error=TRUE}
+read.csv("data/cell_counts_eu.csv")        # error
+readLines("data/cell_counts_eu.csv", n = 3) # ; between columns, , as decimal mark
+growth <- read.csv2("data/cell_counts_eu.csv")
+str(growth)
+```
+
+8. Using `growth`: what was the OD600 of each culture after 12 hours? In which medium did the bacteria grow faster?
 
 ```{r,accordion=TRUE}
-ed <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_loadingdata/example.data", sep=":", header = T)
-head(ed)
-str(ed)
+growth[growth$timepoint_h == 12, ]   # faster growth in LB
 ```
 
-Encode all NA values as "missing", at export.
+9. `qpcr_export.txt` was exported from a qPCR machine. Look at the first five lines. Then read it, so that:
+   - the instrument information at the top is skipped,
+   - `Undetermined` and empty cells become `NA`,
+   - `ct` is a number.
 
-```{r,eval=FALSE,accordion=TRUE}
-write.table(x=ed, na="missing", file="example_write.txt")
+```{r,accordion=TRUE}
+readLines("data/qpcr_export.txt", n = 5)
+qpcr <- read.delim("data/qpcr_export.txt", skip = 3,
+                   na.strings = c("Undetermined", ""))
+str(qpcr)
 ```
 
-2.  Read in the file you just created and double-check that you have the same data as earlier.
+`comment.char = "#"` instead of `skip = 3` works too. Why?
 
-```{r,eval=FALSE,accordion=TRUE}
-df.test <- read.table("example_write.txt", na.strings="missing")
+10. How many Ct values are missing? What is the mean Ct of *IL6* in control samples (`ctrl_1`, `ctrl_2`) and in treated samples?
+
+```{r,accordion=TRUE}
+sum(is.na(qpcr$ct))
+mean(qpcr$ct[qpcr$gene == "IL6" & qpcr$sample %in% c("ctrl_1", "ctrl_2")])
+mean(qpcr$ct[qpcr$gene == "IL6" & qpcr$sample %in% c("trt_1", "trt_2")])
 ```
 
-3. Analysing genome annotation in R using read.table
+`%in%` checks whether each value is one of several options. Without it, write `(qpcr$sample == "ctrl_1" | qpcr$sample == "ctrl_2")`.
 
-For this exercise we will load a GTF file into R and calculate some basic summary statistics from the file. In the first part we will use basic manipulations of data frames to extract the information. In the second part you get a try out a library designed to work with annotation data, that stores the information in a more complex format, that allow for easy manipulation and calculation of summaries from genome annotation files.
+# Broken files
 
-For those not familiar with the GTF format it is a file format containing annotation information for a genome. It does not contain the actual DNA sequence of the organism, but instead refers to positions along the genome.
+11. Read `primers_broken.tsv` with `read.delim()`. No error. But look at the result carefully: is everything in the right column?
 
-A valid GTF file should contain the following tab delimited fields (taken from the ensembl home page).
-
-1.  **seqname** - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix.
-2.  **source** - name of the program that generated this feature, or the data source (database or project name)
-3.  **feature** - feature type name, e.g. gene, transcript, exon, CDS, start_codon, end_codon 
-4.  **start** - Start position of the feature, with sequence numbering starting at 1.
-5.  **end** - End position of the feature, with sequence numbering starting at 1.
-6.  **score** - A floating point value.
-7.  **strand** - defined as + (forward) or - (reverse).
-8.  **frame** - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on..
-9.  **attribute** - A semicolon-separated list of tag-value pairs, providing additional information about each feature.
-
-|1|2|3|4|5|6|7|8|9|
-|---|---|---|---|---|---|---|---|---|
-1|transcribed_unprocessed_pseudogene|gene|11869|14409|.|+|.|gene_id; "ENSG00000223972";|
-|1|processed_transcript|transcript|11869|14409|.|+|.|gene_id; "ENSG00000223972";|
-
-The last column can contain a large number of attributes that are semicolon-separated.
-
-As these files for many organisms are large we will in this exercise use the *Drosophila melanogaster* genome annotation available at Ensembl that is small enough for analysis even on a laptop.
-
-Download the file **Drosophila_melanogaster.BDGP6.86.gtf.gz** to your computer using this function:
-
-```{r, eval=F, echo=T}
-download.file("ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz","Drosophila_melanogaster.BDGP6.86.gtf.gz")
+```{r,accordion=TRUE}
+primers <- read.delim("data/primers_broken.tsv")
+primers   # the primer IDs became row names and every column is shifted!
 ```
 
-Unzip this file and keep track of where you stored it.
+12. Now read it with `read.table(header = TRUE, sep = "\t")`. Use `count.fields()` to find the line that causes the problem, and `readLines()` to look at it. What is wrong?
 
-With this done read this file into R using the function `read.table()` and add meaningful column names to the table.
+```{r,accordion=TRUE,error=TRUE}
+read.table("data/primers_broken.tsv", header = TRUE, sep = "\t")   # the line number in the error is misleading
+count.fields("data/primers_broken.tsv", sep = "\t")   # line 4 has 5 fields, not 4
+readLines("data/primers_broken.tsv")[4]               # two tabs after the sequence
+```
 
-```{r,include=FALSE,eval=TRUE}
-if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) {
-  if(!file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) {
-    download.file("ftp://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz","Drosophila_melanogaster.BDGP6.86.gtf.gz")
-    system("gunzip Drosophila_melanogaster.BDGP6.86.gtf.gz")
-  }
+13. Fix the problem. You can fix the file in a text editor, or fix the line in R and read the corrected lines with the `text` argument.
+
+```{r,accordion=TRUE}
+lines <- readLines("data/primers_broken.tsv")
+lines[4] <- sub("\t\t", "\t", lines[4])
+primers <- read.delim(text = lines)
+primers
+```
+
+Write in your journal: why is the silent result from exercise 11 more dangerous than the error in exercise 12?
+
+# Excel files
+
+Install `readxl` if you don't have it: `install.packages("readxl")`.
+
+14. `rna_qc.xlsx` holds RNA quality results. Which sheets does it have? Read the `README` sheet, then the `samples` sheet. The `samples` sheet has a title row above the column names, and missing concentrations are written `n/a`.
+
+```{r,accordion=TRUE,eval=has_readxl}
+library(readxl)
+excel_sheets("data/rna_qc.xlsx")
+read_excel("data/rna_qc.xlsx", sheet = "README", col_names = FALSE)
+rna <- read_excel("data/rna_qc.xlsx", sheet = "samples", skip = 1, na = "n/a")
+rna
+```
+
+15. Look at `gene_of_interest`. One value is a number. Someone typed the old gene symbol `SEPT2`, and Excel turned it into a date, which R reads as Excel's internal date number. Replace it with the current symbol, `SEPTIN2`.
+
+```{r,accordion=TRUE,eval=has_readxl}
+rna$gene_of_interest[rna$gene_of_interest == "46267"] <- "SEPTIN2"
+rna$gene_of_interest
+```
+
+16. Which samples have an RNA integrity number (`rin`) below 7? What is the mean RIN in each strain?
+
+```{r,accordion=TRUE,eval=has_readxl}
+rna$sample[rna$rin < 7]
+mean(rna$rin[rna$strain == "WT"])
+mean(rna$rin[rna$strain == "KO"])
+```
+
+# Writing data
+
+17. Create a folder called `results`. Write `qpcr` to `results/qpcr_clean.csv` without row names. Read it back. Is it identical to `qpcr`?
+
+```{r,accordion=TRUE}
+dir.create("results", showWarnings = FALSE)
+write.csv(qpcr, "results/qpcr_clean.csv", row.names = FALSE)
+qpcr2 <- read.csv("results/qpcr_clean.csv")
+all.equal(qpcr, qpcr2)
+```
+
+What happens if you leave out `row.names = FALSE`? Read the file back and compare.
+
+```{r,accordion=TRUE}
+write.csv(qpcr, "results/qpcr_rownames.csv")
+head(read.csv("results/qpcr_rownames.csv"), 3)   # an extra column "X" with the row numbers
+```
+
+18. Make `gene` a factor with the levels in the order `"TNF"`, `"IL6"`, `"GAPDH"`. Save `qpcr` both as a CSV and as an `.rds` file, read both back, and compare the levels of `gene`. What do you notice?
+
+```{r,accordion=TRUE}
+qpcr$gene <- factor(qpcr$gene, levels = c("TNF", "IL6", "GAPDH"))
+write.csv(qpcr, "results/qpcr_factor.csv", row.names = FALSE)
+saveRDS(qpcr, "results/qpcr_factor.rds")
+
+class(read.csv("results/qpcr_factor.csv")$gene)    # back to character
+levels(readRDS("results/qpcr_factor.rds")$gene)    # factor, levels in your order
+```
+
+# A real genome annotation
+
+A **GTF** file describes where the genes, transcripts and exons of a genome are. It is a tab-separated text file with nine columns and no header:
+
+| # | Column | Content |
+|:-:|:-------|:--------|
+| 1 | seqname | chromosome |
+| 2 | source | where the annotation comes from |
+| 3 | feature | `gene`, `transcript`, `exon`, `CDS`, … |
+| 4 | start | start position (1-based) |
+| 5 | end | end position |
+| 6 | score | a number, or `.` |
+| 7 | strand | `+` or `-` |
+| 8 | frame | `0`, `1`, `2`, or `.` |
+| 9 | attribute | `gene_id "..."; gene_name "...";` and more |
+
+19. Download the *Drosophila melanogaster* annotation from Ensembl into `data/`. You don't need to unzip it: R can read `.gz` files directly.
+
+```{r,eval=FALSE}
+download.file("https://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz",
+              "data/Drosophila_melanogaster.BDGP6.86.gtf.gz", mode = "wb")
+```
+
+```{r,include=FALSE}
+# For rendering the website: download the GTF into the temporary lab folder
+gtf_file <- "data/Drosophila_melanogaster.BDGP6.86.gtf.gz"
+if (!file.exists(gtf_file)) {
+  download.file("https://ftp.ensembl.org/pub/release-86/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.86.gtf.gz",
+                gtf_file, mode = "wb")
 }
 ```
 
-```{r,accordion=TRUE}
-d.gtf <- read.table("Drosophila_melanogaster.BDGP6.86.gtf", header=FALSE, comment.char="#", sep="\t")
-colnames(d.gtf) <- c("Chromosome","Source","Feature", "Start","End","Score","Strand","Frame","Attribute")
-```
-
-Prior to any analysis you should make sure that your attempt to read in the file has worked as expected. This can for example be done by having a look at the dimension of the stored object and making sure that it has the structure you expect.
+20. Read the file with `read.delim()`. It has no header, its first lines are comments starting with `#`, and the attribute column contains quotes, so add `quote = ""`. Give the columns meaningful names, then check the dimensions and structure.
 
 ```{r,accordion=TRUE}
-dim(d.gtf)
-str(d.gtf)
+gtf <- read.delim("data/Drosophila_melanogaster.BDGP6.86.gtf.gz",
+                  header = FALSE, comment.char = "#", quote = "")
+colnames(gtf) <- c("chromosome", "source", "feature", "start", "end",
+                   "score", "strand", "frame", "attribute")
+dim(gtf)
+str(gtf)
 ```
 
-1.  How many chromosome names can be found in the annotation file?
+21. Which chromosomes (and scaffolds) are in the file, and how many features does each have? Which feature types are there, and how many of each?
 
 ```{r,accordion=TRUE}
-length(levels(as.factor(d.gtf$Chromosome)))
+table(gtf$chromosome)
+table(gtf$feature)
 ```
 
-2.  How many **exons** is there in total and per chromosome? (hint: first extract lines that have `feature == 'exon'`, and then use either `aggregate` or `by` or `table` function to summarize the data per chromosome).    
+22. Keep only the genes. What is their mean and median length? What fraction of genes is on the `+` strand?
 
 ```{r,accordion=TRUE}
-d.gtf.exons <- d.gtf[(d.gtf$Feature == 'exon'),]
-nrow(d.gtf.exons)
-aggregate(d.gtf.exons$Feature, by=list(d.gtf.exons$Chromosome), summary)
+genes <- gtf[gtf$feature == "gene", ]
+gene_length <- genes$end - genes$start + 1
+mean(gene_length)
+median(gene_length)
+mean(genes$strand == "+")
 ```
 
+23. How many exons are there on each of the main chromosome arms (`2L`, `2R`, `3L`, `3R`, `4`, `X`)? What is the median exon length on `3R`?
 
 ```{r,accordion=TRUE}
-by(data=d.gtf$Feature, d.gtf[,"Chromosome"], summary)
+exons <- gtf[gtf$feature == "exon", ]
+table(exons$chromosome)[c("2L", "2R", "3L", "3R", "4", "X")]
+exons_3R <- exons[exons$chromosome == "3R", ]
+median(exons_3R$end - exons_3R$start + 1)
 ```
 
-3.  Filter the data frame to only retain gene annotations
+# Cheatsheet
 
-```{r,accordion=TRUE}
-d.gtf.gene <- d.gtf[d.gtf$Feature == "gene",]
-```
-
-4.  What is the average gene length of in the Drosophila genome?
-
-```{r,accordion=TRUE}
-mean(abs(d.gtf.gene$Start - d.gtf.gene$End))
-```
-
-5.  What fraction of the genes are encoded on the plus strand of the genome.
-
-```{r,accordion=TRUE}
-sum(d.gtf.gene$Strand == "+") / length(d.gtf.gene$Strand)
-```
-
-6.  What is the median and mean length of the exons found on chromosome 3R in the data set?
-
-```{r,accordion=TRUE}
-d.gtf3R <- d.gtf[d.gtf$Chromosome == "3R",]
-exon.position <- d.gtf3R[d.gtf3R$Feature == "exon",c("Start", "End")]   
-median(abs(exon.position$Start - exon.position$End))
-mean(abs(exon.position$Start - exon.position$End))
-```
-
-7.  Do the same calculations for the chromosomes 2L, 2R, 3L, 4, X and Y using a for loop.  
-
-To refresh your mind the placeholders and datatype are summarized in the following table.  
-
-| Placeholder | Meaning                  | Example Use                            |
-|-------------|---------------------------|------------------------------------------|
-| `%s`        | String                    | `sprintf("Here we %s", "R")` → Here we R |
-| `%d`        | Integer                   | `sprintf("Count: %d", 5)` → Count: 5       |
-| `%f`        | Floating-point (fixed)    | `sprintf("Value: %f", 3.14)` → Value: 3.140000 |
-| `%g`        | Numeric (compact double)  | `sprintf("Weight: %g g", 7.5)` → Weight: 7.5 |
-| `%e`        | Scientific notation       | `sprintf("%e", 0.00123)` → 1.23e-03        |
-
-```{r,accordion=TRUE}
-chr <- c("2L","2R","3L","4","X","Y")
-for (i in chr) {
-  d.gtf.tmp <- d.gtf[d.gtf$Chromosome == i,]
-  exon.position <- d.gtf.tmp[d.gtf.tmp$Feature == "exon", c("Start", "End")]   
-  exon.med <- median(abs(exon.position$Start - exon.position$End))
-  exon.mean <- mean(abs(exon.position$Start - exon.position$End))
-  txt <- sprintf("The median and mean exon length for %s is %g and %g, respectively", i, exon.med, exon.mean)
-  print(txt)
-}
-```
-
-```{r,eval=TRUE,include=FALSE}
-# remove drosophila gtf
-if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf")
-if(file.exists("Drosophila_melanogaster.BDGP6.86.gtf.gz")) file.remove("Drosophila_melanogaster.BDGP6.86.gtf.gz")
-```
-
-# Cheatsheet  
-## General Helpers
-
-| Function | Purpose | Key Points / Arguments | Example |
-|----------|---------|------------------------|---------|
-| `which()` | Indices of TRUE values | Returns **positions**, not values. | `which(c(TRUE, FALSE, TRUE))  # 1 3` |
-| `sort()` | Sort a vector | `decreasing = FALSE/TRUE`, `na.last = TRUE/FALSE/NA`. | `sort(c(3, 1, 2), decreasing = TRUE)` |
-| `abs()` | Absolute value | Works on numeric vectors. | `abs(c(-3, 5, -1))  # 3 5 1` |
-| `colnames()` | Get or set column names of a data frame, matrix, or tibble | - `colnames(x)` returns the column names<br>- `colnames(x) <- c(...)` sets new names<br>- Must match the number of columns | `colnames(df)`<br>`colnames(df) <- c("id", "age", "score")` |
-
-
-## Strings
-
-| Function | Purpose | Key Points / Arguments | Example |
-|----------|---------|------------------------|---------|
-| `sub()` | Replace **first** match in each string | `pattern`, `replacement`, `x`. | `sub("cat", "dog", "catcat")  # "dogcat"` |
-| `gsub()` | Replace **all** matches in each string | Same args as `sub()`. | `gsub("cat", "dog", "catcat") # "dogdog"` |
-| `sprintf()` | Build formatted strings | Use **format codes** like `%s` (string), `%d` (integer), `%f` (float), `%g` (general number). | `sprintf("Mean = %.2f", 3.14159)` |
-
-
-## Reading & Writing Tables
-
-| Function | Purpose | Key Points / Arguments | Example |
-|----------|---------|------------------------|---------|
-| `read.table()` | Read data from text file into a data frame | Common args: `file`, `sep` (column separator, e.g. `","` or `"\t"`), `header` (first row has names?), `na.strings` (what to treat as NA), `stringsAsFactors` (old R < 4.0). | `df <- read.table("data.txt", sep = "\t", header = TRUE, na.strings = "NA")` |
-| `write.table()` | Write data frame to text file | Common args: `x` (data), `file`, `sep`, `row.names`, `col.names`, `quote`. | `write.table(df, "out.txt", sep = "\t", row.names = FALSE)` |
-
-
-## Factors
-
-| Function | Purpose | Key Points / Arguments | Example |
-|----------|---------|------------------------|---------|
-| `as.factor()` | Convert to factor (categorical) | Useful for groupings, modelling, plotting. | `group <- as.factor(c("A", "B", "A"))` |
-| `levels()` | Get or set factor levels | `levels(x)` or `levels(x) <- ...`. | `levels(group)  # "A" "B"`<br>`levels(group) <- c("ctrl", "treat")` |
-
-
-## Aggregation & Summary
-
-| Function | Purpose | Key Points / Arguments | Example |
-|----------|---------|------------------------|---------|
-| `aggregate()` | Apply a function by group(s) | `aggregate(x ~ group, data, FUN)` or `aggregate(x, by = list(g1, g2), FUN)`. | `aggregate(mpg ~ cyl, data = mtcars, mean)` |
-| `mean()` | Average | `na.rm = TRUE` to ignore NA. | `mean(c(1, 2, NA), na.rm = TRUE)` |
-| `median()` | Median | Also has `na.rm = TRUE`. | `median(c(1, 100, 2))` |
-
-
-## Loops
-
-| Keyword | Purpose | Key Points / Arguments | Example |
-|---------|---------|------------------------|---------|
-| `for` | Repeat code for each element in a sequence | Syntax: `for (name in sequence) { ... }`. | `for (i in 1:3) { print(i) }` |
-
-
-## Small Combined Example
-
-```{r, echo = T, eval = F}
-# Read data
-df <- read.table("data.txt", sep = ",", header = TRUE, na.strings = "")
-
-# Convert a column to factor and inspect levels
-df$group <- as.factor(df$group)
-levels(df$group)
-
-# Aggregate mean by group
-agg <- aggregate(value ~ group, data = df, mean)
-
-# Print a formatted summary line
-sprintf("Group %s has mean value %.2f", agg$group[1], agg$value[1])
-
-# Write results
-write.table(agg, "summary.txt", sep = "\t", row.names = FALSE)
-```
+| Task | Function | Key arguments |
+|:-----|:---------|:--------------|
+| Where am I? | `getwd()`, `list.files()`, `file.exists()` | |
+| Look at a file | `readLines()` | `n` |
+| Comma-separated | `read.csv()` | `na.strings`, `skip`, `comment.char` |
+| Semicolon, decimal comma | `read.csv2()` | |
+| Tab-separated | `read.delim()` | |
+| Anything else | `read.table()` | `sep`, `dec`, `header`, `quote`, `fill` |
+| Find broken lines | `count.fields()` | `sep` |
+| Excel | `readxl::read_excel()`, `excel_sheets()` | `sheet`, `skip`, `na` |
+| Write a table | `write.csv()`, `write.table()` | `row.names = FALSE`, `sep`, `quote` |
+| Save an R object | `saveRDS()`, `readRDS()` | |
+| Check | `dim()`, `str()`, `head()`, `tail()`, `colSums(is.na())` | |
