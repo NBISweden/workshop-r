@@ -581,23 +581,6 @@ mtext(text = c('P0.1','P25','P75','P99.9'), side = 4, at=myData[dim(myData)[1], 
 mtext(text = c('P0.1','P25','P75','P99.9'), side = 4, at=myData[dim(myData)[1], c('P01','P25','P75','P999')], las=1, cex=.8)
 ```
 
-# Visualizing Gapminder data
-
-You task here is to use the already acquired R knowledge to plot an interesting relationship between two freely selected variables available at Hans Rosling's Gapminder Foundation page.
-
-- Go to http://www.gapminder.org/data/
-- Select a dataset of interest,
-- Load data to R, take care of missing values etc.,
-- Find a nice way of visualizing the relationship between some selected variables,
-- Think of scales (linear, logarythmic), axes labels etc.,
-- Be creative,
-- Visualize a selected variables using boxplot and histogram on one plot (HINT: parameter mfrow),
-- Discuss the result with your colleagues and TAs.
-
-```{r}
-unlink(local_file_path)
-```
-
 # Cheatsheet  
 
 | Function / Argument | Full Name | Purpose | Example |
