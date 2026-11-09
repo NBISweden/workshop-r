@@ -88,17 +88,11 @@ name: tidyverse_overview
 name: tidyverse_curse
 # ?(Tidyverse OR !Tidyverse)
 
-> ☠️ &nbsp;There are still some people out there talking about the tidyverse curse though...&nbsp; ☠️<br>
-
---
-
 > Navigating the balance between base R and the tidyverse is a challenge to learn.<br>[-Robert A. Muenchen](http://r4stats.com/articles/why-r-is-hard-to-learn/)
 
 --
 
-.center[<img src="data/slide_tidyverse/tidyverse-flow.png", style="height:400px;">]
-
-.vsmall[source: http://www.storybench.org/getting-started-with-tidyverse-in-r/]
+.center[<img src="data/slide_tidyverse/tidyverse.webp", style="height:400px;">]
 
 ---
 name: intro_to_pipes
