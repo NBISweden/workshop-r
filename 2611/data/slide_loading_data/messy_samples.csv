@@ -1,0 +1,6 @@
+# Exported from PlateReader v2.1 on 2026-03-14
+sample;gene;ct;conc_ng_ul;treated
+S01;BRCA1;24,1;12,5;yes
+S02;2-Sep;25,3;n/a;no
+S03;TP53;Undetermined;10,2;yes
+S04;MYC;23,8;-;no
