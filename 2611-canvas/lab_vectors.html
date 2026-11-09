@@ -318,10 +318,10 @@ weight_end   &lt;- c(22.9, 23.1, 21.5, 27.0, 22.0, 26.2, 22.4, 23.9)</code></pre
 <li>How many mice are there? What type of vector is <code>weight_start</code>? What is the mean starting weight?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914198971" aria-expanded="false" aria-controls="acc2026110914198971">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914028971" aria-expanded="false" aria-controls="acc2026110914028971">
 </button>
 </p>
-<div id="acc2026110914198971" class="collapse">
+<div id="acc2026110914028971" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>length(weight_start)
 typeof(weight_start)
@@ -335,10 +335,10 @@ mean(weight_start)</code></pre>
 <li>Calculate the weight change of every mouse, and the change in percent of the starting weight. How many vectors (and how many lines of code) did you need?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914196642" aria-expanded="false" aria-controls="acc2026110914196642">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914026642" aria-expanded="false" aria-controls="acc2026110914026642">
 </button>
 </p>
-<div id="acc2026110914196642" class="collapse">
+<div id="acc2026110914026642" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>change &lt;- weight_end - weight_start
 change
@@ -352,10 +352,10 @@ round(percent_change, digits = 1)</code></pre>
 <li>How many mice lost weight? Use the fact that <code>TRUE</code> counts as 1.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914199884" aria-expanded="false" aria-controls="acc2026110914199884">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914029884" aria-expanded="false" aria-controls="acc2026110914029884">
 </button>
 </p>
-<div id="acc2026110914199884" class="collapse">
+<div id="acc2026110914029884" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>change &lt; 0
 sum(change &lt; 0)   # 2 mice</code></pre>
@@ -368,10 +368,10 @@ sum(change &lt; 0)   # 2 mice</code></pre>
 </ol>
 <pre class="r"><code>od &lt;- c(0.45, 0.82, 0.31, 1.10, 0.67)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914191213" aria-expanded="false" aria-controls="acc2026110914191213">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914021213" aria-expanded="false" aria-controls="acc2026110914021213">
 </button>
 </p>
-<div id="acc2026110914191213" class="collapse">
+<div id="acc2026110914021213" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>od_corrected &lt;- od - 0.05     # 0.05 is recycled for every culture
 cells_per_ml &lt;- od_corrected * 8e8
@@ -386,10 +386,10 @@ cells_per_ml</code></pre>
 c(1, 3, 5, 7) + c(10, 20)
 c(1, 3, 5) + c(10, 20)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914197475" aria-expanded="false" aria-controls="acc2026110914197475">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914027475" aria-expanded="false" aria-controls="acc2026110914027475">
 </button>
 </p>
-<div id="acc2026110914197475" class="collapse">
+<div id="acc2026110914027475" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>c(1, 3, 5) + c(2, 4, 6)        # element by element
 c(1, 3, 5, 7) + c(10, 20)      # c(10, 20) is recycled to c(10, 20, 10, 20)
@@ -417,10 +417,10 @@ c(1, 3, 5) + c(10, 20)         # warning: 3 is not a multiple of 2</code></pre>
 What do you get with <code>protein[20]</code>?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914193439" aria-expanded="false" aria-controls="acc2026110914193439">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914023439" aria-expanded="false" aria-controls="acc2026110914023439">
 </button>
 </p>
-<div id="acc2026110914193439" class="collapse">
+<div id="acc2026110914023439" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>protein[3]
 protein[c(1, length(protein))]
@@ -438,10 +438,10 @@ protein[20]   # NA: there is no 20th element</code></pre>
 <li>Give the mouse weights the names <code>"M1"</code>, <code>"M2"</code>, …, <code>"M8"</code> (without typing all of them). Then extract the starting weights of mice M3 and M7 by name.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914190035" aria-expanded="false" aria-controls="acc2026110914190035">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914020035" aria-expanded="false" aria-controls="acc2026110914020035">
 </button>
 </p>
-<div id="acc2026110914190035" class="collapse">
+<div id="acc2026110914020035" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>names(weight_start) &lt;- paste0(&quot;M&quot;, 1:8)
 weight_start
@@ -456,10 +456,10 @@ weight_start[c(&quot;M3&quot;, &quot;M7&quot;)]</code></pre>
 <li>Which mice weighed more than 23 g at the start? Give their weights, their names and their positions. How many mice weighed between 21 and 24 g?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914195641" aria-expanded="false" aria-controls="acc2026110914195641">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914025641" aria-expanded="false" aria-controls="acc2026110914025641">
 </button>
 </p>
-<div id="acc2026110914195641" class="collapse">
+<div id="acc2026110914025641" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>weight_start[weight_start &gt; 23]
 names(weight_start)[weight_start &gt; 23]
@@ -480,10 +480,10 @@ sum(weight_start &gt; 21 &amp; weight_start &lt; 24)</code></pre>
 <li>You discover that the scale was not calibrated when M5 was weighed. Replace its starting weight with <code>NA</code>. Then add a ninth mouse, M9, that weighed 22.8 g.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914196951" aria-expanded="false" aria-controls="acc2026110914196951">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914026951" aria-expanded="false" aria-controls="acc2026110914026951">
 </button>
 </p>
-<div id="acc2026110914196951" class="collapse">
+<div id="acc2026110914026951" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>weight_start[&quot;M5&quot;] &lt;- NA
 weight_start &lt;- c(weight_start, M9 = 22.8)
@@ -496,10 +496,10 @@ weight_start</code></pre>
 <li>Calculate the mean, median, standard deviation and range of <code>weight_start</code>. Which mouse was the heaviest? (Hint: <code>?which.max</code>.)</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914192038" aria-expanded="false" aria-controls="acc2026110914192038">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914022038" aria-expanded="false" aria-controls="acc2026110914022038">
 </button>
 </p>
-<div id="acc2026110914192038" class="collapse">
+<div id="acc2026110914022038" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mean(weight_start, na.rm = TRUE)
 median(weight_start, na.rm = TRUE)
@@ -517,10 +517,10 @@ names(which.max(weight_start))</code></pre>
 <li>A colleague types <code>"missing"</code> instead of <code>NA</code> for mouse M2. What happens to the vector? What happens when you calculate the mean?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914195962" aria-expanded="false" aria-controls="acc2026110914195962">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914025962" aria-expanded="false" aria-controls="acc2026110914025962">
 </button>
 </p>
-<div id="acc2026110914195962" class="collapse">
+<div id="acc2026110914025962" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>weight_bad &lt;- weight_start
 weight_bad[&quot;M2&quot;] &lt;- &quot;missing&quot;
@@ -547,10 +547,10 @@ mean(weight_bad, na.rm = TRUE)  # warning and NA: you cannot average text</code>
 <li>Which blood groups occur? How many donors have each group, and what proportion is that? Which group is the most common?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914191898" aria-expanded="false" aria-controls="acc2026110914191898">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914021898" aria-expanded="false" aria-controls="acc2026110914021898">
 </button>
 </p>
-<div id="acc2026110914191898" class="collapse">
+<div id="acc2026110914021898" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>unique(blood)
 table(blood)
@@ -570,10 +570,10 @@ names(which.max(table(blood)))</code></pre>
 <li>Sort the mouse starting weights from heaviest to lightest. Then give the <strong>names</strong> of the three heaviest mice. What happened to the <code>NA</code>?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914192625" aria-expanded="false" aria-controls="acc2026110914192625">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914022625" aria-expanded="false" aria-controls="acc2026110914022625">
 </button>
 </p>
-<div id="acc2026110914192625" class="collapse">
+<div id="acc2026110914022625" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sort(weight_start, decreasing = TRUE)               # NA is dropped
 names(sort(weight_start, decreasing = TRUE))[1:3]
@@ -597,10 +597,10 @@ names(weight_start)[order(weight_start, decreasing = TRUE)][1:3]</code></pre>
 </ul></li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914193916" aria-expanded="false" aria-controls="acc2026110914193916">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914023916" aria-expanded="false" aria-controls="acc2026110914023916">
 </button>
 </p>
-<div id="acc2026110914193916" class="collapse">
+<div id="acc2026110914023916" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>seq(from = 0, to = 48, by = 12)
 paste0(rep(c(&quot;WT&quot;, &quot;KO&quot;), each = 3), &quot;_rep&quot;, 1:3)   # 1:3 is recycled!
@@ -618,10 +618,10 @@ head(wells, 14)</code></pre>
 <li>Join all eight amino acids of <code>protein</code> into a single string, separated by <code>"-"</code>.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914190120" aria-expanded="false" aria-controls="acc2026110914190120">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914020120" aria-expanded="false" aria-controls="acc2026110914020120">
 </button>
 </p>
-<div id="acc2026110914190120" class="collapse">
+<div id="acc2026110914020120" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>paste(protein, collapse = &quot;-&quot;)</code></pre>
 <pre><code>## [1] &quot;Met-Ala-Gly-Leu-Ser-Lys-Pro-Trp&quot;</code></pre>
@@ -634,10 +634,10 @@ head(wells, 14)</code></pre>
 <li>You have 12 patients, <code>"P01"</code> to <code>"P12"</code>. Randomly choose 4 of them for a pilot study. Use <code>set.seed(2026)</code> first and compare your answer with your neighbour. Why do you get the same result?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914199412" aria-expanded="false" aria-controls="acc2026110914199412">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914029412" aria-expanded="false" aria-controls="acc2026110914029412">
 </button>
 </p>
-<div id="acc2026110914199412" class="collapse">
+<div id="acc2026110914029412" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>patients &lt;- sprintf(&quot;P%02d&quot;, 1:12)   # %02d pads numbers with a leading zero
 set.seed(2026)
@@ -649,10 +649,10 @@ sample(patients, size = 4)</code></pre>
 <li>Simulate 100 offspring of an <code>Aa × Aa</code> cross, where the genotypes <code>AA</code>, <code>Aa</code> and <code>aa</code> are expected in a 1:2:1 ratio. Count the genotypes. How close are they to the expected 25, 50 and 25? Try again with 1,000 offspring.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914194917" aria-expanded="false" aria-controls="acc2026110914194917">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914024917" aria-expanded="false" aria-controls="acc2026110914024917">
 </button>
 </p>
-<div id="acc2026110914194917" class="collapse">
+<div id="acc2026110914024917" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>offspring &lt;- sample(c(&quot;AA&quot;, &quot;Aa&quot;, &quot;aa&quot;), size = 100, replace = TRUE,
                     prob = c(0.25, 0.5, 0.25))
@@ -673,10 +673,10 @@ table(offspring_big) / 1000</code></pre>
 <li>Simulate the heights of 100 adults with <code>rnorm()</code>, using a mean of 170 cm and a standard deviation of 10 cm. How many are taller than 190 cm? What are the mean and standard deviation of your simulated heights?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914192191" aria-expanded="false" aria-controls="acc2026110914192191">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914022191" aria-expanded="false" aria-controls="acc2026110914022191">
 </button>
 </p>
-<div id="acc2026110914192191" class="collapse">
+<div id="acc2026110914022191" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>heights &lt;- rnorm(100, mean = 170, sd = 10)
 sum(heights &gt; 190)
@@ -695,10 +695,10 @@ sd(heights)</code></pre>
 </ol>
 <pre class="r"><code>tissue &lt;- c(&quot;tumour&quot;, &quot;healthy&quot;, &quot;tumour&quot;, &quot;inflamed&quot;, &quot;healthy&quot;, &quot;tumour&quot;)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914196969" aria-expanded="false" aria-controls="acc2026110914196969">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914026969" aria-expanded="false" aria-controls="acc2026110914026969">
 </button>
 </p>
-<div id="acc2026110914196969" class="collapse">
+<div id="acc2026110914026969" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>tissue &lt;- factor(tissue)
 levels(tissue)      # alphabetical
@@ -717,10 +717,10 @@ levels(tissue)</code></pre>
 </ol>
 <pre class="r"><code>pain &lt;- c(&quot;mild&quot;, &quot;none&quot;, &quot;severe&quot;, &quot;moderate&quot;, &quot;mild&quot;, &quot;moderate&quot;, &quot;none&quot;)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914193779" aria-expanded="false" aria-controls="acc2026110914193779">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914023779" aria-expanded="false" aria-controls="acc2026110914023779">
 </button>
 </p>
-<div id="acc2026110914193779" class="collapse">
+<div id="acc2026110914023779" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>pain &lt;- factor(pain, levels = c(&quot;none&quot;, &quot;mild&quot;, &quot;moderate&quot;, &quot;severe&quot;),
                ordered = TRUE)
@@ -739,10 +739,10 @@ max(pain)</code></pre>
 </ol>
 <pre class="r"><code>dose &lt;- factor(c(&quot;10&quot;, &quot;5&quot;, &quot;20&quot;, &quot;5&quot;, &quot;10&quot;))</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914196445" aria-expanded="false" aria-controls="acc2026110914196445">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026110914026445" aria-expanded="false" aria-controls="acc2026110914026445">
 </button>
 </p>
-<div id="acc2026110914196445" class="collapse">
+<div id="acc2026110914026445" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>as.numeric(dose)                 # wrong! these are the level codes 1, 2, 3
 levels(dose)                     # levels are sorted as text: &quot;10&quot; &quot;20&quot; &quot;5&quot;
