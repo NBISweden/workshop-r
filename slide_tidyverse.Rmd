@@ -42,10 +42,8 @@ library(rmarkdown)
 # load the packages you need
 
 library(tidyverse)
-library(ggplot2) # static graphics
 library(kableExtra)
 library(magrittr)
-library(emo)
 ```
 
 ---
@@ -75,16 +73,20 @@ Upon completing this module, you will:
 
 * know whether the data you are working with are tidy
 
-* will be able to do basic tidying of your data
+* be able to do basic tidying of your data
+
+* be able to transform, group and summarise data with `dplyr`
+
+* be able to join tables
 
 ---
 name: tidyverse_overview
 # Tidyverse -- What is it all About?
 
-* [tidyverse](http://www.tidyverse.org) is a collection of &nbsp; `r emo::ji('package')` `r emo::ji('package')`
+* [tidyverse](http://www.tidyverse.org) is a collection of &nbsp; 📦 📦
 * created by [Hadley Wickham](http://hadley.nz)
 * has become a *de facto* standard in data analyses
-* a philosophy of programming or a **programming paradigm**: everything is about the &nbsp;`r emo::ji('water_wave')`  &nbsp; flow of &nbsp; `r emo::ji('broom')` &nbsp; tidy data
+* a philosophy of programming or a **programming paradigm**: everything is about the &nbsp;🌊  &nbsp; flow of &nbsp; 🧹 &nbsp; tidy data
 
 .center[
 <img src="data/slide_tidyverse/hex-tidyverse.png", style="height:200px;">
@@ -97,7 +99,7 @@ name: tidyverse_overview
 name: tidyverse_curse
 # ?(Tidyverse OR !Tidyverse)
 
-> `r emo::ji('skull_and_crossbones')` &nbsp;There are still some people out there talking about the tidyverse curse though...&nbsp; `r emo::ji('skull_and_crossbones')`<br>
+> ☠️ &nbsp;There are still some people out there talking about the tidyverse curse though...&nbsp; ☠️<br>
 
 --
 
@@ -111,13 +113,13 @@ name: tidyverse_curse
 
 ---
 name: intro_to_pipes
-# Pipes or Let my Data Flow &nbsp; `r emo::ji('water_wave')`
+# Pipes or Let my Data Flow &nbsp; 🌊
 
 .pull-left-50[
 
 .center[<img src="data/slide_tidyverse/pipe_magritte.jpg", style="width:300px;">]
 
-.vsmall[Rene Magritt, *La trahison des images*, [Wikimedia Commons](https://en.wikipedia.org/wiki/The_Treachery_of_Images#/media/File:MagrittePipe.jpg)]
+.vsmall[René Magritte, *La trahison des images*, [Wikimedia Commons](https://en.wikipedia.org/wiki/The_Treachery_of_Images#/media/File:MagrittePipe.jpg)]
 
 .center[<img src="data/slide_tidyverse/magrittr.png", style="width:150px;">]
 ]
@@ -164,16 +166,24 @@ iris %>% head(n=3)
 name: native_r_pipe
 # Native R Pipe
 
-From R 4.1.0, we have a native pipe operator `|>` that is a bit faster than the `magrittr` pipe `%>%`.
-It, however, differs from the `magrittr` pipe in some aspects, e.g., it does not allow for the use of the dot `.` as a placeholder (it has a simple `_` placeholder though).
+From R 4.1.0 there is a native pipe `|>`. It is simpler than `%>%`:
+
+* `x |> f(y)` is rewritten to `f(x, y)` at parse time,
+* the placeholder is `_` and it must be used with a **named** argument,
+* no `.` placeholder, no `%T>%`, no `%$%` (those come from `magrittr`),
+* anonymous function: `x |> (\(d) d[1:3, ])()`.
 
 ```{r native_pipe1}
 c(1:5) |> mean()
+mtcars |> lm(mpg ~ hp, data = _) |> coef()
 ```
 
 ```{r native_pipe2}
 c(1:5) %>% mean()
+mtcars %>% lm(mpg ~ hp, data = .) %>% coef()
 ```
+
+> In this course we use `%>%`, because the lab needs `%T>%` and `%$%`. In new code `|>` is perfectly fine for the verbs below.
 
 
 ---
@@ -269,7 +279,7 @@ vehicles$speed
   
 --
 
-> **Note!** Not all old R functions work with tibbles, than you have to use `as.data.frame(my_tibble)`.
+> **Note!** Not all old R functions work with tibbles, then you have to use `as.data.frame(my_tibble)`.
 
 ---
 name: tibbles_partial_matching
@@ -277,16 +287,16 @@ name: tibbles_partial_matching
 # Tibbles are Stricter than `data.frames`
 
 ```{r tibble_strict, warning=T, echo=F}
-cars <- cars[1:5,]
+cars5 <- cars[1:5,]
 ```
 ```{r tibble_strict1, warning=T}
-cars$spe      # partial matching
+cars5$spe     # partial matching
 ```
 ```{r tibble_strict2, warning=T}
 vehicles$spe  # no partial matching
 ```
 ```{r tibble_strict3, warning=T}
-cars$gear
+cars5$gear
 ```
 ```{r tibble_strict4, warning=T}
 vehicles$gear
@@ -297,24 +307,24 @@ name: loading_data
 
 # Loading Data
 
-In `tidyverse` you import data using `readr` package that provides a number of useful data import functions:
-* `read_delim()` a generic function for reading *-delimited files. There are a number of convenience wrappers:
-  + `read_csv()` used to read comma-delimited files,
-  + `read_csv2()` reads semicolon-delimited files,
-  `read_tsv()` that reads tab-delimited files.
-* `read_fwf` for reading fixed-width files with its wrappers:
-  + fwf_widths() for width-based reading,
-  + fwf_positions() for positions-based reading and
-  + read_table() for reading white space-delimited fixed-width files.
-* `read_log()` for reading Apache-style logs.
+In `tidyverse` you import data using the `readr` package:
+
+* `read_csv()` -- comma-delimited, `read_csv2()` -- semicolon-delimited,
+* `read_tsv()` -- tab-delimited, `read_delim()` -- generic (any delimiter),
+* `read_fwf()` -- fixed-width files.
 
 --
 
->The most commonly used `read_csv()` has some familiar arguments like:
-* `skip` -- to specify the number of rows to skip (headers),
-* `col_names` -- to supply a vector of column names,
-* `comment` -- to specify what character designates a comment,
-* `na` -- to specify how missing values are represented.
+Frequently used arguments:
+* `skip` -- number of rows to skip,
+* `col_names` -- a vector of column names (or `FALSE`),
+* `col_types` -- force column types, e.g. `cols(id = col_character())`,
+* `comment` -- character that designates a comment,
+* `na` -- how missing values are represented.
+
+`readr` tells you the column types it guessed. Check them!
+
+Excel files: `readxl::read_excel()`.
 
 ---
 name: readr_writing
@@ -332,10 +342,10 @@ They **always** save:
 * text in UTF-8,
 * dates in ISO8601
 
-But saving in csv (or tsv) does mean you loose information about the type of data in particular columns. You can avoid this by using:
+But saving in csv (or tsv) does mean you lose information about the type of data in particular columns. You can avoid this by using:
 
 * `write_rds()` and `read_rds()` to read/write objects in R binary rds format,
-* use `write_feather()` and `read_feather()` from package `feather` to read/write objects in a fast binary format that other programming languages can access.
+* `arrow::write_parquet()` and `arrow::read_parquet()` for a fast binary format that other programming languages can access.
 
 ---
 name: basic_data_transformations
@@ -345,8 +355,9 @@ name: basic_data_transformations
 Let us create a tibble:
 
 ```{r}
-bijou <- as_tibble(diamonds) %>% head()
-bijou[1:5, ]
+set.seed(42)
+bijou <- as_tibble(diamonds) %>% slice_sample(n = 200)
+bijou %>% head(n = 5)
 ```
 
 .center[ <img src="data/slide_tidyverse/diamonds.png", style="height:200px"> ]
@@ -363,8 +374,8 @@ bijou %>% filter(cut == 'Ideal' | cut == 'Premium', carat >= 0.23) %>% head(n = 
 
 -- 
 
->`r emo::ji('boat')` &nbsp; Be careful with floating point comparisons! <br>
-`r emo::ji('pirate')` &nbsp; Also, rows with comparison resulting in `NA` are skipped by default!
+>⛵ &nbsp; Be careful with floating point comparisons! <br>
+🏴‍☠️ &nbsp; Also, rows with comparison resulting in `NA` are skipped by default!
 
 ```{r, echo=T, eval=F}
 bijou %>% filter(near(0.23, carat) | is.na(carat)) %>% head(n = 4)
@@ -411,7 +422,7 @@ bijou %>% select(-(x:z)) %>% head(n = 4)
 name: rename
 # Renaming Variables
 
->`rename` is a variant of `select`, here used with `everything()` to move `x` to the beginning and rename it to `var_x`
+>`rename()` changes column names and keeps all columns; `select(new = old)` renames but keeps only the selected columns.
 
 ```{r, eval=FALSE, echo=TRUE}
 bijou %>% rename(var_x = x) %>% head(n = 5)
@@ -427,16 +438,16 @@ bijou %>% rename(var_x = x) %>% head(n = 5)
 name: bring_to_front
 # Bring columns to front
 
->use `everything()` to bring some columns to the front:
+>use `relocate()` (or `everything()` in `select`) to bring some columns to the front:
 
 ```{r, echo=TRUE, eval=FALSE}
-bijou %>% select(x:z, everything()) %>% head(n = 4)
+bijou %>% relocate(x:z) %>% head(n = 4)   # same as select(x:z, everything())
 ```
   
 --
 
 ```{r, echo=FALSE, eval=TRUE}
-bijou %>% select(x:z, everything()) %>% head(n = 4)
+bijou %>% relocate(x:z) %>% head(n = 4)
 ```
 
 ---
@@ -461,7 +472,7 @@ bijou %>% mutate(p = x + z, q = p + y) %>%
 
 ---
 name: transmute
-# Create/alter new Variables with `transmute` `r emo::ji('wizard')`
+# Create/alter new Variables with `transmute` 🧙
 
 >Only the transformed variables will be retained.
 
@@ -493,15 +504,57 @@ bijou %>% group_by(cut, color) %>%
 ---
 name: other_data_manipulations
 
-# Other data manipulation tips
+# Counting, Unique Rows and Slicing
 
 ```{r}
-bijou %>% group_by(cut) %>% summarize(count = n())
+bijou %>% count(cut, sort = TRUE)
+bijou %>% distinct(cut, color) %>% head(n = 3)
 ```
 
 --
 
-When you need to regroup within the same pipe, use `ungroup()`.
+`slice_*()` replace the older `top_n()` and `sample_n()`:
+
+```{r}
+bijou %>% slice_max(price, n = 2)
+bijou %>% group_by(cut) %>% slice_sample(n = 1)
+```
+
+---
+name: grouping_notes
+
+# Grouping Notes
+
+* `summarise()` drops the last grouping level (the message about `.groups`).
+* Use `ungroup()` when you need to regroup within the same pipe.
+* Since `dplyr` 1.1 you can group for a single operation with `.by`:
+
+```{r}
+bijou %>% summarise(mean_price = mean(price), .by = cut)
+```
+
+---
+name: across_case_when
+
+# `across()` and `case_when()`
+
+Apply the same function to many columns:
+
+```{r}
+bijou %>% summarise(across(c(carat, price), list(mean = mean, sd = sd)))
+```
+
+--
+
+Create a variable from several conditions:
+
+```{r}
+bijou %>%
+  mutate(size = case_when(carat < 0.5 ~ "small",
+                          carat < 1   ~ "medium",
+                          .default = "large")) %>%
+  count(size)
+```
 
 ---
 name: concept_of_tidy_data
@@ -512,7 +565,6 @@ Data are tidy *sensu Wickham* if:
 * each and every observation is represented as exactly one row,
 * each and every variable is represented by exactly one column,
 * thus each data table cell contains only one value.
-`r knitr::include_graphics("data/slide_tidyverse/tidy_data.png")`
 
 Usually data are untidy in only one way. However, if you are unlucky, they are really untidy and thus a pain to work with...
 
@@ -542,7 +594,7 @@ iris %>% head(n=3) %>% kable("html",escape=F,align="c") %>%
 
 ```{r tidy_iris2, echo=FALSE}
 iris2 <- iris %>%
-  gather(key=variable, value=value, -Species)
+  pivot_longer(-Species, names_to = "variable", values_to = "value")
 iris2 %>%
   head(n=3) %>%
   kable("html",escape=F,align="c") %>%
@@ -616,10 +668,10 @@ name: tidying_data_pivot_wider
 
 # Tidying Data with `tidyr::pivot_wider`
 
-If some of your observations are scattered across many rows, use `pivot_wider` (replaces `gather`):
+If some of your observations are scattered across many rows, use `pivot_wider` (replaces `spread`):
 
 ```{r include=FALSE}
-bijou %>% head(n = 3) %>% select(cut, price, clarity, x, y, z) %>% gather(x,y,z, key='dimension', value='measurement') -> bijou3
+bijou %>% head(n = 3) %>% select(cut, price, clarity, x, y, z) %>% pivot_longer(c(x, y, z), names_to = 'dimension', values_to = 'measurement') -> bijou3
 ```
 
 ```{r bijou3}
@@ -654,7 +706,7 @@ bijou4 %>%
 name: tidying_data_unite
 # Tidying Data with `unite`
 
-If some of your columns contain more than one value, use `separate`:
+If one value is split across several columns, use `unite`:
 
 ```{r include=FALSE}
 bijou %>% head(n = 5) %>% select(cut, price, clarity, x, y, z) %>% separate(clarity, into = c('clarity_prefix', 'clarity_suffix'), sep = 2) -> bijou5
@@ -681,7 +733,7 @@ bijou %>%
 bijou %>% head(n = 10) %>%
   select(cut, clarity, price) %>%
   mutate(continent = sample(c('AusOce', 'Eur'),
-                            size = 6,
+                            size = 10,
                             replace = T)) -> missing_stones
 ```
 ```{r}
@@ -694,30 +746,42 @@ name: joins
 # Joining Data with `_join`
 
 ```{r echo=FALSE, eval=TRUE}
-  # create two tibbles that share key column and can illustrate joins
   tibble1 <- tibble(key = c(1, 2, 3, 4, 5), value1 = c('a', 'b', 'c', 'd', 'e'))
   tibble2 <- tibble(key = c(1, 2, 3, 6, 7), value2 = c('A', 'B', 'C', 'F', 'G'))
 ```
 
 .pull-left-50[
-    ```{r echo=FALSE}
-    print(tibble1)
-    ```
+```{r echo=FALSE}
+print(tibble1)
+```
 ]
 
 .pull-right-50[
-    ```{r echo=FALSE}
-    print(tibble2)
-    ```
+```{r echo=FALSE}
+print(tibble2)
+```
 ]
-
-**Example:**
 
 ```{r}
 inner_join(tibble1, tibble2, by = 'key')
 ```
-    
-`[inner, left, right, full]_join` are available. Try these!
+
+---
+name: joins2
+
+# Mutating and Filtering Joins
+
+* `inner_join()` -- rows with a match in both tables,
+* `left_join()` / `right_join()` -- keep all rows of the left / right table (`NA` when no match),
+* `full_join()` -- keep all rows of both,
+* `anti_join()` -- rows of `x` with **no** match in `y`; `semi_join()` -- rows **with** a match.
+
+```{r}
+left_join(tibble1, tibble2, by = 'key')
+anti_join(tibble1, tibble2, by = 'key')
+```
+
+Different key names: `by = c("id" = "key")` or `by = join_by(id == key)`.
 
 ---
 name: more_tidyverse
@@ -726,13 +790,15 @@ name: more_tidyverse
 
 * `stringr` for string manipulation and regular expressions,
 * `forcats` for working with factors,
-* `lubridate` for working with dates.
+* `lubridate` for working with dates,
+* `purrr` for functional programming (`map()` and friends),
+* `ggplot2` for graphics -- the next module!
 
 ---
 name: end-slide
 class: end-slide
 
-# Thank you. Questions? [More?](https://nbisweden.github.io/raukr-2024/)
+# Thank you. Questions? [More?](https://r4ds.hadley.nz/)
 
 ```{r,echo=FALSE,child="assets/footer-slide.Rmd"}
 ```

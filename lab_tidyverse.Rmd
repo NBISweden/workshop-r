@@ -24,15 +24,18 @@ output:
 ```{r,child="assets/header-lab.Rmd"}
 ```
 
-**Note perhaps you may need to load package `magrittr`.**   
 ```{r,echo=FALSE,message=FALSE,warning=FALSE,results='hide'}
-library(dplyr)
+library(tidyverse)
+library(magrittr)   # needed for %T>% and %$%
 library(nycflights13)
+set.seed(42)
 ```
+
+**Make sure `tidyverse`, `magrittr` and `nycflights13` are loaded** (`library(tidyverse); library(magrittr); library(nycflights13)`).
 
 # Introduction
 
-Welcome to the hands-on workshop "Tidy Work in Tidyverse". Most of the things necessary to complete the tutorials and challenges were covered in the lecture. However, sometimes the tasks require that you check the docs or search online. Not all our solutions are optimal. Let us know if you can do better or solve things in a different way. If stuck, look at hints, next google and if still stuck, turn to TA. It is a lot of material, do not fee bad if you do not solve all tasks. Good luck!
+Welcome to the hands-on workshop "Tidy Work in Tidyverse". Most of the things necessary to complete the tutorials and challenges were covered in the lecture. However, sometimes the tasks require that you check the docs or search online. Not all our solutions are optimal. Let us know if you can do better or solve things in a different way. If stuck, look at hints, next google and if still stuck, turn to TA. It is a lot of material; sections marked **Stretch** are optional, do not feel bad if you do not solve all tasks. Good luck!
 
 # Pipes
 
@@ -159,13 +162,14 @@ options(tibble.print_min = 15, tibble.print_max = 30)
 automobiles <- as.data.frame(vehicles)
 ```
 
-Do you think tibbles are lazy? Try to create a tibble that tests whether *lazy evaluation* (!= *eager evaluation*) applies to tibbles too.  
+**Stretch:** can a column of a tibble refer to a column defined just before it? Try to create a tibble with `x` (10 random integers 1-10) and `y = log10(x)`. Does the same work in `data.frame()`?
 
-```{r eval=FALSE}
+```{r,accordion=TRUE}
 tibble(x = sample(1:10, size = 10, replace = T), y = log10(x))
+# data.frame(x = 1:3, y = log10(x)) fails: x is not found
 ```
 
-**Because y uses x right away and works, we know tibble() computes each column immediately as it creates the tibble.**. 
+**`tibble()` builds columns one after another, so later columns can use earlier ones.**
 
 
 # NYC flights Challenge
@@ -183,7 +187,7 @@ library(nycflights13)
 
 - Read about the data in the package docs
 
-```{r,accordion=TRUE}
+```{r,accordion=TRUE,eval=FALSE}
 ?nycflights13
 ```
 
@@ -211,7 +215,7 @@ flights %>% select(carrier, tailnum, origin)
 flights %>% select(-(day:carrier))
 ```
 
-- Select all columns that have to do with `arr`_ival (hint: `contains`, `start_with`, `matches`, `ends_with`; more details [here](https://dplyr.tidyverse.org/reference/select.html))  
+- Select all columns that have to do with arrival (`arr_`) (hint: `contains`, `starts_with`, `matches`, `ends_with`; more details [here](https://dplyr.tidyverse.org/reference/select.html))  
 
 ```{r,accordion=TRUE}
 flights %>% select(contains('arr_'))
@@ -221,8 +225,8 @@ flights %>% select(contains('arr_'))
 
 ```{r,accordion=TRUE}
 v <- c("arr_time", "sched_arr_time", "arr_delay")
-flights %>% select(v) # or
-flights %>% select(one_of(v))
+flights %>% select(all_of(v))
+# select(one_of(v)) is the older (superseded) way
 ```
 
 - Rename column `dest` to `destination` using `select()` and `rename()`. What is the difference between the two approaches?
@@ -261,12 +265,13 @@ flights %>% filter(is.na(arr_time))
 flights %>% slice(1234:1258)
 ```
 
-- Sample (`?sample_n()`) 3 random flights per day in March
+- Sample (`?slice_sample()`) 3 random flights per day in March
 
 ```{r,accordion=TRUE}
 flights %>% filter(month == 3) %>%
   group_by(day) %>%
-  sample_n(3)
+  slice_sample(n = 3)
+# older: sample_n(3)
 ```
 
 - Show 5 most departure-delayed flights in January per carrier
@@ -275,7 +280,8 @@ flights %>% filter(month == 3) %>%
 flights %>%
   filter(month == 1) %>%
   group_by(carrier) %>%
-  top_n(5, dep_delay)
+  slice_max(dep_delay, n = 5)
+# older: top_n(5, dep_delay)
 ```
 
 - How many unique routes exists?
@@ -292,9 +298,7 @@ flights %>%
 ```{r,accordion=TRUE}
 flights %>%
   mutate(route=paste(origin,"-",dest)) %>% 
-  group_by(route) %>%
-  count() %>%
-  arrange(-n)
+  count(route, sort = TRUE)
 
 # JFK - LAX
 ```
@@ -369,6 +373,102 @@ flights %>%
 **Note on `ungroup`** Depending on the version of `dplyr` you may or may need to use the `ungroup()` if you want to group your data on some other variables. In the newer versions, `summarise` and `mutate` drop one aggregation level.
 
 
+## More transformations
+
+- Create a variable `delay_class` with `case_when()`: `"early"` if `dep_delay` < 0, `"on time"` if 0-15, `"late"` otherwise. Count flights per class.
+
+```{r,accordion=TRUE}
+flights %>%
+  filter(!is.na(dep_delay)) %>%
+  mutate(delay_class = case_when(dep_delay < 0 ~ "early",
+                                 dep_delay <= 15 ~ "on time",
+                                 .default = "late")) %>%
+  count(delay_class)
+```
+
+- **Stretch:** use `across()` to compute the mean of `dep_delay` and `arr_delay` per `origin` in one `summarise()`.
+
+```{r,accordion=TRUE}
+flights %>%
+  group_by(origin) %>%
+  summarise(across(ends_with("_delay"), ~ mean(.x, na.rm = TRUE)))
+```
+
+# Joins
+
+The `flights` table only has a two-letter `carrier` code. The `airlines`, `planes` and `airports` tables hold the details.
+
+- Add the full airline `name` to `flights` (`left_join`). Which airline has the largest mean departure delay?
+
+```{r,accordion=TRUE}
+flights %>%
+  left_join(airlines, by = "carrier") %>%
+  group_by(name) %>%
+  summarise(mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>%
+  arrange(desc(mean_dep_delay))
+```
+
+- Which flights have no information in the `planes` table? (hint: `anti_join`). How many distinct `tailnum` is that?
+
+```{r,accordion=TRUE}
+flights %>% anti_join(planes, by = "tailnum") %>% distinct(tailnum) %>% nrow()
+```
+
+- **Stretch:** the key of `airports` is called `faa`, not `dest`. Join the destination airport names to `flights` and list the 5 most frequent destinations by name. (hint: `by = c("dest" = "faa")`)
+
+```{r,accordion=TRUE}
+flights %>%
+  count(dest) %>%
+  left_join(airports, by = c("dest" = "faa")) %>%
+  select(dest, name, n) %>%
+  slice_max(n, n = 5)
+```
+
+# Tidy data
+
+- Look at `table1`, `table2`, `table3` and `table4a`/`table4b` (all in `tidyr`). Which one is tidy? Why are the others not?
+
+```{r,accordion=TRUE}
+table1
+# table1 is tidy: one row per country-year, one column per variable.
+# table2: a variable (type) is spread across rows; table3: `rate` holds two values;
+# table4a/4b: the year (a value) is in column names.
+```
+
+- Make `table4a` tidy (hint: `pivot_longer`).
+
+```{r,accordion=TRUE}
+table4a %>% pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+```
+
+- Make `table2` tidy (hint: `pivot_wider`).
+
+```{r,accordion=TRUE}
+table2 %>% pivot_wider(names_from = type, values_from = count)
+```
+
+- Split `rate` in `table3` into `cases` and `population` (hint: `separate`, `convert = TRUE`), then unite `country` and `year` into one column with `unite`.
+
+```{r,accordion=TRUE}
+table3 %>%
+  separate(rate, into = c("cases", "population"), sep = "/", convert = TRUE) %>%
+  unite("country_year", country, year, sep = "_")
+```
+
+# Stretch: capstone
+
+For each origin airport, find the carrier with the highest mean departure delay among carriers with at least 100 flights from that origin. Report the airline's full name.
+
+```{r,accordion=TRUE}
+flights %>%
+  group_by(origin, carrier) %>%
+  summarise(n = n(), mean_dep_delay = mean(dep_delay, na.rm = TRUE), .groups = "drop") %>%
+  filter(n >= 100) %>%
+  group_by(origin) %>%
+  slice_max(mean_dep_delay, n = 1) %>%
+  left_join(airlines, by = "carrier")
+```
+
 # Cheatsheet  
 ## Pipe 
 **Make sure to load the relevant libraries**. 
@@ -378,7 +478,7 @@ flights %>%
 | `%>%` | **magrittr / tidyverse** | Forward pipe: passes the LHS as the **first argument** of the RHS function. Improves readability. | `mtcars %>% head(3)` |
 | `%$%` | **magrittr** | Exposition pipe: **unpacks columns** of a data frame so they can be used directly inside a function. | `mtcars %$% cor(mpg, hp)` |
 | `%T>%` | **magrittr** | Tee pipe: runs a function **for side effects** (e.g., plotting) but **returns the original data**. | `mtcars %T>% print() %>% summary()` |
-| `|>` | **base R** (R 4.1+) | Base pipe: similar to `%>%` but **stricter and simpler**. LHS is inserted into `_` placeholder if used. | `mtcars |> head(3)` or `mtcars |> (\(x) x[1:3, ])` |
+| `\|>` | **base R** (R 4.1+) | Base pipe: similar to `%>%` but **stricter and simpler**. LHS is inserted into `_` placeholder if used. | `mtcars \|> head(3)` or `mtcars \|> (\(x) x[1:3, ])()` |
 
 
 ## Placeholder  
@@ -388,7 +488,7 @@ flights %>%
 | `.` | magrittr | `%>%` pipes | Insert LHS **anywhere** inside the RHS expression. | `mtcars %>% filter(mpg > mean(.$mpg))` |
 | `.x` | purrr | `map()`, `walk()`, etc. | Represents the **current element** in purrr mapping. | `map(1:3, ~ .x^2)` |
 | `.y` | purrr | `imap()` | Represents the **index/name** of the current element. | `imap(letters[1:3], ~ paste(.y, .x))` |
-| `_` | base R | `|>` | Base-R placeholder: places the LHS at **specific argument position**. | `mtcars |> lm(mpg ~ hp, data = _)` |
+| `_` | base R | `\|>` | Base-R placeholder: places the LHS at a **named argument**. | `mtcars \|> lm(mpg ~ hp, data = _)` |
 
 
 
@@ -407,18 +507,25 @@ flights %>%
 | dplyr   | `distinct()`                  | Return unique rows based on selected columns.                          | `flights %>% distinct(carrier)`                                     |
 | dplyr   | `count()`                     | Shortcut for `group_by(...) %>% summarise(n = n())`.                   | `flights %>% count(carrier)`                                        |
 | dplyr   | `slice()`                     | Select rows by position (row numbers).                                 | `flights %>% slice(1:5)`                                            |
-| dplyr   | `sample_n()`                  | Randomly sample a fixed number of rows.                                | `flights %>% sample_n(10)`                                          |
-| dplyr   | `top_n()`                     | Keep the top *n* rows per group based on a column.                     | `flights %>% top_n(5, dep_delay)`                                   |
+| dplyr   | `slice_sample()`              | Randomly sample rows (replaces `sample_n()`).                          | `flights %>% slice_sample(n = 10)`                                  |
+| dplyr   | `slice_max()` / `slice_min()` | Keep the rows with the largest / smallest values (per group if grouped); replaces `top_n()`. | `flights %>% slice_max(dep_delay, n = 5)`     |
 | dplyr   | `rename()`                    | Rename columns while keeping all data.                                 | `flights %>% rename(delay = dep_delay)`                             |
 | dplyr   | `desc()`         | Marks a variable for descending order in `arrange()` or `top_n()`.       | `flights %>% arrange(desc(dep_delay))`                                                      |
 | dplyr   | `between()`      | Test if values lie between two endpoints (inclusive).                    | `flights %>% filter(between(dep_delay, 10, 30))`                                            |
 | dplyr   | `everything()`   | Helper to select all remaining columns after those named.                | `flights %>% select(year, month, day, everything())`                                        |
 | dplyr   | `contains()`     | Select columns whose names contain a given string.                       | `flights %>% select(contains("delay"))`                                                     |
-| dplyr   | `one_of()`       | Select columns using a character vector of column names.                 | `vars <- c("year", "month"); flights %>% select(one_of(vars))`                              |
+| dplyr   | `all_of()`       | Select columns using a character vector of column names (replaces `one_of()`). | `vars <- c("year", "month"); flights %>% select(all_of(vars))`                        |
+| dplyr   | `relocate()`     | Move columns, by default to the front.                                   | `flights %>% relocate(carrier)`                                                             |
+| dplyr   | `case_when()`    | Vectorised if/else-if for several conditions.                            | `mutate(cls = case_when(dep_delay < 0 ~ "early", .default = "late"))`                       |
+| dplyr   | `across()`       | Apply a function to several columns inside `mutate`/`summarise`.         | `summarise(across(ends_with("delay"), ~ mean(.x, na.rm = TRUE)))`                           |
+| dplyr   | `.by`            | Group for one operation only (dplyr >= 1.1).                             | `flights %>% summarise(m = mean(dep_delay, na.rm = TRUE), .by = origin)`                    |
 | dplyr   | `group_size()`   | Returns the size (row count) of each group for a grouped data frame.     | `flights %>% group_by(carrier) %>% group_size()`                                            |
 | dplyr   | `n_groups()`     | Number of groups in a grouped data frame.                                | `flights %>% group_by(carrier) %>% n_groups()`                                              |
 | dplyr   | `inner_join()`   | Join two data frames, keeping rows that match in both tables.            | `inner_join(df1, df2, by = "id")`                                                           |
-| tidyr   | `gather()`       | (Superseded) Convert wide columns into key–value **long** format.        | `flights %>% gather(type, delay, dep_delay, arr_delay)`                                     |
+| dplyr   | `left_join()`    | Keep all rows of the left table, add matching columns from the right.    | `left_join(flights, airlines, by = "carrier")`                                               |
+| dplyr   | `anti_join()`    | Rows of the left table with **no** match in the right table.             | `anti_join(flights, planes, by = "tailnum")`                                                |
+| dplyr   | `join_by()`      | Specify join keys, also with different names.                            | `left_join(x, y, by = join_by(id == key))`                                                  |
+| tidyr   | `gather()`       | (Superseded, use `pivot_longer()`) Convert wide columns into key–value **long** format.        | `flights %>% gather(type, delay, dep_delay, arr_delay)`                                     |
 | tidyr   | `pivot_longer()` | Modern replacement for `gather()`: wide → long.                          | `flights %>% pivot_longer(c(dep_delay, arr_delay), names_to = "type", values_to = "delay")` |
 | tidyr   | `pivot_wider()`  | Long → wide, turning values of a column into new columns.                | `delays %>% pivot_wider(names_from = type, values_from = delay)`                            |
 | tidyr   | `separate()`     | Split one column into multiple columns.                                  | `df %>% separate(col = "x_y", into = c("x","y"), sep = "_")`                                |
