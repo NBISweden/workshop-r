@@ -274,6 +274,59 @@ gene_counts %&gt;% head()</code></pre>
 ## 4      316      505      398       141       168       259
 ## 5      723     1266      984      1044       877      1428
 ## 6      406      623      545       487       446       648</code></pre>
+<p>As it can be seen, this is the format we are most accustomed to as it lets us see more of the data and we are also very used to this format excel sheets. However, this is not a computationally efficient format.</p>
+<ul>
+<li>It is very hard to get a specific information like “what is the expression of gene X in sample Y” without subsetting the data.</li>
+<li>It is very hard to add new information to the dataset. For example, if we wanted to add a new sample or a new gene expression value.</li>
+<li>It is also hard to add new information about the samples or genes. For example, if we wanted to add a new column with the sample type (e.g. control or treatment) or a new column with the gene length.</li>
+</ul>
+<p>here we will see how to convert this format to a long format using the <code>pivot_longer()</code> function from the <code>tidyr</code> package. And we will also try to add new information to the table.</p>
+<p>First make sure the libraries are loaded.</p>
+<pre class="r"><code>library(tidyr)
+library(dplyr)</code></pre>
+<p>Now let us try the <code>pivot_longer()</code> function to convert the data from wide to long format. We will keep the gene names as they are and convert the sample names to a new column called <code>Sample</code> and the expression values to a new column called <code>counts</code>.</p>
+<pre class="r"><code>gene_counts %&gt;%
+  pivot_longer(cols = -Gene, names_to = &quot;Sample&quot;, values_to = &quot;counts&quot;) %&gt;%
+  head()</code></pre>
+<pre><code>## # A tibble: 6 × 3
+##   Gene            Sample   counts
+##   &lt;fct&gt;           &lt;chr&gt;     &lt;int&gt;
+## 1 ENSG00000000003 Sample_1    321
+## 2 ENSG00000000003 Sample_2    303
+## 3 ENSG00000000003 Sample_3    204
+## 4 ENSG00000000003 Sample_4    492
+## 5 ENSG00000000003 Sample_5    455
+## 6 ENSG00000000003 Sample_6    359</code></pre>
+<p>As you can see the data is now in a long format. The first column is the gene name, the second column is the sample name and the third column is the expression value. So, to explain the pivot_longer() briefly, we collected all columns except the first one (Gene) with <code>cols=-Gene</code>. The <code>names_to</code> argument specifies the name of the new column that will contain the headers (in our case sample names) and the <code>values_to</code> argument specifies the name of the new column that will contain the actual value (in our case the expression values).</p>
+<p>Now let us try to add more information about the samples to this table.</p>
+<pre class="r"><code>metadata &lt;- read.table(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_ggplot2/metadata.csv&quot;, header = TRUE, stringsAsFactors = TRUE, sep = &quot;;&quot;)
+metadata %&gt;% head()</code></pre>
+<pre><code>##   Sample_ID Sample_Name Time Replicate Cell
+## 1  Sample_1        t0_A   t0         A A431
+## 2  Sample_2        t0_B   t0         B A431
+## 3  Sample_3        t0_C   t0         C A431
+## 4  Sample_4        t2_A   t2         A A431
+## 5  Sample_5        t2_B   t2         B A431
+## 6  Sample_6        t2_C   t2         C A431</code></pre>
+<div class="boxy boxy-lightbulb">
+<p>Note the <code>sep = ";"</code> argument in the <code>read.table()</code> function for the metadata file and <code>sep = "\t"</code> for the counts file. This is because the metadata file is a semicolon separated file and the counts file is a tab separated file. It is important to specify the correct separator when reading in a file.</p>
+<p>So, when you are working with a file of your own, it is very important for you to already know what kind of separator is used in the file. If you are not sure, you can open the file in a text editor and check.</p>
+</div>
+<p>Now we can try to add the sample type information to the long format table using the <code>left_join()</code> function from the <code>dplyr</code> package. The <code>left_join()</code> function will keep all rows from the left table (in our case the long format table) and add the matching rows from the right table (in our case the metadata table). If there is no match, it will fill with NA.</p>
+<pre class="r"><code>gene_counts_long &lt;- gene_counts %&gt;%
+  pivot_longer(cols = -Gene, names_to = &quot;Sample&quot;, values_to = &quot;counts&quot;) %&gt;%
+  left_join(metadata, by = c(&quot;Sample&quot; = &quot;Sample_ID&quot;)) 
+gene_counts_long %&gt;% head()</code></pre>
+<pre><code>## # A tibble: 6 × 7
+##   Gene            Sample   counts Sample_Name Time  Replicate Cell 
+##   &lt;fct&gt;           &lt;chr&gt;     &lt;int&gt; &lt;fct&gt;       &lt;fct&gt; &lt;fct&gt;     &lt;fct&gt;
+## 1 ENSG00000000003 Sample_1    321 t0_A        t0    A         A431 
+## 2 ENSG00000000003 Sample_2    303 t0_B        t0    B         A431 
+## 3 ENSG00000000003 Sample_3    204 t0_C        t0    C         A431 
+## 4 ENSG00000000003 Sample_4    492 t2_A        t2    A         A431 
+## 5 ENSG00000000003 Sample_5    455 t2_B        t2    B         A431 
+## 6 ENSG00000000003 Sample_6    359 t2_C        t2    C         A431</code></pre>
+<p>We will use this dataset to learn some of the aspects of ggplot2. But first, we will look at some basic plots using the <code>iris</code> dataset that is available in R by default.</p>
 </div>
 </div>
 <div id="ggplot2-basics" class="section level1" number="2">
@@ -294,11 +347,11 @@ head(iris)</code></pre>
 <h2><span class="header-section-number">2.1</span> Building a plot</h2>
 <p>ggplot2 plots are initialised by specifying the dataset. This can be saved to a variable or it draws a blank plot.</p>
 <pre class="r"><code>ggplot(data = iris)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-6-1.png" width="384" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-10-1.png" width="384" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Now we can specify what we want on the x and y axes using aethetic mapping. And we specify the geometric using geoms. Note that the variable names do not have double quotes <code>""</code> like in base plots.</p>
 <pre class="r"><code>ggplot(data = iris) +
   geom_point(mapping = aes(x = Petal.Length, y = Petal.Width))</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-7-1.png" width="384" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-11-1.png" width="384" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="multiple-geoms" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Multiple geoms</h2>
@@ -306,7 +359,7 @@ head(iris)</code></pre>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-8-1.png" width="384" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-12-1.png" width="384" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="using-colors" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Using colors</h2>
@@ -314,12 +367,12 @@ head(iris)</code></pre>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width, colour = Species)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-9-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-13-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 <p>If we wanted to keep a common regression line while keeping the colors for the points, we could specify color aesthetic only for <code>geom_point</code>.</p>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species)) +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-14-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="aesthetic-parameter" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Aesthetic parameter</h2>
@@ -327,7 +380,7 @@ head(iris)</code></pre>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species), size = 3) +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="aesthetic-mapping" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Aesthetic mapping</h2>
@@ -335,7 +388,7 @@ head(iris)</code></pre>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species, size = Sepal.Width)) +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-12-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="discrete-colors" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Discrete colors</h2>
@@ -344,7 +397,7 @@ head(iris)</code></pre>
   geom_point(aes(color = Species, size = Sepal.Width)) +
   geom_smooth(method = &quot;lm&quot;) +
   scale_color_manual(values = c(&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;))</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-13-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="continuous-colors" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> Continuous colors</h2>
@@ -352,7 +405,7 @@ head(iris)</code></pre>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Sepal.Width)) +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-14-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-18-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="titles" class="section level2" number="2.8">
 <h2><span class="header-section-number">2.8</span> Titles</h2>
@@ -365,7 +418,7 @@ head(iris)</code></pre>
     title = &quot;This Is A Title&quot;, subtitle = &quot;This is a subtitle&quot;, x = &quot; Petal Length&quot;,
     y = &quot;Petal Width&quot;, caption = &quot;This is a little caption.&quot;
   )</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="axes-modification" class="section level2" number="2.9">
 <h2><span class="header-section-number">2.9</span> Axes modification</h2>
@@ -379,7 +432,7 @@ head(iris)</code></pre>
     title = &quot;This Is A Title&quot;, subtitle = &quot;This is a subtitle&quot;, x = &quot; Petal Length&quot;,
     y = &quot;Petal Width&quot;, caption = &quot;This is a little caption.&quot;
   )</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-20-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="faceting" class="section level2" number="2.10">
 <h2><span class="header-section-number">2.10</span> Faceting</h2>
@@ -394,7 +447,7 @@ head(iris)</code></pre>
     y = &quot;Petal Width&quot;, caption = &quot;This is a little caption.&quot;
   ) +
   facet_wrap(~Species)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-17-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-21-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="themes" class="section level2" number="2.11">
 <h2><span class="header-section-number">2.11</span> Themes</h2>
@@ -410,7 +463,7 @@ head(iris)</code></pre>
   ) +
   facet_wrap(~Species) +
   theme_bw()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-18-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-22-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 <p>All non-data related aspects of the plot can be modified through themes. Let’s modify the colors of the title labels and turn off the grid lines. The various parameters for theme ca be found using <code>?theme</code>.</p>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Sepal.Width)) +
@@ -430,7 +483,7 @@ head(iris)</code></pre>
     plot.subtitle = element_text(color = &quot;Pink&quot;),
     panel.grid = element_blank()
   )</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-23-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Themes can be saved and reused.</p>
 <pre class="r"><code>newtheme &lt;- theme(
   axis.title = element_text(color = &quot;Blue&quot;, face = &quot;bold&quot;),
@@ -451,23 +504,23 @@ ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   facet_wrap(~Species) +
   theme_bw() +
   newtheme</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-20-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-24-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="controlling-legends" class="section level2" number="2.12">
 <h2><span class="header-section-number">2.12</span> Controlling legends</h2>
 <p>Here we see two legends based on the two aesthetic mappings.</p>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species, size = Sepal.Width))</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 <p>If we don’t want to have the extra legend, we can turn off legends individually by aesthetic.</p>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species, size = Sepal.Width)) +
   guides(size = &quot;none&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-22-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-26-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 <p>We can also turn off legends by geom.</p>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species, size = Sepal.Width), show.legend = FALSE)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-23-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-27-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Legends can be moved around using theme.</p>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species, size = Sepal.Width)) +
@@ -475,7 +528,7 @@ ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
     legend.position = &quot;top&quot;,
     legend.justification = &quot;right&quot;
   )</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-24-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-28-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Legend rows can be controlled in a finer manner.</p>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species, size = Sepal.Width)) +
@@ -487,7 +540,7 @@ ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
     size = guide_legend(nrow = 1, byrow = TRUE),
     color = guide_legend(nrow = 3, byrow = T)
   )</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-29-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="labelling" class="section level2" number="2.13">
 <h2><span class="header-section-number">2.13</span> Labelling</h2>
@@ -495,11 +548,11 @@ ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species)) +
   geom_text(aes(label = Species, hjust = 0), nudge_x = 0.5, size = 3)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-26-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-30-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species)) +
   geom_label(aes(label = Species, hjust = 0), nudge_x = 0.5, size = 3)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-27-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-31-1.png" width="480" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Check out the R package <code>ggrepel</code> allows for non-overlapping labels (<a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html" target="_blank">here</a>).</p>
 </div>
 <div id="annotations" class="section level2" number="2.14">
@@ -509,13 +562,13 @@ ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
   geom_point(aes(color = Species)) +
   annotate(&quot;text&quot;, x = 2.5, y = 2.1, label = &quot;There is a random line here&quot;) +
   annotate(&quot;segment&quot;, x = 2, xend = 4, y = 1.5, yend = 2)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-28-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-32-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="barplots" class="section level2" number="2.15">
 <h2><span class="header-section-number">2.15</span> Barplots</h2>
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Species, y = Petal.Width)) +
   geom_bar(stat = &quot;identity&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-29-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="flip-axes" class="section level2" number="2.16">
 <h2><span class="header-section-number">2.16</span> Flip axes</h2>
@@ -523,7 +576,7 @@ ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
 <pre class="r"><code>ggplot(data = iris, mapping = aes(x = Species, y = Petal.Width)) +
   geom_bar(stat = &quot;identity&quot;) +
   coord_flip()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-30-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-34-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="error-bars" class="section level2" number="2.17">
 <h2><span class="header-section-number">2.17</span> Error Bars</h2>
@@ -544,11 +597,85 @@ ggplot(data = dfr, mapping = aes(x = Species, y = mean, color = Species)) +
 ## 1 setosa      5.01 0.352  5.36  4.65
 ## 2 versicolor  5.94 0.516  6.45  5.42
 ## 3 virginica   6.59 0.636  7.22  5.95</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-31-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-35-1.png" width="576" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 </div>
-<div id="covid-data" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Covid data</h1>
+<div id="gene-counts-data" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Gene counts data</h1>
+<p>With a dataset like the gene-expression data, one would always want to look at the distribution of the counts between the samples. This can be done using a boxplot. Let’s create a boxplot of the counts.</p>
+<div id="boxplot" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Boxplot</h2>
+<pre class="r"><code>ggplot(gene_counts_long) +
+  geom_boxplot(aes(x = Sample_Name, y = log10(counts + 1))) </code></pre>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<div class="boxy boxy-lightbulb">
+<p>You can notice that the ggplot sorts the <code>variables</code> alpha-numerically, like in the case above with <code>Sample_Name</code>. One can convert that variable into a factor and specify the levels to control the order of that variable.</p>
+</div>
+<pre class="r"><code>gene_counts_long$Sample_Name &lt;- factor(gene_counts_long$Sample_Name, 
+  levels = c(&quot;t0_A&quot;,&quot;t0_B&quot;,&quot;t0_C&quot;,&quot;t2_A&quot;,&quot;t2_B&quot;,&quot;t2_C&quot;,&quot;t6_A&quot;,&quot;t6_B&quot;,&quot;t6_C&quot;,&quot;t24_A&quot;,&quot;t24_B&quot;,&quot;t24_C&quot;))
+
+ggplot(gene_counts_long) +
+  geom_boxplot(aes(x = Sample_Name, y = log10(counts + 1))) </code></pre>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p>We can also additionally use the <code>fill</code> aesthetic to color the boxes based on the <code>Time</code> variable.</p>
+<pre class="r"><code>ggplot(gene_counts_long) +
+  geom_boxplot(aes(x = Sample_Name, y = log10(counts + 1), fill = Time)) </code></pre>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+<div id="violin-plot" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Violin plot</h2>
+<pre class="r"><code>ggplot(gene_counts_long) +
+  geom_violin(aes(x = Sample_Name, y = log10(counts + 1), fill = Time)) </code></pre>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+<div id="errorbars" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Errorbars</h2>
+<p>Below is an example of using creating <code>se()</code> function that calculates standard error and then using it to create a barplot with error bars.</p>
+<pre class="r"><code>se &lt;- function(x) sqrt(var(x)/length(x))
+gene_counts_long %&gt;% 
+  group_by(Time) %&gt;% 
+  summarise(mean=mean(log10(counts +1)),se=se(log10(counts +1))) %&gt;%
+  ggplot(aes(x=Time, y=mean, fill = Time)) + 
+  geom_col() +
+  geom_errorbar(aes(ymax=mean+se,ymin=mean-se),width=0.2)</code></pre>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<div class="boxy boxy-lightbulb">
+<p>Notice that you can also send the data to <code>ggplot()</code> using the <code>%&gt;%</code> operator. However, keep track of the commands related to tidyverse uses <code>%&gt;%</code> and ggplot2 uses <code>+</code>.</p>
+</div>
+</div>
+<div id="stacked-bars" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Stacked bars</h2>
+<p>This is probably one of the plots that is not recommnded to use as it is hard to read and interpret. But it is still good to know how to create it.</p>
+<pre class="r"><code>gene_counts_long %&gt;% 
+  group_by(Time, Replicate) %&gt;% 
+  summarise(mean=mean(log10(counts +1)),se=se(log10(counts +1))) %&gt;%
+  ggplot(aes(x=Time, y=mean, fill = Replicate)) + 
+  geom_col(position = &quot;stack&quot;)</code></pre>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p>probably a better way to show this information is to use a dodged barplot.</p>
+<pre class="r"><code>gene_counts_long %&gt;% 
+  group_by(Time, Replicate) %&gt;% 
+  summarise(mean=mean(log10(counts +1)),se=se(log10(counts +1))) %&gt;%
+  ggplot(aes(x=Time, y=mean, fill = Replicate)) + 
+  geom_col(position = &quot;dodge&quot;)</code></pre>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-42-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+<div id="exercise" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Exercise</h2>
+<p>You can try to create a PCoA or an MDS plot from this dataset. Below is an example of how to create an MDS object.</p>
+<pre class="r"><code>gc_dist &lt;- dist(t(gene_counts))
+gc_mds &lt;- cmdscale(gc_dist,eig=TRUE, k=2) </code></pre>
+<p><strong>Some tips:</strong></p>
+<ul>
+<li>Look at the <code>gc_mds</code> object to see what it contains. You will need to convert it to a data frame.</li>
+<li>Then add the sample information to it using <code>left_join()</code>.</li>
+<li>Then you can use <code>ggplot()</code> to create a scatter plot (aes(x = MDS1, y = MDS2)) of the two dimensions.</li>
+<li>The mds object gc_mds has “eigenvalues”. You can calculate the variance of each co-ordinates (MDS1, MDS2) by <code>Variance &lt;- Eigenvalues / sum(Eigenvalues)</code></li>
+</ul>
+</div>
+</div>
+<div id="covid-data" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Covid data</h1>
 <p>Covid cases data was download from <a href="https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide" target="_blank">ECDC</a> as a CSV file. We will explore this dataset to plot some common scientific figures.</p>
 <p>Read the table, keep only date up to september, convert the <code>dateRep</code> as date format to a new column named <code>date</code>, convert month and year to factors.</p>
 <pre class="r"><code>d &lt;- read.csv(&quot;https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_ggplot2/covid.csv&quot;, header = TRUE, stringsAsFactors = TRUE) %&gt;%
@@ -577,24 +704,24 @@ as_tibble(d)</code></pre>
 ## #   continentExp &lt;fct&gt;,
 ## #   Cumulative_number_for_14_days_of_COVID.19_cases_per_100000 &lt;dbl&gt;,
 ## #   date &lt;date&gt;</code></pre>
-<div id="histogram" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Histogram</h2>
+<div id="histogram" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Histogram</h2>
 <p>Create a histogram showing the overall distribution of cases.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   ggplot(aes(x = cases)) +
   geom_histogram()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-45-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>A whole lot of zero cases which is not surprising. A very few number of extremely large number of cases.</p>
 </div>
-<div id="line-plot" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Line plot</h2>
+<div id="line-plot" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Line plot</h2>
 <p>A line plot is a good option when you dense data and over a time period/duration. Create a line plot for the Country Sweden (<code>geoId=="SE"</code> or <code>countriesAndTerritories=="Sweden"</code>) showing date (<code>date</code>) on the x-axis and cases per day (<code>cases</code>) on the y-axis. Set a plot title and axes titles.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   filter(geoId == &quot;SE&quot;) %&gt;%
   ggplot(aes(x = date, y = cases)) +
   geom_line() +
   labs(x = &quot;Date&quot;, y = &quot;Cases&quot;, title = &quot;Sweden | COVID Cases Per Day&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-46-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>The number of cases per day in Sweden are shown for the period from Jan to Sep. The highest peak is in June and cases were low in summer. Why do you think the line is oscillating up and down rather than being a smooth line?</p>
 <p>Similar to above, create a line plot for the following 8 countries: <code>Sweden, Denmark, Norway, Finland, United_Kingdom, France, Germany, Italy</code> where each country has a different colored line. Set plot title and axes titles. Change theme to <code>theme_bw()</code>.</p>
 <pre class="r blur-effect"><code>d %&gt;%
@@ -604,7 +731,7 @@ as_tibble(d)</code></pre>
   scale_color_discrete(name = &quot;Country&quot;) +
   labs(x = &quot;Date&quot;, y = &quot;Cases&quot;, title = &quot;COVID Cases Per Day&quot;) +
   theme_bw()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-47-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>The countries with lower number of counts are hard to see. Perhaps a log transformation would help? Change the y-axis to a log scale to bring clarity to countries with lower cases.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   filter(countriesAndTerritories %in% c(&quot;Sweden&quot;, &quot;Denmark&quot;, &quot;Norway&quot;, &quot;Finland&quot;, &quot;United_Kingdom&quot;, &quot;France&quot;, &quot;Germany&quot;, &quot;Italy&quot;)) %&gt;%
@@ -614,7 +741,7 @@ as_tibble(d)</code></pre>
   scale_color_discrete(name = &quot;Country&quot;) +
   labs(x = &quot;Date&quot;, y = &quot;Cases&quot;, title = &quot;COVID Cases Per Day&quot;) +
   theme_bw()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-48-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Did that really help? Why not? Perhaps we could draw a trendline rather than showing the actual data. Create a line plot for the same information as above showing a smoothed trendline (<code>geom_smooth()</code>) rather than the actual data points.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   filter(countriesAndTerritories %in% c(&quot;Sweden&quot;, &quot;Denmark&quot;, &quot;Norway&quot;, &quot;Finland&quot;, &quot;United_Kingdom&quot;, &quot;France&quot;, &quot;Germany&quot;, &quot;Italy&quot;)) %&gt;%
@@ -624,7 +751,7 @@ as_tibble(d)</code></pre>
   scale_color_discrete(name = &quot;Country&quot;) +
   labs(x = &quot;Date&quot;, y = &quot;Cases&quot;, title = &quot;COVID Cases Per Day&quot;) +
   theme_bw()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-49-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>This is much easier to read.</p>
 <p>Similarly, we can plot regression lines by changing arguments inside <code>geom_smooth()</code>.</p>
 <pre class="r blur-effect"><code>d %&gt;%
@@ -635,10 +762,10 @@ as_tibble(d)</code></pre>
   scale_color_discrete(name = &quot;Country&quot;) +
   labs(x = &quot;Date&quot;, y = &quot;Cases&quot;, title = &quot;COVID Cases Per Day&quot;) +
   theme_bw()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-50-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
-<div id="boxplots" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Boxplots</h2>
+<div id="boxplots" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Boxplots</h2>
 <p>Boxplot show the full distribution of data within a bin. Now, for the same countries, create monthwise boxplots (<code>geom_boxplot()</code>) of cases.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   filter(countriesAndTerritories %in% c(&quot;Sweden&quot;, &quot;Denmark&quot;, &quot;Norway&quot;, &quot;Finland&quot;, &quot;United_Kingdom&quot;, &quot;France&quot;, &quot;Germany&quot;, &quot;Italy&quot;)) %&gt;%
@@ -647,7 +774,7 @@ as_tibble(d)</code></pre>
   scale_color_discrete(name = &quot;Country&quot;) +
   labs(x = &quot;Month&quot;, y = &quot;Cases&quot;, title = &quot;COVID Cases Per Month&quot;) +
   theme_bw()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-51-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>This gets a bit messy. Can you split each country into a subplot rather than showing all the countries in one plot?</p>
 <pre class="r blur-effect"><code>d %&gt;%
   filter(countriesAndTerritories %in% c(&quot;Sweden&quot;, &quot;Denmark&quot;, &quot;Norway&quot;, &quot;Finland&quot;, &quot;United_Kingdom&quot;, &quot;France&quot;, &quot;Germany&quot;, &quot;Italy&quot;)) %&gt;%
@@ -657,17 +784,17 @@ as_tibble(d)</code></pre>
   scale_color_discrete(name = &quot;Country&quot;) +
   labs(x = &quot;Month&quot;, y = &quot;Cases&quot;, title = &quot;COVID Cases Per Month&quot;) +
   theme_bw()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-52-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
-<div id="barplots-1" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Barplots</h2>
+<div id="barplots-1" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Barplots</h2>
 <p>Create a barplot (<code>geom_bar()</code>) with mean cases for each continent.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   group_by(continentExp) %&gt;%
   summarise(mean = mean(cases, na.rm = TRUE)) %&gt;%
   ggplot(aes(x = continentExp, y = mean)) +
   geom_bar(stat = &quot;identity&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-53-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Now for a bit more complexity, create a stacked barplot (<code>geom_bar()</code>) with total cases monthwise for each continent. Set months on the x-axis, cases on the y-axis. Colour the bars by continent.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   group_by(continentExp, month) %&gt;%
@@ -693,7 +820,7 @@ as_tibble(d)</code></pre>
 ## #   continentExp &lt;fct&gt;,
 ## #   Cumulative_number_for_14_days_of_COVID.19_cases_per_100000 &lt;dbl&gt;,
 ## #   date &lt;date&gt;</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-42-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-54-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>This figure shows the total number of cases per month across the globe. Continent-wise information shows that a large proportion of the cases are in America followed by Asia. The more common usage of stacked barplots is to show proportion/percentage rather than absolute counts (ie; all the bars are same height).</p>
 <p>Create a stacked barplot as above showing proportion of total cases on the y-axis.</p>
 <pre class="r blur-effect"><code>d %&gt;%
@@ -706,7 +833,7 @@ as_tibble(d)</code></pre>
   scale_fill_discrete(name = &quot;Continent&quot;) +
   theme_bw() +
   labs(x = &quot;Month&quot;, y = &quot;Proportion of Cases&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-43-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-55-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Now, we can see that the pandemic initially started with 100% of the cases in the Asia. As we can also see the rise and fall of cases over summer.</p>
 <p>Now let’s look at barplots with error bars.
 - First, create a barplot showing mean number of cases per continent per month.
@@ -718,7 +845,7 @@ as_tibble(d)</code></pre>
   geom_bar(stat = &quot;identity&quot;, position = position_dodge()) +
   scale_fill_discrete(name = &quot;Continent&quot;) +
   labs(x = &quot;Month&quot;, y = &quot;Mean cases per Month&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-44-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-56-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Now to compute, error bars, computer error metrics in the <code>summary()</code> function, let’s say standard deviation (<code>sd()</code>).</p>
 <pre class="r blur-effect"><code>d %&gt;%
   group_by(continentExp, month) %&gt;%
@@ -733,27 +860,27 @@ as_tibble(d)</code></pre>
   geom_errorbar(aes(ymax = high, ymin = low), position = position_dodge(), colour = &quot;grey40&quot;) +
   scale_fill_discrete(name = &quot;Continent&quot;) +
   labs(x = &quot;Month&quot;, y = &quot;Mean cases per Month&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-45-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-57-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
-<div id="scatterplots" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Scatterplots</h2>
+<div id="scatterplots" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Scatterplots</h2>
 <p>Scatterplots are commonly used for continuous vs continuous variables. Let’s try to see if there is any relationship between number of cases and number of deaths. Create a scatterplot showing <code>cases</code> vs <code>deaths</code>.</p>
 <pre class="r blur-effect"><code>ggplot(d, aes(cases, deaths)) +
   geom_point()</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-46-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-58-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Scatterplots are extremely useful in visually inspecting relationships between variables.</p>
 <p>Scatterplots can also be used with categorical variables. Create a scatterplot with month on the x-axis and cases per month on the y-axis. Color the points by continent.</p>
 <pre class="r blur-effect"><code>ggplot(d, aes(x = month, y = cases, colour = continentExp)) +
   geom_point() +
   scale_colour_discrete(name = &quot;Continent&quot;) +
   labs(x = &quot;Month&quot;, y = &quot;Cases per Month&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-47-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-59-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p><code>geom_jitter()</code> can be used to jitter the points around, so they do not overlap.</p>
 <pre class="r blur-effect"><code>ggplot(d, aes(x = month, y = cases, colour = continentExp)) +
   geom_jitter(width = 0.3) +
   scale_colour_discrete(name = &quot;Continent&quot;) +
   labs(x = &quot;Month&quot;, y = &quot;Cases per Month&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-48-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-60-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Create a scatterplot with month on the x-axis and <strong>mean</strong> cases per month on the y-axis. Color the points by continent.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   group_by(month, continentExp) %&gt;%
@@ -762,7 +889,7 @@ as_tibble(d)</code></pre>
   geom_point() +
   scale_colour_discrete(name = &quot;Continent&quot;) +
   labs(x = &quot;Month&quot;, y = &quot;Mean cases per Month&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-49-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-61-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Add a line to connect the continents across months. Use the <code>group</code> argument in <code>aes()</code>.</p>
 <pre class="r blur-effect"><code>d %&gt;%
   group_by(month, continentExp) %&gt;%
@@ -772,7 +899,7 @@ as_tibble(d)</code></pre>
   geom_line() +
   scale_colour_discrete(name = &quot;Continent&quot;) +
   labs(x = &quot;Month&quot;, y = &quot;Mean cases per Month&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-50-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-62-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Now for a slightly more advanced example. Create the same plot above with each continent as separate facets. Add all other continents in the background as reference lines in light grey colour.</p>
 <pre class="r blur-effect"><code>ds &lt;- d %&gt;%
   group_by(month, continentExp) %&gt;%
@@ -804,10 +931,10 @@ ggplot() +
     legend.title = element_blank(),
     strip.background = element_blank()
   )</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-51-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-63-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
-<div id="heatmap" class="section level2" number="3.6">
-<h2><span class="header-section-number">3.6</span> Heatmap</h2>
+<div id="heatmap" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Heatmap</h2>
 <p>Here, we will look at creating a heatmap using ggplot2 as well as fine customisation of the plot for publication. This heatmap shows cases for all European countries over time. This is also a slightly more advanced example.</p>
 <p>First, countries in Europe are selected and cases per million people is computed.</p>
 <pre class="r"><code># subset europe, calculate cases per million
@@ -842,7 +969,7 @@ ggplot(d2, aes(x = date, y = countriesAndTerritories, fill = casesp)) +
     legend.direction = &quot;horizontal&quot;
   )
 # pheatmap::pheatmap(d3,cluster_cols = F,scale = &quot;none&quot;)</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-53-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-65-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>It would be nice to have the countries grouping together based on the trend rather than just alphabetical order. This bit of code below clusters countries based on the data. Therefore, countries with similar case patterns should cluster together.</p>
 <pre class="r"><code># cluster countries
 d3 &lt;- d2 %&gt;%
@@ -881,13 +1008,13 @@ ggplot(d2, aes(x = date, y = countriesAndTerritories, fill = casesp)) +
     legend.position = &quot;top&quot;,
     legend.direction = &quot;horizontal&quot;
   )</code></pre>
-<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-56-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="lab_ggplot2_files/figure-html/unnamed-chunk-68-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 </div>
-<div id="cheatsheet" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Cheatsheet</h1>
-<div id="general" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> General</h2>
+<div id="cheatsheet" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Cheatsheet</h1>
+<div id="general" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> General</h2>
 <table>
 <colgroup>
 <col width="50%" />
@@ -1050,8 +1177,8 @@ ggplot(d2, aes(x = date, y = countriesAndTerritories, fill = casesp)) +
 </tbody>
 </table>
 </div>
-<div id="coordinate-systems" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Coordinate Systems</h2>
+<div id="coordinate-systems" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Coordinate Systems</h2>
 <table>
 <colgroup>
 <col width="14%" />
