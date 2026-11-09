@@ -74,7 +74,11 @@ Upon completing this module, you will:
 
 * know whether the data you are working with are tidy
 
-* will be able to do basic tidying of your data
+* be able to do basic tidying of your data
+
+* be able to transform, group and summarise data with `dplyr`
+
+* be able to join tables
 
 ---
 name: tidyverse_overview
@@ -116,7 +120,7 @@ name: intro_to_pipes
 
 .center[&lt;img src="data/slide_tidyverse/pipe_magritte.jpg", style="width:300px;"&gt;]
 
-.vsmall[Rene Magritt, *La trahison des images*, [Wikimedia Commons](https://en.wikipedia.org/wiki/The_Treachery_of_Images#/media/File:MagrittePipe.jpg)]
+.vsmall[René Magritte, *La trahison des images*, [Wikimedia Commons](https://en.wikipedia.org/wiki/The_Treachery_of_Images#/media/File:MagrittePipe.jpg)]
 
 .center[&lt;img src="data/slide_tidyverse/magrittr.png", style="width:150px;"&gt;]
 ]
@@ -172,26 +176,38 @@ iris %&gt;% head(n=3)
 name: native_r_pipe
 # Native R Pipe
 
-From R 4.1.0, we have a native pipe operator `|&gt;` that is a bit faster than the `magrittr` pipe `%&gt;%`.
-It, however, differs from the `magrittr` pipe in some aspects, e.g., it does not allow for the use of the dot `.` as a placeholder (it has a simple `_` placeholder though).
+From R 4.1.0 there is a native pipe `|&gt;`. It is simpler than `%&gt;%`:
+
+* `x |&gt; f(y)` is rewritten to `f(x, y)` at parse time,
+* the placeholder is `_` and it must be used with a **named** argument,
+* no `.` placeholder, no `%T&gt;%`, no `%$%` (those come from `magrittr`),
+* anonymous function: `x |&gt; (\(d) d[1:3, ])()`.
 
 
 ``` r
 c(1:5) |&gt; mean()
+mtcars |&gt; lm(mpg ~ hp, data = _) |&gt; coef()
 ```
 
 ```
 ## [1] 3
+## (Intercept)          hp 
+## 30.09886054 -0.06822828
 ```
 
 
 ``` r
 c(1:5) %&gt;% mean()
+mtcars %&gt;% lm(mpg ~ hp, data = .) %&gt;% coef()
 ```
 
 ```
 ## [1] 3
+## (Intercept)          hp 
+## 30.09886054 -0.06822828
 ```
+
+&gt; In this course we use `%&gt;%`, because the lab needs `%T&gt;%` and `%$%`. In new code `|&gt;` is perfectly fine for the verbs below.
 
 
 ---
@@ -355,7 +371,7 @@ vehicles$speed
   
 --
 
-&gt; **Note!** Not all old R functions work with tibbles, than you have to use `as.data.frame(my_tibble)`.
+&gt; **Note!** Not all old R functions work with tibbles, then you have to use `as.data.frame(my_tibble)`.
 
 ---
 name: tibbles_partial_matching
@@ -365,7 +381,7 @@ name: tibbles_partial_matching
 
 
 ``` r
-cars$spe      # partial matching
+cars5$spe     # partial matching
 ```
 
 ```
@@ -385,7 +401,7 @@ vehicles$spe  # no partial matching
 ```
 
 ``` r
-cars$gear
+cars5$gear
 ```
 
 ```
@@ -409,24 +425,24 @@ name: loading_data
 
 # Loading Data
 
-In `tidyverse` you import data using `readr` package that provides a number of useful data import functions:
-* `read_delim()` a generic function for reading *-delimited files. There are a number of convenience wrappers:
-  + `read_csv()` used to read comma-delimited files,
-  + `read_csv2()` reads semicolon-delimited files,
-  `read_tsv()` that reads tab-delimited files.
-* `read_fwf` for reading fixed-width files with its wrappers:
-  + fwf_widths() for width-based reading,
-  + fwf_positions() for positions-based reading and
-  + read_table() for reading white space-delimited fixed-width files.
-* `read_log()` for reading Apache-style logs.
+In `tidyverse` you import data using the `readr` package:
+
+* `read_csv()` -- comma-delimited, `read_csv2()` -- semicolon-delimited,
+* `read_tsv()` -- tab-delimited, `read_delim()` -- generic (any delimiter),
+* `read_fwf()` -- fixed-width files.
 
 --
 
-&gt;The most commonly used `read_csv()` has some familiar arguments like:
-* `skip` -- to specify the number of rows to skip (headers),
-* `col_names` -- to supply a vector of column names,
-* `comment` -- to specify what character designates a comment,
-* `na` -- to specify how missing values are represented.
+Frequently used arguments:
+* `skip` -- number of rows to skip,
+* `col_names` -- a vector of column names (or `FALSE`),
+* `col_types` -- force column types, e.g. `cols(id = col_character())`,
+* `comment` -- character that designates a comment,
+* `na` -- how missing values are represented.
+
+`readr` tells you the column types it guessed. Check them!
+
+Excel files: `readxl::read_excel()`.
 
 ---
 name: readr_writing
@@ -444,10 +460,10 @@ They **always** save:
 * text in UTF-8,
 * dates in ISO8601
 
-But saving in csv (or tsv) does mean you loose information about the type of data in particular columns. You can avoid this by using:
+But saving in csv (or tsv) does mean you lose information about the type of data in particular columns. You can avoid this by using:
 
 * `write_rds()` and `read_rds()` to read/write objects in R binary rds format,
-* use `write_feather()` and `read_feather()` from package `feather` to read/write objects in a fast binary format that other programming languages can access.
+* `arrow::write_parquet()` and `arrow::read_parquet()` for a fast binary format that other programming languages can access.
 
 ---
 name: basic_data_transformations
@@ -458,19 +474,20 @@ Let us create a tibble:
 
 
 ``` r
-bijou &lt;- as_tibble(diamonds) %&gt;% head()
-bijou[1:5, ]
+set.seed(42)
+bijou &lt;- as_tibble(diamonds) %&gt;% slice_sample(n = 200)
+bijou %&gt;% head(n = 5)
 ```
 
 ```
 ## # A tibble: 5 × 10
-##   carat cut     color clarity depth table price     x     y     z
-##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
-## 2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31
-## 3  0.23 Good    E     VS1      56.9    65   327  4.05  4.07  2.31
-## 4  0.29 Premium I     VS2      62.4    58   334  4.2   4.23  2.63
-## 5  0.31 Good    J     SI2      63.3    58   335  4.34  4.35  2.75
+##   carat cut       color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  0.39 Ideal     I     VVS2     60.8    56   849  4.74  4.76  2.89
+## 2  1.12 Very Good G     SI2      63.3    58  4478  6.7   6.63  4.22
+## 3  0.51 Very Good G     VVS2     62.9    57  1750  5.06  5.12  3.2 
+## 4  0.52 Very Good D     VS1      62.5    57  1829  5.11  5.16  3.21
+## 5  0.28 Very Good E     VVS2     61.4    55   612  4.22  4.25  2.6
 ```
 
 .center[ &lt;img src="data/slide_tidyverse/diamonds.png", style="height:200px"&gt; ]
@@ -486,17 +503,19 @@ bijou %&gt;% filter(cut == 'Ideal' | cut == 'Premium', carat &gt;= 0.23) %&gt;% 
 ```
 
 ```
-## # A tibble: 2 × 10
+## # A tibble: 4 × 10
 ##   carat cut     color clarity depth table price     x     y     z
 ##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
-## 2  0.29 Premium I     VS2      62.4    58   334  4.2   4.23  2.63
+## 1  0.39 Ideal   I     VVS2     60.8    56   849  4.74  4.76  2.89
+## 2  0.9  Ideal   D     SI1      62.1    57  4523  6.18  6.25  3.86
+## 3  0.33 Ideal   G     VVS1     62      55   838  4.45  4.49  2.77
+## 4  0.71 Premium G     VS2      62.1    62  2623  5.71  5.65  3.53
 ```
   
 
 -- 
 
-&gt;🛥 &amp;nbsp; Be careful with floating point comparisons! &lt;br&gt;
+&gt;⛵ &amp;nbsp; Be careful with floating point comparisons! &lt;br&gt;
 🏴‍☠️ &amp;nbsp; Also, rows with comparison resulting in `NA` are skipped by default!
 
 
@@ -518,15 +537,25 @@ bijou %&gt;% arrange(cut, carat, desc(price))
 
 
 ```
-## # A tibble: 6 × 10
-##   carat cut       color clarity depth table price     x     y     z
-##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31
-## 2  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75
-## 3  0.24 Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48
-## 4  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
-## 5  0.29 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
-## 6  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## # A tibble: 200 × 10
+##    carat cut   color clarity depth table price     x     y     z
+##    &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  0.3  Fair  F     VVS2     65.5    61   743  4.19  4.15  2.73
+##  2  0.96 Fair  F     I1       62.9    66  1917  6.29  6.07  3.91
+##  3  1    Fair  H     VS2      64.8    62  4861  6.22  6.13  4   
+##  4  1    Fair  J     VS1      66.6    57  3080  6.07  6.03  4.03
+##  5  1.01 Fair  F     SI1      67.2    60  4276  6.06  6     4.05
+##  6  1.26 Fair  I     SI2      64.8    57  4551  6.73  6.69  4.35
+##  7  1.5  Fair  D     SI2      68.8    57  7469  6.9   6.86  4.73
+##  8  1.5  Fair  E     SI2      65.8    57  7459  7.17  7.11  4.7 
+##  9  0.38 Good  H     SI2      63.4    57   547  4.58  4.63  2.92
+## 10  0.41 Good  E     VVS1     63.5    57  1002  4.73  4.75  3.01
+## 11  0.59 Good  F     VS1      60.5    61  1861  5.43  5.5   3.31
+## 12  0.7  Good  F     VS2      62.6    61  2591  5.56  5.62  3.5 
+## 13  0.7  Good  F     SI1      64.3    63  2059  5.58  5.55  3.58
+## 14  0.9  Good  F     SI1      63.3    60  3950  6.09  6.11  3.86
+## 15  0.92 Good  I     SI1      57.4    65  3122  6.42  6.48  3.7 
+## # ℹ 185 more rows
 ```
   
 --
@@ -549,10 +578,10 @@ bijou %&gt;% select(color, clarity, x:z) %&gt;% head(n = 4)
 ## # A tibble: 4 × 5
 ##   color clarity     x     y     z
 ##   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 E     SI2      3.95  3.98  2.43
-## 2 E     SI1      3.89  3.84  2.31
-## 3 E     VS1      4.05  4.07  2.31
-## 4 I     VS2      4.2   4.23  2.63
+## 1 I     VVS2     4.74  4.76  2.89
+## 2 G     SI2      6.7   6.63  4.22
+## 3 G     VVS2     5.06  5.12  3.2 
+## 4 D     VS1      5.11  5.16  3.21
 ```
 
 --
@@ -565,19 +594,19 @@ bijou %&gt;% select(-(x:z)) %&gt;% head(n = 4)
 
 ```
 ## # A tibble: 4 × 7
-##   carat cut     color clarity depth table price
-##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-## 1  0.23 Ideal   E     SI2      61.5    55   326
-## 2  0.21 Premium E     SI1      59.8    61   326
-## 3  0.23 Good    E     VS1      56.9    65   327
-## 4  0.29 Premium I     VS2      62.4    58   334
+##   carat cut       color clarity depth table price
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+## 1  0.39 Ideal     I     VVS2     60.8    56   849
+## 2  1.12 Very Good G     SI2      63.3    58  4478
+## 3  0.51 Very Good G     VVS2     62.9    57  1750
+## 4  0.52 Very Good D     VS1      62.5    57  1829
 ```
 
 ---
 name: rename
 # Renaming Variables
 
-&gt;`rename` is a variant of `select`, here used with `everything()` to move `x` to the beginning and rename it to `var_x`
+&gt;`rename()` changes column names and keeps all columns; `select(new = old)` renames but keeps only the selected columns.
 
 
 ``` r
@@ -589,24 +618,24 @@ bijou %&gt;% rename(var_x = x) %&gt;% head(n = 5)
 
 ```
 ## # A tibble: 5 × 10
-##   carat cut     color clarity depth table price var_x     y     z
-##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
-## 2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31
-## 3  0.23 Good    E     VS1      56.9    65   327  4.05  4.07  2.31
-## 4  0.29 Premium I     VS2      62.4    58   334  4.2   4.23  2.63
-## 5  0.31 Good    J     SI2      63.3    58   335  4.34  4.35  2.75
+##   carat cut       color clarity depth table price var_x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  0.39 Ideal     I     VVS2     60.8    56   849  4.74  4.76  2.89
+## 2  1.12 Very Good G     SI2      63.3    58  4478  6.7   6.63  4.22
+## 3  0.51 Very Good G     VVS2     62.9    57  1750  5.06  5.12  3.2 
+## 4  0.52 Very Good D     VS1      62.5    57  1829  5.11  5.16  3.21
+## 5  0.28 Very Good E     VVS2     61.4    55   612  4.22  4.25  2.6
 ```
   
 ---
 name: bring_to_front
 # Bring columns to front
 
-&gt;use `everything()` to bring some columns to the front:
+&gt;use `relocate()` (or `everything()` in `select`) to bring some columns to the front:
 
 
 ``` r
-bijou %&gt;% select(x:z, everything()) %&gt;% head(n = 4)
+bijou %&gt;% relocate(x:z) %&gt;% head(n = 4)   # same as select(x:z, everything())
 ```
   
 --
@@ -614,12 +643,12 @@ bijou %&gt;% select(x:z, everything()) %&gt;% head(n = 4)
 
 ```
 ## # A tibble: 4 × 10
-##       x     y     z carat cut     color clarity depth table price
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-## 1  3.95  3.98  2.43  0.23 Ideal   E     SI2      61.5    55   326
-## 2  3.89  3.84  2.31  0.21 Premium E     SI1      59.8    61   326
-## 3  4.05  4.07  2.31  0.23 Good    E     VS1      56.9    65   327
-## 4  4.2   4.23  2.63  0.29 Premium I     VS2      62.4    58   334
+##       x     y     z carat cut       color clarity depth table price
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+## 1  4.74  4.76  2.89  0.39 Ideal     I     VVS2     60.8    56   849
+## 2  6.7   6.63  4.22  1.12 Very Good G     SI2      63.3    58  4478
+## 3  5.06  5.12  3.2   0.51 Very Good G     VVS2     62.9    57  1750
+## 4  5.11  5.16  3.21  0.52 Very Good D     VS1      62.5    57  1829
 ```
 
 ---
@@ -640,18 +669,18 @@ bijou %&gt;% mutate(p = x + z, q = p + y) %&gt;%
 
 ```
 ## # A tibble: 5 × 9
-##   carat cut     color clarity     x     y     z     p     q
-##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23 Ideal   E     SI2      3.95  3.98  2.43  6.38  10.4
-## 2  0.21 Premium E     SI1      3.89  3.84  2.31  6.2   10.0
-## 3  0.23 Good    E     VS1      4.05  4.07  2.31  6.36  10.4
-## 4  0.29 Premium I     VS2      4.2   4.23  2.63  6.83  11.1
-## 5  0.31 Good    J     SI2      4.34  4.35  2.75  7.09  11.4
+##   carat cut       color clarity     x     y     z     p     q
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  0.39 Ideal     I     VVS2     4.74  4.76  2.89  7.63  12.4
+## 2  1.12 Very Good G     SI2      6.7   6.63  4.22 10.9   17.6
+## 3  0.51 Very Good G     VVS2     5.06  5.12  3.2   8.26  13.4
+## 4  0.52 Very Good D     VS1      5.11  5.16  3.21  8.32  13.5
+## 5  0.28 Very Good E     VVS2     4.22  4.25  2.6   6.82  11.1
 ```
 
 ---
 name: transmute
-# Create/alter new Variables with `transmute` 🧙‍♂️
+# Create/alter new Variables with `transmute` 🧙
 
 &gt;Only the transformed variables will be retained.
 
@@ -662,13 +691,13 @@ bijou %&gt;% transmute(carat, cut, sum = x + y + z) %&gt;% head(n = 5)
 
 ```
 ## # A tibble: 5 × 3
-##   carat cut       sum
-##   &lt;dbl&gt; &lt;ord&gt;   &lt;dbl&gt;
-## 1  0.23 Ideal    10.4
-## 2  0.21 Premium  10.0
-## 3  0.23 Good     10.4
-## 4  0.29 Premium  11.1
-## 5  0.31 Good     11.4
+##   carat cut         sum
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;dbl&gt;
+## 1  0.39 Ideal      12.4
+## 2  1.12 Very Good  17.6
+## 3  0.51 Very Good  13.4
+## 4  0.52 Very Good  13.5
+## 5  0.28 Very Good  11.1
 ```
   
 
@@ -684,13 +713,14 @@ bijou %&gt;% group_by(cut) %&gt;% summarize(max_price = max(price),
 ```
 
 ```
-## # A tibble: 4 × 4
+## # A tibble: 5 × 4
 ##   cut       max_price mean_price min_price
 ##   &lt;ord&gt;         &lt;int&gt;      &lt;dbl&gt;     &lt;int&gt;
-## 1 Good            335        331       327
-## 2 Very Good       336        336       336
-## 3 Premium         334        330       326
-## 4 Ideal           326        326       326
+## 1 Fair           7469      4294.       743
+## 2 Good          18077      5410.       547
+## 3 Very Good     17751      4045.       450
+## 4 Premium       18493      5586.       345
+## 5 Ideal         15497      3348.       397
 ```
     
 
@@ -706,38 +736,135 @@ bijou %&gt;% group_by(cut, color) %&gt;%
 
 ```
 ## # A tibble: 4 × 5
-## # Groups:   cut [3]
-##   cut       color max_price mean_price min_price
-##   &lt;ord&gt;     &lt;ord&gt;     &lt;int&gt;      &lt;dbl&gt;     &lt;int&gt;
-## 1 Good      E           327        327       327
-## 2 Good      J           335        335       335
-## 3 Very Good J           336        336       336
-## 4 Premium   E           326        326       326
+## # Groups:   cut [1]
+##   cut   color max_price mean_price min_price
+##   &lt;ord&gt; &lt;ord&gt;     &lt;int&gt;      &lt;dbl&gt;     &lt;int&gt;
+## 1 Fair  D          7469       7469      7469
+## 2 Fair  E          7459       7459      7459
+## 3 Fair  F          4276       2312       743
+## 4 Fair  H          4861       4861      4861
 ```
 
 ---
 name: other_data_manipulations
 
-# Other data manipulation tips
+# Counting, Unique Rows and Slicing
 
 
 ``` r
-bijou %&gt;% group_by(cut) %&gt;% summarize(count = n())
+bijou %&gt;% count(cut, sort = TRUE)
+bijou %&gt;% distinct(cut, color) %&gt;% head(n = 3)
 ```
 
 ```
-## # A tibble: 4 × 2
-##   cut       count
+## # A tibble: 5 × 2
+##   cut           n
 ##   &lt;ord&gt;     &lt;int&gt;
-## 1 Good          2
-## 2 Very Good     1
-## 3 Premium       2
-## 4 Ideal         1
+## 1 Ideal        81
+## 2 Premium      49
+## 3 Very Good    46
+## 4 Good         16
+## 5 Fair          8
+## # A tibble: 3 × 2
+##   cut       color
+##   &lt;ord&gt;     &lt;ord&gt;
+## 1 Ideal     I    
+## 2 Very Good G    
+## 3 Very Good D
 ```
 
 --
 
-When you need to regroup within the same pipe, use `ungroup()`.
+`slice_*()` replace the older `top_n()` and `sample_n()`:
+
+
+``` r
+bijou %&gt;% slice_max(price, n = 2)
+bijou %&gt;% group_by(cut) %&gt;% slice_sample(n = 1)
+```
+
+```
+## # A tibble: 2 × 10
+##   carat cut     color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  2    Premium F     SI1      62.6    59 18493  8.1   8.04  5.05
+## 2  2.01 Good    G     SI1      60.8    61 18077  7.99  8.09  4.89
+## # A tibble: 5 × 10
+## # Groups:   cut [5]
+##   carat cut       color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  1    Fair      H     VS2      64.8    62  4861  6.22  6.13  4   
+## 2  0.9  Good      F     SI1      63.3    60  3950  6.09  6.11  3.86
+## 3  1.24 Very Good J     I1       61.9    55  2940  6.85  6.92  4.26
+## 4  0.91 Premium   G     SI1      62.6    58  3975  6.17  6.14  3.85
+## 5  0.9  Ideal     D     SI1      62.1    57  4523  6.18  6.25  3.86
+```
+
+---
+name: grouping_notes
+
+# Grouping Notes
+
+* `summarise()` drops the last grouping level (the message about `.groups`).
+* Use `ungroup()` when you need to regroup within the same pipe.
+* Since `dplyr` 1.1 you can group for a single operation with `.by`:
+
+
+``` r
+bijou %&gt;% summarise(mean_price = mean(price), .by = cut)
+```
+
+```
+## # A tibble: 5 × 2
+##   cut       mean_price
+##   &lt;ord&gt;          &lt;dbl&gt;
+## 1 Ideal          3348.
+## 2 Very Good      4045.
+## 3 Fair           4294.
+## 4 Premium        5586.
+## 5 Good           5410.
+```
+
+---
+name: across_case_when
+
+# `across()` and `case_when()`
+
+Apply the same function to many columns:
+
+
+``` r
+bijou %&gt;% summarise(across(c(carat, price), list(mean = mean, sd = sd)))
+```
+
+```
+## # A tibble: 1 × 4
+##   carat_mean carat_sd price_mean price_sd
+##        &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1      0.847    0.505      4260.    4280.
+```
+
+--
+
+Create a variable from several conditions:
+
+
+``` r
+bijou %&gt;%
+  mutate(size = case_when(carat &lt; 0.5 ~ "small",
+                          carat &lt; 1   ~ "medium",
+                          .default = "large")) %&gt;%
+  count(size)
+```
+
+```
+## # A tibble: 3 × 2
+##   size       n
+##   &lt;chr&gt;  &lt;int&gt;
+## 1 large     76
+## 2 medium    61
+## 3 small     63
+```
 
 ---
 name: concept_of_tidy_data
@@ -748,7 +875,6 @@ Data are tidy *sensu Wickham* if:
 * each and every observation is represented as exactly one row,
 * each and every variable is represented by exactly one column,
 * thus each data table cell contains only one value.
-&lt;img src="data/slide_tidyverse/tidy_data.png" width="2560" style="display: block; margin: auto auto auto 0;" /&gt;
 
 Usually data are untidy in only one way. However, if you are unlucky, they are really untidy and thus a pain to work with...
 
@@ -820,13 +946,13 @@ name: tidy_data
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; Sepal.Length &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Sepal.Width &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3.5 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; setosa &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; Sepal.Length &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Petal.Length &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1.4 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -927,13 +1053,13 @@ bijou2 %&gt;% head(n = 5)
 
 ```
 ## # A tibble: 5 × 3
-##   cut     `2008` `2009`
-##   &lt;ord&gt;    &lt;int&gt;  &lt;dbl&gt;
-## 1 Ideal      326   330.
-## 2 Premium    326   330.
-## 3 Good       327   331.
-## 4 Premium    334   338.
-## 5 Good       335   339.
+##   cut       `2008` `2009`
+##   &lt;ord&gt;      &lt;int&gt;  &lt;dbl&gt;
+## 1 Ideal        849   891.
+## 2 Very Good   4478  4520.
+## 3 Very Good   1750  1792.
+## 4 Very Good   1829  1871.
+## 5 Very Good    612   654.
 ```
 
 ``` r
@@ -944,13 +1070,13 @@ bijou2 %&gt;%
 
 ```
 ## # A tibble: 5 × 3
-##   cut     year  price
-##   &lt;ord&gt;   &lt;chr&gt; &lt;dbl&gt;
-## 1 Ideal   2008   326 
-## 2 Ideal   2009   330.
-## 3 Premium 2008   326 
-## 4 Premium 2009   330.
-## 5 Good    2008   327
+##   cut       year  price
+##   &lt;ord&gt;     &lt;chr&gt; &lt;dbl&gt;
+## 1 Ideal     2008   849 
+## 2 Ideal     2009   891.
+## 3 Very Good 2008  4478 
+## 4 Very Good 2009  4520.
+## 5 Very Good 2008  1750
 ```
 
 ---
@@ -958,7 +1084,7 @@ name: tidying_data_pivot_wider
 
 # Tidying Data with `tidyr::pivot_wider`
 
-If some of your observations are scattered across many rows, use `pivot_wider` (replaces `gather`):
+If some of your observations are scattered across many rows, use `pivot_wider` (replaces `spread`):
 
 
 
@@ -969,17 +1095,17 @@ bijou3
 
 ```
 ## # A tibble: 9 × 5
-##   cut     price clarity dimension measurement
-##   &lt;ord&gt;   &lt;int&gt; &lt;ord&gt;   &lt;chr&gt;           &lt;dbl&gt;
-## 1 Ideal     326 SI2     x                3.95
-## 2 Premium   326 SI1     x                3.89
-## 3 Good      327 VS1     x                4.05
-## 4 Ideal     326 SI2     y                3.98
-## 5 Premium   326 SI1     y                3.84
-## 6 Good      327 VS1     y                4.07
-## 7 Ideal     326 SI2     z                2.43
-## 8 Premium   326 SI1     z                2.31
-## 9 Good      327 VS1     z                2.31
+##   cut       price clarity dimension measurement
+##   &lt;ord&gt;     &lt;int&gt; &lt;ord&gt;   &lt;chr&gt;           &lt;dbl&gt;
+## 1 Ideal       849 VVS2    x                4.74
+## 2 Ideal       849 VVS2    y                4.76
+## 3 Ideal       849 VVS2    z                2.89
+## 4 Very Good  4478 SI2     x                6.7 
+## 5 Very Good  4478 SI2     y                6.63
+## 6 Very Good  4478 SI2     z                4.22
+## 7 Very Good  1750 VVS2    x                5.06
+## 8 Very Good  1750 VVS2    y                5.12
+## 9 Very Good  1750 VVS2    z                3.2
 ```
 
 
@@ -991,11 +1117,11 @@ bijou3 %&gt;%
 
 ```
 ## # A tibble: 3 × 6
-##   cut     price clarity     x     y     z
-##   &lt;ord&gt;   &lt;int&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 Ideal     326 SI2      3.95  3.98  2.43
-## 2 Premium   326 SI1      3.89  3.84  2.31
-## 3 Good      327 VS1      4.05  4.07  2.31
+##   cut       price clarity     x     y     z
+##   &lt;ord&gt;     &lt;int&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Ideal       849 VVS2     4.74  4.76  2.89
+## 2 Very Good  4478 SI2      6.7   6.63  4.22
+## 3 Very Good  1750 VVS2     5.06  5.12  3.2
 ```
 
 ---
@@ -1013,13 +1139,13 @@ bijou4
 
 ```
 ## # A tibble: 5 × 4
-##   cut     price clarity dim           
-##   &lt;ord&gt;   &lt;int&gt; &lt;ord&gt;   &lt;chr&gt;         
-## 1 Ideal     326 SI2     3.95/3.98/2.43
-## 2 Premium   326 SI1     3.89/3.84/2.31
-## 3 Good      327 VS1     4.05/4.07/2.31
-## 4 Premium   334 VS2     4.2/4.23/2.63 
-## 5 Good      335 SI2     4.34/4.35/2.75
+##   cut       price clarity dim           
+##   &lt;ord&gt;     &lt;int&gt; &lt;ord&gt;   &lt;chr&gt;         
+## 1 Ideal       849 VVS2    4.74/4.76/2.89
+## 2 Very Good  4478 SI2     6.7/6.63/4.22 
+## 3 Very Good  1750 VVS2    5.06/5.12/3.2 
+## 4 Very Good  1829 VS1     5.11/5.16/3.21
+## 5 Very Good   612 VVS2    4.22/4.25/2.6
 ```
 
 ``` r
@@ -1029,20 +1155,20 @@ bijou4 %&gt;%
 
 ```
 ## # A tibble: 5 × 6
-##   cut     price clarity     x     y     z
-##   &lt;ord&gt;   &lt;int&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 Ideal     326 SI2      3.95  3.98  2.43
-## 2 Premium   326 SI1      3.89  3.84  2.31
-## 3 Good      327 VS1      4.05  4.07  2.31
-## 4 Premium   334 VS2      4.2   4.23  2.63
-## 5 Good      335 SI2      4.34  4.35  2.75
+##   cut       price clarity     x     y     z
+##   &lt;ord&gt;     &lt;int&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Ideal       849 VVS2     4.74  4.76  2.89
+## 2 Very Good  4478 SI2      6.7   6.63  4.22
+## 3 Very Good  1750 VVS2     5.06  5.12  3.2 
+## 4 Very Good  1829 VS1      5.11  5.16  3.21
+## 5 Very Good   612 VVS2     4.22  4.25  2.6
 ```
 
 ---
 name: tidying_data_unite
 # Tidying Data with `unite`
 
-If some of your columns contain more than one value, use `separate`:
+If one value is split across several columns, use `unite`:
 
 
 
@@ -1052,13 +1178,13 @@ bijou5
 
 ```
 ## # A tibble: 5 × 7
-##   cut     price clarity_prefix clarity_suffix     x     y     z
-##   &lt;ord&gt;   &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 Ideal     326 SI             2               3.95  3.98  2.43
-## 2 Premium   326 SI             1               3.89  3.84  2.31
-## 3 Good      327 VS             1               4.05  4.07  2.31
-## 4 Premium   334 VS             2               4.2   4.23  2.63
-## 5 Good      335 SI             2               4.34  4.35  2.75
+##   cut       price clarity_prefix clarity_suffix     x     y     z
+##   &lt;ord&gt;     &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Ideal       849 VV             S2              4.74  4.76  2.89
+## 2 Very Good  4478 SI             2               6.7   6.63  4.22
+## 3 Very Good  1750 VV             S2              5.06  5.12  3.2 
+## 4 Very Good  1829 VS             1               5.11  5.16  3.21
+## 5 Very Good   612 VV             S2              4.22  4.25  2.6
 ```
 
 ``` r
@@ -1067,13 +1193,13 @@ bijou5 %&gt;% unite(clarity, clarity_prefix, clarity_suffix, sep='')
 
 ```
 ## # A tibble: 5 × 6
-##   cut     price clarity     x     y     z
-##   &lt;ord&gt;   &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 Ideal     326 SI2      3.95  3.98  2.43
-## 2 Premium   326 SI1      3.89  3.84  2.31
-## 3 Good      327 VS1      4.05  4.07  2.31
-## 4 Premium   334 VS2      4.2   4.23  2.63
-## 5 Good      335 SI2      4.34  4.35  2.75
+##   cut       price clarity     x     y     z
+##   &lt;ord&gt;     &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Ideal       849 VVS2     4.74  4.76  2.89
+## 2 Very Good  4478 SI2      6.7   6.63  4.22
+## 3 Very Good  1750 VVS2     5.06  5.12  3.2 
+## 4 Very Good  1829 VS1      5.11  5.16  3.21
+## 5 Very Good   612 VVS2     4.22  4.25  2.6
 ```
 
 ---
@@ -1087,7 +1213,7 @@ name: missing_complete
 bijou %&gt;% head(n = 10) %&gt;%
   select(cut, clarity, price) %&gt;%
   mutate(continent = sample(c('AusOce', 'Eur'),
-                            size = 6,
+                            size = 10,
                             replace = T)) -&gt; missing_stones
 ```
 
@@ -1096,19 +1222,23 @@ missing_stones %&gt;% complete(cut, continent)
 ```
 
 ```
-## # A tibble: 10 × 4
+## # A tibble: 14 × 4
 ##    cut       continent clarity price
 ##    &lt;ord&gt;     &lt;chr&gt;     &lt;ord&gt;   &lt;int&gt;
-##  1 Fair      AusOce    &lt;NA&gt;       NA
+##  1 Fair      AusOce    SI1      4276
 ##  2 Fair      Eur       &lt;NA&gt;       NA
-##  3 Good      AusOce    SI2       335
-##  4 Good      Eur       VS1       327
-##  5 Very Good AusOce    VVS2      336
-##  6 Very Good Eur       &lt;NA&gt;       NA
-##  7 Premium   AusOce    VS2       334
-##  8 Premium   Eur       SI1       326
-##  9 Ideal     AusOce    &lt;NA&gt;       NA
-## 10 Ideal     Eur       SI2       326
+##  3 Good      AusOce    &lt;NA&gt;       NA
+##  4 Good      Eur       &lt;NA&gt;       NA
+##  5 Very Good AusOce    VVS2     1750
+##  6 Very Good AusOce    VS1       954
+##  7 Very Good Eur       SI2      4478
+##  8 Very Good Eur       VS1      1829
+##  9 Very Good Eur       VVS2      612
+## 10 Premium   AusOce    VS2      2623
+## 11 Premium   Eur       &lt;NA&gt;       NA
+## 12 Ideal     AusOce    VVS2      849
+## 13 Ideal     Eur       SI1      4523
+## 14 Ideal     Eur       VVS1      838
 ```
 
 ---
@@ -1119,34 +1249,32 @@ name: joins
 
 
 .pull-left-50[
-    
-    ```
-    ## # A tibble: 5 × 2
-    ##     key value1
-    ##   &lt;dbl&gt; &lt;chr&gt; 
-    ## 1     1 a     
-    ## 2     2 b     
-    ## 3     3 c     
-    ## 4     4 d     
-    ## 5     5 e
-    ```
+
+```
+## # A tibble: 5 × 2
+##     key value1
+##   &lt;dbl&gt; &lt;chr&gt; 
+## 1     1 a     
+## 2     2 b     
+## 3     3 c     
+## 4     4 d     
+## 5     5 e
+```
 ]
 
 .pull-right-50[
-    
-    ```
-    ## # A tibble: 5 × 2
-    ##     key value2
-    ##   &lt;dbl&gt; &lt;chr&gt; 
-    ## 1     1 A     
-    ## 2     2 B     
-    ## 3     3 C     
-    ## 4     6 F     
-    ## 5     7 G
-    ```
-]
 
-**Example:**
+```
+## # A tibble: 5 × 2
+##     key value2
+##   &lt;dbl&gt; &lt;chr&gt; 
+## 1     1 A     
+## 2     2 B     
+## 3     3 C     
+## 4     6 F     
+## 5     7 G
+```
+]
 
 
 ``` r
@@ -1161,8 +1289,40 @@ inner_join(tibble1, tibble2, by = 'key')
 ## 2     2 b      B     
 ## 3     3 c      C
 ```
-    
-`[inner, left, right, full]_join` are available. Try these!
+
+---
+name: joins2
+
+# Mutating and Filtering Joins
+
+* `inner_join()` -- rows with a match in both tables,
+* `left_join()` / `right_join()` -- keep all rows of the left / right table (`NA` when no match),
+* `full_join()` -- keep all rows of both,
+* `anti_join()` -- rows of `x` with **no** match in `y`; `semi_join()` -- rows **with** a match.
+
+
+``` r
+left_join(tibble1, tibble2, by = 'key')
+anti_join(tibble1, tibble2, by = 'key')
+```
+
+```
+## # A tibble: 5 × 3
+##     key value1 value2
+##   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
+## 1     1 a      A     
+## 2     2 b      B     
+## 3     3 c      C     
+## 4     4 d      &lt;NA&gt;  
+## 5     5 e      &lt;NA&gt;  
+## # A tibble: 2 × 2
+##     key value1
+##   &lt;dbl&gt; &lt;chr&gt; 
+## 1     4 d     
+## 2     5 e
+```
+
+Different key names: `by = c("id" = "key")` or `by = join_by(id == key)`.
 
 ---
 name: more_tidyverse
@@ -1171,13 +1331,15 @@ name: more_tidyverse
 
 * `stringr` for string manipulation and regular expressions,
 * `forcats` for working with factors,
-* `lubridate` for working with dates.
+* `lubridate` for working with dates,
+* `purrr` for functional programming (`map()` and friends),
+* `ggplot2` for graphics -- the next module!
 
 ---
 name: end-slide
 class: end-slide
 
-# Thank you. Questions? [More?](https://nbisweden.github.io/raukr-2024/)
+# Thank you. Questions? [More?](https://r4ds.hadley.nz/)
 
 
 .end-text[
