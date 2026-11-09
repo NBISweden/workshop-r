@@ -46,6 +46,55 @@ gene_counts <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-
 gene_counts %>% head()
 ```
 
+As it can be seen, this is the format we are most accustomed to as it lets us see more of the data and we are also very used to this format excel sheets. However, this is not a computationally efficient format. 
+
+ - It is very hard to get a specific information like "what is the expression of gene X in sample Y" without subsetting the data.
+ - It is very hard to add new information to the dataset. For example, if we wanted to add a new sample or a new gene expression value.
+ - It is also hard to add new information about the samples or genes. For example, if we wanted to add a new column with the sample type (e.g. control or treatment) or a new column with the gene length.
+
+here we will see how to convert this format to a long format using the `pivot_longer()` function from the `tidyr` package. And we will also try to add new information to the table.
+
+First make sure the libraries are loaded.
+
+```{r,eval=FALSE}
+library(tidyr)
+library(dplyr)
+```
+
+Now let us try the `pivot_longer()` function to convert the data from wide to long format. We will keep the gene names as they are and convert the sample names to a new column called `Sample` and the expression values to a new column called `counts`.
+
+```{r}
+gene_counts %>%
+  pivot_longer(cols = -Gene, names_to = "Sample", values_to = "counts") %>%
+  head()
+```
+
+As you can see the data is now in a long format. The first column is the gene name, the second column is the sample name and the third column is the expression value. So, to explain the pivot_longer() briefly, we collected all columns except the first one (Gene) with `cols=-Gene`. The `names_to` argument specifies the name of the new column that will contain the headers (in our case sample names) and the `values_to` argument specifies the name of the new column that will contain the actual value (in our case the expression values).
+
+Now let us try to add more information about the samples to this table.
+
+```{r}
+metadata <- read.table("https://raw.githubusercontent.com/NBISweden/workshop-r/master/data/lab_ggplot2/metadata.csv", header = TRUE, stringsAsFactors = TRUE, sep = ";")
+metadata %>% head()
+```
+
+<div class="boxy boxy-lightbulb">
+Note the `sep = ";"` argument in the `read.table()` function for the metadata file and `sep = "\t"` for the counts file. This is because the metadata file is a semicolon separated file and the counts file is a tab separated file. It is important to specify the correct separator when reading in a file. 
+
+So, when you are working with a file of your own, it is very important for you to already know what kind of separator is used in the file. If you are not sure, you can open the file in a text editor and check.
+</div>
+
+Now we can try to add the sample type information to the long format table using the `left_join()` function from the `dplyr` package. The `left_join()` function will keep all rows from the left table (in our case the long format table) and add the matching rows from the right table (in our case the metadata table). If there is no match, it will fill with NA.
+
+```{r}
+gene_counts_long <- gene_counts %>%
+  pivot_longer(cols = -Gene, names_to = "Sample", values_to = "counts") %>%
+  left_join(metadata, by = c("Sample" = "Sample_ID")) 
+gene_counts_long %>% head()
+```
+
+We will use this dataset to learn some of the aspects of ggplot2. But first, we will look at some basic plots using the `iris` dataset that is available in R by default.
+
 # ggplot2 Basics
 
 First step is to make sure that `ggplot2` is installed and the package is loaded.
@@ -370,6 +419,99 @@ ggplot(data = dfr, mapping = aes(x = Species, y = mean, color = Species)) +
   geom_point(size = 4) +
   geom_errorbar(aes(ymax = high, ymin = low), width = 0.2)
 ```
+
+# Gene counts data
+
+With a dataset like the gene-expression data, one would always want to look at the distribution of the counts between the samples. This can be done using a boxplot. Let's create a boxplot of the counts.
+
+## Boxplot
+
+```{r}
+ggplot(gene_counts_long) +
+  geom_boxplot(aes(x = Sample_Name, y = log10(counts + 1))) 
+```
+
+<div class="boxy boxy-lightbulb">
+You can notice that the ggplot sorts the `variables` alpha-numerically, like in the case above with `Sample_Name`. One can convert that variable into a factor and specify the levels to control the order of that variable.
+</div>
+
+```{r}
+gene_counts_long$Sample_Name <- factor(gene_counts_long$Sample_Name, 
+  levels = c("t0_A","t0_B","t0_C","t2_A","t2_B","t2_C","t6_A","t6_B","t6_C","t24_A","t24_B","t24_C"))
+
+ggplot(gene_counts_long) +
+  geom_boxplot(aes(x = Sample_Name, y = log10(counts + 1))) 
+```
+
+We can also additionally use the `fill` aesthetic to color the boxes based on the `Time` variable.
+
+```{r}
+ggplot(gene_counts_long) +
+  geom_boxplot(aes(x = Sample_Name, y = log10(counts + 1), fill = Time)) 
+```
+
+## Violin plot
+
+```{r}
+ggplot(gene_counts_long) +
+  geom_violin(aes(x = Sample_Name, y = log10(counts + 1), fill = Time)) 
+```
+
+## Errorbars
+
+Below is an example of using creating `se()` function that calculates standard error and then using it to create a barplot with error bars. 
+
+```{r}
+se <- function(x) sqrt(var(x)/length(x))
+gene_counts_long %>% 
+  group_by(Time) %>% 
+  summarise(mean=mean(log10(counts +1)),se=se(log10(counts +1))) %>%
+  ggplot(aes(x=Time, y=mean, fill = Time)) + 
+  geom_col() +
+  geom_errorbar(aes(ymax=mean+se,ymin=mean-se),width=0.2)
+```
+
+<div class="boxy boxy-lightbulb">
+Notice that you can also send the data to `ggplot()` using the `%>%` operator. However, keep track of the commands related to tidyverse uses `%>%` and ggplot2 uses `+`. 
+</div>
+
+## Stacked bars
+
+This is probably one of the plots that is not recommnded to use as it is hard to read and interpret. But it is still good to know how to create it.
+
+```{r}
+gene_counts_long %>% 
+  group_by(Time, Replicate) %>% 
+  summarise(mean=mean(log10(counts +1)),se=se(log10(counts +1))) %>%
+  ggplot(aes(x=Time, y=mean, fill = Replicate)) + 
+  geom_col(position = "stack")
+```
+
+probably a better way to show this information is to use a dodged barplot.
+
+```{r}
+gene_counts_long %>% 
+  group_by(Time, Replicate) %>% 
+  summarise(mean=mean(log10(counts +1)),se=se(log10(counts +1))) %>%
+  ggplot(aes(x=Time, y=mean, fill = Replicate)) + 
+  geom_col(position = "dodge")
+```
+
+## Exercise
+
+You can try to create a PCoA or an MDS plot from this dataset. Below is an example of how to create an MDS object. 
+
+```{r, eval=FALSE}
+gc_dist <- dist(t(gene_counts))
+gc_mds <- cmdscale(gc_dist,eig=TRUE, k=2) 
+```
+
+**Some tips:**
+
+ - Look at the `gc_mds` object to see what it contains. You will need to convert it to a data frame. 
+ - Then add the sample information to it using `left_join()`.
+ - Then you can use `ggplot()` to create a scatter plot (aes(x = MDS1, y = MDS2)) of the two dimensions.
+ - The mds object gc_mds has “eigenvalues”. You can calculate the variance of each co-ordinates (MDS1, MDS2) by `Variance <- Eigenvalues / sum(Eigenvalues)`
 
 # Covid data
 
