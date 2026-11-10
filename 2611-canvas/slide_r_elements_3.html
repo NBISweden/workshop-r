@@ -37,8 +37,6 @@ count: false
 
 
 
-
-
 ---
 name: puzzle
 
@@ -93,6 +91,18 @@ name: matrices
 Rows × columns, **one type**. A count table:
 
 
+``` r
+counts &lt;- matrix(c( 120,  135,   40,   52,
+                    300,  280,  310,  295,
+                     15,   22,  180,  165,
+                   2100, 1950, 2240, 2010),
+                 nrow = 4, byrow = TRUE)
+rownames(counts) &lt;- c("BRCA1", "TP53", "MYC", "GAPDH")
+colnames(counts) &lt;- c("WT1", "WT2", "KO1", "KO2")
+counts
+dim(counts)
+```
+
 ```
 ##        WT1  WT2  KO1  KO2
 ## BRCA1  120  135   40   52
@@ -110,6 +120,12 @@ name: matrices_indexing
 `[row, column]`. Leave one empty to get everything.
 
 
+``` r
+counts["MYC", "KO1"]     # one value
+counts["MYC", ]          # one gene, all samples
+counts[, c("KO1", "KO2")]
+```
+
 ```
 ## [1] 180
 ## WT1 WT2 KO1 KO2 
@@ -126,6 +142,10 @@ name: matrices_indexing
 Conditions work too:
 
 
+``` r
+counts[counts[, "KO1"] &gt; 100, ]   # genes with &gt; 100 counts in KO1
+```
+
 ```
 ##        WT1  WT2  KO1  KO2
 ## TP53   300  280  310  295
@@ -141,6 +161,10 @@ name: matrices_calc
 Operations work on every element:
 
 
+``` r
+log2(counts + 1)
+```
+
 ```
 ##             WT1       WT2       KO1       KO2
 ## BRCA1  6.918863  7.087463  5.357552  5.727920
@@ -153,6 +177,12 @@ Operations work on every element:
 
 Sums and means per row or column:
 
+
+``` r
+colSums(counts)          # library size per sample
+rowMeans(counts)         # mean per gene
+apply(counts, 1, max)    # any function: 1 = rows, 2 = columns
+```
 
 ```
 ##  WT1  WT2  KO1  KO2 
@@ -169,6 +199,10 @@ name: matrices_combine
 # Matrices: combining and flipping
 
 
+``` r
+cbind(counts, KO3 = c(48, 305, 171, 2150))   # add a sample (column)
+```
+
 ```
 ##        WT1  WT2  KO1  KO2  KO3
 ## BRCA1  120  135   40   52   48
@@ -179,6 +213,10 @@ name: matrices_combine
 
 --
 
+
+``` r
+t(counts)    # transpose: samples become rows
+```
 
 ```
 ##     BRCA1 TP53 MYC GAPDH
@@ -211,6 +249,17 @@ name: data_frames_create
 A sample sheet. **Name your columns!**
 
 
+``` r
+samples &lt;- data.frame(
+  sample  = c("WT1", "WT2", "KO1", "KO2"),
+  strain  = c("WT", "WT", "KO", "KO"),
+  sex     = c("F", "M", "F", "M"),
+  weight  = c(22.1, 25.4, 21.8, 26.3),
+  treated = c(FALSE, TRUE, FALSE, TRUE)
+)
+samples
+```
+
 ```
 ##   sample strain sex weight treated
 ## 1    WT1     WT   F   22.1   FALSE
@@ -225,6 +274,10 @@ name: data_frames_inspect
 # Data frames: a first look
 
 
+``` r
+str(samples)         # structure: columns and types
+```
+
 ```
 ## 'data.frame':	4 obs. of  5 variables:
 ##  $ sample : chr  "WT1" "WT2" "KO1" "KO2"
@@ -236,6 +289,10 @@ name: data_frames_inspect
 
 --
 
+
+``` r
+summary(samples)
+```
 
 ```
 ##     sample             strain              sex                weight     
@@ -264,6 +321,11 @@ name: data_frames_accessing
 `$` gets a column (a vector):
 
 
+``` r
+samples$weight
+mean(samples$weight)
+```
+
 ```
 ## [1] 22.1 25.4 21.8 26.3
 ## [1] 23.9
@@ -273,6 +335,12 @@ name: data_frames_accessing
 
 `[row, column]` works like a matrix:
 
+
+``` r
+samples[2, ]                          # second row
+samples[, c("sample", "weight")]      # two columns
+samples[3, "weight"]                  # one value
+```
 
 ```
 ##   sample strain sex weight treated
@@ -293,6 +361,12 @@ name: data_frames_filter
 A condition picks the rows:
 
 
+``` r
+samples[samples$strain == "KO", ]
+samples[samples$strain == "KO" &amp; samples$weight &gt; 25, ]
+samples$sample[samples$treated]       # just the names
+```
+
 ```
 ##   sample strain sex weight treated
 ## 3    KO1     KO   F   21.8   FALSE
@@ -309,6 +383,12 @@ name: data_frames_add
 
 # Data frames: adding columns
 
+
+``` r
+samples$heavy &lt;- samples$weight &gt; 24      # a new logical column
+samples$strain &lt;- factor(samples$strain, levels = c("WT", "KO"))
+samples
+```
 
 ```
 ##   sample strain sex weight treated heavy
@@ -330,11 +410,19 @@ name: data_frames_merging
 Another table, **in a different order**:
 
 
+``` r
+batches &lt;- data.frame(sample = c("KO1", "WT1", "KO2", "WT2"),
+                      batch  = c(1, 1, 2, 2))
+```
 
 --
 
 `merge()` matches rows by a **key** column, not by position:
 
+
+``` r
+merge(samples[, c("sample", "strain")], batches, by = "sample")
+```
 
 ```
 ##   sample strain batch
@@ -354,6 +442,12 @@ name: data_frames_missing
 # Data frames: missing values
 
 
+``` r
+samples$weight[2] &lt;- NA      # a lost measurement
+colSums(is.na(samples))      # NAs per column
+na.omit(samples)             # drop rows with any NA
+```
+
 ```
 ##  sample  strain     sex  weight treated   heavy 
 ##       0       0       0       1       0       0 
@@ -371,6 +465,16 @@ name: lists_1
 A list holds **anything**: vectors, tables, other lists.
 
 
+``` r
+experiment &lt;- list(
+  name    = "MYC knockout pilot",
+  date    = "2026-03-14",
+  samples = samples,
+  counts  = counts
+)
+str(experiment, max.level = 1)
+```
+
 ```
 ## List of 4
 ##  $ name   : chr "MYC knockout pilot"
@@ -387,6 +491,11 @@ name: lists_subsetting
 
 .pull-left-50[
 
+``` r
+experiment[["name"]]
+class(experiment[["name"]])
+```
+
 ```
 ## [1] "MYC knockout pilot"
 ## [1] "character"
@@ -396,6 +505,11 @@ name: lists_subsetting
 ]
 
 .pull-right-50[
+
+``` r
+experiment["name"]
+class(experiment["name"])
+```
 
 ```
 ## $name
@@ -419,6 +533,12 @@ name: lists_dollar
 `$` works like `[[ ]]` for named elements:
 
 
+``` r
+experiment$name
+experiment$samples$sample            # a column inside a data frame inside a list
+experiment$counts["MYC", ]
+```
+
 ```
 ## [1] "MYC knockout pilot"
 ## [1] "WT1" "WT2" "KO1" "KO2"
@@ -431,6 +551,12 @@ name: lists_dollar
 Add or remove elements:
 
 
+``` r
+experiment$notes &lt;- "KO2 was sluggish on day 3"
+experiment$date  &lt;- NULL             # remove
+names(experiment)
+```
+
 ```
 ## [1] "name"    "samples" "counts"  "notes"
 ```
@@ -442,6 +568,15 @@ name: lists_results
 
 Many functions return a list. A t-test, for example:
 
+
+``` r
+wt &lt;- c(22.1, 25.4, 23.0, 24.2)
+ko &lt;- c(21.8, 26.3, 27.1, 26.0)
+res &lt;- t.test(ko, wt)
+is.list(res)
+names(res)
+res$p.value
+```
 
 ```
 ## [1] TRUE
@@ -484,7 +619,7 @@ count: false
 .end-text[
 &lt;p class="smaller"&gt;
 &lt;span class="small" style="line-height: 1.2;"&gt;Graphics from &lt;/span&gt;&lt;img src="./assets/freepik.jpg" style="max-height:20px; vertical-align:middle;"&gt;&lt;br&gt;
-Created: 09-Nov-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
+Created: 10-Nov-2026 • &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt; • &lt;a href="https://nbis.se/"&gt;NBIS&lt;/a&gt; 
 &lt;/p&gt;
 ]
 
