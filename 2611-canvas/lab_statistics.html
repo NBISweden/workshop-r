@@ -316,10 +316,10 @@ patients &lt;- make_patients()</code></pre>
 <li>How many patients and variables are there? What type is each column? Get a summary of every column.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007096066" aria-expanded="false" aria-controls="acc2026111007096066">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007456066" aria-expanded="false" aria-controls="acc2026111007456066">
 </button>
 </p>
-<div id="acc2026111007096066" class="collapse">
+<div id="acc2026111007456066" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>dim(patients)
 str(patients)
@@ -360,10 +360,10 @@ summary(patients)</code></pre>
 <li>Calculate the mean systolic blood pressure. Why do you get <code>NA</code>? How many values are missing in each column? Then calculate the mean again, ignoring the missing values.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007092005" aria-expanded="false" aria-controls="acc2026111007092005">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007452005" aria-expanded="false" aria-controls="acc2026111007452005">
 </button>
 </p>
-<div id="acc2026111007092005" class="collapse">
+<div id="acc2026111007452005" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mean(patients$sbp)
 colSums(is.na(patients))
@@ -378,10 +378,10 @@ mean(patients$sbp, na.rm = TRUE)</code></pre>
 <li>Calculate the mean and the median BMI. Why are they different? Find the strange value with <code>max()</code> and <code>which.max()</code>. A BMI of 245 is impossible: it was probably meant to be 24.5. Correct it and calculate the mean again.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007094336" aria-expanded="false" aria-controls="acc2026111007094336">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007454336" aria-expanded="false" aria-controls="acc2026111007454336">
 </button>
 </p>
-<div id="acc2026111007094336" class="collapse">
+<div id="acc2026111007454336" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mean(patients$bmi)
 median(patients$bmi)
@@ -401,10 +401,10 @@ mean(patients$bmi)</code></pre>
 <li>Look at the distribution of CRP with <code>hist()</code>. Is it symmetric? Calculate its mean and median. Which one better describes a “typical” patient?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007095189" aria-expanded="false" aria-controls="acc2026111007095189">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007455189" aria-expanded="false" aria-controls="acc2026111007455189">
 </button>
 </p>
-<div id="acc2026111007095189" class="collapse">
+<div id="acc2026111007455189" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>hist(patients$crp, breaks = 30, main = &quot;CRP&quot;, xlab = &quot;CRP (mg/L)&quot;)
 mean(patients$crp, na.rm = TRUE)
@@ -421,10 +421,10 @@ median(patients$crp, na.rm = TRUE)    # skewed to the right: the median is more 
 <li>For systolic blood pressure, calculate the range, the quartiles, the IQR, the standard deviation and the variance. What is the unit of each?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007091476" aria-expanded="false" aria-controls="acc2026111007091476">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007451476" aria-expanded="false" aria-controls="acc2026111007451476">
 </button>
 </p>
-<div id="acc2026111007091476" class="collapse">
+<div id="acc2026111007451476" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>range(patients$sbp, na.rm = TRUE)
 quantile(patients$sbp, na.rm = TRUE)
@@ -443,10 +443,10 @@ var(patients$sbp, na.rm = TRUE)    # mmHg²</code></pre>
 <li>Write a function <code>cv()</code> that returns the <strong>coefficient of variation</strong> (SD divided by the mean, in %) of a vector, ignoring missing values. Which is more variable relative to its mean: blood pressure or CRP?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007090721" aria-expanded="false" aria-controls="acc2026111007090721">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007450721" aria-expanded="false" aria-controls="acc2026111007450721">
 </button>
 </p>
-<div id="acc2026111007090721" class="collapse">
+<div id="acc2026111007450721" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>cv &lt;- function(x) {
   100 * sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
@@ -464,10 +464,10 @@ cv(patients$crp)</code></pre>
 <li>How many patients are there of each sex, and how many smokers in each sex? What fraction of women and men smoke?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007095622" aria-expanded="false" aria-controls="acc2026111007095622">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007455622" aria-expanded="false" aria-controls="acc2026111007455622">
 </button>
 </p>
-<div id="acc2026111007095622" class="collapse">
+<div id="acc2026111007455622" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>table(patients$sex)
 table(patients$sex, patients$smoker)
@@ -489,10 +489,10 @@ prop.table(table(patients$sex, patients$smoker), margin = 1)   # fractions per r
 <li>Calculate the mean and SD of systolic blood pressure for men and women, first with <code>tapply()</code>, then with <code>group_by()</code> and <code>summarise()</code>. Then show it with a boxplot.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007091458" aria-expanded="false" aria-controls="acc2026111007091458">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007451458" aria-expanded="false" aria-controls="acc2026111007451458">
 </button>
 </p>
-<div id="acc2026111007091458" class="collapse">
+<div id="acc2026111007451458" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>tapply(patients$sbp, patients$sex, mean, na.rm = TRUE)
 tapply(patients$sbp, patients$sex, sd, na.rm = TRUE)
@@ -525,10 +525,10 @@ boxplot(sbp ~ sex, data = patients, ylab = &quot;Systolic blood pressure (mmHg)&
 <li>Does blood pressure rise with age? Plot <code>sbp</code> against <code>age</code>, then calculate the Pearson and Spearman correlations. Remember the missing values (<code>use = "complete.obs"</code>).</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007092159" aria-expanded="false" aria-controls="acc2026111007092159">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007452159" aria-expanded="false" aria-controls="acc2026111007452159">
 </button>
 </p>
-<div id="acc2026111007092159" class="collapse">
+<div id="acc2026111007452159" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>plot(patients$age, patients$sbp, xlab = &quot;Age (years)&quot;, ylab = &quot;Systolic blood pressure (mmHg)&quot;)
 cor(patients$age, patients$sbp, use = &quot;complete.obs&quot;)
@@ -543,10 +543,10 @@ cor(patients$age, patients$sbp, use = &quot;complete.obs&quot;, method = &quot;s
 </ol>
 <p>Hint: <code>use = "pairwise.complete.obs"</code> uses all available values for each pair.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007090431" aria-expanded="false" aria-controls="acc2026111007090431">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007450431" aria-expanded="false" aria-controls="acc2026111007450431">
 </button>
 </p>
-<div id="acc2026111007090431" class="collapse">
+<div id="acc2026111007450431" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>round(cor(patients[, c(&quot;age&quot;, &quot;bmi&quot;, &quot;sbp&quot;, &quot;crp&quot;)], use = &quot;pairwise.complete.obs&quot;), 2)</code></pre>
 <pre><code>##      age  bmi  sbp  crp
@@ -560,10 +560,10 @@ cor(patients$age, patients$sbp, use = &quot;complete.obs&quot;, method = &quot;s
 <li>Is the correlation between age and blood pressure statistically significant? Use <code>cor.test()</code>. The result is a list: get the p-value and the 95 % confidence interval of the correlation.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007092595" aria-expanded="false" aria-controls="acc2026111007092595">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007452595" aria-expanded="false" aria-controls="acc2026111007452595">
 </button>
 </p>
-<div id="acc2026111007092595" class="collapse">
+<div id="acc2026111007452595" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>res &lt;- cor.test(patients$age, patients$sbp)
 res$p.value
@@ -581,10 +581,10 @@ res$conf.int</code></pre>
 <li>Do smokers have higher blood pressure? Calculate the mean <code>sbp</code> for smokers and non-smokers, and their difference. Then test it with <code>t.test()</code>. Write one sentence for your journal reporting both the difference and the p-value.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007098992" aria-expanded="false" aria-controls="acc2026111007098992">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007458992" aria-expanded="false" aria-controls="acc2026111007458992">
 </button>
 </p>
-<div id="acc2026111007098992" class="collapse">
+<div id="acc2026111007458992" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sbp_smokers &lt;- patients$sbp[patients$smoker]
 sbp_non     &lt;- patients$sbp[!patients$smoker]
@@ -609,10 +609,10 @@ t.test(sbp_smokers, sbp_non)
 <li>CRP is skewed, so a t-test isn’t ideal. Compare CRP between smokers and non-smokers with <code>wilcox.test()</code>, and compare the medians of the two groups.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007092570" aria-expanded="false" aria-controls="acc2026111007092570">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007452570" aria-expanded="false" aria-controls="acc2026111007452570">
 </button>
 </p>
-<div id="acc2026111007092570" class="collapse">
+<div id="acc2026111007452570" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>crp_smokers &lt;- patients$crp[patients$smoker]
 crp_non     &lt;- patients$crp[!patients$smoker]
@@ -628,10 +628,10 @@ wilcox.test(crp_smokers, crp_non)$p.value</code></pre>
 <li>R’s built-in <code>PlantGrowth</code> data set has the dry weight of plants grown in a control condition (<code>ctrl</code>) and two treatments (<code>trt1</code>, <code>trt2</code>). Calculate the mean weight per group and make a boxplot. Then compare each treatment with the control using a t-test. Which treatment makes a difference?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007093016" aria-expanded="false" aria-controls="acc2026111007093016">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007453016" aria-expanded="false" aria-controls="acc2026111007453016">
 </button>
 </p>
-<div id="acc2026111007093016" class="collapse">
+<div id="acc2026111007453016" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>tapply(PlantGrowth$weight, PlantGrowth$group, mean)
 boxplot(weight ~ group, data = PlantGrowth, ylab = &quot;Dry weight (g)&quot;)
@@ -651,10 +651,10 @@ t.test(trt2, ctrl)$p.value   # trt2 plants are heavier</code></pre>
 <li><strong>Think about it.</strong> You tested two treatments against the same control. If you tested 100 treatments that did nothing at all, how many would you expect to have p &lt; 0.05 by chance? Try it: use a <code>for</code> loop to run 100 t-tests on two groups of random numbers from the <strong>same</strong> distribution, and count the “significant” ones.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007093464" aria-expanded="false" aria-controls="acc2026111007093464">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007453464" aria-expanded="false" aria-controls="acc2026111007453464">
 </button>
 </p>
-<div id="acc2026111007093464" class="collapse">
+<div id="acc2026111007453464" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>set.seed(4)
 p_values &lt;- numeric(100)
