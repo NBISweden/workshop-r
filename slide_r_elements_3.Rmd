@@ -25,6 +25,9 @@ count: false
 ```{r,echo=FALSE,child="assets/header-slide.Rmd"}
 ```
 
+```{r, echo=F, eval=T}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ---
 name: puzzle
