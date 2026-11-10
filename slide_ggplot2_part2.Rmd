@@ -520,6 +520,7 @@ knitr::include_graphics("data/slide_ggplot2/dataviz_course.png")
 
 .pull-right-50[
 - [**Course page**](https://nbisweden.github.io/workshop-data-visualization-r/2704/)
+- For users with **all levels of R experience**
 - Duration: 3-day NBIS workshop
 - Scheduled for **April 27-29, 2027**
 - Location: **Lund/Umeå and Tartu(Estonia)**
@@ -528,7 +529,7 @@ knitr::include_graphics("data/slide_ggplot2/dataviz_course.png")
 --
 
 .hcenter[
-**Applications will be open soon in December.**
+**Registration will open soon in December.**
 ]
 
 <!-- --------------------- Do not edit this and below --------------------- -->
