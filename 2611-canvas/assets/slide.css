@@ -594,3 +594,15 @@ hr {
   border: 2px solid var(--color-code-bg);
 }
 
+
+/* vertically centre content below the slide title */
+.vcenter {
+  display: flex;
+  align-items: center;
+  height: 480px;
+}
+
+/* horizontally centre a block of content */
+.hcenter {
+  text-align: center;
+}

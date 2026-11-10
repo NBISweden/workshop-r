@@ -337,10 +337,10 @@ div.tocify {
 <li>You are recording data for one mouse: its ID is <strong>M07</strong>, it weighs <strong>23.4</strong> g, it had <strong>6</strong> pups, and it is a <strong>knockout</strong> (<code>TRUE</code>). Store each value in a well-named variable and check its type with <code>typeof()</code>. Is the number of pups an integer? If not, make it one.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007076009" aria-expanded="false" aria-controls="acc2026111007076009">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010266009" aria-expanded="false" aria-controls="acc2026111010266009">
 </button>
 </p>
-<div id="acc2026111007076009" class="collapse">
+<div id="acc2026111010266009" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>mouse_id &lt;- &quot;M07&quot;
 weight_g &lt;- 23.4
@@ -363,10 +363,10 @@ typeof(n_pups)</code></pre>
 </div>
 <p>A colleague stored the weight as <code>"23.4"</code> (in quotes). What happens if you add 1.5 g to it? How do you fix it?</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007074733" aria-expanded="false" aria-controls="acc2026111007074733">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010264733" aria-expanded="false" aria-controls="acc2026111010264733">
 </button>
 </p>
-<div id="acc2026111007074733" class="collapse">
+<div id="acc2026111010264733" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>weight_text &lt;- &quot;23.4&quot;
 weight_text + 1.5               # error: you cannot do arithmetic on text</code></pre>
@@ -379,10 +379,10 @@ weight_text + 1.5               # error: you cannot do arithmetic on text</code>
 <li>You have a DNA stock at <strong>250</strong> ng/µL and need <strong>20</strong> µL of a <strong>10</strong> ng/µL dilution. Using variables, calculate how many µL of stock and how many µL of water to mix. (Volume of stock = target concentration × final volume / stock concentration.)</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007071249" aria-expanded="false" aria-controls="acc2026111007071249">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010261249" aria-expanded="false" aria-controls="acc2026111010261249">
 </button>
 </p>
-<div id="acc2026111007071249" class="collapse">
+<div id="acc2026111010261249" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>stock_conc &lt;- 250
 target_conc &lt;- 10
@@ -403,10 +403,10 @@ water_volume</code></pre>
 <li>You have <strong>250</strong> samples and each plate holds <strong>96</strong>. How many plates do you need? Try <code>as.integer()</code>, <code>round()</code>, <code>floor()</code> and <code>ceiling()</code> on <code>250 / 96</code>. Which one gives the right answer here, and why are the others wrong?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007074720" aria-expanded="false" aria-controls="acc2026111007074720">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010264720" aria-expanded="false" aria-controls="acc2026111010264720">
 </button>
 </p>
-<div id="acc2026111007074720" class="collapse">
+<div id="acc2026111010264720" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>250 / 96
 as.integer(250 / 96)   # 2: cuts off decimals, 58 samples have no plate!
@@ -429,10 +429,10 @@ ceiling(250 / 96)      # 3: always rounds up, which is what we need</code></pre>
 <pre class="r"><code>absorbance &lt;- c(&quot;0.84&quot;, &quot;1.02&quot;, &quot;OVER&quot;, &quot;0.77&quot;, &quot;&quot;)</code></pre>
 <p>What is the type of <code>absorbance</code>? Convert it to numbers and count how many values became <code>NA</code>. Then calculate the mean absorbance of the wells that were measured.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007072345" aria-expanded="false" aria-controls="acc2026111007072345">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010262345" aria-expanded="false" aria-controls="acc2026111010262345">
 </button>
 </p>
-<div id="acc2026111007072345" class="collapse">
+<div id="acc2026111010262345" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>typeof(absorbance)
 abs_num &lt;- as.numeric(absorbance)   # warning: NAs introduced by coercion
@@ -454,10 +454,10 @@ c(&quot;37&quot;, 5)
 c(NA, 1L)
 c(NA, &quot;control&quot;)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007077172" aria-expanded="false" aria-controls="acc2026111007077172">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010267172" aria-expanded="false" aria-controls="acc2026111010267172">
 </button>
 </p>
-<div id="acc2026111007077172" class="collapse">
+<div id="acc2026111010267172" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>typeof(c(TRUE, 2L))         # integer
 typeof(c(&quot;37&quot;, 5))          # character: the number 5 becomes the text &quot;5&quot;
@@ -503,10 +503,10 @@ typeof(c(NA, &quot;control&quot;))    # character</code></pre>
 </table>
 <p>Then calculate the log10 of these viral titres: 1,000,000, 1,000 and 0.</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007072280" aria-expanded="false" aria-controls="acc2026111007072280">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010262280" aria-expanded="false" aria-controls="acc2026111010262280">
 </button>
 </p>
-<div id="acc2026111007072280" class="collapse">
+<div id="acc2026111010262280" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>12 / 40   # 0.3
 0 / 35    # 0
@@ -529,10 +529,10 @@ log10(0)     # -Inf</code></pre>
 <pre class="r"><code>heights &lt;- c(12.5, NA, 9.8, 15.1, 11.0, NA)</code></pre>
 <p>How many values are missing? What is the tallest plant? How many plants are taller than 10 cm? Why do you need <code>na.rm = TRUE</code> in all of them?</p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007075964" aria-expanded="false" aria-controls="acc2026111007075964">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010265964" aria-expanded="false" aria-controls="acc2026111010265964">
 </button>
 </p>
-<div id="acc2026111007075964" class="collapse">
+<div id="acc2026111010265964" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sum(is.na(heights))
 max(heights)                       # NA
@@ -553,10 +553,10 @@ sum(heights &gt; 10, na.rm = TRUE)</code></pre>
 <li>In a population with allele frequencies <code>p = 0.65</code> and <code>q = 1 - p</code>, the Hardy–Weinberg genotype frequencies are p², 2pq and q². Calculate them, then check that they add up to 1, first with <code>==</code> and then with <code>all.equal()</code>. What happened?</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007075092" aria-expanded="false" aria-controls="acc2026111007075092">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010265092" aria-expanded="false" aria-controls="acc2026111010265092">
 </button>
 </p>
-<div id="acc2026111007075092" class="collapse">
+<div id="acc2026111010265092" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>p &lt;- 0.65
 q &lt;- 1 - p
@@ -576,10 +576,10 @@ isTRUE(all.equal(p^2 + 2 * p * q + q^2, 1))   # TRUE</code></pre>
 <li>You seed <strong>100,000</strong> cells that double every <strong>20</strong> hours. How many cells will you have after <strong>72</strong> hours? Use the formula cells = start × 2^(time / doubling time). Then use <code>sprintf()</code> or <code>round()</code> to report it as a whole number.</li>
 </ol>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007078034" aria-expanded="false" aria-controls="acc2026111007078034">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010268034" aria-expanded="false" aria-controls="acc2026111010268034">
 </button>
 </p>
-<div id="acc2026111007078034" class="collapse">
+<div id="acc2026111010268034" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>start_cells &lt;- 1e5
 doubling_time &lt;- 20
@@ -598,10 +598,10 @@ round(cells)</code></pre>
 bmi &lt;- 27.4
 diabetic &lt;- TRUE</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007072889" aria-expanded="false" aria-controls="acc2026111007072889">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010262889" aria-expanded="false" aria-controls="acc2026111010262889">
 </button>
 </p>
-<div id="acc2026111007072889" class="collapse">
+<div id="acc2026111010262889" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>age &gt;= 18 &amp; age &lt;= 65 &amp; (bmi &gt; 30 | diabetic)   # TRUE
 
@@ -620,10 +620,10 @@ age &gt;= 18 &amp; age &lt;= 65 &amp; bmi &gt; 30 | diabetic     # TRUE: wrong! 
 </ol>
 <pre class="r"><code>quality &lt;- c(35, 28, 40, 31, 19, 38, 33, 25)</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007077122" aria-expanded="false" aria-controls="acc2026111007077122">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010267122" aria-expanded="false" aria-controls="acc2026111010267122">
 </button>
 </p>
-<div id="acc2026111007077122" class="collapse">
+<div id="acc2026111010267122" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>quality &gt;= 30
 sum(quality &gt;= 30)    # 5 reads
@@ -640,10 +640,10 @@ mean(quality &gt;= 30)   # 0.625: the fraction of TRUE values</code></pre>
 &quot;Control&quot; == &quot;control&quot;
 sqrt(2)^2 == 2</code></pre>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007072380" aria-expanded="false" aria-controls="acc2026111007072380">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010262380" aria-expanded="false" aria-controls="acc2026111010262380">
 </button>
 </p>
-<div id="acc2026111007072380" class="collapse">
+<div id="acc2026111010262380" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sort(c(&quot;S1&quot;, &quot;S2&quot;, &quot;S10&quot;, &quot;S11&quot;, &quot;S3&quot;))   # &quot;S10&quot; and &quot;S11&quot; come before &quot;S2&quot;
 &quot;Control&quot; == &quot;control&quot;                    # FALSE: comparisons are case-sensitive
@@ -669,10 +669,10 @@ isTRUE(all.equal(sqrt(2)^2, 2))           # TRUE</code></pre>
 <li>Convert it to RNA by replacing every <code>T</code> with <code>U</code>. Try <code>sub()</code> first, then <code>gsub()</code>. What is the difference?</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007071646" aria-expanded="false" aria-controls="acc2026111007071646">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010261646" aria-expanded="false" aria-controls="acc2026111010261646">
 </button>
 </p>
-<div id="acc2026111007071646" class="collapse">
+<div id="acc2026111010261646" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>nchar(primer)
 tolower(primer)
@@ -695,10 +695,10 @@ gsub(&quot;T&quot;, &quot;U&quot;, primer)   # replaces every T</code></pre>
 <li>the sample name <code>"S3"</code> from the file name <code>"S3_R1.fastq.gz"</code>.</li>
 </ul>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007079987" aria-expanded="false" aria-controls="acc2026111007079987">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010269987" aria-expanded="false" aria-controls="acc2026111010269987">
 </button>
 </p>
-<div id="acc2026111007079987" class="collapse">
+<div id="acc2026111010269987" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>paste0(&quot;A&quot;, 1:12)
 paste0(&quot;mouse_&quot;, 1:3, &quot;.fastq&quot;)
@@ -713,10 +713,10 @@ sub(&quot;_R1.fastq.gz&quot;, &quot;&quot;, &quot;S3_R1.fastq.gz&quot;)</code></
 </ol>
 <p><code>Mix 0.80 uL stock with 19.20 uL water</code></p>
 <p>
-<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111007074157" aria-expanded="false" aria-controls="acc2026111007074157">
+<button class="btn btn-sm btn-primary btn-collapse btn-collapse-normal collapsed" type="button" data-toggle="collapse" data-target="#acc2026111010264157" aria-expanded="false" aria-controls="acc2026111010264157">
 </button>
 </p>
-<div id="acc2026111007074157" class="collapse">
+<div id="acc2026111010264157" class="collapse">
 <div class="card card-body">
 <pre class="r"><code>sprintf(&quot;Mix %.2f uL stock with %.2f uL water&quot;, stock_volume, water_volume)</code></pre>
 <pre><code>## [1] &quot;Mix 0.80 uL stock with 19.20 uL water&quot;</code></pre>
