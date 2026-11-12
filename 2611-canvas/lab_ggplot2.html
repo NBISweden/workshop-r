@@ -668,7 +668,7 @@ gc_mds &lt;- cmdscale(gc_dist,eig=TRUE, k=2) </code></pre>
 <p><strong>Some tips:</strong></p>
 <ul>
 <li>Look at the <code>gc_mds</code> object to see what it contains. You will need to convert it to a data frame.</li>
-<li>Then add the sample information to it using <code>left_join()</code>.</li>
+<li>Then add the sample information (metadata) to it using <code>left_join()</code>.</li>
 <li>Then you can use <code>ggplot()</code> to create a scatter plot (aes(x = MDS1, y = MDS2)) of the two dimensions.</li>
 <li>The mds object gc_mds has “eigenvalues”. You can calculate the variance of each co-ordinates (MDS1, MDS2) by <code>Variance &lt;- Eigenvalues / sum(Eigenvalues)</code></li>
 </ul>
